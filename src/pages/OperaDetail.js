@@ -35,7 +35,7 @@ export function OperaDetailPage(operaId) {
   const performedAt = houseIds.map(id => operaHouses.find(h => h.id === id)).filter(Boolean);
 
   page.innerHTML = `
-    <div class="detail-hero" style="${opera.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(20,24,28,0.95)), url('${opera.image}'); background-size: cover; background-position: center top;` : `background: linear-gradient(135deg, ${color}, #14181c)`}">
+    <div class="detail-hero" style="${opera.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(20,24,28,0.95)), url('${opera.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, ${color}, #14181c)`}">
       <a href="#/operas" class="back-link">← Alle Opern</a>
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${opera.title}</h1>
