@@ -91,11 +91,15 @@ export function HousesPage() {
       const avgRating = store.getAverageRatingForHouse(house.id);
       const visitCount = store.getVisitsByHouse(house.id).length;
 
+      const bannerBackground = house.imageUrl
+        ? `linear-gradient(to bottom, rgba(20, 24, 28, 0.4), #14181c), url('${house.imageUrl}')`
+        : `linear-gradient(135deg, ${house.color}, #14181c)`;
+
       const card = document.createElement('div');
       card.className = 'house-card fade-in';
       card.style.animationDelay = `${i * 0.05}s`;
       card.innerHTML = `
-        <div class="house-card__banner" style="background: linear-gradient(135deg, ${house.color}, #14181c)">
+        <div class="house-card__banner" style="background: ${bannerBackground}; background-size: cover; background-position: center;">
           <div class="house-card__city-badge">${house.city}</div>
         </div>
         <div class="house-card__content">
