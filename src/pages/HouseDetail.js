@@ -25,8 +25,12 @@ export function HouseDetailPage(houseId) {
   const operaIds = [...new Set(visits.map(v => v.operaId))];
   const performedOperas = operaIds.map(id => operas.find(o => o.id === id)).filter(Boolean);
 
+  const heroBackground = house.imageUrl
+    ? `linear-gradient(to bottom, rgba(20, 24, 28, 0.3), #14181c), url('${house.imageUrl}')`
+    : `linear-gradient(135deg, ${house.color}, #14181c)`;
+
   page.innerHTML = `
-    <div class="detail-hero" style="background: linear-gradient(135deg, ${house.color}, #14181c)">
+    <div class="detail-hero" style="background: ${heroBackground}; background-size: cover; background-position: center;">
       <a href="#/houses" class="back-link">← Alle Opernhäuser</a>
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${house.name}</h1>
