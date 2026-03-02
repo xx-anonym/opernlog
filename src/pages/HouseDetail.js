@@ -77,8 +77,7 @@ export function HouseDetailPage(houseId) {
   const houseRatings = visits.filter(v => v.rating).map(v => parseFloat(v.rating));
   if (houseRatings.length > 0) {
     histogramEl.appendChild(RatingsHistogram(houseRatings, {
-      accentColor: house.color || '#8b1a2b',
-      showHalfSteps: visits.length >= 5,
+      accentColor: house.color || '#8b1a2b'
     }));
   }
 

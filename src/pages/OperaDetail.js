@@ -89,8 +89,7 @@ export function OperaDetailPage(operaId) {
   const operaRatings = visits.filter(v => v.rating).map(v => parseFloat(v.rating));
   if (operaRatings.length > 0) {
     histogramEl.appendChild(RatingsHistogram(operaRatings, {
-      accentColor: color,
-      showHalfSteps: visits.length >= 5,
+      accentColor: color
     }));
   }
 

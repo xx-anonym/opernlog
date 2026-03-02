@@ -3,7 +3,6 @@
 
 export function RatingsHistogram(ratings, options = {}) {
     const {
-        showHalfSteps = true,
         height = 80,
         accentColor = '#c9a84c',
         showAverage = true,
@@ -18,20 +17,16 @@ export function RatingsHistogram(ratings, options = {}) {
         return container;
     }
 
-    // Build distribution – either half-steps (0.5 to 5.0) or full steps (1 to 5)
-    const steps = showHalfSteps
-        ? [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
-        : [1, 2, 3, 4, 5];
+    // Letterboxd always uses half-steps (0.5 to 5.0 = 10 bars)
+    const steps = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
     const dist = {};
     steps.forEach(s => dist[s] = 0);
 
     ratings.forEach(r => {
-        // Snap to nearest step
-        const snapped = showHalfSteps
-            ? Math.round(r * 2) / 2
-            : Math.round(r);
-        const clamped = Math.max(steps[0], Math.min(steps[steps.length - 1], snapped));
+        // Snap to nearest 0.5 step
+        const snapped = Math.round(r * 2) / 2;
+        const clamped = Math.max(0.5, Math.min(5, snapped));
         dist[clamped] = (dist[clamped] || 0) + 1;
     });
 
@@ -64,7 +59,7 @@ export function RatingsHistogram(ratings, options = {}) {
 
         const barWrapper = document.createElement('div');
         barWrapper.className = 'ratings-histogram__bar-wrapper';
-        barWrapper.title = `${formatStep(step, showHalfSteps)}: ${count} Bewertung${count !== 1 ? 'en' : ''}`;
+        barWrapper.title = `${step} Sterne: ${count} Bewertung${count !== 1 ? 'en' : ''}`;
 
         const bar = document.createElement('div');
         bar.className = 'ratings-histogram__bar';
@@ -76,7 +71,7 @@ export function RatingsHistogram(ratings, options = {}) {
 
         const label = document.createElement('span');
         label.className = 'ratings-histogram__label';
-        label.textContent = formatStep(step, showHalfSteps);
+        label.textContent = formatStep(step);
 
         barWrapper.appendChild(bar);
         barWrapper.appendChild(label);
@@ -88,10 +83,13 @@ export function RatingsHistogram(ratings, options = {}) {
     return container;
 }
 
-function formatStep(step, halfSteps) {
-    if (!halfSteps) return '★'.repeat(step);
-    if (step % 1 === 0) return step.toString();
-    return step.toFixed(1);
+function formatStep(step) {
+    if (step === 1) return '★';
+    if (step === 2) return '★★';
+    if (step === 3) return '★★★';
+    if (step === 4) return '★★★★';
+    if (step === 5) return '★★★★★';
+    return '';
 }
 
 function renderStars(rating) {

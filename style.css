@@ -2232,7 +2232,7 @@ h3 {
 .ratings-histogram__bars {
     display: flex;
     align-items: flex-end;
-    gap: 3px;
+    gap: 1px;
     height: var(--histogram-height, 80px);
     padding-bottom: 24px;
     position: relative;
@@ -2252,8 +2252,8 @@ h3 {
 .ratings-histogram__bar {
     width: 100%;
     min-height: 2px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 3px 3px 0 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px 2px 0 0;
     transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1),
         opacity 0.3s ease;
     position: relative;
@@ -2274,6 +2274,7 @@ h3 {
     font-size: 0.65rem;
     color: var(--text-muted);
     white-space: nowrap;
+    letter-spacing: -1px;
 }
 
 .ratings-histogram__empty {
