@@ -264,6 +264,20 @@ export async function addVisitCloud(visit) {
     return data;
 }
 
+export async function updateVisitCloud(visitId, updates) {
+    const sb = getSupabase();
+    const payload = {};
+    if (updates.houseId !== undefined) payload.house_id = updates.houseId;
+    if (updates.operaId !== undefined) payload.opera_id = updates.operaId;
+    if (updates.date !== undefined) payload.date = updates.date;
+    if (updates.rating !== undefined) payload.rating = updates.rating;
+    if (updates.review !== undefined) payload.review = updates.review;
+
+    const { data, error } = await sb.from('visits').update(payload).eq('id', visitId).select().single();
+    if (error) throw error;
+    return data;
+}
+
 export async function deleteVisitCloud(visitId) {
     const sb = getSupabase();
     await sb.from('visits').delete().eq('id', visitId);

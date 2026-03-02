@@ -252,6 +252,17 @@ class Store {
         return newVisit;
     }
 
+    updateVisit(visitId, updates) {
+        const visit = this.data.myVisits.find(v => v.id === visitId);
+        if (visit) {
+            Object.assign(visit, updates);
+            this.save();
+            if (this.isCloud) {
+                sb.updateVisitCloud(visitId, updates).catch(e => console.warn('Cloud update failed:', e));
+            }
+        }
+    }
+
     deleteVisit(visitId) {
         this.data.myVisits = this.data.myVisits.filter(v => v.id !== visitId);
         if (this.isCloud) sb.deleteVisitCloud(visitId).catch(() => { });
