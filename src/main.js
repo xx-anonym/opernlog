@@ -53,17 +53,21 @@ class App {
     }
 
     route() {
+        // e.g. #/log?edit=123
         const hash = window.location.hash || '#/';
-        const [path, ...rest] = hash.slice(2).split('/');
+        const withoutHash = hash.slice(2); // "log?edit=123"
+
+        // Separate query string from the path
+        const [fullPath, queryString] = withoutHash.split('?');
+        const [path, ...rest] = fullPath.split('/');
         const param = rest.join('/');
 
         // Parse query params
-        const queryString = hash.includes('?') ? hash.split('?')[1] : '';
         const params = {};
         if (queryString) {
             queryString.split('&').forEach(p => {
                 const [key, value] = p.split('=');
-                params[key] = decodeURIComponent(value);
+                if (key) params[key] = decodeURIComponent(value || '');
             });
         }
 
