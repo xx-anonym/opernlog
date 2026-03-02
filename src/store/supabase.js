@@ -174,37 +174,24 @@ export async function acceptInvite(code) {
     const upperCode = code.toUpperCase().trim();
     console.log('Accepting invite with code:', upperCode, 'User:', session.user.id);
 
-    // Find invite (simple query without join to avoid FK resolution issues)
-    const { data: invite, error } = await sb.from('invites')
-        .select('*')
-        .eq('code', upperCode)
-        .maybeSingle();
+    // Call securely defined RPC function to handle mutual follow bypassing RLS
+    const { data: inviterId, error } = await sb.rpc('accept_invite', { invite_code: upperCode });
 
-    console.log('Invite lookup result:', { invite, error });
+    console.log('RPC result:', { inviterId, error });
 
     if (error) {
-        console.error('Invite lookup error:', error);
-        return { success: false, error: 'Fehler beim Suchen der Einladung: ' + error.message };
+        console.error('Invite RPC error:', error);
+        return { success: false, error: error.message || 'Fehler beim Akzeptieren der Einladung' };
     }
-    if (!invite) return { success: false, error: 'Ungültiger Einladungslink – Code nicht gefunden. Bitte prüfe den Link.' };
-    if (new Date(invite.expires_at) < new Date()) return { success: false, error: 'Einladung abgelaufen' };
-    if (invite.created_by === session.user.id) return { success: false, error: 'Du kannst deinen eigenen Einladungslink nicht verwenden.' };
 
-    // Fetch inviter profile separately
-    const inviterProfile = await getProfile(invite.created_by);
+    if (!inviterId) {
+        return { success: false, error: 'Einladung konnte nicht verarbeitet werden' };
+    }
 
-    // Follow the inviter (RLS allows: auth.uid() = follower_id ✓)
-    const { error: followErr } = await sb.from('follows').upsert({
-        follower_id: session.user.id,
-        following_id: invite.created_by,
-    });
-    if (followErr) console.warn('Follow error:', followErr);
+    // Fetch the profile of the new friend
+    const inviterProfile = await getProfile(inviterId);
 
-    // Note: We can't create a follow-back record here because RLS requires
-    // auth.uid() = follower_id, and we are logged in as the accepter, not the inviter.
-    // The inviter can follow back manually from the community page.
-
-    console.log('Invite accepted successfully, now following:', inviterProfile?.username);
+    console.log('Invite accepted successfully (MUTUAL FOLLOW), now friends with:', inviterProfile?.username);
     return { success: true, friend: inviterProfile };
 }
 

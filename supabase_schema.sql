@@ -58,6 +58,47 @@ ALTER TABLE invites ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Invites sind öffentlich lesbar" ON invites FOR SELECT USING (true);
 CREATE POLICY "User kann Invites erstellen" ON invites FOR INSERT WITH CHECK (auth.uid() = created_by);
 
+-- RPC Function for accepting invites securely (mutual follow)
+CREATE OR REPLACE FUNCTION accept_invite(invite_code text)
+RETURNS uuid
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+    v_inviter_id uuid;
+    v_accepter_id uuid;
+BEGIN
+    v_accepter_id := auth.uid();
+    IF v_accepter_id IS NULL THEN
+        RAISE EXCEPTION 'Nicht eingeloggt';
+    END IF;
+
+    -- Find valid invite
+    SELECT created_by INTO v_inviter_id
+    FROM invites
+    WHERE code = invite_code AND (expires_at IS NULL OR expires_at > now());
+
+    IF v_inviter_id IS NULL THEN
+        RAISE EXCEPTION 'Ungültiger oder abgelaufener Einladungslink';
+    END IF;
+
+    IF v_inviter_id = v_accepter_id THEN
+        RAISE EXCEPTION 'Du kannst deinen eigenen Einladungslink nicht verwenden';
+    END IF;
+
+    -- Create mutual follow
+    INSERT INTO follows (follower_id, following_id) 
+    VALUES (v_accepter_id, v_inviter_id)
+    ON CONFLICT (follower_id, following_id) DO NOTHING;
+
+    INSERT INTO follows (follower_id, following_id) 
+    VALUES (v_inviter_id, v_accepter_id)
+    ON CONFLICT (follower_id, following_id) DO NOTHING;
+
+    RETURN v_inviter_id;
+END;
+$$;
+
 -- Lists
 CREATE TABLE IF NOT EXISTS lists (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
