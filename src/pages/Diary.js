@@ -19,6 +19,7 @@ export function DiaryPage() {
     <div id="diaryFilters" style="display:none">
     <div class="filters">
       <div class="filter-row">
+        <input type="text" class="input search-input" id="diarySearch" placeholder="Oper, Komponist oder Haus suchen..." />
         <select class="select" id="diaryYear">
           <option value="">Alle Jahre</option>
         </select>
@@ -73,8 +74,23 @@ export function DiaryPage() {
     const content = page.querySelector('#diaryContent');
     const yearFilter = page.querySelector('#diaryYear').value;
     const sort = page.querySelector('#diarySort').value;
+    const searchFilter = page.querySelector('#diarySearch').value.toLowerCase().trim();
 
     let filtered = [...myVisits];
+
+    if (searchFilter) {
+      filtered = filtered.filter(v => {
+        const house = operaHouses.find(h => h.id === v.houseId);
+        const opera = operas.find(o => o.id === v.operaId);
+
+        const titleMatch = opera && opera.title.toLowerCase().includes(searchFilter);
+        const composerMatch = opera && opera.composer.toLowerCase().includes(searchFilter);
+        const houseMatch = house && house.name.toLowerCase().includes(searchFilter);
+        const cityMatch = house && house.city.toLowerCase().includes(searchFilter);
+
+        return titleMatch || composerMatch || houseMatch || cityMatch;
+      });
+    }
 
     if (yearFilter) {
       filtered = filtered.filter(v => new Date(v.date).getFullYear() === parseInt(yearFilter));
@@ -176,6 +192,8 @@ export function DiaryPage() {
   if (yearSelect) yearSelect.addEventListener('change', renderDiary);
   const sortSelect = page.querySelector('#diarySort');
   if (sortSelect) sortSelect.addEventListener('change', renderDiary);
+  const searchInput = page.querySelector('#diarySearch');
+  if (searchInput) searchInput.addEventListener('input', renderDiary);
 
   setTimeout(renderDiary, 0);
 
