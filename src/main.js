@@ -77,7 +77,7 @@ class App {
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'invite'];
+            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite'];
             if (protectedRoutes.includes(path) && path !== 'invite') {
                 this.content.innerHTML = '';
                 const authPage = AuthPage(() => {
