@@ -1,0 +1,27 @@
+{
+  "name": "OpernLog – Dein Operntagebuch",
+  "short_name": "OpernLog",
+  "description": "Logge, bewerte und teile deine Opernbesuche. Wie Letterboxd, nur für Oper.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0f1e",
+  "theme_color": "#8b1a2b",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "lifestyle"],
+  "lang": "de",
+  "dir": "ltr"
+}

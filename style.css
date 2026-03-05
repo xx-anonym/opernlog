@@ -2427,3 +2427,64 @@ h3 {
         gap: 4px;
     }
 }
+
+/* ============================================
+   iOS PWA – Safe Areas & Native Feel
+   ============================================ */
+
+/* Prevent overscroll bounce */
+html,
+body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* PWA Standalone mode adjustments */
+@media all and (display-mode: standalone) {
+    body {
+        /* Account for iOS status bar with black-translucent */
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .sidebar {
+        padding-top: calc(16px + env(safe-area-inset-top));
+        padding-bottom: calc(16px + env(safe-area-inset-bottom));
+        padding-left: env(safe-area-inset-left);
+    }
+
+    .main-content {
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+}
+
+/* Mobile bottom nav safe area */
+@media (max-width: 768px) and (display-mode: standalone) {
+    .sidebar {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .main-content {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+}
+
+/* Disable text selection on UI elements for app-like feel */
+@media (display-mode: standalone) {
+
+    .btn,
+    .tab,
+    .chip,
+    .nav-link,
+    .sidebar,
+    .auth-tab {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Smoother scrolling on iOS */
+    .main-content,
+    .page {
+        -webkit-overflow-scrolling: touch;
+    }
+}
