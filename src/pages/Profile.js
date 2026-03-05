@@ -42,6 +42,7 @@ async function renderCloudProfile(page, userId) {
       id: profile.id,
       name: profile.username,
       avatar: profile.avatar_initials,
+      avatarIcon: profile.avatar_icon || '',
       bio: profile.bio || '',
       joined: profile.created_at?.split('T')[0] || '',
     };

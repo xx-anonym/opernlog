@@ -1,6 +1,7 @@
 // Auth-Seite – Login & Registrierung
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
+import { profileIcons } from '../data/profileIcons.js';
 
 export function AuthPage(onSuccess) {
   const page = document.createElement('div');
@@ -52,6 +53,17 @@ export function AuthPage(onSuccess) {
             <label for="regPassword">Passwort</label>
             <input type="password" id="regPassword" placeholder="Min. 6 Zeichen" required minlength="6" />
           </div>
+          <div class="form-group">
+            <label class="form-label">Profilbild wählen</label>
+            <div class="icon-picker" id="regIconPicker">
+              <button type="button" class="icon-picker__option icon-picker__option--none icon-picker__option--active" data-icon="" title="Kein Icon">✕</button>
+              ${Object.entries(profileIcons).map(([key, icon]) => `
+                <button type="button" class="icon-picker__option" data-icon="${key}" title="${icon.label}">
+                  ${icon.svg}
+                </button>
+              `).join('')}
+            </div>
+          </div>
           <div id="regError" class="auth-error" style="display:none"></div>
           <button type="submit" class="btn btn--primary btn--lg btn--full">Registrieren</button>
         </form>
@@ -71,6 +83,17 @@ export function AuthPage(onSuccess) {
       page.querySelector('#registerForm').style.display = isLogin ? 'none' : 'flex';
     });
   });
+
+  // Icon picker click handling
+  const regIconPicker = page.querySelector('#regIconPicker');
+  if (regIconPicker) {
+    regIconPicker.addEventListener('click', (e) => {
+      const btn = e.target.closest('.icon-picker__option');
+      if (!btn) return;
+      regIconPicker.querySelectorAll('.icon-picker__option').forEach(b => b.classList.remove('icon-picker__option--active'));
+      btn.classList.add('icon-picker__option--active');
+    });
+  }
 
   // Login
   page.querySelector('#loginForm').addEventListener('submit', async (e) => {
@@ -102,7 +125,9 @@ export function AuthPage(onSuccess) {
     errorEl.style.display = 'none';
 
     try {
-      await sb.signUp(email, password, username);
+      const activeIconBtn = page.querySelector('#regIconPicker .icon-picker__option--active');
+      const avatarIcon = activeIconBtn ? activeIconBtn.dataset.icon : '';
+      const data = await sb.signUp(email, password, username, avatarIcon);
       // Auto-login after successful registration
       try {
         await sb.signIn(email, password);

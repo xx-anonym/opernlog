@@ -13,7 +13,7 @@ export function getSupabase() {
 }
 
 // ── Auth ─────────────────────────────────────────────────
-export async function signUp(email, password, username) {
+export async function signUp(email, password, username, avatarIcon = '') {
     const sb = getSupabase();
     const { data, error } = await sb.auth.signUp({
         email,
@@ -27,11 +27,13 @@ export async function signUp(email, password, username) {
     // Create profile – use upsert in case trigger already created one
     if (data.user) {
         const initials = username.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-        const { error: profileError } = await sb.from('profiles').upsert({
+        const profileData = {
             id: data.user.id,
             username,
             avatar_initials: initials,
-        }, { onConflict: 'id' });
+        };
+        if (avatarIcon) profileData.avatar_icon = avatarIcon;
+        const { error: profileError } = await sb.from('profiles').upsert(profileData, { onConflict: 'id' });
         if (profileError) {
             console.warn('Profile upsert error:', profileError);
         }
