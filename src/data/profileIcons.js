@@ -5,27 +5,31 @@ export const profileIcons = {
   violin: {
     label: 'Violine',
     svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Scroll -->
-      <path d="M29 6c-3 0-4 2-3 4 1 1 3 1 3-1"/>
+      <!-- Scroll curl -->
+      <path d="M28 4c-2 0-3.5 1.5-3 3.5.5 1.5 2.5 1.5 3 0"/>
       <!-- Neck -->
-      <line x1="29" y1="10" x2="29" y2="20"/>
+      <line x1="28" y1="7" x2="28" y2="18"/>
       <!-- Pegs -->
-      <line x1="26" y1="12" x2="32" y2="12"/>
-      <line x1="26" y1="15" x2="32" y2="15"/>
-      <!-- Body outline – single clean silhouette -->
-      <path d="M21 20c-4 0-7 3-8 6s0 6 2 8c-2 2-3 5-3 8 0 5 4 10 10 12h14c6-2 10-7 10-12 0-3-1-6-3-8 2-2 3-5 2-8s-4-6-8-6"/>
-      <!-- Waist notches (C-bouts) -->
-      <path d="M21 28c3 2 3 6 0 8"/>
-      <path d="M37 28c-3 2-3 6 0 8"/>
+      <line x1="25.5" y1="9" x2="30.5" y2="9"/>
+      <line x1="25.5" y1="12" x2="30.5" y2="12"/>
+      <!-- Upper bout -->
+      <path d="M22 18c-3 1-5 3-5 6s1 4 3 5"/>
+      <path d="M34 18c3 1 5 3 5 6s-1 4-3 5"/>
+      <!-- C-bout waist (pronounced inward curves) -->
+      <path d="M20 29c3 1.5 3 4.5 0 6"/>
+      <path d="M36 29c-3 1.5-3 4.5 0 6"/>
+      <!-- Lower bout (wider) -->
+      <path d="M20 35c-4 2-6 5-6 9 0 5 4 9 14 9"/>
+      <path d="M36 35c4 2 6 5 6 9 0 5-4 9-14 9"/>
       <!-- F-holes -->
-      <path d="M25 28c-1 3 0 6 1 8" stroke-width="1.2"/>
-      <path d="M33 28c1 3 0 6-1 8" stroke-width="1.2"/>
+      <path d="M24 27c-0.5 2.5 0 5 0.5 7.5" stroke-width="1.2"/>
+      <path d="M32 27c0.5 2.5 0 5-0.5 7.5" stroke-width="1.2"/>
       <!-- Bridge -->
-      <path d="M25 37l4-2 4 2"/>
+      <path d="M24.5 38l3.5-1.5 3.5 1.5"/>
       <!-- Tailpiece -->
-      <line x1="29" y1="40" x2="29" y2="46"/>
-      <!-- Bow across -->
-      <line x1="10" y1="48" x2="50" y2="18" stroke-width="1" opacity="0.6"/>
+      <line x1="28" y1="39.5" x2="28" y2="50"/>
+      <!-- Bow (diagonal across) -->
+      <line x1="8" y1="50" x2="52" y2="14" stroke-width="0.8" opacity="0.5"/>
     </svg>`
   },
   horn: {
