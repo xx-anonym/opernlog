@@ -2458,6 +2458,10 @@ body {
         padding-top: calc(8px + env(safe-area-inset-top));
     }
 
+    .nav-mobile-toggle {
+        top: calc(16px + env(safe-area-inset-top));
+    }
+
     .nav-links {
         top: calc(60px + env(safe-area-inset-top));
     }
