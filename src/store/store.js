@@ -254,6 +254,11 @@ class Store {
         this.data.myVisits.unshift(newVisit);
         this.save();
 
+        // Auto-remove from wishlist if present
+        if (visit.operaId && this.isOnWishlist(visit.operaId)) {
+            this.removeFromWishlist(visit.operaId);
+        }
+
         // Also sync to cloud – update local ID with cloud UUID
         if (this.isCloud) {
             sb.addVisitCloud(visit).then(cloudData => {
