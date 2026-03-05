@@ -9,6 +9,7 @@ import { LogVisitPage } from './pages/LogVisit.js';
 import { DiaryPage } from './pages/Diary.js';
 import { ProfilePage } from './pages/Profile.js';
 import { ListsPage } from './pages/Lists.js';
+import { WishlistPage } from './pages/Wishlist.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { InvitePage } from './pages/Invite.js';
@@ -76,7 +77,7 @@ class App {
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite'];
+            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'invite'];
             if (protectedRoutes.includes(path) && path !== 'invite') {
                 this.content.innerHTML = '';
                 const authPage = AuthPage(() => {
@@ -122,6 +123,9 @@ class App {
                 break;
             case 'lists':
                 page = ListsPage();
+                break;
+            case 'wishlist':
+                page = WishlistPage();
                 break;
             case 'community':
                 page = CommunityPage();

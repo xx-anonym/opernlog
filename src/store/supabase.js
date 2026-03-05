@@ -399,6 +399,12 @@ export async function deleteListCloud(listId) {
     await sb.from('lists').delete().eq('id', listId);
 }
 
+export async function updateListCloud(listId, updates) {
+    const sb = getSupabase();
+    const { error } = await sb.from('lists').update(updates).eq('id', listId);
+    if (error) throw error;
+}
+
 // ── Search users ─────────────────────────────────────────
 export async function searchUsers(query) {
     const sb = getSupabase();

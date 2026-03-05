@@ -55,7 +55,12 @@ export function OperaDetailPage(operaId) {
         <div id="operaHistogram" class="detail-histogram"></div>
         <p class="detail-description">${opera.description}</p>
         ${opera.librettist ? `<p class="detail-librettist"><strong>Libretto:</strong> ${opera.librettist}</p>` : ''}
-        <a href="#/log?opera=${opera.id}" class="btn btn--primary">+ Besuch mit diesem Werk loggen</a>
+        <div class="detail-actions">
+          <a href="#/log?opera=${opera.id}" class="btn btn--primary">+ Besuch mit diesem Werk loggen</a>
+          <button id="wishlistToggle" class="btn ${store.isOnWishlist(opera.id) ? 'btn--wishlist-active' : 'btn--outline'}">
+            ${store.isOnWishlist(opera.id) ? '✅ Auf der Wunschliste' : '⭐ Auf die Wunschliste'}
+          </button>
+        </div>
       </div>
       
       ${performedAt.length > 0 ? `
@@ -112,6 +117,22 @@ export function OperaDetailPage(operaId) {
   } else {
     visits.forEach(visit => {
       reviewsContainer.appendChild(ReviewCard(visit, { showOpera: false }));
+    });
+  }
+
+  // Wishlist toggle
+  const wishlistBtn = page.querySelector('#wishlistToggle');
+  if (wishlistBtn) {
+    wishlistBtn.addEventListener('click', () => {
+      if (store.isOnWishlist(opera.id)) {
+        store.removeFromWishlist(opera.id);
+        wishlistBtn.className = 'btn btn--outline';
+        wishlistBtn.textContent = '⭐ Auf die Wunschliste';
+      } else {
+        store.addToWishlist(opera.id);
+        wishlistBtn.className = 'btn btn--wishlist-active';
+        wishlistBtn.textContent = '✅ Auf der Wunschliste';
+      }
     });
   }
 

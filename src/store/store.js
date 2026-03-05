@@ -433,6 +433,58 @@ class Store {
         this.save();
     }
 
+    // ── Wishlist ─────────────────────────────────────────
+    getWishlist() {
+        return this.data.myLists.find(l => l.type === 'wishlist') || null;
+    }
+
+    isOnWishlist(operaId) {
+        const wl = this.getWishlist();
+        return wl ? wl.items.includes(operaId) : false;
+    }
+
+    addToWishlist(operaId) {
+        let wl = this.getWishlist();
+        if (!wl) {
+            wl = this.addList({
+                name: 'Wunschliste',
+                description: 'Opern, die ich noch sehen möchte',
+                type: 'wishlist',
+                items: [operaId],
+            });
+            // Sync to cloud
+            if (this.isCloud) {
+                sb.addListCloud(wl).then(cloudData => {
+                    if (cloudData?.id) {
+                        const local = this.data.myLists.find(l => l.id === wl.id);
+                        if (local) { local.id = cloudData.id; this.save(); }
+                    }
+                }).catch(e => console.warn('Wishlist cloud create failed:', e));
+            }
+        } else {
+            if (!wl.items.includes(operaId)) {
+                wl.items.push(operaId);
+                this.save();
+                if (this.isCloud) {
+                    sb.updateListCloud(wl.id, { items: wl.items })
+                        .catch(e => console.warn('Wishlist cloud update failed:', e));
+                }
+            }
+        }
+    }
+
+    removeFromWishlist(operaId) {
+        const wl = this.getWishlist();
+        if (wl) {
+            wl.items = wl.items.filter(id => id !== operaId);
+            this.save();
+            if (this.isCloud) {
+                sb.updateListCloud(wl.id, { items: wl.items })
+                    .catch(e => console.warn('Wishlist cloud update failed:', e));
+            }
+        }
+    }
+
     // ── Stats ────────────────────────────────────────────
     getStats(userId) {
         const visits = this.getVisitsByUser(userId);
