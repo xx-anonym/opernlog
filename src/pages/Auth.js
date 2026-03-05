@@ -3,6 +3,36 @@ import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
 import { profileIcons } from '../data/profileIcons.js';
 
+// ── E-Mail-Validierung ──────────────────────────────────
+const BLOCKED_DOMAINS = [
+  'example.com', 'example.org', 'example.net',
+  'test.com', 'test.org', 'test.de',
+  'mailinator.com', 'guerrillamail.com', 'tempmail.com',
+  'throwaway.email', 'yopmail.com', 'sharklasers.com',
+  'guerrillamailblock.com', 'grr.la', 'dispostable.com',
+  'trashmail.com', 'trashmail.de', 'fakeinbox.com',
+  'mailnesia.com', 'maildrop.cc', 'temp-mail.org',
+  'mohmal.com', 'getnada.com',
+  'localhost', 'invalid.com',
+];
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function validateEmail(email) {
+  if (!email || !email.trim()) {
+    return { valid: false, error: 'Bitte gib eine E-Mail-Adresse ein.' };
+  }
+  const trimmed = email.trim().toLowerCase();
+  if (!EMAIL_REGEX.test(trimmed)) {
+    return { valid: false, error: 'Bitte gib eine gültige E-Mail-Adresse ein (z.B. name@anbieter.de).' };
+  }
+  const domain = trimmed.split('@')[1];
+  if (BLOCKED_DOMAINS.includes(domain)) {
+    return { valid: false, error: 'Diese E-Mail-Domain ist nicht erlaubt. Bitte verwende eine echte E-Mail-Adresse.' };
+  }
+  return { valid: true, error: null };
+}
+
 export function AuthPage(onSuccess) {
   const page = document.createElement('div');
   page.className = 'page auth-page fade-in';
@@ -103,6 +133,13 @@ export function AuthPage(onSuccess) {
     const errorEl = page.querySelector('#loginError');
     errorEl.style.display = 'none';
 
+    const check = validateEmail(email);
+    if (!check.valid) {
+      errorEl.textContent = check.error;
+      errorEl.style.display = 'block';
+      return;
+    }
+
     try {
       await sb.signIn(email, password);
       if (onSuccess) onSuccess();
@@ -123,6 +160,14 @@ export function AuthPage(onSuccess) {
     const password = page.querySelector('#regPassword').value;
     const errorEl = page.querySelector('#regError');
     errorEl.style.display = 'none';
+    errorEl.style.color = '';
+
+    const check = validateEmail(email);
+    if (!check.valid) {
+      errorEl.textContent = check.error;
+      errorEl.style.display = 'block';
+      return;
+    }
 
     try {
       const activeIconBtn = page.querySelector('#regIconPicker .icon-picker__option--active');
