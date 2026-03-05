@@ -4,6 +4,7 @@ import { ReviewCard } from '../components/ReviewCard.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
+import { renderAvatarHTML } from '../data/profileIcons.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -96,7 +97,7 @@ export function CommunityPage() {
             const card = document.createElement('div');
             card.className = 'user-card fade-in';
             card.innerHTML = `
-                            <div class="user-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${friend.avatar_initials || '??'}</div>
+                            <div class="user-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${renderAvatarHTML(friend.avatar_initials || '??', friend.avatar_icon)}</div>
                             <div class="user-card__info">
                                 <h3 class="user-card__name">${friend.username}</h3>
                                 <p class="user-card__bio">${friend.bio || ''}</p>
@@ -225,7 +226,7 @@ export function CommunityPage() {
             card.className = 'feed-card fade-in';
             card.innerHTML = `
                             <div class="feed-card__header">
-                                <div class="feed-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${profile?.avatar_initials || '??'}</div>
+                                <div class="feed-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${renderAvatarHTML(profile?.avatar_initials || '??', profile?.avatar_icon)}</div>
                                 <div class="feed-card__meta">
                                     <strong>${profile?.username || 'Unbekannt'}</strong>
                                     <span class="text-muted">hat am ${new Date(item.date).toLocaleDateString('de-DE')} besucht</span>

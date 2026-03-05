@@ -1211,6 +1211,81 @@ h3 {
     font-weight: 700;
     color: #fff;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+.avatar-icon svg {
+    width: 70%;
+    height: 70%;
+    color: #fff;
+}
+
+.avatar-initials {
+    position: relative;
+    z-index: 1;
+}
+
+/* Icon Picker */
+.icon-picker {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.icon-picker__option {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    padding: 0;
+}
+
+.icon-picker__option svg {
+    width: 28px;
+    height: 28px;
+    color: var(--text-secondary);
+}
+
+.icon-picker__option:hover {
+    border-color: var(--gold);
+    background: var(--bg-elevated);
+}
+
+.icon-picker__option:hover svg {
+    color: var(--gold);
+}
+
+.icon-picker__option--active {
+    border-color: var(--gold);
+    background: rgba(201, 168, 76, 0.15);
+    box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.3);
+}
+
+.icon-picker__option--active svg {
+    color: var(--gold);
+}
+
+.icon-picker__option--none {
+    font-size: 18px;
+    color: var(--text-muted);
 }
 
 .profile-hero__name {
@@ -1433,6 +1508,8 @@ h3 {
     font-weight: 700;
     color: #fff;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .user-card__info {
@@ -2066,6 +2143,8 @@ h3 {
     color: white;
     font-size: 0.8rem;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .feed-card__meta {

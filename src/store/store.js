@@ -14,6 +14,7 @@ function getDefaultData() {
             id: 'user-me',
             name: 'Opernfan',
             avatar: 'OF',
+            avatarIcon: '',
             bio: 'Leidenschaftlicher Opernbesucher.',
             joined: new Date().toISOString().split('T')[0],
         },
@@ -69,6 +70,7 @@ class Store {
                     id: this._profile.id,
                     name: this._profile.username,
                     avatar: this._profile.avatar_initials || this._profile.username?.slice(0, 2).toUpperCase() || 'OF',
+                    avatarIcon: this._profile.avatar_icon || '',
                     bio: this._profile.bio || '',
                     joined: this._profile.created_at?.split('T')[0] || this.data.currentUser.joined,
                 };
@@ -153,6 +155,7 @@ class Store {
                 id: this._profile.id,
                 name: this._profile.username,
                 avatar: this._profile.avatar_initials,
+                avatarIcon: this._profile.avatar_icon || '',
                 bio: this._profile.bio || '',
                 joined: this._profile.created_at?.split('T')[0] || '',
             };
@@ -167,12 +170,14 @@ class Store {
             if (updates.name) cloudUpdates.username = updates.name;
             if (updates.bio !== undefined) cloudUpdates.bio = updates.bio;
             if (avatar) cloudUpdates.avatar_initials = avatar;
+            if (updates.avatarIcon !== undefined) cloudUpdates.avatar_icon = updates.avatarIcon;
             sb.updateProfile(cloudUpdates);
             // Update in-memory profile so getCurrentUser() reflects changes immediately
             if (this._profile) {
                 if (updates.name) this._profile.username = updates.name;
                 if (updates.bio !== undefined) this._profile.bio = updates.bio;
                 if (avatar) this._profile.avatar_initials = avatar;
+                if (updates.avatarIcon !== undefined) this._profile.avatar_icon = updates.avatarIcon;
             }
         }
         this.data.currentUser = { ...this.data.currentUser, ...updates };

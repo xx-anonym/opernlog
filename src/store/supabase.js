@@ -232,7 +232,7 @@ export async function getFollowing() {
     if (!session) return [];
     const sb = getSupabase();
     const { data } = await sb.from('follows')
-        .select('following_id, profiles:following_id(id, username, avatar_initials, bio, created_at)')
+        .select('following_id, profiles:following_id(id, username, avatar_initials, avatar_icon, bio, created_at)')
         .eq('follower_id', session.user.id);
     return (data || []).map(f => f.profiles);
 }
@@ -242,7 +242,7 @@ export async function getFollowers() {
     if (!session) return [];
     const sb = getSupabase();
     const { data } = await sb.from('follows')
-        .select('follower_id, profiles:follower_id(id, username, avatar_initials, bio, created_at)')
+        .select('follower_id, profiles:follower_id(id, username, avatar_initials, avatar_icon, bio, created_at)')
         .eq('following_id', session.user.id);
     return (data || []).map(f => f.profiles);
 }
@@ -297,7 +297,7 @@ export async function getMyVisitsCloud() {
 export async function getUserVisitsCloud(userId) {
     const sb = getSupabase();
     const { data } = await sb.from('visits')
-        .select('*, profiles:user_id(id, username, avatar_initials)')
+        .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('user_id', userId)
         .order('date', { ascending: false });
     return data || [];
@@ -318,7 +318,7 @@ export async function getFeedCloud() {
 
     // Get their recent visits
     const { data } = await sb.from('visits')
-        .select('*, profiles:user_id(id, username, avatar_initials)')
+        .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .in('user_id', followingIds)
         .order('created_at', { ascending: false })
         .limit(50);
@@ -330,7 +330,7 @@ export async function getFeedCloud() {
 export async function getVisitsByHouseCloud(houseId) {
     const sb = getSupabase();
     const { data } = await sb.from('visits')
-        .select('*, profiles:user_id(id, username, avatar_initials)')
+        .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('house_id', houseId)
         .order('date', { ascending: false });
     return data || [];
@@ -339,7 +339,7 @@ export async function getVisitsByHouseCloud(houseId) {
 export async function getVisitsByOperaCloud(operaId) {
     const sb = getSupabase();
     const { data } = await sb.from('visits')
-        .select('*, profiles:user_id(id, username, avatar_initials)')
+        .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('opera_id', operaId)
         .order('date', { ascending: false });
     return data || [];

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   username TEXT UNIQUE NOT NULL,
   bio TEXT DEFAULT '',
   avatar_initials TEXT DEFAULT '',
+  avatar_icon TEXT DEFAULT '',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

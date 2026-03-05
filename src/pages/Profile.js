@@ -5,6 +5,7 @@ import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
+import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
 
 export function ProfilePage(userId) {
   const page = document.createElement('div');
@@ -48,7 +49,7 @@ async function renderCloudProfile(page, userId) {
     page.innerHTML = `
       <div class="profile-hero">
         <div class="profile-hero__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">
-          ${user.avatar}
+          ${renderAvatarHTML(user.avatar, user.avatarIcon)}
         </div>
         <div class="profile-hero__info">
           <h1 class="profile-hero__name">${user.name}</h1>
@@ -156,7 +157,7 @@ function renderLocalProfile(page, userId, isMe) {
   page.innerHTML = `
     <div class="profile-hero">
       <div class="profile-hero__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">
-        ${user.avatar}
+        ${renderAvatarHTML(user.avatar, user.avatarIcon)}
       </div>
       <div class="profile-hero__info">
         <h1 class="profile-hero__name">${user.name}</h1>
@@ -232,6 +233,17 @@ function renderLocalProfile(page, userId, isMe) {
         <div class="form-group">
           <label class="form-label">Initialen (Avatar)</label>
           <input type="text" class="input" id="editAvatar" value="${user.avatar}" maxlength="2" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Profilbild</label>
+          <div class="icon-picker" id="iconPicker">
+            <button type="button" class="icon-picker__option icon-picker__option--none${!user.avatarIcon ? ' icon-picker__option--active' : ''}" data-icon="" title="Kein Icon">✕</button>
+            ${Object.entries(profileIcons).map(([key, icon]) => `
+              <button type="button" class="icon-picker__option${user.avatarIcon === key ? ' icon-picker__option--active' : ''}" data-icon="${key}" title="${icon.label}">
+                ${icon.svg}
+              </button>
+            `).join('')}
+          </div>
         </div>
         <div class="form-actions">
           <button class="btn btn--primary" id="saveProfileBtn">Speichern</button>
@@ -313,16 +325,30 @@ function renderLocalProfile(page, userId, isMe) {
     page.querySelector('#closeModalBtn').addEventListener('click', () => { modal.style.display = 'none'; });
     page.querySelector('.modal__overlay').addEventListener('click', () => { modal.style.display = 'none'; });
 
+    // Icon picker click handling
+    const iconPicker = page.querySelector('#iconPicker');
+    if (iconPicker) {
+      iconPicker.addEventListener('click', (e) => {
+        const btn = e.target.closest('.icon-picker__option');
+        if (!btn) return;
+        iconPicker.querySelectorAll('.icon-picker__option').forEach(b => b.classList.remove('icon-picker__option--active'));
+        btn.classList.add('icon-picker__option--active');
+      });
+    }
+
     page.querySelector('#saveProfileBtn').addEventListener('click', () => {
       const name = page.querySelector('#editName').value.trim();
       const bio = page.querySelector('#editBio').value.trim();
       const avatar = page.querySelector('#editAvatar').value.trim().toUpperCase();
+      const activeIconBtn = page.querySelector('.icon-picker__option--active');
+      const avatarIcon = activeIconBtn ? activeIconBtn.dataset.icon : '';
       if (name) {
-        store.updateProfile({ name, bio, avatar: avatar || name.substring(0, 2).toUpperCase() });
+        store.updateProfile({ name, bio, avatar: avatar || name.substring(0, 2).toUpperCase(), avatarIcon });
         modal.style.display = 'none';
         page.querySelector('.profile-hero__name').textContent = name;
         page.querySelector('.profile-hero__bio').textContent = bio;
-        page.querySelector('.profile-hero__avatar').textContent = avatar || name.substring(0, 2).toUpperCase();
+        const avatarEl = page.querySelector('.profile-hero__avatar');
+        avatarEl.innerHTML = renderAvatarHTML(avatar || name.substring(0, 2).toUpperCase(), avatarIcon);
       }
     });
   }
