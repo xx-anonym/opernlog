@@ -6,6 +6,11 @@ export function HousesPage() {
   const page = document.createElement('div');
   page.className = 'page page--houses';
 
+  // Restore persisted filter state
+  const savedState = sessionStorage.getItem('houses_activeState') || '';
+  const savedSort = sessionStorage.getItem('houses_sort') || 'name';
+  const savedSearch = sessionStorage.getItem('houses_search') || '';
+
   page.innerHTML = `
     <div class="page-header">
       <h1 class="page-header__title">🏛️ Opernhäuser</h1>
@@ -14,16 +19,16 @@ export function HousesPage() {
     <div class="filters">
       <div class="search-box">
         <svg class="search-box__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" class="search-box__input" placeholder="Opernhaus oder Stadt suchen..." id="houseSearch" />
+        <input type="text" class="search-box__input" placeholder="Opernhaus oder Stadt suchen..." id="houseSearch" value="${savedSearch}" />
       </div>
       <div class="filter-chips" id="stateFilter"></div>
       <div class="sort-controls">
         <select class="select" id="houseSort">
-          <option value="name">Name A–Z</option>
-          <option value="city">Stadt A–Z</option>
-          <option value="capacity-desc">Kapazität ↓</option>
-          <option value="founded">Gründungsjahr</option>
-          <option value="rating">Beste Bewertung</option>
+          <option value="name"${savedSort === 'name' ? ' selected' : ''}>Name A–Z</option>
+          <option value="city"${savedSort === 'city' ? ' selected' : ''}>Stadt A–Z</option>
+          <option value="capacity-desc"${savedSort === 'capacity-desc' ? ' selected' : ''}>Kapazität ↓</option>
+          <option value="founded"${savedSort === 'founded' ? ' selected' : ''}>Gründungsjahr</option>
+          <option value="rating"${savedSort === 'rating' ? ' selected' : ''}>Beste Bewertung</option>
         </select>
       </div>
     </div>
@@ -33,13 +38,20 @@ export function HousesPage() {
   // State filter chips
   const states = [...new Set(operaHouses.map(h => h.state))].sort();
   const stateFilter = page.querySelector('#stateFilter');
-  let activeState = null;
+  let activeState = savedState || null;
+
+  function saveFilterState() {
+    sessionStorage.setItem('houses_activeState', activeState || '');
+    sessionStorage.setItem('houses_sort', page.querySelector('#houseSort').value);
+    sessionStorage.setItem('houses_search', page.querySelector('#houseSearch').value);
+  }
 
   const allChip = document.createElement('button');
-  allChip.className = 'chip chip--active';
+  allChip.className = `chip${!activeState ? ' chip--active' : ''}`;
   allChip.textContent = 'Alle';
   allChip.addEventListener('click', () => {
     activeState = null;
+    saveFilterState();
     renderHouses();
     page.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
     allChip.classList.add('chip--active');
@@ -48,10 +60,11 @@ export function HousesPage() {
 
   states.forEach(state => {
     const chip = document.createElement('button');
-    chip.className = 'chip';
+    chip.className = `chip${activeState === state ? ' chip--active' : ''}`;
     chip.textContent = state;
     chip.addEventListener('click', () => {
       activeState = state;
+      saveFilterState();
       renderHouses();
       page.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
       chip.classList.add('chip--active');
@@ -125,8 +138,8 @@ export function HousesPage() {
   }
 
   // Event listeners
-  page.querySelector('#houseSearch').addEventListener('input', renderHouses);
-  page.querySelector('#houseSort').addEventListener('change', renderHouses);
+  page.querySelector('#houseSearch').addEventListener('input', () => { saveFilterState(); renderHouses(); });
+  page.querySelector('#houseSort').addEventListener('change', () => { saveFilterState(); renderHouses(); });
 
   // Initial render
   setTimeout(renderHouses, 0);

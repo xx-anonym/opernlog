@@ -6,6 +6,12 @@ export function OperasPage() {
   const page = document.createElement('div');
   page.className = 'page page--operas';
 
+  // Restore persisted filter state
+  const savedComposer = sessionStorage.getItem('operas_activeComposer') || '';
+  const savedSort = sessionStorage.getItem('operas_sort') || 'title';
+  const savedSearch = sessionStorage.getItem('operas_search') || '';
+  const savedLang = sessionStorage.getItem('operas_language') || '';
+
   page.innerHTML = `
     <div class="page-header">
       <h1 class="page-header__title">🎵 Opernwerke</h1>
@@ -14,7 +20,7 @@ export function OperasPage() {
     <div class="filters">
       <div class="search-box">
         <svg class="search-box__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" class="search-box__input" placeholder="Oper, Komponist suchen..." id="operaSearch" />
+        <input type="text" class="search-box__input" placeholder="Oper, Komponist suchen..." id="operaSearch" value="${savedSearch}" />
       </div>
       <div class="filter-chips" id="composerFilter"></div>
       <div class="filter-row">
@@ -22,11 +28,11 @@ export function OperasPage() {
           <option value="">Alle Sprachen</option>
         </select>
         <select class="select" id="operaSort">
-          <option value="title">Titel A–Z</option>
-          <option value="composer">Komponist A–Z</option>
-          <option value="year">Kompositionsjahr</option>
-          <option value="rating">Beste Bewertung</option>
-          <option value="popular">Beliebteste</option>
+          <option value="title"${savedSort === 'title' ? ' selected' : ''}>Titel A–Z</option>
+          <option value="composer"${savedSort === 'composer' ? ' selected' : ''}>Komponist A–Z</option>
+          <option value="year"${savedSort === 'year' ? ' selected' : ''}>Kompositionsjahr</option>
+          <option value="rating"${savedSort === 'rating' ? ' selected' : ''}>Beste Bewertung</option>
+          <option value="popular"${savedSort === 'popular' ? ' selected' : ''}>Beliebteste</option>
         </select>
       </div>
     </div>
@@ -37,13 +43,21 @@ export function OperasPage() {
   const composers = [...new Set(operas.map(o => o.composer))].sort();
   const topComposers = ['Wolfgang Amadeus Mozart', 'Giuseppe Verdi', 'Richard Wagner', 'Giacomo Puccini', 'Richard Strauss', 'Georg Friedrich Händel'];
   const composerFilter = page.querySelector('#composerFilter');
-  let activeComposer = null;
+  let activeComposer = savedComposer || null;
+
+  function saveFilterState() {
+    sessionStorage.setItem('operas_activeComposer', activeComposer || '');
+    sessionStorage.setItem('operas_sort', page.querySelector('#operaSort').value);
+    sessionStorage.setItem('operas_search', page.querySelector('#operaSearch').value);
+    sessionStorage.setItem('operas_language', page.querySelector('#languageFilter').value);
+  }
 
   const allChip = document.createElement('button');
-  allChip.className = 'chip chip--active';
+  allChip.className = `chip${!activeComposer ? ' chip--active' : ''}`;
   allChip.textContent = 'Alle';
   allChip.addEventListener('click', () => {
     activeComposer = null;
+    saveFilterState();
     renderOperas();
     page.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
     allChip.classList.add('chip--active');
@@ -52,11 +66,12 @@ export function OperasPage() {
 
   topComposers.forEach(composer => {
     const chip = document.createElement('button');
-    chip.className = 'chip';
+    chip.className = `chip${activeComposer === composer ? ' chip--active' : ''}`;
     chip.textContent = composer.split(' ').pop(); // Last name only
     chip.title = composer;
     chip.addEventListener('click', () => {
       activeComposer = composer;
+      saveFilterState();
       renderOperas();
       page.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
       chip.classList.add('chip--active');
@@ -71,6 +86,7 @@ export function OperasPage() {
     const opt = document.createElement('option');
     opt.value = lang;
     opt.textContent = lang;
+    if (lang === savedLang) opt.selected = true;
     langSelect.appendChild(opt);
   });
 
@@ -156,9 +172,9 @@ export function OperasPage() {
     }
   }
 
-  page.querySelector('#operaSearch').addEventListener('input', renderOperas);
-  page.querySelector('#operaSort').addEventListener('change', renderOperas);
-  page.querySelector('#languageFilter').addEventListener('change', renderOperas);
+  page.querySelector('#operaSearch').addEventListener('input', () => { saveFilterState(); renderOperas(); });
+  page.querySelector('#operaSort').addEventListener('change', () => { saveFilterState(); renderOperas(); });
+  page.querySelector('#languageFilter').addEventListener('change', () => { saveFilterState(); renderOperas(); });
 
   setTimeout(renderOperas, 0);
 
