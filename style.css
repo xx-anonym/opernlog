@@ -2441,11 +2441,6 @@ body {
 
 /* PWA Standalone mode adjustments */
 @media all and (display-mode: standalone) {
-    body {
-        /* Account for iOS status bar with black-translucent */
-        padding-top: env(safe-area-inset-top);
-    }
-
     .sidebar {
         padding-top: calc(16px + env(safe-area-inset-top));
         padding-bottom: calc(16px + env(safe-area-inset-bottom));
@@ -2457,13 +2452,18 @@ body {
     }
 }
 
-/* Mobile bottom nav safe area */
+/* Mobile PWA: fixed nav bar needs safe area padding */
 @media (max-width: 768px) and (display-mode: standalone) {
-    .sidebar {
-        padding-bottom: env(safe-area-inset-bottom);
+    .main-nav {
+        padding-top: calc(8px + env(safe-area-inset-top));
+    }
+
+    .nav-links {
+        top: calc(60px + env(safe-area-inset-top));
     }
 
     .main-content {
+        padding-top: calc(64px + env(safe-area-inset-top));
         padding-bottom: calc(80px + env(safe-area-inset-bottom));
     }
 }
