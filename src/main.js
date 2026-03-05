@@ -9,6 +9,7 @@ import { LogVisitPage } from './pages/LogVisit.js';
 import { DiaryPage } from './pages/Diary.js';
 import { ProfilePage } from './pages/Profile.js';
 import { ListsPage } from './pages/Lists.js';
+import { ListDetailPage } from './pages/ListDetail.js';
 import { WishlistPage } from './pages/Wishlist.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
@@ -124,9 +125,19 @@ class App {
             case 'lists':
                 page = ListsPage();
                 break;
-            case 'wishlist':
-                page = WishlistPage();
+            case 'list':
+                page = ListDetailPage(param);
                 break;
+            case 'wishlist': {
+                // Redirect to the wishlist's list detail page
+                const wl = store.getWishlist();
+                if (wl) {
+                    page = ListDetailPage(wl.id);
+                } else {
+                    page = WishlistPage();
+                }
+                break;
+            }
             case 'community':
                 page = CommunityPage();
                 break;

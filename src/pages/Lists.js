@@ -86,7 +86,7 @@ export function ListsPage() {
 
   function renderListCard(container, list, canDelete) {
     const user = store.getUser(list.userId);
-    const items = list.type === 'operas'
+    const items = list.type === 'operas' || list.type === 'wishlist'
       ? list.items.map(id => operas.find(o => o.id === id)).filter(Boolean)
       : list.items.map(id => operaHouses.find(h => h.id === id)).filter(Boolean);
 
@@ -126,6 +126,12 @@ export function ListsPage() {
         });
       }
     }
+
+    // Click card to open list detail
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      window.location.hash = `#/list/${list.id}`;
+    });
 
     container.appendChild(card);
   }
