@@ -161,18 +161,23 @@ class Store {
     }
 
     updateProfile(updates) {
+        const avatar = updates.avatar || (updates.name ? updates.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : null);
         if (this.isCloud) {
             const cloudUpdates = {};
             if (updates.name) cloudUpdates.username = updates.name;
             if (updates.bio !== undefined) cloudUpdates.bio = updates.bio;
-            if (updates.name) {
-                cloudUpdates.avatar_initials = updates.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-            }
+            if (avatar) cloudUpdates.avatar_initials = avatar;
             sb.updateProfile(cloudUpdates);
+            // Update in-memory profile so getCurrentUser() reflects changes immediately
+            if (this._profile) {
+                if (updates.name) this._profile.username = updates.name;
+                if (updates.bio !== undefined) this._profile.bio = updates.bio;
+                if (avatar) this._profile.avatar_initials = avatar;
+            }
         }
         this.data.currentUser = { ...this.data.currentUser, ...updates };
-        if (updates.name) {
-            this.data.currentUser.avatar = updates.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        if (avatar) {
+            this.data.currentUser.avatar = avatar;
         }
         this.save();
     }
