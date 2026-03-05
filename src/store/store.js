@@ -254,9 +254,18 @@ class Store {
         this.data.myVisits.unshift(newVisit);
         this.save();
 
-        // Also sync to cloud
+        // Also sync to cloud – update local ID with cloud UUID
         if (this.isCloud) {
-            sb.addVisitCloud(visit).catch(e => console.warn('Cloud sync failed:', e));
+            sb.addVisitCloud(visit).then(cloudData => {
+                if (cloudData && cloudData.id) {
+                    // Replace local ID with cloud UUID so delete/update work correctly
+                    const localVisit = this.data.myVisits.find(v => v.id === newVisit.id);
+                    if (localVisit) {
+                        localVisit.id = cloudData.id;
+                        this.save();
+                    }
+                }
+            }).catch(e => console.warn('Cloud sync failed:', e));
         }
 
         return newVisit;
