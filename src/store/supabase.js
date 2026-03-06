@@ -285,15 +285,18 @@ export async function deleteVisitCloud(visitId) {
     await sb.from('visits').delete().eq('id', visitId);
 }
 
-async function enrichVisitsWithLikes(visits) {
+async function enrichVisitsWithSocial(visits) {
     if (!visits || visits.length === 0) return [];
     const visitIds = visits.map(v => v.id);
     const likeCounts = await getLikesForItems('visit', visitIds);
     const myLikes = await getMyLikesForItems('visit', visitIds);
+    const commentsByVisit = await getCommentsForItems(visitIds);
+
     return visits.map(v => ({
         ...v,
         likes: likeCounts[v.id] || 0,
-        liked_by: myLikes.has(v.id) ? ['user-me'] : []
+        liked_by: myLikes.has(v.id) ? ['user-me'] : [],
+        comments: commentsByVisit[v.id] || []
     }));
 }
 
@@ -305,7 +308,7 @@ export async function getMyVisitsCloud() {
         .select('*')
         .eq('user_id', session.user.id)
         .order('date', { ascending: false });
-    return await enrichVisitsWithLikes(data || []);
+    return await enrichVisitsWithSocial(data || []);
 }
 
 export async function getUserVisitsCloud(userId) {
@@ -314,7 +317,7 @@ export async function getUserVisitsCloud(userId) {
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('user_id', userId)
         .order('date', { ascending: false });
-    return await enrichVisitsWithLikes(data || []);
+    return await enrichVisitsWithSocial(data || []);
 }
 
 export async function getFeedCloud() {
@@ -337,7 +340,7 @@ export async function getFeedCloud() {
         .order('created_at', { ascending: false })
         .limit(50);
 
-    return await enrichVisitsWithLikes(data || []);
+    return await enrichVisitsWithSocial(data || []);
 }
 
 // ── Visits by house/opera (all users) ────────────────────
@@ -347,7 +350,7 @@ export async function getVisitsByHouseCloud(houseId) {
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('house_id', houseId)
         .order('date', { ascending: false });
-    return await enrichVisitsWithLikes(data || []);
+    return await enrichVisitsWithSocial(data || []);
 }
 
 export async function getVisitsByOperaCloud(operaId) {
@@ -356,7 +359,7 @@ export async function getVisitsByOperaCloud(operaId) {
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('opera_id', operaId)
         .order('date', { ascending: false });
-    return await enrichVisitsWithLikes(data || []);
+    return await enrichVisitsWithSocial(data || []);
 }
 
 // ── Stats ────────────────────────────────────────────────
@@ -380,6 +383,19 @@ export async function getUserStatsCloud(userId) {
 }
 
 // ── Lists (Cloud) ────────────────────────────────────────
+
+async function enrichListsWithLikes(lists) {
+    if (!lists || lists.length === 0) return [];
+    const listIds = lists.map(l => l.id);
+    const likeCounts = await getLikesForItems('list', listIds);
+    const myLikes = await getMyLikesForItems('list', listIds);
+    return lists.map(l => ({
+        ...l,
+        likes: likeCounts[l.id] || 0,
+        liked_by: myLikes.has(l.id) ? ['user-me'] : []
+    }));
+}
+
 export async function addListCloud(list) {
     const session = await getSession();
     if (!session) return null;
@@ -403,7 +419,7 @@ export async function getMyListsCloud() {
     const { data } = await sb.from('lists')
         .select('*')
         .eq('user_id', session.user.id);
-    return data || [];
+    return await enrichListsWithLikes(data || []);
 }
 
 export async function deleteListCloud(listId) {
@@ -423,7 +439,7 @@ export async function getUserListsCloud(userId) {
         .select('*')
         .eq('user_id', userId)
         .eq('is_public', true);
-    return data || [];
+    return await enrichListsWithLikes(data || []);
 }
 
 export async function getListByIdCloud(listId) {
@@ -432,7 +448,9 @@ export async function getListByIdCloud(listId) {
         .select('*')
         .eq('id', listId)
         .single();
-    return data;
+    if (!data) return null;
+    const enriched = await enrichListsWithLikes([data]);
+    return enriched[0];
 }
 
 // ── Likes ────────────────────────────────────────────────
@@ -515,6 +533,42 @@ export async function getMyLikesForItems(targetType, targetIds) {
         .eq('target_type', targetType)
         .in('target_id', targetIds);
     return new Set((data || []).map(l => l.target_id));
+}
+
+// ── Comments ─────────────────────────────────────────────
+export async function addCommentCloud(targetId, text) {
+    const session = await getSession();
+    if (!session) return null;
+    const sb = getSupabase();
+    const { data, error } = await sb.from('comments').insert({
+        user_id: session.user.id,
+        target_id: targetId,
+        text: text,
+    }).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function getCommentsForItems(targetIds) {
+    if (!targetIds.length) return {};
+    const sb = getSupabase();
+    const { data } = await sb.from('comments')
+        .select('*, profiles:user_id(id, username, avatar_initials)')
+        .in('target_id', targetIds)
+        .order('created_at', { ascending: true });
+
+    const commentsByTarget = {};
+    (data || []).forEach(c => {
+        if (!commentsByTarget[c.target_id]) commentsByTarget[c.target_id] = [];
+        commentsByTarget[c.target_id].push({
+            id: c.id,
+            userId: c.user_id,
+            text: c.text,
+            date: c.created_at,
+            user: c.profiles ? { name: c.profiles.username, avatar: c.profiles.avatar_initials } : null
+        });
+    });
+    return commentsByTarget;
 }
 
 // ── Search users ─────────────────────────────────────────

@@ -161,7 +161,10 @@ async function renderCloudProfile(page, userId) {
             ${items.slice(0, 5).map(item => `<span class="list-card__item">${item.title || item.name}</span>`).join('')}
             ${items.length > 5 ? `<span class="list-card__more">+${items.length - 5} weitere</span>` : ''}
           </div>
-          <div class="list-card__meta"><span>${list.items.length} Einträge</span></div>
+          <div class="list-card__meta">
+            <span>${list.items.length} Einträge</span>
+            ${list.likes ? `<span>❤️ ${list.likes}</span>` : ''}
+          </div>
         `;
         card.addEventListener('click', () => window.location.hash = `#/list/${list.id}`);
         listsContainer.appendChild(card);

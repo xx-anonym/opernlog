@@ -131,3 +131,17 @@ ALTER TABLE likes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Likes sind öffentlich lesbar" ON likes FOR SELECT USING (true);
 CREATE POLICY "User kann liken" ON likes FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "User kann unlike" ON likes FOR DELETE USING (auth.uid() = user_id);
+
+-- Comments (für Visits)
+CREATE TABLE IF NOT EXISTS comments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  target_id UUID NOT NULL, -- visit_id
+  text TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Comments sind öffentlich lesbar" ON comments FOR SELECT USING (true);
+CREATE POLICY "User kann kommentieren" ON comments FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "User kann eigene Kommentare löschen" ON comments FOR DELETE USING (auth.uid() = user_id);

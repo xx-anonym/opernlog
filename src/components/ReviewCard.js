@@ -60,7 +60,8 @@ export function ReviewCard(visit, options = {}) {
     ${visit.comments && visit.comments.length > 0 && !compact ? `
       <div class="review-card__comments">
         ${visit.comments.map(c => {
-    const commenter = store.getUser(c.userId);
+    let commenter = store.getUser(c.userId);
+    if (!commenter && c.user) commenter = c.user;
     return `
             <div class="comment">
               <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
@@ -132,28 +133,40 @@ export function ReviewCard(visit, options = {}) {
   // Comment submit
   const submitBtn = card.querySelector('.submit-comment');
   if (submitBtn) {
-    submitBtn.addEventListener('click', () => {
+    submitBtn.addEventListener('click', async () => {
       const input = card.querySelector('.comment-input');
-      if (input.value.trim()) {
-        store.addComment(visit.id, input.value.trim());
+      const text = input.value.trim();
+      if (text) {
+        // Optimistic UI update
         input.value = '';
         card.querySelector('.review-card__comment-input').style.display = 'none';
-        // Show new comment
+
         const commentsDiv = card.querySelector('.review-card__comments') || document.createElement('div');
         commentsDiv.className = 'review-card__comments';
         const user = store.getCurrentUser();
         commentsDiv.innerHTML += `
           <div class="comment fade-in">
             <span class="comment__user">${user.name}</span>
-            <span class="comment__text">${store.getUser('user-me').name}: gerade kommentiert</span>
+            <span class="comment__text">${text}</span>
           </div>
         `;
         if (!card.querySelector('.review-card__comments')) {
           card.querySelector('.review-card__actions').after(commentsDiv);
         }
-        // Update count
+
         const countEl = card.querySelector('[data-action="comment"] .btn-icon__count');
         countEl.textContent = parseInt(countEl.textContent) + 1;
+
+        // Save to backend or local
+        if (store.isCloud && isSupabaseConfigured()) {
+          try {
+            await sb.addCommentCloud(visit.id, text);
+          } catch (err) {
+            console.error('Failed to post comment', err);
+          }
+        } else {
+          store.addComment(visit.id, text);
+        }
       }
     });
 
