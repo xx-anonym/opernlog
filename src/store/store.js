@@ -440,6 +440,17 @@ class Store {
         };
         this.data.myLists.push(newList);
         this.save();
+
+        // Sync to cloud
+        if (this.isCloud) {
+            sb.addListCloud(newList).then(cloudData => {
+                if (cloudData?.id) {
+                    const local = this.data.myLists.find(l => l.id === newList.id);
+                    if (local) { local.id = cloudData.id; this.save(); }
+                }
+            }).catch(e => console.warn('Cloud list create failed:', e));
+        }
+
         return newList;
     }
 
@@ -454,6 +465,11 @@ class Store {
     deleteList(listId) {
         this.data.myLists = this.data.myLists.filter(l => l.id !== listId);
         this.save();
+
+        if (this.isCloud) {
+            sb.deleteListCloud(listId)
+                .catch(e => console.warn('Cloud list delete failed:', e));
+        }
     }
 
     // ── Wishlist ─────────────────────────────────────────
