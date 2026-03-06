@@ -99,13 +99,49 @@ export function HouseDetailPage(houseId) {
 
   // Reviews
   const reviewsContainer = page.querySelector('#houseReviews');
-  if (visits.length === 0) {
-    reviewsContainer.innerHTML = '<div class="empty-state">Noch keine Reviews. Sei der Erste!</div>';
-  } else {
-    visits.forEach(visit => {
-      reviewsContainer.appendChild(ReviewCard(visit, { showHouse: false }));
-    });
+  reviewsContainer.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+
+  async function loadVisits() {
+    let allVisits = [];
+    try {
+      if (store.isCloud && isSupabaseConfigured()) {
+        const fetchSb = await import('../store/supabase.js');
+        const cloudData = await fetchSb.getVisitsByHouseCloud(house.id);
+        allVisits = cloudData.map(v => ({
+          id: v.id,
+          userId: v.user_id,
+          houseId: v.house_id,
+          operaId: v.opera_id,
+          date: v.date,
+          rating: v.rating,
+          review: v.review || '',
+          likes: v.likes || 0,
+          likedBy: v.liked_by || [],
+          user: v.profiles ? {
+            id: v.profiles.id,
+            name: v.profiles.username,
+            avatar: v.profiles.avatar_initials,
+            avatarIcon: v.profiles.avatar_icon
+          } : null
+        }));
+      } else {
+        allVisits = [...visits]; // Fallback to local
+      }
+    } catch (e) {
+      console.warn('Failed to load cloud visits for house', e);
+      allVisits = [...visits];
+    }
+
+    reviewsContainer.innerHTML = '';
+    if (allVisits.length === 0) {
+      reviewsContainer.innerHTML = '<div class="empty-state">Noch keine Reviews für dieses Haus.</div>';
+    } else {
+      allVisits.forEach(visit => {
+        reviewsContainer.appendChild(ReviewCard(visit, { showHouse: false }));
+      });
+    }
   }
+  loadVisits();
 
   return page;
 }

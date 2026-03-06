@@ -177,21 +177,24 @@ async function renderCloudProfile(page, userId) {
       feedList.className = 'feed-list';
 
       visits.forEach(item => {
-        const house = operaHouses.find(h => h.id === item.house_id);
-        const opera = operas.find(o => o.id === item.opera_id);
-
-        const card = document.createElement('div');
-        card.className = 'feed-card fade-in';
-        card.innerHTML = `
-          <div class="feed-card__body">
-            <h3>${opera?.title || item.opera_id}</h3>
-            <p class="text-muted">${house?.name || item.house_id}, ${house?.city || ''}</p>
-            <div class="feed-card__rating">${'★'.repeat(Math.round(item.rating))}${'☆'.repeat(5 - Math.round(item.rating))} ${parseFloat(item.rating).toFixed(1)}</div>
-            <p class="text-muted">${new Date(item.date).toLocaleDateString('de-DE')}</p>
-            ${item.review ? `<p class="feed-card__review">${item.review}</p>` : ''}
-          </div>
-        `;
-        feedList.appendChild(card);
+        const visit = {
+          id: item.id,
+          userId: item.user_id,
+          houseId: item.house_id,
+          operaId: item.opera_id,
+          date: item.date,
+          rating: item.rating,
+          review: item.review || '',
+          likes: item.likes || 0,
+          likedBy: item.liked_by || [],
+          user: item.profiles ? {
+            id: item.profiles.id,
+            name: item.profiles.username,
+            avatar: item.profiles.avatar_initials,
+            avatarIcon: item.profiles.avatar_icon
+          } : null
+        };
+        feedList.appendChild(ReviewCard(visit));
       });
 
       visitsContainer.appendChild(feedList);

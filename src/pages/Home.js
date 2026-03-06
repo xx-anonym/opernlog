@@ -3,6 +3,8 @@ import { ReviewCard } from '../components/ReviewCard.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
+import { isSupabaseConfigured } from '../config.js';
+import * as sb from '../store/supabase.js';
 
 export function HomePage() {
   const page = document.createElement('div');
@@ -31,25 +33,59 @@ export function HomePage() {
   // Feed
   const feedSection = document.createElement('section');
   feedSection.className = 'section';
-  feedSection.innerHTML = `<h2 class="section__title">📰 Dein Feed</h2>`;
-
-  const feed = store.getFeed();
-  if (feed.length === 0) {
-    feedSection.innerHTML += `
-      <div class="empty-state">
-        <p>Dein Feed ist noch leer. Folge anderen Opernfans oder logge deinen ersten Besuch!</p>
-        <a href="#/community" class="btn btn--primary">Community entdecken</a>
-      </div>
-    `;
-  } else {
-    const feedGrid = document.createElement('div');
-    feedGrid.className = 'feed-list';
-    feed.forEach(visit => {
-      feedGrid.appendChild(ReviewCard(visit));
-    });
-    feedSection.appendChild(feedGrid);
-  }
+  feedSection.innerHTML = `<h2 class="section__title">📰 Dein Feed</h2><div class="loading-spinner"><div class="spinner"></div></div>`;
   page.appendChild(feedSection);
+
+  async function loadFeed() {
+    let feed = [];
+    try {
+      if (store.isCloud && isSupabaseConfigured()) {
+        const cloudFeed = await sb.getFeedCloud();
+        feed = cloudFeed.map(v => ({
+          id: v.id,
+          userId: v.user_id,
+          houseId: v.house_id,
+          operaId: v.opera_id,
+          date: v.date,
+          rating: v.rating,
+          review: v.review || '',
+          likes: v.likes || 0,
+          likedBy: v.liked_by || [],
+          user: v.profiles ? {
+            id: v.profiles.id,
+            name: v.profiles.username,
+            avatar: v.profiles.avatar_initials,
+            avatarIcon: v.profiles.avatar_icon
+          } : null
+        }));
+      } else {
+        feed = store.getFeed();
+      }
+    } catch (e) {
+      console.warn('Feed load failed', e);
+      feed = store.getFeed();
+    }
+
+    feedSection.innerHTML = `<h2 class="section__title">📰 Dein Feed</h2>`;
+
+    if (feed.length === 0) {
+      feedSection.innerHTML += `
+        <div class="empty-state">
+          <p>Dein Feed ist noch leer. Folge anderen Opernfans oder logge deinen ersten Besuch!</p>
+          <a href="#/community" class="btn btn--primary">Community entdecken</a>
+        </div>
+      `;
+    } else {
+      const feedGrid = document.createElement('div');
+      feedGrid.className = 'feed-list';
+      feed.forEach(visit => {
+        feedGrid.appendChild(ReviewCard(visit));
+      });
+      feedSection.appendChild(feedGrid);
+    }
+  }
+
+  loadFeed();
 
   // Popular operas
   const popularSection = document.createElement('section');

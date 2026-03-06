@@ -285,6 +285,18 @@ export async function deleteVisitCloud(visitId) {
     await sb.from('visits').delete().eq('id', visitId);
 }
 
+async function enrichVisitsWithLikes(visits) {
+    if (!visits || visits.length === 0) return [];
+    const visitIds = visits.map(v => v.id);
+    const likeCounts = await getLikesForItems('visit', visitIds);
+    const myLikes = await getMyLikesForItems('visit', visitIds);
+    return visits.map(v => ({
+        ...v,
+        likes: likeCounts[v.id] || 0,
+        liked_by: myLikes.has(v.id) ? ['user-me'] : []
+    }));
+}
+
 export async function getMyVisitsCloud() {
     const session = await getSession();
     if (!session) return [];
@@ -293,7 +305,7 @@ export async function getMyVisitsCloud() {
         .select('*')
         .eq('user_id', session.user.id)
         .order('date', { ascending: false });
-    return data || [];
+    return await enrichVisitsWithLikes(data || []);
 }
 
 export async function getUserVisitsCloud(userId) {
@@ -302,7 +314,7 @@ export async function getUserVisitsCloud(userId) {
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('user_id', userId)
         .order('date', { ascending: false });
-    return data || [];
+    return await enrichVisitsWithLikes(data || []);
 }
 
 export async function getFeedCloud() {
@@ -325,7 +337,7 @@ export async function getFeedCloud() {
         .order('created_at', { ascending: false })
         .limit(50);
 
-    return data || [];
+    return await enrichVisitsWithLikes(data || []);
 }
 
 // ── Visits by house/opera (all users) ────────────────────
@@ -335,7 +347,7 @@ export async function getVisitsByHouseCloud(houseId) {
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('house_id', houseId)
         .order('date', { ascending: false });
-    return data || [];
+    return await enrichVisitsWithLikes(data || []);
 }
 
 export async function getVisitsByOperaCloud(operaId) {
@@ -344,7 +356,7 @@ export async function getVisitsByOperaCloud(operaId) {
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('opera_id', operaId)
         .order('date', { ascending: false });
-    return data || [];
+    return await enrichVisitsWithLikes(data || []);
 }
 
 // ── Stats ────────────────────────────────────────────────

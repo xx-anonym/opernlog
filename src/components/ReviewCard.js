@@ -9,7 +9,11 @@ import { isSupabaseConfigured } from '../config.js';
 export function ReviewCard(visit, options = {}) {
   const { showHouse = true, showOpera = true, compact = false } = options;
 
-  const user = store.getUser(visit.userId);
+  let user = store.getUser(visit.userId);
+  if (!user && visit.user) {
+    user = visit.user;
+  }
+
   const house = operaHouses.find(h => h.id === visit.houseId);
   const opera = operas.find(o => o.id === visit.operaId);
 
