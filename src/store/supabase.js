@@ -384,15 +384,18 @@ export async function getUserStatsCloud(userId) {
 
 // ── Lists (Cloud) ────────────────────────────────────────
 
-async function enrichListsWithLikes(lists) {
+async function enrichListsWithSocial(lists) {
     if (!lists || lists.length === 0) return [];
     const listIds = lists.map(l => l.id);
     const likeCounts = await getLikesForItems('list', listIds);
     const myLikes = await getMyLikesForItems('list', listIds);
+    const commentsByList = await getCommentsForItems(listIds);
+
     return lists.map(l => ({
         ...l,
         likes: likeCounts[l.id] || 0,
-        liked_by: myLikes.has(l.id) ? ['user-me'] : []
+        liked_by: myLikes.has(l.id) ? ['user-me'] : [],
+        comments: commentsByList[l.id] || []
     }));
 }
 
@@ -419,7 +422,7 @@ export async function getMyListsCloud() {
     const { data } = await sb.from('lists')
         .select('*')
         .eq('user_id', session.user.id);
-    return await enrichListsWithLikes(data || []);
+    return await enrichListsWithSocial(data || []);
 }
 
 export async function deleteListCloud(listId) {
@@ -439,7 +442,7 @@ export async function getUserListsCloud(userId) {
         .select('*')
         .eq('user_id', userId)
         .eq('is_public', true);
-    return await enrichListsWithLikes(data || []);
+    return await enrichListsWithSocial(data || []);
 }
 
 export async function getListByIdCloud(listId) {
@@ -449,7 +452,7 @@ export async function getListByIdCloud(listId) {
         .eq('id', listId)
         .single();
     if (!data) return null;
-    const enriched = await enrichListsWithLikes([data]);
+    const enriched = await enrichListsWithSocial([data]);
     return enriched[0];
 }
 

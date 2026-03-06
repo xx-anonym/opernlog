@@ -165,6 +165,68 @@ export function ListDetailPage(listId) {
     });
 
     content.appendChild(grid);
+
+    // Comments Section (if not wishlist)
+    if (!isWishlist) {
+      const commentsDiv = document.createElement('div');
+      commentsDiv.className = 'list-detail-comments';
+      commentsDiv.style.marginTop = '3rem';
+
+      const commentsHtml = (list.comments || []).map(c => {
+        let commenter = store.getUser(c.userId);
+        if (!commenter && c.user) commenter = c.user;
+        return `
+          <div class="comment">
+            <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
+            <span class="comment__text">${c.text}</span>
+          </div>
+        `;
+      }).join('');
+
+      commentsDiv.innerHTML = `
+        <h3 style="margin-bottom: 1rem;">Kommentare (${list.comments ? list.comments.length : 0})</h3>
+        <div class="comments-list" style="margin-bottom: 1.5rem;">
+          ${commentsHtml || '<p class="text-muted">Noch keine Kommentare. Schreibe den ersten!</p>'}
+        </div>
+        <div class="comment-input-area" style="display: flex; gap: 0.5rem;">
+          <input type="text" class="input input--sm" id="newCommentText" placeholder="Kommentar schreiben..." style="flex: 1;" />
+          <button class="btn btn--sm btn--accent" id="submitCommentBtn">Senden</button>
+        </div>
+      `;
+
+      content.appendChild(commentsDiv);
+
+      const submitBtn = commentsDiv.querySelector('#submitCommentBtn');
+      const input = commentsDiv.querySelector('#newCommentText');
+
+      submitBtn.addEventListener('click', async () => {
+        const text = input.value.trim();
+        if (!text) return;
+
+        if (!isSupabaseConfigured()) {
+          alert('Kommentare erfordern Cloud-Sync.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '...';
+
+        try {
+          await sb.addCommentCloud(list.id, text);
+          store.addComment(list.id, text);
+          render(); // Re-render to show new comment
+        } catch (e) {
+          console.error('Comment failed:', e);
+          alert('Kommentar schreiben fehlgeschlagen.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Senden';
+        }
+      });
+
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') submitBtn.click();
+      });
+    }
   }
 
   setTimeout(() => render(), 0);

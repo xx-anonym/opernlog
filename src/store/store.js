@@ -104,6 +104,7 @@ class Store {
                         items: l.items || [],
                         isPublic: l.is_public !== false,
                         likes: l.likes || 0,
+                        comments: l.comments || [],
                     }));
                 } catch (e) {
                     console.warn('Cloud list sync failed:', e);
@@ -423,11 +424,15 @@ class Store {
     }
 
     // ── Comments ─────────────────────────────────────────
-    addComment(visitId, text) {
-        const visit = this.data.myVisits.find(v => v.id === visitId);
-        if (visit) {
-            if (!visit.comments) visit.comments = [];
-            visit.comments.push({
+    addComment(targetId, text) {
+        let target = this.data.myVisits.find(v => v.id === targetId);
+        if (!target) {
+            target = this.data.myLists.find(l => l.id === targetId);
+        }
+
+        if (target) {
+            if (!target.comments) target.comments = [];
+            target.comments.push({
                 userId: 'user-me',
                 text,
                 date: new Date().toISOString().split('T')[0],
@@ -473,6 +478,7 @@ class Store {
             userId: 'user-me',
             ...list,
             likes: 0,
+            comments: [],
             createdAt: new Date().toISOString().split('T')[0],
         };
         this.data.myLists.push(newList);

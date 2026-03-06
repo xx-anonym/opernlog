@@ -111,6 +111,7 @@ export function ListsPage() {
       <div class="list-card__meta">
         <span>${list.items.length} Einträge</span>
         <span>❤️ ${list.likes || 0}</span>
+        ${list.type !== 'wishlist' ? `<span>💬 ${list.comments ? list.comments.length : 0}</span>` : ''}
       </div>
     `;
 
