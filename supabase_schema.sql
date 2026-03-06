@@ -117,3 +117,17 @@ CREATE POLICY "Öffentliche Listen sind lesbar" ON lists FOR SELECT USING (is_pu
 CREATE POLICY "User kann Listen erstellen" ON lists FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "User kann eigene Listen löschen" ON lists FOR DELETE USING (auth.uid() = user_id);
 CREATE POLICY "User kann eigene Listen ändern" ON lists FOR UPDATE USING (auth.uid() = user_id);
+
+-- Likes (für Visits und Listen)
+CREATE TABLE IF NOT EXISTS likes (
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  target_type TEXT NOT NULL, -- 'visit' oder 'list'
+  target_id UUID NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  PRIMARY KEY (user_id, target_type, target_id)
+);
+
+ALTER TABLE likes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Likes sind öffentlich lesbar" ON likes FOR SELECT USING (true);
+CREATE POLICY "User kann liken" ON likes FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "User kann unlike" ON likes FOR DELETE USING (auth.uid() = user_id);

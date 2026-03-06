@@ -423,6 +423,88 @@ export async function getListByIdCloud(listId) {
     return data;
 }
 
+// ── Likes ────────────────────────────────────────────────
+export async function toggleLike(targetType, targetId) {
+    const session = await getSession();
+    if (!session) return null;
+    const sb = getSupabase();
+    const userId = session.user.id;
+
+    // Check if already liked
+    const { data: existing } = await sb.from('likes')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('target_type', targetType)
+        .eq('target_id', targetId)
+        .maybeSingle();
+
+    if (existing) {
+        // Unlike
+        await sb.from('likes').delete()
+            .eq('user_id', userId)
+            .eq('target_type', targetType)
+            .eq('target_id', targetId);
+        return false;
+    } else {
+        // Like
+        await sb.from('likes').insert({
+            user_id: userId,
+            target_type: targetType,
+            target_id: targetId,
+        });
+        return true;
+    }
+}
+
+export async function getLikeCount(targetType, targetId) {
+    const sb = getSupabase();
+    const { count } = await sb.from('likes')
+        .select('*', { count: 'exact', head: true })
+        .eq('target_type', targetType)
+        .eq('target_id', targetId);
+    return count || 0;
+}
+
+export async function hasUserLiked(targetType, targetId) {
+    const session = await getSession();
+    if (!session) return false;
+    const sb = getSupabase();
+    const { data } = await sb.from('likes')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .eq('target_type', targetType)
+        .eq('target_id', targetId)
+        .maybeSingle();
+    return !!data;
+}
+
+export async function getLikesForItems(targetType, targetIds) {
+    if (!targetIds.length) return {};
+    const sb = getSupabase();
+    const { data } = await sb.from('likes')
+        .select('target_id')
+        .eq('target_type', targetType)
+        .in('target_id', targetIds);
+    // Count likes per target_id
+    const counts = {};
+    (data || []).forEach(l => {
+        counts[l.target_id] = (counts[l.target_id] || 0) + 1;
+    });
+    return counts;
+}
+
+export async function getMyLikesForItems(targetType, targetIds) {
+    const session = await getSession();
+    if (!session || !targetIds.length) return new Set();
+    const sb = getSupabase();
+    const { data } = await sb.from('likes')
+        .select('target_id')
+        .eq('user_id', session.user.id)
+        .eq('target_type', targetType)
+        .in('target_id', targetIds);
+    return new Set((data || []).map(l => l.target_id));
+}
+
 // ── Search users ─────────────────────────────────────────
 export async function searchUsers(query) {
     const sb = getSupabase();

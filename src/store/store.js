@@ -92,6 +92,26 @@ class Store {
                     console.warn('Cloud list sync failed:', e);
                 }
 
+                // Sync visits from cloud to avoid cross-account bleed
+                try {
+                    const cloudVisits = await sb.getMyVisitsCloud();
+                    this.data.myVisits = cloudVisits.map(v => ({
+                        id: v.id,
+                        userId: 'user-me',
+                        operaId: v.opera_id,
+                        houseId: v.house_id,
+                        date: v.date,
+                        rating: v.rating,
+                        review: v.review || '',
+                        likes: v.likes || 0,
+                        likedBy: v.liked_by || [],
+                        comments: v.comments || [],
+                        createdAt: v.created_at?.split('T')[0] || v.date,
+                    }));
+                } catch (e) {
+                    console.warn('Cloud visit sync failed:', e);
+                }
+
                 this.save();
             } else {
                 // Profile not found – auto-create from auth metadata
