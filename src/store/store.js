@@ -74,6 +74,24 @@ class Store {
                     bio: this._profile.bio || '',
                     joined: this._profile.created_at?.split('T')[0] || this.data.currentUser.joined,
                 };
+
+                // Sync lists from cloud to avoid cross-account bleed
+                try {
+                    const cloudLists = await sb.getMyListsCloud();
+                    this.data.myLists = cloudLists.map(l => ({
+                        id: l.id,
+                        userId: 'user-me',
+                        name: l.name,
+                        description: l.description || '',
+                        type: l.type || 'operas',
+                        items: l.items || [],
+                        isPublic: l.is_public !== false,
+                        likes: l.likes || 0,
+                    }));
+                } catch (e) {
+                    console.warn('Cloud list sync failed:', e);
+                }
+
                 this.save();
             } else {
                 // Profile not found – auto-create from auth metadata
