@@ -17,7 +17,7 @@ export function OperasPage() {
       <h1 class="page-header__title">🎵 Opernwerke</h1>
       <p class="page-header__subtitle">${operas.length} Werke im Katalog</p>
       <div style="margin-top: 1rem;">
-          <button class="btn btn--secondary btn--small" id="suggestOperaBtn">Fehlendes Werk vorschlagen</button>
+          <button class="btn btn--ghost btn--sm" id="suggestOperaBtn">Fehlendes Werk vorschlagen</button>
       </div>
     </div>
     <div class="filters">
@@ -193,7 +193,7 @@ export function OperasPage() {
           <div class="modal__overlay"></div>
           <div class="modal__content">
             <h2 class="modal__title">Vorschlag in Prüfung</h2>
-            <p>Vielen Dank! Du hast bereits einen Vorschlag für ein fehlendes Werk eingereicht. Sobald Jonas deinen Vorschlag bearbeitet hat, hast du wieder einen frei.</p>
+            <p>Vielen Dank! Du hast bereits einen Vorschlag für ein fehlendes Werk eingereicht. Sobald die Administratoren deinen Vorschlag bearbeitet haben, hast du wieder einen frei.</p>
             <div class="modal__actions" style="margin-top: 1.5rem;">
               <button class="btn btn--primary close-modal">Verstanden</button>
             </div>
@@ -204,7 +204,7 @@ export function OperasPage() {
           <div class="modal__overlay"></div>
           <div class="modal__content">
             <h2 class="modal__title">Fehlendes Werk vorschlagen</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Du kannst jeweils einen Vorschlag einreichen. Jonas wird per E-Mail informiert und fügt das Werk nach Prüfung hinzu.</p>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Du kannst jeweils einen Vorschlag einreichen. Ein Administrator wird den Vorschlag prüfen und das Werk ggf. hinzufügen.</p>
             <form id="suggestOperaForm">
               <div class="form-group">
                 <label class="form-label">Titel der Oper</label>
@@ -237,17 +237,11 @@ export function OperasPage() {
             try {
               await store.submitSuggestion('opera', { name, composer });
 
-              // Send email via mailto
-              const currentUser = store.getCurrentUser();
-              const subject = encodeURIComponent(`OpernLog Vorschlag: ${name} (${composer})`);
-              const body = encodeURIComponent(`Nutzer: ${currentUser.name}\n\nOper: ${name}\nKomponist: ${composer}\n\nBitte in die Datenbank aufnehmen!`);
-              window.location.href = `mailto:jonas.schilberg@icloud.com?subject=${subject}&body=${body}`;
-
               modal.innerHTML = `
                           <div class="modal__overlay"></div>
                           <div class="modal__content">
                             <h2 class="modal__title">Vielen Dank!</h2>
-                            <p>Dein Vorschlag wurde gespeichert und dein E-Mail-Programm sollte sich nun öffnen.</p>
+                            <p>Dein Vorschlag wurde gespeichert und wird in Kürze geprüft.</p>
                             <div class="modal__actions" style="margin-top: 1.5rem;">
                               <button class="btn btn--primary close-modal">Schließen</button>
                             </div>

@@ -16,7 +16,7 @@ export function HousesPage() {
       <h1 class="page-header__title">🏛️ Opernhäuser</h1>
       <p class="page-header__subtitle">${operaHouses.length} Häuser entdecken</p>
       <div style="margin-top: 1rem;">
-          <button class="btn btn--secondary btn--small" id="suggestHouseBtn">Fehlendes Haus vorschlagen</button>
+          <button class="btn btn--ghost btn--sm" id="suggestHouseBtn">Fehlendes Haus vorschlagen</button>
       </div>
     </div>
     <div class="filters">
@@ -158,7 +158,7 @@ export function HousesPage() {
           <div class="modal__overlay"></div>
           <div class="modal__content">
             <h2 class="modal__title">Vorschlag in Prüfung</h2>
-            <p>Vielen Dank! Du hast bereits einen Vorschlag für ein fehlendes Haus eingereicht. Sobald Jonas deinen Vorschlag bearbeitet hat, hast du wieder einen frei.</p>
+            <p>Vielen Dank! Du hast bereits einen Vorschlag für ein fehlendes Haus eingereicht. Sobald die Administratoren deinen Vorschlag bearbeitet haben, hast du wieder einen frei.</p>
             <div class="modal__actions" style="margin-top: 1.5rem;">
               <button class="btn btn--primary close-modal">Verstanden</button>
             </div>
@@ -169,7 +169,7 @@ export function HousesPage() {
           <div class="modal__overlay"></div>
           <div class="modal__content">
             <h2 class="modal__title">Fehlendes Haus vorschlagen</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Du kannst jeweils einen Vorschlag einreichen. Jonas wird per E-Mail informiert und fügt das Haus nach Prüfung hinzu.</p>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Du kannst jeweils einen Vorschlag einreichen. Ein Administrator wird den Vorschlag prüfen und das Haus ggf. hinzufügen.</p>
             <form id="suggestHouseForm">
               <div class="form-group">
                 <label class="form-label">Name des Hauses</label>
@@ -202,17 +202,11 @@ export function HousesPage() {
             try {
               await store.submitSuggestion('house', { name, location });
 
-              // Send email via mailto
-              const currentUser = store.getCurrentUser();
-              const subject = encodeURIComponent(`OpernLog Vorschlag: ${name} (${location})`);
-              const body = encodeURIComponent(`Nutzer: ${currentUser.name}\n\nHaus: ${name}\nOrt: ${location}\n\nBitte in die Datenbank aufnehmen!`);
-              window.location.href = `mailto:jonas.schilberg@icloud.com?subject=${subject}&body=${body}`;
-
               modal.innerHTML = `
                           <div class="modal__overlay"></div>
                           <div class="modal__content">
                             <h2 class="modal__title">Vielen Dank!</h2>
-                            <p>Dein Vorschlag wurde gespeichert und dein E-Mail-Programm sollte sich nun öffnen.</p>
+                            <p>Dein Vorschlag wurde gespeichert und wird in Kürze geprüft.</p>
                             <div class="modal__actions" style="margin-top: 1.5rem;">
                               <button class="btn btn--primary close-modal">Schließen</button>
                             </div>
