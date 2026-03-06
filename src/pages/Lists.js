@@ -95,7 +95,7 @@ export function ListsPage() {
     card.innerHTML = `
       <div class="list-card__header">
         <h3 class="list-card__name">${list.name}</h3>
-        ${canDelete ? `<button class="btn-icon list-card__delete" data-list-id="${list.id}">🗑️</button>` : ''}
+        ${canDelete && list.type !== 'wishlist' ? `<button class="btn-icon list-card__delete" data-list-id="${list.id}">🗑️</button>` : ''}
       </div>
       <p class="list-card__desc">${list.description || ''}</p>
       <div class="list-card__user">

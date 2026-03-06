@@ -78,6 +78,23 @@ class Store {
                 // Sync lists from cloud to avoid cross-account bleed
                 try {
                     const cloudLists = await sb.getMyListsCloud();
+
+                    // Auto-deduplicate wishlists
+                    const wishlists = cloudLists.filter(l => l.type === 'wishlist');
+                    if (wishlists.length > 1) {
+                        for (let i = 1; i < wishlists.length; i++) {
+                            const dupe = wishlists[i];
+                            console.log('Auto-deleting duplicate wishlist:', dupe.id);
+                            try {
+                                await sb.deleteListCloud(dupe.id);
+                                const index = cloudLists.findIndex(l => l.id === dupe.id);
+                                if (index !== -1) cloudLists.splice(index, 1);
+                            } catch (e) {
+                                console.warn('Failed to delete duplicate wishlist', e);
+                            }
+                        }
+                    }
+
                     this.data.myLists = cloudLists.map(l => ({
                         id: l.id,
                         userId: 'user-me',
@@ -511,15 +528,6 @@ class Store {
                 type: 'wishlist',
                 items: [operaId],
             });
-            // Sync to cloud
-            if (this.isCloud) {
-                sb.addListCloud(wl).then(cloudData => {
-                    if (cloudData?.id) {
-                        const local = this.data.myLists.find(l => l.id === wl.id);
-                        if (local) { local.id = cloudData.id; this.save(); }
-                    }
-                }).catch(e => console.warn('Wishlist cloud create failed:', e));
-            }
         } else {
             if (!wl.items.includes(operaId)) {
                 wl.items.push(operaId);
