@@ -424,7 +424,7 @@ class Store {
     }
 
     // ── Comments ─────────────────────────────────────────
-    addComment(targetId, text) {
+    addComment(targetId, text, commentId) {
         let target = this.data.myVisits.find(v => v.id === targetId);
         if (!target) {
             target = this.data.myLists.find(l => l.id === targetId);
@@ -433,10 +433,23 @@ class Store {
         if (target) {
             if (!target.comments) target.comments = [];
             target.comments.push({
+                id: commentId || ('comment-' + Date.now()),
                 userId: 'user-me',
                 text,
                 date: new Date().toISOString().split('T')[0],
             });
+            this.save();
+        }
+    }
+
+    removeComment(targetId, commentId) {
+        let target = this.data.myVisits.find(v => v.id === targetId);
+        if (!target) {
+            target = this.data.myLists.find(l => l.id === targetId);
+        }
+
+        if (target && target.comments) {
+            target.comments = target.comments.filter(c => c.id !== commentId);
             this.save();
         }
     }

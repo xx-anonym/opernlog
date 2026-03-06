@@ -62,10 +62,14 @@ export function ReviewCard(visit, options = {}) {
         ${visit.comments.map(c => {
     let commenter = store.getUser(c.userId);
     if (!commenter && c.user) commenter = c.user;
+    const isOwner = c.userId === store.getCurrentUser().id || c.userId === 'user-me';
     return `
-            <div class="comment">
-              <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
-              <span class="comment__text">${c.text}</span>
+            <div class="comment" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
+                <span class="comment__text">${c.text}</span>
+              </div>
+              ${isOwner ? `<button class="btn-icon comment__delete" data-action="delete-comment" data-comment-id="${c.id}" data-visit-id="${visit.id}" title="Kommentar löschen" style="opacity: 0.6; font-size: 0.8rem; padding: 0.2rem;">🗑️</button>` : ''}
             </div>
           `;
   }).join('')}
@@ -128,6 +132,20 @@ export function ReviewCard(visit, options = {}) {
     if (actionType === 'house') {
       window.location.hash = `#/house/${action.dataset.houseId}`;
     }
+    if (actionType === 'delete-comment') {
+      const commentId = action.dataset.commentId;
+      const visitId = action.dataset.visitId;
+      if (confirm('Kommentar wirklich löschen?')) {
+        action.closest('.comment').remove();
+        const countSpan = card.querySelector('[data-action="comment"] .btn-icon__count');
+        if (countSpan) countSpan.textContent = Math.max(0, parseInt(countSpan.textContent) - 1);
+
+        store.removeComment(visitId, commentId);
+        if (store.isCloud && isSupabaseConfigured()) {
+          sb.deleteCommentCloud(commentId).catch(err => console.error('Failed to delete comment', err));
+        }
+      }
+    }
   });
 
   // Comment submit
@@ -160,7 +178,10 @@ export function ReviewCard(visit, options = {}) {
         // Save to backend or local
         if (store.isCloud && isSupabaseConfigured()) {
           try {
-            await sb.addCommentCloud(visit.id, text);
+            const newComment = await sb.addCommentCloud(visit.id, text);
+            store.addComment(visit.id, text, newComment.id);
+            // Re-render entirely is better but for now let's just trigger a reload of the UI by calling render again from parent, or simply replacing the dom element ID.
+            // Since ReviewCard is a component, it relies on its parent to redraw usually, but it performs optimistic UI updates above.
           } catch (err) {
             console.error('Failed to post comment', err);
           }

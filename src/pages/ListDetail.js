@@ -175,10 +175,15 @@ export function ListDetailPage(listId) {
       const commentsHtml = (list.comments || []).map(c => {
         let commenter = store.getUser(c.userId);
         if (!commenter && c.user) commenter = c.user;
+        const isOwner = c.userId === store.getCurrentUser().id || c.userId === 'user-me';
+
         return `
-          <div class="comment">
-            <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
-            <span class="comment__text">${c.text}</span>
+          <div class="comment" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
+              <span class="comment__text">${c.text}</span>
+            </div>
+            ${isOwner ? `<button class="btn-icon comment__delete" data-comment-id="${c.id}" title="Kommentar löschen" style="opacity: 0.6; font-size: 0.8rem; padding: 0.2rem;">🗑️</button>` : ''}
           </div>
         `;
       }).join('');
@@ -193,6 +198,30 @@ export function ListDetailPage(listId) {
           <button class="btn btn--sm btn--accent" id="submitCommentBtn">Senden</button>
         </div>
       `;
+
+      // Attach event listeners for delete buttons
+      const deleteBtns = commentsDiv.querySelectorAll('.comment__delete');
+      deleteBtns.forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const deleteBtn = e.target.closest('.comment__delete');
+          if (!deleteBtn) return;
+          const commentId = deleteBtn.dataset.commentId;
+          const commentEl = deleteBtn.closest('.comment');
+          if (confirm('Kommentar wirklich löschen?')) {
+            commentEl.remove();
+            const header = commentsDiv.querySelector('h3');
+            const match = header.textContent.match(/\d+/);
+            if (match) {
+              const currentCount = parseInt(match[0]) - 1;
+              header.textContent = `Kommentare (${Math.max(0, currentCount)})`;
+            }
+            store.removeComment(list.id, commentId);
+            if (isSupabaseConfigured()) {
+              sb.deleteCommentCloud(commentId).catch(err => console.error('Delete error', err));
+            }
+          }
+        });
+      });
 
       content.appendChild(commentsDiv);
 
@@ -212,8 +241,8 @@ export function ListDetailPage(listId) {
         submitBtn.textContent = '...';
 
         try {
-          await sb.addCommentCloud(list.id, text);
-          store.addComment(list.id, text);
+          const newComment = await sb.addCommentCloud(list.id, text);
+          store.addComment(list.id, text, newComment.id);
           render(); // Re-render to show new comment
         } catch (e) {
           console.error('Comment failed:', e);

@@ -552,6 +552,11 @@ export async function addCommentCloud(targetId, text) {
     return data;
 }
 
+export async function deleteCommentCloud(commentId) {
+    const sb = getSupabase();
+    await sb.from('comments').delete().eq('id', commentId);
+}
+
 export async function getCommentsForItems(targetIds) {
     if (!targetIds.length) return {};
     const sb = getSupabase();
