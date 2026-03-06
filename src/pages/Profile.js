@@ -37,6 +37,7 @@ async function renderCloudProfile(page, userId) {
     const stats = await sb.getUserStatsCloud(userId);
     const visits = await sb.getUserVisitsCloud(userId);
     const following = await sb.isFollowing(userId);
+    const userLists = await sb.getUserListsCloud(userId);
 
     const user = {
       id: profile.id,
@@ -46,6 +47,10 @@ async function renderCloudProfile(page, userId) {
       bio: profile.bio || '',
       joined: profile.created_at?.split('T')[0] || '',
     };
+
+    // Separate wishlist from other lists
+    const wishlist = userLists.find(l => l.type === 'wishlist');
+    const regularLists = userLists.filter(l => l.type !== 'wishlist');
 
     page.innerHTML = `
       <div class="profile-hero">
@@ -82,6 +87,16 @@ async function renderCloudProfile(page, userId) {
       </div>
       
       <div id="cloudHistogram" class="profile-histogram"></div>
+
+      ${wishlist && wishlist.items.length > 0 ? `
+        <h2 class="section-title">🌟 Wunschliste</h2>
+        <div id="cloudWishlist" class="lists-grid"></div>
+      ` : ''}
+
+      ${regularLists.length > 0 ? `
+        <h2 class="section-title">📋 Listen</h2>
+        <div id="cloudLists" class="lists-grid"></div>
+      ` : ''}
       
       <h2 class="section-title">Besuche von ${user.name}</h2>
       <div id="cloudVisits"></div>
@@ -107,6 +122,50 @@ async function renderCloudProfile(page, userId) {
     const cloudRatings = visits.filter(v => v.rating).map(v => parseFloat(v.rating));
     if (cloudRatings.length > 0) {
       histogramContainer.appendChild(RatingsHistogram(cloudRatings));
+    }
+
+    // Render wishlist items
+    if (wishlist && wishlist.items.length > 0) {
+      const wlContainer = page.querySelector('#cloudWishlist');
+      const wishlistItems = wishlist.items.map(id => operas.find(o => o.id === id)).filter(Boolean);
+      wishlistItems.forEach(opera => {
+        const card = document.createElement('div');
+        card.className = 'list-card fade-in';
+        card.style.cursor = 'pointer';
+        card.innerHTML = `
+          <h3 class="list-card__name">${opera.title}</h3>
+          <p class="list-card__desc">🎼 ${opera.composer}</p>
+          <div class="list-card__meta"><span>${opera.genre || ''}</span></div>
+        `;
+        card.addEventListener('click', () => window.location.hash = `#/opera/${opera.id}`);
+        wlContainer.appendChild(card);
+      });
+    }
+
+    // Render regular lists
+    if (regularLists.length > 0) {
+      const listsContainer = page.querySelector('#cloudLists');
+      regularLists.forEach(list => {
+        const isOpera = list.type === 'operas';
+        const items = isOpera
+          ? list.items.map(id => operas.find(o => o.id === id)).filter(Boolean)
+          : list.items.map(id => operaHouses.find(h => h.id === id)).filter(Boolean);
+
+        const card = document.createElement('div');
+        card.className = 'list-card fade-in';
+        card.style.cursor = 'pointer';
+        card.innerHTML = `
+          <h3 class="list-card__name">${list.name}</h3>
+          <p class="list-card__desc">${list.description || ''}</p>
+          <div class="list-card__items">
+            ${items.slice(0, 5).map(item => `<span class="list-card__item">${item.title || item.name}</span>`).join('')}
+            ${items.length > 5 ? `<span class="list-card__more">+${items.length - 5} weitere</span>` : ''}
+          </div>
+          <div class="list-card__meta"><span>${list.items.length} Einträge</span></div>
+        `;
+        card.addEventListener('click', () => window.location.hash = `#/list/${list.id}`);
+        listsContainer.appendChild(card);
+      });
     }
 
     // Render visits
@@ -292,7 +351,7 @@ function renderLocalProfile(page, userId, isMe) {
               <span>❤️ ${list.likes || 0}</span>
             </div>
           `;
-          card.addEventListener('click', () => window.location.hash = `#/lists`);
+          card.addEventListener('click', () => window.location.hash = `#/list/${list.id}`);
           listGrid.appendChild(card);
         });
         content.appendChild(listGrid);

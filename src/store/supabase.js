@@ -405,6 +405,24 @@ export async function updateListCloud(listId, updates) {
     if (error) throw error;
 }
 
+export async function getUserListsCloud(userId) {
+    const sb = getSupabase();
+    const { data } = await sb.from('lists')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('is_public', true);
+    return data || [];
+}
+
+export async function getListByIdCloud(listId) {
+    const sb = getSupabase();
+    const { data } = await sb.from('lists')
+        .select('*')
+        .eq('id', listId)
+        .single();
+    return data;
+}
+
 // ── Search users ─────────────────────────────────────────
 export async function searchUsers(query) {
     const sb = getSupabase();
