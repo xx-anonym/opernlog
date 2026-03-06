@@ -51,35 +51,39 @@ export function ListDetailPage(listId) {
         ${list.description ? `<p class="page-header__subtitle">${list.description}</p>` : ''}
         <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem">
           <p class="list-detail-count" style="margin: 0">${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}</p>
-          <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" id="listLikeBtn">
-            <span>${isLiked ? '❤️' : '🤍'}</span>
-            <span class="btn-icon__count" id="listLikeCount">${list.likes || 0}</span>
-          </button>
+          ${!isWishlist ? `
+            <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" id="listLikeBtn">
+              <span>${isLiked ? '❤️' : '🤍'}</span>
+              <span class="btn-icon__count" id="listLikeCount">${list.likes || 0}</span>
+            </button>
+          ` : ''}
         </div>
       </div>
       <div id="listDetailContent"></div>
     `;
 
     const likeBtn = page.querySelector('#listLikeBtn');
-    likeBtn.addEventListener('click', async () => {
-      if (!store.isCloud || !isSupabaseConfigured()) {
-        alert('Likes für Listen erfordern Cloud-Sync.');
-        return;
-      }
+    if (likeBtn) {
+      likeBtn.addEventListener('click', async () => {
+        if (!store.isCloud || !isSupabaseConfigured()) {
+          alert('Likes für Listen erfordern Cloud-Sync.');
+          return;
+        }
 
-      const countSpan = page.querySelector('#listLikeCount');
-      const iconSpan = likeBtn.querySelector('span:first-child');
-      const currentlyLiked = likeBtn.classList.contains('btn-icon--active');
-      const change = currentlyLiked ? -1 : 1;
+        const countSpan = page.querySelector('#listLikeCount');
+        const iconSpan = likeBtn.querySelector('span:first-child');
+        const currentlyLiked = likeBtn.classList.contains('btn-icon--active');
+        const change = currentlyLiked ? -1 : 1;
 
-      const dbLikeAction = sb.toggleLike('list', list.id);
+        const dbLikeAction = sb.toggleLike('list', list.id);
 
-      likeBtn.classList.toggle('btn-icon--active');
-      iconSpan.textContent = currentlyLiked ? '🤍' : '❤️';
-      countSpan.textContent = parseInt(countSpan.textContent) + change;
+        likeBtn.classList.toggle('btn-icon--active');
+        iconSpan.textContent = currentlyLiked ? '🤍' : '❤️';
+        countSpan.textContent = parseInt(countSpan.textContent) + change;
 
-      await dbLikeAction; // Await sync operation without blocking UI
-    });
+        await dbLikeAction; // Await sync operation without blocking UI
+      });
+    }
 
     const content = page.querySelector('#listDetailContent');
 

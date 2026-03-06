@@ -163,7 +163,7 @@ async function renderCloudProfile(page, userId) {
           </div>
           <div class="list-card__meta">
             <span>${list.items.length} Einträge</span>
-            ${list.likes ? `<span>❤️ ${list.likes}</span>` : ''}
+            ${list.likes && list.type !== 'wishlist' ? `<span>❤️ ${list.likes}</span>` : ''}
           </div>
         `;
         card.addEventListener('click', () => window.location.hash = `#/list/${list.id}`);

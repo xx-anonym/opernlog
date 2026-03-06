@@ -72,7 +72,7 @@ export function HomePage() {
     if (feed.length === 0) {
       feedSection.innerHTML += `
         <div class="empty-state">
-          <p>Dein Feed ist noch leer. Folge anderen Opernfans oder logge deinen ersten Besuch!</p>
+          <p>Dein Feed ist noch leer. Folge anderen Opernfans, um ihre Besuche hier zu sehen!</p>
           <a href="#/community" class="btn btn--primary">Community entdecken</a>
         </div>
       `;
