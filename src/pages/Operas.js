@@ -17,7 +17,13 @@ export function OperasPage() {
       <h1 class="page-header__title">🎵 Opernwerke</h1>
       <p class="page-header__subtitle">${operas.length} Werke im Katalog</p>
       <div style="margin-top: 1rem;">
-          <button class="btn btn--ghost btn--sm" id="suggestOperaBtn">Fehlendes Werk vorschlagen</button>
+          <button class="btn btn--outline btn--sm" id="suggestOperaBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:4px;vertical-align:text-bottom;">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Fehlendes Werk vorschlagen
+          </button>
       </div>
     </div>
     <div class="filters">
