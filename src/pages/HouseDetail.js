@@ -116,6 +116,7 @@ export function HouseDetailPage(houseId) {
           rating: v.rating,
           review: v.review || '',
           likes: v.likes || 0,
+          comments: v.comments || [],
           likedBy: v.liked_by || [],
           user: v.profiles ? {
             id: v.profiles.id,

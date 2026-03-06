@@ -189,6 +189,7 @@ async function renderCloudProfile(page, userId) {
           rating: item.rating,
           review: item.review || '',
           likes: item.likes || 0,
+          comments: item.comments || [],
           likedBy: item.liked_by || [],
           user: item.profiles ? {
             id: item.profiles.id,
