@@ -16,6 +16,9 @@ export function OperasPage() {
     <div class="page-header">
       <h1 class="page-header__title">🎵 Opernwerke</h1>
       <p class="page-header__subtitle">${operas.length} Werke im Katalog</p>
+      <div style="margin-top: 1rem;">
+          <button class="btn btn--secondary btn--small" id="suggestOperaBtn">Fehlendes Werk vorschlagen</button>
+      </div>
     </div>
     <div class="filters">
       <div class="search-box">
@@ -175,6 +178,102 @@ export function OperasPage() {
   page.querySelector('#operaSearch').addEventListener('input', () => { saveFilterState(); renderOperas(); });
   page.querySelector('#operaSort').addEventListener('change', () => { saveFilterState(); renderOperas(); });
   page.querySelector('#languageFilter').addEventListener('change', () => { saveFilterState(); renderOperas(); });
+
+  page.querySelector('#suggestOperaBtn').addEventListener('click', () => {
+    if (!store.isCloud) {
+      alert('Bitte logge dich ein, um einen Vorschlag zu machen.');
+      return;
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'modal modal--active';
+
+    if (store.hasPendingSuggestion('opera')) {
+      modal.innerHTML = `
+          <div class="modal__overlay"></div>
+          <div class="modal__content">
+            <h2 class="modal__title">Vorschlag in Prüfung</h2>
+            <p>Vielen Dank! Du hast bereits einen Vorschlag für ein fehlendes Werk eingereicht. Sobald Jonas deinen Vorschlag bearbeitet hat, hast du wieder einen frei.</p>
+            <div class="modal__actions" style="margin-top: 1.5rem;">
+              <button class="btn btn--primary close-modal">Verstanden</button>
+            </div>
+          </div>
+        `;
+    } else {
+      modal.innerHTML = `
+          <div class="modal__overlay"></div>
+          <div class="modal__content">
+            <h2 class="modal__title">Fehlendes Werk vorschlagen</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Du kannst jeweils einen Vorschlag einreichen. Jonas wird per E-Mail informiert und fügt das Werk nach Prüfung hinzu.</p>
+            <form id="suggestOperaForm">
+              <div class="form-group">
+                <label class="form-label">Titel der Oper</label>
+                <input class="input" type="text" id="suggName" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Komponist</label>
+                <input class="input" type="text" id="suggComposer" required />
+              </div>
+              <div class="modal__actions" style="margin-top: 1.5rem;">
+                <button type="button" class="btn btn--secondary close-modal">Abbrechen</button>
+                <button type="submit" class="btn btn--primary" id="submitSuggBtn">Vorschlag senden</button>
+              </div>
+            </form>
+          </div>
+        `;
+
+      setTimeout(() => {
+        const form = modal.querySelector('#suggestOperaForm');
+        if (form) {
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = modal.querySelector('#submitSuggBtn');
+            btn.disabled = true;
+            btn.textContent = 'Wird gespeichert...';
+
+            const name = form.querySelector('#suggName').value.trim();
+            const composer = form.querySelector('#suggComposer').value.trim();
+
+            try {
+              await store.submitSuggestion('opera', { name, composer });
+
+              // Send email via mailto
+              const currentUser = store.getCurrentUser();
+              const subject = encodeURIComponent(`OpernLog Vorschlag: ${name} (${composer})`);
+              const body = encodeURIComponent(`Nutzer: ${currentUser.name}\n\nOper: ${name}\nKomponist: ${composer}\n\nBitte in die Datenbank aufnehmen!`);
+              window.location.href = `mailto:jonas.schilberg@icloud.com?subject=${subject}&body=${body}`;
+
+              modal.innerHTML = `
+                          <div class="modal__overlay"></div>
+                          <div class="modal__content">
+                            <h2 class="modal__title">Vielen Dank!</h2>
+                            <p>Dein Vorschlag wurde gespeichert und dein E-Mail-Programm sollte sich nun öffnen.</p>
+                            <div class="modal__actions" style="margin-top: 1.5rem;">
+                              <button class="btn btn--primary close-modal">Schließen</button>
+                            </div>
+                          </div>
+                        `;
+              modal.querySelector('.close-modal').addEventListener('click', () => modal.remove());
+              modal.querySelector('.modal__overlay').addEventListener('click', () => modal.remove());
+            } catch (err) {
+              alert('Fehler beim Senden: ' + err.message);
+              btn.disabled = false;
+              btn.textContent = 'Vorschlag senden';
+            }
+          });
+        }
+      }, 0);
+    }
+
+    // Fallback for direct close bindings
+    setTimeout(() => {
+      modal.querySelectorAll('.close-modal').forEach(btn => btn.addEventListener('click', () => modal.remove()));
+      const overlay = modal.querySelector('.modal__overlay');
+      if (overlay) overlay.addEventListener('click', () => modal.remove());
+    }, 0);
+
+    page.appendChild(modal);
+  });
 
   setTimeout(renderOperas, 0);
 

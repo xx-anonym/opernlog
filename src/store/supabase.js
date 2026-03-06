@@ -588,3 +588,32 @@ export async function searchUsers(query) {
         .limit(10);
     return data || [];
 }
+
+// ── Suggestions ──────────────────────────────────────────
+export async function addSuggestionCloud(suggestion) {
+    const session = await getSession();
+    if (!session) return null;
+    const sb = getSupabase();
+    const { data, error } = await sb.from('suggestions').insert({
+        user_id: session.user.id,
+        type: suggestion.type,
+        name: suggestion.name,
+        composer: suggestion.composer || null,
+        location: suggestion.location || null,
+        status: 'pending'
+    }).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function hasPendingSuggestionCloud(type) {
+    const session = await getSession();
+    if (!session) return false;
+    const sb = getSupabase();
+    const { data } = await sb.from('suggestions')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .eq('type', type)
+        .eq('status', 'pending');
+    return data && data.length > 0;
+}

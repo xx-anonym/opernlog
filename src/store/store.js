@@ -32,6 +32,8 @@ class Store {
         this._session = null;
         this._profile = null;
         this._cloudMode = false;
+        this.pendingSuggestions = { opera: false, house: false };
+
 
         // Initialize Supabase session
         if (isSupabaseConfigured()) {
@@ -128,6 +130,14 @@ class Store {
                     }));
                 } catch (e) {
                     console.warn('Cloud visit sync failed:', e);
+                }
+
+                // Sync suggestions state
+                try {
+                    this.pendingSuggestions.opera = await sb.hasPendingSuggestionCloud('opera');
+                    this.pendingSuggestions.house = await sb.hasPendingSuggestionCloud('house');
+                } catch (e) {
+                    console.warn('Cloud suggestion state sync failed:', e);
                 }
 
                 this.save();
@@ -603,6 +613,24 @@ class Store {
             topComposer: topComposer ? topComposer[0] : '-',
             topHouse: topHouse ? topHouse.name : '-',
         };
+    }
+
+    // ── Suggestions ──────────────────────────────────────
+    hasPendingSuggestion(type) {
+        return this.pendingSuggestions[type];
+    }
+
+    async submitSuggestion(type, details) {
+        if (!this.isCloud) return false;
+        try {
+            await sb.addSuggestionCloud({ type, ...details });
+            this.pendingSuggestions[type] = true;
+            this.notify();
+            return true;
+        } catch (e) {
+            console.error('Failed to submit suggestion:', e);
+            throw e;
+        }
     }
 
     // ── Reset ────────────────────────────────────────────
