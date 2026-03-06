@@ -31,7 +31,7 @@ export function HouseDetailPage(houseId) {
 
   page.innerHTML = `
     <div class="detail-hero" style="background: ${heroBackground}; background-size: cover; background-position: center;">
-      <a href="#/houses" class="back-link">← Alle Opernhäuser</a>
+      <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${house.name}</h1>
         <div class="detail-hero__meta">

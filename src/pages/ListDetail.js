@@ -44,7 +44,7 @@ export function ListDetailPage(listId) {
 
     page.innerHTML = `
       <div class="page-header">
-        <a href="#/lists" class="back-link">← Alle Listen</a>
+        <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
         <h1 class="page-header__title">${isWishlist ? '🌟' : '📋'} ${list.name}</h1>
         ${list.description ? `<p class="page-header__subtitle">${list.description}</p>` : ''}
         <p class="list-detail-count">${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}</p>
