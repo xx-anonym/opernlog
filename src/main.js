@@ -38,6 +38,18 @@ class App {
             } catch (e) {
                 console.warn('Supabase session check failed:', e);
             }
+
+            // Listen for OAuth callbacks (e.g. Google redirect)
+            const sb = getSupabase();
+            if (sb) {
+                sb.auth.onAuthStateChange(async (event, session) => {
+                    if (event === 'SIGNED_IN' && session && !store.isCloud) {
+                        // OAuth redirect just completed – refresh session and rebuild
+                        await store.refreshSession();
+                        this.buildLayout();
+                    }
+                });
+            }
         }
         this.buildLayout();
     }
