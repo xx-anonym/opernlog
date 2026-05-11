@@ -16,7 +16,7 @@ import { AuthPage } from './pages/Auth.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
-import { getSession } from './store/supabase.js';
+import { getSession, getSupabase } from './store/supabase.js';
 
 class App {
     constructor() {
@@ -25,8 +25,11 @@ class App {
     }
 
     async init() {
-        // Check auth state on startup
+        // Check for Supabase auth params in the hash (recovery, errors, etc.)
         if (isSupabaseConfigured()) {
+            const handled = await this.handleAuthHash();
+            if (handled) return; // Recovery flow is showing its own UI
+
             try {
                 const session = await getSession();
                 if (session) {
@@ -37,6 +40,103 @@ class App {
             }
         }
         this.buildLayout();
+    }
+
+    async handleAuthHash() {
+        const hash = window.location.hash;
+        if (!hash) return false;
+
+        // Check for Supabase error params (e.g. expired OTP)
+        if (hash.includes('error=') && hash.includes('error_code=')) {
+            // Clear the hash so the router doesn't choke on it
+            window.location.hash = '#/auth';
+            return false;
+        }
+
+        // Check for recovery tokens (access_token + type=recovery)
+        if (hash.includes('access_token=') && hash.includes('type=recovery')) {
+            const params = new URLSearchParams(hash.substring(1));
+            const accessToken = params.get('access_token');
+            const refreshToken = params.get('refresh_token');
+
+            if (accessToken && refreshToken) {
+                try {
+                    const sb = getSupabase();
+                    await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+                    // Clear the hash
+                    window.location.hash = '';
+                    // Show password update UI
+                    this.showPasswordUpdate();
+                    return true;
+                } catch (e) {
+                    console.warn('Recovery session failed:', e);
+                    window.location.hash = '#/auth';
+                }
+            }
+        }
+
+        return false;
+    }
+
+    showPasswordUpdate() {
+        this.root.innerHTML = `
+            <div class="page auth-page fade-in" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;">
+                <div class="auth-container">
+                    <div class="auth-header">
+                        <span class="auth-logo">🔑</span>
+                        <h1>Neues Passwort</h1>
+                        <p class="auth-subtitle">Gib dein neues Passwort ein.</p>
+                    </div>
+                    <form id="updatePasswordForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="newPassword">Neues Passwort</label>
+                            <input type="password" id="newPassword" placeholder="Min. 6 Zeichen" required minlength="6" />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Passwort bestätigen</label>
+                            <input type="password" id="confirmPassword" placeholder="Passwort wiederholen" required minlength="6" />
+                        </div>
+                        <div id="updateError" class="auth-error" style="display:none"></div>
+                        <div id="updateSuccess" class="auth-success" style="display:none"></div>
+                        <button type="submit" class="btn btn--primary btn--lg btn--full">Passwort ändern</button>
+                    </form>
+                </div>
+            </div>
+        `;
+
+        this.root.querySelector('#updatePasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = this.root.querySelector('#newPassword').value;
+            const confirm = this.root.querySelector('#confirmPassword').value;
+            const errorEl = this.root.querySelector('#updateError');
+            const successEl = this.root.querySelector('#updateSuccess');
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            if (password !== confirm) {
+                errorEl.textContent = 'Die Passwörter stimmen nicht überein.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                const sb = getSupabase();
+                const { error } = await sb.auth.updateUser({ password });
+                if (error) throw error;
+
+                successEl.textContent = '✅ Passwort erfolgreich geändert! Du wirst weitergeleitet...';
+                successEl.style.display = 'block';
+                this.root.querySelector('button[type="submit"]').disabled = true;
+
+                setTimeout(() => {
+                    window.location.hash = '#/';
+                    window.location.reload();
+                }, 2000);
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+            }
+        });
     }
 
     buildLayout() {
