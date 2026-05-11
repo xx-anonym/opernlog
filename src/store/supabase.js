@@ -10,16 +10,43 @@ export function getSupabase() {
         // supabase is imported via CDN in index.html
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Capture the initial session (handles OAuth redirect tokens in URL)
+        // Check if we're returning from an OAuth redirect
+        const oauthPending = localStorage.getItem('opernlog_oauth_pending');
+
         _sessionReady = new Promise((resolve) => {
+            let resolved = false;
+            const done = (session) => {
+                if (resolved) return;
+                resolved = true;
+                subscription.unsubscribe();
+                localStorage.removeItem('opernlog_oauth_pending');
+                resolve(session);
+            };
+
             const { data: { subscription } } = supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (resolved) return;
+
+                if (event === 'SIGNED_IN' && session) {
+                    // OAuth token exchange completed
+                    done(session);
+                    return;
+                }
+
                 if (event === 'INITIAL_SESSION') {
-                    subscription.unsubscribe();
-                    resolve(session);
+                    if (session) {
+                        // Already logged in
+                        done(session);
+                    } else if (!oauthPending) {
+                        // Not logged in, no OAuth pending → resolve immediately
+                        done(null);
+                    }
+                    // If oauthPending, keep listening for SIGNED_IN
                 }
             });
-            // Fallback timeout
-            setTimeout(() => { subscription.unsubscribe(); resolve(null); }, 4000);
+
+            // Timeout fallback (only relevant during OAuth)
+            const timeout = oauthPending ? 5000 : 2000;
+            setTimeout(() => done(null), timeout);
         });
     }
     return supabaseClient;
@@ -69,13 +96,18 @@ export async function signIn(email, password) {
 
 export async function signInWithGoogle() {
     const sb = getSupabase();
+    // Set flag so we know to wait for the session on redirect back
+    localStorage.setItem('opernlog_oauth_pending', '1');
     const { data, error } = await sb.auth.signInWithOAuth({
         provider: 'google',
         options: {
             redirectTo: window.location.origin,
         },
     });
-    if (error) throw error;
+    if (error) {
+        localStorage.removeItem('opernlog_oauth_pending');
+        throw error;
+    }
     return data;
 }
 
