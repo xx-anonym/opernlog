@@ -589,14 +589,23 @@ class Store {
         const houses = new Set(visits.map(v => v.houseId));
         const operaIds = new Set(visits.map(v => v.operaId));
 
-        const composerCount = {};
+        const composerData = {};
         visits.forEach(v => {
             const opera = operas.find(o => o.id === v.operaId);
             if (opera) {
-                composerCount[opera.composer] = (composerCount[opera.composer] || 0) + 1;
+                if (!composerData[opera.composer]) {
+                    composerData[opera.composer] = { count: 0, totalRating: 0 };
+                }
+                composerData[opera.composer].count += 1;
+                composerData[opera.composer].totalRating += (v.rating || 0);
             }
         });
-        const topComposer = Object.entries(composerCount).sort((a, b) => b[1] - a[1])[0];
+        const topComposer = Object.entries(composerData)
+            .sort((a, b) => {
+                // Primary: most visits; Tiebreaker: highest average rating
+                if (b[1].count !== a[1].count) return b[1].count - a[1].count;
+                return (b[1].totalRating / b[1].count) - (a[1].totalRating / a[1].count);
+            })[0];
 
         const houseCount = {};
         visits.forEach(v => {
