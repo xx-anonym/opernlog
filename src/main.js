@@ -30,6 +30,35 @@ class App {
             const handled = await this.handleAuthHash();
             if (handled) return; // Recovery flow is showing its own UI
 
+            // Detect OAuth redirect (access_token in hash, but not recovery)
+            const hash = window.location.hash || '';
+            const isOAuthRedirect = hash.includes('access_token=') && !hash.includes('type=recovery');
+
+            if (isOAuthRedirect) {
+                // Wait for Supabase to process the OAuth tokens before building UI
+                try {
+                    await new Promise((resolve) => {
+                        const sb = getSupabase();
+                        const { data: { subscription } } = sb.auth.onAuthStateChange(async (event, session) => {
+                            if (session) {
+                                await store.refreshSession();
+                                subscription.unsubscribe();
+                                resolve();
+                            }
+                        });
+                        // Timeout fallback – don't block forever
+                        setTimeout(() => { subscription.unsubscribe(); resolve(); }, 5000);
+                    });
+                } catch (e) {
+                    console.warn('OAuth session wait failed:', e);
+                }
+                // Clean up the hash so the router works normally
+                window.location.hash = '#/';
+                this.buildLayout();
+                return;
+            }
+
+            // Normal session check (no OAuth redirect)
             try {
                 const session = await getSession();
                 if (session) {
@@ -37,18 +66,6 @@ class App {
                 }
             } catch (e) {
                 console.warn('Supabase session check failed:', e);
-            }
-
-            // Listen for OAuth callbacks (e.g. Google redirect)
-            const sb = getSupabase();
-            if (sb) {
-                sb.auth.onAuthStateChange(async (event, session) => {
-                    if (event === 'SIGNED_IN' && session && !store.isCloud) {
-                        // OAuth redirect just completed – refresh session and rebuild
-                        await store.refreshSession();
-                        this.buildLayout();
-                    }
-                });
             }
         }
         this.buildLayout();
