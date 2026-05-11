@@ -16,7 +16,7 @@ import { AuthPage } from './pages/Auth.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
-import { getSession, getSupabase } from './store/supabase.js';
+import { getSession, getSupabase, waitForInitialSession } from './store/supabase.js';
 
 class App {
     constructor() {
@@ -29,50 +29,14 @@ class App {
             const handled = await this.handleAuthHash();
             if (handled) return;
 
-            // Check if this is an OAuth redirect (tokens in hash or code in query)
-            const hash = window.location.hash || '';
-            const search = window.location.search || '';
-            const isOAuthRedirect = search.includes('code=') ||
-                (hash.includes('access_token=') && !hash.includes('type=recovery'));
-
-            // Ensure client is created (triggers automatic token processing)
-            getSupabase();
-
-            if (isOAuthRedirect) {
-                // Poll for session – Supabase processes tokens asynchronously
-                const session = await this.waitForSession(5000);
-                if (session) {
-                    await store.refreshSession();
-                }
-                // Clean up URL
-                window.history.replaceState({}, '', window.location.pathname + '#/');
-                this.buildLayout();
-                return;
-            }
-
-            // Normal flow – check existing session
-            try {
-                const session = await getSession();
-                if (session) {
-                    await store.refreshSession();
-                }
-            } catch (e) {
-                console.warn('Supabase session check failed:', e);
+            // Wait for Supabase to determine the initial session
+            // (handles OAuth redirects, existing sessions, etc.)
+            const initialSession = await waitForInitialSession();
+            if (initialSession) {
+                await store.refreshSession();
             }
         }
         this.buildLayout();
-    }
-
-    async waitForSession(timeoutMs) {
-        const start = Date.now();
-        while (Date.now() - start < timeoutMs) {
-            try {
-                const session = await getSession();
-                if (session) return session;
-            } catch (e) { /* ignore */ }
-            await new Promise(r => setTimeout(r, 200));
-        }
-        return null;
     }
 
     async handleAuthHash() {

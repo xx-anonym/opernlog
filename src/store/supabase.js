@@ -2,14 +2,33 @@
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from '../config.js';
 
 let supabaseClient = null;
+let _sessionReady = null;
 
 // ── Init ─────────────────────────────────────────────────
 export function getSupabase() {
     if (!supabaseClient && isSupabaseConfigured()) {
         // supabase is imported via CDN in index.html
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Capture the initial session (handles OAuth redirect tokens in URL)
+        _sessionReady = new Promise((resolve) => {
+            const { data: { subscription } } = supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'INITIAL_SESSION') {
+                    subscription.unsubscribe();
+                    resolve(session);
+                }
+            });
+            // Fallback timeout
+            setTimeout(() => { subscription.unsubscribe(); resolve(null); }, 4000);
+        });
     }
     return supabaseClient;
+}
+
+// Wait for the initial session to be determined (resolves with session or null)
+export function waitForInitialSession() {
+    if (!_sessionReady) return Promise.resolve(null);
+    return _sessionReady;
 }
 
 // ── Auth ─────────────────────────────────────────────────
