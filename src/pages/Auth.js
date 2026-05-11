@@ -68,6 +68,19 @@ export function AuthPage(onSuccess) {
           </div>
           <div id="loginError" class="auth-error" style="display:none"></div>
           <button type="submit" class="btn btn--primary btn--lg btn--full">Anmelden</button>
+          <button type="button" class="auth-forgot-link" id="forgotPasswordLink">Passwort vergessen?</button>
+        </form>
+
+        <form id="resetForm" class="auth-form" style="display:none">
+          <p class="auth-reset-info">Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.</p>
+          <div class="form-group">
+            <label for="resetEmail">E-Mail</label>
+            <input type="email" id="resetEmail" placeholder="deine@email.de" required />
+          </div>
+          <div id="resetError" class="auth-error" style="display:none"></div>
+          <div id="resetSuccess" class="auth-success" style="display:none"></div>
+          <button type="submit" class="btn btn--primary btn--lg btn--full">Link senden</button>
+          <button type="button" class="auth-forgot-link" id="backToLoginLink">← Zurück zur Anmeldung</button>
         </form>
 
         <form id="registerForm" class="auth-form" style="display:none">
@@ -104,14 +117,29 @@ export function AuthPage(onSuccess) {
   if (!configured) return page;
 
   // Tab switching
+  const showForm = (formName) => {
+    page.querySelector('#loginForm').style.display = formName === 'login' ? 'flex' : 'none';
+    page.querySelector('#registerForm').style.display = formName === 'register' ? 'flex' : 'none';
+    page.querySelector('#resetForm').style.display = formName === 'reset' ? 'flex' : 'none';
+    // Hide tabs when showing reset form
+    const tabBar = page.querySelector('.auth-tabs');
+    if (tabBar) tabBar.style.display = formName === 'reset' ? 'none' : 'flex';
+  };
+
   page.querySelectorAll('.auth-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       page.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('auth-tab--active'));
       tab.classList.add('auth-tab--active');
-      const isLogin = tab.dataset.tab === 'login';
-      page.querySelector('#loginForm').style.display = isLogin ? 'flex' : 'none';
-      page.querySelector('#registerForm').style.display = isLogin ? 'none' : 'flex';
+      showForm(tab.dataset.tab);
     });
+  });
+
+  // Forgot password links
+  page.querySelector('#forgotPasswordLink').addEventListener('click', () => showForm('reset'));
+  page.querySelector('#backToLoginLink').addEventListener('click', () => {
+    showForm('login');
+    page.querySelector('[data-tab="login"]').classList.add('auth-tab--active');
+    page.querySelector('[data-tab="register"]').classList.remove('auth-tab--active');
   });
 
   // Icon picker click handling
@@ -148,6 +176,32 @@ export function AuthPage(onSuccess) {
       errorEl.textContent = err.message === 'Invalid login credentials'
         ? 'Ungültige Anmeldedaten'
         : err.message;
+      errorEl.style.display = 'block';
+    }
+  });
+
+  // Password reset
+  page.querySelector('#resetForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = page.querySelector('#resetEmail').value;
+    const errorEl = page.querySelector('#resetError');
+    const successEl = page.querySelector('#resetSuccess');
+    errorEl.style.display = 'none';
+    successEl.style.display = 'none';
+
+    const check = validateEmail(email);
+    if (!check.valid) {
+      errorEl.textContent = check.error;
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    try {
+      await sb.resetPassword(email);
+      successEl.textContent = '✅ Falls ein Konto mit dieser E-Mail existiert, haben wir dir einen Link zum Zurücksetzen gesendet.';
+      successEl.style.display = 'block';
+    } catch (err) {
+      errorEl.textContent = err.message;
       errorEl.style.display = 'block';
     }
   });

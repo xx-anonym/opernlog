@@ -54,6 +54,14 @@ export async function signOut() {
     if (error) throw error;
 }
 
+export async function resetPassword(email) {
+    const sb = getSupabase();
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/#/auth',
+    });
+    if (error) throw error;
+}
+
 export async function getSession() {
     const sb = getSupabase();
     if (!sb) return null;

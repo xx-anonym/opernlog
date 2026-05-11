@@ -1982,6 +1982,38 @@ h3 {
     font-size: 0.85rem;
 }
 
+.auth-forgot-link {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.2s;
+    text-align: center;
+}
+
+.auth-forgot-link:hover {
+    color: var(--accent);
+}
+
+.auth-reset-info {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.auth-success {
+    padding: 10px 14px;
+    background: rgba(76, 175, 80, 0.15);
+    border-radius: 10px;
+    color: #66bb6a;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
 .btn--full {
     width: 100%;
 }
