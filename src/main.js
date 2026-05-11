@@ -30,12 +30,12 @@ class App {
             const handled = await this.handleAuthHash();
             if (handled) return; // Recovery flow is showing its own UI
 
-            // Detect OAuth redirect (access_token in hash, but not recovery)
-            const hash = window.location.hash || '';
-            const isOAuthRedirect = hash.includes('access_token=') && !hash.includes('type=recovery');
+            // Detect OAuth PKCE redirect (?code= in URL query string)
+            const urlParams = new URLSearchParams(window.location.search);
+            const isOAuthRedirect = urlParams.has('code');
 
             if (isOAuthRedirect) {
-                // Wait for Supabase to process the OAuth tokens before building UI
+                // Wait for Supabase to exchange the code for a session
                 try {
                     await new Promise((resolve) => {
                         const sb = getSupabase();
@@ -46,14 +46,14 @@ class App {
                                 resolve();
                             }
                         });
-                        // Timeout fallback – don't block forever
+                        // Timeout fallback
                         setTimeout(() => { subscription.unsubscribe(); resolve(); }, 5000);
                     });
                 } catch (e) {
                     console.warn('OAuth session wait failed:', e);
                 }
-                // Clean up the hash so the router works normally
-                window.location.hash = '#/';
+                // Clean up the URL (remove ?code=... query params)
+                window.history.replaceState({}, '', window.location.pathname + '#/');
                 this.buildLayout();
                 return;
             }
