@@ -25,40 +25,32 @@ class App {
     }
 
     async init() {
-        // Check for Supabase auth params in the hash (recovery, errors, etc.)
         if (isSupabaseConfigured()) {
             const handled = await this.handleAuthHash();
-            if (handled) return; // Recovery flow is showing its own UI
+            if (handled) return;
 
-            // Detect OAuth PKCE redirect (?code= in URL query string)
-            const urlParams = new URLSearchParams(window.location.search);
-            const isOAuthRedirect = urlParams.has('code');
+            // Check if this is an OAuth redirect (tokens in hash or code in query)
+            const hash = window.location.hash || '';
+            const search = window.location.search || '';
+            const isOAuthRedirect = search.includes('code=') ||
+                (hash.includes('access_token=') && !hash.includes('type=recovery'));
+
+            // Ensure client is created (triggers automatic token processing)
+            getSupabase();
 
             if (isOAuthRedirect) {
-                // Wait for Supabase to exchange the code for a session
-                try {
-                    await new Promise((resolve) => {
-                        const sb = getSupabase();
-                        const { data: { subscription } } = sb.auth.onAuthStateChange(async (event, session) => {
-                            if (session) {
-                                await store.refreshSession();
-                                subscription.unsubscribe();
-                                resolve();
-                            }
-                        });
-                        // Timeout fallback
-                        setTimeout(() => { subscription.unsubscribe(); resolve(); }, 5000);
-                    });
-                } catch (e) {
-                    console.warn('OAuth session wait failed:', e);
+                // Poll for session – Supabase processes tokens asynchronously
+                const session = await this.waitForSession(5000);
+                if (session) {
+                    await store.refreshSession();
                 }
-                // Clean up the URL (remove ?code=... query params)
+                // Clean up URL
                 window.history.replaceState({}, '', window.location.pathname + '#/');
                 this.buildLayout();
                 return;
             }
 
-            // Normal session check (no OAuth redirect)
+            // Normal flow – check existing session
             try {
                 const session = await getSession();
                 if (session) {
@@ -69,6 +61,18 @@ class App {
             }
         }
         this.buildLayout();
+    }
+
+    async waitForSession(timeoutMs) {
+        const start = Date.now();
+        while (Date.now() - start < timeoutMs) {
+            try {
+                const session = await getSession();
+                if (session) return session;
+            } catch (e) { /* ignore */ }
+            await new Promise(r => setTimeout(r, 200));
+        }
+        return null;
     }
 
     async handleAuthHash() {
