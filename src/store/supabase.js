@@ -8,71 +8,72 @@ let _sessionReady = null;
 export function getSupabase() {
     if (!supabaseClient && isSupabaseConfigured()) {
         // supabase is imported via CDN in index.html
-        // Force implicit flow – tokens come as hash fragments, processed client-side
+        // DISABLE detectSessionInUrl – we handle hash tokens manually
+        // because Supabase's built-in detection silently fails
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: {
                 flowType: 'implicit',
-                detectSessionInUrl: true,
+                detectSessionInUrl: false,
             }
         });
     }
     return supabaseClient;
 }
 
-// Wait for the initial session (handles OAuth redirects via polling)
+// Parse OAuth tokens from the URL hash fragment
+function parseOAuthHash() {
+    const hash = window.location.hash;
+    if (!hash || !hash.includes('access_token=')) return null;
+
+    // Remove leading '#' and parse as URLSearchParams
+    const params = new URLSearchParams(hash.substring(1));
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
+
+    if (!accessToken || !refreshToken) return null;
+
+    return { access_token: accessToken, refresh_token: refreshToken };
+}
+
+// Wait for the initial session (handles OAuth redirects manually)
 export function waitForInitialSession() {
     if (_sessionReady) return _sessionReady;
 
     const sb = getSupabase();
     if (!sb) { _sessionReady = Promise.resolve(null); return _sessionReady; }
 
-    const isOAuthRedirect = window.location.hash.includes('access_token=');
-
     _sessionReady = new Promise(async (resolve) => {
-        // First, try getting the session directly (works for existing logins)
-        try {
-            const { data: { session } } = await sb.auth.getSession();
-            if (session) {
-                resolve(session);
-                return;
+        // 1. Check if this is an OAuth redirect with tokens in the hash
+        const oauthTokens = parseOAuthHash();
+        if (oauthTokens) {
+            console.log('[Auth] OAuth tokens found in hash, setting session manually...');
+            try {
+                const { data, error } = await sb.auth.setSession(oauthTokens);
+                // Clear the hash tokens from URL regardless of outcome
+                window.history.replaceState(null, '', window.location.pathname);
+                if (error) {
+                    console.error('[Auth] setSession failed:', error);
+                    resolve(null);
+                } else {
+                    console.log('[Auth] Session set successfully!');
+                    resolve(data.session);
+                }
+            } catch (e) {
+                console.error('[Auth] setSession error:', e);
+                window.history.replaceState(null, '', window.location.pathname);
+                resolve(null);
             }
-        } catch (e) {
-            console.warn('[Auth] getSession error:', e);
-        }
-
-        if (!isOAuthRedirect) {
-            // Not an OAuth redirect, no session — done
-            resolve(null);
             return;
         }
 
-        // OAuth redirect detected – Supabase is processing hash tokens asynchronously.
-        // Poll getSession() until the session appears (max ~8 seconds).
-        console.log('[Auth] OAuth redirect detected, polling for session...');
-        let attempts = 0;
-        const maxAttempts = 40; // 40 × 200ms = 8s
-
-        const poll = async () => {
-            attempts++;
-            try {
-                const { data: { session } } = await sb.auth.getSession();
-                if (session) {
-                    console.log('[Auth] Session found after', attempts, 'polls');
-                    // Clear the hash tokens from URL
-                    window.location.hash = '';
-                    resolve(session);
-                    return;
-                }
-            } catch (e) { /* ignore */ }
-
-            if (attempts >= maxAttempts) {
-                console.warn('[Auth] OAuth session polling timed out');
-                resolve(null);
-                return;
-            }
-            setTimeout(poll, 200);
-        };
-        setTimeout(poll, 200);
+        // 2. No OAuth redirect – check for existing session
+        try {
+            const { data: { session } } = await sb.auth.getSession();
+            resolve(session || null);
+        } catch (e) {
+            console.warn('[Auth] getSession error:', e);
+            resolve(null);
+        }
     });
 
     return _sessionReady;
