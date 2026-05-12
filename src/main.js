@@ -15,17 +15,9 @@ import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { InvitePage } from './pages/Invite.js';
+import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
-
-// IMPORTANT: Initialize Supabase client BEFORE importing store
-// This registers the onAuthStateChange listener before the Store constructor
-// calls initCloud() → getSession(), preventing the OAuth race condition
-if (isSupabaseConfigured()) {
-    getSupabase();
-}
-
-import { store } from './store/store.js';
 
 class App {
     constructor() {

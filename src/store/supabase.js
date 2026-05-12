@@ -7,9 +7,6 @@ let _sessionReady = null;
 // ── Init ─────────────────────────────────────────────────
 export function getSupabase() {
     if (!supabaseClient && isSupabaseConfigured()) {
-        // Detect if this page load is an OAuth redirect (implicit flow = hash tokens)
-        const isOAuthRedirect = window.location.hash.includes('access_token=');
-
         // supabase is imported via CDN in index.html
         // Force implicit flow – tokens come as hash fragments, processed client-side
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -18,50 +15,66 @@ export function getSupabase() {
                 detectSessionInUrl: true,
             }
         });
-
-        // Capture the initial session
-        _sessionReady = new Promise((resolve) => {
-            let resolved = false;
-            const done = (session) => {
-                if (resolved) return;
-                resolved = true;
-                subscription.unsubscribe();
-                resolve(session);
-            };
-
-            const { data: { subscription } } = supabaseClient.auth.onAuthStateChange((event, session) => {
-                if (resolved) return;
-
-                if (event === 'SIGNED_IN' && session) {
-                    done(session);
-                    return;
-                }
-
-                if (event === 'INITIAL_SESSION') {
-                    if (session) {
-                        // Already have a session (existing login or tokens already processed)
-                        done(session);
-                    } else if (isOAuthRedirect) {
-                        // OAuth tokens in URL but session not ready yet –
-                        // Supabase is still processing, wait for SIGNED_IN
-                        console.log('[Auth] OAuth redirect detected, waiting for SIGNED_IN...');
-                    } else {
-                        // Not an OAuth redirect, genuinely no session
-                        done(null);
-                    }
-                }
-            });
-
-            // Fallback timeout (longer for OAuth redirects)
-            setTimeout(() => done(null), isOAuthRedirect ? 8000 : 3000);
-        });
     }
     return supabaseClient;
 }
 
-// Wait for the initial session to be determined (resolves with session or null)
+// Wait for the initial session (handles OAuth redirects via polling)
 export function waitForInitialSession() {
-    if (!_sessionReady) return Promise.resolve(null);
+    if (_sessionReady) return _sessionReady;
+
+    const sb = getSupabase();
+    if (!sb) { _sessionReady = Promise.resolve(null); return _sessionReady; }
+
+    const isOAuthRedirect = window.location.hash.includes('access_token=');
+
+    _sessionReady = new Promise(async (resolve) => {
+        // First, try getting the session directly (works for existing logins)
+        try {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) {
+                resolve(session);
+                return;
+            }
+        } catch (e) {
+            console.warn('[Auth] getSession error:', e);
+        }
+
+        if (!isOAuthRedirect) {
+            // Not an OAuth redirect, no session — done
+            resolve(null);
+            return;
+        }
+
+        // OAuth redirect detected – Supabase is processing hash tokens asynchronously.
+        // Poll getSession() until the session appears (max ~8 seconds).
+        console.log('[Auth] OAuth redirect detected, polling for session...');
+        let attempts = 0;
+        const maxAttempts = 40; // 40 × 200ms = 8s
+
+        const poll = async () => {
+            attempts++;
+            try {
+                const { data: { session } } = await sb.auth.getSession();
+                if (session) {
+                    console.log('[Auth] Session found after', attempts, 'polls');
+                    // Clear the hash tokens from URL
+                    window.location.hash = '';
+                    resolve(session);
+                    return;
+                }
+            } catch (e) { /* ignore */ }
+
+            if (attempts >= maxAttempts) {
+                console.warn('[Auth] OAuth session polling timed out');
+                resolve(null);
+                return;
+            }
+            setTimeout(poll, 200);
+        };
+        setTimeout(poll, 200);
+    });
+
     return _sessionReady;
 }
 
