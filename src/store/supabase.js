@@ -7,6 +7,9 @@ let _sessionReady = null;
 // ── Init ─────────────────────────────────────────────────
 export function getSupabase() {
     if (!supabaseClient && isSupabaseConfigured()) {
+        // Detect if this page load is an OAuth redirect (implicit flow = hash tokens)
+        const isOAuthRedirect = window.location.hash.includes('access_token=');
+
         // supabase is imported via CDN in index.html
         // Force implicit flow – tokens come as hash fragments, processed client-side
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -35,13 +38,22 @@ export function getSupabase() {
                 }
 
                 if (event === 'INITIAL_SESSION') {
-                    // With implicit flow, tokens are already processed by now
-                    done(session); // session or null
+                    if (session) {
+                        // Already have a session (existing login or tokens already processed)
+                        done(session);
+                    } else if (isOAuthRedirect) {
+                        // OAuth tokens in URL but session not ready yet –
+                        // Supabase is still processing, wait for SIGNED_IN
+                        console.log('[Auth] OAuth redirect detected, waiting for SIGNED_IN...');
+                    } else {
+                        // Not an OAuth redirect, genuinely no session
+                        done(null);
+                    }
                 }
             });
 
-            // Fallback timeout
-            setTimeout(() => done(null), 3000);
+            // Fallback timeout (longer for OAuth redirects)
+            setTimeout(() => done(null), isOAuthRedirect ? 8000 : 3000);
         });
     }
     return supabaseClient;
@@ -66,12 +78,14 @@ export async function signUp(email, password, username, avatarIcon = '') {
     if (error) throw error;
 
     // Create profile – use upsert in case trigger already created one
+    // Mark as complete since user chose username + icon during registration
     if (data.user) {
         const initials = username.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
         const profileData = {
             id: data.user.id,
             username,
             avatar_initials: initials,
+            profile_complete: true,
         };
         if (avatarIcon) profileData.avatar_icon = avatarIcon;
         const { error: profileError } = await sb.from('profiles').upsert(profileData, { onConflict: 'id' });
@@ -140,6 +154,18 @@ export async function updateProfile(updates) {
     if (!session) return;
     const sb = getSupabase();
     await sb.from('profiles').update(updates).eq('id', session.user.id);
+}
+
+export async function isProfileComplete(userId) {
+    const sb = getSupabase();
+    const { data, error } = await sb.from('profiles').select('profile_complete').eq('id', userId).single();
+    if (error || !data) return false;
+    return data.profile_complete === true;
+}
+
+export async function markProfileComplete(userId) {
+    const sb = getSupabase();
+    await sb.from('profiles').update({ profile_complete: true }).eq('id', userId);
 }
 
 // ── Invite Links ─────────────────────────────────────────

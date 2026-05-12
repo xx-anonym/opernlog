@@ -2067,6 +2067,63 @@ h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════ */
+/* PROFILE SETUP (after Google Sign-Up)                        */
+/* ═══════════════════════════════════════════════════════════ */
+
+.profile-setup-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    margin-left: 0;
+    max-width: 100%;
+}
+
+.profile-setup-container {
+    animation: profileSetupFadeIn 0.6s ease-out;
+}
+
+@keyframes profileSetupFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-hint {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-style: italic;
+}
+
+.setup-btn-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.setup-btn-loading::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spinBtn 0.6s linear infinite;
+}
+
+@keyframes spinBtn {
+    to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
 /* INVITE SYSTEM                                               */
 /* ═══════════════════════════════════════════════════════════ */
 

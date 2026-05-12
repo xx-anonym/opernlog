@@ -13,10 +13,19 @@ import { ListDetailPage } from './pages/ListDetail.js';
 import { WishlistPage } from './pages/Wishlist.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
+import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { InvitePage } from './pages/Invite.js';
-import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
-import { getSession, getSupabase, waitForInitialSession } from './store/supabase.js';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
+
+// IMPORTANT: Initialize Supabase client BEFORE importing store
+// This registers the onAuthStateChange listener before the Store constructor
+// calls initCloud() → getSession(), preventing the OAuth race condition
+if (isSupabaseConfigured()) {
+    getSupabase();
+}
+
+import { store } from './store/store.js';
 
 class App {
     constructor() {
@@ -34,6 +43,13 @@ class App {
             const initialSession = await waitForInitialSession();
             if (initialSession) {
                 await store.refreshSession();
+
+                // Check if this is a new Google user who needs to set up their profile
+                const profileDone = await isProfileComplete(initialSession.user.id);
+                if (!profileDone) {
+                    this.showProfileSetup(initialSession);
+                    return;
+                }
             }
         }
         this.buildLayout();
@@ -134,6 +150,18 @@ class App {
                 errorEl.style.display = 'block';
             }
         });
+    }
+
+    showProfileSetup(session) {
+        this.root.innerHTML = '';
+        const setupPage = ProfileSetupPage(session, () => {
+            // Profile setup complete — reload the app
+            store.refreshSession().then(() => {
+                window.location.hash = '#/';
+                this.buildLayout();
+            });
+        });
+        this.root.appendChild(setupPage);
     }
 
     buildLayout() {

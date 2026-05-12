@@ -43,7 +43,8 @@ class Store {
 
     async initCloud() {
         try {
-            const session = await sb.getSession();
+            // Use waitForInitialSession to properly handle OAuth redirects
+            const session = await sb.waitForInitialSession();
             if (session) {
                 this._session = session;
                 this._profile = await sb.getProfile(session.user.id);
