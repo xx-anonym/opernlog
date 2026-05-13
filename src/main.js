@@ -22,13 +22,33 @@ import { getSession, getSupabase, waitForInitialSession, isProfileComplete } fro
 class App {
     constructor() {
         this.root = document.getElementById('app');
+        this._splashStart = Date.now();
         this.init();
+    }
+
+    // Dismiss the opera curtain splash screen
+    dismissSplash() {
+        const splash = document.getElementById('splash');
+        if (!splash) return;
+
+        // Ensure the splash is shown for at least 800ms so the animation is visible
+        const elapsed = Date.now() - this._splashStart;
+        const delay = Math.max(0, 800 - elapsed);
+
+        setTimeout(() => {
+            splash.classList.add('splash--hidden');
+            // Remove from DOM after transition
+            setTimeout(() => splash.remove(), 1200);
+        }, delay);
     }
 
     async init() {
         if (isSupabaseConfigured()) {
             const handled = await this.handleAuthHash();
-            if (handled) return;
+            if (handled) {
+                this.dismissSplash();
+                return;
+            }
 
             // Wait for Supabase to determine the initial session
             // (handles OAuth redirects, existing sessions, etc.)
@@ -40,11 +60,13 @@ class App {
                 const profileDone = await isProfileComplete(initialSession.user.id);
                 if (!profileDone) {
                     this.showProfileSetup(initialSession);
+                    this.dismissSplash();
                     return;
                 }
             }
         }
         this.buildLayout();
+        this.dismissSplash();
     }
 
     async handleAuthHash() {
