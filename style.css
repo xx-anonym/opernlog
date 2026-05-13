@@ -935,6 +935,49 @@ h3 {
     padding: 0;
 }
 
+.review-card--standalone .review-card__header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+/* --- Visit Detail Background --- */
+.page--visit {
+    position: relative;
+    min-height: 100vh;
+}
+
+.page--visit > * {
+    position: relative;
+    z-index: 1;
+}
+
+.visit-detail__bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.12; /* Subtle opacity */
+    z-index: 0 !important;
+    pointer-events: none;
+    filter: blur(15px) brightness(0.7) grayscale(30%); /* Cinematic blur effect */
+    transform: scale(1.1); /* Prevent blurred edges */
+}
+
+/* --- Comments --- */
+.comment {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+    transition: border-color var(--transition);
+}
+
 .review-card--standalone .review-card__opera {
     display: flex;
     justify-content: space-between;
