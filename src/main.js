@@ -37,8 +37,9 @@ class App {
 
         setTimeout(() => {
             splash.classList.add('splash--hidden');
-            // Remove from DOM after transition
-            setTimeout(() => splash.remove(), 1200);
+            // Remove from DOM after all transitions complete
+            // (curtains 1s + fade 0.4s delayed 0.7s = ~1.5s total)
+            setTimeout(() => splash.remove(), 1600);
         }, delay);
     }
 
