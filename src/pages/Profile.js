@@ -7,6 +7,52 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
 
+function renderGroupedVisits(visitsArray, container) {
+  if (visitsArray.length === 0) {
+    container.innerHTML = '<div class="empty-state">Noch keine Besuche geloggt.</div>';
+    return;
+  }
+
+  const sorted = [...visitsArray].sort((a, b) => {
+    const da = new Date(a.date || a.created_at || 0);
+    const db = new Date(b.date || b.created_at || 0);
+    return db - da;
+  });
+
+  const months = {};
+  sorted.forEach(visit => {
+    const dateStr = visit.date || visit.created_at;
+    if (!dateStr) return;
+    const date = new Date(dateStr);
+    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    if (!months[key]) months[key] = [];
+    months[key].push(visit);
+  });
+
+  const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+  container.innerHTML = '';
+  
+  Object.keys(months).sort().reverse().forEach(key => {
+    const visitsGroup = months[key];
+    const [year, month] = key.split('-');
+    
+    const monthSection = document.createElement('div');
+    monthSection.className = 'diary-month fade-in';
+    monthSection.innerHTML = `<h3 class="diary-month__title">${monthNames[parseInt(month) - 1]} ${year}</h3>`;
+    
+    const feedList = document.createElement('div');
+    feedList.className = 'feed-list';
+    
+    visitsGroup.forEach(visit => {
+      feedList.appendChild(ReviewCard(visit, { compact: false }));
+    });
+    
+    monthSection.appendChild(feedList);
+    container.appendChild(monthSection);
+  });
+}
+
 export function ProfilePage(userId) {
   const page = document.createElement('div');
   page.className = 'page page--profile';
@@ -252,36 +298,7 @@ async function renderCloudProfile(page, userId) {
 
     // Render visits
     const visitsContainer = page.querySelector('#cloudVisits');
-    if (visits.length === 0) {
-      visitsContainer.innerHTML = '<div class="empty-state">Noch keine Besuche geloggt.</div>';
-    } else {
-      const feedList = document.createElement('div');
-      feedList.className = 'feed-list';
-
-      visits.forEach(item => {
-        const visit = {
-          id: item.id,
-          userId: item.user_id,
-          houseId: item.house_id,
-          operaId: item.opera_id,
-          date: item.date,
-          rating: item.rating,
-          review: item.review || '',
-          likes: item.likes || 0,
-          comments: item.comments || [],
-          likedBy: item.liked_by || [],
-          user: item.profiles ? {
-            id: item.profiles.id,
-            name: item.profiles.username,
-            avatar: item.profiles.avatar_initials,
-            avatarIcon: item.profiles.avatar_icon
-          } : null
-        };
-        feedList.appendChild(ReviewCard(visit));
-      });
-
-      visitsContainer.appendChild(feedList);
-    }
+    renderGroupedVisits(visits, visitsContainer);
   } catch (err) {
     page.innerHTML = `<div class="empty-state">Fehler beim Laden: ${err.message}</div>`;
   }
@@ -413,12 +430,7 @@ function renderLocalProfile(page, userId, isMe) {
       if (visits.length === 0) {
         content.innerHTML = `<div class="empty-state">${isMe ? 'Du hast noch keine Besuche geloggt.' : 'Noch keine Besuche.'}</div>`;
       } else {
-        const list = document.createElement('div');
-        list.className = 'feed-list';
-        visits.forEach(visit => {
-          list.appendChild(ReviewCard(visit, { compact: false }));
-        });
-        content.appendChild(list);
+        renderGroupedVisits(visits, content);
       }
     } else if (activeTab === 'lists') {
       if (lists.length === 0) {
