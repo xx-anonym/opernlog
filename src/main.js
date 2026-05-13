@@ -1,4 +1,8 @@
 // Main App – Router & Entry Point
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
 import { Navigation } from './components/Navigation.js';
 import { HomePage } from './pages/Home.js';
 import { HousesPage } from './pages/Houses.js';
@@ -305,6 +309,10 @@ class App {
         // Close mobile nav on route change
         const navLinks = document.querySelector('.nav-links');
         if (navLinks) navLinks.classList.remove('nav-links--open');
+
+        // Force scroll to top to prevent history scroll restoration bugs
+        window.scrollTo(0, 0);
+        setTimeout(() => window.scrollTo(0, 0), 50);
     }
 }
 
