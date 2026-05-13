@@ -241,8 +241,10 @@ a:hover {
     color: var(--gold-light);
 }
 
-a.opera-card:hover, a.house-card:hover {
-    color: inherit;
+@media (hover: hover) {
+    a.opera-card:hover, a.house-card:hover {
+        color: inherit;
+    }
 }
 
 h1,
@@ -597,10 +599,12 @@ h3 {
     border: 1px solid var(--border);
 }
 
-.house-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow);
-    border-color: rgba(201, 168, 76, 0.2);
+@media (hover: hover) {
+    .house-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+        border-color: rgba(201, 168, 76, 0.2);
+    }
 }
 
 .house-card__banner {
@@ -674,10 +678,12 @@ h3 {
     border: 1px solid var(--border);
 }
 
-.opera-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow);
-    border-color: rgba(201, 168, 76, 0.2);
+@media (hover: hover) {
+    .opera-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+        border-color: rgba(201, 168, 76, 0.2);
+    }
 }
 
 .opera-card__color {
