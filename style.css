@@ -591,6 +591,7 @@ h3 {
 
 /* House Card */
 .house-card {
+    display: block;
     background: var(--bg-secondary);
     border-radius: 14px;
     overflow: hidden;
@@ -599,6 +600,10 @@ h3 {
     border: 1px solid var(--border);
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+}
+
+.house-card > * {
+    pointer-events: none;
 }
 
 @media (hover: hover) {
@@ -672,6 +677,7 @@ h3 {
 
 /* Opera Card */
 .opera-card {
+    display: block;
     background: var(--bg-secondary);
     border-radius: 14px;
     overflow: hidden;
@@ -680,6 +686,10 @@ h3 {
     border: 1px solid var(--border);
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+}
+
+.opera-card > * {
+    pointer-events: none;
 }
 
 @media (hover: hover) {
