@@ -893,6 +893,15 @@ h3 {
     margin-bottom: 12px;
 }
 
+.review-card--clickable {
+    cursor: pointer;
+    transition: border-color var(--transition), transform var(--transition);
+}
+
+.review-card--clickable:hover {
+    border-color: rgba(201, 168, 76, 0.3); /* Subtle gold border on hover */
+}
+
 .review-card__user {
     display: flex;
     align-items: center;

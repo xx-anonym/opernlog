@@ -18,7 +18,7 @@ export function ReviewCard(visit, options = {}) {
   const opera = operas.find(o => o.id === visit.operaId);
 
   const card = document.createElement('div');
-  card.className = `review-card ${compact ? 'review-card--compact' : ''} ${standalone ? 'review-card--standalone' : ''} fade-in`;
+  card.className = `review-card ${compact ? 'review-card--compact' : ''} ${standalone ? 'review-card--standalone' : 'review-card--clickable'} fade-in`;
 
   const isLiked = visit.likedBy && visit.likedBy.includes('user-me');
 
@@ -89,7 +89,17 @@ export function ReviewCard(visit, options = {}) {
   // Event listeners
   card.addEventListener('click', (e) => {
     const action = e.target.closest('[data-action]');
-    if (!action) return;
+    
+    if (!action) {
+        // If clicking on an input or button, don't navigate
+        if (e.target.closest('input') || e.target.closest('button')) return;
+        
+        // If it's not standalone, navigate to the visit detail
+        if (!standalone) {
+            window.location.hash = `#/visit/${visit.id}`;
+        }
+        return;
+    }
 
     const actionType = action.dataset.action;
 
