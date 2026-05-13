@@ -458,19 +458,21 @@ export async function getVisitByIdCloud(visitId) {
 
 export async function getVisitsByHouseCloud(houseId) {
     const sb = getSupabase();
-    const { data } = await sb.from('visits')
+    const { data, error } = await sb.from('visits')
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('house_id', houseId)
         .order('date', { ascending: false });
+    if (error) console.error('[Supabase] getVisitsByHouseCloud error:', error);
     return await enrichVisitsWithSocial(data || []);
 }
 
 export async function getVisitsByOperaCloud(operaId) {
     const sb = getSupabase();
-    const { data } = await sb.from('visits')
+    const { data, error } = await sb.from('visits')
         .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
         .eq('opera_id', operaId)
         .order('date', { ascending: false });
+    if (error) console.error('[Supabase] getVisitsByOperaCloud error:', error);
     return await enrichVisitsWithSocial(data || []);
 }
 

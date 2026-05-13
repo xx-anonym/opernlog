@@ -139,6 +139,21 @@ export function OperaDetailPage(operaId) {
             avatarIcon: v.profiles.avatar_icon
           } : null
         }));
+        
+        if (allVisits.length > 0) {
+            const sum = allVisits.reduce((acc, v) => acc + v.rating, 0);
+            const newAvg = sum / allVisits.length;
+            const ratingEl = page.querySelector('#operaRating');
+            if (ratingEl) {
+                ratingEl.innerHTML = '';
+                ratingEl.appendChild(StarRating(newAvg, false, null, 'lg'));
+                const countEl = document.createElement('span');
+                countEl.className = 'detail-hero__rating-count';
+                countEl.textContent = `${allVisits.length} ${allVisits.length === 1 ? 'Bewertung' : 'Bewertungen'}`;
+                ratingEl.appendChild(countEl);
+            }
+        }
+
       } else {
         allVisits = [...visits]; // Fallback to local
       }
