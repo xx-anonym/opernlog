@@ -9,9 +9,23 @@ import { isSupabaseConfigured } from '../config.js';
 export function ReviewCard(visit, options = {}) {
   const { showHouse = true, showOpera = true, compact = false, standalone = false } = options;
 
+  // Normalize snake_case data from Supabase
+  visit.userId = visit.userId || visit.user_id;
+  visit.houseId = visit.houseId || visit.house_id;
+  visit.operaId = visit.operaId || visit.opera_id;
+  visit.likedBy = visit.likedBy || visit.liked_by || [];
+  if (!visit.date && visit.created_at) visit.date = visit.created_at;
+
   let user = store.getUser(visit.userId);
   if (!user && visit.user) {
     user = visit.user;
+  } else if (!user && visit.profiles) {
+    user = {
+      id: visit.profiles.id,
+      name: visit.profiles.username,
+      avatar: visit.profiles.avatar_initials,
+      avatarIcon: visit.profiles.avatar_icon
+    };
   }
 
   const house = operaHouses.find(h => h.id === visit.houseId);
