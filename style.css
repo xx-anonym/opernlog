@@ -1335,17 +1335,11 @@ h3 {
     font-family: var(--font-display);
     font-size: 16px;
     font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .diary-entry__house {
     font-size: 13px;
     color: var(--text-muted);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .diary-entry__review {
@@ -2035,25 +2029,40 @@ h3 {
 
     .diary-entry {
         flex-wrap: wrap;
-        gap: 8px 10px;
-        padding: 12px 14px;
+        gap: 12px 10px;
+        padding: 14px;
         width: 100%;
         box-sizing: border-box;
     }
 
+    .diary-entry__date { order: 1; }
+    .diary-entry__color { order: 2; }
+    
     .diary-entry__info {
+        order: 3;
         flex: 1 1 0;
         min-width: 0;
     }
 
+    /* Force line break after info */
+    .diary-entry::before {
+        content: "";
+        flex-basis: 100%;
+        order: 4;
+    }
+
     .diary-entry__rating {
+        order: 5;
         flex-shrink: 0;
+        margin-left: 64px; /* Align with info (40 + 10 + 4 + 10) */
     }
 
     .diary-entry__actions {
+        order: 6;
         display: flex;
         gap: 8px;
         flex-shrink: 0;
+        margin-left: auto; /* Push to the right */
     }
 
     .diary-entry__delete {

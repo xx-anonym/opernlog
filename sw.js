@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v5';
+const CACHE_NAME = 'opernlog-v6';
 
 // App shell files to cache for offline use
 const APP_SHELL = [
