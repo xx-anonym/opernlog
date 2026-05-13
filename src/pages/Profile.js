@@ -135,19 +135,51 @@ async function renderCloudProfile(page, userId) {
       </div>
       ` : ''}
 
-      ${wishlist && wishlist.items.length > 0 ? `
-        <h2 class="section-title">🌟 Wunschliste</h2>
-        <div id="cloudWishlist" class="lists-grid"></div>
-      ` : ''}
+      <div class="profile-tabs">
+        <button class="tab tab--active" data-cloud-tab="reviews">Reviews (${visits.length})</button>
+        <button class="tab" data-cloud-tab="lists">Listen (${userLists.length})</button>
+      </div>
 
-      ${regularLists.length > 0 ? `
-        <h2 class="section-title">📋 Listen</h2>
-        <div id="cloudLists" class="lists-grid"></div>
-      ` : ''}
-      
-      <h2 class="section-title">Besuche von ${user.name}</h2>
-      <div id="cloudVisits"></div>
+      <div id="cloudTabReviews">
+        <div id="cloudVisits"></div>
+      </div>
+
+      <div id="cloudTabLists" style="display: none;">
+        ${wishlist && wishlist.items.length > 0 ? `
+          <h2 class="section-title">🌟 Wunschliste</h2>
+          <div id="cloudWishlist" class="lists-grid"></div>
+        ` : ''}
+
+        ${regularLists.length > 0 ? `
+          <h2 class="section-title">📋 Listen</h2>
+          <div id="cloudLists" class="lists-grid"></div>
+        ` : ''}
+
+        ${!wishlist && regularLists.length === 0 ? `
+          <div class="empty-state">Noch keine Listen.</div>
+        ` : ''}
+      </div>
     `;
+
+    // Tab switching logic
+    const cloudTabs = page.querySelectorAll('[data-cloud-tab]');
+    const tabReviews = page.querySelector('#cloudTabReviews');
+    const tabLists = page.querySelector('#cloudTabLists');
+
+    cloudTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        cloudTabs.forEach(t => t.classList.remove('tab--active'));
+        tab.classList.add('tab--active');
+        
+        if (tab.dataset.cloudTab === 'reviews') {
+          tabReviews.style.display = 'block';
+          tabLists.style.display = 'none';
+        } else {
+          tabReviews.style.display = 'none';
+          tabLists.style.display = 'block';
+        }
+      });
+    });
 
     // Follow button
     page.querySelector('#followBtn').addEventListener('click', async () => {
