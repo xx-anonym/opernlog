@@ -597,6 +597,8 @@ h3 {
     cursor: pointer;
     transition: all var(--transition);
     border: 1px solid var(--border);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @media (hover: hover) {
@@ -676,6 +678,8 @@ h3 {
     cursor: pointer;
     transition: all var(--transition);
     border: 1px solid var(--border);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @media (hover: hover) {
