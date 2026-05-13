@@ -156,9 +156,9 @@ export function DiaryPage() {
         const ratingEl = entry.querySelector(`#rating-${visit.id}`);
         ratingEl.appendChild(StarRating(visit.rating, false, null, 'sm'));
 
-        // Click to navigate
+        // Click to navigate to visit detail
         entry.querySelector('.diary-entry__info').addEventListener('click', () => {
-          if (opera) window.location.hash = `#/opera/${opera.id}`;
+          window.location.hash = `#/visit/${visit.id}`;
         });
         entry.querySelector('.diary-entry__info').style.cursor = 'pointer';
 

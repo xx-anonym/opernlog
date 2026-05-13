@@ -7,6 +7,7 @@ import { OperasPage } from './pages/Operas.js';
 import { OperaDetailPage } from './pages/OperaDetail.js';
 import { LogVisitPage } from './pages/LogVisit.js';
 import { DiaryPage } from './pages/Diary.js';
+import { VisitDetailPage } from './pages/VisitDetail.js';
 import { ProfilePage } from './pages/Profile.js';
 import { ListsPage } from './pages/Lists.js';
 import { ListDetailPage } from './pages/ListDetail.js';
@@ -218,7 +219,7 @@ class App {
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite'];
+            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite', 'visit'];
             if (protectedRoutes.includes(path) && path !== 'invite') {
                 this.content.innerHTML = '';
                 const authPage = AuthPage(() => {
@@ -258,6 +259,9 @@ class App {
                 break;
             case 'diary':
                 page = DiaryPage();
+                break;
+            case 'visit':
+                page = VisitDetailPage(param);
                 break;
             case 'profile':
                 page = ProfilePage(param || 'user-me');
