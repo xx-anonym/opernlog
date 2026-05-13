@@ -1387,10 +1387,16 @@ h3 {
 }
 
 .diary-entry__review-icon {
-    font-size: 16px;
+    font-size: 14px;
     flex-shrink: 0;
-    opacity: 0.7;
-    cursor: help;
+    cursor: pointer;
+    border: 1px solid var(--gold);
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: rgba(201, 168, 76, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .diary-entry__rating {
