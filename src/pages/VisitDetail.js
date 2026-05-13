@@ -6,8 +6,8 @@ export function VisitDetailPage(visitId) {
     page.className = 'page page--visit';
 
     // Wait for store initialization
-    setTimeout(() => {
-        const visit = store.state.visits.find(v => String(v.id) === String(visitId));
+    setTimeout(async () => {
+        const visit = await store.getVisit(visitId);
         
         if (!visit) {
             page.innerHTML = `

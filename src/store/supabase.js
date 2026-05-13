@@ -445,6 +445,17 @@ export async function getFeedCloud() {
 }
 
 // ── Visits by house/opera (all users) ────────────────────
+export async function getVisitByIdCloud(visitId) {
+    const sb = getSupabase();
+    const { data, error } = await sb.from('visits')
+        .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
+        .eq('id', visitId)
+        .single();
+    if (error || !data) return null;
+    const enriched = await enrichVisitsWithSocial([data]);
+    return enriched[0];
+}
+
 export async function getVisitsByHouseCloud(houseId) {
     const sb = getSupabase();
     const { data } = await sb.from('visits')

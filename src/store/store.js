@@ -366,6 +366,17 @@ class Store {
         return await sb.getFeedCloud();
     }
 
+    async getVisit(visitId) {
+        // Try local first
+        let visit = this.data.myVisits.find(v => String(v.id) === String(visitId));
+        if (visit) return visit;
+
+        if (this.isCloud) {
+            return await sb.getVisitByIdCloud(visitId);
+        }
+        return null;
+    }
+
     async getUserVisitsCloud(userId) {
         if (!this.isCloud) return this.getVisitsByUser(userId);
         return await sb.getUserVisitsCloud(userId);
