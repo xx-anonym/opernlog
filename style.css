@@ -241,6 +241,10 @@ a:hover {
     color: var(--gold-light);
 }
 
+a.opera-card:hover, a.house-card:hover {
+    color: inherit;
+}
+
 h1,
 h2,
 h3 {

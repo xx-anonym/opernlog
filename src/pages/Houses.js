@@ -117,9 +117,12 @@ export function HousesPage() {
         ? `linear-gradient(to bottom, rgba(20, 24, 28, 0.4), #14181c), url('${house.imageUrl}')`
         : `linear-gradient(135deg, ${house.color}, #14181c)`;
 
-      const card = document.createElement('div');
+      const card = document.createElement('a');
       card.className = 'house-card fade-in';
+      card.href = `#/house/${house.id}`;
       card.style.animationDelay = `${i * 0.05}s`;
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
       card.innerHTML = `
         <div class="house-card__banner" style="background: ${bannerBackground}; background-size: cover; background-position: center;">
           <div class="house-card__city-badge">${house.city}</div>
@@ -137,7 +140,6 @@ export function HousesPage() {
           </div>
         </div>
       `;
-      card.addEventListener('click', () => window.location.hash = `#/house/${house.id}`);
       grid.appendChild(card);
     });
 

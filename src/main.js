@@ -1,8 +1,4 @@
 // Main App – Router & Entry Point
-if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-}
-
 import { Navigation } from './components/Navigation.js';
 import { HomePage } from './pages/Home.js';
 import { HousesPage } from './pages/Houses.js';
@@ -26,6 +22,9 @@ import { getSession, getSupabase, waitForInitialSession, isProfileComplete } fro
 
 class App {
     constructor() {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
         this.root = document.getElementById('app');
         this._splashStart = Date.now();
         this.init();

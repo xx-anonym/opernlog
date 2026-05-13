@@ -152,9 +152,12 @@ export function OperasPage() {
       const visitCount = store.getVisitsByOpera(opera.id).length;
       const color = composerColors[opera.composer] || '#8b1a2b';
 
-      const card = document.createElement('div');
+      const card = document.createElement('a');
       card.className = 'opera-card fade-in';
+      card.href = `#/opera/${opera.id}`;
       card.style.animationDelay = `${i * 0.03}s`;
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
       card.innerHTML = `
         <div class="opera-card__color" style="${opera.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(20,24,28,0.85)), url('${opera.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, ${color}, #14181c)`}">
           <span class="opera-card__year">${opera.yearComposed}</span>
@@ -172,7 +175,6 @@ export function OperasPage() {
           </div>
         </div>
       `;
-      card.addEventListener('click', () => window.location.hash = `#/opera/${opera.id}`);
       grid.appendChild(card);
     });
 
