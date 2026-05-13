@@ -118,7 +118,7 @@ export function OperaDetailPage(operaId) {
   async function loadVisits() {
     let allVisits = [];
     try {
-      if (store.isCloud && isSupabaseConfigured()) {
+      if (isSupabaseConfigured()) {
         const fetchSb = await import('../store/supabase.js');
         const cloudData = await fetchSb.getVisitsByOperaCloud(opera.id);
         allVisits = cloudData.map(v => ({

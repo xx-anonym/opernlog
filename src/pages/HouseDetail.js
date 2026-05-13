@@ -104,7 +104,7 @@ export function HouseDetailPage(houseId) {
   async function loadVisits() {
     let allVisits = [];
     try {
-      if (store.isCloud && isSupabaseConfigured()) {
+      if (isSupabaseConfigured()) {
         const fetchSb = await import('../store/supabase.js');
         const cloudData = await fetchSb.getVisitsByHouseCloud(house.id);
         allVisits = cloudData.map(v => ({
