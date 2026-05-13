@@ -34,6 +34,9 @@ export function VisitDetailPage(visitId) {
 
         const content = page.querySelector('#visitContent');
         content.appendChild(ReviewCard(visit, { showOpera: true, showHouse: true, standalone: true }));
+        
+        // Fix scroll position (prevent auto scroll down from previous page or DOM change)
+        setTimeout(() => window.scrollTo(0, 0), 10);
     }, 0);
 
     return page;

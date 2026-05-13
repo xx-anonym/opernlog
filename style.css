@@ -961,10 +961,10 @@ h3 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.12; /* Subtle opacity */
+    opacity: 0.35; /* Increased opacity for dark theme visibility */
     z-index: 0 !important;
     pointer-events: none;
-    filter: blur(15px) brightness(0.7) grayscale(30%); /* Cinematic blur effect */
+    filter: blur(15px) brightness(0.9) grayscale(20%); /* Lighter blur effect */
     transform: scale(1.1); /* Prevent blurred edges */
 }
 
