@@ -52,6 +52,40 @@ async function renderCloudProfile(page, userId) {
     const wishlist = userLists.find(l => l.type === 'wishlist');
     const regularLists = userLists.filter(l => l.type !== 'wishlist');
 
+    // Compute favorites from cloud visits
+    const composerData = {};
+    const houseCount = {};
+
+    visits.forEach(v => {
+      const oId = v.opera_id || v.operaId;
+      const hId = v.house_id || v.houseId;
+      const rating = parseFloat(v.rating) || 0;
+
+      const opera = operas.find(o => o.id === oId);
+      if (opera) {
+        if (!composerData[opera.composer]) {
+          composerData[opera.composer] = { count: 0, totalRating: 0 };
+        }
+        composerData[opera.composer].count += 1;
+        composerData[opera.composer].totalRating += rating;
+      }
+
+      if (hId) {
+        houseCount[hId] = (houseCount[hId] || 0) + 1;
+      }
+    });
+
+    const topComposerArr = Object.entries(composerData)
+      .sort((a, b) => {
+        if (b[1].count !== a[1].count) return b[1].count - a[1].count;
+        return (b[1].totalRating / b[1].count) - (a[1].totalRating / a[1].count);
+      })[0];
+    const topComposer = topComposerArr ? topComposerArr[0] : '-';
+
+    const topHouseIdArr = Object.entries(houseCount).sort((a, b) => b[1] - a[1])[0];
+    const topHouseObj = topHouseIdArr ? operaHouses.find(h => h.id === topHouseIdArr[0]) : null;
+    const topHouse = topHouseObj ? topHouseObj.name : '-';
+
     page.innerHTML = `
       <div class="profile-hero">
         <div class="profile-hero__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">
@@ -87,6 +121,19 @@ async function renderCloudProfile(page, userId) {
       </div>
       
       <div id="cloudHistogram" class="profile-histogram"></div>
+
+      ${topComposer !== '-' ? `
+      <div class="profile-favorites">
+        <div class="favorite-item">
+          <span class="favorite-item__label">Lieblingskomponist</span>
+          <span class="favorite-item__value">${topComposer}</span>
+        </div>
+        <div class="favorite-item">
+          <span class="favorite-item__label">Meistbesuchtes Haus</span>
+          <span class="favorite-item__value">${topHouse}</span>
+        </div>
+      </div>
+      ` : ''}
 
       ${wishlist && wishlist.items.length > 0 ? `
         <h2 class="section-title">🌟 Wunschliste</h2>
