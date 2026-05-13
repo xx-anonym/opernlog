@@ -156,9 +156,13 @@ export function DiaryPage() {
         const ratingEl = entry.querySelector(`#rating-${visit.id}`);
         ratingEl.appendChild(StarRating(visit.rating, false, null, 'sm'));
 
-        // Click to navigate to visit detail
+        // Click to navigate based on review existence
         entry.querySelector('.diary-entry__info').addEventListener('click', () => {
-          window.location.hash = `#/visit/${visit.id}`;
+          if (visit.review) {
+              window.location.hash = `#/visit/${visit.id}`;
+          } else if (opera) {
+              window.location.hash = `#/opera/${opera.id}`;
+          }
         });
         entry.querySelector('.diary-entry__info').style.cursor = 'pointer';
 
