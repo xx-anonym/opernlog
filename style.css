@@ -1342,13 +1342,11 @@ h3 {
     color: var(--text-muted);
 }
 
-.diary-entry__review {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.diary-entry__review-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    opacity: 0.7;
+    cursor: help;
 }
 
 .diary-entry__rating {
@@ -2055,6 +2053,11 @@ h3 {
         order: 5;
         flex-shrink: 0;
         margin-left: 64px; /* Align with info (40 + 10 + 4 + 10) */
+    }
+
+    .diary-entry__review-icon {
+        order: 5;
+        margin-left: 8px;
     }
 
     .diary-entry__actions {

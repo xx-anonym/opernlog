@@ -144,9 +144,9 @@ export function DiaryPage() {
           <div class="diary-entry__info">
             <div class="diary-entry__title">${opera ? opera.title : 'Unbekannt'}</div>
             <div class="diary-entry__house">${house ? `${house.name}, ${house.city}` : 'Unbekannt'}</div>
-            ${visit.review ? `<p class="diary-entry__review">${visit.review.substring(0, 100)}${visit.review.length > 100 ? '...' : ''}</p>` : ''}
           </div>
           <div class="diary-entry__rating" id="rating-${visit.id}"></div>
+          ${visit.review ? `<div class="diary-entry__review-icon" title="Review geschrieben">📝</div>` : ''}
           <div class="diary-entry__actions">
             <button class="btn-icon diary-entry__edit" data-visit-id="${visit.id}" title="Eintrag bearbeiten">✏️</button>
             <button class="btn-icon diary-entry__delete" data-visit-id="${visit.id}" title="Eintrag löschen">🗑️</button>
