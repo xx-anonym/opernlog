@@ -920,6 +920,50 @@ h3 {
     color: var(--text-muted);
 }
 
+.review-card--standalone {
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+.review-card--standalone .review-card__opera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+    transition: border-color var(--transition);
+}
+
+.review-card--standalone .review-card__opera:hover {
+    border-color: var(--accent);
+}
+
+.review-card--standalone .review-card__opera-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-card--standalone .review-card__opera-title {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.review-card--standalone .review-card__opera-composer {
+    margin-left: 0;
+    font-size: 14px;
+}
+
+.review-card--standalone .review-card__text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 24px 0;
+    color: var(--text-primary);
+}
+
 .review-card__opera {
     margin-bottom: 8px;
     cursor: pointer;

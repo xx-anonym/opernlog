@@ -21,15 +21,14 @@ export function VisitDetailPage(visitId) {
         }
 
         page.innerHTML = `
-            <div class="page-header">
-                <button class="btn-icon" onclick="window.history.back()" style="margin-bottom: 16px; margin-left: -8px;">← Zurück</button>
-                <h1 class="page-header__title">Log-Eintrag</h1>
+            <div class="page-header" style="border-bottom: none; padding-bottom: 0;">
+                <button class="btn-icon" onclick="window.history.back()" style="margin-bottom: 8px; margin-left: -8px;">← Zurück</button>
             </div>
             <div id="visitContent"></div>
         `;
 
         const content = page.querySelector('#visitContent');
-        content.appendChild(ReviewCard(visit, { showOpera: true, showHouse: true, compact: false }));
+        content.appendChild(ReviewCard(visit, { showOpera: true, showHouse: true, standalone: true }));
     }, 0);
 
     return page;

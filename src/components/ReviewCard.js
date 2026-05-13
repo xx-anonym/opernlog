@@ -7,7 +7,7 @@ import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 
 export function ReviewCard(visit, options = {}) {
-  const { showHouse = true, showOpera = true, compact = false } = options;
+  const { showHouse = true, showOpera = true, compact = false, standalone = false } = options;
 
   let user = store.getUser(visit.userId);
   if (!user && visit.user) {
@@ -18,7 +18,7 @@ export function ReviewCard(visit, options = {}) {
   const opera = operas.find(o => o.id === visit.operaId);
 
   const card = document.createElement('div');
-  card.className = `review-card ${compact ? 'review-card--compact' : ''} fade-in`;
+  card.className = `review-card ${compact ? 'review-card--compact' : ''} ${standalone ? 'review-card--standalone' : ''} fade-in`;
 
   const isLiked = visit.likedBy && visit.likedBy.includes('user-me');
 
@@ -37,6 +37,7 @@ export function ReviewCard(visit, options = {}) {
       <div class="review-card__opera" data-action="opera" data-opera-id="${opera.id}">
         <span class="review-card__opera-title">${opera.title}</span>
         <span class="review-card__opera-composer">${opera.composer}</span>
+        ${standalone ? `<div class="btn btn--sm btn--outline" style="margin-left: auto;">Zur Oper ›</div>` : ''}
       </div>
     ` : ''}
     ${showHouse && house ? `
