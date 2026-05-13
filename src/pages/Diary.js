@@ -162,6 +162,13 @@ export function DiaryPage() {
         });
         entry.querySelector('.diary-entry__info').style.cursor = 'pointer';
 
+        const reviewIcon = entry.querySelector('.diary-entry__review-icon');
+        if (reviewIcon) {
+            reviewIcon.addEventListener('click', () => {
+                window.location.hash = `#/visit/${visit.id}`;
+            });
+        }
+
         // Edit
         entry.querySelector('.diary-entry__edit').addEventListener('click', (e) => {
           e.stopPropagation();
