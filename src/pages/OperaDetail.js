@@ -5,6 +5,7 @@ import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
+import { isSupabaseConfigured } from '../config.js';
 
 export function OperaDetailPage(operaId) {
   const opera = operas.find(o => o.id === operaId);
@@ -18,9 +19,6 @@ export function OperaDetailPage(operaId) {
   const page = document.createElement('div');
   page.className = 'page page--opera-detail';
 
-  const avgRating = store.getAverageRatingForOpera(opera.id);
-  const visits = store.getVisitsByOpera(opera.id);
-
   const composerColors = {
     'Wolfgang Amadeus Mozart': '#c9a84c',
     'Giuseppe Verdi': '#2d7d46',
@@ -29,10 +27,6 @@ export function OperaDetailPage(operaId) {
     'Richard Strauss': '#7d5a2d',
   };
   const color = composerColors[opera.composer] || '#8b1a2b';
-
-  // Houses where it was performed
-  const houseIds = [...new Set(visits.map(v => v.houseId))];
-  const performedAt = houseIds.map(id => operaHouses.find(h => h.id === id)).filter(Boolean);
 
   page.innerHTML = `
     <div class="detail-hero" style="${opera.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(20,24,28,0.95)), url('${opera.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, ${color}, #14181c)`}">
@@ -46,7 +40,9 @@ export function OperaDetailPage(operaId) {
           <span>🎭 ${opera.acts} ${opera.acts === 1 ? 'Akt' : 'Akte'}</span>
           <span>📖 ${opera.genre}</span>
         </div>
-        <div class="detail-hero__rating" id="operaRating"></div>
+        <div class="detail-hero__rating" id="operaRating">
+          <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
       </div>
     </div>
     
@@ -63,57 +59,19 @@ export function OperaDetailPage(operaId) {
         </div>
       </div>
       
-      ${performedAt.length > 0 ? `
-        <div class="detail-section">
-          <h2 class="section__title">🏛️ Aufgeführt in</h2>
-          <div class="tag-list" id="performedAt"></div>
-        </div>
-      ` : ''}
+      <div class="detail-section" id="performedAtSection" style="display:none">
+        <h2 class="section__title">🏛️ Aufgeführt in</h2>
+        <div class="tag-list" id="performedAt"></div>
+      </div>
       
       <div class="detail-section">
-        <h2 class="section__title">📝 Reviews (${visits.length})</h2>
-        <div class="feed-list" id="operaReviews"></div>
+        <h2 class="section__title" id="reviewsHeading">📝 Reviews</h2>
+        <div class="feed-list" id="operaReviews">
+          <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
       </div>
     </div>
   `;
-
-  // Rating display
-  const ratingEl = page.querySelector('#operaRating');
-  if (avgRating) {
-    ratingEl.appendChild(StarRating(avgRating, false, null, 'lg'));
-    const countEl = document.createElement('span');
-    countEl.className = 'detail-hero__rating-count';
-    countEl.textContent = `${visits.length} ${visits.length === 1 ? 'Bewertung' : 'Bewertungen'}`;
-    ratingEl.appendChild(countEl);
-  } else {
-    ratingEl.innerHTML = '<span class="text-muted">Noch keine Bewertungen</span>';
-  }
-
-  // Ratings histogram
-  const histogramEl = page.querySelector('#operaHistogram');
-  const operaRatings = visits.filter(v => v.rating).map(v => parseFloat(v.rating));
-  if (operaRatings.length > 0) {
-    histogramEl.appendChild(RatingsHistogram(operaRatings, {
-      accentColor: color
-    }));
-  }
-
-  // Performed at tags
-  const tagsContainer = page.querySelector('#performedAt');
-  if (tagsContainer) {
-    performedAt.forEach(house => {
-      const tag = document.createElement('a');
-      tag.className = 'tag';
-      tag.href = `#/house/${house.id}`;
-      tag.textContent = `${house.name} (${house.city})`;
-      tagsContainer.appendChild(tag);
-    });
-  }
-
-  // Reviews
-  // Reviews
-  const reviewsContainer = page.querySelector('#operaReviews');
-  reviewsContainer.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
 
   async function loadVisits() {
     let allVisits = [];
@@ -139,29 +97,66 @@ export function OperaDetailPage(operaId) {
             avatarIcon: v.profiles.avatar_icon
           } : null
         }));
-        
-        if (allVisits.length > 0) {
-            const sum = allVisits.reduce((acc, v) => acc + v.rating, 0);
-            const newAvg = sum / allVisits.length;
-            const ratingEl = page.querySelector('#operaRating');
-            if (ratingEl) {
-                ratingEl.innerHTML = '';
-                ratingEl.appendChild(StarRating(newAvg, false, null, 'lg'));
-                const countEl = document.createElement('span');
-                countEl.className = 'detail-hero__rating-count';
-                countEl.textContent = `${allVisits.length} ${allVisits.length === 1 ? 'Bewertung' : 'Bewertungen'}`;
-                ratingEl.appendChild(countEl);
-            }
-        }
-
       } else {
-        allVisits = [...visits]; // Fallback to local
+        allVisits = [...store.getVisitsByOpera(opera.id)];
       }
     } catch (e) {
       console.warn('Failed to load cloud visits for opera', e);
-      allVisits = [...visits];
+      allVisits = [...store.getVisitsByOpera(opera.id)];
     }
 
+    // Update rating header
+    const ratingEl = page.querySelector('#operaRating');
+    if (ratingEl) {
+      ratingEl.innerHTML = '';
+      if (allVisits.length > 0) {
+        const sum = allVisits.reduce((acc, v) => acc + v.rating, 0);
+        const avg = sum / allVisits.length;
+        ratingEl.appendChild(StarRating(avg, false, null, 'lg'));
+        const countEl = document.createElement('span');
+        countEl.className = 'detail-hero__rating-count';
+        countEl.textContent = `${allVisits.length} ${allVisits.length === 1 ? 'Bewertung' : 'Bewertungen'}`;
+        ratingEl.appendChild(countEl);
+      } else {
+        ratingEl.innerHTML = '<span class="text-muted">Noch keine Bewertungen</span>';
+      }
+    }
+
+    // Update histogram
+    const histogramEl = page.querySelector('#operaHistogram');
+    if (histogramEl) {
+      histogramEl.innerHTML = '';
+      const ratings = allVisits.filter(v => v.rating).map(v => parseFloat(v.rating));
+      if (ratings.length > 0) {
+        histogramEl.appendChild(RatingsHistogram(ratings, { accentColor: color }));
+      }
+    }
+
+    // Update "Aufgeführt in" section
+    const houseIds = [...new Set(allVisits.map(v => v.houseId))];
+    const performedAt = houseIds.map(id => operaHouses.find(h => h.id === id)).filter(Boolean);
+    const performedSection = page.querySelector('#performedAtSection');
+    const tagsContainer = page.querySelector('#performedAt');
+    if (performedAt.length > 0 && performedSection && tagsContainer) {
+      performedSection.style.display = '';
+      tagsContainer.innerHTML = '';
+      performedAt.forEach(house => {
+        const tag = document.createElement('a');
+        tag.className = 'tag';
+        tag.href = `#/house/${house.id}`;
+        tag.textContent = `${house.name} (${house.city})`;
+        tagsContainer.appendChild(tag);
+      });
+    }
+
+    // Update review count heading
+    const heading = page.querySelector('#reviewsHeading');
+    if (heading) {
+      heading.textContent = `📝 Reviews (${allVisits.length})`;
+    }
+
+    // Render review cards
+    const reviewsContainer = page.querySelector('#operaReviews');
     reviewsContainer.innerHTML = '';
     if (allVisits.length === 0) {
       reviewsContainer.innerHTML = '<div class="empty-state">Noch keine Reviews für dieses Werk.</div>';
