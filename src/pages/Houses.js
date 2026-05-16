@@ -1,6 +1,7 @@
 // Opera Houses Browse Page
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
+import { isSupabaseConfigured } from '../config.js';
 
 export function HousesPage() {
   const page = document.createElement('div');
@@ -81,6 +82,9 @@ export function HousesPage() {
     stateFilter.appendChild(chip);
   });
 
+  // Community stats cache (populated async from cloud)
+  let communityHouseStats = {};
+
   function renderHouses() {
     const grid = page.querySelector('#housesGrid');
     const search = page.querySelector('#houseSearch').value.toLowerCase();
@@ -100,8 +104,8 @@ export function HousesPage() {
         case 'capacity-desc': return b.capacity - a.capacity;
         case 'founded': return a.founded - b.founded;
         case 'rating': {
-          const rA = store.getAverageRatingForHouse(a.id) || 0;
-          const rB = store.getAverageRatingForHouse(b.id) || 0;
+          const rA = (communityHouseStats[a.id]?.avg) || store.getAverageRatingForHouse(a.id) || 0;
+          const rB = (communityHouseStats[b.id]?.avg) || store.getAverageRatingForHouse(b.id) || 0;
           return rB - rA;
         }
         default: return 0;
@@ -110,8 +114,8 @@ export function HousesPage() {
 
     grid.innerHTML = '';
     filtered.forEach((house, i) => {
-      const avgRating = store.getAverageRatingForHouse(house.id);
-      const visitCount = store.getVisitsByHouse(house.id).length;
+      const avgRating = (communityHouseStats[house.id]?.avg) || store.getAverageRatingForHouse(house.id);
+      const visitCount = (communityHouseStats[house.id]?.count) || store.getVisitsByHouse(house.id).length;
 
       const bannerBackground = house.imageUrl
         ? `linear-gradient(to bottom, rgba(20, 24, 28, 0.4), #14181c), url('${house.imageUrl}')`
@@ -244,6 +248,19 @@ export function HousesPage() {
 
   // Initial render
   setTimeout(renderHouses, 0);
+
+  // Load community stats from cloud and re-render with real data
+  if (isSupabaseConfigured()) {
+    import('../store/supabase.js').then(async (sbModule) => {
+      try {
+        const { houseStats } = await sbModule.getAllCommunityStats();
+        communityHouseStats = houseStats;
+        renderHouses();
+      } catch (e) {
+        console.warn('Failed to load community stats for houses:', e);
+      }
+    });
+  }
 
   return page;
 }

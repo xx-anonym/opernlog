@@ -1,24 +1,24 @@
 // Main App – Router & Entry Point
-import { Navigation } from './components/Navigation.js?v=28';
-import { HomePage } from './pages/Home.js?v=28';
-import { HousesPage } from './pages/Houses.js?v=28';
-import { HouseDetailPage } from './pages/HouseDetail.js?v=28';
-import { OperasPage } from './pages/Operas.js?v=28';
-import { OperaDetailPage } from './pages/OperaDetail.js?v=28';
-import { LogVisitPage } from './pages/LogVisit.js?v=28';
-import { DiaryPage } from './pages/Diary.js?v=28';
-import { VisitDetailPage } from './pages/VisitDetail.js?v=28';
-import { ProfilePage } from './pages/Profile.js?v=28';
-import { ListsPage } from './pages/Lists.js?v=28';
-import { ListDetailPage } from './pages/ListDetail.js?v=28';
-import { WishlistPage } from './pages/Wishlist.js?v=28';
-import { CommunityPage } from './pages/Community.js?v=28';
-import { AuthPage } from './pages/Auth.js?v=28';
-import { ProfileSetupPage } from './pages/ProfileSetup.js?v=28';
-import { InvitePage } from './pages/Invite.js?v=28';
-import { store } from './store/store.js?v=28';
-import { isSupabaseConfigured } from './config.js?v=28';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js?v=28';
+import { Navigation } from './components/Navigation.js?v=29';
+import { HomePage } from './pages/Home.js?v=29';
+import { HousesPage } from './pages/Houses.js?v=29';
+import { HouseDetailPage } from './pages/HouseDetail.js?v=29';
+import { OperasPage } from './pages/Operas.js?v=29';
+import { OperaDetailPage } from './pages/OperaDetail.js?v=29';
+import { LogVisitPage } from './pages/LogVisit.js?v=29';
+import { DiaryPage } from './pages/Diary.js?v=29';
+import { VisitDetailPage } from './pages/VisitDetail.js?v=29';
+import { ProfilePage } from './pages/Profile.js?v=29';
+import { ListsPage } from './pages/Lists.js?v=29';
+import { ListDetailPage } from './pages/ListDetail.js?v=29';
+import { WishlistPage } from './pages/Wishlist.js?v=29';
+import { CommunityPage } from './pages/Community.js?v=29';
+import { AuthPage } from './pages/Auth.js?v=29';
+import { ProfileSetupPage } from './pages/ProfileSetup.js?v=29';
+import { InvitePage } from './pages/Invite.js?v=29';
+import { store } from './store/store.js?v=29';
+import { isSupabaseConfigured } from './config.js?v=29';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js?v=29';
 
 class App {
     constructor() {

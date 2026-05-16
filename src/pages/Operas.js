@@ -1,6 +1,7 @@
 // Operas Browse Page
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
+import { isSupabaseConfigured } from '../config.js';
 
 export function OperasPage() {
   const page = document.createElement('div');
@@ -99,6 +100,9 @@ export function OperasPage() {
     langSelect.appendChild(opt);
   });
 
+  // Community stats cache (populated async from cloud)
+  let communityOperaStats = {};
+
   const composerColors = {
     'Wolfgang Amadeus Mozart': '#c9a84c',
     'Giuseppe Verdi': '#2d7d46',
@@ -133,13 +137,13 @@ export function OperasPage() {
         case 'composer': return a.composer.localeCompare(b.composer);
         case 'year': return a.yearComposed - b.yearComposed;
         case 'rating': {
-          const rA = store.getAverageRatingForOpera(a.id) || 0;
-          const rB = store.getAverageRatingForOpera(b.id) || 0;
+          const rA = (communityOperaStats[a.id]?.avg) || store.getAverageRatingForOpera(a.id) || 0;
+          const rB = (communityOperaStats[b.id]?.avg) || store.getAverageRatingForOpera(b.id) || 0;
           return rB - rA;
         }
         case 'popular': {
-          const cA = store.getVisitsByOpera(a.id).length;
-          const cB = store.getVisitsByOpera(b.id).length;
+          const cA = (communityOperaStats[a.id]?.count) || store.getVisitsByOpera(a.id).length;
+          const cB = (communityOperaStats[b.id]?.count) || store.getVisitsByOpera(b.id).length;
           return cB - cA;
         }
         default: return 0;
@@ -148,8 +152,8 @@ export function OperasPage() {
 
     grid.innerHTML = '';
     filtered.forEach((opera, i) => {
-      const avgRating = store.getAverageRatingForOpera(opera.id);
-      const visitCount = store.getVisitsByOpera(opera.id).length;
+      const avgRating = (communityOperaStats[opera.id]?.avg) || store.getAverageRatingForOpera(opera.id);
+      const visitCount = (communityOperaStats[opera.id]?.count) || store.getVisitsByOpera(opera.id).length;
       const color = composerColors[opera.composer] || '#8b1a2b';
 
       const card = document.createElement('a');
@@ -278,6 +282,19 @@ export function OperasPage() {
   });
 
   setTimeout(renderOperas, 0);
+
+  // Load community stats from cloud and re-render with real data
+  if (isSupabaseConfigured()) {
+    import('../store/supabase.js').then(async (sbModule) => {
+      try {
+        const { operaStats } = await sbModule.getAllCommunityStats();
+        communityOperaStats = operaStats;
+        renderOperas();
+      } catch (e) {
+        console.warn('Failed to load community stats for operas:', e);
+      }
+    });
+  }
 
   return page;
 }

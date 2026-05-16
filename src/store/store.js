@@ -669,6 +669,11 @@ class Store {
         this._session = null;
         this._profile = null;
         this._cloudMode = false;
+        
+        // Ensure no cross-account data bleeding
+        this.data = getDefaultData();
+        this.save();
+        
         this.notify();
     }
 }

@@ -476,6 +476,45 @@ export async function getVisitsByOperaCloud(operaId) {
     return await enrichVisitsWithSocial(data || []);
 }
 
+// ── Community Stats (all users) ─────────────────────────
+export async function getAllCommunityStats() {
+    const sb = getSupabase();
+    const { data, error } = await sb.from('visits')
+        .select('opera_id, house_id, rating');
+    if (error) {
+        console.error('[Supabase] getAllCommunityStats error:', error);
+        return { operaStats: {}, houseStats: {} };
+    }
+
+    const operaStats = {};
+    const houseStats = {};
+
+    (data || []).forEach(v => {
+        // Opera stats
+        if (v.opera_id) {
+            if (!operaStats[v.opera_id]) operaStats[v.opera_id] = { sum: 0, count: 0 };
+            operaStats[v.opera_id].sum += v.rating;
+            operaStats[v.opera_id].count += 1;
+        }
+        // House stats
+        if (v.house_id) {
+            if (!houseStats[v.house_id]) houseStats[v.house_id] = { sum: 0, count: 0 };
+            houseStats[v.house_id].sum += v.rating;
+            houseStats[v.house_id].count += 1;
+        }
+    });
+
+    // Compute averages
+    for (const id of Object.keys(operaStats)) {
+        operaStats[id].avg = operaStats[id].sum / operaStats[id].count;
+    }
+    for (const id of Object.keys(houseStats)) {
+        houseStats[id].avg = houseStats[id].sum / houseStats[id].count;
+    }
+
+    return { operaStats, houseStats };
+}
+
 // ── Stats ────────────────────────────────────────────────
 export async function getUserStatsCloud(userId) {
     const sb = getSupabase();
