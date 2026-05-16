@@ -153,7 +153,10 @@ export async function getSession() {
 export async function getProfile(userId) {
     const sb = getSupabase();
     const { data, error } = await sb.from('profiles').select('*').eq('id', userId).single();
-    if (error) return null;
+    if (error) {
+        console.error('[Supabase] getProfile error for userId', userId, ':', error);
+        return null;
+    }
     return data;
 }
 

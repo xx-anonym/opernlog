@@ -188,6 +188,9 @@ export function AuthPage(onSuccess) {
 
     try {
       await sb.signIn(email, password);
+      // Import store dynamically to call refreshSession
+      const { store } = await import('../store/store.js');
+      await store.refreshSession();
       if (onSuccess) onSuccess();
       else window.location.hash = '#/';
     } catch (err) {
@@ -248,6 +251,8 @@ export function AuthPage(onSuccess) {
       // Auto-login after successful registration
       try {
         await sb.signIn(email, password);
+        const { store } = await import('../store/store.js');
+        await store.refreshSession();
         if (onSuccess) onSuccess();
         else window.location.hash = '#/';
       } catch (loginErr) {
