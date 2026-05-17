@@ -1,6 +1,7 @@
 // Auth-Seite – Login & Registrierung
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
+import { store } from '../store/store.js';
 import { profileIcons } from '../data/profileIcons.js';
 
 // ── E-Mail-Validierung ──────────────────────────────────
@@ -188,8 +189,6 @@ export function AuthPage(onSuccess) {
 
     try {
       await sb.signIn(email, password);
-      // Import store dynamically to call refreshSession
-      const { store } = await import('../store/store.js');
       await store.refreshSession();
       if (onSuccess) onSuccess();
       else window.location.hash = '#/';
@@ -251,7 +250,6 @@ export function AuthPage(onSuccess) {
       // Auto-login after successful registration
       try {
         await sb.signIn(email, password);
-        const { store } = await import('../store/store.js');
         await store.refreshSession();
         if (onSuccess) onSuccess();
         else window.location.hash = '#/';

@@ -1,24 +1,24 @@
 // Main App – Router & Entry Point
-import { Navigation } from './components/Navigation.js?v=31';
-import { HomePage } from './pages/Home.js?v=31';
-import { HousesPage } from './pages/Houses.js?v=31';
-import { HouseDetailPage } from './pages/HouseDetail.js?v=31';
-import { OperasPage } from './pages/Operas.js?v=31';
-import { OperaDetailPage } from './pages/OperaDetail.js?v=31';
-import { LogVisitPage } from './pages/LogVisit.js?v=31';
-import { DiaryPage } from './pages/Diary.js?v=31';
-import { VisitDetailPage } from './pages/VisitDetail.js?v=31';
-import { ProfilePage } from './pages/Profile.js?v=31';
-import { ListsPage } from './pages/Lists.js?v=31';
-import { ListDetailPage } from './pages/ListDetail.js?v=31';
-import { WishlistPage } from './pages/Wishlist.js?v=31';
-import { CommunityPage } from './pages/Community.js?v=31';
-import { AuthPage } from './pages/Auth.js?v=31';
-import { ProfileSetupPage } from './pages/ProfileSetup.js?v=31';
-import { InvitePage } from './pages/Invite.js?v=31';
-import { store } from './store/store.js?v=31';
-import { isSupabaseConfigured } from './config.js?v=31';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js?v=31';
+import { Navigation } from './components/Navigation.js';
+import { HomePage } from './pages/Home.js';
+import { HousesPage } from './pages/Houses.js';
+import { HouseDetailPage } from './pages/HouseDetail.js';
+import { OperasPage } from './pages/Operas.js';
+import { OperaDetailPage } from './pages/OperaDetail.js';
+import { LogVisitPage } from './pages/LogVisit.js';
+import { DiaryPage } from './pages/Diary.js';
+import { VisitDetailPage } from './pages/VisitDetail.js';
+import { ProfilePage } from './pages/Profile.js';
+import { ListsPage } from './pages/Lists.js';
+import { ListDetailPage } from './pages/ListDetail.js';
+import { WishlistPage } from './pages/Wishlist.js';
+import { CommunityPage } from './pages/Community.js';
+import { AuthPage } from './pages/Auth.js';
+import { ProfileSetupPage } from './pages/ProfileSetup.js';
+import { InvitePage } from './pages/Invite.js';
+import { store } from './store/store.js';
+import { isSupabaseConfigured } from './config.js';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
 
 class App {
     constructor() {
@@ -288,10 +288,9 @@ class App {
                 break;
             case 'auth':
                 page = AuthPage(() => {
-                    store.refreshSession().then(() => {
-                        window.location.hash = '#/';
-                        this.buildLayout();
-                    });
+                    // refreshSession() was already awaited in Auth.js before onSuccess fires
+                    window.location.hash = '#/';
+                    this.buildLayout();
                 });
                 break;
             case 'invite':
