@@ -30,6 +30,115 @@ export function HomePage() {
   `;
   page.appendChild(hero);
 
+  // Friend request notifications
+  if (store.isCloud && isSupabaseConfigured()) {
+    const requestsSection = document.createElement('section');
+    requestsSection.className = 'section friend-requests-section';
+    requestsSection.style.display = 'none';
+    page.appendChild(requestsSection);
+
+    (async () => {
+      try {
+        const requests = await sb.getPendingRequestsReceived();
+        if (requests.length === 0) return;
+
+        requestsSection.style.display = 'block';
+        requestsSection.innerHTML = `
+          <h2 class="friend-requests-section__title">
+            📬 Freundschaftsanfragen
+            <span class="friend-requests-section__badge">${requests.length}</span>
+          </h2>
+        `;
+
+        const list = document.createElement('div');
+        requestsSection.appendChild(list);
+
+        requests.forEach(req => {
+          const profile = req.profiles;
+          const timeAgo = formatTimeAgo(req.created_at);
+          const card = document.createElement('div');
+          card.className = 'friend-request-card fade-in';
+          card.innerHTML = `
+            <div class="friend-request-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)" data-user-id="${profile?.id}">
+              ${profile?.avatar_initials || '??'}
+            </div>
+            <div class="friend-request-card__info">
+              <div class="friend-request-card__name" data-user-id="${profile?.id}">${profile?.username || 'Unbekannt'}</div>
+              <div class="friend-request-card__time">${timeAgo}</div>
+            </div>
+            <div class="friend-request-card__actions">
+              <button class="btn--accept" data-accept="${req.id}">✓ Annehmen</button>
+              <button class="btn--decline" data-decline="${req.id}">✕</button>
+            </div>
+          `;
+
+          // Click avatar/name to visit profile
+          card.querySelectorAll('[data-user-id]').forEach(el => {
+            el.addEventListener('click', (e) => {
+              e.stopPropagation();
+              window.location.hash = `#/profile/${el.dataset.userId}`;
+            });
+          });
+
+          // Accept
+          card.querySelector('[data-accept]').addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const btn = e.target;
+            btn.disabled = true;
+            btn.textContent = '...';
+            try {
+              await sb.acceptFriendRequest(req.id);
+              card.classList.add('friend-request-card--accepted');
+              card.querySelector('.friend-request-card__actions').innerHTML = '<span class="friend-request-success">🎉 Freunde!</span>';
+              setTimeout(() => {
+                card.classList.add('friend-request-card--removing');
+                setTimeout(() => {
+                  card.remove();
+                  // Update badge
+                  const remaining = list.querySelectorAll('.friend-request-card').length;
+                  if (remaining === 0) {
+                    requestsSection.style.display = 'none';
+                  } else {
+                    requestsSection.querySelector('.friend-requests-section__badge').textContent = remaining;
+                  }
+                }, 400);
+              }, 1500);
+            } catch (err) {
+              btn.textContent = '✓ Annehmen';
+              btn.disabled = false;
+            }
+          });
+
+          // Decline
+          card.querySelector('[data-decline]').addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const btn = e.target;
+            btn.disabled = true;
+            try {
+              await sb.declineFriendRequest(req.id);
+              card.classList.add('friend-request-card--removing');
+              setTimeout(() => {
+                card.remove();
+                const remaining = list.querySelectorAll('.friend-request-card').length;
+                if (remaining === 0) {
+                  requestsSection.style.display = 'none';
+                } else {
+                  requestsSection.querySelector('.friend-requests-section__badge').textContent = remaining;
+                }
+              }, 400);
+            } catch (err) {
+              btn.disabled = false;
+            }
+          });
+
+          list.appendChild(card);
+        });
+      } catch (e) {
+        console.warn('Failed to load friend requests', e);
+      }
+    })();
+  }
+
   // Feed
   const feedSection = document.createElement('section');
   feedSection.className = 'section';
@@ -72,7 +181,7 @@ export function HomePage() {
     if (feed.length === 0) {
       feedSection.innerHTML += `
         <div class="empty-state">
-          <p>Dein Feed ist noch leer. Folge anderen Opernfans, um ihre Besuche hier zu sehen!</p>
+          <p>Dein Feed ist noch leer. Finde Opernfreunde, um ihre Besuche hier zu sehen!</p>
           <a href="#/community" class="btn btn--primary">Community entdecken</a>
         </div>
       `;
@@ -146,4 +255,21 @@ function getComposerColor(composer) {
     'Georges Bizet': '#7d2d5a',
   };
   return colors[composer] || '#8b1a2b';
+}
+
+function formatTimeAgo(dateStr) {
+  if (!dateStr) return '';
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffMs = now - date;
+  const diffMin = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMin < 1) return 'Gerade eben';
+  if (diffMin < 60) return `vor ${diffMin} Min.`;
+  if (diffHours < 24) return `vor ${diffHours} Std.`;
+  if (diffDays === 1) return 'Gestern';
+  if (diffDays < 7) return `vor ${diffDays} Tagen`;
+  return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
 }

@@ -301,56 +301,186 @@ export async function acceptInvite(code) {
     return { success: true, friend: inviterProfile };
 }
 
-// ── Follows ──────────────────────────────────────────────
-export async function follow(userId) {
-    const session = await getSession();
-    if (!session) return;
-    const sb = getSupabase();
-    await sb.from('follows').upsert({
-        follower_id: session.user.id,
-        following_id: userId,
-    });
-}
+// ── Friends & Friend Requests ────────────────────────────
 
-export async function unfollow(userId) {
-    const session = await getSession();
-    if (!session) return;
-    const sb = getSupabase();
-    await sb.from('follows').delete()
-        .eq('follower_id', session.user.id)
-        .eq('following_id', userId);
-}
-
-export async function isFollowing(userId) {
+// Check if two users are mutual friends (follows in both directions)
+export async function areFriends(userId) {
     const session = await getSession();
     if (!session) return false;
     const sb = getSupabase();
-    const { data } = await sb.from('follows')
+    const myId = session.user.id;
+
+    // Check both directions
+    const { data: iFollow } = await sb.from('follows')
         .select('follower_id')
-        .eq('follower_id', session.user.id)
+        .eq('follower_id', myId)
         .eq('following_id', userId)
+        .maybeSingle();
+    if (!iFollow) return false;
+
+    const { data: theyFollow } = await sb.from('follows')
+        .select('follower_id')
+        .eq('follower_id', userId)
+        .eq('following_id', myId)
+        .maybeSingle();
+    return !!theyFollow;
+}
+
+// Get relationship status with a user
+export async function getRelationship(userId) {
+    const session = await getSession();
+    if (!session) return 'none';
+    const sb = getSupabase();
+    const myId = session.user.id;
+
+    // Check if already friends (mutual follows)
+    const friends = await areFriends(userId);
+    if (friends) return 'friends';
+
+    // Check for pending friend request I sent
+    const { data: sentReq } = await sb.from('friend_requests')
+        .select('id')
+        .eq('sender_id', myId)
+        .eq('receiver_id', userId)
+        .eq('status', 'pending')
+        .maybeSingle();
+    if (sentReq) return 'request_sent';
+
+    // Check for pending friend request I received
+    const { data: receivedReq } = await sb.from('friend_requests')
+        .select('id')
+        .eq('sender_id', userId)
+        .eq('receiver_id', myId)
+        .eq('status', 'pending')
+        .maybeSingle();
+    if (receivedReq) return 'request_received';
+
+    return 'none';
+}
+
+// Send a friend request via RPC (checks privacy settings server-side)
+export async function sendFriendRequest(userId) {
+    const sb = getSupabase();
+    const { data, error } = await sb.rpc('send_friend_request', { target_user_id: userId });
+    if (error) {
+        console.error('[Supabase] sendFriendRequest error:', error);
+        throw error;
+    }
+    return data; // returns the request ID (or existing request ID if auto-accepted)
+}
+
+// Accept a friend request via RPC (creates mutual follows)
+export async function acceptFriendRequest(requestId) {
+    const sb = getSupabase();
+    const { error } = await sb.rpc('accept_friend_request', { request_id: requestId });
+    if (error) {
+        console.error('[Supabase] acceptFriendRequest error:', error);
+        throw error;
+    }
+}
+
+// Decline a friend request via RPC
+export async function declineFriendRequest(requestId) {
+    const sb = getSupabase();
+    const { error } = await sb.rpc('decline_friend_request', { request_id: requestId });
+    if (error) {
+        console.error('[Supabase] declineFriendRequest error:', error);
+        throw error;
+    }
+}
+
+// Unfriend: remove mutual follows + clean up requests via RPC
+export async function unfriend(userId) {
+    const sb = getSupabase();
+    const { error } = await sb.rpc('unfriend', { target_user_id: userId });
+    if (error) {
+        console.error('[Supabase] unfriend error:', error);
+        throw error;
+    }
+}
+
+// Get all pending friend requests received by current user
+export async function getPendingRequestsReceived() {
+    const session = await getSession();
+    if (!session) return [];
+    const sb = getSupabase();
+    const { data, error } = await sb.from('friend_requests')
+        .select('id, sender_id, created_at, profiles:sender_id(id, username, avatar_initials, avatar_icon, bio)')
+        .eq('receiver_id', session.user.id)
+        .eq('status', 'pending')
+        .order('created_at', { ascending: false });
+    if (error) {
+        console.error('[Supabase] getPendingRequestsReceived error:', error);
+        return [];
+    }
+    return data || [];
+}
+
+// Get all pending friend requests sent by current user
+export async function getPendingRequestsSent() {
+    const session = await getSession();
+    if (!session) return [];
+    const sb = getSupabase();
+    const { data, error } = await sb.from('friend_requests')
+        .select('id, receiver_id, created_at, profiles:receiver_id(id, username, avatar_initials, avatar_icon)')
+        .eq('sender_id', session.user.id)
+        .eq('status', 'pending')
+        .order('created_at', { ascending: false });
+    if (error) {
+        console.error('[Supabase] getPendingRequestsSent error:', error);
+        return [];
+    }
+    return data || [];
+}
+
+// Get friend request privacy setting for a user
+export async function getFriendRequestPrivacy(userId) {
+    const sb = getSupabase();
+    const { data } = await sb.from('profiles')
+        .select('friend_request_privacy')
+        .eq('id', userId)
         .single();
-    return !!data;
+    return data?.friend_request_privacy || 'everyone';
 }
 
-export async function getFollowing() {
+// Update own friend request privacy setting
+export async function updateFriendRequestPrivacy(setting) {
+    const session = await getSession();
+    if (!session) return;
+    const sb = getSupabase();
+    await sb.from('profiles').update({ friend_request_privacy: setting }).eq('id', session.user.id);
+}
+
+// Get all friends (mutual follows) — replaces old getFollowing()
+export async function getFriends() {
     const session = await getSession();
     if (!session) return [];
     const sb = getSupabase();
-    const { data } = await sb.from('follows')
-        .select('following_id, profiles:following_id(id, username, avatar_initials, avatar_icon, bio, created_at)')
-        .eq('follower_id', session.user.id);
-    return (data || []).map(f => f.profiles);
-}
+    const myId = session.user.id;
 
-export async function getFollowers() {
-    const session = await getSession();
-    if (!session) return [];
-    const sb = getSupabase();
-    const { data } = await sb.from('follows')
+    // Get people I follow
+    const { data: iFollow } = await sb.from('follows')
+        .select('following_id')
+        .eq('follower_id', myId);
+    const followingIds = (iFollow || []).map(f => f.following_id);
+    if (followingIds.length === 0) return [];
+
+    // Of those, find who also follows me back (mutual)
+    const { data: mutuals } = await sb.from('follows')
         .select('follower_id, profiles:follower_id(id, username, avatar_initials, avatar_icon, bio, created_at)')
-        .eq('following_id', session.user.id);
-    return (data || []).map(f => f.profiles);
+        .eq('following_id', myId)
+        .in('follower_id', followingIds);
+
+    return (mutuals || []).map(f => f.profiles);
+}
+
+// Legacy aliases for backward compatibility with feed loading
+export async function getFollowing() {
+    return getFriends();
+}
+
+export async function isFollowing(userId) {
+    return areFriends(userId);
 }
 
 // ── Visits (Cloud) ───────────────────────────────────────

@@ -13,7 +13,7 @@ export function CommunityPage() {
   page.innerHTML = `
     <div class="page-header">
       <h1 class="page-header__title">👥 Freunde</h1>
-      <p class="page-header__subtitle">${store.isCloud ? 'Folge Opernfreunden und teile Besuche' : 'Verwalte deine Opernfreunde'}</p>
+      <p class="page-header__subtitle">${store.isCloud ? 'Verwalte deine Opernfreunde und Freundschaftsanfragen' : 'Verwalte deine Opernfreunde'}</p>
     </div>
     
     <div class="community-tabs">
@@ -69,7 +69,7 @@ export function CommunityPage() {
       content.innerHTML = '<div class="loading-spinner"><div class="spinner"></div> Lade Freunde...</div>';
 
       try {
-        const following = await sb.getFollowing();
+        const following = await sb.getFriends();
 
         content.innerHTML = '';
 
@@ -85,8 +85,8 @@ export function CommunityPage() {
           const emptyState = document.createElement('div');
           emptyState.className = 'empty-state';
           emptyState.innerHTML = `
-                        <p>Du folgst noch niemandem.</p>
-                        <p class="text-muted">Lade Freunde ein oder suche nach Nutzern!</p>
+                        <p>Du hast noch keine Freunde.</p>
+                        <p class="text-muted">Lade Freunde ein oder sende Freundschaftsanfragen!</p>
                     `;
           content.appendChild(emptyState);
         } else {
@@ -106,14 +106,14 @@ export function CommunityPage() {
                                 </div>
                             </div>
                             <div class="user-card__actions">
-                                <button class="btn btn--outline btn--sm unfollow-btn">✓ Folgst du</button>
+                                <button class="btn--friend unfollow-btn">✓ Befreundet</button>
                             </div>
                         `;
 
             card.querySelector('.unfollow-btn').addEventListener('click', async (e) => {
               e.stopPropagation();
-              if (confirm(`${friend.username} wirklich entfolgen?`)) {
-                await sb.unfollow(friend.id);
+              if (confirm(`Freundschaft mit ${friend.username} beenden?`)) {
+                await sb.unfriend(friend.id);
                 renderContent();
               }
             });

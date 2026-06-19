@@ -1,4 +1,8 @@
 // Navigation Component
+import { store } from '../store/store.js';
+import * as sb from '../store/supabase.js';
+import { isSupabaseConfigured } from '../config.js';
+
 export function Navigation() {
   const nav = document.createElement('nav');
   nav.className = 'main-nav';
@@ -86,6 +90,25 @@ export function Navigation() {
 
   window.addEventListener('hashchange', updateActive);
   updateActive();
+
+  // Notification dot for pending friend requests
+  if (store.isCloud && isSupabaseConfigured()) {
+    (async () => {
+      try {
+        const requests = await sb.getPendingRequestsReceived();
+        if (requests.length > 0) {
+          const homeLink = nav.querySelector('[data-page="home"]');
+          if (homeLink && !homeLink.querySelector('.notification-dot')) {
+            const dot = document.createElement('span');
+            dot.className = 'notification-dot';
+            homeLink.appendChild(dot);
+          }
+        }
+      } catch (e) {
+        // Silently fail – notification dot is not critical
+      }
+    })();
+  }
 
   return nav;
 }

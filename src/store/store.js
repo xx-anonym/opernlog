@@ -400,19 +400,29 @@ class Store {
         return await sb.getUserStatsCloud(userId);
     }
 
-    async isFollowingCloud(userId) {
+    async areFriendsCloud(userId) {
         if (!this.isCloud) return this.isFollowing(userId);
-        return await sb.isFollowing(userId);
+        return await sb.areFriends(userId);
     }
 
-    async toggleFollowCloud(userId) {
+    async getRelationshipCloud(userId) {
+        if (!this.isCloud) return this.isFollowing(userId) ? 'friends' : 'none';
+        return await sb.getRelationship(userId);
+    }
+
+    async sendFriendRequestCloud(userId) {
         if (!this.isCloud) return this.toggleFollow(userId);
-        const following = await sb.isFollowing(userId);
-        if (following) {
-            await sb.unfollow(userId);
-        } else {
-            await sb.follow(userId);
-        }
+        return await sb.sendFriendRequest(userId);
+    }
+
+    async unfriendCloud(userId) {
+        if (!this.isCloud) return this.toggleFollow(userId);
+        return await sb.unfriend(userId);
+    }
+
+    async getPendingRequestsCloud() {
+        if (!this.isCloud) return [];
+        return await sb.getPendingRequestsReceived();
     }
 
     // ── Ratings ──────────────────────────────────────────

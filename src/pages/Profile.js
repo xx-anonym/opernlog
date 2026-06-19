@@ -80,10 +80,13 @@ async function renderCloudProfile(page, userId) {
       return;
     }
 
-    const stats = await sb.getUserStatsCloud(userId);
-    const visits = await sb.getUserVisitsCloud(userId);
-    const following = await sb.isFollowing(userId);
-    const userLists = await sb.getUserListsCloud(userId);
+    const [stats, visits, relationship, userLists, privacy] = await Promise.all([
+      sb.getUserStatsCloud(userId),
+      sb.getUserVisitsCloud(userId),
+      sb.getRelationship(userId),
+      sb.getUserListsCloud(userId),
+      sb.getFriendRequestPrivacy(userId),
+    ]);
 
     const user = {
       id: profile.id,
@@ -132,6 +135,26 @@ async function renderCloudProfile(page, userId) {
     const topHouseObj = topHouseIdArr ? operaHouses.find(h => h.id === topHouseIdArr[0]) : null;
     const topHouse = topHouseObj ? topHouseObj.name : '-';
 
+    // Build the relationship button HTML
+    function getRelationshipButtonHTML(rel, priv) {
+      switch (rel) {
+        case 'friends':
+          return '<button class="btn--friend" id="friendActionBtn" title="Freundschaft beenden">✓ Befreundet</button>';
+        case 'request_sent':
+          return '<button class="btn--pending" id="friendActionBtn" title="Anfrage zurückziehen">⏳ Anfrage gesendet</button>';
+        case 'request_received':
+          return `<div class="friend-request-card__actions" id="friendActionBtns">
+            <button class="btn--accept" id="acceptRequestBtn">✓ Annehmen</button>
+            <button class="btn--decline" id="declineRequestBtn">✕ Ablehnen</button>
+          </div>`;
+        case 'none':
+        default:
+          if (priv === 'nobody') return '<span class="text-muted" style="font-size:0.85rem">Nimmt keine Anfragen an</span>';
+          if (priv === 'link_only') return '<span class="text-muted" style="font-size:0.85rem">🔗 Nur über Einladungslink</span>';
+          return '<button class="btn--send-request" id="friendActionBtn">👋 Freundschaftsanfrage</button>';
+      }
+    }
+
     page.innerHTML = `
       <div class="profile-hero">
         <div class="profile-hero__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">
@@ -141,9 +164,9 @@ async function renderCloudProfile(page, userId) {
           <h1 class="profile-hero__name">${user.name}</h1>
           <p class="profile-hero__bio">${user.bio}</p>
           <span class="profile-hero__joined">Dabei seit ${formatJoinDate(user.joined)}</span>
-          <button class="btn ${following ? 'btn--outline' : 'btn--primary'} btn--sm" id="followBtn">
-            ${following ? '✓ Folgst du' : '+ Folgen'}
-          </button>
+          <div id="relationshipArea">
+            ${getRelationshipButtonHTML(relationship, privacy)}
+          </div>
         </div>
       </div>
       
@@ -227,20 +250,120 @@ async function renderCloudProfile(page, userId) {
       });
     });
 
-    // Follow button
-    page.querySelector('#followBtn').addEventListener('click', async () => {
-      const btn = page.querySelector('#followBtn');
-      const nowFollowing = btn.textContent.includes('Folgst');
-      if (nowFollowing) {
-        await sb.unfollow(userId);
-        btn.textContent = '+ Folgen';
-        btn.className = 'btn btn--primary btn--sm';
-      } else {
-        await sb.follow(userId);
-        btn.textContent = '✓ Folgst du';
-        btn.className = 'btn btn--outline btn--sm';
+    // Friend request / relationship buttons
+    const area = page.querySelector('#relationshipArea');
+
+    function attachRelationshipHandlers() {
+      const actionBtn = area.querySelector('#friendActionBtn');
+      const acceptBtn = area.querySelector('#acceptRequestBtn');
+      const declineBtn = area.querySelector('#declineRequestBtn');
+
+      if (actionBtn) {
+        if (relationship === 'friends') {
+          // Unfriend
+          actionBtn.addEventListener('click', async () => {
+            if (confirm(`Freundschaft mit ${user.name} wirklich beenden?`)) {
+              actionBtn.disabled = true;
+              actionBtn.textContent = '...';
+              try {
+                await sb.unfriend(userId);
+                area.innerHTML = getRelationshipButtonHTML('none', privacy);
+                relationship = 'none';
+                attachRelationshipHandlers();
+              } catch (e) {
+                actionBtn.textContent = '✓ Befreundet';
+                actionBtn.disabled = false;
+              }
+            }
+          });
+        } else if (relationship === 'request_sent') {
+          // Cancel request (not directly supported by RPC, but user can click)
+          actionBtn.addEventListener('click', () => {
+            // Show subtle feedback that request is pending
+            actionBtn.style.animation = 'pulse 1s ease-in-out';
+            setTimeout(() => actionBtn.style.animation = '', 1000);
+          });
+        } else if (relationship === 'none') {
+          // Send friend request
+          actionBtn.addEventListener('click', async () => {
+            actionBtn.disabled = true;
+            actionBtn.textContent = 'Wird gesendet...';
+            try {
+              await sb.sendFriendRequest(userId);
+              // Check if auto-accepted (if they had sent us a request)
+              const newRel = await sb.getRelationship(userId);
+              if (newRel === 'friends') {
+                area.innerHTML = '<div class="friend-request-success">🎉 Ihr seid jetzt Freunde!</div>';
+                setTimeout(() => {
+                  area.innerHTML = getRelationshipButtonHTML('friends', privacy);
+                  relationship = 'friends';
+                  attachRelationshipHandlers();
+                }, 2000);
+              } else {
+                area.innerHTML = getRelationshipButtonHTML('request_sent', privacy);
+                relationship = 'request_sent';
+                attachRelationshipHandlers();
+              }
+            } catch (e) {
+              const msg = e.message || '';
+              if (msg.includes('link')) {
+                actionBtn.textContent = '🔗 Nur über Einladungslink';
+                actionBtn.className = 'btn--pending';
+              } else if (msg.includes('not accept')) {
+                actionBtn.textContent = 'Nimmt keine Anfragen an';
+                actionBtn.className = 'btn--pending';
+              } else {
+                actionBtn.textContent = '👋 Freundschaftsanfrage';
+                actionBtn.disabled = false;
+              }
+            }
+          });
+        }
       }
-    });
+
+      if (acceptBtn && declineBtn) {
+        acceptBtn.addEventListener('click', async () => {
+          acceptBtn.disabled = true;
+          acceptBtn.textContent = '...';
+          try {
+            // Get the request ID
+            const reqs = await sb.getPendingRequestsReceived();
+            const req = reqs.find(r => r.sender_id === userId);
+            if (req) {
+              await sb.acceptFriendRequest(req.id);
+              area.innerHTML = '<div class="friend-request-success">🎉 Ihr seid jetzt Freunde!</div>';
+              setTimeout(() => {
+                area.innerHTML = getRelationshipButtonHTML('friends', privacy);
+                relationship = 'friends';
+                attachRelationshipHandlers();
+              }, 2000);
+            }
+          } catch (e) {
+            acceptBtn.textContent = '✓ Annehmen';
+            acceptBtn.disabled = false;
+          }
+        });
+
+        declineBtn.addEventListener('click', async () => {
+          declineBtn.disabled = true;
+          try {
+            const reqs = await sb.getPendingRequestsReceived();
+            const req = reqs.find(r => r.sender_id === userId);
+            if (req) {
+              await sb.declineFriendRequest(req.id);
+              area.innerHTML = getRelationshipButtonHTML('none', privacy);
+              relationship = 'none';
+              attachRelationshipHandlers();
+            }
+          } catch (e) {
+            declineBtn.disabled = false;
+          }
+        });
+      }
+    }
+
+    let relationship_current = relationship;
+    attachRelationshipHandlers();
 
     // Render ratings histogram
     const histogramContainer = page.querySelector('#cloudHistogram');
@@ -408,6 +531,17 @@ function renderLocalProfile(page, userId, isMe) {
             `).join('')}
           </div>
         </div>
+        ${store.isCloud ? `
+        <div class="form-group">
+          <label class="form-label">Freundschaftsanfragen</label>
+          <select class="privacy-select" id="editPrivacy">
+            <option value="everyone">Jeder kann anfragen</option>
+            <option value="link_only">Nur über Einladungslink</option>
+            <option value="nobody">Niemand</option>
+          </select>
+          <p class="privacy-hint">Bestimme, wer dir Freundschaftsanfragen senden darf.</p>
+        </div>
+        ` : ''}
         <div class="form-actions">
           <button class="btn btn--primary" id="saveProfileBtn">Speichern</button>
           <button class="btn btn--outline" id="closeModalBtn">Abbrechen</button>
@@ -494,7 +628,15 @@ function renderLocalProfile(page, userId, isMe) {
       });
     }
 
-    page.querySelector('#saveProfileBtn').addEventListener('click', () => {
+    // Load current privacy setting into dropdown
+    if (store.isCloud) {
+      sb.getFriendRequestPrivacy(store._profile?.id).then(priv => {
+        const privSelect = page.querySelector('#editPrivacy');
+        if (privSelect) privSelect.value = priv;
+      });
+    }
+
+    page.querySelector('#saveProfileBtn').addEventListener('click', async () => {
       const name = page.querySelector('#editName').value.trim();
       const bio = page.querySelector('#editBio').value.trim();
       const avatar = page.querySelector('#editAvatar').value.trim().toUpperCase();
@@ -502,6 +644,13 @@ function renderLocalProfile(page, userId, isMe) {
       const avatarIcon = activeIconBtn ? activeIconBtn.dataset.icon : '';
       if (name) {
         store.updateProfile({ name, bio, avatar: avatar || name.substring(0, 2).toUpperCase(), avatarIcon });
+
+        // Save privacy setting if in cloud mode
+        const privSelect = page.querySelector('#editPrivacy');
+        if (privSelect && store.isCloud) {
+          await sb.updateFriendRequestPrivacy(privSelect.value);
+        }
+
         modal.style.display = 'none';
         page.querySelector('.profile-hero__name').textContent = name;
         page.querySelector('.profile-hero__bio').textContent = bio;
