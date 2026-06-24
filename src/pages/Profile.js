@@ -80,13 +80,14 @@ async function renderCloudProfile(page, userId) {
       return;
     }
 
-    const [stats, visits, relationship, userLists, privacy] = await Promise.all([
+    const [stats, visits, relationshipInitial, userLists, privacy] = await Promise.all([
       sb.getUserStatsCloud(userId),
       sb.getUserVisitsCloud(userId),
       sb.getRelationship(userId),
       sb.getUserListsCloud(userId),
       sb.getFriendRequestPrivacy(userId),
     ]);
+    let relationship = relationshipInitial;
 
     const user = {
       id: profile.id,
@@ -362,7 +363,6 @@ async function renderCloudProfile(page, userId) {
       }
     }
 
-    let relationship_current = relationship;
     attachRelationshipHandlers();
 
     // Render ratings histogram
