@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v32';
+const CACHE_NAME = 'opernlog-v33';
 
 // App shell files to cache for offline use
 const APP_SHELL = [
@@ -11,19 +11,24 @@ const APP_SHELL = [
     './src/config.js',
     './src/pages/Auth.js',
     './src/pages/Community.js',
-    './src/pages/Feed.js',
+    './src/pages/Home.js',
     './src/pages/HouseDetail.js',
     './src/pages/Houses.js',
     './src/pages/Invite.js',
     './src/pages/Lists.js',
-    './src/pages/Log.js',
+    './src/pages/ListDetail.js',
+    './src/pages/LogVisit.js',
     './src/pages/OperaDetail.js',
     './src/pages/Operas.js',
     './src/pages/Profile.js',
+    './src/pages/ProfileSetup.js',
     './src/pages/Diary.js',
     './src/pages/VisitDetail.js',
+    './src/pages/Wishlist.js',
+    './src/components/Navigation.js',
     './src/components/ReviewCard.js',
     './src/components/RatingsHistogram.js',
+    './src/components/StarRating.js',
     './src/store/store.js',
     './src/store/supabase.js',
     './src/data/operaHouses.js',

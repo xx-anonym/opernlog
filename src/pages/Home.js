@@ -98,6 +98,8 @@ export function HomePage() {
                   const remaining = list.querySelectorAll('.friend-request-card').length;
                   if (remaining === 0) {
                     requestsSection.style.display = 'none';
+                    // Remove notification dot from navigation
+                    document.querySelectorAll('.notification-dot').forEach(d => d.remove());
                   } else {
                     requestsSection.querySelector('.friend-requests-section__badge').textContent = remaining;
                   }
@@ -122,6 +124,8 @@ export function HomePage() {
                 const remaining = list.querySelectorAll('.friend-request-card').length;
                 if (remaining === 0) {
                   requestsSection.style.display = 'none';
+                  // Remove notification dot from navigation
+                  document.querySelectorAll('.notification-dot').forEach(d => d.remove());
                 } else {
                   requestsSection.querySelector('.friend-requests-section__badge').textContent = remaining;
                 }
