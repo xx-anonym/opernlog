@@ -1,4 +1,5 @@
 // Home / Feed Page
+import { escapeHTML } from '../utils.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -63,7 +64,7 @@ export function HomePage() {
               ${profile?.avatar_initials || '??'}
             </div>
             <div class="friend-request-card__info">
-              <div class="friend-request-card__name" data-user-id="${profile?.id}">${profile?.username || 'Unbekannt'}</div>
+              <div class="friend-request-card__name" data-user-id="${profile?.id}">${escapeHTML(profile?.username || 'Unbekannt')}</div>
               <div class="friend-request-card__time">${timeAgo}</div>
             </div>
             <div class="friend-request-card__actions">
@@ -76,6 +77,7 @@ export function HomePage() {
           card.querySelectorAll('[data-user-id]').forEach(el => {
             el.addEventListener('click', (e) => {
               e.stopPropagation();
+              if (!el.dataset.userId) return;
               window.location.hash = `#/profile/${el.dataset.userId}`;
             });
           });

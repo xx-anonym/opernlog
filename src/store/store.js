@@ -238,7 +238,7 @@ class Store {
             if (updates.bio !== undefined) cloudUpdates.bio = updates.bio;
             if (avatar) cloudUpdates.avatar_initials = avatar;
             if (updates.avatarIcon !== undefined) cloudUpdates.avatar_icon = updates.avatarIcon;
-            sb.updateProfile(cloudUpdates);
+            sb.updateProfile(cloudUpdates).catch(e => console.warn('Cloud profile update failed:', e));
             // Update in-memory profile so getCurrentUser() reflects changes immediately
             if (this._profile) {
                 if (updates.name) this._profile.username = updates.name;
@@ -284,7 +284,7 @@ class Store {
     removeFriend(userId) {
         this.data.friends = this.data.friends.filter(f => f.id !== userId);
         this.data.follows = this.data.follows.filter(id => id !== userId);
-        if (this.isCloud) sb.unfollow(userId);
+        if (this.isCloud) sb.unfriend(userId).catch(e => console.warn('Cloud unfriend failed:', e));
         this.save();
     }
 

@@ -193,8 +193,10 @@ class App {
         this.content.className = 'main-content';
         this.root.appendChild(this.content);
 
-        // Listen for hash changes
-        window.addEventListener('hashchange', () => this.route());
+        // Listen for hash changes (remove old listener to prevent leaks on re-auth)
+        if (this._routeHandler) window.removeEventListener('hashchange', this._routeHandler);
+        this._routeHandler = () => this.route();
+        window.addEventListener('hashchange', this._routeHandler);
         this.route();
     }
 

@@ -160,7 +160,7 @@ BEGIN
 
   -- Delete declined request so sender can re-request in the future
   DELETE FROM friend_requests
-    WHERE id = request_id AND status = 'declined';
+    WHERE id = request_id AND receiver_id = auth.uid() AND status = 'declined';
 END;
 $$;
 
@@ -197,7 +197,14 @@ $$;
 DO $$
 DECLARE
   r RECORD;
+  did_insert BOOLEAN;
 BEGIN
+  -- Only run if no friend_requests exist yet (idempotency guard)
+  IF EXISTS (SELECT 1 FROM friend_requests LIMIT 1) THEN
+    RAISE NOTICE 'friend_requests already has data, skipping migration';
+    RETURN;
+  END IF;
+
   FOR r IN
     SELECT f.follower_id, f.following_id
     FROM follows f
@@ -211,9 +218,13 @@ BEGIN
       VALUES (r.follower_id, r.following_id, 'pending', NOW())
       ON CONFLICT (sender_id, receiver_id) DO NOTHING;
 
-    -- Remove the one-way follow
-    DELETE FROM follows
-      WHERE follower_id = r.follower_id AND following_id = r.following_id;
+    GET DIAGNOSTICS did_insert = ROW_COUNT > 0;
+
+    -- Only remove the one-way follow if we actually created the request
+    IF did_insert THEN
+      DELETE FROM follows
+        WHERE follower_id = r.follower_id AND following_id = r.following_id;
+    END IF;
   END LOOP;
 END;
 $$;

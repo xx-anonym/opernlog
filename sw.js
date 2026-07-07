@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v34';
+const CACHE_NAME = 'opernlog-v35';
 
 // App shell files to cache for offline use
 const APP_SHELL = [
@@ -34,6 +34,7 @@ const APP_SHELL = [
     './src/data/operaHouses.js',
     './src/data/operas.js',
     './src/data/profileIcons.js',
+    './src/utils.js',
 ];
 
 // Install – cache app shell
@@ -42,6 +43,8 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME).then((cache) => {
             console.log('[SW] Caching app shell');
             return cache.addAll(APP_SHELL);
+        }).catch((err) => {
+            console.error('[SW] Failed to cache app shell:', err);
         })
     );
     self.skipWaiting();

@@ -5,6 +5,7 @@ import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
+import { escapeHTML } from '../utils.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -99,8 +100,8 @@ export function CommunityPage() {
             card.innerHTML = `
                             <div class="user-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${renderAvatarHTML(friend.avatar_initials || '??', friend.avatar_icon)}</div>
                             <div class="user-card__info">
-                                <h3 class="user-card__name">${friend.username}</h3>
-                                <p class="user-card__bio">${friend.bio || ''}</p>
+                                <h3 class="user-card__name">${escapeHTML(friend.username)}</h3>
+                                <p class="user-card__bio">${escapeHTML(friend.bio || '')}</p>
                                 <div class="user-card__stats">
                                     <span>Dabei seit ${new Date(friend.created_at).toLocaleDateString('de-DE', { month: 'short', year: 'numeric' })}</span>
                                 </div>
@@ -113,8 +114,12 @@ export function CommunityPage() {
             card.querySelector('.unfollow-btn').addEventListener('click', async (e) => {
               e.stopPropagation();
               if (confirm(`Freundschaft mit ${friend.username} beenden?`)) {
-                await sb.unfriend(friend.id);
-                renderContent();
+                try {
+                  await sb.unfriend(friend.id);
+                  renderContent();
+                } catch (err) {
+                  alert('Fehler beim Entfernen der Freundschaft: ' + err.message);
+                }
               }
             });
 
@@ -228,21 +233,22 @@ export function CommunityPage() {
                             <div class="feed-card__header">
                                 <div class="feed-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${renderAvatarHTML(profile?.avatar_initials || '??', profile?.avatar_icon)}</div>
                                 <div class="feed-card__meta">
-                                    <strong>${profile?.username || 'Unbekannt'}</strong>
+                                    <strong>${escapeHTML(profile?.username || 'Unbekannt')}</strong>
                                     <span class="text-muted">hat am ${new Date(item.date).toLocaleDateString('de-DE')} besucht</span>
                                 </div>
                             </div>
                             <div class="feed-card__body">
                                 <h3>${opera?.title || item.opera_id}</h3>
                                 <p class="text-muted">${house?.name || item.house_id}, ${house?.city || ''}</p>
-                                <div class="feed-card__rating">${'★'.repeat(Math.round(item.rating))}${'☆'.repeat(5 - Math.round(item.rating))} ${parseFloat(item.rating).toFixed(1)}</div>
-                                ${item.review ? `<p class="feed-card__review">${item.review}</p>` : ''}
+                                <div class="feed-card__rating">${'★'.repeat(Math.round(item.rating || 0))}${'☆'.repeat(5 - Math.round(item.rating || 0))} ${item.rating ? parseFloat(item.rating).toFixed(1) : '–'}</div>
+                                ${item.review ? `<p class="feed-card__review">${escapeHTML(item.review)}</p>` : ''}
                             </div>
                         `;
 
             card.querySelector('.feed-card__header').style.cursor = 'pointer';
             card.querySelector('.feed-card__header').addEventListener('click', () => {
-              window.location.hash = `#/profile/${profile?.id}`;
+              if (!profile?.id) return;
+              window.location.hash = `#/profile/${profile.id}`;
             });
 
             feedList.appendChild(card);

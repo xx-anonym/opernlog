@@ -155,8 +155,8 @@ export function LogVisitPage(params = {}) {
     });
   });
 
-  // Close dropdowns when clicking elsewhere
-  document.addEventListener('click', (e) => {
+  // Close dropdowns when clicking elsewhere (scoped to page to prevent leaks)
+  page.addEventListener('click', (e) => {
     if (!e.target.closest('#houseAutocomplete')) houseList.style.display = 'none';
     if (!e.target.closest('#operaAutocomplete')) operaList.style.display = 'none';
   });
@@ -174,6 +174,7 @@ export function LogVisitPage(params = {}) {
     if (!houseId) { shakeElement(houseInput); return; }
     if (!operaId) { shakeElement(operaInput); return; }
     if (!selectedRating) { shakeElement(ratingWidget); return; }
+    if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
 
     if (editVisit) {
       store.updateVisit(editVisit.id, { houseId, operaId, date, rating: selectedRating, review });

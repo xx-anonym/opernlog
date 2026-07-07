@@ -3,6 +3,7 @@ import * as sb from '../store/supabase.js';
 import { getSession } from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { AuthPage } from './Auth.js';
+import { escapeHTML } from '../utils.js';
 
 export function InvitePage(code) {
   const page = document.createElement('div');
@@ -90,7 +91,7 @@ async function renderAcceptInvite(page, code) {
         <div class="invite-error">
           <span style="font-size: 3rem">❌</span>
           <h2>Fehler</h2>
-          <p>${result.error}</p>
+          <p>${escapeHTML(result.error)}</p>
           <a href="#/" class="btn btn--primary btn--lg">Zur Startseite</a>
         </div>
       `;
@@ -101,7 +102,7 @@ async function renderAcceptInvite(page, code) {
       <div class="invite-error">
         <span style="font-size: 3rem">❌</span>
         <h2>Fehler</h2>
-        <p>${err.message}</p>
+        <p>${escapeHTML(err.message)}</p>
         <a href="#/" class="btn btn--primary btn--lg">Zur Startseite</a>
       </div>
     `;

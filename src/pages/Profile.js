@@ -1,4 +1,5 @@
 // Profile Page – Hybrid (local + cloud)
+import { escapeHTML } from '../utils.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
@@ -162,8 +163,8 @@ async function renderCloudProfile(page, userId) {
           ${renderAvatarHTML(user.avatar, user.avatarIcon)}
         </div>
         <div class="profile-hero__info">
-          <h1 class="profile-hero__name">${user.name}</h1>
-          <p class="profile-hero__bio">${user.bio}</p>
+          <h1 class="profile-hero__name">${escapeHTML(user.name)}</h1>
+          <p class="profile-hero__bio">${escapeHTML(user.bio)}</p>
           <span class="profile-hero__joined">Dabei seit ${formatJoinDate(user.joined)}</span>
           <div id="relationshipArea">
             ${getRelationshipButtonHTML(relationship, privacy)}
@@ -446,8 +447,8 @@ function renderLocalProfile(page, userId, isMe) {
         ${renderAvatarHTML(user.avatar, user.avatarIcon)}
       </div>
       <div class="profile-hero__info">
-        <h1 class="profile-hero__name">${user.name}</h1>
-        <p class="profile-hero__bio">${user.bio || ''}</p>
+        <h1 class="profile-hero__name">${escapeHTML(user.name)}</h1>
+        <p class="profile-hero__bio">${escapeHTML(user.bio || '')}</p>
         <span class="profile-hero__joined">Dabei seit ${formatJoinDate(user.joined)}</span>
         ${!isMe ? `
           <button class="btn ${isFollowing ? 'btn--outline' : 'btn--primary'} btn--sm" id="followBtn">
@@ -464,34 +465,34 @@ function renderLocalProfile(page, userId, isMe) {
     
     <div class="profile-stats">
       <div class="stat-card">
-        <span class="stat-card__number">${stats.totalVisits}</span>
+        <span class="stat-card__number">${stats?.totalVisits || 0}</span>
         <span class="stat-card__label">Besuche</span>
       </div>
       <div class="stat-card">
-        <span class="stat-card__number">${stats.avgRating}</span>
+        <span class="stat-card__number">${stats?.avgRating || '0'}</span>
         <span class="stat-card__label">Ø Bewertung</span>
       </div>
       <div class="stat-card">
-        <span class="stat-card__number">${stats.uniqueHouses}</span>
+        <span class="stat-card__number">${stats?.uniqueHouses || 0}</span>
         <span class="stat-card__label">Häuser besucht</span>
       </div>
       <div class="stat-card">
-        <span class="stat-card__number">${stats.uniqueOperas}</span>
+        <span class="stat-card__number">${stats?.uniqueOperas || 0}</span>
         <span class="stat-card__label">Werke gesehen</span>
       </div>
     </div>
     
     <div id="profileHistogram" class="profile-histogram"></div>
     
-    ${stats.topComposer !== '-' ? `
+    ${stats?.topComposer && stats.topComposer !== '-' ? `
     <div class="profile-favorites">
       <div class="favorite-item">
         <span class="favorite-item__label">Lieblingskomponist</span>
-        <span class="favorite-item__value">${stats.topComposer}</span>
+        <span class="favorite-item__value">${stats?.topComposer || '-'}</span>
       </div>
       <div class="favorite-item">
         <span class="favorite-item__label">Meistbesuchtes Haus</span>
-        <span class="favorite-item__value">${stats.topHouse}</span>
+        <span class="favorite-item__value">${stats?.topHouse || '-'}</span>
       </div>
     </div>
     ` : ''}

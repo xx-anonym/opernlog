@@ -42,7 +42,7 @@ export function waitForInitialSession() {
     const sb = getSupabase();
     if (!sb) { _sessionReady = Promise.resolve(null); return _sessionReady; }
 
-    _sessionReady = new Promise(async (resolve) => {
+    _sessionReady = (async () => {
         // 1. Check if this is an OAuth redirect with tokens in the hash
         const oauthTokens = parseOAuthHash();
         if (oauthTokens) {
@@ -53,28 +53,27 @@ export function waitForInitialSession() {
                 window.history.replaceState(null, '', window.location.pathname);
                 if (error) {
                     console.error('[Auth] setSession failed:', error);
-                    resolve(null);
+                    return null;
                 } else {
                     console.log('[Auth] Session set successfully!');
-                    resolve(data.session);
+                    return data.session;
                 }
             } catch (e) {
                 console.error('[Auth] setSession error:', e);
                 window.history.replaceState(null, '', window.location.pathname);
-                resolve(null);
+                return null;
             }
-            return;
         }
 
         // 2. No OAuth redirect – check for existing session
         try {
             const { data: { session } } = await sb.auth.getSession();
-            resolve(session || null);
+            return session || null;
         } catch (e) {
             console.warn('[Auth] getSession error:', e);
-            resolve(null);
+            return null;
         }
-    });
+    })();
 
     return _sessionReady;
 }
@@ -188,11 +187,9 @@ export async function markProfileComplete(userId) {
 // ── Invite Links ─────────────────────────────────────────
 function generateCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 6; i++) {
-        code += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return code;
+    const arr = new Uint8Array(6);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, b => chars[b % chars.length]).join('');
 }
 
 // Ensure profile exists in DB (fixes FK constraint issues)
@@ -760,17 +757,15 @@ export async function toggleLike(targetType, targetId) {
     if (existing) {
         // Unlike
         await sb.from('likes').delete()
-            .eq('user_id', userId)
-            .eq('target_type', targetType)
-            .eq('target_id', targetId);
+            .eq('id', existing.id);
         return false;
     } else {
-        // Like
-        await sb.from('likes').insert({
+        // Like – use upsert to prevent duplicates from double-clicks
+        await sb.from('likes').upsert({
             user_id: userId,
             target_type: targetType,
             target_id: targetId,
-        });
+        }, { onConflict: 'user_id,target_type,target_id', ignoreDuplicates: true });
         return true;
     }
 }
@@ -868,9 +863,11 @@ export async function getCommentsForItems(targetIds) {
 // ── Search users ─────────────────────────────────────────
 export async function searchUsers(query) {
     const sb = getSupabase();
+    // Escape LIKE special characters to prevent pattern injection / user enumeration
+    const escaped = query.replace(/%/g, '\\%').replace(/_/g, '\\_');
     const { data } = await sb.from('profiles')
         .select('*')
-        .ilike('username', `%${query}%`)
+        .ilike('username', `%${escaped}%`)
         .limit(10);
     return data || [];
 }

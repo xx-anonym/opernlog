@@ -1,5 +1,6 @@
 // Review Card Component
 import { StarRating } from './StarRating.js';
+import { escapeHTML } from '../utils.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
@@ -41,7 +42,7 @@ export function ReviewCard(visit, options = {}) {
       <div class="review-card__user" data-action="profile" data-user-id="${visit.userId}">
         <div class="avatar avatar--sm" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? user.avatar : '??'}</div>
         <div class="review-card__user-info">
-          <span class="review-card__username">${user ? user.name : 'Unbekannt'}</span>
+          <span class="review-card__username">${user ? escapeHTML(user.name) : 'Unbekannt'}</span>
           <span class="review-card__date">${formatDate(visit.date)}</span>
         </div>
       </div>
@@ -60,7 +61,7 @@ export function ReviewCard(visit, options = {}) {
       </div>
     ` : ''}
     ${visit.review && !compact ? `
-      <p class="review-card__text">${visit.review}</p>
+      <p class="review-card__text">${escapeHTML(visit.review)}</p>
     ` : ''}
     <div class="review-card__actions">
       <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" data-action="like" data-visit-id="${visit.id}">
@@ -77,12 +78,13 @@ export function ReviewCard(visit, options = {}) {
         ${visit.comments.map(c => {
     let commenter = store.getUser(c.userId);
     if (!commenter && c.user) commenter = c.user;
-    const isOwner = c.userId === store.getCurrentUser().id || c.userId === 'user-me';
+    const currentUser = store.getCurrentUser();
+    const isOwner = currentUser && (c.userId === currentUser.id || c.userId === 'user-me');
     return `
             <div class="comment" style="display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
-                <span class="comment__text">${c.text}</span>
+                <span class="comment__user">${commenter ? escapeHTML(commenter.name) : 'Unbekannt'}</span>
+                <span class="comment__text">${escapeHTML(c.text)}</span>
               </div>
               ${isOwner ? `<button class="btn-icon comment__delete" data-action="delete-comment" data-comment-id="${c.id}" data-visit-id="${visit.id}" title="Kommentar löschen" style="opacity: 0.6; font-size: 0.8rem; padding: 0.2rem;">🗑️</button>` : ''}
             </div>
@@ -189,8 +191,8 @@ export function ReviewCard(visit, options = {}) {
         const user = store.getCurrentUser();
         commentsDiv.innerHTML += `
           <div class="comment fade-in">
-            <span class="comment__user">${user.name}</span>
-            <span class="comment__text">${text}</span>
+            <span class="comment__user">${escapeHTML(user.name)}</span>
+            <span class="comment__text">${escapeHTML(text)}</span>
           </div>
         `;
         if (!card.querySelector('.review-card__comments')) {
@@ -228,7 +230,9 @@ export function ReviewCard(visit, options = {}) {
 }
 
 function formatDate(dateStr) {
+  if (!dateStr) return 'Unbekannt';
   const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return 'Unbekannt';
   const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
   return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
