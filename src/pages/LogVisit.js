@@ -175,6 +175,7 @@ export function LogVisitPage(params = {}) {
     if (!operaId) { shakeElement(operaInput); return; }
     if (!selectedRating) { shakeElement(ratingWidget); return; }
     if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
+    if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('⚠️ Datum darf nicht in der Zukunft liegen'); return; }
 
     if (editVisit) {
       store.updateVisit(editVisit.id, { houseId, operaId, date, rating: selectedRating, review });
