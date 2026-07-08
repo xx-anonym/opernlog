@@ -101,12 +101,21 @@ export function ProfileSetupPage(session, onComplete) {
                 throw error;
             }
 
-            // Success — proceed to main app
-            if (onComplete) onComplete();
+            // Success animation before transitioning
+            submitBtn.classList.add('btn--success');
+            btnLoading.style.display = 'none';
+            btnText.style.display = 'inline';
+            btnText.textContent = '✓ Los geht\u2019s!';
+            
+            // Brief pause to show success, then hand off to main app
+            setTimeout(() => {
+                if (onComplete) onComplete();
+            }, 800);
         } catch (err) {
             errorEl.textContent = err.message || 'Fehler beim Speichern des Profils.';
             errorEl.style.display = 'block';
             btnText.style.display = 'inline';
+            btnText.textContent = 'Profil speichern & loslegen';
             btnLoading.style.display = 'none';
             submitBtn.disabled = false;
         }

@@ -33,11 +33,11 @@ class App {
     // Dismiss the opera curtain splash screen
     dismissSplash() {
         const splash = document.getElementById('splash');
-        if (!splash) return;
+        if (!splash || splash.classList.contains('splash--hidden')) return;
 
-        // Ensure the splash is shown for at least 800ms so the animation is visible
+        // Ensure the splash is shown for at least 500ms so the animation is visible
         const elapsed = Date.now() - this._splashStart;
-        const delay = Math.max(0, 800 - elapsed);
+        const delay = Math.max(0, 500 - elapsed);
 
         setTimeout(() => {
             splash.classList.add('splash--hidden');
@@ -48,15 +48,18 @@ class App {
     }
 
     async init() {
+        // Set a maximum splash timeout (4s) so users aren't stuck on slow connections
+        const splashTimeout = setTimeout(() => this.dismissSplash(), 4000);
+
         if (isSupabaseConfigured()) {
             const handled = await this.handleAuthHash();
             if (handled) {
+                clearTimeout(splashTimeout);
                 this.dismissSplash();
                 return;
             }
 
             // Wait for Supabase to determine the initial session
-            // (handles OAuth redirects, existing sessions, etc.)
             const initialSession = await waitForInitialSession();
             if (initialSession) {
                 await store.refreshSession();
@@ -64,14 +67,21 @@ class App {
                 // Check if this is a new Google user who needs to set up their profile
                 const profileDone = await isProfileComplete(initialSession.user.id);
                 if (!profileDone) {
+                    clearTimeout(splashTimeout);
                     this.showProfileSetup(initialSession);
                     this.dismissSplash();
                     return;
                 }
             }
         }
-        this.buildLayout();
+
+        clearTimeout(splashTimeout);
+        // Dismiss splash first, then build layout with a slight delay
+        // so content appears as the curtains open (synced reveal)
         this.dismissSplash();
+        // Wait 600ms for curtains to be mostly open before showing content
+        await new Promise(r => setTimeout(r, 600));
+        this.buildLayout();
     }
 
     async handleAuthHash() {
@@ -174,10 +184,17 @@ class App {
     showProfileSetup(session) {
         this.root.innerHTML = '';
         const setupPage = ProfileSetupPage(session, () => {
-            // Profile setup complete — reload the app
+            // Profile setup complete — smooth transition to app
             store.refreshSession().then(() => {
-                window.location.hash = '#/';
-                this.buildLayout();
+                // Fade out the setup page
+                setupPage.classList.add('page--leaving');
+                setTimeout(() => {
+                    window.location.hash = '#/';
+                    this.buildLayout();
+                    // Fade in the new layout
+                    this.root.classList.add('app--entering');
+                    setTimeout(() => this.root.classList.remove('app--entering'), 500);
+                }, 400);
             });
         });
         this.root.appendChild(setupPage);
@@ -291,8 +308,12 @@ class App {
             case 'auth':
                 page = AuthPage(() => {
                     // refreshSession() was already awaited in Auth.js before onSuccess fires
+                    // Only set hash – hashchange listener will trigger route() automatically
                     window.location.hash = '#/';
-                    this.buildLayout();
+                    // Rebuild layout (nav etc.) since we're coming from auth-only view
+                    if (!document.querySelector('.main-nav')) {
+                        this.buildLayout();
+                    }
                 });
                 break;
             case 'invite':
