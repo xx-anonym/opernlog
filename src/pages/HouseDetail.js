@@ -1,5 +1,7 @@
 // House Detail Page
 import { operaHouses } from '../data/operaHouses.js';
+import { icon } from '../components/Icon.js';
+import { coverBackground } from '../utils.js';
 import { showError } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
@@ -20,19 +22,21 @@ export function HouseDetailPage(houseId) {
   const page = document.createElement('div');
   page.className = 'page page--house-detail';
 
-  const heroBackground = house.imageUrl
-    ? `linear-gradient(to bottom, rgba(20, 24, 28, 0.3), #14181c), url('${house.imageUrl}')`
-    : `linear-gradient(135deg, ${house.color}, #14181c)`;
+  const heroStyle = coverBackground(
+    house.imageUrl,
+    `linear-gradient(135deg, ${house.color}, #14181c)`,
+    'rgba(20, 24, 28, 0.3), #14181c'
+  );
 
   page.innerHTML = `
-    <div class="detail-hero" style="background: ${heroBackground}; background-size: cover; background-position: center;">
+    <div class="detail-hero" style="${heroStyle}">
       <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${house.name}</h1>
         <div class="detail-hero__meta">
-          <span>📍 ${house.city}, ${house.state}</span>
-          <span>🎭 ${house.capacity} Plätze</span>
-          <span>📅 Gegründet ${house.founded}</span>
+          <span>${icon('pin', { className: 'icon--meta' })}${house.city}, ${house.state}</span>
+          <span>${icon('seat', { className: 'icon--meta' })}${house.capacity} Plätze</span>
+          <span>${icon('calendar', { className: 'icon--meta' })}Gegründet ${house.founded}</span>
         </div>
         <div class="detail-hero__rating" id="houseRating">
           <div class="loading-spinner"><div class="spinner"></div></div>
@@ -48,12 +52,12 @@ export function HouseDetailPage(houseId) {
       </div>
       
       <div class="detail-section" id="performedOperasSection" style="display:none">
-        <h2 class="section__title">🎵 Aufgeführte Werke</h2>
+        <h2 class="section__title">${icon('music')}Aufgeführte Werke</h2>
         <div class="tag-list" id="performedOperas"></div>
       </div>
       
       <div class="detail-section">
-        <h2 class="section__title" id="reviewsHeading">📝 Reviews</h2>
+        <h2 class="section__title" id="reviewsHeading">${icon('note')}Reviews</h2>
         <div class="feed-list" id="houseReviews">
           <div class="loading-spinner"><div class="spinner"></div></div>
         </div>
@@ -141,7 +145,7 @@ export function HouseDetailPage(houseId) {
     // Update review count heading
     const heading = page.querySelector('#reviewsHeading');
     if (heading) {
-      heading.textContent = `📝 Reviews (${allVisits.length})`;
+      heading.innerHTML = `${icon('note')}Reviews (${allVisits.length})`;
     }
 
     // Render review cards

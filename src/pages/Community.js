@@ -1,5 +1,6 @@
 // Freunde & Social Page
 import { store } from '../store/store.js';
+import { icon } from '../components/Icon.js';
 import { runWithFeedback } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import * as sb from '../store/supabase.js';
@@ -14,7 +15,7 @@ export function CommunityPage() {
 
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">👥 Freunde</h1>
+      <h1 class="page-header__title">${icon('users')}Freunde</h1>
       <p class="page-header__subtitle">${store.isCloud ? 'Verwalte deine Opernfreunde und Freundschaftsanfragen' : 'Verwalte deine Opernfreunde'}</p>
     </div>
     
@@ -30,7 +31,7 @@ export function CommunityPage() {
     <div id="addFriendModal" class="modal" style="display:none">
       <div class="modal__overlay"></div>
       <div class="modal__content">
-        <h2 class="modal__title">👤 Freund hinzufügen</h2>
+        <h2 class="modal__title">${icon('user')}Freund hinzufügen</h2>
         <div class="form-group">
           <label class="form-label">Name</label>
           <input type="text" class="input" id="friendName" placeholder="z.B. Anna Müller" />
@@ -79,7 +80,7 @@ export function CommunityPage() {
         const actions = document.createElement('div');
         actions.className = 'community-actions';
         actions.innerHTML = `
-                    <a href="#/invite" class="btn btn--primary btn--lg">🔗 Freunde einladen</a>
+                    <a href="#/invite" class="btn btn--primary btn--lg">${icon('link')} Freunde einladen</a>
                 `;
         content.appendChild(actions);
 
@@ -177,7 +178,7 @@ export function CommunityPage() {
                         </div>
                         <div class="user-card__actions">
                             <button class="btn ${isFollowing ? 'btn--outline' : 'btn--primary'} btn--sm follow-btn">${isFollowing ? '✓ Folgst du' : '+ Folgen'}</button>
-                            <button class="btn btn--ghost btn--sm remove-btn" title="Freund entfernen">🗑️</button>
+                            <button class="btn btn--ghost btn--sm remove-btn" title="Freund entfernen">${icon('trash')}</button>
                         </div>
                     `;
 
@@ -217,7 +218,7 @@ export function CommunityPage() {
                         <div class="empty-state">
                             <p>Noch keine Aktivitäten von Freunden.</p>
                             <p class="text-muted">Folge jemandem, um deren Besuche hier zu sehen!</p>
-                            <a href="#/invite" class="btn btn--primary">🔗 Freunde einladen</a>
+                            <a href="#/invite" class="btn btn--primary">${icon('link')} Freunde einladen</a>
                         </div>
                     `;
         } else {
@@ -289,13 +290,13 @@ export function CommunityPage() {
                     <div class="invite-card__icon">✉️</div>
                     <h2>Freunde einladen</h2>
                     <p class="text-muted">Erstelle einen Einladungslink und teile ihn per WhatsApp, E-Mail oder SMS.</p>
-                    <button id="generateInlineBtn" class="btn btn--primary btn--lg">🔗 Link erstellen</button>
+                    <button id="generateInlineBtn" class="btn btn--primary btn--lg">${icon('link')} Link erstellen</button>
                     <div id="inlineInviteResult" style="display:none">
                         <div class="invite-link-box">
                             <input type="text" id="inlineInviteLink" readonly class="invite-link-input" />
-                            <button id="inlineCopyBtn" class="btn btn--accent">📋 Kopieren</button>
+                            <button id="inlineCopyBtn" class="btn btn--accent">${icon('list')} Kopieren</button>
                         </div>
-                        <p class="invite-hint">📲 Der Link ist 30 Tage gültig</p>
+                        <p class="invite-hint">${icon('calendar', { className: 'icon--meta' })}Der Link ist 30 Tage gültig</p>
                     </div>
                 </div>
             </div>
@@ -319,7 +320,7 @@ export function CommunityPage() {
           navigator.clipboard.writeText(link).then(() => {
             content.querySelector('#inlineCopyBtn').textContent = '✅ Kopiert!';
             setTimeout(() => {
-              content.querySelector('#inlineCopyBtn').textContent = '📋 Kopieren';
+              content.querySelector('#inlineCopyBtn').innerHTML = icon('list') + ' Kopieren';
             }, 2000);
           });
         });

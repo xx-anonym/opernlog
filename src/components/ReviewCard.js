@@ -1,5 +1,7 @@
 // Review Card Component
 import { StarRating } from './StarRating.js';
+import { icon } from '../components/Icon.js';
+import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, runWithFeedback } from '../components/Toast.js';
 import { escapeHTML } from '../utils.js';
 import { store } from '../store/store.js';
@@ -41,7 +43,7 @@ export function ReviewCard(visit, options = {}) {
   card.innerHTML = `
     <div class="review-card__header">
       <div class="review-card__user" data-action="profile" data-user-id="${visit.userId}">
-        <div class="avatar avatar--sm" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? escapeHTML(user.avatar) : '??'}</div>
+        <div class="avatar avatar--sm" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? renderAvatarHTML(user.avatar, user.avatarIcon) : '??'}</div>
         <div class="review-card__user-info">
           <span class="review-card__username">${user ? escapeHTML(user.name) : 'Unbekannt'}</span>
           <span class="review-card__date">${formatDate(visit.date)}</span>
@@ -58,7 +60,7 @@ export function ReviewCard(visit, options = {}) {
     ` : ''}
     ${showHouse && house ? `
       <div class="review-card__house" data-action="house" data-house-id="${house.id}">
-        <span class="icon-pin">📍</span> ${house.name}, ${house.city}
+        ${icon('pin', { className: 'icon--meta' })}${house.name}, ${house.city}
       </div>
     ` : ''}
     ${visit.review && !compact ? `
@@ -66,11 +68,11 @@ export function ReviewCard(visit, options = {}) {
     ` : ''}
     <div class="review-card__actions">
       <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" data-action="like" data-visit-id="${visit.id}">
-        <span>${isLiked ? '❤️' : '🤍'}</span>
+        ${icon('heart', { filled: isLiked, label: 'Gefällt mir' })}
         <span class="btn-icon__count">${visit.likes || 0}</span>
       </button>
       <button class="btn-icon" data-action="comment" data-visit-id="${visit.id}">
-        <span>💬</span>
+        ${icon('message', { label: 'Kommentare' })}
         <span class="btn-icon__count">${visit.comments ? visit.comments.length : 0}</span>
       </button>
     </div>
@@ -87,7 +89,7 @@ export function ReviewCard(visit, options = {}) {
                 <span class="comment__user">${commenter ? escapeHTML(commenter.name) : 'Unbekannt'}</span>
                 <span class="comment__text">${escapeHTML(c.text)}</span>
               </div>
-              ${isOwner ? `<button class="btn-icon comment__delete" data-action="delete-comment" data-comment-id="${c.id}" data-visit-id="${visit.id}" title="Kommentar löschen" style="opacity: 0.6; font-size: 0.8rem; padding: 0.2rem;">🗑️</button>` : ''}
+              ${isOwner ? `<button class="btn-icon comment__delete" data-action="delete-comment" data-comment-id="${c.id}" data-visit-id="${visit.id}" title="Kommentar löschen" style="opacity: 0.6; padding: 0.2rem;">${icon('trash')}</button>` : ''}
             </div>
           `;
   }).join('')}
@@ -130,13 +132,13 @@ export function ReviewCard(visit, options = {}) {
         const countEl = btn.querySelector('.btn-icon__count');
         const previousCount = countEl.textContent;
         btn.classList.toggle('btn-icon--active');
-        btn.querySelector('span:first-child').textContent = wasLiked ? '🤍' : '❤️';
+        btn.querySelector('.icon').outerHTML = icon('heart', { filled: !wasLiked, label: 'Gefällt mir' });
         countEl.textContent = Math.max(0, parseInt(countEl.textContent) + (wasLiked ? -1 : 1));
 
         sb.toggleLike('visit', visitId).catch(e => {
           // Anzeige zurückdrehen – sonst zeigt sie einen Like, den es nicht gibt
           btn.classList.toggle('btn-icon--active', wasLiked);
-          btn.querySelector('span:first-child').textContent = wasLiked ? '❤️' : '🤍';
+          btn.querySelector('.icon').outerHTML = icon('heart', { filled: wasLiked, label: 'Gefällt mir' });
           countEl.textContent = previousCount;
           console.error('Like fehlgeschlagen', e);
           showError('Like konnte nicht gespeichert werden');
@@ -144,7 +146,7 @@ export function ReviewCard(visit, options = {}) {
       } else {
         store.toggleLikeVisit(visitId);
         const isNowLiked = visit.likedBy && visit.likedBy.includes('user-me');
-        btn.querySelector('span:first-child').textContent = isNowLiked ? '❤️' : '🤍';
+        btn.querySelector('.icon').outerHTML = icon('heart', { filled: isNowLiked, label: 'Gefällt mir' });
         btn.querySelector('.btn-icon__count').textContent = visit.likes || 0;
         btn.classList.toggle('btn-icon--active', isNowLiked);
       }

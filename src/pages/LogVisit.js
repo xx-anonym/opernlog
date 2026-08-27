@@ -1,5 +1,6 @@
 // Log Visit Page
 import { operaHouses } from '../data/operaHouses.js';
+import { icon } from '../components/Icon.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import { escapeHTML } from '../utils.js';
@@ -19,13 +20,13 @@ export function LogVisitPage(params = {}) {
 
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">${editVisit ? '✏️ Besuch bearbeiten' : '✨ Besuch loggen'}</h1>
+      <h1 class="page-header__title">${editVisit ? icon('pencil') + 'Besuch bearbeiten' : icon('plus') + 'Besuch loggen'}</h1>
       <p class="page-header__subtitle">${editVisit ? 'Korrigiere deine Eintragung' : 'Halte deinen Opernbesuch fest'}</p>
     </div>
     
     <form class="log-form" id="logForm">
       <div class="form-group">
-        <label class="form-label">🏛️ Opernhaus</label>
+        <label class="form-label">${icon('building', { className: 'icon--meta' })}Opernhaus</label>
         <div class="autocomplete" id="houseAutocomplete">
           <input type="text" class="input" id="houseInput" placeholder="Opernhaus suchen..." autocomplete="off" />
           <div class="autocomplete__list" id="houseList"></div>
@@ -34,7 +35,7 @@ export function LogVisitPage(params = {}) {
       </div>
       
       <div class="form-group">
-        <label class="form-label">🎵 Opernwerk</label>
+        <label class="form-label">${icon('music', { className: 'icon--meta' })}Opernwerk</label>
         <div class="autocomplete" id="operaAutocomplete">
           <input type="text" class="input" id="operaInput" placeholder="Oper suchen..." autocomplete="off" />
           <div class="autocomplete__list" id="operaList"></div>
@@ -43,17 +44,17 @@ export function LogVisitPage(params = {}) {
       </div>
       
       <div class="form-group">
-        <label class="form-label">📅 Datum</label>
+        <label class="form-label">${icon('calendar', { className: 'icon--meta' })}Datum</label>
         <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : new Date().toISOString().split('T')[0]}" />
       </div>
       
       <div class="form-group">
-        <label class="form-label">⭐ Bewertung</label>
+        <label class="form-label">${icon('star', { className: 'icon--meta' })}Bewertung</label>
         <div id="ratingWidget"></div>
       </div>
       
       <div class="form-group">
-        <label class="form-label">📝 Review (optional)</label>
+        <label class="form-label">${icon('note', { className: 'icon--meta' })}Review (optional)</label>
         <textarea class="input textarea" id="reviewText" rows="4" placeholder="Wie war die Vorstellung? Was hat dir gefallen? Was nicht?">${editVisit && editVisit.review ? escapeHTML(editVisit.review) : ''}</textarea>
       </div>
       

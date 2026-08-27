@@ -120,13 +120,20 @@ export const profileIcons = {
   }
 };
 
-// Helper to render avatar HTML with optional background icon
-export function renderAvatarHTML(initials, iconKey, size = 'hero') {
+// Rendert den Inhalt eines Avatar-Kreises.
+//
+// Das gewählte Icon IST das Profilbild – im Profil heißt das Feld "Profilbild"
+// und bietet ausdrücklich "Kein Icon" an. Wer eines gewählt hat, soll es also
+// sehen; die Initialen sind der Ersatz für alle, die keines gewählt haben.
+// (Früher lagen beide übereinander, das Icon bei 18 % Deckkraft dahinter – man
+// sah von seiner Wahl praktisch nichts.)
+export function renderAvatarHTML(initials, iconKey) {
   // Own-property check so keys like "constructor" can't resolve to Object.prototype members
   const icon = iconKey && Object.prototype.hasOwnProperty.call(profileIcons, iconKey)
     ? profileIcons[iconKey]
     : null;
-  const iconSVG = icon ? `<span class="avatar-icon">${icon.svg}</span>` : '';
+
+  if (icon) return `<span class="avatar-icon" aria-hidden="true">${icon.svg}</span>`;
   // initials come from the DB (avatar_initials) and are user-controlled
-  return `${iconSVG}<span class="avatar-initials">${escapeHTML(initials)}</span>`;
+  return `<span class="avatar-initials">${escapeHTML(initials)}</span>`;
 }

@@ -1,5 +1,6 @@
 // Invite-Seite – Einladungslinks generieren & akzeptieren
 import * as sb from '../store/supabase.js';
+import { icon } from '../components/Icon.js';
 import { brandMarkSVG } from '../data/brandMark.js';
 import { getSession } from '../store/supabase.js';
 import { store } from '../store/store.js';
@@ -113,7 +114,7 @@ async function renderAcceptInvite(page, code) {
 async function renderGenerateInvite(page) {
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">🔗 Freunde einladen</h1>
+      <h1 class="page-header__title">${icon('link')}Freunde einladen</h1>
       <p class="page-header__subtitle">Teile deinen persönlichen Einladungslink</p>
     </div>
 
@@ -126,9 +127,9 @@ async function renderGenerateInvite(page) {
       <div id="inviteResult" style="display:none">
         <div class="invite-link-box">
           <input type="text" id="inviteLink" readonly class="invite-link-input" />
-          <button id="copyBtn" class="btn btn--accent">📋 Kopieren</button>
+          <button id="copyBtn" class="btn btn--accent">${icon('list')} Kopieren</button>
         </div>
-        <p class="invite-hint">📲 Der Link ist 30 Tage gültig</p>
+        <p class="invite-hint">${icon('calendar', { className: 'icon--meta' })}Der Link ist 30 Tage gültig</p>
       </div>
     </div>
 
@@ -175,7 +176,7 @@ async function renderGenerateInvite(page) {
         navigator.clipboard.writeText(link).then(() => {
           page.querySelector('#copyBtn').textContent = '✅ Kopiert!';
           setTimeout(() => {
-            page.querySelector('#copyBtn').textContent = '📋 Kopieren';
+            page.querySelector('#copyBtn').innerHTML = icon('list') + ' Kopieren';
           }, 2000);
         });
       });

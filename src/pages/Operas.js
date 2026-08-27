@@ -1,5 +1,7 @@
 // Operas Browse Page
 import { operas } from '../data/operas.js';
+import { icon } from '../components/Icon.js';
+import { coverBackground } from '../utils.js';
 import { store } from '../store/store.js';
 import { isSupabaseConfigured } from '../config.js';
 
@@ -15,7 +17,7 @@ export function OperasPage() {
 
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">🎵 Opernwerke</h1>
+      <h1 class="page-header__title">${icon('music')}Opernwerke</h1>
       <p class="page-header__subtitle">${operas.length} Werke im Katalog</p>
       <div style="margin-top: 1rem;">
           <button class="btn btn--outline btn--sm" id="suggestOperaBtn">
@@ -163,7 +165,7 @@ export function OperasPage() {
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
       card.innerHTML = `
-        <div class="opera-card__color" style="${opera.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(20,24,28,0.85)), url('${opera.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, ${color}, #14181c)`}">
+        <div class="opera-card__color" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`)}">
           <span class="opera-card__year">${opera.yearComposed}</span>
         </div>
         <div class="opera-card__content">

@@ -1,5 +1,7 @@
 // Home / Feed Page
 import { escapeHTML } from '../utils.js';
+import { icon } from '../components/Icon.js';
+import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { store } from '../store/store.js';
@@ -47,7 +49,7 @@ export function HomePage() {
         requestsSection.style.display = 'block';
         requestsSection.innerHTML = `
           <h2 class="friend-requests-section__title">
-            📬 Freundschaftsanfragen
+            ${icon('inbox')}Freundschaftsanfragen
             <span class="friend-requests-section__badge">${requests.length}</span>
           </h2>
         `;
@@ -62,7 +64,7 @@ export function HomePage() {
           card.className = 'friend-request-card fade-in';
           card.innerHTML = `
             <div class="friend-request-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)" data-user-id="${profile?.id}">
-              ${profile?.avatar_initials || '??'}
+              ${renderAvatarHTML(profile?.avatar_initials || '??', profile?.avatar_icon)}
             </div>
             <div class="friend-request-card__info">
               <div class="friend-request-card__name" data-user-id="${profile?.id}">${escapeHTML(profile?.username || 'Unbekannt')}</div>
@@ -150,7 +152,7 @@ export function HomePage() {
   // Feed
   const feedSection = document.createElement('section');
   feedSection.className = 'section';
-  feedSection.innerHTML = `<h2 class="section__title">📰 Dein Feed</h2><div class="loading-spinner"><div class="spinner"></div></div>`;
+  feedSection.innerHTML = `<h2 class="section__title">${icon('feed')}Dein Feed</h2><div class="loading-spinner"><div class="spinner"></div></div>`;
   page.appendChild(feedSection);
 
   async function loadFeed() {
@@ -185,7 +187,7 @@ export function HomePage() {
       feed = store.getFeed();
     }
 
-    feedSection.innerHTML = `<h2 class="section__title">📰 Dein Feed</h2>`;
+    feedSection.innerHTML = `<h2 class="section__title">${icon('feed')}Dein Feed</h2>`;
 
     if (feed.length === 0) {
       feedSection.innerHTML += `
@@ -209,7 +211,7 @@ export function HomePage() {
   // Popular operas
   const popularSection = document.createElement('section');
   popularSection.className = 'section';
-  popularSection.innerHTML = `<h2 class="section__title">🔥 Beliebte Opern</h2>`;
+  popularSection.innerHTML = `<h2 class="section__title">${icon('trending')}Beliebte Opern</h2>`;
 
   const operaCounts = {};
   store.getAllVisits().forEach(v => {

@@ -1,5 +1,6 @@
 // Profile Page – Hybrid (local + cloud)
 import { escapeHTML } from '../utils.js';
+import { icon } from '../components/Icon.js';
 import { runWithFeedback } from '../components/Toast.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
@@ -153,8 +154,8 @@ async function renderCloudProfile(page, userId) {
         case 'none':
         default:
           if (priv === 'nobody') return '<span class="text-muted" style="font-size:0.85rem">Nimmt keine Anfragen an</span>';
-          if (priv === 'link_only') return '<span class="text-muted" style="font-size:0.85rem">🔗 Nur über Einladungslink</span>';
-          return '<button class="btn--send-request" id="friendActionBtn">👋 Freundschaftsanfrage</button>';
+          if (priv === 'link_only') return `<span class="text-muted" style="font-size:0.85rem">${icon('link', { className: 'icon--meta' })}Nur über Einladungslink</span>`;
+          return `<button class="btn--send-request" id="friendActionBtn">${icon('users')} Freundschaftsanfrage</button>`;
       }
     }
 
@@ -218,12 +219,12 @@ async function renderCloudProfile(page, userId) {
 
       <div id="cloudTabLists" style="display: none;">
         ${wishlist && wishlist.items.length > 0 ? `
-          <h2 class="section-title">🌟 Wunschliste</h2>
+          <h2 class="section-title">${icon('star')}Wunschliste</h2>
           <div id="cloudWishlist" class="lists-grid"></div>
         ` : ''}
 
         ${regularLists.length > 0 ? `
-          <h2 class="section-title">📋 Listen</h2>
+          <h2 class="section-title">${icon('list')}Listen</h2>
           <div id="cloudLists" class="lists-grid"></div>
         ` : ''}
 
@@ -310,13 +311,13 @@ async function renderCloudProfile(page, userId) {
             } catch (e) {
               const msg = e.message || '';
               if (msg.includes('link')) {
-                actionBtn.textContent = '🔗 Nur über Einladungslink';
+                actionBtn.innerHTML = icon('link', { className: 'icon--meta' }) + 'Nur über Einladungslink';
                 actionBtn.className = 'btn--pending';
               } else if (msg.includes('not accept')) {
                 actionBtn.textContent = 'Nimmt keine Anfragen an';
                 actionBtn.className = 'btn--pending';
               } else {
-                actionBtn.textContent = '👋 Freundschaftsanfrage';
+                actionBtn.innerHTML = icon('users') + ' Freundschaftsanfrage';
                 actionBtn.disabled = false;
               }
             }
@@ -384,7 +385,7 @@ async function renderCloudProfile(page, userId) {
         card.style.cursor = 'pointer';
         card.innerHTML = `
           <h3 class="list-card__name">${opera.title}</h3>
-          <p class="list-card__desc">🎼 ${opera.composer}</p>
+          <p class="list-card__desc">${icon('music', { className: 'icon--meta' })}${opera.composer}</p>
           <div class="list-card__meta"><span>${opera.genre || ''}</span></div>
         `;
         card.addEventListener('click', () => window.location.hash = `#/opera/${opera.id}`);
@@ -413,7 +414,7 @@ async function renderCloudProfile(page, userId) {
           </div>
           <div class="list-card__meta">
             <span>${list.items.length} Einträge</span>
-            ${list.likes && list.type !== 'wishlist' ? `<span>❤️ ${list.likes}</span>` : ''}
+            ${list.likes && list.type !== 'wishlist' ? `<span>${icon('heart', { className: 'icon--meta' })}${list.likes}</span>` : ''}
           </div>
         `;
         card.addEventListener('click', () => window.location.hash = `#/list/${list.id}`);
@@ -457,8 +458,8 @@ function renderLocalProfile(page, userId, isMe) {
           </button>
         ` : `
           <div class="profile-actions">
-            <button class="btn btn--outline btn--sm" id="editProfileBtn">✏️ Profil bearbeiten</button>
-            ${store.isConfigured ? `<button class="btn btn--ghost btn--sm" id="logoutBtn">🚪 Abmelden</button>` : ''}
+            <button class="btn btn--outline btn--sm" id="editProfileBtn">${icon('pencil')} Profil bearbeiten</button>
+            ${store.isConfigured ? `<button class="btn btn--ghost btn--sm" id="logoutBtn">Abmelden</button>` : ''}
           </div>
         `}
       </div>
@@ -582,7 +583,7 @@ function renderLocalProfile(page, userId, isMe) {
             <p class="list-card__desc">${escapeHTML(list.description || '')}</p>
             <div class="list-card__meta">
               <span>${list.items.length} Einträge</span>
-              <span>❤️ ${list.likes || 0}</span>
+              <span>${icon('heart', { className: 'icon--meta' })}${list.likes || 0}</span>
             </div>
           `;
           card.addEventListener('click', () => window.location.hash = `#/list/${list.id}`);

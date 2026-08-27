@@ -1,7 +1,8 @@
 // List Detail Page – shows all items of a list
 import { store } from '../store/store.js';
+import { icon } from '../components/Icon.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, coverBackground} from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import * as sb from '../store/supabase.js';
@@ -50,13 +51,13 @@ export function ListDetailPage(listId) {
     page.innerHTML = `
       <div class="page-header">
         <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
-        <h1 class="page-header__title">${isWishlist ? '🌟' : '📋'} ${escapeHTML(list.name)}</h1>
+        <h1 class="page-header__title">${isWishlist ? icon('star') : icon('list')}${escapeHTML(list.name)}</h1>
         ${list.description ? `<p class="page-header__subtitle">${escapeHTML(list.description)}</p>` : ''}
         <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem">
           <p class="list-detail-count" style="margin: 0">${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}</p>
           ${!isWishlist ? `
             <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" id="listLikeBtn">
-              <span>${isLiked ? '❤️' : '🤍'}</span>
+              ${icon('heart', { filled: isLiked, label: 'Gefällt mir' })}
               <span class="btn-icon__count" id="listLikeCount">${list.likes || 0}</span>
             </button>
           ` : ''}
@@ -81,7 +82,7 @@ export function ListDetailPage(listId) {
         const dbLikeAction = sb.toggleLike('list', list.id);
 
         likeBtn.classList.toggle('btn-icon--active');
-        iconSpan.textContent = currentlyLiked ? '🤍' : '❤️';
+        iconSpan.outerHTML = icon('heart', { filled: !currentlyLiked, label: 'Gefällt mir' });
         countSpan.textContent = parseInt(countSpan.textContent) + change;
 
         await dbLikeAction; // Await sync operation without blocking UI
@@ -120,12 +121,12 @@ export function ListDetailPage(listId) {
         const color = composerColors[item.composer] || '#8b1a2b';
 
         card.innerHTML = `
-          <div class="list-detail-card__image" style="${item.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(20,24,28,0.85)), url('${item.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, ${color}, #14181c);`}">
+          <div class="list-detail-card__image" style="${coverBackground(item.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
             ${isWishlist && isOwner ? `<button class="list-detail-card__remove" title="Entfernen">✕</button>` : ''}
           </div>
           <div class="list-detail-card__body">
             <h3 class="list-detail-card__title">${item.title}</h3>
-            <p class="list-detail-card__subtitle">🎼 ${item.composer}</p>
+            <p class="list-detail-card__subtitle">${icon('music', { className: 'icon--meta' })}${item.composer}</p>
             <div class="list-detail-card__meta">
               <span>${item.genre || ''}</span>
               <span>${item.yearComposed || ''}</span>
@@ -153,12 +154,12 @@ export function ListDetailPage(listId) {
       } else {
         // Opera house
         card.innerHTML = `
-          <div class="list-detail-card__image" style="${item.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(20,24,28,0.85)), url('${item.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, #8b1a2b, #14181c);`}">
+          <div class="list-detail-card__image" style="${coverBackground(item.image, 'linear-gradient(135deg, #8b1a2b, #14181c)', 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
           </div>
           <div class="list-detail-card__body">
             <h3 class="list-detail-card__title">${item.name}</h3>
-            <p class="list-detail-card__subtitle">📍 ${item.city}, ${item.country}</p>
-            ${item.capacity ? `<div class="list-detail-card__meta"><span>🪑 ${item.capacity} Plätze</span><span>📅 ${item.yearBuilt || ''}</span></div>` : ''}
+            <p class="list-detail-card__subtitle">${icon('pin', { className: 'icon--meta' })}${item.city}, ${item.country}</p>
+            ${item.capacity ? `<div class="list-detail-card__meta"><span>${icon('seat', { className: 'icon--meta' })}${item.capacity} Plätze</span><span>${icon('calendar', { className: 'icon--meta' })}${item.yearBuilt || ''}</span></div>` : ''}
             <div class="list-detail-card__actions">
               <a href="#/house/${item.id}" class="btn btn--outline btn--sm">Details</a>
             </div>
@@ -188,7 +189,7 @@ export function ListDetailPage(listId) {
               <span class="comment__user">${commenter ? escapeHTML(commenter.name) : 'Unbekannt'}</span>
               <span class="comment__text">${escapeHTML(c.text)}</span>
             </div>
-            ${isOwner ? `<button class="btn-icon comment__delete" data-comment-id="${c.id}" title="Kommentar löschen" style="opacity: 0.6; font-size: 0.8rem; padding: 0.2rem;">🗑️</button>` : ''}
+            ${isOwner ? `<button class="btn-icon comment__delete" data-comment-id="${c.id}" title="Kommentar löschen" style="opacity: 0.6; padding: 0.2rem;">${icon('trash')}</button>` : ''}
           </div>
         `;
       }).join('');

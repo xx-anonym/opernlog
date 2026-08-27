@@ -1,5 +1,19 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v40';
+const CACHE_NAME = 'opernlog-v42';
+
+// Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
+// damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
+const IMAGE_CACHE = 'opernlog-images-v1';
+
+// Sämtliche Opern- und Hausbilder liegen bei Wikimedia. Ohne diese Ausnahme
+// überspringt der Fetch-Handler sie als fremden Host – die installierte PWA
+// zeigte den Katalog offline dann als leere Karten.
+const IMAGE_HOSTS = ['upload.wikimedia.org'];
+
+// Obergrenze, damit der Cache nicht unbegrenzt wächst. Bilder von fremden
+// Hosts kommen als opaque Responses und zählen beim Speicherkontingent
+// großzügig gepolstert – deshalb eher knapp bemessen.
+const IMAGE_CACHE_LIMIT = 220;
 
 // App shell files to cache for offline use
 const APP_SHELL = [
@@ -51,17 +65,51 @@ self.addEventListener('install', (event) => {
     self.skipWaiting();
 });
 
-// Activate – clean up old caches
+// Activate – clean up old caches (der Bild-Cache bleibt bewusst stehen)
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
-                keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+                keys
+                    .filter((key) => key !== CACHE_NAME && key !== IMAGE_CACHE)
+                    .map((key) => caches.delete(key))
             );
         })
     );
     self.clients.claim();
 });
+
+// Ältestes zuerst entfernen, wenn die Obergrenze überschritten ist
+async function trimCache(cacheName, limit) {
+    const cache = await caches.open(cacheName);
+    const keys = await cache.keys();
+    for (let i = 0; i < keys.length - limit; i++) {
+        await cache.delete(keys[i]);
+    }
+}
+
+// Bilder: erst der Cache, dann das Netz. Sie ändern sich nicht, also ist der
+// zwischengespeicherte Stand immer richtig – und offline überhaupt der einzige.
+async function serveImage(request) {
+    const cache = await caches.open(IMAGE_CACHE);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+
+    try {
+        const response = await fetch(request);
+        // Fremde Bilder kommen als opaque Response (status 0). Die lässt sich
+        // nicht auf ok prüfen, aber sehr wohl speichern und später ausliefern.
+        if (response && (response.ok || response.type === 'opaque')) {
+            await cache.put(request, response.clone());
+            trimCache(IMAGE_CACHE, IMAGE_CACHE_LIMIT);
+        }
+        return response;
+    } catch (e) {
+        // Kein Netz und nichts im Cache: die Bild-Ebene malt dann nichts und
+        // der farbige Verlauf darunter wird sichtbar (siehe coverBackground).
+        return Response.error();
+    }
+}
 
 // Fetch – network-first with cache fallback
 self.addEventListener('fetch', (event) => {
@@ -69,6 +117,12 @@ self.addEventListener('fetch', (event) => {
 
     // Skip non-GET requests and Supabase/external API calls
     if (event.request.method !== 'GET') return;
+
+    if (IMAGE_HOSTS.includes(url.hostname)) {
+        event.respondWith(serveImage(event.request));
+        return;
+    }
+
     if (url.hostname !== self.location.hostname) return;
 
     event.respondWith(

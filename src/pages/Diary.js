@@ -1,5 +1,6 @@
 // Diary Page
 import { store } from '../store/store.js';
+import { icon } from '../components/Icon.js';
 import { runWithFeedback } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
@@ -13,7 +14,7 @@ export function DiaryPage() {
 
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">📔 Mein Tagebuch</h1>
+      <h1 class="page-header__title">${icon('book')}Mein Tagebuch</h1>
       <p class="page-header__subtitle" id="diarySubtitle">Lade Besuche...</p>
     </div>
     
@@ -61,7 +62,7 @@ export function DiaryPage() {
       page.querySelector('#diaryFilters').style.display = 'none';
       page.querySelector('#diaryContent').innerHTML = `
                 <div class="empty-state">
-                    <div class="empty-state__icon">📔</div>
+                    <div class="empty-state__icon">${icon('book')}</div>
                     <h3>Dein Tagebuch ist noch leer</h3>
                     <p>Logge deinen ersten Opernbesuch, um dein Tagebuch zu starten!</p>
                     <a href="#/log" class="btn btn--primary btn--lg">+ Ersten Besuch loggen</a>
@@ -147,10 +148,10 @@ export function DiaryPage() {
             <div class="diary-entry__house">${house ? `${house.name}, ${house.city}` : 'Unbekannt'}</div>
           </div>
           <div class="diary-entry__rating" id="rating-${visit.id}"></div>
-          ${visit.review ? `<div class="diary-entry__review-icon" title="Review geschrieben">📝</div>` : ''}
+          ${visit.review ? `<div class="diary-entry__review-icon" title="Review geschrieben">${icon('note')}</div>` : ''}
           <div class="diary-entry__actions">
-            <button class="btn-icon diary-entry__edit" data-visit-id="${visit.id}" title="Eintrag bearbeiten">✏️</button>
-            <button class="btn-icon diary-entry__delete" data-visit-id="${visit.id}" title="Eintrag löschen">🗑️</button>
+            <button class="btn-icon diary-entry__edit" data-visit-id="${visit.id}" title="Eintrag bearbeiten">${icon('pencil')}</button>
+            <button class="btn-icon diary-entry__delete" data-visit-id="${visit.id}" title="Eintrag löschen">${icon('trash')}</button>
           </div>
         `;
 

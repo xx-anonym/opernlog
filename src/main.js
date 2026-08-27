@@ -1,5 +1,6 @@
 // Main App – Router & Entry Point
 import { Navigation } from './components/Navigation.js';
+import { icon } from './components/Icon.js';
 import { HomePage } from './pages/Home.js';
 import { HousesPage } from './pages/Houses.js';
 import { HouseDetailPage } from './pages/HouseDetail.js';
@@ -150,7 +151,7 @@ class App {
             <div class="page auth-page fade-in" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;">
                 <div class="auth-container">
                     <div class="auth-header">
-                        <span class="auth-logo">🔑</span>
+                        <span class="auth-logo">${icon('user')}</span>
                         <h1>Neues Passwort</h1>
                         <p class="auth-subtitle">Gib dein neues Passwort ein.</p>
                     </div>

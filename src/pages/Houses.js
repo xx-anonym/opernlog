@@ -1,5 +1,7 @@
 // Opera Houses Browse Page
 import { operaHouses } from '../data/operaHouses.js';
+import { icon } from '../components/Icon.js';
+import { coverBackground } from '../utils.js';
 import { store } from '../store/store.js';
 import { isSupabaseConfigured } from '../config.js';
 
@@ -14,7 +16,7 @@ export function HousesPage() {
 
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">🏛️ Opernhäuser</h1>
+      <h1 class="page-header__title">${icon('building')}Opernhäuser</h1>
       <p class="page-header__subtitle">${operaHouses.length} Häuser entdecken</p>
       <div style="margin-top: 1rem;">
           <button class="btn btn--outline btn--sm" id="suggestHouseBtn">
@@ -117,9 +119,11 @@ export function HousesPage() {
       const avgRating = (communityHouseStats[house.id]?.avg) || store.getAverageRatingForHouse(house.id);
       const visitCount = (communityHouseStats[house.id]?.count) || store.getVisitsByHouse(house.id).length;
 
-      const bannerBackground = house.imageUrl
-        ? `linear-gradient(to bottom, rgba(20, 24, 28, 0.4), #14181c), url('${house.imageUrl}')`
-        : `linear-gradient(135deg, ${house.color}, #14181c)`;
+      const bannerStyle = coverBackground(
+        house.imageUrl,
+        `linear-gradient(135deg, ${house.color}, #14181c)`,
+        'rgba(20, 24, 28, 0.4), #14181c'
+      );
 
       const card = document.createElement('a');
       card.className = 'house-card fade-in';
@@ -128,15 +132,15 @@ export function HousesPage() {
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
       card.innerHTML = `
-        <div class="house-card__banner" style="background: ${bannerBackground}; background-size: cover; background-position: center;">
+        <div class="house-card__banner" style="${bannerStyle}">
           <div class="house-card__city-badge">${house.city}</div>
         </div>
         <div class="house-card__content">
           <h3 class="house-card__name">${house.name}</h3>
           <div class="house-card__meta">
-            <span>📍 ${house.city}</span>
-            <span>🎭 ${house.capacity} Plätze</span>
-            <span>📅 Seit ${house.founded}</span>
+            <span>${icon('pin', { className: 'icon--meta' })}${house.city}</span>
+            <span>${icon('seat', { className: 'icon--meta' })}${house.capacity} Plätze</span>
+            <span>${icon('calendar', { className: 'icon--meta' })}Seit ${house.founded}</span>
           </div>
           <div class="house-card__footer">
             ${avgRating ? `<span class="house-card__rating">★ ${avgRating.toFixed(1)}</span>` : '<span class="house-card__rating house-card__rating--none">Noch keine Bewertung</span>'}

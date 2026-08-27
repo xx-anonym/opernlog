@@ -1,5 +1,7 @@
 // Opera Detail Page
 import { operas } from '../data/operas.js';
+import { icon } from '../components/Icon.js';
+import { coverBackground } from '../utils.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
@@ -30,16 +32,16 @@ export function OperaDetailPage(operaId) {
   const color = composerColors[opera.composer] || '#8b1a2b';
 
   page.innerHTML = `
-    <div class="detail-hero" style="${opera.image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(20,24,28,0.95)), url('${opera.image}'); background-size: cover; background-position: center;` : `background: linear-gradient(135deg, ${color}, #14181c)`}">
+    <div class="detail-hero" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.25), rgba(20,24,28,0.95)')}">
       <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${opera.title}</h1>
         <div class="detail-hero__meta">
-          <span>🎼 ${opera.composer}</span>
-          <span>📅 ${opera.yearComposed}</span>
-          <span>🌐 ${opera.language}</span>
-          <span>🎭 ${opera.acts} ${opera.acts === 1 ? 'Akt' : 'Akte'}</span>
-          <span>📖 ${opera.genre}</span>
+          <span>${icon('music', { className: 'icon--meta' })}${opera.composer}</span>
+          <span>${icon('calendar', { className: 'icon--meta' })}${opera.yearComposed}</span>
+          <span>${icon('globe', { className: 'icon--meta' })}${opera.language}</span>
+          <span>${icon('layers', { className: 'icon--meta' })}${opera.acts} ${opera.acts === 1 ? 'Akt' : 'Akte'}</span>
+          <span>${icon('bookOpen', { className: 'icon--meta' })}${opera.genre}</span>
         </div>
         <div class="detail-hero__rating" id="operaRating">
           <div class="loading-spinner"><div class="spinner"></div></div>
@@ -55,18 +57,20 @@ export function OperaDetailPage(operaId) {
         <div class="detail-actions">
           <a href="#/log?opera=${opera.id}" class="btn btn--primary">+ Besuch mit diesem Werk loggen</a>
           <button id="wishlistToggle" class="btn ${store.isOnWishlist(opera.id) ? 'btn--wishlist-active' : 'btn--outline'}">
-            ${store.isOnWishlist(opera.id) ? '✅ Auf der Wunschliste' : '⭐ Auf die Wunschliste'}
+            ${store.isOnWishlist(opera.id)
+              ? icon('star', { filled: true }) + ' Auf der Wunschliste'
+              : icon('star') + ' Auf die Wunschliste'}
           </button>
         </div>
       </div>
       
       <div class="detail-section" id="performedAtSection" style="display:none">
-        <h2 class="section__title">🏛️ Aufgeführt in</h2>
+        <h2 class="section__title">${icon('building')}Aufgeführt in</h2>
         <div class="tag-list" id="performedAt"></div>
       </div>
       
       <div class="detail-section">
-        <h2 class="section__title" id="reviewsHeading">📝 Reviews</h2>
+        <h2 class="section__title" id="reviewsHeading">${icon('note')}Reviews</h2>
         <div class="feed-list" id="operaReviews">
           <div class="loading-spinner"><div class="spinner"></div></div>
         </div>
@@ -154,7 +158,7 @@ export function OperaDetailPage(operaId) {
     // Update review count heading
     const heading = page.querySelector('#reviewsHeading');
     if (heading) {
-      heading.textContent = `📝 Reviews (${allVisits.length})`;
+      heading.innerHTML = `${icon('note')}Reviews (${allVisits.length})`;
     }
 
     // Render review cards
@@ -185,7 +189,9 @@ export function OperaDetailPage(operaId) {
       // Beschriftung nur ändern, wenn es wirklich geklappt hat
       if (!ok) return;
       wishlistBtn.className = wasOn ? 'btn btn--outline' : 'btn btn--wishlist-active';
-      wishlistBtn.textContent = wasOn ? '⭐ Auf die Wunschliste' : '✅ Auf der Wunschliste';
+      wishlistBtn.innerHTML = wasOn
+        ? icon('star') + ' Auf die Wunschliste'
+        : icon('star', { filled: true }) + ' Auf der Wunschliste';
     });
   }
 

@@ -1,5 +1,7 @@
 // Lists Page
 import { store } from '../store/store.js';
+import { icon } from '../components/Icon.js';
+import { renderAvatarHTML } from '../data/profileIcons.js';
 import { runWithFeedback } from '../components/Toast.js';
 import { escapeHTML } from '../utils.js';
 import { operas } from '../data/operas.js';
@@ -11,7 +13,7 @@ export function ListsPage() {
 
   page.innerHTML = `
     <div class="page-header">
-      <h1 class="page-header__title">📋 Listen</h1>
+      <h1 class="page-header__title">${icon('list')}Listen</h1>
       <p class="page-header__subtitle">Erstelle und verwalte deine kuratierten Sammlungen</p>
     </div>
     
@@ -97,11 +99,11 @@ export function ListsPage() {
     card.innerHTML = `
       <div class="list-card__header">
         <h3 class="list-card__name">${escapeHTML(list.name)}</h3>
-        ${canDelete && list.type !== 'wishlist' ? `<button class="btn-icon list-card__delete" data-list-id="${list.id}">🗑️</button>` : ''}
+        ${canDelete && list.type !== 'wishlist' ? `<button class="btn-icon list-card__delete" data-list-id="${list.id}" title="Liste löschen">${icon('trash')}</button>` : ''}
       </div>
       <p class="list-card__desc">${escapeHTML(list.description || '')}</p>
       <div class="list-card__user">
-        <div class="avatar avatar--xs" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? escapeHTML(user.avatar) : '??'}</div>
+        <div class="avatar avatar--xs" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? renderAvatarHTML(user.avatar, user.avatarIcon) : '??'}</div>
         <span>${user ? escapeHTML(user.name) : 'Unbekannt'}</span>
       </div>
       <div class="list-card__items">
@@ -112,8 +114,8 @@ export function ListsPage() {
       </div>
       <div class="list-card__meta">
         <span>${list.items.length} Einträge</span>
-        <span>❤️ ${list.likes || 0}</span>
-        ${list.type !== 'wishlist' ? `<span>💬 ${list.comments ? list.comments.length : 0}</span>` : ''}
+        <span>${icon('heart', { className: 'icon--meta' })}${list.likes || 0}</span>
+        ${list.type !== 'wishlist' ? `<span>${icon('message', { className: 'icon--meta' })}${list.comments ? list.comments.length : 0}</span>` : ''}
       </div>
     `;
 

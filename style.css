@@ -982,6 +982,9 @@ h3 {
     font-weight: 700;
     color: #fff;
     flex-shrink: 0;
+    /* Bezugsrahmen für das absolut gesetzte .avatar-icon */
+    position: relative;
+    overflow: hidden;
 }
 
 .avatar--xs {
@@ -1372,20 +1375,41 @@ h3 {
     overflow: hidden;
 }
 
+/* Das gewählte Icon ist das Profilbild und ersetzt die Initialen – es muss
+   deshalb als Bild lesbar sein, nicht als Wasserzeichen verschwinden. */
 .avatar-icon {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.18;
     pointer-events: none;
 }
 
 .avatar-icon svg {
-    width: 70%;
-    height: 70%;
+    width: 66%;
+    height: 66%;
     color: #fff;
+    /* CSS schlägt das stroke-width-Attribut im SVG. Die Icons sind für 64px
+       gezeichnet; im Avatar wären ihre Linien sonst haarfein. */
+    stroke-width: 2.6;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+/* Je kleiner der Kreis, desto kräftiger muss die Linie sein */
+.avatar--xs .avatar-icon svg {
+    width: 76%;
+    height: 76%;
+    stroke-width: 4.4;
+}
+
+.avatar--sm .avatar-icon svg,
+.feed-card__avatar .avatar-icon svg {
+    stroke-width: 3.4;
+}
+
+.profile-hero__avatar .avatar-icon svg {
+    stroke-width: 2.1;
 }
 
 .avatar-initials {
@@ -1807,6 +1831,63 @@ h3 {
         opacity: 0;
         transform: translateX(-50%) translateY(20px);
     }
+}
+
+/* --- Icons --- */
+
+/* Icons erben Farbe und Größe ihres Textes – ein Icon in einer Überschrift
+   wächst mit, eines in einem Knopf bleibt klein. */
+.icon {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.14em;
+    flex-shrink: 0;
+}
+
+.page-header__title .icon,
+.section__title .icon,
+.section-title .icon,
+.friend-requests-section__title .icon,
+.modal__title .icon {
+    width: 0.82em;
+    height: 0.82em;
+    margin-right: 0.34em;
+    color: var(--gold);
+    vertical-align: -0.04em;
+}
+
+/* Metadatenzeilen: kleiner und zurückgenommen */
+.icon--meta {
+    width: 0.95em;
+    height: 0.95em;
+    margin-right: 0.3em;
+    opacity: 0.75;
+}
+
+/* In Knöpfen mit Zähler daneben */
+.btn-icon .icon {
+    width: 1.15em;
+    height: 1.15em;
+}
+
+/* Gesetzter Like: gefüllt und in Akzentfarbe */
+.btn-icon--active .icon {
+    color: var(--accent-light);
+}
+
+/* Icon im Leer-Zustand: groß, aber zurückgenommen */
+.empty-state__icon .icon {
+    width: 1em;
+    height: 1em;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* Das Icon im Auth-Kopf tritt an die Stelle der Marke */
+.auth-logo .icon {
+    width: 100%;
+    height: 100%;
 }
 
 /* --- Empty State --- */
@@ -3211,6 +3292,8 @@ body {
   font-size: 0.9rem;
   flex-shrink: 0;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .friend-request-card__info {
