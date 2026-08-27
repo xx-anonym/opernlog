@@ -759,9 +759,13 @@ export async function toggleLike(targetType, targetId) {
         .maybeSingle();
 
     if (existing) {
-        // Unlike
-        await sb.from('likes').delete()
-            .eq('id', existing.id);
+        // Unlike – the likes table has no "id" column, its primary key is
+        // (user_id, target_type, target_id), so delete by that composite key.
+        const { error } = await sb.from('likes').delete()
+            .eq('user_id', userId)
+            .eq('target_type', targetType)
+            .eq('target_id', targetId);
+        if (error) throw error;
         return false;
     } else {
         // Like – use upsert to prevent duplicates from double-clicks

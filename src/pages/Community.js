@@ -169,10 +169,10 @@ export function CommunityPage() {
           const card = document.createElement('div');
           card.className = 'user-card fade-in';
           card.innerHTML = `
-                        <div class="user-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${friend.avatar}</div>
+                        <div class="user-card__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${escapeHTML(friend.avatar)}</div>
                         <div class="user-card__info">
-                            <h3 class="user-card__name">${friend.name}</h3>
-                            <p class="user-card__bio">${friend.bio || ''}</p>
+                            <h3 class="user-card__name">${escapeHTML(friend.name)}</h3>
+                            <p class="user-card__bio">${escapeHTML(friend.bio || '')}</p>
                         </div>
                         <div class="user-card__actions">
                             <button class="btn ${isFollowing ? 'btn--outline' : 'btn--primary'} btn--sm follow-btn">${isFollowing ? '✓ Folgst du' : '+ Folgen'}</button>

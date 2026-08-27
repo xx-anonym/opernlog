@@ -2,6 +2,7 @@
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
+import { escapeHTML } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
 
 export function LogVisitPage(params = {}) {
@@ -52,7 +53,7 @@ export function LogVisitPage(params = {}) {
       
       <div class="form-group">
         <label class="form-label">📝 Review (optional)</label>
-        <textarea class="input textarea" id="reviewText" rows="4" placeholder="Wie war die Vorstellung? Was hat dir gefallen? Was nicht?">${editVisit && editVisit.review ? editVisit.review : ''}</textarea>
+        <textarea class="input textarea" id="reviewText" rows="4" placeholder="Wie war die Vorstellung? Was hat dir gefallen? Was nicht?">${editVisit && editVisit.review ? escapeHTML(editVisit.review) : ''}</textarea>
       </div>
       
       <div class="form-actions">

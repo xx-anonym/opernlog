@@ -1,5 +1,6 @@
 // Profile Icons – Minimalist line-art SVGs
 // Each icon is a thin-stroke drawing that appears behind avatar initials
+import { escapeHTML } from '../utils.js';
 
 export const profileIcons = {
   violin: {
@@ -121,7 +122,11 @@ export const profileIcons = {
 
 // Helper to render avatar HTML with optional background icon
 export function renderAvatarHTML(initials, iconKey, size = 'hero') {
-  const icon = iconKey ? profileIcons[iconKey] : null;
+  // Own-property check so keys like "constructor" can't resolve to Object.prototype members
+  const icon = iconKey && Object.prototype.hasOwnProperty.call(profileIcons, iconKey)
+    ? profileIcons[iconKey]
+    : null;
   const iconSVG = icon ? `<span class="avatar-icon">${icon.svg}</span>` : '';
-  return `${iconSVG}<span class="avatar-initials">${initials}</span>`;
+  // initials come from the DB (avatar_initials) and are user-controlled
+  return `${iconSVG}<span class="avatar-initials">${escapeHTML(initials)}</span>`;
 }

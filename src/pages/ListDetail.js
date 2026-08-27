@@ -1,5 +1,6 @@
 // List Detail Page – shows all items of a list
 import { store } from '../store/store.js';
+import { escapeHTML } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import * as sb from '../store/supabase.js';
@@ -47,8 +48,8 @@ export function ListDetailPage(listId) {
     page.innerHTML = `
       <div class="page-header">
         <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
-        <h1 class="page-header__title">${isWishlist ? '🌟' : '📋'} ${list.name}</h1>
-        ${list.description ? `<p class="page-header__subtitle">${list.description}</p>` : ''}
+        <h1 class="page-header__title">${isWishlist ? '🌟' : '📋'} ${escapeHTML(list.name)}</h1>
+        ${list.description ? `<p class="page-header__subtitle">${escapeHTML(list.description)}</p>` : ''}
         <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem">
           <p class="list-detail-count" style="margin: 0">${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}</p>
           ${!isWishlist ? `
@@ -180,8 +181,8 @@ export function ListDetailPage(listId) {
         return `
           <div class="comment" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <span class="comment__user">${commenter ? commenter.name : 'Unbekannt'}</span>
-              <span class="comment__text">${c.text}</span>
+              <span class="comment__user">${commenter ? escapeHTML(commenter.name) : 'Unbekannt'}</span>
+              <span class="comment__text">${escapeHTML(c.text)}</span>
             </div>
             ${isOwner ? `<button class="btn-icon comment__delete" data-comment-id="${c.id}" title="Kommentar löschen" style="opacity: 0.6; font-size: 0.8rem; padding: 0.2rem;">🗑️</button>` : ''}
           </div>

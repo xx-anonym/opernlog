@@ -404,8 +404,8 @@ async function renderCloudProfile(page, userId) {
         card.className = 'list-card fade-in';
         card.style.cursor = 'pointer';
         card.innerHTML = `
-          <h3 class="list-card__name">${list.name}</h3>
-          <p class="list-card__desc">${list.description || ''}</p>
+          <h3 class="list-card__name">${escapeHTML(list.name)}</h3>
+          <p class="list-card__desc">${escapeHTML(list.description || '')}</p>
           <div class="list-card__items">
             ${items.slice(0, 5).map(item => `<span class="list-card__item">${item.title || item.name}</span>`).join('')}
             ${items.length > 5 ? `<span class="list-card__more">+${items.length - 5} weitere</span>` : ''}
@@ -511,15 +511,15 @@ function renderLocalProfile(page, userId, isMe) {
         <h2 class="modal__title">Profil bearbeiten</h2>
         <div class="form-group">
           <label class="form-label">Name</label>
-          <input type="text" class="input" id="editName" value="${user.name}" />
+          <input type="text" class="input" id="editName" value="${escapeHTML(user.name)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Bio</label>
-          <textarea class="input textarea" id="editBio" rows="3">${user.bio || ''}</textarea>
+          <textarea class="input textarea" id="editBio" rows="3">${escapeHTML(user.bio || '')}</textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Initialen (Avatar)</label>
-          <input type="text" class="input" id="editAvatar" value="${user.avatar}" maxlength="2" />
+          <input type="text" class="input" id="editAvatar" value="${escapeHTML(user.avatar)}" maxlength="2" />
         </div>
         <div class="form-group">
           <label class="form-label">Profilbild</label>
@@ -577,8 +577,8 @@ function renderLocalProfile(page, userId, isMe) {
           const card = document.createElement('div');
           card.className = 'list-card fade-in';
           card.innerHTML = `
-            <h3 class="list-card__name">${list.name}</h3>
-            <p class="list-card__desc">${list.description || ''}</p>
+            <h3 class="list-card__name">${escapeHTML(list.name)}</h3>
+            <p class="list-card__desc">${escapeHTML(list.description || '')}</p>
             <div class="list-card__meta">
               <span>${list.items.length} Einträge</span>
               <span>❤️ ${list.likes || 0}</span>

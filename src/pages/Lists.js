@@ -1,5 +1,6 @@
 // Lists Page
 import { store } from '../store/store.js';
+import { escapeHTML } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 
@@ -94,13 +95,13 @@ export function ListsPage() {
     card.className = 'list-card fade-in';
     card.innerHTML = `
       <div class="list-card__header">
-        <h3 class="list-card__name">${list.name}</h3>
+        <h3 class="list-card__name">${escapeHTML(list.name)}</h3>
         ${canDelete && list.type !== 'wishlist' ? `<button class="btn-icon list-card__delete" data-list-id="${list.id}">🗑️</button>` : ''}
       </div>
-      <p class="list-card__desc">${list.description || ''}</p>
+      <p class="list-card__desc">${escapeHTML(list.description || '')}</p>
       <div class="list-card__user">
-        <div class="avatar avatar--xs" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? user.avatar : '??'}</div>
-        <span>${user ? user.name : 'Unbekannt'}</span>
+        <div class="avatar avatar--xs" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? escapeHTML(user.avatar) : '??'}</div>
+        <span>${user ? escapeHTML(user.name) : 'Unbekannt'}</span>
       </div>
       <div class="list-card__items">
         ${items.slice(0, 5).map(item => `

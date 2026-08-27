@@ -40,7 +40,7 @@ export function ReviewCard(visit, options = {}) {
   card.innerHTML = `
     <div class="review-card__header">
       <div class="review-card__user" data-action="profile" data-user-id="${visit.userId}">
-        <div class="avatar avatar--sm" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? user.avatar : '??'}</div>
+        <div class="avatar avatar--sm" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">${user ? escapeHTML(user.avatar) : '??'}</div>
         <div class="review-card__user-info">
           <span class="review-card__username">${user ? escapeHTML(user.name) : 'Unbekannt'}</span>
           <span class="review-card__date">${formatDate(visit.date)}</span>
