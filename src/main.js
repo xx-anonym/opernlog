@@ -18,6 +18,7 @@ import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
+import { showError } from './components/Toast.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
 
 class App {
@@ -69,10 +70,27 @@ class App {
             // Wait for Supabase to determine the initial session
             const initialSession = await waitForInitialSession();
             if (initialSession) {
-                await store.refreshSession();
+                // Der Start darf an einem Fehler hier nicht scheitern – sonst
+                // bleibt die App im Splash stehen. Der Store merkt sich den
+                // fehlgeschlagenen Abgleich, die Oberfläche weist darauf hin.
+                try {
+                    await store.refreshSession();
+                } catch (e) {
+                    console.error('[App] Abgleich beim Start fehlgeschlagen', e);
+                    store.syncError = e;
+                }
 
                 // Check if this is a new Google user who needs to set up their profile
-                const profileDone = await isProfileComplete(initialSession.user.id);
+                let profileDone = true;
+                try {
+                    profileDone = await isProfileComplete(initialSession.user.id);
+                } catch (e) {
+                    // Im Zweifel NICHT in die Profileinrichtung zwingen: ein
+                    // vorübergehender Fehler darf bestehende Nutzer nicht
+                    // durch ein Setup schicken, das sie längst hinter sich haben.
+                    console.error('[App] Profilstatus konnte nicht geprüft werden', e);
+                }
+
                 if (!profileDone) {
                     clearTimeout(splashTimeout);
                     this.showProfileSetup(initialSession);
@@ -118,7 +136,7 @@ class App {
                     this.showPasswordUpdate();
                     return true;
                 } catch (e) {
-                    console.warn('Recovery session failed:', e);
+                    console.error('[Passwort-Wiederherstellung]', e);
                     window.location.hash = '#/auth';
                 }
             }
@@ -233,6 +251,17 @@ class App {
         document.addEventListener('visibilitychange', this._visibilityHandler);
 
         this.route();
+        this.reportSyncError();
+    }
+
+    // Weist darauf hin, wenn angezeigte Daten aus dem lokalen Zwischenspeicher
+    // stammen, weil der Abgleich mit der Cloud fehlgeschlagen ist. Ohne diesen
+    // Hinweis wäre Veraltetes von Aktuellem nicht zu unterscheiden.
+    reportSyncError() {
+        if (!store.syncError) return;
+        const message = store.syncError.message;
+        store.syncError = null;
+        showError(message);
     }
 
     // Current route path, e.g. "diary" for "#/diary" or "log" for "#/log?edit=1"
@@ -252,8 +281,10 @@ class App {
             if (isSupabaseConfigured()) await store.refreshSession();
             this._lastRefresh = Date.now();
             this.route();
+            this.reportSyncError();
         } catch (e) {
-            console.warn('Refresh on resume failed:', e);
+            console.error('[App] Abgleich beim Zurückkehren fehlgeschlagen', e);
+            showError('Daten konnten nicht aktualisiert werden – der angezeigte Stand ist möglicherweise veraltet.');
         } finally {
             this._refreshing = false;
         }

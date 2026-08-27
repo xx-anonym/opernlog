@@ -1,5 +1,6 @@
 // Diary Page
 import { store } from '../store/store.js';
+import { runWithFeedback } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
@@ -180,12 +181,13 @@ export function DiaryPage() {
         });
 
         // Delete
-        entry.querySelector('.diary-entry__delete').addEventListener('click', (e) => {
+        entry.querySelector('.diary-entry__delete').addEventListener('click', async (e) => {
           e.stopPropagation();
-          if (confirm('Möchtest du diesen Eintrag wirklich löschen?')) {
-            store.deleteVisit(visit.id);
-            renderDiary();
-          }
+          if (!confirm('Möchtest du diesen Eintrag wirklich löschen?')) return;
+          const ok = await runWithFeedback(() => store.deleteVisit(visit.id), {
+            failure: 'Eintrag konnte nicht gelöscht werden',
+          });
+          if (ok) renderDiary();
         });
 
         list.appendChild(entry);

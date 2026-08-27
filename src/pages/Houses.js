@@ -257,7 +257,9 @@ export function HousesPage() {
         communityHouseStats = houseStats;
         renderHouses();
       } catch (e) {
-        console.warn('Failed to load community stats for houses:', e);
+        // Nicht blockierend: die Seite funktioniert auch ohne
+        // Community-Durchschnitte, sie zeigt dann nur keine an.
+        console.error('[Community-Statistiken laden]', e);
       }
     });
   }

@@ -1,5 +1,6 @@
 // Opera Detail Page
 import { operas } from '../data/operas.js';
+import { runWithFeedback, showError } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
@@ -101,7 +102,8 @@ export function OperaDetailPage(operaId) {
         allVisits = [...store.getVisitsByOpera(opera.id)];
       }
     } catch (e) {
-      console.warn('Failed to load cloud visits for opera', e);
+      console.error('[Community-Bewertungen laden]', e);
+      showError('Bewertungen der Community konnten nicht geladen werden.');
       allVisits = [...store.getVisitsByOpera(opera.id)];
     }
 
@@ -171,16 +173,19 @@ export function OperaDetailPage(operaId) {
   // Wishlist toggle
   const wishlistBtn = page.querySelector('#wishlistToggle');
   if (wishlistBtn) {
-    wishlistBtn.addEventListener('click', () => {
-      if (store.isOnWishlist(opera.id)) {
-        store.removeFromWishlist(opera.id);
-        wishlistBtn.className = 'btn btn--outline';
-        wishlistBtn.textContent = '⭐ Auf die Wunschliste';
-      } else {
-        store.addToWishlist(opera.id);
-        wishlistBtn.className = 'btn btn--wishlist-active';
-        wishlistBtn.textContent = '✅ Auf der Wunschliste';
-      }
+    wishlistBtn.addEventListener('click', async () => {
+      const wasOn = store.isOnWishlist(opera.id);
+      wishlistBtn.disabled = true;
+      const ok = await runWithFeedback(
+        () => wasOn ? store.removeFromWishlist(opera.id) : store.addToWishlist(opera.id),
+        { failure: wasOn ? 'Konnte nicht von der Wunschliste entfernt werden'
+                         : 'Konnte nicht auf die Wunschliste gesetzt werden' }
+      );
+      wishlistBtn.disabled = false;
+      // Beschriftung nur ändern, wenn es wirklich geklappt hat
+      if (!ok) return;
+      wishlistBtn.className = wasOn ? 'btn btn--outline' : 'btn btn--wishlist-active';
+      wishlistBtn.textContent = wasOn ? '⭐ Auf die Wunschliste' : '✅ Auf der Wunschliste';
     });
   }
 

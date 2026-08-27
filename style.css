@@ -1759,6 +1759,11 @@ h3 {
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
+    /* Eigene Ein-/Ausblendung statt .fade-in: dessen Keyframes setzen
+       transform: translateY(0) und löschen mit animation-fill-mode: forwards
+       die Zentrierung translateX(-50%). Der Toast stand dadurch um seine halbe
+       Breite nach rechts versetzt. */
+    animation: toastIn 0.3s ease both;
     background: var(--green);
     color: #fff;
     padding: 12px 24px;
@@ -1769,10 +1774,39 @@ h3 {
     box-shadow: var(--shadow);
 }
 
+/* Fehler heben sich vom Erfolgsgrün ab und dürfen umbrechen –
+   eine Fehlermeldung ist selten so kurz wie "Gespeichert". */
+.toast--error {
+    background: var(--accent);
+    max-width: min(560px, calc(100vw - 32px));
+    text-align: center;
+    line-height: 1.45;
+    font-weight: 500;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Ausblenden ebenfalls als Animation – eine transition käme gegen die
+   fill-mode-Endwerte der Einblendung nicht an. */
 .toast--hide {
-    opacity: 0;
-    transform: translateX(-50%) translateY(20px);
-    transition: all 0.3s ease;
+    animation: toastOut 0.3s ease forwards;
+}
+
+@keyframes toastOut {
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
 }
 
 /* --- Empty State --- */

@@ -1,5 +1,6 @@
 // Lists Page
 import { store } from '../store/store.js';
+import { runWithFeedback } from '../components/Toast.js';
 import { escapeHTML } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -119,12 +120,13 @@ export function ListsPage() {
     if (canDelete) {
       const delBtn = card.querySelector('.list-card__delete');
       if (delBtn) {
-        delBtn.addEventListener('click', (e) => {
+        delBtn.addEventListener('click', async (e) => {
           e.stopPropagation();
-          if (confirm('Liste wirklich löschen?')) {
-            store.deleteList(list.id);
-            renderContent();
-          }
+          if (!confirm('Liste wirklich löschen?')) return;
+          const ok = await runWithFeedback(() => store.deleteList(list.id), {
+            failure: 'Liste konnte nicht gelöscht werden',
+          });
+          if (ok) renderContent();
         });
       }
     }
@@ -204,7 +206,7 @@ export function ListsPage() {
   });
 
   // Save list
-  page.querySelector('#saveListBtn').addEventListener('click', () => {
+  page.querySelector('#saveListBtn').addEventListener('click', async () => {
     const name = page.querySelector('#listName').value.trim();
     const desc = page.querySelector('#listDesc').value.trim();
     const type = page.querySelector('#listType').value;
@@ -212,7 +214,11 @@ export function ListsPage() {
     if (!name) return;
     if (selectedItems.length === 0) return;
 
-    store.addList({ name, description: desc, type, items: [...selectedItems] });
+    const created = await runWithFeedback(
+      () => store.addList({ name, description: desc, type, items: [...selectedItems] }),
+      { failure: 'Liste konnte nicht angelegt werden' }
+    );
+    if (!created) return;
     modal.style.display = 'none';
 
     // Reset form

@@ -51,15 +51,30 @@ class Store {
                 this._cloudMode = true;
             }
         } catch (e) {
-            console.warn('Supabase init failed, using offline mode:', e);
+            // Beim Start weiterlaufen, aber den Zustand festhalten statt ihn
+            // nur in die Konsole zu schreiben.
+            console.error('[Store] Cloud-Init fehlgeschlagen', e);
+            this.syncError = e;
         }
     }
 
     get isCloud() { return this._cloudMode && this._session; }
     get isConfigured() { return isSupabaseConfigured(); }
 
+    // Letzter fehlgeschlagener Abgleich mit der Cloud, oder null.
+    // Wird gesetzt, wenn lokale Daten angezeigt werden, die womöglich veraltet
+    // sind – die Oberfläche kann darauf hinweisen, statt Veraltetes als
+    // aktuell auszugeben.
+    syncError = null;
+
     async refreshSession() {
         if (!isSupabaseConfigured()) return;
+        // Welche Teilbereiche sich nicht abgleichen ließen. Der Abgleich bricht
+        // nicht komplett ab, wenn ein Bereich scheitert – aber er tut auch
+        // nicht so, als wäre alles frisch.
+        const failures = [];
+        this.syncError = null;
+
         const session = await sb.getSession();
         if (session) {
             this._session = session;
@@ -87,13 +102,13 @@ class Store {
                     if (wishlists.length > 1) {
                         for (let i = 1; i < wishlists.length; i++) {
                             const dupe = wishlists[i];
-                            console.log('Auto-deleting duplicate wishlist:', dupe.id);
                             try {
                                 await sb.deleteListCloud(dupe.id);
                                 const index = cloudLists.findIndex(l => l.id === dupe.id);
                                 if (index !== -1) cloudLists.splice(index, 1);
                             } catch (e) {
-                                console.warn('Failed to delete duplicate wishlist', e);
+                                // Nicht kritisch: das Duplikat bleibt bestehen
+                                console.error('[Store] Doppelte Wunschliste löschen', e);
                             }
                         }
                     }
@@ -110,7 +125,8 @@ class Store {
                         comments: l.comments || [],
                     }));
                 } catch (e) {
-                    console.warn('Cloud list sync failed:', e);
+                    console.error('[Store] Listen-Abgleich fehlgeschlagen', e);
+                    failures.push('Listen');
                 }
 
                 // Sync visits from cloud to avoid cross-account bleed
@@ -130,7 +146,8 @@ class Store {
                         createdAt: v.created_at?.split('T')[0] || v.date,
                     }));
                 } catch (e) {
-                    console.warn('Cloud visit sync failed:', e);
+                    console.error('[Store] Besuche-Abgleich fehlgeschlagen', e);
+                    failures.push('Besuche');
                 }
 
                 // Sync suggestions state
@@ -138,7 +155,8 @@ class Store {
                     this.pendingSuggestions.opera = await sb.hasPendingSuggestionCloud('opera');
                     this.pendingSuggestions.house = await sb.hasPendingSuggestionCloud('house');
                 } catch (e) {
-                    console.warn('Cloud suggestion state sync failed:', e);
+                    console.error('[Store] Vorschlags-Abgleich fehlgeschlagen', e);
+                    failures.push('Vorschläge');
                 }
 
                 this.save();
@@ -148,8 +166,6 @@ class Store {
                 const username = meta?.username || session.user?.email?.split('@')[0] || 'Opernfan';
                 const initials = username.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
-                console.log('Profile missing, auto-creating for user:', session.user.id, username);
-
                 try {
                     const supabase = sb.getSupabase();
                     const { error } = await supabase.from('profiles').upsert({
@@ -158,14 +174,13 @@ class Store {
                         avatar_initials: initials,
                     }, { onConflict: 'id' });
 
-                    if (error) {
-                        console.warn('Auto-create profile error:', error);
-                    } else {
-                        // Re-fetch the newly created profile
-                        this._profile = await sb.getProfile(session.user.id);
-                    }
+                    if (error) throw error;
+                    // Re-fetch the newly created profile
+                    this._profile = await sb.getProfile(session.user.id);
                 } catch (e) {
-                    console.warn('Failed to auto-create profile:', e);
+                    // Ohne Profil funktioniert kaum etwas – das muss sichtbar sein.
+                    console.error('[Store] Profil anlegen fehlgeschlagen', e);
+                    failures.push('Profil');
                 }
 
                 this.data.currentUser.name = username;
@@ -178,6 +193,13 @@ class Store {
             this._profile = null;
             this._cloudMode = false;
         }
+
+        if (failures.length) {
+            this.syncError = new Error(
+                `${failures.join(', ')} konnten nicht geladen werden. Angezeigte Daten sind möglicherweise nicht aktuell.`
+            );
+        }
+        this.notify();
     }
 
     // ── localStorage ─────────────────────────────────────
@@ -192,7 +214,10 @@ class Store {
                 return parsed;
             }
         } catch (e) {
-            console.warn('Failed to load store:', e);
+            // Bewusst weiterlaufen: localStorage kann im privaten Modus fehlen
+            // oder beschädigt sein. Die Cloud ist die Wahrheitsquelle, der
+            // lokale Stand nur ein Zwischenspeicher.
+            console.error('[Store] Lokalen Stand lesen fehlgeschlagen', e);
         }
         return getDefaultData();
     }
@@ -201,7 +226,9 @@ class Store {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
         } catch (e) {
-            console.warn('Failed to save store:', e);
+            // Siehe load(): ein fehlgeschlagener Cache-Schreibvorgang ist kein
+            // Datenverlust, solange die Cloud geschrieben wurde.
+            console.error('[Store] Lokalen Stand schreiben fehlgeschlagen', e);
         }
         this.notify();
     }
@@ -230,15 +257,20 @@ class Store {
         return this.data.currentUser;
     }
 
-    updateProfile(updates) {
+    async updateProfile(updates) {
         const avatar = updates.avatar || (updates.name ? updates.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : null);
+
         if (this.isCloud) {
             const cloudUpdates = {};
             if (updates.name) cloudUpdates.username = updates.name;
             if (updates.bio !== undefined) cloudUpdates.bio = updates.bio;
             if (avatar) cloudUpdates.avatar_initials = avatar;
             if (updates.avatarIcon !== undefined) cloudUpdates.avatar_icon = updates.avatarIcon;
-            sb.updateProfile(cloudUpdates).catch(e => console.warn('Cloud profile update failed:', e));
+
+            // Erst die Cloud – schlägt sie fehl, bleibt lokal nichts zurück,
+            // was beim nächsten Laden wieder verschwinden würde.
+            await sb.updateProfile(cloudUpdates);
+
             // Update in-memory profile so getCurrentUser() reflects changes immediately
             if (this._profile) {
                 if (updates.name) this._profile.username = updates.name;
@@ -247,6 +279,7 @@ class Store {
                 if (updates.avatarIcon !== undefined) this._profile.avatar_icon = updates.avatarIcon;
             }
         }
+
         this.data.currentUser = { ...this.data.currentUser, ...updates };
         if (avatar) {
             this.data.currentUser.avatar = avatar;
@@ -281,10 +314,10 @@ class Store {
         return friend;
     }
 
-    removeFriend(userId) {
+    async removeFriend(userId) {
+        if (this.isCloud) await sb.unfriend(userId);
         this.data.friends = this.data.friends.filter(f => f.id !== userId);
         this.data.follows = this.data.follows.filter(id => id !== userId);
-        if (this.isCloud) sb.unfriend(userId).catch(e => console.warn('Cloud unfriend failed:', e));
         this.save();
     }
 
@@ -308,7 +341,7 @@ class Store {
         return this.getAllVisits().filter(v => v.operaId === operaId);
     }
 
-    addVisit(visit) {
+    async addVisit(visit) {
         const newVisit = {
             id: 'visit-' + Date.now(),
             userId: 'user-me',
@@ -321,23 +354,28 @@ class Store {
         this.data.myVisits.unshift(newVisit);
         this.save();
 
-        // Auto-remove from wishlist if present
-        if (visit.operaId && this.isOnWishlist(visit.operaId)) {
-            this.removeFromWishlist(visit.operaId);
+        if (this.isCloud) {
+            try {
+                const cloudData = await sb.addVisitCloud(visit);
+                // Replace local ID with cloud UUID so delete/update work correctly
+                const localVisit = this.data.myVisits.find(v => v.id === newVisit.id);
+                if (localVisit && cloudData?.id) {
+                    localVisit.id = cloudData.id;
+                    newVisit.id = cloudData.id;
+                    this.save();
+                }
+            } catch (e) {
+                // Nicht gespeicherten Eintrag wieder entfernen, sonst steht er
+                // bis zum nächsten Laden da und verschwindet dann kommentarlos.
+                this.data.myVisits = this.data.myVisits.filter(v => v.id !== newVisit.id);
+                this.save();
+                throw e;
+            }
         }
 
-        // Also sync to cloud – update local ID with cloud UUID
-        if (this.isCloud) {
-            sb.addVisitCloud(visit).then(cloudData => {
-                if (cloudData && cloudData.id) {
-                    // Replace local ID with cloud UUID so delete/update work correctly
-                    const localVisit = this.data.myVisits.find(v => v.id === newVisit.id);
-                    if (localVisit) {
-                        localVisit.id = cloudData.id;
-                        this.save();
-                    }
-                }
-            }).catch(e => console.warn('Cloud sync failed:', e));
+        // Erst nach erfolgreichem Speichern von der Wunschliste nehmen
+        if (visit.operaId && this.isOnWishlist(visit.operaId)) {
+            await this.removeFromWishlist(visit.operaId);
         }
 
         return newVisit;
@@ -364,9 +402,11 @@ class Store {
         }
     }
 
-    deleteVisit(visitId) {
+    async deleteVisit(visitId) {
+        // Erst löschen lassen, dann lokal entfernen. Andersherum wäre der
+        // Eintrag verschwunden und beim nächsten Laden wieder da.
+        if (this.isCloud) await sb.deleteVisitCloud(visitId);
         this.data.myVisits = this.data.myVisits.filter(v => v.id !== visitId);
-        if (this.isCloud) sb.deleteVisitCloud(visitId).catch(() => { });
         this.save();
     }
 
@@ -527,7 +567,7 @@ class Store {
         return [];
     }
 
-    addList(list) {
+    async addList(list) {
         const newList = {
             id: 'list-' + Date.now(),
             userId: 'user-me',
@@ -539,35 +579,60 @@ class Store {
         this.data.myLists.push(newList);
         this.save();
 
-        // Sync to cloud
         if (this.isCloud) {
-            sb.addListCloud(newList).then(cloudData => {
-                if (cloudData?.id) {
-                    const local = this.data.myLists.find(l => l.id === newList.id);
-                    if (local) { local.id = cloudData.id; this.save(); }
+            try {
+                const cloudData = await sb.addListCloud(newList);
+                const local = this.data.myLists.find(l => l.id === newList.id);
+                if (local && cloudData?.id) {
+                    local.id = cloudData.id;
+                    newList.id = cloudData.id;
+                    this.save();
                 }
-            }).catch(e => console.warn('Cloud list create failed:', e));
+            } catch (e) {
+                // Nicht angelegte Liste wieder entfernen
+                this.data.myLists = this.data.myLists.filter(l => l.id !== newList.id);
+                this.save();
+                throw e;
+            }
         }
 
         return newList;
     }
 
-    updateList(listId, updates) {
+    async updateList(listId, updates) {
         const list = this.data.myLists.find(l => l.id === listId);
-        if (list) {
-            Object.assign(list, updates);
-            this.save();
-        }
-    }
+        if (!list) return;
 
-    deleteList(listId) {
-        this.data.myLists = this.data.myLists.filter(l => l.id !== listId);
+        const previous = { ...list };
+        Object.assign(list, updates);
         this.save();
 
         if (this.isCloud) {
-            sb.deleteListCloud(listId)
-                .catch(e => console.warn('Cloud list delete failed:', e));
+            try {
+                await sb.updateListCloud(listId, this._listToCloud(updates));
+            } catch (e) {
+                Object.assign(list, previous);
+                this.save();
+                throw e;
+            }
         }
+    }
+
+    // Feldnamen des Clients auf die Spalten der Tabelle abbilden
+    _listToCloud(updates) {
+        const payload = {};
+        if (updates.name !== undefined) payload.name = updates.name;
+        if (updates.description !== undefined) payload.description = updates.description;
+        if (updates.type !== undefined) payload.type = updates.type;
+        if (updates.items !== undefined) payload.items = updates.items;
+        if (updates.isPublic !== undefined) payload.is_public = updates.isPublic;
+        return payload;
+    }
+
+    async deleteList(listId) {
+        if (this.isCloud) await sb.deleteListCloud(listId);
+        this.data.myLists = this.data.myLists.filter(l => l.id !== listId);
+        this.save();
     }
 
     // ── Wishlist ─────────────────────────────────────────
@@ -580,37 +645,25 @@ class Store {
         return wl ? wl.items.includes(operaId) : false;
     }
 
-    addToWishlist(operaId) {
-        let wl = this.getWishlist();
+    async addToWishlist(operaId) {
+        const wl = this.getWishlist();
         if (!wl) {
-            wl = this.addList({
+            await this.addList({
                 name: 'Wunschliste',
                 description: 'Opern, die ich noch sehen möchte',
                 type: 'wishlist',
                 items: [operaId],
             });
-        } else {
-            if (!wl.items.includes(operaId)) {
-                wl.items.push(operaId);
-                this.save();
-                if (this.isCloud) {
-                    sb.updateListCloud(wl.id, { items: wl.items })
-                        .catch(e => console.warn('Wishlist cloud update failed:', e));
-                }
-            }
+            return;
         }
+        if (wl.items.includes(operaId)) return;
+        await this.updateList(wl.id, { items: [...wl.items, operaId] });
     }
 
-    removeFromWishlist(operaId) {
+    async removeFromWishlist(operaId) {
         const wl = this.getWishlist();
-        if (wl) {
-            wl.items = wl.items.filter(id => id !== operaId);
-            this.save();
-            if (this.isCloud) {
-                sb.updateListCloud(wl.id, { items: wl.items })
-                    .catch(e => console.warn('Wishlist cloud update failed:', e));
-            }
-        }
+        if (!wl || !wl.items.includes(operaId)) return;
+        await this.updateList(wl.id, { items: wl.items.filter(id => id !== operaId) });
     }
 
     // ── Stats ────────────────────────────────────────────

@@ -1,5 +1,6 @@
 // Wishlist Page – Wunschliste
 import { store } from '../store/store.js';
+import { runWithFeedback } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
 
 export function WishlistPage() {
@@ -63,10 +64,12 @@ export function WishlistPage() {
         </div>
       `;
 
-            card.querySelector('.wishlist-card__remove').addEventListener('click', (e) => {
+            card.querySelector('.wishlist-card__remove').addEventListener('click', async (e) => {
                 e.stopPropagation();
-                store.removeFromWishlist(opera.id);
-                render();
+                const ok = await runWithFeedback(() => store.removeFromWishlist(opera.id), {
+                    failure: 'Konnte nicht von der Wunschliste entfernt werden',
+                });
+                if (ok) render();
             });
 
             grid.appendChild(card);

@@ -1,5 +1,6 @@
 // Review Card Component
 import { StarRating } from './StarRating.js';
+import { showError, runWithFeedback } from '../components/Toast.js';
 import { escapeHTML } from '../utils.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -126,11 +127,20 @@ export function ReviewCard(visit, options = {}) {
       if (isSupabaseConfigured() && store.isCloud) {
         // Optimistic UI update
         const wasLiked = btn.classList.contains('btn-icon--active');
+        const countEl = btn.querySelector('.btn-icon__count');
+        const previousCount = countEl.textContent;
         btn.classList.toggle('btn-icon--active');
         btn.querySelector('span:first-child').textContent = wasLiked ? '🤍' : '❤️';
-        const countEl = btn.querySelector('.btn-icon__count');
         countEl.textContent = Math.max(0, parseInt(countEl.textContent) + (wasLiked ? -1 : 1));
-        sb.toggleLike('visit', visitId).catch(e => console.warn('Like failed:', e));
+
+        sb.toggleLike('visit', visitId).catch(e => {
+          // Anzeige zurückdrehen – sonst zeigt sie einen Like, den es nicht gibt
+          btn.classList.toggle('btn-icon--active', wasLiked);
+          btn.querySelector('span:first-child').textContent = wasLiked ? '❤️' : '🤍';
+          countEl.textContent = previousCount;
+          console.error('Like fehlgeschlagen', e);
+          showError('Like konnte nicht gespeichert werden');
+        });
       } else {
         store.toggleLikeVisit(visitId);
         const isNowLiked = visit.likedBy && visit.likedBy.includes('user-me');
@@ -162,16 +172,22 @@ export function ReviewCard(visit, options = {}) {
     if (actionType === 'delete-comment') {
       const commentId = action.dataset.commentId;
       const visitId = action.dataset.visitId;
-      if (confirm('Kommentar wirklich löschen?')) {
-        action.closest('.comment').remove();
-        const countSpan = card.querySelector('[data-action="comment"] .btn-icon__count');
-        if (countSpan) countSpan.textContent = Math.max(0, parseInt(countSpan.textContent) - 1);
+      if (!confirm('Kommentar wirklich löschen?')) return;
 
-        store.removeComment(visitId, commentId);
+      const commentEl = action.closest('.comment');
+      const countSpan = card.querySelector('[data-action="comment"] .btn-icon__count');
+
+      (async () => {
         if (store.isCloud && isSupabaseConfigured()) {
-          sb.deleteCommentCloud(commentId).catch(err => console.error('Failed to delete comment', err));
+          const ok = await runWithFeedback(() => sb.deleteCommentCloud(commentId), {
+            failure: 'Kommentar konnte nicht gelöscht werden',
+          });
+          if (!ok) return;
         }
-      }
+        store.removeComment(visitId, commentId);
+        commentEl.remove();
+        if (countSpan) countSpan.textContent = Math.max(0, parseInt(countSpan.textContent) - 1);
+      })();
     }
   });
 
@@ -210,7 +226,11 @@ export function ReviewCard(visit, options = {}) {
             // Re-render entirely is better but for now let's just trigger a reload of the UI by calling render again from parent, or simply replacing the dom element ID.
             // Since ReviewCard is a component, it relies on its parent to redraw usually, but it performs optimistic UI updates above.
           } catch (err) {
-            console.error('Failed to post comment', err);
+            // Optimistisch eingefügten Kommentar wieder entfernen
+            console.error('Kommentar senden fehlgeschlagen', err);
+            commentsDiv.lastElementChild?.remove();
+            countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+            showError('Kommentar konnte nicht gesendet werden');
           }
         } else {
           store.addComment(visit.id, text);

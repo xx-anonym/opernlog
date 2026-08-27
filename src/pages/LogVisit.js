@@ -3,6 +3,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import { escapeHTML } from '../utils.js';
+import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
 
 export function LogVisitPage(params = {}) {
@@ -178,21 +179,23 @@ export function LogVisitPage(params = {}) {
     if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
     if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('⚠️ Datum darf nicht in der Zukunft liegen'); return; }
 
-    if (editVisit) {
-      const submitBtn = form.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      try {
-        await store.updateVisit(editVisit.id, { houseId, operaId, date, rating: selectedRating, review });
-      } catch (err) {
-        console.error('Besuch konnte nicht aktualisiert werden:', err);
-        showToast('❌ Speichern fehlgeschlagen – Änderungen wurden nicht übernommen');
-        submitBtn.disabled = false;
-        return;
+    const payload = { houseId, operaId, date, rating: selectedRating, review };
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+
+    const ok = await runWithFeedback(
+      () => editVisit ? store.updateVisit(editVisit.id, payload) : store.addVisit(payload),
+      {
+        failure: editVisit ? 'Änderungen konnten nicht gespeichert werden'
+                           : 'Besuch konnte nicht gespeichert werden',
+        success: editVisit ? '✅ Besuch erfolgreich aktualisiert!'
+                           : '✅ Besuch erfolgreich geloggt!',
       }
-      showToast('✅ Besuch erfolgreich aktualisiert!');
-    } else {
-      store.addVisit({ houseId, operaId, date, rating: selectedRating, review });
-      showToast('✅ Besuch erfolgreich geloggt!');
+    );
+
+    if (!ok) {
+      submitBtn.disabled = false;
+      return;
     }
 
     setTimeout(() => { window.location.hash = '#/diary'; }, 800);
@@ -211,11 +214,3 @@ function shakeElement(el) {
   setTimeout(() => el.classList.remove('shake'), 500);
 }
 
-function showToast(msg) {
-  const toast = document.createElement('div');
-  toast.className = 'toast fade-in';
-  toast.textContent = msg;
-  document.body.appendChild(toast);
-  setTimeout(() => { toast.classList.add('toast--hide'); }, 2000);
-  setTimeout(() => { toast.remove(); }, 2500);
-}

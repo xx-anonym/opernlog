@@ -291,7 +291,9 @@ export function OperasPage() {
         communityOperaStats = operaStats;
         renderOperas();
       } catch (e) {
-        console.warn('Failed to load community stats for operas:', e);
+        // Nicht blockierend: die Seite funktioniert auch ohne
+        // Community-Durchschnitte, sie zeigt dann nur keine an.
+        console.error('[Community-Statistiken laden]', e);
       }
     });
   }

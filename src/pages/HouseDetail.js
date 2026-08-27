@@ -1,5 +1,6 @@
 // House Detail Page
 import { operaHouses } from '../data/operaHouses.js';
+import { showError } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
@@ -88,7 +89,8 @@ export function HouseDetailPage(houseId) {
         allVisits = [...store.getVisitsByHouse(house.id)];
       }
     } catch (e) {
-      console.warn('Failed to load cloud visits for house', e);
+      console.error('[Community-Bewertungen laden]', e);
+      showError('Bewertungen der Community konnten nicht geladen werden.');
       allVisits = [...store.getVisitsByHouse(house.id)];
     }
 

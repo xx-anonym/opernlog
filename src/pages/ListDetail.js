@@ -1,5 +1,6 @@
 // List Detail Page – shows all items of a list
 import { store } from '../store/store.js';
+import { runWithFeedback, showError } from '../components/Toast.js';
 import { escapeHTML } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -20,7 +21,8 @@ export function ListDetailPage(listId) {
       try {
         list = await sb.getListByIdCloud(listId);
       } catch (e) {
-        console.warn('Cloud list load failed:', e);
+        console.error('[Liste laden]', e);
+        showError('Liste konnte nicht geladen werden.');
       }
     }
 
@@ -139,10 +141,12 @@ export function ListDetailPage(listId) {
         if (isWishlist && isOwner) {
           const removeBtn = card.querySelector('.list-detail-card__remove');
           if (removeBtn) {
-            removeBtn.addEventListener('click', (e) => {
+            removeBtn.addEventListener('click', async (e) => {
               e.stopPropagation();
-              store.removeFromWishlist(item.id);
-              render();
+              const ok = await runWithFeedback(() => store.removeFromWishlist(item.id), {
+                failure: 'Konnte nicht von der Wunschliste entfernt werden',
+              });
+              if (ok) render();
             });
           }
         }
@@ -208,18 +212,21 @@ export function ListDetailPage(listId) {
           if (!deleteBtn) return;
           const commentId = deleteBtn.dataset.commentId;
           const commentEl = deleteBtn.closest('.comment');
-          if (confirm('Kommentar wirklich löschen?')) {
-            commentEl.remove();
-            const header = commentsDiv.querySelector('h3');
-            const match = header.textContent.match(/\d+/);
-            if (match) {
-              const currentCount = parseInt(match[0]) - 1;
-              header.textContent = `Kommentare (${Math.max(0, currentCount)})`;
-            }
-            store.removeComment(list.id, commentId);
-            if (isSupabaseConfigured()) {
-              sb.deleteCommentCloud(commentId).catch(err => console.error('Delete error', err));
-            }
+          if (!confirm('Kommentar wirklich löschen?')) return;
+
+          if (isSupabaseConfigured()) {
+            const ok = await runWithFeedback(() => sb.deleteCommentCloud(commentId), {
+              failure: 'Kommentar konnte nicht gelöscht werden',
+            });
+            if (!ok) return;
+          }
+
+          store.removeComment(list.id, commentId);
+          commentEl.remove();
+          const header = commentsDiv.querySelector('h3');
+          const match = header.textContent.match(/\d+/);
+          if (match) {
+            header.textContent = `Kommentare (${Math.max(0, parseInt(match[0]) - 1)})`;
           }
         });
       });

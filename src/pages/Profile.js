@@ -1,5 +1,6 @@
 // Profile Page – Hybrid (local + cloud)
 import { escapeHTML } from '../utils.js';
+import { runWithFeedback } from '../components/Toast.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
@@ -643,21 +644,29 @@ function renderLocalProfile(page, userId, isMe) {
       const avatar = page.querySelector('#editAvatar').value.trim().toUpperCase();
       const activeIconBtn = page.querySelector('.icon-picker__option--active');
       const avatarIcon = activeIconBtn ? activeIconBtn.dataset.icon : '';
-      if (name) {
-        store.updateProfile({ name, bio, avatar: avatar || name.substring(0, 2).toUpperCase(), avatarIcon });
+      if (!name) return;
+
+      const saveBtn = page.querySelector('#saveProfileBtn');
+      saveBtn.disabled = true;
+      const ok = await runWithFeedback(async () => {
+        await store.updateProfile({ name, bio, avatar: avatar || name.substring(0, 2).toUpperCase(), avatarIcon });
 
         // Save privacy setting if in cloud mode
         const privSelect = page.querySelector('#editPrivacy');
         if (privSelect && store.isCloud) {
           await sb.updateFriendRequestPrivacy(privSelect.value);
         }
+      }, { failure: 'Profil konnte nicht gespeichert werden', success: '✅ Profil gespeichert' });
+      saveBtn.disabled = false;
 
-        modal.style.display = 'none';
-        page.querySelector('.profile-hero__name').textContent = name;
-        page.querySelector('.profile-hero__bio').textContent = bio;
-        const avatarEl = page.querySelector('.profile-hero__avatar');
-        avatarEl.innerHTML = renderAvatarHTML(avatar || name.substring(0, 2).toUpperCase(), avatarIcon);
-      }
+      // Anzeige nur aktualisieren, wenn wirklich gespeichert wurde
+      if (!ok) return;
+
+      modal.style.display = 'none';
+      page.querySelector('.profile-hero__name').textContent = name;
+      page.querySelector('.profile-hero__bio').textContent = bio;
+      const avatarEl = page.querySelector('.profile-hero__avatar');
+      avatarEl.innerHTML = renderAvatarHTML(avatar || name.substring(0, 2).toUpperCase(), avatarIcon);
     });
   }
 

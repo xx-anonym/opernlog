@@ -1,5 +1,6 @@
 // Home / Feed Page
 import { escapeHTML } from '../utils.js';
+import { showError } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -140,7 +141,8 @@ export function HomePage() {
           list.appendChild(card);
         });
       } catch (e) {
-        console.warn('Failed to load friend requests', e);
+        // Nur der Hinweispunkt an der Navigation – nicht blockierend
+        console.error('[Freundschaftsanfragen laden]', e);
       }
     })();
   }
@@ -178,7 +180,8 @@ export function HomePage() {
         feed = store.getFeed();
       }
     } catch (e) {
-      console.warn('Feed load failed', e);
+      console.error('[Feed laden]', e);
+      showError('Feed konnte nicht geladen werden – angezeigt wird ein lokaler Stand.');
       feed = store.getFeed();
     }
 

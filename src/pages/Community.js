@@ -1,5 +1,6 @@
 // Freunde & Social Page
 import { store } from '../store/store.js';
+import { runWithFeedback } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -186,12 +187,13 @@ export function CommunityPage() {
             renderContent();
           });
 
-          card.querySelector('.remove-btn').addEventListener('click', (e) => {
+          card.querySelector('.remove-btn').addEventListener('click', async (e) => {
             e.stopPropagation();
-            if (confirm(`${friend.name} wirklich als Freund entfernen?`)) {
-              store.removeFriend(friend.id);
-              renderContent();
-            }
+            if (!confirm(`${friend.name} wirklich als Freund entfernen?`)) return;
+            const ok = await runWithFeedback(() => store.removeFriend(friend.id), {
+              failure: 'Freund konnte nicht entfernt werden',
+            });
+            if (ok) renderContent();
           });
 
           grid.appendChild(card);
