@@ -163,7 +163,7 @@ export function LogVisitPage(params = {}) {
 
   // Form submit
   const form = page.querySelector('#logForm');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const houseId = houseIdInput.value;
@@ -178,7 +178,16 @@ export function LogVisitPage(params = {}) {
     if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('⚠️ Datum darf nicht in der Zukunft liegen'); return; }
 
     if (editVisit) {
-      store.updateVisit(editVisit.id, { houseId, operaId, date, rating: selectedRating, review });
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        await store.updateVisit(editVisit.id, { houseId, operaId, date, rating: selectedRating, review });
+      } catch (err) {
+        console.error('Besuch konnte nicht aktualisiert werden:', err);
+        showToast('❌ Speichern fehlgeschlagen – Änderungen wurden nicht übernommen');
+        submitBtn.disabled = false;
+        return;
+      }
       showToast('✅ Besuch erfolgreich aktualisiert!');
     } else {
       store.addVisit({ houseId, operaId, date, rating: selectedRating, review });

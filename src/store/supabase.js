@@ -506,9 +506,13 @@ export async function updateVisitCloud(visitId, updates) {
     if (updates.rating !== undefined) payload.rating = updates.rating;
     if (updates.review !== undefined) payload.review = updates.review;
 
-    const { data, error } = await sb.from('visits').update(payload).eq('id', visitId).select().single();
+    const { data, error } = await sb.from('visits').update(payload).eq('id', visitId).select();
     if (error) throw error;
-    return data;
+    if (!data || data.length === 0) {
+        // Kein Fehler, aber auch keine Zeile geändert: RLS hat das UPDATE verworfen.
+        throw new Error(`Visit ${visitId} konnte nicht aktualisiert werden (keine Berechtigung oder nicht gefunden).`);
+    }
+    return data[0];
 }
 
 export async function deleteVisitCloud(visitId) {

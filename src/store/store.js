@@ -343,13 +343,23 @@ class Store {
         return newVisit;
     }
 
-    updateVisit(visitId, updates) {
+    async updateVisit(visitId, updates) {
         const visit = this.data.myVisits.find(v => v.id === visitId);
-        if (visit) {
-            Object.assign(visit, updates);
-            this.save();
-            if (this.isCloud) {
-                sb.updateVisitCloud(visitId, updates).catch(e => console.warn('Cloud update failed:', e));
+        if (!visit) return;
+
+        const previous = { ...visit };
+        Object.assign(visit, updates);
+        this.save();
+
+        if (this.isCloud) {
+            try {
+                await sb.updateVisitCloud(visitId, updates);
+            } catch (e) {
+                // Cloud ist die Quelle der Wahrheit – lokale Änderung zurücknehmen,
+                // damit die UI nicht Erfolg zeigt und der Eintrag beim Neuladen zurückspringt.
+                Object.assign(visit, previous);
+                this.save();
+                throw e;
             }
         }
     }

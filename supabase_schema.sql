@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS visits (
 ALTER TABLE visits ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Visits sind öffentlich lesbar" ON visits FOR SELECT USING (true);
 CREATE POLICY "User kann eigene Visits erstellen" ON visits FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "User kann eigene Visits ändern" ON visits FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "User kann eigene Visits löschen" ON visits FOR DELETE USING (auth.uid() = user_id);
 
 -- Follows
