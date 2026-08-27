@@ -65,6 +65,9 @@ CREATE OR REPLACE FUNCTION accept_invite(invite_code text)
 RETURNS uuid
 LANGUAGE plpgsql
 SECURITY DEFINER
+-- Fixed search_path: the function runs with owner rights, so unqualified
+-- names must not be resolvable through the caller's search_path.
+SET search_path = ''
 AS $$
 DECLARE
     v_inviter_id uuid;
@@ -77,7 +80,7 @@ BEGIN
 
     -- Find valid invite
     SELECT created_by INTO v_inviter_id
-    FROM invites
+    FROM public.invites
     WHERE code = invite_code AND (expires_at IS NULL OR expires_at > now());
 
     IF v_inviter_id IS NULL THEN
@@ -89,11 +92,11 @@ BEGIN
     END IF;
 
     -- Create mutual follow
-    INSERT INTO follows (follower_id, following_id) 
+    INSERT INTO public.follows (follower_id, following_id) 
     VALUES (v_accepter_id, v_inviter_id)
     ON CONFLICT (follower_id, following_id) DO NOTHING;
 
-    INSERT INTO follows (follower_id, following_id) 
+    INSERT INTO public.follows (follower_id, following_id) 
     VALUES (v_inviter_id, v_accepter_id)
     ON CONFLICT (follower_id, following_id) DO NOTHING;
 

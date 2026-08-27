@@ -37,6 +37,9 @@ CREATE OR REPLACE FUNCTION send_friend_request(target_user_id UUID)
 RETURNS UUID
 LANGUAGE plpgsql
 SECURITY DEFINER
+-- Fixed search_path: runs with owner rights, so unqualified names must not
+-- be resolvable through the caller's search_path.
+SET search_path = ''
 AS $$
 DECLARE
   privacy_setting TEXT;
@@ -55,7 +58,7 @@ BEGIN
 
   -- Check privacy setting of target user
   SELECT friend_request_privacy INTO privacy_setting
-    FROM profiles WHERE id = target_user_id;
+    FROM public.profiles WHERE id = target_user_id;
 
   IF privacy_setting IS NULL THEN
     RAISE EXCEPTION 'User not found';
@@ -71,16 +74,16 @@ BEGIN
 
   -- Check if already friends (mutual follows)
   IF EXISTS (
-    SELECT 1 FROM follows WHERE follower_id = current_user_id AND following_id = target_user_id
+    SELECT 1 FROM public.follows WHERE follower_id = current_user_id AND following_id = target_user_id
   ) AND EXISTS (
-    SELECT 1 FROM follows WHERE follower_id = target_user_id AND following_id = current_user_id
+    SELECT 1 FROM public.follows WHERE follower_id = target_user_id AND following_id = current_user_id
   ) THEN
     RAISE EXCEPTION 'Already friends';
   END IF;
 
   -- Check for existing pending request in either direction
   IF EXISTS (
-    SELECT 1 FROM friend_requests
+    SELECT 1 FROM public.friend_requests
     WHERE sender_id = current_user_id AND receiver_id = target_user_id AND status = 'pending'
   ) THEN
     RAISE EXCEPTION 'Request already sent';
@@ -88,28 +91,28 @@ BEGIN
 
   -- If there's a pending request FROM the target TO us, auto-accept it instead
   IF EXISTS (
-    SELECT 1 FROM friend_requests
+    SELECT 1 FROM public.friend_requests
     WHERE sender_id = target_user_id AND receiver_id = current_user_id AND status = 'pending'
   ) THEN
     -- Accept that request (mutual friendship)
-    UPDATE friend_requests SET status = 'accepted'
+    UPDATE public.friend_requests SET status = 'accepted'
       WHERE sender_id = target_user_id AND receiver_id = current_user_id AND status = 'pending'
       RETURNING id INTO new_id;
 
-    INSERT INTO follows (follower_id, following_id)
+    INSERT INTO public.follows (follower_id, following_id)
       VALUES (current_user_id, target_user_id) ON CONFLICT DO NOTHING;
-    INSERT INTO follows (follower_id, following_id)
+    INSERT INTO public.follows (follower_id, following_id)
       VALUES (target_user_id, current_user_id) ON CONFLICT DO NOTHING;
 
     RETURN new_id;
   END IF;
 
   -- Delete any old declined request so user can re-request
-  DELETE FROM friend_requests
+  DELETE FROM public.friend_requests
     WHERE sender_id = current_user_id AND receiver_id = target_user_id AND status = 'declined';
 
   -- Create new request
-  INSERT INTO friend_requests (sender_id, receiver_id)
+  INSERT INTO public.friend_requests (sender_id, receiver_id)
     VALUES (current_user_id, target_user_id)
     RETURNING id INTO new_id;
 
@@ -122,11 +125,14 @@ CREATE OR REPLACE FUNCTION accept_friend_request(request_id UUID)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
+-- Fixed search_path: runs with owner rights, so unqualified names must not
+-- be resolvable through the caller's search_path.
+SET search_path = ''
 AS $$
 DECLARE
   req RECORD;
 BEGIN
-  SELECT * INTO req FROM friend_requests
+  SELECT * INTO req FROM public.friend_requests
     WHERE id = request_id AND receiver_id = auth.uid() AND status = 'pending';
 
   IF NOT FOUND THEN
@@ -134,13 +140,13 @@ BEGIN
   END IF;
 
   -- Create mutual follows
-  INSERT INTO follows (follower_id, following_id)
+  INSERT INTO public.follows (follower_id, following_id)
     VALUES (req.sender_id, req.receiver_id) ON CONFLICT DO NOTHING;
-  INSERT INTO follows (follower_id, following_id)
+  INSERT INTO public.follows (follower_id, following_id)
     VALUES (req.receiver_id, req.sender_id) ON CONFLICT DO NOTHING;
 
   -- Mark request as accepted
-  UPDATE friend_requests SET status = 'accepted' WHERE id = request_id;
+  UPDATE public.friend_requests SET status = 'accepted' WHERE id = request_id;
 END;
 $$;
 
@@ -149,9 +155,12 @@ CREATE OR REPLACE FUNCTION decline_friend_request(request_id UUID)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
+-- Fixed search_path: runs with owner rights, so unqualified names must not
+-- be resolvable through the caller's search_path.
+SET search_path = ''
 AS $$
 BEGIN
-  UPDATE friend_requests SET status = 'declined'
+  UPDATE public.friend_requests SET status = 'declined'
     WHERE id = request_id AND receiver_id = auth.uid() AND status = 'pending';
 
   IF NOT FOUND THEN
@@ -159,7 +168,7 @@ BEGIN
   END IF;
 
   -- Delete declined request so sender can re-request in the future
-  DELETE FROM friend_requests
+  DELETE FROM public.friend_requests
     WHERE id = request_id AND receiver_id = auth.uid() AND status = 'declined';
 END;
 $$;
@@ -169,6 +178,9 @@ CREATE OR REPLACE FUNCTION unfriend(target_user_id UUID)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
+-- Fixed search_path: runs with owner rights, so unqualified names must not
+-- be resolvable through the caller's search_path.
+SET search_path = ''
 AS $$
 DECLARE
   current_user_id UUID;
@@ -180,12 +192,12 @@ BEGIN
   END IF;
 
   -- Delete follows in both directions
-  DELETE FROM follows
+  DELETE FROM public.follows
     WHERE (follower_id = current_user_id AND following_id = target_user_id)
        OR (follower_id = target_user_id AND following_id = current_user_id);
 
   -- Clean up any friend requests between the two users
-  DELETE FROM friend_requests
+  DELETE FROM public.friend_requests
     WHERE (sender_id = current_user_id AND receiver_id = target_user_id)
        OR (sender_id = target_user_id AND receiver_id = current_user_id);
 END;
