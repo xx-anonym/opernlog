@@ -1859,7 +1859,11 @@ h3 {
     height: 1em;
     display: inline-block;
     vertical-align: -0.14em;
+    /* Zweite Absicherung gegen die Mindestgrößenregel für Flex-Elemente in
+       Safari und Edge – siehe Kommentar in Icon.js */
     flex-shrink: 0;
+    min-width: 0;
+    min-height: 0;
 }
 
 .page-header__title .icon,
@@ -2526,8 +2530,15 @@ h3 {
     align-items: stretch;
 }
 
+.invite-link-box .btn {
+    flex-shrink: 0;
+}
+
 .invite-link-input {
     flex: 1;
+    /* ohne min-width: 0 weigert sich ein Eingabefeld, unter seine
+       Inhaltsbreite zu schrumpfen, und verdrängt den Knopf */
+    min-width: 0;
     padding: 10px 14px;
     background: var(--bg);
     border: 1px solid var(--border);

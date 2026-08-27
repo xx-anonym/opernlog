@@ -71,7 +71,14 @@ export function icon(name, { className = '', filled = false, label = '' } = {}) 
     return '';
   }
   const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
-  return `<svg class="icon ${className}" viewBox="0 0 24 24" ${a11y}
+  // width/height als Attribute sind Pflicht, nicht Zierde: Safari und Edge
+  // wenden auf Inline-SVG ohne intrinsische Größe die Mindestgrößenregel für
+  // Flex-Elemente an und setzen die Ersatzgröße 300x150 an. In einem Knopf
+  // (.btn ist inline-flex) wollte das Icon dadurch 300px breit werden und hat
+  // den Knopf aus seiner Zeile gedrängt. Chrome und Firefox tun das nicht –
+  // deshalb war der Fehler nur auf dem iPhone zu sehen.
+  // Die tatsächliche Größe bestimmt weiterhin das CSS (.icon { width: 1em }).
+  return `<svg class="icon ${className}" viewBox="0 0 24 24" width="24" height="24" ${a11y}
     fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
 }
