@@ -2481,8 +2481,36 @@ h3 {
 }
 
 .invite-card__icon {
-    font-size: 3rem;
-    margin-bottom: 16px;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    color: var(--gold);
+}
+
+.invite-card__icon .icon {
+    width: 100%;
+    height: 100%;
+}
+
+/* Großes Statuszeichen auf der Einladungs-Annahmeseite */
+.status-glyph {
+    display: block;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 4px;
+}
+
+.status-glyph .icon {
+    width: 100%;
+    height: 100%;
+}
+
+.status-glyph--ok {
+    color: #2ecc71;
+}
+
+.status-glyph--error {
+    color: #ff6b6b;
 }
 
 .invite-card h2 {

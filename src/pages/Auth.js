@@ -51,7 +51,7 @@ export function AuthPage(onSuccess) {
 
       ${!configured ? `
         <div class="auth-notice">
-          <p>⚠️ Supabase ist nicht konfiguriert. Bitte trage die Credentials in <code>src/config.js</code> ein.</p>
+          <p>${icon('alert', { className: 'icon--meta' })}Supabase ist nicht konfiguriert. Bitte trage die Credentials in <code>src/config.js</code> ein.</p>
         </div>
       ` : `
         <div class="auth-tabs">
@@ -233,7 +233,7 @@ export function AuthPage(onSuccess) {
 
     try {
       await sb.resetPassword(email);
-      successEl.textContent = '✅ Falls ein Konto mit dieser E-Mail existiert, haben wir dir einen Link zum Zurücksetzen gesendet.';
+      successEl.textContent = 'Falls ein Konto mit dieser E-Mail existiert, haben wir dir einen Link zum Zurücksetzen gesendet.';
       successEl.style.display = 'block';
     } catch (err) {
       errorEl.textContent = err.message;
@@ -277,7 +277,7 @@ export function AuthPage(onSuccess) {
         // If auto-login fails (e.g. email confirmation required), show success message
         errorEl.style.display = 'block';
         errorEl.style.color = 'var(--accent)';
-        errorEl.textContent = '✅ Registrierung erfolgreich! Bitte bestätige deine E-Mail und melde dich dann an.';
+        errorEl.textContent = 'Registrierung erfolgreich! Bitte bestätige deine E-Mail und melde dich dann an.';
         submitBtn.textContent = 'Registrieren';
         submitBtn.disabled = false;
         setTimeout(() => {

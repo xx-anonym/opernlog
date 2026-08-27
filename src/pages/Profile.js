@@ -297,7 +297,7 @@ async function renderCloudProfile(page, userId) {
               // Check if auto-accepted (if they had sent us a request)
               const newRel = await sb.getRelationship(userId);
               if (newRel === 'friends') {
-                area.innerHTML = '<div class="friend-request-success">🎉 Ihr seid jetzt Freunde!</div>';
+                area.innerHTML = `<div class="friend-request-success">${icon('checkCircle')} Ihr seid jetzt Freunde!</div>`;
                 setTimeout(() => {
                   area.innerHTML = getRelationshipButtonHTML('friends', privacy);
                   relationship = 'friends';
@@ -335,7 +335,7 @@ async function renderCloudProfile(page, userId) {
             const req = reqs.find(r => r.sender_id === userId);
             if (req) {
               await sb.acceptFriendRequest(req.id);
-              area.innerHTML = '<div class="friend-request-success">🎉 Ihr seid jetzt Freunde!</div>';
+              area.innerHTML = `<div class="friend-request-success">${icon('checkCircle')} Ihr seid jetzt Freunde!</div>`;
               setTimeout(() => {
                 area.innerHTML = getRelationshipButtonHTML('friends', privacy);
                 relationship = 'friends';
@@ -657,7 +657,7 @@ function renderLocalProfile(page, userId, isMe) {
         if (privSelect && store.isCloud) {
           await sb.updateFriendRequestPrivacy(privSelect.value);
         }
-      }, { failure: 'Profil konnte nicht gespeichert werden', success: '✅ Profil gespeichert' });
+      }, { failure: 'Profil konnte nicht gespeichert werden', success: 'Profil gespeichert' });
       saveBtn.disabled = false;
 
       // Anzeige nur aktualisieren, wenn wirklich gespeichert wurde

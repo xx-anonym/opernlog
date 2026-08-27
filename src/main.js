@@ -192,7 +192,7 @@ class App {
                 const { error } = await sb.auth.updateUser({ password });
                 if (error) throw error;
 
-                successEl.textContent = '✅ Passwort erfolgreich geändert! Du wirst weitergeleitet...';
+                successEl.textContent = 'Passwort erfolgreich geändert! Du wirst weitergeleitet...';
                 successEl.style.display = 'block';
                 this.root.querySelector('button[type="submit"]').disabled = true;
 

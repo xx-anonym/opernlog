@@ -43,3 +43,33 @@ export function escapeHTML(str) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
+
+/**
+ * Kopiert Text in die Zwischenablage und meldet, ob es geklappt hat.
+ *
+ * Die Zwischenablage-API scheitert regelmäßig: in unsicheren Kontexten, ohne
+ * Nutzergeste (Safari), bei verweigerter Berechtigung. Vorher hing der Aufruf
+ * an einem .then() ohne .catch – schlug er fehl, passierte schlicht nichts und
+ * der Nutzer stand ohne Rückmeldung da.
+ *
+ * Als Rückfallebene wird der Text im übergebenen Feld markiert, damit man ihn
+ * von Hand kopieren kann.
+ *
+ * @param {string} text
+ * @param {HTMLInputElement} [inputEl]  Feld, dessen Inhalt notfalls markiert wird
+ * @returns {Promise<boolean>}
+ */
+export async function copyToClipboard(text, inputEl) {
+    try {
+        if (!navigator.clipboard?.writeText) throw new Error('Zwischenablage nicht verfügbar');
+        await navigator.clipboard.writeText(text);
+        return true;
+    } catch (e) {
+        console.error('[Zwischenablage] Kopieren fehlgeschlagen', e);
+        if (inputEl) {
+            inputEl.focus();
+            inputEl.select();
+        }
+        return false;
+    }
+}

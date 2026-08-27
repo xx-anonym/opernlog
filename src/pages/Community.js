@@ -1,13 +1,13 @@
 // Freunde & Social Page
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
-import { runWithFeedback } from '../components/Toast.js';
+import { runWithFeedback, showError} from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, copyToClipboard} from '../utils.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -287,14 +287,14 @@ export function CommunityPage() {
     content.innerHTML = `
             <div class="invite-inline">
                 <div class="invite-card">
-                    <div class="invite-card__icon">✉️</div>
+                    <div class="invite-card__icon">${icon('mail')}</div>
                     <h2>Freunde einladen</h2>
                     <p class="text-muted">Erstelle einen Einladungslink und teile ihn per WhatsApp, E-Mail oder SMS.</p>
                     <button id="generateInlineBtn" class="btn btn--primary btn--lg">${icon('link')} Link erstellen</button>
                     <div id="inlineInviteResult" style="display:none">
                         <div class="invite-link-box">
                             <input type="text" id="inlineInviteLink" readonly class="invite-link-input" />
-                            <button id="inlineCopyBtn" class="btn btn--accent">${icon('list')} Kopieren</button>
+                            <button id="inlineCopyBtn" class="btn btn--accent">${icon('clipboard')} Kopieren</button>
                         </div>
                         <p class="invite-hint">${icon('calendar', { className: 'icon--meta' })}Der Link ist 30 Tage gültig</p>
                     </div>
@@ -314,15 +314,19 @@ export function CommunityPage() {
 
         content.querySelector('#inlineInviteLink').value = link;
         content.querySelector('#inlineInviteResult').style.display = 'block';
-        btn.textContent = '✅ Link erstellt!';
+        btn.innerHTML = icon('check') + ' Link erstellt!';
 
-        content.querySelector('#inlineCopyBtn').addEventListener('click', () => {
-          navigator.clipboard.writeText(link).then(() => {
-            content.querySelector('#inlineCopyBtn').textContent = '✅ Kopiert!';
-            setTimeout(() => {
-              content.querySelector('#inlineCopyBtn').innerHTML = icon('list') + ' Kopieren';
-            }, 2000);
-          });
+        content.querySelector('#inlineCopyBtn').addEventListener('click', async () => {
+          const copyBtn = content.querySelector('#inlineCopyBtn');
+          const ok = await copyToClipboard(link, content.querySelector('#inlineInviteLink'));
+          if (!ok) {
+            showError('Kopieren nicht möglich – der Link ist markiert, kopiere ihn von Hand.');
+            return;
+          }
+          copyBtn.innerHTML = icon('check') + ' Kopiert!';
+          setTimeout(() => {
+            copyBtn.innerHTML = icon('clipboard') + ' Kopieren';
+          }, 2000);
         });
       } catch (err) {
         btn.textContent = 'Fehler – nochmal versuchen';
@@ -359,7 +363,7 @@ export function CommunityPage() {
 
     const toast = document.createElement('div');
     toast.className = 'toast fade-in';
-    toast.textContent = `✅ ${name} als Freund hinzugefügt!`;
+    toast.textContent = `${name} als Freund hinzugefügt!`;
     document.body.appendChild(toast);
     setTimeout(() => { toast.classList.add('toast--hide'); }, 2000);
     setTimeout(() => { toast.remove(); }, 2500);

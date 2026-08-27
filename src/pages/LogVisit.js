@@ -178,7 +178,7 @@ export function LogVisitPage(params = {}) {
     if (!operaId) { shakeElement(operaInput); return; }
     if (!selectedRating) { shakeElement(ratingWidget); return; }
     if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
-    if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('⚠️ Datum darf nicht in der Zukunft liegen'); return; }
+    if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('Datum darf nicht in der Zukunft liegen'); return; }
 
     const payload = { houseId, operaId, date, rating: selectedRating, review };
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -189,8 +189,8 @@ export function LogVisitPage(params = {}) {
       {
         failure: editVisit ? 'Änderungen konnten nicht gespeichert werden'
                            : 'Besuch konnte nicht gespeichert werden',
-        success: editVisit ? '✅ Besuch erfolgreich aktualisiert!'
-                           : '✅ Besuch erfolgreich geloggt!',
+        success: editVisit ? 'Besuch erfolgreich aktualisiert!'
+                           : 'Besuch erfolgreich geloggt!',
       }
     );
 

@@ -94,7 +94,7 @@ export function HomePage() {
             try {
               await sb.acceptFriendRequest(req.id);
               card.classList.add('friend-request-card--accepted');
-              card.querySelector('.friend-request-card__actions').innerHTML = '<span class="friend-request-success">🎉 Freunde!</span>';
+              card.querySelector('.friend-request-card__actions').innerHTML = `<span class="friend-request-success">${icon('checkCircle')} Freunde!</span>`;
               setTimeout(() => {
                 card.classList.add('friend-request-card--removing');
                 setTimeout(() => {

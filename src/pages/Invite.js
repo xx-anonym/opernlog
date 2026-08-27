@@ -1,11 +1,12 @@
 // Invite-Seite – Einladungslinks generieren & akzeptieren
 import * as sb from '../store/supabase.js';
+import { showError } from '../components/Toast.js';
 import { icon } from '../components/Icon.js';
 import { brandMarkSVG } from '../data/brandMark.js';
 import { getSession } from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { AuthPage } from './Auth.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, copyToClipboard} from '../utils.js';
 
 export function InvitePage(code) {
   const page = document.createElement('div');
@@ -82,7 +83,7 @@ async function renderAcceptInvite(page, code) {
     if (result.success) {
       statusEl.innerHTML = `
         <div class="invite-success">
-          <span style="font-size: 3rem">🎉</span>
+          <span class="status-glyph status-glyph--ok">${icon('checkCircle')}</span>
           <h2>Verbunden!</h2>
           <p>Du folgst jetzt <strong>${result.friend?.username || 'deinem Freund'}</strong> und sie/er folgt dir.</p>
           <a href="#/community" class="btn btn--primary btn--lg">Zu Freunde</a>
@@ -91,7 +92,7 @@ async function renderAcceptInvite(page, code) {
     } else {
       statusEl.innerHTML = `
         <div class="invite-error">
-          <span style="font-size: 3rem">❌</span>
+          <span class="status-glyph status-glyph--error">${icon('xCircle')}</span>
           <h2>Fehler</h2>
           <p>${escapeHTML(result.error)}</p>
           <a href="#/" class="btn btn--primary btn--lg">Zur Startseite</a>
@@ -102,7 +103,7 @@ async function renderAcceptInvite(page, code) {
     console.error('Accept invite error:', err);
     page.querySelector('.invite-status').innerHTML = `
       <div class="invite-error">
-        <span style="font-size: 3rem">❌</span>
+        <span class="status-glyph status-glyph--error">${icon('xCircle')}</span>
         <h2>Fehler</h2>
         <p>${escapeHTML(err.message)}</p>
         <a href="#/" class="btn btn--primary btn--lg">Zur Startseite</a>
@@ -119,7 +120,7 @@ async function renderGenerateInvite(page) {
     </div>
 
     <div class="invite-card">
-      <div class="invite-card__icon">✉️</div>
+      <div class="invite-card__icon">${icon('mail')}</div>
       <h2>Einladungslink erstellen</h2>
       <p class="text-muted">Erstelle einen Link und teile ihn mit Freunden. Sie können damit sofort deinem Profil folgen.</p>
       <button id="generateBtn" class="btn btn--primary btn--lg">Link erstellen</button>
@@ -127,7 +128,7 @@ async function renderGenerateInvite(page) {
       <div id="inviteResult" style="display:none">
         <div class="invite-link-box">
           <input type="text" id="inviteLink" readonly class="invite-link-input" />
-          <button id="copyBtn" class="btn btn--accent">${icon('list')} Kopieren</button>
+          <button id="copyBtn" class="btn btn--accent">${icon('clipboard')} Kopieren</button>
         </div>
         <p class="invite-hint">${icon('calendar', { className: 'icon--meta' })}Der Link ist 30 Tage gültig</p>
       </div>
@@ -169,16 +170,20 @@ async function renderGenerateInvite(page) {
 
       page.querySelector('#inviteLink').value = link;
       page.querySelector('#inviteResult').style.display = 'block';
-      btn.textContent = '✅ Link erstellt!';
+      btn.innerHTML = icon('check') + ' Link erstellt!';
 
       // Copy handler
-      page.querySelector('#copyBtn').addEventListener('click', () => {
-        navigator.clipboard.writeText(link).then(() => {
-          page.querySelector('#copyBtn').textContent = '✅ Kopiert!';
-          setTimeout(() => {
-            page.querySelector('#copyBtn').innerHTML = icon('list') + ' Kopieren';
-          }, 2000);
-        });
+      page.querySelector('#copyBtn').addEventListener('click', async () => {
+        const copyBtn = page.querySelector('#copyBtn');
+        const ok = await copyToClipboard(link, page.querySelector('#inviteLink'));
+        if (!ok) {
+          showError('Kopieren nicht möglich – der Link ist markiert, kopiere ihn von Hand.');
+          return;
+        }
+        copyBtn.innerHTML = icon('check') + ' Kopiert!';
+        setTimeout(() => {
+          copyBtn.innerHTML = icon('clipboard') + ' Kopieren';
+        }, 2000);
       });
     } catch (err) {
       btn.textContent = 'Fehler – nochmal versuchen';
@@ -192,7 +197,7 @@ async function renderGenerateInvite(page) {
         errDiv.style.cssText = 'color: #ff6b6b; margin-top: 1rem; font-size: 0.9rem;';
         btn.parentNode.insertBefore(errDiv, btn.nextSibling);
       }
-      errDiv.textContent = '⚠️ ' + (err.message || 'Unbekannter Fehler');
+      errDiv.textContent = err.message || 'Unbekannter Fehler';
     }
   });
 }
