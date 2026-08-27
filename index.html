@@ -33,21 +33,53 @@
 
 <body>
     <!-- Splash Screen – Animated Opera Curtain -->
-    <div id="splash" class="splash">
-        <div class="splash__curtain splash__curtain--left"></div>
-        <div class="splash__curtain splash__curtain--right"></div>
-        <div class="splash__spotlight"></div>
-        <div class="splash__content">
-            <div class="splash__logo">🎭</div>
-            <h1 class="splash__title">OpernLog</h1>
-            <p class="splash__subtitle">Dein persönliches Operntagebuch</p>
-            <div class="splash__notes">
-                <span class="splash__note" style="--i:0">♩</span>
-                <span class="splash__note" style="--i:1">♪</span>
-                <span class="splash__note" style="--i:2">♫</span>
-                <span class="splash__note" style="--i:3">♬</span>
-                <span class="splash__note" style="--i:4">♩</span>
+    <div id="splash" class="splash" role="status" aria-label="OpernLog wird geladen">
+        <!-- Stage behind the curtains -->
+        <div class="splash__stage" aria-hidden="true">
+            <div class="splash__spotlight"></div>
+            <div class="splash__motes">
+                <span class="splash__mote" style="--i:0;--x:-210px;--drift:-34px;--d:7.5s"></span>
+                <span class="splash__mote" style="--i:1;--x:120px;--drift:26px;--d:9s"></span>
+                <span class="splash__mote" style="--i:2;--x:-70px;--drift:18px;--d:6.5s"></span>
+                <span class="splash__mote" style="--i:3;--x:215px;--drift:-30px;--d:8.5s"></span>
+                <span class="splash__mote" style="--i:4;--x:-155px;--drift:22px;--d:10s"></span>
+                <span class="splash__mote" style="--i:5;--x:45px;--drift:-24px;--d:7s"></span>
+                <span class="splash__mote" style="--i:6;--x:175px;--drift:32px;--d:9.5s"></span>
+                <span class="splash__mote" style="--i:7;--x:-240px;--drift:28px;--d:8s"></span>
             </div>
+            <div class="splash__footlights"></div>
+        </div>
+
+        <!-- Velvet curtains -->
+        <div class="splash__curtain splash__curtain--left" aria-hidden="true"></div>
+        <div class="splash__curtain splash__curtain--right" aria-hidden="true"></div>
+        <div class="splash__valance" aria-hidden="true"></div>
+
+        <div class="splash__content">
+            <div class="splash__logo" aria-hidden="true">
+                <svg viewBox="11 13 46 40" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Tragedy mask (behind, right) -->
+                    <path d="M32 26C32 16 54 16 54 26C54 37 49 44 43 44C37 44 32 37 32 26Z"
+                        fill="#2a0d15" />
+                    <path d="M40 26.5Q42.5 29.5 45 26.5" stroke-width="1.1" />
+                    <path d="M47.5 26.5Q50 29.5 52.5 26.5" stroke-width="1.1" />
+                    <path d="M41 38Q46 33.5 51 38" stroke-width="1.1" />
+                    <!-- Comedy mask (front, left) – opaque, so it occludes the one behind -->
+                    <path d="M14 30C14 19 38 19 38 30C38 42 33 50 26 50C19 50 14 42 14 30Z"
+                        fill="#1a0710" />
+                    <path d="M19.5 30.5Q22 27.5 24.5 30.5" stroke-width="1.1" />
+                    <path d="M27.5 30.5Q30 27.5 32.5 30.5" stroke-width="1.1" />
+                    <path d="M19.5 38Q26 44 32.5 38" stroke-width="1.1" />
+                </svg>
+            </div>
+            <h1 class="splash__title" aria-label="OpernLog"><span aria-hidden="true"
+                    style="--i:0">O</span><span aria-hidden="true" style="--i:1">p</span><span aria-hidden="true"
+                    style="--i:2">e</span><span aria-hidden="true" style="--i:3">r</span><span aria-hidden="true"
+                    style="--i:4">n</span><span aria-hidden="true" style="--i:5">L</span><span aria-hidden="true"
+                    style="--i:6">o</span><span aria-hidden="true" style="--i:7">g</span></h1>
+            <p class="splash__subtitle">Dein persönliches Operntagebuch</p>
+            <div class="splash__progress" aria-hidden="true"></div>
         </div>
     </div>
 
