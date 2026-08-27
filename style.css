@@ -25,6 +25,16 @@
     --green: #00c030;
     --red: #e74c3c;
 
+    /* Aliasse für Namen, die im Stylesheet verwendet, aber nie definiert
+       wurden. Eine ungültige var()-Referenz laesst die ganze Deklaration auf
+       ihren Ausgangswert zurückfallen – bei background heisst das
+       transparent, und das Element verschwindet lautlos. Genau daran ist der
+       Kopieren-Knopf beim Hover unsichtbar geworden. */
+    --text: #e0e0e0;
+    --bg: #14181c;
+    --card-bg: #1c2228;
+    --accent-dim: #5c111c;
+
     --border: rgba(255, 255, 255, 0.06);
     --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -2750,12 +2760,17 @@ h3 {
 
 .btn--accent {
     background: var(--accent);
-    color: var(--bg);
+    /* Helle Schrift: der Hintergrund ist dunkelrot. Vorher stand hier
+       var(--bg) – die Variable war nicht definiert, dadurch erbte der Knopf
+       zufaellig die richtige Farbe. */
+    color: #fff;
     font-weight: 600;
 }
 
 .btn--accent:hover {
-    background: var(--accent-dim);
+    /* Heller beim Hover, wie .btn--primary */
+    background: var(--accent-light);
+    color: #fff;
 }
 
 .btn--ghost {
