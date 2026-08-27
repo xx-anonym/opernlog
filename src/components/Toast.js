@@ -30,8 +30,11 @@ export async function runWithFeedback(action, { failure, success } = {}) {
     if (success) showToast(success);
     return true;
   } catch (e) {
+    // Die technische Meldung bleibt in der Konsole, im Toast steht die
+    // verständliche Entsprechung (siehe userMessage in supabase.js).
     console.error(failure || 'Aktion fehlgeschlagen', e);
-    showError(`${failure || 'Aktion fehlgeschlagen'} – ${e.message || 'unbekannter Fehler'}`);
+    const detail = e.userMessage || e.message || 'unbekannter Fehler';
+    showError(`${failure || 'Aktion fehlgeschlagen'} – ${detail}`);
     return false;
   }
 }

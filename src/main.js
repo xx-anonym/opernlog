@@ -260,7 +260,7 @@ class App {
     // Hinweis wäre Veraltetes von Aktuellem nicht zu unterscheiden.
     reportSyncError() {
         if (!store.syncError) return;
-        const message = store.syncError.message;
+        const message = store.syncError.userMessage || store.syncError.message;
         store.syncError = null;
         showError(message);
     }

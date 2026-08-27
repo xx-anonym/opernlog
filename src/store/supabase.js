@@ -31,13 +31,76 @@ export function getSupabase() {
 // Deshalb: jeder Aufruf geht durch unwrap(). Kein `data` ohne geprüften
 // `error`.
 
+// Vorübergehende Fehler, die sich von selbst erledigen. Ein erneuter Versuch
+// ist sinnvoller, als den Nutzer damit zu behelligen.
+//
+// PGRST303 "JWT issued at future" ist der prominenteste Fall: Supabases
+// Auth-Dienst und der PostgREST-Server haben leicht unterschiedliche Uhren,
+// dadurch liegt die Ausstellungszeit des Tokens für die Datenbank in der
+// Zukunft und sie weist es ab. Das liegt auf Serverseite, nicht am Gerät des
+// Nutzers – und ist nach Sekunden meist vorbei.
+function isTransient(cause) {
+    const code = cause?.code;
+    if (code === 'PGRST303' || code === 'PGRST301') return true;
+    return /issued at future|jwt expired|failed to fetch|networkerror|network error|timeout|temporarily unavailable/i
+        .test(String(cause?.message || ''));
+}
+
+// Verständliche Entsprechung zur technischen Meldung. Die Rohmeldung bleibt in
+// message und damit in der Konsole – im Toast hat sie nichts verloren.
+function userMessage(cause) {
+    const code = cause?.code;
+    const msg = String(cause?.message || '');
+
+    if (code === 'PGRST303' || /issued at future/i.test(msg))
+        return 'Der Server hat die Anmeldung kurz nicht angenommen. Das behebt sich meist von selbst – versuch es gleich noch einmal.';
+    if (code === 'PGRST301' || /jwt expired/i.test(msg))
+        return 'Deine Sitzung ist abgelaufen. Bitte melde dich neu an.';
+    if (code === '42501' || /row-level security/i.test(msg))
+        return 'Dafür fehlt die Berechtigung.';
+    if (code === 'NO_ROWS_AFFECTED')
+        return 'Der Eintrag wurde nicht gefunden oder darf nicht geändert werden.';
+    if (code === '23505' || /duplicate key/i.test(msg))
+        return 'Das gibt es bereits.';
+    if (/failed to fetch|networkerror|network error/i.test(msg))
+        return 'Keine Verbindung zum Server.';
+    return null;
+}
+
 export class SupabaseError extends Error {
     constructor(operation, cause) {
+        // Technische Meldung für Konsole und Protokoll
         super(`${operation}: ${cause?.message || 'Unbekannter Fehler'}`);
         this.name = 'SupabaseError';
         this.operation = operation;
         this.cause = cause;
         this.code = cause?.code;
+        this.transient = isTransient(cause);
+        // Für die Oberfläche
+        this.userMessage = userMessage(cause) || `${operation} fehlgeschlagen.`;
+    }
+}
+
+/**
+ * Führt eine Leseabfrage aus und wiederholt sie bei vorübergehenden Fehlern.
+ *
+ * Bewusst nur für Lesevorgänge: Ein wiederholter Schreibvorgang könnte doppelte
+ * Einträge erzeugen, wenn der erste Versuch die Datenbank doch erreicht hat.
+ *
+ * @param {() => PromiseLike<{data: any, error: any}>} build  erzeugt die Abfrage neu
+ */
+async function retryRead(build, operation, { attempts = 3, baseDelay = 400 } = {}) {
+    for (let attempt = 0; ; attempt++) {
+        const result = await build();
+        if (!result.error) return result.data;
+
+        const error = new SupabaseError(operation, result.error);
+        if (!error.transient || attempt >= attempts - 1) {
+            console.error(`[Supabase] ${operation}`, result.error);
+            throw error;
+        }
+        console.warn(`[Supabase] ${operation}: vorübergehender Fehler, neuer Versuch`, result.error);
+        await new Promise(r => setTimeout(r, baseDelay * 2 ** attempt));
     }
 }
 
@@ -202,8 +265,10 @@ export async function getProfile(userId) {
     const sb = getSupabase();
     // maybeSingle: "kein Profil" ist ein gültiges Ergebnis (null), alles andere
     // ist ein echter Fehler und darf nicht als "kein Profil" durchgehen.
-    const result = await sb.from('profiles').select('*').eq('id', userId).maybeSingle();
-    return unwrap(result, `Profil ${userId} laden`);
+    return retryRead(
+        () => sb.from('profiles').select('*').eq('id', userId).maybeSingle(),
+        `Profil ${userId} laden`
+    );
 }
 
 export async function getMyProfile() {
@@ -222,8 +287,10 @@ export async function updateProfile(updates) {
 
 export async function isProfileComplete(userId) {
     const sb = getSupabase();
-    const result = await sb.from('profiles').select('profile_complete').eq('id', userId).maybeSingle();
-    const data = unwrap(result, 'Profilstatus prüfen');
+    const data = await retryRead(
+        () => sb.from('profiles').select('profile_complete').eq('id', userId).maybeSingle(),
+        'Profilstatus prüfen'
+    );
     return data?.profile_complete === true;
 }
 
@@ -566,10 +633,13 @@ export async function getMyVisitsCloud() {
     const session = await getSession();
     if (!session) return [];
     const sb = getSupabase();
-    const data = unwrap(await sb.from('visits')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('date', { ascending: false }), 'Eigene Besuche laden');
+    const data = await retryRead(
+        () => sb.from('visits')
+            .select('*')
+            .eq('user_id', session.user.id)
+            .order('date', { ascending: false }),
+        'Eigene Besuche laden'
+    );
     return await enrichVisitsWithSocial(data || []);
 }
 
@@ -725,9 +795,10 @@ export async function getMyListsCloud() {
     const session = await getSession();
     if (!session) return [];
     const sb = getSupabase();
-    const data = unwrap(await sb.from('lists')
-        .select('*')
-        .eq('user_id', session.user.id), 'Eigene Listen laden');
+    const data = await retryRead(
+        () => sb.from('lists').select('*').eq('user_id', session.user.id),
+        'Eigene Listen laden'
+    );
     return await enrichListsWithSocial(data || []);
 }
 
