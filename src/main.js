@@ -35,9 +35,11 @@ class App {
         const splash = document.getElementById('splash');
         if (!splash || splash.classList.contains('splash--hidden')) return;
 
-        // Ensure the splash is shown for at least 500ms so the animation is visible
+        // The reveal (logo, title, subtitle) finishes around 0.9s. Hold long
+        // enough after that for the subtitle to actually be readable – at 500ms
+        // it was often gone before it had finished fading in.
         const elapsed = Date.now() - this._splashStart;
-        const delay = Math.max(0, 500 - elapsed);
+        const delay = Math.max(0, 1800 - elapsed);
 
         setTimeout(() => {
             splash.classList.add('splash--hidden');

@@ -344,11 +344,11 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
     animation:
-        splashLetterIn 0.75s cubic-bezier(0.2, 0.85, 0.25, 1) both,
+        splashLetterIn 0.55s cubic-bezier(0.2, 0.85, 0.25, 1) both,
         splashShimmer 3.6s ease-in-out infinite;
     animation-delay:
-        calc(0.28s + var(--i) * 0.065s),
-        calc(0.9s + var(--i) * 0.055s);
+        calc(0.18s + var(--i) * 0.045s),
+        calc(0.7s + var(--i) * 0.045s);
 }
 
 @keyframes splashLetterIn {
@@ -382,7 +382,7 @@
     letter-spacing: 0.6px;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
     margin-bottom: 26px;
-    animation: splashFadeUp 0.7s ease-out 0.85s both;
+    animation: splashFadeUp 0.5s ease-out 0.38s both;
 }
 
 /* Indeterminate loading sweep – no fake percentage, just motion */
@@ -395,7 +395,7 @@
     overflow: hidden;
     background: rgba(201, 168, 76, 0.18);
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-    animation: splashFadeUp 0.6s ease-out 1.05s both;
+    animation: splashFadeUp 0.5s ease-out 0.6s both;
 }
 
 .splash__progress::after {
@@ -409,7 +409,7 @@
             var(--splash-gold) 45%,
             var(--splash-gold-lit) 55%,
             transparent);
-    animation: splashSweep 1.5s cubic-bezier(0.55, 0, 0.45, 1) 1.05s infinite;
+    animation: splashSweep 1.5s cubic-bezier(0.55, 0, 0.45, 1) 0.6s infinite;
 }
 
 @keyframes splashSweep {
