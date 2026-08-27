@@ -214,7 +214,42 @@ class App {
         if (this._routeHandler) window.removeEventListener('hashchange', this._routeHandler);
         this._routeHandler = () => this.route();
         window.addEventListener('hashchange', this._routeHandler);
+
+        // Re-sync when the app becomes visible again. Without this, data is only
+        // fetched on cold start and on route changes – a device that keeps the app
+        // open in the background (installed PWA) would show a stale view forever,
+        // even after someone edited a visit on another device.
+        if (this._visibilityHandler) document.removeEventListener('visibilitychange', this._visibilityHandler);
+        this._visibilityHandler = () => {
+            if (document.visibilityState === 'visible') this.refreshFromCloud();
+        };
+        document.addEventListener('visibilitychange', this._visibilityHandler);
+
         this.route();
+    }
+
+    // Current route path, e.g. "diary" for "#/diary" or "log" for "#/log?edit=1"
+    currentPath() {
+        return (window.location.hash || '#/').slice(2).split('?')[0].split('/')[0];
+    }
+
+    async refreshFromCloud() {
+        // Never blow away a half-filled form or an auth flow in progress
+        if (['log', 'auth'].includes(this.currentPath())) return;
+        if (this._refreshing) return;
+        // Throttle so quick app switches don't cause a burst of requests
+        if (Date.now() - (this._lastRefresh || 0) < 30000) return;
+
+        this._refreshing = true;
+        try {
+            if (isSupabaseConfigured()) await store.refreshSession();
+            this._lastRefresh = Date.now();
+            this.route();
+        } catch (e) {
+            console.warn('Refresh on resume failed:', e);
+        } finally {
+            this._refreshing = false;
+        }
     }
 
     route() {
