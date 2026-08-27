@@ -1,5 +1,6 @@
 // ProfileSetup – Wird nach Google-Signup angezeigt
 import { profileIcons } from '../data/profileIcons.js';
+import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 
 export function ProfileSetupPage(session, onComplete) {
@@ -15,7 +16,7 @@ export function ProfileSetupPage(session, onComplete) {
     page.innerHTML = `
     <div class="auth-container profile-setup-container">
         <div class="auth-header">
-            <span class="auth-logo">🎭</span>
+            <span class="auth-logo">${brandMarkSVG()}</span>
             <h1>Willkommen bei OpernLog!</h1>
             <p class="auth-subtitle">Richte dein Profil ein, bevor es losgeht.</p>
         </div>

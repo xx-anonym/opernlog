@@ -1,5 +1,6 @@
 // Invite-Seite – Einladungslinks generieren & akzeptieren
 import * as sb from '../store/supabase.js';
+import { brandMarkSVG } from '../data/brandMark.js';
 import { getSession } from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { AuthPage } from './Auth.js';
@@ -39,7 +40,7 @@ function renderAuthThenAccept(page, code) {
   header.innerHTML = `
       <div class="auth-container" style="margin-bottom: 0; padding-bottom: 0;">
         <div style="text-align:center; margin-bottom: 1rem;">
-          <span style="font-size: 3rem;">🎭</span>
+          <span class="auth-logo" style="margin: 0 auto 8px;">${brandMarkSVG()}</span>
           <h2 style="margin: 0.5rem 0;">Du wurdest eingeladen!</h2>
           <p class="text-muted">Melde dich an oder erstelle ein Konto, um die Einladung anzunehmen.</p>
         </div>
@@ -62,7 +63,7 @@ async function renderAcceptInvite(page, code) {
   page.innerHTML = `
     <div class="auth-container">
       <div class="auth-header">
-        <span class="auth-logo">🎭</span>
+        <span class="auth-logo">${brandMarkSVG()}</span>
         <h1>Einladung</h1>
         <p class="auth-subtitle">Du wurdest zu OpernLog eingeladen!</p>
       </div>

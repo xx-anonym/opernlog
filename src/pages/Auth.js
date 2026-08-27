@@ -1,5 +1,6 @@
 // Auth-Seite – Login & Registrierung
 import { isSupabaseConfigured } from '../config.js';
+import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { profileIcons } from '../data/profileIcons.js';
@@ -43,7 +44,7 @@ export function AuthPage(onSuccess) {
   page.innerHTML = `
     <div class="auth-container">
       <div class="auth-header">
-        <span class="auth-logo">🎭</span>
+        <span class="auth-logo">${brandMarkSVG()}</span>
         <h1>OpernLog</h1>
         <p class="auth-subtitle">Dein persönliches Operntagebuch</p>
       </div>

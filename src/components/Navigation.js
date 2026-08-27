@@ -1,5 +1,6 @@
 // Navigation Component
 import { store } from '../store/store.js';
+import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 
@@ -8,7 +9,7 @@ export function Navigation() {
   nav.className = 'main-nav';
   nav.innerHTML = `
     <div class="nav-brand" data-nav="#/">
-      <div class="nav-brand__logo">🎭</div>
+      <div class="nav-brand__logo">${brandMarkSVG()}</div>
       <span class="nav-brand__name">OpernLog</span>
     </div>
     <div class="nav-links">
