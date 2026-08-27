@@ -120,20 +120,23 @@ export const profileIcons = {
   }
 };
 
-// Rendert den Inhalt eines Avatar-Kreises.
+// Rendert den Inhalt eines Avatar-Kreises: Monogramm plus optionales Emblem.
 //
-// Das gewählte Icon IST das Profilbild – im Profil heißt das Feld "Profilbild"
-// und bietet ausdrücklich "Kein Icon" an. Wer eines gewählt hat, soll es also
-// sehen; die Initialen sind der Ersatz für alle, die keines gewählt haben.
-// (Früher lagen beide übereinander, das Icon bei 18 % Deckkraft dahinter – man
-// sah von seiner Wahl praktisch nichts.)
+// Beide sind im Profil getrennt einstellbar – zwei Buchstaben mal ein Dutzend
+// Instrumente ergeben viele unterscheidbare Profilbilder. Deshalb erscheinen
+// auch beide.
+//
+// Der Trick liegt im CSS: das Emblem sitzt nach unten rechts versetzt und wird
+// vom Kreis beschnitten, das Monogramm rückt nach oben links. So hat jedes
+// seinen eigenen Platz. Früher lagen beide mittig übereinander, das Icon bei
+// 18 % Deckkraft – man sah von seiner Wahl praktisch nichts.
 export function renderAvatarHTML(initials, iconKey) {
   // Own-property check so keys like "constructor" can't resolve to Object.prototype members
   const icon = iconKey && Object.prototype.hasOwnProperty.call(profileIcons, iconKey)
     ? profileIcons[iconKey]
     : null;
 
-  if (icon) return `<span class="avatar-icon" aria-hidden="true">${icon.svg}</span>`;
+  const emblem = icon ? `<span class="avatar-icon" aria-hidden="true">${icon.svg}</span>` : '';
   // initials come from the DB (avatar_initials) and are user-controlled
-  return `<span class="avatar-initials">${escapeHTML(initials)}</span>`;
+  return `${emblem}<span class="avatar-initials">${escapeHTML(initials)}</span>`;
 }

@@ -1375,41 +1375,58 @@ h3 {
     overflow: hidden;
 }
 
-/* Das gewählte Icon ist das Profilbild und ersetzt die Initialen – es muss
-   deshalb als Bild lesbar sein, nicht als Wasserzeichen verschwinden. */
+/* Monogramm und Emblem teilen sich den Kreis, statt übereinander zu liegen:
+   das Emblem sitzt unten rechts und wird vom Kreisrand beschnitten, das
+   Monogramm rückt nach oben links. Beide bleiben dadurch lesbar. */
 .avatar-icon {
     position: absolute;
-    inset: 0;
+    right: -12%;
+    bottom: -14%;
+    width: 76%;
+    height: 76%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    opacity: 0.62;
     pointer-events: none;
 }
 
 .avatar-icon svg {
-    width: 66%;
-    height: 66%;
+    width: 100%;
+    height: 100%;
     color: #fff;
     /* CSS schlägt das stroke-width-Attribut im SVG. Die Icons sind für 64px
        gezeichnet; im Avatar wären ihre Linien sonst haarfein. */
-    stroke-width: 2.6;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+    stroke-width: 2.4;
 }
 
-/* Je kleiner der Kreis, desto kräftiger muss die Linie sein */
-.avatar--xs .avatar-icon svg {
-    width: 76%;
-    height: 76%;
-    stroke-width: 4.4;
+/* Nur wenn ein Emblem da ist, weicht das Monogramm aus */
+.avatar-icon + .avatar-initials {
+    transform: translate(-14%, -10%);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
+/* Je kleiner der Kreis, desto kräftiger die Linie */
 .avatar--sm .avatar-icon svg,
 .feed-card__avatar .avatar-icon svg {
-    stroke-width: 3.4;
+    stroke-width: 3.2;
+}
+
+.profile-hero__avatar .avatar-icon {
+    width: 80%;
+    height: 80%;
 }
 
 .profile-hero__avatar .avatar-icon svg {
-    stroke-width: 2.1;
+    stroke-width: 1.9;
+}
+
+/* 24px trägt kein Emblem – zwei Buchstaben und ein Instrument werden dort
+   zu Matsch. Das Monogramm gewinnt. */
+.avatar--xs .avatar-icon {
+    display: none;
+}
+
+.avatar--xs .avatar-icon + .avatar-initials {
+    transform: none;
 }
 
 .avatar-initials {
