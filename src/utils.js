@@ -73,3 +73,105 @@ export async function copyToClipboard(text, inputEl) {
         return false;
     }
 }
+
+// ── Standort ──────────────────────────────────────────────
+//
+// Wird für die Vorauswahl des nächstgelegenen Opernhauses beim Loggen
+// gebraucht. Zwei Eigenheiten bestimmen den Aufbau:
+//
+// 1. getCurrentPosition öffnet einen Berechtigungsdialog und kann Sekunden
+//    dauern. Deshalb wird die letzte bekannte Position gespeichert: beim
+//    nächsten Mal steht die Vorauswahl sofort, auch offline.
+// 2. Eine einmal verweigerte Berechtigung soll nicht bei jedem Öffnen des
+//    Formulars erneut erfragt werden. Chrome liefert das über die
+//    Permissions-API, Safari nicht – dafür der gemerkte Vermerk.
+
+const POSITION_KEY = 'opernlog:position';
+const POSITION_DENIED_KEY = 'opernlog:positionDenied';
+const POSITION_MAX_AGE = 12 * 60 * 60 * 1000;   // gespeicherte Position: 12 h
+const DENIED_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // Vermerk „verweigert“: 7 Tage
+
+function readStored(key) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+        // localStorage fehlt im privaten Modus mancher Browser
+        return null;
+    }
+}
+
+function writeStored(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+        /* ohne Speicher läuft alles weiter, nur ohne Gedächtnis */
+    }
+}
+
+function positionDenied() {
+    const mark = readStored(POSITION_DENIED_KEY);
+    return !!mark && Number.isFinite(mark.at) && Date.now() - mark.at < DENIED_MAX_AGE;
+}
+
+function rememberDenied() {
+    writeStored(POSITION_DENIED_KEY, { at: Date.now() });
+}
+
+function forgetDenied() {
+    try {
+        localStorage.removeItem(POSITION_DENIED_KEY);
+    } catch (e) { /* siehe oben */ }
+}
+
+/**
+ * Die zuletzt gespeicherte Position – ohne Nachfrage und ohne Wartezeit.
+ * @returns {{lat: number, lon: number, cached: true}|null}
+ */
+export function getCachedPosition(maxAge = POSITION_MAX_AGE) {
+    const p = readStored(POSITION_KEY);
+    if (!p || !Number.isFinite(p.lat) || !Number.isFinite(p.lon)) return null;
+    if (!Number.isFinite(p.at) || Date.now() - p.at > maxAge) return null;
+    return { lat: p.lat, lon: p.lon, cached: true };
+}
+
+/**
+ * Fragt den aktuellen Standort ab. Scheitert das – kein Empfang, verweigert,
+ * unsicherer Kontext –, kommt null zurück; die Stelle im Aufrufer verhält sich
+ * dann so, als hätte es die Funktion nie gegeben.
+ *
+ * @returns {Promise<{lat: number, lon: number, cached: false}|null>}
+ */
+export async function requestPosition({ timeout = 8000, maximumAge = 10 * 60 * 1000 } = {}) {
+    // Geolocation gibt es nur in sicheren Kontexten (https bzw. localhost)
+    if (!navigator.geolocation) return null;
+    if (positionDenied()) return null;
+
+    if (navigator.permissions?.query) {
+        try {
+            const status = await navigator.permissions.query({ name: 'geolocation' });
+            if (status.state === 'denied') { rememberDenied(); return null; }
+            // Nachträglich erteilt: den alten Vermerk wegräumen
+            forgetDenied();
+        } catch (e) {
+            // Manche Browser kennen den Namen 'geolocation' nicht – dann eben fragen
+        }
+    }
+
+    return new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                writeStored(POSITION_KEY, { lat, lon, at: Date.now() });
+                resolve({ lat, lon, cached: false });
+            },
+            (err) => {
+                if (err && err.code === err.PERMISSION_DENIED) rememberDenied();
+                console.warn('[Standort] nicht ermittelbar:', err?.message || err);
+                resolve(null);
+            },
+            { enableHighAccuracy: false, timeout, maximumAge }
+        );
+    });
+}

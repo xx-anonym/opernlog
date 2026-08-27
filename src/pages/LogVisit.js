@@ -1,9 +1,9 @@
 // Log Visit Page
-import { operaHouses } from '../data/operaHouses.js';
+import { operaHouses, nearestOperaHouse } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, getCachedPosition, requestPosition } from '../utils.js';
 import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
 
@@ -32,6 +32,7 @@ export function LogVisitPage(params = {}) {
           <div class="autocomplete__list" id="houseList"></div>
         </div>
         <input type="hidden" id="houseId" />
+        <p class="form-hint" id="houseHint" hidden></p>
       </div>
       
       <div class="form-group">
@@ -105,7 +106,57 @@ export function LogVisitPage(params = {}) {
     }
   }
 
+  // ── Nächstgelegenes Opernhaus vorauswählen ──────────────────────────
+  //
+  // Nur im leeren Formular: kommt das Haus aus der URL (#/log?house=...) oder
+  // aus dem bearbeiteten Besuch, bleibt es unangetastet. Die Vorauswahl ist
+  // ein Vorschlag, keine Korrektur.
+  const houseHint = page.querySelector('#houseHint');
+
+  // Merkt sich, was die Automatik gesetzt hat. Nur das darf sie später selbst
+  // wieder überschreiben – eine Eingabe von Hand ist tabu.
+  let autoSelected = null;
+
+  function clearAutoSelection() {
+    autoSelected = null;
+    houseHint.hidden = true;
+  }
+
+  function preselectNearest(position) {
+    if (!position) return;
+
+    const untouched = (!houseIdInput.value && !houseInput.value.trim())
+      || (autoSelected && houseIdInput.value === autoSelected.id
+                       && houseInput.value === autoSelected.label);
+    if (!untouched) return;
+
+    const nearest = nearestOperaHouse(position.lat, position.lon);
+    if (!nearest) return;
+
+    const label = `${nearest.house.name} (${nearest.house.city})`;
+    houseInput.value = label;
+    houseIdInput.value = nearest.house.id;
+    autoSelected = { id: nearest.house.id, label };
+
+    houseHint.innerHTML = `${icon('pin', { className: 'icon--meta' })}Nächstgelegenes Haus`
+      + ` (${formatDistance(nearest.distanceKm)}) – nach deinem Standort vorausgewählt.`;
+    houseHint.hidden = false;
+  }
+
+  if (!params.house && !editVisit) {
+    // Erst der gespeicherte Standort: die Vorauswahl steht damit sofort und
+    // auch offline, ohne dass jemand auf das GPS wartet. Die frische Abfrage
+    // darf sie danach noch verbessern – solange das Feld unberührt blieb.
+    preselectNearest(getCachedPosition());
+    requestPosition().then((pos) => {
+      // Kommt die Antwort erst, wenn die Seite längst verlassen wurde,
+      // gibt es nichts mehr zu füllen.
+      if (page.isConnected) preselectNearest(pos);
+    });
+  }
+
   houseInput.addEventListener('input', () => {
+    clearAutoSelection();
     const query = houseInput.value.toLowerCase();
     if (query.length < 1) { houseList.innerHTML = ''; houseList.style.display = 'none'; return; }
 
@@ -121,6 +172,7 @@ export function LogVisitPage(params = {}) {
       item.className = 'autocomplete__item';
       item.innerHTML = `<strong>${house.name}</strong> <span class="text-muted">– ${house.city}</span>`;
       item.addEventListener('click', () => {
+        clearAutoSelection();
         houseInput.value = `${house.name} (${house.city})`;
         houseIdInput.value = house.id;
         houseList.style.display = 'none';
@@ -215,3 +267,8 @@ function shakeElement(el) {
   setTimeout(() => el.classList.remove('shake'), 500);
 }
 
+function formatDistance(km) {
+  if (km < 1) return 'unter 1 km';
+  if (km < 10) return `${km.toFixed(1).replace('.', ',')} km`;
+  return `${Math.round(km)} km`;
+}

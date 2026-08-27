@@ -2456,6 +2456,13 @@ h3 {
     font-style: italic;
 }
 
+/* Das hidden-Attribut braucht eine eigene Regel: die Browsereinstellung
+   [hidden] { display: none } verliert an Spezifität gegen .form-hint, das
+   Feld bliebe sonst trotz hidden sichtbar. */
+.form-hint[hidden] {
+    display: none;
+}
+
 .setup-btn-loading {
     display: inline-flex;
     align-items: center;
