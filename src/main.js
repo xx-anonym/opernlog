@@ -45,7 +45,12 @@ class App {
             splash.classList.add('splash--hidden');
             // Remove from DOM after all transitions complete
             // (curtains 1s + fade 0.4s delayed 0.7s = ~1.5s total)
-            setTimeout(() => splash.remove(), 1600);
+            setTimeout(() => {
+                splash.remove();
+                // Hand the canvas back to the app palette (the velvet was only
+                // there to cover the first paint before any CSS had applied)
+                document.documentElement.style.background = '#14181c';
+            }, 1600);
         }, delay);
     }
 
