@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v53';
+const CACHE_NAME = 'opernlog-v54';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.

@@ -5,6 +5,7 @@ import { runWithFeedback } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
+import { visitCredits } from '../utils.js';
 
 export function DiaryPage() {
   const page = document.createElement('div');
@@ -21,7 +22,7 @@ export function DiaryPage() {
     <div id="diaryFilters" style="display:none">
     <div class="filters">
       <div class="filter-row">
-        <input type="text" class="input search-input" id="diarySearch" placeholder="Oper, Komponist oder Haus suchen..." />
+        <input type="text" class="input search-input" id="diarySearch" placeholder="Oper, Komponist, Haus, Mitwirkende …" />
         <select class="select" id="diaryYear">
           <option value="">Alle Jahre</option>
         </select>
@@ -84,13 +85,21 @@ export function DiaryPage() {
       filtered = filtered.filter(v => {
         const house = operaHouses.find(h => h.id === v.houseId);
         const opera = operas.find(o => o.id === v.operaId);
+        const credits = visitCredits(v);
 
-        const titleMatch = opera && opera.title.toLowerCase().includes(searchFilter);
-        const composerMatch = opera && opera.composer.toLowerCase().includes(searchFilter);
-        const houseMatch = house && house.name.toLowerCase().includes(searchFilter);
-        const cityMatch = house && house.city.toLowerCase().includes(searchFilter);
+        // Alles Durchsuchbare an einer Stelle. Vorher stand für jedes Feld
+        // eine eigene Variable in der Rückgabezeile – mit den Mitwirkenden
+        // wären daraus sieben geworden.
+        //
+        // Die Besetzung ist mehrzeilig; includes läuft über den ganzen Text,
+        // also findet eine Suche nach einem Namen auch die Zeile mittendrin.
+        const durchsuchbar = [
+          opera?.title, opera?.composer,
+          house?.name, house?.city,
+          credits.conductor, credits.director, credits.castList,
+        ];
 
-        return titleMatch || composerMatch || houseMatch || cityMatch;
+        return durchsuchbar.some(feld => feld && feld.toLowerCase().includes(searchFilter));
       });
     }
 
