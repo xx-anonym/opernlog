@@ -139,14 +139,29 @@ export function SeasonReviewPage(param) {
     `;
     });
 
-    // ── Teilen ────────────────────────────────────────────────────────
+    // ── Teilen und Sichern ────────────────────────────────────────────
     const shareBtn = page.querySelector('#shareBtn');
     const imageBtn = page.querySelector('#imageBtn');
+
+    // Das Bild wird schon beim Aufbau der Seite gezeichnet, nicht erst beim
+    // Klick. Safari verlangt, dass navigator.share() innerhalb der
+    // Nutzergeste aufgerufen wird; liegt das Bild fertig vor, kann zwischen
+    // Klick und Aufruf nichts mehr dazwischenkommen. Gezeichnet wird nur
+    // einmal, beide Knöpfe teilen sich dasselbe Ergebnis.
+    let bildVersprechen = null;
+    function bild() {
+        if (!bildVersprechen) {
+            bildVersprechen = zeichneKarte(review).then(leinwand => alsDatei(leinwand, review));
+        }
+        return bildVersprechen;
+    }
+    bild().catch(e => console.warn('[Saisonrückblick] Bild vorbereiten', e));
 
     shareBtn.addEventListener('click', async () => {
         shareBtn.disabled = true;
         try {
-            const ergebnis = await teilen(review);
+            const datei = await bild().catch(() => null);
+            const ergebnis = await teilen(review, datei);
             if (ergebnis === 'kopiert') showToast('In die Zwischenablage kopiert');
             else if (ergebnis === 'fehlgeschlagen') showError('Teilen hat nicht geklappt.');
         } finally {
@@ -157,13 +172,15 @@ export function SeasonReviewPage(param) {
     imageBtn.addEventListener('click', async () => {
         imageBtn.disabled = true;
         try {
-            const leinwand = await zeichneKarte(review);
-            const url = leinwand.toDataURL('image/png');
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `opernlog-saison-${review.label.replace('/', '-')}.png`;
-            a.click();
-            showToast('Bild gespeichert');
+            const datei = await bild();
+            const ergebnis = await sichern(review, datei);
+            // Gemeldet wird nur, was tatsächlich passiert ist. Vorher stand
+            // hier ausnahmslos "Bild gespeichert" – auch auf dem iPhone, wo
+            // gar nichts gespeichert wurde.
+            if (ergebnis === 'geladen') showToast('Bild wird heruntergeladen');
+            else if (ergebnis === 'geoeffnet') showToast('Zum Sichern das Bild lange antippen');
+            else if (ergebnis === 'blockiert') showError('Der Browser hat das Fenster blockiert.');
+            else if (ergebnis === 'fehlgeschlagen') showError('Das Bild konnte nicht gesichert werden.');
         } catch (e) {
             console.error('[Saisonrückblick] Bild', e);
             showError('Das Bild konnte nicht erzeugt werden.');
@@ -368,30 +385,92 @@ function shareText(r) {
 }
 
 /**
+ * iOS erkennen. Nicht aus Vorliebe für Browserweichen, sondern weil das
+ * Herunterladen dort nachweislich nicht funktioniert (siehe sichern()) und
+ * sich das mit keiner Eigenschaftsprüfung feststellen lässt: das
+ * download-Attribut existiert auf iOS, es tut nur nichts.
+ *
+ * iPadOS meldet sich seit Version 13 als Macintosh – übrig bleibt als
+ * Unterscheidung die Zahl der Berührungspunkte.
+ */
+function istIOS() {
+    const ua = navigator.userAgent || '';
+    return /iPad|iPhone|iPod/.test(ua)
+        || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+}
+
+/** Leinwand zu Blob und File, beides wird gebraucht. */
+async function alsDatei(leinwand, r) {
+    const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
+    if (!blob) throw new Error('Leinwand ließ sich nicht in ein Bild wandeln');
+    const name = `opernlog-saison-${r.label.replace('/', '-')}.png`;
+    return { blob, name, file: new File([blob], name, { type: 'image/png' }) };
+}
+
+/**
+ * Sichert das Bild – auf jedem System auf dem Weg, der dort funktioniert.
+ *
+ * Auf dem iPhone lädt ein <a download> weder eine data:- noch eine
+ * blob:-Adresse herunter: in der installierten App passiert gar nichts, im
+ * Browser fragt Safari nach und bricht danach still ab. Dort führt nur das
+ * Teilen-Blatt zum Ziel, das "Bilder sichern" anbietet. Fehlt auch das
+ * (ältere iOS-Versionen können keine Dateien teilen), bleibt das Bild in
+ * einem neuen Tab, wo man es lange antippen und sichern kann.
+ *
+ * Überall sonst ist der Download der bessere Weg, und er funktioniert dort
+ * auch – deshalb keine Umstellung für alle.
+ */
+async function sichern(r, datei) {
+    if (!datei) return 'fehlgeschlagen';
+
+    if (istIOS()) {
+        if (navigator.canShare?.({ files: [datei.file] })) {
+            try {
+                await navigator.share({ files: [datei.file], title: `Meine Opernsaison ${r.label}` });
+                return 'geteilt';
+            } catch (e) {
+                if (e?.name === 'AbortError') return 'abgebrochen';
+                console.warn('[Saisonrückblick] Sichern über das Teilen-Blatt fehlgeschlagen', e);
+            }
+        }
+
+        const url = URL.createObjectURL(datei.blob);
+        const fenster = window.open(url, '_blank');
+        if (!fenster) {
+            URL.revokeObjectURL(url);
+            return 'blockiert';
+        }
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+        return 'geoeffnet';
+    }
+
+    // Objekt- statt Datenadresse: eine data:-Adresse dieses Bildes ist rund
+    // anderthalb Megabyte lang, und daran scheitern manche Browser.
+    const url = URL.createObjectURL(datei.blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = datei.name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    // Erst freigeben, wenn der Browser den Download angestoßen hat.
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    return 'geladen';
+}
+
+/**
  * Teilt den Rückblick – möglichst als Bild, sonst als Text, sonst über die
  * Zwischenablage. Jede Stufe kann ausfallen: das Teilen-Menü gibt es nur in
  * sicheren Kontexten und nicht in jedem Browser, das Teilen von Dateien noch
  * seltener. Bricht jemand das Menü ab, ist das kein Fehler.
  */
-async function teilen(r) {
+async function teilen(r, datei) {
     const text = shareText(r);
     const titel = `Meine Opernsaison ${r.label}`;
 
-    let datei = null;
-    try {
-        const leinwand = await zeichneKarte(r);
-        const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
-        if (blob) {
-            datei = new File([blob], `opernlog-saison-${r.label.replace('/', '-')}.png`,
-                { type: 'image/png' });
-        }
-    } catch (e) {
-        console.warn('[Saisonrückblick] Bild für das Teilen fehlgeschlagen', e);
-    }
-
-    if (datei && navigator.canShare?.({ files: [datei] })) {
+    if (datei && navigator.canShare?.({ files: [datei.file] })) {
         try {
-            await navigator.share({ files: [datei], title: titel, text });
+            await navigator.share({ files: [datei.file], title: titel, text });
             return 'geteilt';
         } catch (e) {
             if (e?.name === 'AbortError') return 'abgebrochen';
