@@ -1,0 +1,66 @@
+name: Supabase wachhalten
+
+# Supabase pausiert Projekte im Gratis-Tarif nach etwa einer Woche ohne
+# Zugriff. Ist das Projekt pausiert, liefert Vercel die Seite zwar weiter aus,
+# sie zeigt aber keine Daten mehr – für alle Nutzer, bis jemand das Projekt im
+# Supabase-Dashboard von Hand wieder aufweckt.
+#
+# Vorher lag diese Aufgabe in supabase-keepalive.sh auf einem MacBook. Stand
+# der Rechner aus – Urlaub, verreist, Deckel zu –, lief nichts, und genau dann
+# war auch niemand da, der die App benutzt und sie dadurch wachgehalten hätte.
+# Hier läuft es auf GitHubs Rechnern und ist von keinem Gerät abhängig.
+#
+# Alle drei Tage: zwei Gelegenheiten, bevor die Wochenfrist abläuft, falls ein
+# Lauf ausfällt. Die Uhrzeit ist absichtlich krumm – zur vollen Stunde starten
+# sehr viele Zeitpläne gleichzeitig, und GitHub schiebt sie dann.
+#
+# ACHTUNG: GitHub schaltet geplante Läufe in Repositories ab, in denen 60 Tage
+# lang kein Commit passiert. Vorher kommt eine E-Mail; ein Klick auf "Enable
+# workflow" im Actions-Reiter reicht zum Wiedereinschalten. Wer nicht darauf
+# angewiesen sein will, stößt den Lauf gelegentlich von Hand an – dafür ist
+# workflow_dispatch da.
+
+on:
+  schedule:
+    - cron: '17 6 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  wachhalten:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Abfrage an Supabase senden
+        run: |
+          set -uo pipefail
+
+          # Adresse und Schlüssel kommen aus src/config.js, damit sie nicht ein
+          # drittes Mal irgendwo stehen und beim nächsten Wechsel eine Stelle
+          # vergessen wird. Der anon-Schlüssel ist öffentlich – er steckt
+          # ohnehin in jedem ausgelieferten Browser-Bundle.
+          URL=$(grep -oP "SUPABASE_URL = '\K[^']+" src/config.js || true)
+          KEY=$(grep -oP "SUPABASE_ANON_KEY = '\K[^']+" src/config.js || true)
+
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::error::Adresse oder Schlüssel nicht in src/config.js gefunden"
+            exit 1
+          fi
+          echo "Ziel: $URL"
+
+          # --retry fängt kurze Netzaussetzer ab, damit nicht wegen eines
+          # Schluckaufs eine Fehlermeldung verschickt wird.
+          STATUS=$(curl -sS --max-time 30 --retry 3 --retry-delay 10 --retry-all-errors \
+            -o antwort.txt -w '%{http_code}' \
+            "$URL/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY") || STATUS=000
+
+          echo "HTTP $STATUS"
+
+          if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 300 ]; then
+            echo "::error::Supabase antwortet mit HTTP $STATUS – Projekt pausiert, Schlüssel ungültig oder Dienst gestört"
+            head -c 500 antwort.txt || true
+            exit 1
+          fi
+
+          echo "Supabase ist wach."
