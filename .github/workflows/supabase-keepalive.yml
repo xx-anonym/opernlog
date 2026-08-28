@@ -28,8 +28,16 @@ on:
 jobs:
   wachhalten:
     runs-on: ubuntu-latest
+
+    # Der Lauf liest nur eine Datei aus dem Repository und schreibt nichts.
+    permissions:
+      contents: read
+
     steps:
-      - uses: actions/checkout@v4
+      # v5 statt v4: v4 läuft auf Node 20, das GitHub abgekündigt hat und auf
+      # den Runnern bereits zwangsweise durch Node 24 ersetzt – sichtbar als
+      # Warnung an jedem Lauf. v5 bringt Node 24 selbst mit.
+      - uses: actions/checkout@v5
 
       - name: Abfrage an Supabase senden
         run: |
