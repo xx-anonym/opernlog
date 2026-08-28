@@ -3733,3 +3733,169 @@ body {
         gap: 1px;
     }
 }
+
+/* ── Saisonrückblick ────────────────────────────────────────────────── */
+
+.season-banner {
+    display: block;
+    margin: 0 0 28px;
+    padding: 20px 22px;
+    border-radius: 14px;
+    border: 1px solid var(--gold-dark);
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.14), rgba(139, 26, 43, 0.22));
+    text-decoration: none;
+    transition: transform 0.16s ease, border-color 0.16s ease;
+}
+
+.season-banner:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+}
+
+.season-banner__kicker {
+    display: block;
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.season-banner__title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--text);
+    margin: 4px 0 6px;
+}
+
+.season-banner__note {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.season__hero {
+    text-align: center;
+    padding: 40px 0 28px;
+}
+
+.season__kicker {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.season__title {
+    font-family: var(--font-display);
+    /* Wächst mit der Breite, bleibt aber auf dem Handy im Rahmen. */
+    font-size: clamp(3rem, 18vw, 6rem);
+    line-height: 1;
+    margin: 10px 0 12px;
+    background: linear-gradient(135deg, var(--gold-light), var(--accent-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.season__lead {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.season__cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    /* Füllt die Lücken, die eine breite Kachel in der Reihe davor hinterlässt. */
+    grid-auto-flow: dense;
+}
+
+.season-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* Ohne das bricht ein langer Werktitel das Raster auf. */
+    min-width: 0;
+}
+
+.season-card--gross {
+    grid-column: 1 / -1;
+}
+
+.season-card__label {
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.season-card__value {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1.15;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.season-card--gross .season-card__value {
+    font-size: 2.4rem;
+}
+
+/* Die Kennzahl der Saison – die einzige Zahl, die groß sein darf. */
+.season-card__value--zahl,
+.season-card--gross .season-card__value--zahl {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+/* Aufzählungen: mehrere Namen hintereinander, in Fließtextgröße. */
+.season-card__value--liste,
+.season-card--gross .season-card__value--liste {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+
+.season-card__note {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.season-card__stars {
+    margin-top: 6px;
+}
+
+.season__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 28px 0 12px;
+}
+
+.season__actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+.season__foot {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+@media (min-width: 720px) {
+    .season__cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .season-card--gross {
+        grid-column: span 2;
+    }
+}

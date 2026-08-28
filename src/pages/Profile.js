@@ -1,7 +1,7 @@
 // Profile Page – Hybrid (local + cloud)
 import { escapeHTML } from '../utils.js';
 import { icon } from '../components/Icon.js';
-import { runWithFeedback } from '../components/Toast.js';
+import { runWithFeedback, showToast } from '../components/Toast.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
@@ -9,6 +9,7 @@ import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
+import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 
 function renderGroupedVisits(visitsArray, container) {
   if (visitsArray.length === 0) {
@@ -70,7 +71,49 @@ export function ProfilePage(userId) {
     renderLocalProfile(page, userId, isMe);
   }
 
+  if (isMe) wireSeasonEasterEgg(page);
+
   return page;
+}
+
+/**
+ * Osterei: Cmd+Ü im eigenen Profil öffnet den Rückblick auf die zuletzt
+ * abgeschlossene Spielzeit – auch außerhalb des Zeitfensters im Sommer.
+ *
+ * Erkannt wird die Taste auf zwei Wegen. e.key ist auf deutschem Layout 'ü';
+ * auf anderen Layouts liegt an derselben Stelle ein anderes Zeichen, deshalb
+ * zusätzlich e.code === 'BracketLeft'. Strg gilt wie Cmd, damit das Osterei
+ * nicht nur auf dem Mac zu finden ist.
+ */
+function wireSeasonEasterEgg(page) {
+  function onKeydown(e) {
+    // Der Router kennt keinen Aufräum-Haken, also meldet sich der Zuhörer
+    // selbst ab, sobald die Seite nicht mehr im Dokument hängt.
+    if (!page.isConnected) {
+      document.removeEventListener('keydown', onKeydown);
+      return;
+    }
+    if (!(e.metaKey || e.ctrlKey) || e.altKey) return;
+    const passt = e.key?.toLowerCase() === 'ü' || e.code === 'BracketLeft';
+    if (!passt) return;
+
+    e.preventDefault();
+
+    const besuche = store.getVisitsByUser('user-me') || [];
+    const vorhanden = seasonsWithVisits(besuche);
+    if (!vorhanden.length) {
+      showToast('Noch keine Besuche – da gibt es nichts zurückzublicken');
+      return;
+    }
+
+    // Bevorzugt die zuletzt abgeschlossene Spielzeit; ist die leer geblieben,
+    // die jüngste, in der etwas steht.
+    const letzte = lastCompletedSeasonStartYear();
+    const ziel = vorhanden.includes(letzte) ? letzte : vorhanden[0];
+    window.location.hash = `#/season/${ziel}`;
+  }
+
+  document.addEventListener('keydown', onKeydown);
 }
 
 async function renderCloudProfile(page, userId) {

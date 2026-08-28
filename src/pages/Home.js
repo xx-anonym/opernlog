@@ -9,6 +9,12 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
+import {
+  isSeasonReviewWindow,
+  lastCompletedSeasonStartYear,
+  seasonLabel,
+  visitsInSeason,
+} from '../data/season.js';
 
 export function HomePage() {
   const page = document.createElement('div');
@@ -33,6 +39,27 @@ export function HomePage() {
     </div>
   `;
   page.appendChild(hero);
+
+  // Saisonrückblick – vom 31. Juli bis Ende August, und nur wenn in der
+  // abgelaufenen Spielzeit überhaupt etwas geloggt wurde. Ein Hinweis auf
+  // einen leeren Rückblick wäre nur eine Enttäuschung mit Anlauf.
+  if (isSeasonReviewWindow()) {
+    const startYear = lastCompletedSeasonStartYear();
+    const besuche = visitsInSeason(store.getVisitsByUser('user-me'), startYear);
+    if (besuche.length) {
+      const banner = document.createElement('a');
+      banner.className = 'season-banner fade-in';
+      banner.href = `#/season/${startYear}`;
+      banner.innerHTML = `
+        <span class="season-banner__kicker">Deine Spielzeit ist zu Ende</span>
+        <span class="season-banner__title">Saisonrückblick ${seasonLabel(startYear)}</span>
+        <span class="season-banner__note">
+          ${besuche.length} ${besuche.length === 1 ? 'Abend' : 'Abende'} – ansehen ${icon('link')}
+        </span>
+      `;
+      page.appendChild(banner);
+    }
+  }
 
   // Friend request notifications
   if (store.isCloud && isSupabaseConfigured()) {

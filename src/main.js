@@ -13,6 +13,7 @@ import { ProfilePage } from './pages/Profile.js';
 import { ListsPage } from './pages/Lists.js';
 import { ListDetailPage } from './pages/ListDetail.js';
 import { WishlistPage } from './pages/Wishlist.js';
+import { SeasonReviewPage } from './pages/SeasonReview.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
@@ -315,7 +316,7 @@ class App {
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite', 'visit'];
+            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite', 'visit', 'season'];
             if (protectedRoutes.includes(path) && path !== 'invite') {
                 this.content.innerHTML = '';
                 const authPage = AuthPage(() => {
@@ -378,6 +379,11 @@ class App {
             }
             case 'community':
                 page = CommunityPage();
+                break;
+            case 'season':
+                // #/season zeigt die zuletzt abgeschlossene Spielzeit,
+                // #/season/2025 eine bestimmte.
+                page = SeasonReviewPage(param);
                 break;
             case 'auth':
                 page = AuthPage(() => {
