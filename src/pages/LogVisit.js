@@ -232,68 +232,20 @@ export function LogVisitPage(params = {}) {
 
   if (!params.house && !editVisit) preselectHouse();
 
-  // ── Löschtaste räumt die gesamte Auswahl ────────────────────────────
-  //
-  // Solange im Feld genau der Name des gewählten Hauses steht, ist der Inhalt
-  // keine frei getippte Zeichenkette, sondern eine Auswahl – und die löscht
-  // man am Stück. Sich durch „Bayerische Staatsoper (München)“ zurückzulöschen,
-  // nur um ein anderes Haus einzutragen, sind 31 Anschläge für nichts.
-  function selectedHouseLabel() {
-    if (!houseIdInput.value) return null;
-    const house = operaHouses.find(h => h.id === houseIdInput.value);
-    if (!house) return null;
-    const label = `${house.name} (${house.city})`;
-    return houseInput.value === label ? label : null;
-  }
-
-  function clearHouseSelection() {
-    houseTouched = true;
-    houseInput.value = '';
-    houseIdInput.value = '';
-    clearAutoSelection();
-    houseList.innerHTML = '';
-    houseList.style.display = 'none';
-  }
-
-  // Der Zustand des Feldes unmittelbar vor dem Tastendruck. Gebraucht wird er
-  // für den Rückfall im input-Ereignis (siehe unten).
-  let labelVorTaste = null;
-
-  houseInput.addEventListener('keydown', (e) => {
-    labelVorTaste = selectedHouseLabel();
-    if (e.key !== 'Backspace' && e.key !== 'Delete') return;
-    if (!labelVorTaste) return;   // frei getippter Text: Zeichen für Zeichen
-
-    e.preventDefault();
-    clearHouseSelection();
-    labelVorTaste = null;
+  // Löschtaste räumt die gewählte Zeile am Stück – siehe selectionField().
+  const houseField = selectionField({
+    input: houseInput,
+    idInput: houseIdInput,
+    list: houseList,
+    labelFor: (id) => {
+      const house = operaHouses.find(h => h.id === id);
+      return house ? `${house.name} (${house.city})` : null;
+    },
+    onChange: () => { houseTouched = true; clearAutoSelection(); },
   });
 
-  // Fehlt gegenüber der Auswahl genau ein Zeichen, war das die Löschtaste.
-  function einZeichenKuerzer(kurz, lang) {
-    if (kurz.length !== lang.length - 1) return false;
-    let i = 0;
-    while (i < kurz.length && kurz[i] === lang[i]) i++;
-    return kurz.slice(i) === lang.slice(i + 1);
-  }
-
   houseInput.addEventListener('input', () => {
-    // Rückfall für Bildschirmtastaturen: Android meldet für die Löschtaste
-    // oft key: 'Unidentified', der keydown-Zweig oben greift dann nicht.
-    // Der Vergleich mit dem Stand vor dem Tastendruck erkennt sie trotzdem.
-    if (labelVorTaste && einZeichenKuerzer(houseInput.value, labelVorTaste)) {
-      labelVorTaste = null;
-      clearHouseSelection();
-      return;
-    }
-    labelVorTaste = null;
-
-    houseTouched = true;
-    clearAutoSelection();
-    // Der Text ist jetzt von Hand geändert, die gemerkte ID gehört nicht mehr
-    // dazu. Ohne das würde beim Speichern das alte Haus landen, während im
-    // Feld längst ein anderer Name steht.
-    houseIdInput.value = '';
+    if (houseField.consumedInput()) return;
 
     const query = houseInput.value.toLowerCase();
     if (query.length < 1) { houseList.innerHTML = ''; houseList.style.display = 'none'; return; }
@@ -325,11 +277,18 @@ export function LogVisitPage(params = {}) {
   const operaList = page.querySelector('#operaList');
   const operaIdInput = page.querySelector('#operaId');
 
+  const operaField = selectionField({
+    input: operaInput,
+    idInput: operaIdInput,
+    list: operaList,
+    labelFor: (id) => {
+      const opera = operas.find(o => o.id === id);
+      return opera ? `${opera.title} – ${opera.composer}` : null;
+    },
+  });
+
   operaInput.addEventListener('input', () => {
-    // Dieselbe Altlast wie beim Opernhaus: wird der vorbelegte Text von Hand
-    // geändert, gehört die gemerkte ID nicht mehr dazu. Ohne das würde beim
-    // Speichern die alte Oper landen, während im Feld längst eine andere steht.
-    operaIdInput.value = '';
+    if (operaField.consumedInput()) return;
 
     const query = operaInput.value.toLowerCase();
     if (query.length < 1) { operaList.innerHTML = ''; operaList.style.display = 'none'; return; }
@@ -415,4 +374,85 @@ function formatDistance(km) {
   if (km < 1) return 'unter 1 km';
   if (km < 10) return `${km.toFixed(1).replace('.', ',')} km`;
   return `${Math.round(km)} km`;
+}
+
+/**
+ * Verdrahtet ein Autocomplete-Feld so, dass eine fertige Auswahl mit einem
+ * Druck auf die Löschtaste am Stück verschwindet.
+ *
+ * Solange im Feld genau der Name des gewählten Eintrags steht, ist der Inhalt
+ * keine frei getippte Zeichenkette, sondern eine Auswahl – und die löscht man
+ * am Stück. Sich durch „Bayerische Staatsoper (München)“ zurückzulöschen, nur
+ * um ein anderes Haus einzutragen, sind 31 Anschläge für nichts. Wer die
+ * Löschtaste ansetzt, will den Eintrag ohnehin ersetzen. Weicht der Text von
+ * der Auswahl ab, arbeitet sie wieder Zeichen für Zeichen wie überall sonst.
+ *
+ * @param {object}   o
+ * @param {HTMLInputElement} o.input     sichtbares Textfeld
+ * @param {HTMLInputElement} o.idInput   verstecktes Feld mit der gewählten ID
+ * @param {HTMLElement}      o.list      Vorschlagsliste
+ * @param {(id: string) => string|null} o.labelFor  Name zur ID
+ * @param {() => void} [o.onChange]      läuft bei jeder Änderung von Hand
+ */
+function selectionField({ input, idInput, list, labelFor, onChange = () => {} }) {
+  // Der Stand unmittelbar vor dem Tastendruck – gebraucht für den Rückfall
+  // in consumedInput().
+  let labelBefore = null;
+
+  function selectedLabel() {
+    const label = idInput.value ? labelFor(idInput.value) : null;
+    return label && input.value === label ? label : null;
+  }
+
+  function clear() {
+    input.value = '';
+    idInput.value = '';
+    list.innerHTML = '';
+    list.style.display = 'none';
+    onChange();
+  }
+
+  input.addEventListener('keydown', (e) => {
+    labelBefore = selectedLabel();
+    if (e.key !== 'Backspace' && e.key !== 'Delete') return;
+    if (!labelBefore) return;   // frei getippter Text: Zeichen für Zeichen
+
+    e.preventDefault();
+    labelBefore = null;
+    clear();
+  });
+
+  // Fehlt gegenüber der Auswahl genau ein Zeichen, war das die Löschtaste.
+  function oneCharShorter(short, long) {
+    if (short.length !== long.length - 1) return false;
+    let i = 0;
+    while (i < short.length && short[i] === long[i]) i++;
+    return short.slice(i) === long.slice(i + 1);
+  }
+
+  return {
+    /**
+     * Am Anfang jedes input-Ereignisses aufrufen. true heißt: die Eingabe war
+     * ein Löschen und ist bereits erledigt, der Rest des Handlers entfällt.
+     */
+    consumedInput() {
+      const before = labelBefore;
+      labelBefore = null;
+
+      // Rückfall für Bildschirmtastaturen: Android meldet für die Löschtaste
+      // oft key 'Unidentified', der keydown-Zweig oben greift dann nicht.
+      // Der Vergleich mit dem Stand vor dem Tastendruck erkennt sie trotzdem.
+      if (before && oneCharShorter(input.value, before)) {
+        clear();
+        return true;
+      }
+
+      // Der Text ist von Hand geändert, die gemerkte ID gehört nicht mehr
+      // dazu. Ohne das würde beim Speichern der alte Eintrag landen, während
+      // im Feld längst ein anderer Name steht.
+      idInput.value = '';
+      onChange();
+      return false;
+    },
+  };
 }
