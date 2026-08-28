@@ -175,3 +175,78 @@ export async function requestPosition({ timeout = 8000, maximumAge = 10 * 60 * 1
         );
     });
 }
+
+// ── Grobe Ortung über die IP-Adresse ──────────────────────
+//
+// Nur als letzte Rückfallebene, wenn weder die Standortfreigabe noch das
+// Tagebuch etwas hergeben. Der Browser kann seine eigene öffentliche IP nicht
+// auslesen; es braucht dafür zwingend einen Dienst, der sie zurückspiegelt –
+// der sieht dabei die IP. Deshalb wird er auch nur dann überhaupt gefragt.
+//
+// Die Genauigkeit ist stadtgenau im Festnetz und im Mobilfunk oft deutlich
+// schlechter, weil Netze über zentrale Knoten leiten. Die Aufrufstelle
+// kennzeichnet das Ergebnis entsprechend als Schätzung.
+
+const IP_POSITION_KEY = 'opernlog:positionIP';
+const IP_POSITION_MAX_AGE = 6 * 60 * 60 * 1000;
+
+// Beide ohne Schlüssel und mit CORS-Freigabe. Der zweite wird nur gefragt,
+// wenn der erste nicht antwortet – im Normalfall sieht also genau ein Dienst
+// die IP.
+const IP_SERVICES = [
+    'https://ipwho.is/',
+    'https://get.geojs.io/v1/ip/geo.json',
+];
+
+// Die Dienste schreiben die Felder unterschiedlich, geojs liefert sie zudem
+// als Zeichenketten.
+function readLatLon(data) {
+    if (!data || data.success === false || data.error) return null;
+    const lat = Number(data.latitude ?? data.lat);
+    const lon = Number(data.longitude ?? data.lon ?? data.lng);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    if (Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+    if (lat === 0 && lon === 0) return null;   // manche Dienste antworten so, wenn sie nichts wissen
+    return { lat, lon };
+}
+
+/**
+ * Ungefähre Position anhand der IP-Adresse.
+ *
+ * @returns {Promise<{lat: number, lon: number, approximate: true}|null>}
+ */
+export async function requestPositionByIP() {
+    const cached = readStored(IP_POSITION_KEY);
+    if (cached && Number.isFinite(cached.at) && Date.now() - cached.at < IP_POSITION_MAX_AGE) {
+        const p = readLatLon(cached);
+        if (p) return { ...p, approximate: true };
+    }
+
+    // Offline gibt es nichts zu holen – und der Dienst würde nur unnötig
+    // in eine Zeitüberschreitung laufen.
+    if (navigator.onLine === false) return null;
+
+    for (const url of IP_SERVICES) {
+        try {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 5000);
+            let data;
+            try {
+                const res = await fetch(url, { signal: controller.signal, cache: 'no-store' });
+                if (!res.ok) continue;
+                data = await res.json();
+            } finally {
+                clearTimeout(timer);
+            }
+
+            const p = readLatLon(data);
+            if (!p) continue;
+
+            writeStored(IP_POSITION_KEY, { ...p, at: Date.now() });
+            return { ...p, approximate: true };
+        } catch (e) {
+            console.warn(`[Standort] IP-Ortung über ${url} fehlgeschlagen:`, e?.message || e);
+        }
+    }
+    return null;
+}

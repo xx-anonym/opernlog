@@ -3,7 +3,7 @@ import { operaHouses, nearestOperaHouse } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
-import { escapeHTML, getCachedPosition, requestPosition } from '../utils.js';
+import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP } from '../utils.js';
 import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
 
@@ -106,15 +106,45 @@ export function LogVisitPage(params = {}) {
     }
   }
 
-  // ── Nächstgelegenes Opernhaus vorauswählen ──────────────────────────
+  // ── Opernhaus vorbelegen ────────────────────────────────────────────
   //
   // Nur im leeren Formular: kommt das Haus aus der URL (#/log?house=...) oder
-  // aus dem bearbeiteten Besuch, bleibt es unangetastet. Die Vorauswahl ist
+  // aus dem bearbeiteten Besuch, bleibt es unangetastet. Die Vorbelegung ist
   // ein Vorschlag, keine Korrektur.
+  //
+  // Drei Quellen, absteigend nach Verlässlichkeit. Jede darf nur überschreiben,
+  // was eine gleich gute oder schlechtere Quelle gesetzt hat – und nichts, was
+  // von Hand eingetragen wurde.
+  const QUELLEN = {
+    // Standortfreigabe: auf wenige Meter genau, das Haus steht damit fest.
+    standort: {
+      rang: 3,
+      maxKm: 150,
+      hinweis: (km) => `${icon('pin', { className: 'icon--meta' })}Nächstgelegenes Haus`
+        + ` (${formatDistance(km)}) – nach deinem Standort vorausgewählt.`,
+    },
+    // Eigenes Tagebuch: keine Ortung, sondern Gewohnheit. Wer regelmäßig geht,
+    // hat meist ein Stammhaus.
+    tagebuch: {
+      rang: 2,
+      hinweis: () => `${icon('book', { className: 'icon--meta' })}Zuletzt besucht`
+        + ` – aus deinem Tagebuch vorausgewählt.`,
+    },
+    // IP-Ortung: stadtgenau im besten Fall, im Mobilfunk oft weit daneben.
+    // Deshalb ein engerer Umkreis als beim echten Standort – lieber gar kein
+    // Vorschlag als ein falscher – und ein Hinweis, der zum Prüfen auffordert.
+    ip: {
+      rang: 1,
+      maxKm: 60,
+      hinweis: () => `${icon('globe', { className: 'icon--meta' })}Grobe Schätzung nach deiner`
+        + ` Internetverbindung – bitte prüfen.`,
+    },
+  };
+
   const houseHint = page.querySelector('#houseHint');
 
-  // Merkt sich, was die Automatik gesetzt hat. Nur das darf sie später selbst
-  // wieder überschreiben – eine Eingabe von Hand ist tabu.
+  // Merkt sich, was die Automatik gesetzt hat und aus welcher Quelle. Nur das
+  // darf sie später selbst wieder überschreiben – eine Eingabe von Hand ist tabu.
   let autoSelected = null;
 
   function clearAutoSelection() {
@@ -122,38 +152,79 @@ export function LogVisitPage(params = {}) {
     houseHint.hidden = true;
   }
 
-  function preselectNearest(position) {
-    if (!position) return;
+  function fieldIsFree() {
+    if (!houseIdInput.value && !houseInput.value.trim()) return true;
+    return !!autoSelected
+      && houseIdInput.value === autoSelected.id
+      && houseInput.value === autoSelected.label;
+  }
 
-    const untouched = (!houseIdInput.value && !houseInput.value.trim())
-      || (autoSelected && houseIdInput.value === autoSelected.id
-                       && houseInput.value === autoSelected.label);
-    if (!untouched) return;
+  function fillHouse(house, quelle, distanzKm) {
+    if (!house || !fieldIsFree()) return false;
+    if (autoSelected && autoSelected.rang > quelle.rang) return false;
 
-    const nearest = nearestOperaHouse(position.lat, position.lon);
-    if (!nearest) return;
-
-    const label = `${nearest.house.name} (${nearest.house.city})`;
+    const label = `${house.name} (${house.city})`;
     houseInput.value = label;
-    houseIdInput.value = nearest.house.id;
-    autoSelected = { id: nearest.house.id, label };
+    houseIdInput.value = house.id;
+    autoSelected = { id: house.id, label, rang: quelle.rang };
 
-    houseHint.innerHTML = `${icon('pin', { className: 'icon--meta' })}Nächstgelegenes Haus`
-      + ` (${formatDistance(nearest.distanceKm)}) – nach deinem Standort vorausgewählt.`;
+    houseHint.innerHTML = quelle.hinweis(distanzKm);
     houseHint.hidden = false;
+    return true;
   }
 
-  if (!params.house && !editVisit) {
-    // Erst der gespeicherte Standort: die Vorauswahl steht damit sofort und
-    // auch offline, ohne dass jemand auf das GPS wartet. Die frische Abfrage
-    // darf sie danach noch verbessern – solange das Feld unberührt blieb.
-    preselectNearest(getCachedPosition());
-    requestPosition().then((pos) => {
-      // Kommt die Antwort erst, wenn die Seite längst verlassen wurde,
-      // gibt es nichts mehr zu füllen.
-      if (page.isConnected) preselectNearest(pos);
-    });
+  function fillFromPosition(position, quelle) {
+    if (!position) return false;
+    const nearest = nearestOperaHouse(position.lat, position.lon, quelle.maxKm);
+    if (!nearest) return false;
+    return fillHouse(nearest.house, quelle, nearest.distanceKm);
   }
+
+  // Zuletzt besuchtes Haus. Liegen mehrere Besuche auf demselben – also dem
+  // jüngsten – Datum, gewinnt das Haus, in dem insgesamt am häufigsten war.
+  function lastVisitedHouse() {
+    const visits = store.getVisitsByUser('user-me') || [];
+    if (!visits.length) return null;
+
+    const neuestesDatum = visits.reduce((max, v) => (v.date > max ? v.date : max), '');
+    const haeufigkeit = {};
+    visits.forEach(v => { haeufigkeit[v.houseId] = (haeufigkeit[v.houseId] || 0) + 1; });
+
+    const kandidaten = visits
+      .filter(v => v.date === neuestesDatum)
+      .sort((a, b) => (haeufigkeit[b.houseId] || 0) - (haeufigkeit[a.houseId] || 0));
+
+    for (const v of kandidaten) {
+      const house = operaHouses.find(h => h.id === v.houseId);
+      if (house) return house;
+    }
+    return null;
+  }
+
+  async function preselectHouse() {
+    // 1. Gespeicherter Standort: die Vorauswahl steht damit sofort und auch
+    //    offline, ohne dass jemand auf das GPS wartet.
+    fillFromPosition(getCachedPosition(), QUELLEN.standort);
+
+    // 2. Tagebuch, solange noch nichts steht.
+    if (!autoSelected) fillHouse(lastVisitedHouse(), QUELLEN.tagebuch);
+
+    // 3. Frische Standortabfrage – sie darf das Tagebuch überstimmen.
+    const position = await requestPosition();
+    if (!page.isConnected) return;   // Seite längst verlassen
+    if (position && fillFromPosition(position, QUELLEN.standort)) return;
+
+    // 4. Erst wenn gar nichts greift, die grobe Ortung über die IP. Damit
+    //    bleibt sie für alle mit Tagebucheinträgen unangetastet – der Dienst
+    //    wird dann überhaupt nicht kontaktiert.
+    if (autoSelected || houseIdInput.value || houseInput.value.trim()) return;
+
+    const ipPosition = await requestPositionByIP();
+    if (!page.isConnected) return;
+    fillFromPosition(ipPosition, QUELLEN.ip);
+  }
+
+  if (!params.house && !editVisit) preselectHouse();
 
   houseInput.addEventListener('input', () => {
     clearAutoSelection();
