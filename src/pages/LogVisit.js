@@ -152,7 +152,13 @@ export function LogVisitPage(params = {}) {
     houseHint.hidden = true;
   }
 
+  // Sobald das Feld einmal von Hand angefasst wurde, hält sich die Automatik
+  // vollständig heraus – auch wenn es danach leer ist. Eine spät eintreffende
+  // Ortung soll nicht wieder hineinschreiben, was gerade gelöscht wurde.
+  let houseTouched = false;
+
   function fieldIsFree() {
+    if (houseTouched) return false;
     if (!houseIdInput.value && !houseInput.value.trim()) return true;
     return !!autoSelected
       && houseIdInput.value === autoSelected.id
@@ -226,8 +232,69 @@ export function LogVisitPage(params = {}) {
 
   if (!params.house && !editVisit) preselectHouse();
 
-  houseInput.addEventListener('input', () => {
+  // ── Löschtaste räumt die gesamte Auswahl ────────────────────────────
+  //
+  // Solange im Feld genau der Name des gewählten Hauses steht, ist der Inhalt
+  // keine frei getippte Zeichenkette, sondern eine Auswahl – und die löscht
+  // man am Stück. Sich durch „Bayerische Staatsoper (München)“ zurückzulöschen,
+  // nur um ein anderes Haus einzutragen, sind 31 Anschläge für nichts.
+  function selectedHouseLabel() {
+    if (!houseIdInput.value) return null;
+    const house = operaHouses.find(h => h.id === houseIdInput.value);
+    if (!house) return null;
+    const label = `${house.name} (${house.city})`;
+    return houseInput.value === label ? label : null;
+  }
+
+  function clearHouseSelection() {
+    houseTouched = true;
+    houseInput.value = '';
+    houseIdInput.value = '';
     clearAutoSelection();
+    houseList.innerHTML = '';
+    houseList.style.display = 'none';
+  }
+
+  // Der Zustand des Feldes unmittelbar vor dem Tastendruck. Gebraucht wird er
+  // für den Rückfall im input-Ereignis (siehe unten).
+  let labelVorTaste = null;
+
+  houseInput.addEventListener('keydown', (e) => {
+    labelVorTaste = selectedHouseLabel();
+    if (e.key !== 'Backspace' && e.key !== 'Delete') return;
+    if (!labelVorTaste) return;   // frei getippter Text: Zeichen für Zeichen
+
+    e.preventDefault();
+    clearHouseSelection();
+    labelVorTaste = null;
+  });
+
+  // Fehlt gegenüber der Auswahl genau ein Zeichen, war das die Löschtaste.
+  function einZeichenKuerzer(kurz, lang) {
+    if (kurz.length !== lang.length - 1) return false;
+    let i = 0;
+    while (i < kurz.length && kurz[i] === lang[i]) i++;
+    return kurz.slice(i) === lang.slice(i + 1);
+  }
+
+  houseInput.addEventListener('input', () => {
+    // Rückfall für Bildschirmtastaturen: Android meldet für die Löschtaste
+    // oft key: 'Unidentified', der keydown-Zweig oben greift dann nicht.
+    // Der Vergleich mit dem Stand vor dem Tastendruck erkennt sie trotzdem.
+    if (labelVorTaste && einZeichenKuerzer(houseInput.value, labelVorTaste)) {
+      labelVorTaste = null;
+      clearHouseSelection();
+      return;
+    }
+    labelVorTaste = null;
+
+    houseTouched = true;
+    clearAutoSelection();
+    // Der Text ist jetzt von Hand geändert, die gemerkte ID gehört nicht mehr
+    // dazu. Ohne das würde beim Speichern das alte Haus landen, während im
+    // Feld längst ein anderer Name steht.
+    houseIdInput.value = '';
+
     const query = houseInput.value.toLowerCase();
     if (query.length < 1) { houseList.innerHTML = ''; houseList.style.display = 'none'; return; }
 
@@ -243,6 +310,7 @@ export function LogVisitPage(params = {}) {
       item.className = 'autocomplete__item';
       item.innerHTML = `<strong>${house.name}</strong> <span class="text-muted">– ${house.city}</span>`;
       item.addEventListener('click', () => {
+        houseTouched = true;
         clearAutoSelection();
         houseInput.value = `${house.name} (${house.city})`;
         houseIdInput.value = house.id;
@@ -258,6 +326,11 @@ export function LogVisitPage(params = {}) {
   const operaIdInput = page.querySelector('#operaId');
 
   operaInput.addEventListener('input', () => {
+    // Dieselbe Altlast wie beim Opernhaus: wird der vorbelegte Text von Hand
+    // geändert, gehört die gemerkte ID nicht mehr dazu. Ohne das würde beim
+    // Speichern die alte Oper landen, während im Feld längst eine andere steht.
+    operaIdInput.value = '';
+
     const query = operaInput.value.toLowerCase();
     if (query.length < 1) { operaList.innerHTML = ''; operaList.style.display = 'none'; return; }
 
