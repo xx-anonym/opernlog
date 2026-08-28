@@ -1,0 +1,148 @@
+name: Offene Vorschläge melden
+
+# Schlägt jemand in der App ein neues Opernhaus oder Opernwerk vor, landet das
+# in der Tabelle suggestions und wartet dort, bis jemand ins Supabase-Dashboard
+# schaut. Dieser Lauf sorgt dafür, dass jemand davon erfährt.
+#
+# Gemeldet wird nur die ANZAHL je Art. Die Tabelle ist eng abgesichert – jeder
+# sieht nur seine eigenen Vorschläge –, und das soll so bleiben. Die Funktion
+# pending_suggestion_counts() gibt deshalb keine Namen und keine
+# Nutzerkennungen heraus. Der Hinweis muss nur dazu führen, dass du nachsiehst.
+#
+# Es gibt immer höchstens ein offenes Issue. Ändert sich die Zahl, wird es
+# angepasst und kommentiert – ein Kommentar benachrichtigt die zugewiesene
+# Person, ein stilles Bearbeiten nicht. Sind keine Vorschläge mehr offen,
+# schließt sich das Issue von selbst.
+#
+# Nebenwirkung mit Nutzen: dieser tägliche Lauf hält Supabase ebenfalls wach.
+# Das eigentliche Keep-Alive bleibt trotzdem eigenständig, damit ein Fehlschlag
+# hier nicht verdeckt, ob die Datenbank erreichbar ist.
+
+on:
+  schedule:
+    - cron: '42 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  melden:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    env:
+      LABEL: vorschlaege
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Offene Vorschläge zählen
+        id: zaehlen
+        run: |
+          set -uo pipefail
+
+          # Adresse und Schlüssel aus src/config.js, damit sie nicht doppelt
+          # gepflegt werden müssen. Der anon-Schlüssel ist öffentlich.
+          URL=$(grep -oP "SUPABASE_URL = '\K[^']+" src/config.js || true)
+          KEY=$(grep -oP "SUPABASE_ANON_KEY = '\K[^']+" src/config.js || true)
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::error::Adresse oder Schlüssel nicht in src/config.js gefunden"
+            exit 1
+          fi
+
+          STATUS=$(curl -sS --max-time 30 --retry 3 --retry-delay 10 --retry-all-errors \
+            -o antwort.json -w '%{http_code}' \
+            -X POST "$URL/rest/v1/rpc/pending_suggestion_counts" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+            -H "Content-Type: application/json" -d '{}') || STATUS=000
+
+          if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 300 ]; then
+            echo "::error::Supabase antwortet mit HTTP $STATUS – ist pending_suggestions_function_migration.sql eingespielt?"
+            head -c 500 antwort.json || true
+            exit 1
+          fi
+
+          GESAMT=$(jq '[.[].total] | add // 0' antwort.json)
+          # Die Mehrzahl ist je Wort verschieden – ein angehängtes "e" ergäbe
+          # "Opernhause". Deshalb beide Formen ausgeschrieben.
+          ZEILEN=$(jq -r '.[] | "- \(.total) " + (if .suggestion_type == "opera"
+              then (if .total == 1 then "Opernwerk" else "Opernwerke" end)
+              else (if .total == 1 then "Opernhaus" else "Opernhäuser" end) end)' antwort.json)
+          PROJEKT=$(printf '%s' "$URL" | sed -E 's#https://([^.]+)\..*#\1#')
+
+          echo "Offen: $GESAMT"
+          {
+            echo "gesamt=$GESAMT"
+            echo "projekt=$PROJEKT"
+            echo "zeilen<<ENDE"
+            echo "$ZEILEN"
+            echo "ENDE"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Issue anlegen, anpassen oder schließen
+        run: |
+          set -euo pipefail
+
+          GESAMT="${{ steps.zaehlen.outputs.gesamt }}"
+          if [ "$GESAMT" = "1" ]; then
+            TITEL="1 offener Vorschlag in OpernLog"
+          else
+            TITEL="$GESAMT offene Vorschläge in OpernLog"
+          fi
+
+          KOERPER=$(cat <<TEXT
+          In OpernLog warten Vorschläge auf Sichtung:
+
+          ${{ steps.zaehlen.outputs.zeilen }}
+
+          Ansehen und bearbeiten in der Tabelle \`suggestions\`:
+          https://supabase.com/dashboard/project/${{ steps.zaehlen.outputs.projekt }}/editor
+
+          Status auf \`approved\` oder \`rejected\` setzen, dann verschwindet der Vorschlag
+          hier wieder. Ist nichts mehr offen, schließt sich dieses Issue beim nächsten
+          Lauf von selbst.
+
+          <sub>Automatisch erstellt von \`.github/workflows/vorschlaege-melden.yml\`. Übertragen wird nur die Anzahl, keine Inhalte.</sub>
+          TEXT
+          )
+
+          gh label create "$LABEL" --description "Offene Vorschläge aus der App" --color BFD4F2 2>/dev/null || true
+
+          NUMMER=$(gh issue list --state open --label "$LABEL" --limit 1 --json number --jq '.[0].number // empty')
+
+          if [ "$GESAMT" = "0" ]; then
+            if [ -n "$NUMMER" ]; then
+              gh issue close "$NUMMER" --comment "Keine offenen Vorschläge mehr."
+              echo "Issue #$NUMMER geschlossen."
+            else
+              echo "Nichts offen, nichts zu tun."
+            fi
+            exit 0
+          fi
+
+          if [ -z "$NUMMER" ]; then
+            # Zuweisen, nicht nur erwähnen: ein Issue, das der Bot anlegt, löst
+            # sonst keine Benachrichtigung aus. Klappt das Zuweisen nicht – etwa
+            # weil der Eigentümer eine Organisation ist –, wird es trotzdem
+            # angelegt, dann eben ohne.
+            if ! gh issue create --title "$TITEL" --body "$KOERPER" \
+                   --label "$LABEL" --assignee "${{ github.repository_owner }}"; then
+              echo "::warning::Zuweisen fehlgeschlagen, Issue wird ohne Zuweisung angelegt"
+              gh issue create --title "$TITEL" --body "$KOERPER" --label "$LABEL"
+            fi
+            echo "Issue angelegt."
+            exit 0
+          fi
+
+          ALT=$(gh issue view "$NUMMER" --json title --jq .title)
+          gh issue edit "$NUMMER" --title "$TITEL" --body "$KOERPER"
+          if [ "$ALT" != "$TITEL" ]; then
+            # Nur bei geänderter Zahl kommentieren: ein stilles Bearbeiten
+            # benachrichtigt niemanden, ein tägliches "unverändert" nervt.
+            gh issue comment "$NUMMER" --body "Neuer Stand: $TITEL."
+            echo "Issue #$NUMMER angepasst und kommentiert."
+          else
+            echo "Issue #$NUMMER unverändert."
+          fi
