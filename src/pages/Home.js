@@ -160,24 +160,7 @@ export function HomePage() {
     try {
       if (store.isCloud && isSupabaseConfigured()) {
         const cloudFeed = await sb.getFeedCloud();
-        feed = cloudFeed.map(v => ({
-          id: v.id,
-          userId: v.user_id,
-          houseId: v.house_id,
-          operaId: v.opera_id,
-          date: v.date,
-          rating: v.rating,
-          review: v.review || '',
-          likes: v.likes || 0,
-          comments: v.comments || [],
-          likedBy: v.liked_by || [],
-          user: v.profiles ? {
-            id: v.profiles.id,
-            name: v.profiles.username,
-            avatar: v.profiles.avatar_initials,
-            avatarIcon: v.profiles.avatar_icon
-          } : null
-        }));
+        feed = cloudFeed.map(v => sb.mapCloudVisit(v));
       } else {
         feed = store.getFeed();
       }

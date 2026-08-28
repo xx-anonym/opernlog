@@ -577,6 +577,40 @@ export async function isFollowing(userId) {
 }
 
 // ── Visits (Cloud) ───────────────────────────────────────
+
+/**
+ * Eine Besuchszeile aus der Cloud in die Schreibweise der Oberfläche.
+ *
+ * Diese Abbildung stand wortgleich an vier Stellen – im Store, im Feed, auf
+ * der Opern- und auf der Hausseite. Als die Mitwirkenden dazukamen, haben drei
+ * davon sie prompt nicht mitbekommen und ließen Dirigent, Regie und Besetzung
+ * stillschweigend fallen: in der Datenbank standen sie, angezeigt wurden sie
+ * nur im Tagebuch. Deshalb jetzt an einer Stelle.
+ */
+export function mapCloudVisit(v) {
+    return {
+        id: v.id,
+        userId: v.user_id,
+        houseId: v.house_id,
+        operaId: v.opera_id,
+        date: v.date,
+        rating: v.rating,
+        review: v.review || '',
+        conductor: v.conductor || '',
+        director: v.director || '',
+        castList: v.cast_list || '',
+        likes: v.likes || 0,
+        comments: v.comments || [],
+        likedBy: v.liked_by || [],
+        user: v.profiles ? {
+            id: v.profiles.id,
+            name: v.profiles.username,
+            avatar: v.profiles.avatar_initials,
+            avatarIcon: v.profiles.avatar_icon,
+        } : null,
+    };
+}
+
 export async function addVisitCloud(visit) {
     const session = await getSession();
     if (!session) return null;

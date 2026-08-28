@@ -133,19 +133,9 @@ class Store {
                 try {
                     const cloudVisits = await sb.getMyVisitsCloud();
                     this.data.myVisits = cloudVisits.map(v => ({
-                        id: v.id,
+                        ...sb.mapCloudVisit(v),
+                        // Eigene Besuche laufen in der Oberfläche unter 'user-me'
                         userId: 'user-me',
-                        operaId: v.opera_id,
-                        houseId: v.house_id,
-                        date: v.date,
-                        rating: v.rating,
-                        review: v.review || '',
-                        conductor: v.conductor || '',
-                        director: v.director || '',
-                        castList: v.cast_list || '',
-                        likes: v.likes || 0,
-                        likedBy: v.liked_by || [],
-                        comments: v.comments || [],
                         createdAt: v.created_at?.split('T')[0] || v.date,
                     }));
                 } catch (e) {

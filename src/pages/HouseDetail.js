@@ -71,24 +71,7 @@ export function HouseDetailPage(houseId) {
       if (isSupabaseConfigured()) {
         const fetchSb = await import('../store/supabase.js');
         const cloudData = await fetchSb.getVisitsByHouseCloud(house.id);
-        allVisits = cloudData.map(v => ({
-          id: v.id,
-          userId: v.user_id,
-          houseId: v.house_id,
-          operaId: v.opera_id,
-          date: v.date,
-          rating: v.rating,
-          review: v.review || '',
-          likes: v.likes || 0,
-          comments: v.comments || [],
-          likedBy: v.liked_by || [],
-          user: v.profiles ? {
-            id: v.profiles.id,
-            name: v.profiles.username,
-            avatar: v.profiles.avatar_initials,
-            avatarIcon: v.profiles.avatar_icon
-          } : null
-        }));
+        allVisits = cloudData.map(v => fetchSb.mapCloudVisit(v));
       } else {
         allVisits = [...store.getVisitsByHouse(house.id)];
       }
