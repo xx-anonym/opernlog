@@ -646,6 +646,31 @@ export async function updateVisitCloud(visitId, updates) {
     );
 }
 
+/**
+ * Wie viele Besuche jeder Nutzer in einem Zeitraum geloggt hat.
+ *
+ * Gezählt wird im Browser: PostgREST kann ohne eigene Datenbankfunktion nicht
+ * gruppieren. Geladen wird deshalb nur die Nutzerkennung je Besuch und nur für
+ * den angefragten Zeitraum – nicht die ganze Tabelle. Sollte die App einmal
+ * deutlich größer werden, gehört das in eine Funktion mit GROUP BY.
+ *
+ * @returns {Promise<Map<string, number>>}
+ */
+export async function getSeasonVisitCounts(vonISO, bisISO) {
+    const sb = getSupabase();
+    const data = unwrap(await sb.from('visits')
+        .select('user_id')
+        .gte('date', vonISO)
+        .lte('date', bisISO), 'Saisonvergleich laden');
+
+    const zaehler = new Map();
+    (data || []).forEach(v => {
+        if (!v.user_id) return;
+        zaehler.set(v.user_id, (zaehler.get(v.user_id) || 0) + 1);
+    });
+    return zaehler;
+}
+
 export async function deleteVisitCloud(visitId) {
     const sb = getSupabase();
     return unwrapWritten(

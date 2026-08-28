@@ -3867,6 +3867,18 @@ body {
     color: var(--text-secondary);
 }
 
+.season-card--laedt .season-card__value {
+    color: var(--text-muted);
+}
+
+/* Die Symbole sitzen in der kleinen Kopfzeile und sollen sie begleiten,
+   nicht überstimmen. */
+.season-card__label .icon {
+    margin-right: 0.45em;
+    opacity: 0.55;
+    vertical-align: -0.1em;
+}
+
 .season-card__stars {
     margin-top: 6px;
 }

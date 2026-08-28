@@ -5,6 +5,8 @@
 // eigenen Profil (Cmd+Ü).
 
 import { store } from '../store/store.js';
+import * as sb from '../store/supabase.js';
+import { isSupabaseConfigured } from '../config.js';
 import { icon } from '../components/Icon.js';
 import { showToast, showError } from '../components/Toast.js';
 import { escapeHTML, copyToClipboard } from '../utils.js';
@@ -12,6 +14,7 @@ import { StarRating } from '../components/StarRating.js';
 import {
     buildSeasonReview,
     seasonLabel,
+    seasonRange,
     lastCompletedSeasonStartYear,
     seasonsWithVisits,
 } from '../data/season.js';
@@ -104,12 +107,36 @@ export function SeasonReviewPage(param) {
         // der Größe eines Komponistennamens erschlagen sonst die ganze Seite.
         const stil = karte.stil || (karte.wert.length > 40 ? 'liste' : '');
         el.innerHTML = `
-      <span class="season-card__label">${karte.label}</span>
+      <span class="season-card__label">${karte.symbol ? icon(karte.symbol, { className: 'icon--meta' }) : ''}${karte.label}</span>
       <span class="season-card__value${stil ? ` season-card__value--${stil}` : ''}">${karte.wert}</span>
       ${karte.zusatz ? `<span class="season-card__note">${karte.zusatz}</span>` : ''}
     `;
         if (karte.nachbau) karte.nachbau(el);
         cards.appendChild(el);
+    });
+
+    // ── Vergleich mit den anderen ─────────────────────────────────────
+    // Braucht das Netz, deshalb steht zuerst ein Platzhalter an zweiter
+    // Stelle. Kommt nichts Brauchbares zurück – kein Konto, kein Netz, zu
+    // wenige andere –, verschwindet er wieder, statt eine leere Kachel
+    // stehen zu lassen.
+    const vergleichKarte = document.createElement('div');
+    vergleichKarte.className = 'season-card season-card--laedt';
+    vergleichKarte.innerHTML = `
+      <span class="season-card__label">${icon('users', { className: 'icon--meta' })}Im Vergleich</span>
+      <span class="season-card__value season-card__value--liste">wird geladen …</span>
+    `;
+    cards.insertBefore(vergleichKarte, cards.children[1] || null);
+
+    ladeVergleich(review).then((inhalt) => {
+        if (!page.isConnected) return;
+        if (!inhalt) { vergleichKarte.remove(); return; }
+        vergleichKarte.classList.remove('season-card--laedt');
+        vergleichKarte.innerHTML = `
+      <span class="season-card__label">${icon('users', { className: 'icon--meta' })}${escapeHTML(inhalt.label)}</span>
+      <span class="season-card__value">${escapeHTML(inhalt.wert)}</span>
+      <span class="season-card__note">${escapeHTML(inhalt.zusatz)}</span>
+    `;
     });
 
     // ── Teilen ────────────────────────────────────────────────────────
@@ -157,6 +184,7 @@ function karten(r) {
     liste.push({
         groesse: 'gross',
         stil: 'zahl',
+        symbol: 'seat',
         label: 'Abende in der Oper',
         wert: zahl(r.visitCount),
         zusatz: `${zahl(r.operaCount)} ${r.operaCount === 1 ? 'Werk' : 'Werke'} · `
@@ -166,6 +194,7 @@ function karten(r) {
 
     if (r.topHouse?.house) {
         liste.push({
+            symbol: 'building',
             label: 'Dein Stammhaus',
             wert: r.topHouse.house.name,
             zusatz: `${r.topHouse.anzahl} ${r.topHouse.anzahl === 1 ? 'Abend' : 'Abende'} · ${r.topHouse.house.city}`,
@@ -174,6 +203,7 @@ function karten(r) {
 
     if (r.topComposer) {
         liste.push({
+            symbol: 'bookOpen',
             label: 'Komponist der Saison',
             wert: r.topComposer.wert,
             zusatz: `${r.topComposer.anzahl} ${r.topComposer.anzahl === 1 ? 'Abend' : 'Abende'}`,
@@ -182,6 +212,7 @@ function karten(r) {
 
     if (r.topConductor) {
         liste.push({
+            symbol: 'music',
             label: 'Dirigent der Saison',
             wert: r.topConductor.wert,
             zusatz: `${r.topConductor.anzahl} ${r.topConductor.anzahl === 1 ? 'Abend' : 'Abende'} am Pult`,
@@ -191,6 +222,7 @@ function karten(r) {
     if (r.bestVisit?.opera) {
         liste.push({
             groesse: 'gross',
+            symbol: 'heart',
             label: 'Der Abend der Saison',
             wert: r.bestVisit.opera.title,
             zusatz: [r.bestVisit.house?.name, datum(r.bestVisit.visit.date)].filter(Boolean).join(' · '),
@@ -204,6 +236,7 @@ function karten(r) {
     }
 
     liste.push({
+        symbol: 'star',
         label: 'Dein Schnitt',
         wert: r.avgRating.toFixed(1).replace('.', ','),
         zusatz: 'von 5 Sternen',
@@ -211,6 +244,7 @@ function karten(r) {
 
     if (r.travelKm > 0) {
         liste.push({
+            symbol: 'globe',
             label: 'Zwischen den Häusern',
             wert: `${zahl(r.travelKm)} km`,
             zusatz: 'Luftlinie, in der Reihenfolge deiner Abende',
@@ -220,6 +254,7 @@ function karten(r) {
     if (r.newHouses.length) {
         liste.push({
             groesse: r.newHouses.length > 2 ? 'gross' : 'normal',
+            symbol: 'pin',
             label: r.newHouses.length === 1 ? 'Neu entdeckt' : `Neu entdeckt (${r.newHouses.length})`,
             wert: r.newHouses.map(h => h.name).join(', '),
             zusatz: 'zum ersten Mal in deinem Tagebuch',
@@ -229,6 +264,7 @@ function karten(r) {
     if (r.repeats.length) {
         liste.push({
             groesse: 'gross',
+            symbol: 'layers',
             label: 'Wiedersehen',
             wert: r.repeats.map(w => `${w.opera.title} (${w.anzahl}×)`).join(', '),
             zusatz: 'mehr als einmal in einer Spielzeit',
@@ -237,6 +273,7 @@ function karten(r) {
 
     if (r.topMonth) {
         liste.push({
+            symbol: 'trending',
             label: 'Dein dichtester Monat',
             wert: r.topMonth.name,
             zusatz: `${r.topMonth.anzahl} ${r.topMonth.anzahl === 1 ? 'Abend' : 'Abende'}`,
@@ -245,6 +282,7 @@ function karten(r) {
 
     if (r.topWeekday) {
         liste.push({
+            symbol: 'calendar',
             label: 'Dein Opernabend',
             wert: r.topWeekday.wert,
             zusatz: `${r.topWeekday.anzahl}× in dieser Spielzeit`,
@@ -259,6 +297,58 @@ function karten(r) {
         wert: escapeHTML(k.wert),
         zusatz: k.zusatz ? escapeHTML(k.zusatz) : '',
     }));
+}
+
+/**
+ * Wie der eigene Saisonertrag neben dem der anderen dasteht.
+ *
+ * Verglichen wird nur mit Leuten, die in derselben Spielzeit überhaupt etwas
+ * geloggt haben. Unter drei anderen ergibt der Prozentsatz keinen Sinn – bei
+ * einem Gegenüber ist er zwangsläufig 0 oder 100 –, dann bleibt die Kachel
+ * weg. Ebenso am unteren Ende: „mehr gesehen als 0 %“ ist kein Satz, den
+ * jemand in seinem Rückblick lesen will.
+ */
+async function ladeVergleich(r) {
+    if (!store.isCloud || !isSupabaseConfigured()) return null;
+    const ich = store.getCurrentUser()?.id;
+
+    try {
+        const { from, to } = seasonRange(r.startYear);
+        const zaehler = await sb.getSeasonVisitCounts(isoDatum(from), isoDatum(to));
+
+        const andere = [...zaehler.entries()]
+            .filter(([id]) => id && id !== ich)
+            .map(([, anzahl]) => anzahl);
+        if (andere.length < 3) return null;
+
+        const wenigerAlsIch = andere.filter(n => n < r.visitCount).length;
+        const prozent = Math.round((wenigerAlsIch / andere.length) * 100);
+
+        if (prozent >= 100) {
+            return {
+                label: 'Im Vergleich',
+                wert: 'Spitzenreiter',
+                zusatz: 'Niemand hat in dieser Spielzeit mehr Abende geloggt',
+            };
+        }
+        if (prozent < 1) return null;
+
+        return {
+            label: 'Mehr gesehen als',
+            wert: `${prozent} %`,
+            zusatz: `der ${andere.length} anderen, die in dieser Spielzeit geloggt haben`,
+        };
+    } catch (e) {
+        console.warn('[Saisonrückblick] Vergleich nicht möglich', e);
+        return null;
+    }
+}
+
+// toISOString() verschiebt um die Zeitzone und kann einen Tag zurückrutschen –
+// genau am Saisonrand entscheidet das über die Zuordnung.
+function isoDatum(d) {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+        + `-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 // ── Text zum Teilen ───────────────────────────────────────────────────
