@@ -588,6 +588,9 @@ export async function addVisitCloud(visit) {
         date: visit.date,
         rating: visit.rating,
         review: visit.review || '',
+        conductor: visit.conductor || '',
+        director: visit.director || '',
+        cast_list: visit.castList || '',
     }).select(), 'Besuch speichern');
 }
 
@@ -599,6 +602,9 @@ export async function updateVisitCloud(visitId, updates) {
     if (updates.date !== undefined) payload.date = updates.date;
     if (updates.rating !== undefined) payload.rating = updates.rating;
     if (updates.review !== undefined) payload.review = updates.review;
+    if (updates.conductor !== undefined) payload.conductor = updates.conductor;
+    if (updates.director !== undefined) payload.director = updates.director;
+    if (updates.castList !== undefined) payload.cast_list = updates.castList;
 
     return unwrapWritten(
         await sb.from('visits').update(payload).eq('id', visitId).select(),

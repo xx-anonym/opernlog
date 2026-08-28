@@ -34,6 +34,9 @@
     --bg: #14181c;
     --card-bg: #1c2228;
     --accent-dim: #5c111c;
+    /* Beim ersten Durchgang übersehen: die Schrittnummern auf der
+       Einladungsseite standen dadurch auf transparentem Grund. */
+    --primary: #b22d40;
 
     --border: rgba(255, 255, 255, 0.06);
     --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
@@ -3639,4 +3642,94 @@ body {
     transform: translateY(0);
     max-height: 100px;
   }
+}
+
+/* ── Mitwirkende ────────────────────────────────────────────────────
+   Der aufklappbare Block im Log-Formular und die Anzeige in der Karte.
+   Alle drei Angaben sind optional; leere erzeugen gar keine Zeile. */
+
+.form-collapse {
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+}
+
+.form-collapse__summary {
+    cursor: pointer;
+    padding: 12px 14px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text);
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Der Pfeil wird selbst gezeichnet, damit er in allen Browsern gleich
+   aussieht – Safari malt sonst ein eigenes Dreieck an anderer Stelle. */
+.form-collapse__summary::-webkit-details-marker { display: none; }
+
+.form-collapse__summary::after {
+    content: '';
+    margin-left: auto;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg) translate(-2px, -2px);
+    transition: transform 0.18s ease;
+}
+
+.form-collapse[open] .form-collapse__summary::after {
+    transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+.form-collapse__optional {
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: 6px;
+}
+
+.form-collapse__body {
+    padding: 4px 14px 2px;
+}
+
+.form-collapse__body .form-group:last-child {
+    margin-bottom: 14px;
+}
+
+.review-card__credits {
+    margin: 10px 0 4px;
+    padding: 10px 12px;
+    border-left: 2px solid var(--border);
+    display: grid;
+    gap: 6px;
+}
+
+.credit {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 8px;
+    font-size: 0.88rem;
+    align-items: baseline;
+}
+
+.credit__label {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Die Besetzung wird zeilenweise eingegeben – die Umbrüche bleiben stehen. */
+.credit__value {
+    white-space: pre-line;
+}
+
+@media (max-width: 420px) {
+    .credit {
+        grid-template-columns: 1fr;
+        gap: 1px;
+    }
 }

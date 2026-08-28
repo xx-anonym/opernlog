@@ -3,7 +3,7 @@ import { StarRating } from './StarRating.js';
 import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, runWithFeedback } from '../components/Toast.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, visitCredits } from '../utils.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
@@ -35,6 +35,15 @@ export function ReviewCard(visit, options = {}) {
   const house = operaHouses.find(h => h.id === visit.houseId);
   const opera = operas.find(o => o.id === visit.operaId);
 
+  // Dirigent, Regie, Besetzung – jedes für sich optional. Leere Felder
+  // erzeugen keine Zeile, ein Besuch ganz ohne Angaben keinen Block.
+  const credits = visitCredits(visit);
+  const creditRow = (label, wert) => wert ? `
+        <div class="credit">
+          <span class="credit__label">${label}</span>
+          <span class="credit__value">${escapeHTML(wert)}</span>
+        </div>` : '';
+
   const card = document.createElement('div');
   card.className = `review-card ${compact ? 'review-card--compact' : ''} ${standalone ? 'review-card--standalone' : 'review-card--clickable'} fade-in`;
 
@@ -61,6 +70,13 @@ export function ReviewCard(visit, options = {}) {
     ${showHouse && house ? `
       <div class="review-card__house" data-action="house" data-house-id="${house.id}">
         ${icon('pin', { className: 'icon--meta' })}${house.name}, ${house.city}
+      </div>
+    ` : ''}
+    ${credits.any && !compact ? `
+      <div class="review-card__credits">
+        ${creditRow('Dirigent', credits.conductor)}
+        ${creditRow('Regie', credits.director)}
+        ${creditRow('Besetzung', credits.castList)}
       </div>
     ` : ''}
     ${visit.review && !compact ? `

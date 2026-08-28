@@ -26,6 +26,11 @@ CREATE TABLE IF NOT EXISTS visits (
   date DATE NOT NULL,
   rating DECIMAL(2,1) NOT NULL,
   review TEXT DEFAULT '',
+  -- Mitwirkende, alle optional. cast_list statt cast, weil CAST in PostgreSQL
+  -- ein reserviertes Schlüsselwort ist.
+  conductor TEXT DEFAULT '',
+  director TEXT DEFAULT '',
+  cast_list TEXT DEFAULT '',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

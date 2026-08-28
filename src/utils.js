@@ -250,3 +250,24 @@ export async function requestPositionByIP() {
     }
     return null;
 }
+
+/**
+ * Die Mitwirkenden eines Besuchs: Dirigent, Regie, Besetzung. Alle drei sind
+ * optional und können leer sein.
+ *
+ * Besuche kommen in zwei Schreibweisen daher – aus der Cloud in snake_case,
+ * aus dem lokalen Speicher in camelCase. Diese Funktion ist die einzige
+ * Stelle, die beide kennt. Sonst stünde `visit.castList || visit.cast_list`
+ * über die halbe Oberfläche verteilt, und genau solche Doppelungen sind hier
+ * schon zweimal der Grund gewesen, warum eine Änderung eine Stelle vergessen
+ * hat.
+ *
+ * @returns {{conductor: string, director: string, castList: string, any: boolean}}
+ */
+export function visitCredits(visit = {}) {
+    const text = (...werte) => String(werte.find(w => w != null) ?? '').trim();
+    const conductor = text(visit.conductor);
+    const director = text(visit.director);
+    const castList = text(visit.castList, visit.cast_list);
+    return { conductor, director, castList, any: !!(conductor || director || castList) };
+}

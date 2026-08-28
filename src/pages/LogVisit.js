@@ -3,7 +3,7 @@ import { operaHouses, nearestOperaHouse } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
-import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP } from '../utils.js';
+import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, visitCredits } from '../utils.js';
 import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
 
@@ -17,6 +17,12 @@ export function LogVisitPage(params = {}) {
     editVisit = store.getVisitsByUser('user-me').find(v => v.id === params.edit);
     if (editVisit) selectedRating = editVisit.rating;
   }
+
+  // Dirigent, Regie, Besetzung. Alle drei dürfen leer bleiben – deshalb stehen
+  // sie zusammengeklappt hinter einer eigenen Zeile und verlängern das
+  // Formular nicht für alle, die sie nicht ausfüllen wollen. Beim Bearbeiten
+  // klappt der Block auf, sobald eines der Felder etwas enthält.
+  const credits = visitCredits(editVisit || {});
 
   page.innerHTML = `
     <div class="page-header">
@@ -49,6 +55,29 @@ export function LogVisitPage(params = {}) {
         <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : new Date().toISOString().split('T')[0]}" />
       </div>
       
+      <details class="form-collapse"${credits.any ? ' open' : ''}>
+        <summary class="form-collapse__summary">
+          ${icon('users', { className: 'icon--meta' })}Mitwirkende <span class="form-collapse__optional">(optional)</span>
+        </summary>
+        <div class="form-collapse__body">
+          <div class="form-group">
+            <label class="form-label" for="conductorInput">${icon('music', { className: 'icon--meta' })}Dirigent</label>
+            <input type="text" class="input" id="conductorInput" placeholder="z.B. Kirill Petrenko"
+              value="${escapeHTML(credits.conductor)}" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="directorInput">${icon('bookOpen', { className: 'icon--meta' })}Regie</label>
+            <input type="text" class="input" id="directorInput" placeholder="z.B. Barrie Kosky"
+              value="${escapeHTML(credits.director)}" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="castInput">${icon('users', { className: 'icon--meta' })}Besetzung</label>
+            <textarea class="input textarea" id="castInput" rows="3"
+              placeholder="Eine Zeile pro Person, z.B.&#10;Anna Netrebko (Tosca)&#10;Jonas Kaufmann (Cavaradossi)">${escapeHTML(credits.castList)}</textarea>
+          </div>
+        </div>
+      </details>
+
       <div class="form-group">
         <label class="form-label">${icon('star', { className: 'icon--meta' })}Bewertung</label>
         <div id="ratingWidget"></div>
@@ -335,7 +364,13 @@ export function LogVisitPage(params = {}) {
     if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
     if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('Datum darf nicht in der Zukunft liegen'); return; }
 
-    const payload = { houseId, operaId, date, rating: selectedRating, review };
+    const payload = {
+      houseId, operaId, date, rating: selectedRating, review,
+      // Dürfen leer sein – dann werden sie später schlicht nicht angezeigt.
+      conductor: page.querySelector('#conductorInput').value.trim(),
+      director: page.querySelector('#directorInput').value.trim(),
+      castList: page.querySelector('#castInput').value.trim(),
+    };
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
