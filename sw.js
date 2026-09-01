@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v58';
+const CACHE_NAME = 'opernlog-v59';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
@@ -42,6 +42,7 @@ const APP_SHELL = [
     './src/pages/Wishlist.js',
     './src/components/Navigation.js',
     './src/components/ReviewCard.js',
+    './src/components/HouseMap.js',
     './src/components/RatingsHistogram.js',
     './src/components/StarRating.js',
     './src/store/store.js',

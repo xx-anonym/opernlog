@@ -3,6 +3,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { coverBackground } from '../utils.js';
 import { store } from '../store/store.js';
+import { HouseMap } from '../components/HouseMap.js';
 import { isSupabaseConfigured } from '../config.js';
 
 export function HousesPage() {
@@ -44,8 +45,16 @@ export function HousesPage() {
         </select>
       </div>
     </div>
+    <div id="houseMapSlot"></div>
     <div class="card-grid card-grid--houses" id="housesGrid"></div>
   `;
+
+  // Karte der eigenen Abdeckung, über dem Katalog: hier steht ohnehin die
+  // Frage "wo war ich schon".
+  const besuchteHaeuser = new Set(
+    (store.getVisitsByUser('user-me') || []).map(v => v.houseId)
+  );
+  page.querySelector('#houseMapSlot').appendChild(HouseMap(besuchteHaeuser));
 
   // State filter chips
   const states = [...new Set(operaHouses.map(h => h.state))].sort();

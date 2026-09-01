@@ -3911,3 +3911,99 @@ body {
         grid-column: span 2;
     }
 }
+
+/* ── Karte der Opernhäuser ──────────────────────────────────────────── */
+
+.housemap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 14px 10px;
+    margin-bottom: 24px;
+}
+
+.housemap__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.housemap__count {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--text);
+}
+
+.housemap__legend {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.housemap__key {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.45;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.housemap__key--besucht {
+    background: var(--gold);
+    opacity: 1;
+    margin-left: 0;
+}
+
+/* Deutschland ist höher als breit: über die volle Breite eines Handys wäre
+   die Karte gut 600px hoch. Deshalb bestimmt die Höhe die Größe, nicht die
+   Breite – die Karte steht dann schmal und mittig. */
+.housemap__svg {
+    display: block;
+    margin: 0 auto;
+    height: clamp(280px, 52vh, 460px);
+    width: auto;
+    max-width: 100%;
+    overflow: visible;
+}
+
+.housemap__dot {
+    fill: var(--text-muted);
+    opacity: 0.4;
+    transition: opacity 0.15s ease;
+}
+
+.housemap__dot--besucht {
+    fill: var(--gold);
+    opacity: 1;
+    cursor: pointer;
+    /* Der Schein hebt die besuchten Häuser vom Raster der übrigen ab. */
+    filter: drop-shadow(0 0 3px rgba(201, 168, 76, 0.55));
+}
+
+.housemap__dot:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.housemap__caption {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    min-height: 1.2em;
+}
+
+/* Auf breiten Bildschirmen darf die Karte deutlich größer werden – seitlich
+   bleibt wegen des hochkantigen Zuschnitts ohnehin Platz. */
+@media (min-width: 900px) {
+    .housemap__svg {
+        height: clamp(420px, 64vh, 620px);
+    }
+}
