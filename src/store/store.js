@@ -738,10 +738,29 @@ class Store {
     // ── Stats ────────────────────────────────────────────
     getStats(userId) {
         const visits = this.getVisitsByUser(userId);
-        if (visits.length === 0) return { totalVisits: 0, avgRating: 0, uniqueHouses: 0, uniqueOperas: 0, topComposer: '-', topHouse: '-' };
+
+        // "Werke gesehen" zählt geloggte UND als gesehen markierte Werke: ein
+        // markiertes Werk hat man gesehen, nur eben ohne Abend. Bei allem
+        // anderen bleiben Markierungen draußen – sie haben kein Datum, kein
+        // Haus und keine Bewertung. "6 Besuche" muss weiterhin sechs geloggte
+        // Abende bedeuten, und der Lieblingskomponist braucht Bewertungen,
+        // die eine Markierung gar nicht mitbringt.
+        //
+        // Nur für das eigene Profil: fremde Markierungen sind ohnehin nicht
+        // lesbar, und die eigenen dürfen auf keinen Fall in fremde Zahlen
+        // geraten.
+        const eigenesProfil = userId === 'user-me' || userId === this._profile?.id;
+        const markiert = eigenesProfil ? this.getSeenOperas() : [];
+        const werkeGesehen = new Set([...visits.map(v => v.operaId), ...markiert]).size;
+
+        if (visits.length === 0) {
+            return {
+                totalVisits: 0, avgRating: 0, uniqueHouses: 0,
+                uniqueOperas: werkeGesehen, topComposer: '-', topHouse: '-',
+            };
+        }
 
         const houses = new Set(visits.map(v => v.houseId));
-        const operaIds = new Set(visits.map(v => v.operaId));
 
         const composerData = {};
         visits.forEach(v => {
@@ -772,7 +791,7 @@ class Store {
             totalVisits: visits.length,
             avgRating: (visits.reduce((s, v) => s + v.rating, 0) / visits.length).toFixed(1),
             uniqueHouses: houses.size,
-            uniqueOperas: operaIds.size,
+            uniqueOperas: werkeGesehen,
             topComposer: topComposer ? topComposer[0] : '-',
             topHouse: topHouse ? topHouse.name : '-',
         };

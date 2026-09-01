@@ -521,7 +521,7 @@ function renderLocalProfile(page, userId, isMe) {
         <span class="stat-card__number">${stats?.uniqueHouses || 0}</span>
         <span class="stat-card__label">Häuser besucht</span>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" title="Geloggte Werke und solche, die du als bereits gesehen markiert hast">
         <span class="stat-card__number">${stats?.uniqueOperas || 0}</span>
         <span class="stat-card__label">Werke gesehen</span>
       </div>
