@@ -61,6 +61,12 @@ export function OperaDetailPage(operaId) {
               ? icon('star', { filled: true }) + ' Auf der Wunschliste'
               : icon('star') + ' Auf die Wunschliste'}
           </button>
+          <button id="seenToggle" class="btn ${store.isSeenOpera(opera.id) ? 'btn--seen-active' : 'btn--outline'}"
+            title="Für Werke, die du vor OpernLog gesehen hast – ohne Datum, Haus und Bewertung">
+            ${store.isSeenOpera(opera.id)
+              ? icon('checkCircle', { filled: false }) + ' Schon gesehen'
+              : icon('check') + ' Schon gesehen'}
+          </button>
         </div>
       </div>
       
@@ -175,6 +181,33 @@ export function OperaDetailPage(operaId) {
       wishlistBtn.innerHTML = wasOn
         ? icon('star') + ' Auf die Wunschliste'
         : icon('star', { filled: true }) + ' Auf der Wunschliste';
+    });
+  }
+
+  // "Schon gesehen" – für Werke von früher, ohne Besuchseintrag. Bewusst
+  // neben dem Loggen und nicht statt dessen: wer Datum, Haus und Bewertung
+  // weiß, soll den Abend loggen, nicht bloß ein Häkchen setzen.
+  const seenBtn = page.querySelector('#seenToggle');
+  if (seenBtn) {
+    seenBtn.addEventListener('click', async () => {
+      const warMarkiert = store.isSeenOpera(opera.id);
+      seenBtn.disabled = true;
+      const ok = await runWithFeedback(
+        () => warMarkiert ? store.unmarkSeenOpera(opera.id) : store.markSeenOpera(opera.id),
+        {
+          failure: warMarkiert ? 'Markierung konnte nicht entfernt werden'
+                               : 'Konnte nicht als gesehen markiert werden',
+          success: warMarkiert ? 'Markierung entfernt'
+                               : 'Als gesehen markiert',
+        }
+      );
+      seenBtn.disabled = false;
+      // Beschriftung nur ändern, wenn es wirklich geklappt hat
+      if (!ok) return;
+      seenBtn.className = warMarkiert ? 'btn btn--outline' : 'btn btn--seen-active';
+      seenBtn.innerHTML = warMarkiert
+        ? icon('check') + ' Schon gesehen'
+        : icon('checkCircle') + ' Schon gesehen';
     });
   }
 

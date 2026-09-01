@@ -55,7 +55,7 @@ export function OperasPage() {
 
   // Blinde Flecken über dem Katalog: hier steht ohnehin die Frage, was man als
   // Nächstes sehen könnte. Ohne eigene Besuche fällt der Abschnitt ganz weg.
-  const blinde = BlindSpots(store.getVisitsByUser('user-me') || []);
+  const blinde = BlindSpots(store.getVisitsByUser('user-me') || [], store.getSeenOperas());
   if (blinde) page.querySelector('#blindSpotsSlot').appendChild(blinde);
 
   // Composer filter chips

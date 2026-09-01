@@ -1041,6 +1041,46 @@ export async function searchUsers(query) {
     return data || [];
 }
 
+// ── Bereits gesehen (ohne Besuchseintrag) ────────────────
+export async function getSeenOperasCloud() {
+    const session = await getSession();
+    if (!session) return [];
+    const sb = getSupabase();
+    const data = await retryRead(
+        () => sb.from('seen_operas').select('opera_id').eq('user_id', session.user.id),
+        'Gesehene Werke laden'
+    );
+    return (data || []).map(r => r.opera_id);
+}
+
+export async function addSeenOperaCloud(operaId) {
+    const session = await getSession();
+    if (!session) return null;
+    const sb = getSupabase();
+    // upsert statt insert: zweimal markieren soll nicht am Primärschlüssel
+    // scheitern, sondern schlicht nichts ändern.
+    return unwrapWritten(await sb.from('seen_operas')
+        .upsert({ user_id: session.user.id, opera_id: operaId })
+        .select(), 'Als gesehen markieren');
+}
+
+export async function removeSeenOperaCloud(operaId) {
+    const session = await getSession();
+    if (!session) return null;
+    const sb = getSupabase();
+    // Der Schlüssel ist zusammengesetzt, es gibt keine id-Spalte. Genau daran
+    // ist in diesem Projekt schon einmal das Zurücknehmen von Likes
+    // gescheitert – deshalb hier beide Spalten.
+    const { error } = await sb.from('seen_operas').delete()
+        .eq('user_id', session.user.id)
+        .eq('opera_id', operaId);
+    if (error) {
+        console.error('[Supabase] Markierung entfernen', error);
+        throw new SupabaseError('Markierung entfernen', error);
+    }
+    return true;
+}
+
 // ── Suggestions ──────────────────────────────────────────
 export async function addSuggestionCloud(suggestion) {
     const session = await getSession();

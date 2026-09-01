@@ -4016,6 +4016,20 @@ body {
     margin-bottom: 20px;
 }
 
+/* Gesetzte Markierung "Schon gesehen" – dieselbe Rolle wie
+   .btn--wishlist-active, nur in Grün statt Gold, damit die beiden Zustände
+   nebeneinander unterscheidbar bleiben. */
+.btn--seen-active {
+    background: rgba(0, 192, 48, 0.12);
+    border: 1px solid rgba(0, 192, 48, 0.45);
+    color: var(--green);
+}
+
+.btn--seen-active:hover {
+    background: rgba(0, 192, 48, 0.2);
+    color: var(--green);
+}
+
 .blindspots__done {
     font-size: 0.82rem;
     color: var(--text-muted);

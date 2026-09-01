@@ -27,13 +27,14 @@ function merkeOffen(offen) {
 }
 
 /**
- * Gibt null zurück, wenn es nichts zu zeigen gibt: wer noch keine Besuche hat,
- * bekommt keinen leeren Kasten vorgesetzt.
+ * Gibt null zurück, wenn es nichts zu zeigen gibt: wer weder Besuche noch
+ * Markierungen hat, bekommt keinen leeren Kasten vorgesetzt.
  *
- * @param {Array} visits  eigene Besuche
+ * @param {Array} visits    eigene Besuche
+ * @param {Array} [seenIds] ohne Besuchseintrag als gesehen markierte Werke
  */
-export function BlindSpots(visits) {
-    const { gruppen, allesGesehen } = blindSpots(visits);
+export function BlindSpots(visits, seenIds = []) {
+    const { gruppen, allesGesehen } = blindSpots(visits, seenIds);
     if (!gruppen.length && !allesGesehen) return null;
 
     // Für einen einzigen Satz lohnt kein Aufklappen.
@@ -58,6 +59,7 @@ export function BlindSpots(visits) {
         <span class="blindspot__composer">${escapeHTML(g.composer)}</span>
         <span class="blindspot__meta">
           ${g.abende} ${g.abende === 1 ? 'Abend' : 'Abende'} ·
+          ${g.markiert ? `${g.markiert} markiert · ` : ''}
           ${g.gesehen} von ${g.gesamt} ${g.gesamt === 1 ? 'Werk' : 'Werken'}
         </span>
       </div>

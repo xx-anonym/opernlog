@@ -40,6 +40,19 @@ CREATE POLICY "User kann eigene Visits erstellen" ON visits FOR INSERT WITH CHEC
 CREATE POLICY "User kann eigene Visits ändern" ON visits FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "User kann eigene Visits löschen" ON visits FOR DELETE USING (auth.uid() = user_id);
 
+-- Bereits gesehene Werke ohne Besuchseintrag (siehe seen_operas_migration.sql)
+CREATE TABLE IF NOT EXISTS seen_operas (
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  opera_id TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  PRIMARY KEY (user_id, opera_id)
+);
+
+ALTER TABLE seen_operas ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "User kann eigene Markierungen lesen" ON seen_operas FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "User kann als gesehen markieren" ON seen_operas FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "User kann Markierung entfernen" ON seen_operas FOR DELETE USING (auth.uid() = user_id);
+
 -- Follows
 CREATE TABLE IF NOT EXISTS follows (
   follower_id UUID REFERENCES profiles(id) ON DELETE CASCADE,

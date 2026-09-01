@@ -22,6 +22,9 @@ function getDefaultData() {
         follows: [],
         myVisits: [],
         myLists: [],
+        // Werke, die man vor OpernLog gesehen hat – nur die Kennung, ohne
+        // Datum, Haus oder Bewertung. Bewusst getrennt von myVisits.
+        seenOperas: [],
     };
 }
 
@@ -141,6 +144,14 @@ class Store {
                 } catch (e) {
                     console.error('[Store] Besuche-Abgleich fehlgeschlagen', e);
                     failures.push('Besuche');
+                }
+
+                // Sync "bereits gesehen"
+                try {
+                    this.data.seenOperas = await sb.getSeenOperasCloud();
+                } catch (e) {
+                    console.error('[Store] Abgleich der gesehenen Werke fehlgeschlagen', e);
+                    failures.push('Gesehene Werke');
                 }
 
                 // Sync suggestions state
@@ -657,6 +668,56 @@ class Store {
         const wl = this.getWishlist();
         if (!wl || !wl.items.includes(operaId)) return;
         await this.updateList(wl.id, { items: wl.items.filter(id => id !== operaId) });
+    }
+
+    // ── Bereits gesehen (ohne Besuchseintrag) ────────────
+    //
+    // Für Werke, die man vor OpernLog gesehen hat. Diese Markierungen zählen
+    // ausdrücklich NICHT als Besuche: sie haben kein Datum, kein Haus und
+    // keine Bewertung. Sie fließen in die blinden Flecken ein, nicht in die
+    // Zahl der Abende.
+    getSeenOperas() {
+        return this.data.seenOperas || [];
+    }
+
+    isSeenOpera(operaId) {
+        return this.getSeenOperas().includes(operaId);
+    }
+
+    async markSeenOpera(operaId) {
+        if (this.isSeenOpera(operaId)) return;
+        this.data.seenOperas = [...this.getSeenOperas(), operaId];
+        this.save();
+
+        if (this.isCloud) {
+            try {
+                await sb.addSeenOperaCloud(operaId);
+            } catch (e) {
+                // Wie überall hier: die Cloud ist die Quelle der Wahrheit.
+                // Ohne das Zurücknehmen stünde die Markierung bis zum
+                // nächsten Laden da und verschwände dann kommentarlos.
+                this.data.seenOperas = this.getSeenOperas().filter(id => id !== operaId);
+                this.save();
+                throw e;
+            }
+        }
+    }
+
+    async unmarkSeenOpera(operaId) {
+        if (!this.isSeenOpera(operaId)) return;
+        const vorher = this.getSeenOperas();
+        this.data.seenOperas = vorher.filter(id => id !== operaId);
+        this.save();
+
+        if (this.isCloud) {
+            try {
+                await sb.removeSeenOperaCloud(operaId);
+            } catch (e) {
+                this.data.seenOperas = vorher;
+                this.save();
+                throw e;
+            }
+        }
     }
 
     // ── Stats ────────────────────────────────────────────

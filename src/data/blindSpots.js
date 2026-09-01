@@ -18,32 +18,53 @@ import { operas } from './operas.js';
 const REIHENFOLGE = new Map(operas.map((o, i) => [o.id, i]));
 
 /**
- * @param {Array}  visits            eigene Besuche
+ * @param {Array}  visits    eigene Besuche
+ * @param {Array}  [seenIds] Werke, die ohne Besuchseintrag als gesehen
+ *                           markiert wurden (vor OpernLog gesehen)
  * @param {object} [optionen]
  * @param {number} [optionen.maxKomponisten]  wie viele Komponisten höchstens
  * @param {number} [optionen.maxWerke]        wie viele Werke je Komponist
  * @returns {{
- *   gruppen: Array<{composer: string, abende: number, gesehen: number,
- *                   gesamt: number, fehlend: Array<object>}>,
+ *   gruppen: Array<{composer: string, abende: number, markiert: number,
+ *                   gesehen: number, gesamt: number, fehlend: Array<object>,
+ *                   fehlendGesamt: number}>,
  *   allesGesehen: boolean
  * }}
  */
-export function blindSpots(visits, { maxKomponisten = 3, maxWerke = 4 } = {}) {
+export function blindSpots(visits, seenIds = [], { maxKomponisten = 3, maxWerke = 4 } = {}) {
     const proKomponist = new Map();
+
+    function eintragFuer(composer) {
+        let e = proKomponist.get(composer);
+        if (!e) {
+            e = { abende: 0, markiert: 0, gesehen: new Set(), bewertungen: [] };
+            proKomponist.set(composer, e);
+        }
+        return e;
+    }
 
     for (const v of visits || []) {
         const werk = operas.find(o => o.id === v.operaId);
         if (!werk) continue;
 
-        let eintrag = proKomponist.get(werk.composer);
-        if (!eintrag) {
-            eintrag = { abende: 0, gesehen: new Set(), bewertungen: [] };
-            proKomponist.set(werk.composer, eintrag);
-        }
+        const eintrag = eintragFuer(werk.composer);
         eintrag.abende += 1;
         eintrag.gesehen.add(werk.id);
         const note = Number(v.rating);
         if (Number.isFinite(note)) eintrag.bewertungen.push(note);
+    }
+
+    // Markierungen zählen für "gesehen", aber ausdrücklich nicht als Abende:
+    // sie haben kein Datum, kein Haus und keine Bewertung. Wer acht Werke
+    // eines Komponisten markiert und nie bei ihm im Haus war, soll trotzdem
+    // als jemand gelten, der ihn kennt – deshalb ein eigener Zähler.
+    for (const id of seenIds || []) {
+        const werk = operas.find(o => o.id === id);
+        if (!werk) continue;
+
+        const eintrag = eintragFuer(werk.composer);
+        if (!eintrag.gesehen.has(werk.id)) eintrag.markiert += 1;
+        eintrag.gesehen.add(werk.id);
     }
 
     if (proKomponist.size === 0) return { gruppen: [], allesGesehen: false };
@@ -65,6 +86,7 @@ export function blindSpots(visits, { maxKomponisten = 3, maxWerke = 4 } = {}) {
         return {
             composer,
             abende: e.abende,
+            markiert: e.markiert,
             gesehen: e.gesehen.size,
             gesamt: katalog.length,
             schnitt,
@@ -82,9 +104,11 @@ export function blindSpots(visits, { maxKomponisten = 3, maxWerke = 4 } = {}) {
     if (mitLuecken.length === 0) return { gruppen: [], allesGesehen: true };
 
     const gruppen = mitLuecken
-        // Häufigkeit entscheidet, bei Gleichstand die bessere Bewertung, dann
-        // der Name – damit die Reihenfolge nicht bei jedem Aufruf wechselt.
-        .sort((a, b) => (b.abende - a.abende)
+        // Häufigkeit entscheidet – Abende und Markierungen zusammen, sonst
+        // fiele ein Komponist heraus, den man nur von früher kennt. Bei
+        // Gleichstand die bessere Bewertung, dann der Name, damit die
+        // Reihenfolge nicht bei jedem Aufruf wechselt.
+        .sort((a, b) => ((b.abende + b.markiert) - (a.abende + a.markiert))
             || (b.schnitt - a.schnitt)
             || a.composer.localeCompare(b.composer, 'de'))
         .slice(0, maxKomponisten)
