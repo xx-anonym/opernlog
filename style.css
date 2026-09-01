@@ -4007,3 +4007,72 @@ body {
         height: clamp(420px, 64vh, 620px);
     }
 }
+
+/* ── Blinde Flecken ─────────────────────────────────────────────────── */
+
+.blindspots {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 16px 6px;
+    margin-bottom: 24px;
+}
+
+.blindspots__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--text);
+    margin: 0;
+}
+
+.blindspots__lead {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    margin: 2px 0 14px;
+}
+
+.blindspot {
+    margin-bottom: 14px;
+}
+
+.blindspot__head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 7px;
+}
+
+.blindspot__composer {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    color: var(--text);
+}
+
+.blindspot__meta {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+}
+
+.blindspot__works {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.blindspot__work {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.blindspot__work:hover {
+    border-color: var(--gold-dark);
+    color: var(--text);
+}

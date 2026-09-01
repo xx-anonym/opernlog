@@ -3,6 +3,7 @@ import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
 import { coverBackground } from '../utils.js';
 import { store } from '../store/store.js';
+import { BlindSpots } from '../components/BlindSpots.js';
 import { isSupabaseConfigured } from '../config.js';
 
 export function OperasPage() {
@@ -48,8 +49,14 @@ export function OperasPage() {
         </select>
       </div>
     </div>
+    <div id="blindSpotsSlot"></div>
     <div class="card-grid card-grid--operas" id="operasGrid"></div>
   `;
+
+  // Blinde Flecken über dem Katalog: hier steht ohnehin die Frage, was man als
+  // Nächstes sehen könnte. Ohne eigene Besuche fällt der Abschnitt ganz weg.
+  const blinde = BlindSpots(store.getVisitsByUser('user-me') || []);
+  if (blinde) page.querySelector('#blindSpotsSlot').appendChild(blinde);
 
   // Composer filter chips
   const composers = [...new Set(operas.map(o => o.composer))].sort();
