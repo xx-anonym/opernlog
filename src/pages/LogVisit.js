@@ -62,13 +62,19 @@ export function LogVisitPage(params = {}) {
         <div class="form-collapse__body">
           <div class="form-group">
             <label class="form-label" for="conductorInput">${icon('music', { className: 'icon--meta' })}Dirigent</label>
-            <input type="text" class="input" id="conductorInput" placeholder="z.B. Kirill Petrenko"
-              value="${escapeHTML(credits.conductor)}" />
+            <div class="autocomplete" id="conductorAutocomplete">
+              <input type="text" class="input" id="conductorInput" placeholder="z.B. Kirill Petrenko"
+                autocomplete="off" value="${escapeHTML(credits.conductor)}" />
+              <div class="autocomplete__list" id="conductorList"></div>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="directorInput">${icon('bookOpen', { className: 'icon--meta' })}Regie</label>
-            <input type="text" class="input" id="directorInput" placeholder="z.B. Barrie Kosky"
-              value="${escapeHTML(credits.director)}" />
+            <div class="autocomplete" id="directorAutocomplete">
+              <input type="text" class="input" id="directorInput" placeholder="z.B. Barrie Kosky"
+                autocomplete="off" value="${escapeHTML(credits.director)}" />
+              <div class="autocomplete__list" id="directorList"></div>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="castInput">${icon('users', { className: 'icon--meta' })}Besetzung</label>
@@ -342,10 +348,30 @@ export function LogVisitPage(params = {}) {
     });
   });
 
+  // ── Vorschläge für Dirigent und Regie ───────────────────────────────
+  // Gespeist aus dem eigenen Tagebuch. Freitext driftet sonst auseinander –
+  // "Kirill Petrenko", "K. Petrenko", "Petrenko" –, und dann findet die Suche
+  // nur noch die Hälfte und der "Dirigent der Saison" zählt falsch.
+  const eigeneBesuche = store.getVisitsByUser('user-me') || [];
+
+  suggestField({
+    input: page.querySelector('#conductorInput'),
+    list: page.querySelector('#conductorList'),
+    werte: () => eigeneBesuche.map(v => visitCredits(v).conductor),
+  });
+
+  suggestField({
+    input: page.querySelector('#directorInput'),
+    list: page.querySelector('#directorList'),
+    werte: () => eigeneBesuche.map(v => visitCredits(v).director),
+  });
+
   // Close dropdowns when clicking elsewhere (scoped to page to prevent leaks)
   page.addEventListener('click', (e) => {
     if (!e.target.closest('#houseAutocomplete')) houseList.style.display = 'none';
     if (!e.target.closest('#operaAutocomplete')) operaList.style.display = 'none';
+    if (!e.target.closest('#conductorAutocomplete')) page.querySelector('#conductorList').style.display = 'none';
+    if (!e.target.closest('#directorAutocomplete')) page.querySelector('#directorList').style.display = 'none';
   });
 
   // Form submit
@@ -490,4 +516,82 @@ function selectionField({ input, idInput, list, labelFor, onChange = () => {} })
       return false;
     },
   };
+}
+
+/**
+ * Schlägt beim Tippen Namen vor, die schon einmal eingetragen wurden.
+ *
+ * Anders als selectionField() geht es hier um freien Text: es gibt keine
+ * Kennung im Hintergrund, nichts wird erzwungen, und die Löschtaste arbeitet
+ * ganz normal. Der Vorschlag ist reine Schreibhilfe – er soll verhindern, dass
+ * derselbe Mensch als "Kirill Petrenko", "K. Petrenko" und "Petrenko" im
+ * Tagebuch steht und damit in Suche und Statistik dreimal zählt.
+ *
+ * Beim Hineinklicken ins leere Feld erscheinen die häufigsten Namen. Genau das
+ * ist der Nutzen im Alltag: einmal tippen statt jedes Mal ausschreiben.
+ *
+ * @param {HTMLInputElement} o.input
+ * @param {HTMLElement}      o.list
+ * @param {() => string[]}   o.werte  Rohwerte, dürfen leer und doppelt sein
+ */
+function suggestField({ input, list, werte }) {
+  // Häufigste Schreibweise gewinnt: wer den Namen dreimal so und einmal anders
+  // geschrieben hat, bekommt die dreifache Fassung vorgeschlagen.
+  function kandidaten() {
+    const zaehler = new Map();
+    for (const roh of werte()) {
+      const name = String(roh || '').trim();
+      if (!name) continue;
+      const schluessel = name.toLowerCase();
+      const bisher = zaehler.get(schluessel);
+      if (bisher) {
+        bisher.anzahl += 1;
+        if (bisher.schreibweisen.get(name) === undefined) bisher.schreibweisen.set(name, 0);
+        bisher.schreibweisen.set(name, bisher.schreibweisen.get(name) + 1);
+      } else {
+        zaehler.set(schluessel, { anzahl: 1, schreibweisen: new Map([[name, 1]]) });
+      }
+    }
+
+    return [...zaehler.values()]
+      .map(e => ({
+        name: [...e.schreibweisen.entries()].sort((a, b) => b[1] - a[1])[0][0],
+        anzahl: e.anzahl,
+      }))
+      .sort((a, b) => (b.anzahl - a.anzahl) || a.name.localeCompare(b.name, 'de'));
+  }
+
+  function zeichne() {
+    const query = input.value.trim().toLowerCase();
+    const treffer = kandidaten()
+      // Was schon vollständig im Feld steht, muss nicht vorgeschlagen werden.
+      .filter(k => k.name.toLowerCase() !== query)
+      .filter(k => !query || k.name.toLowerCase().includes(query))
+      .slice(0, 6);
+
+    list.innerHTML = '';
+    list.style.display = treffer.length ? 'block' : 'none';
+
+    treffer.forEach(k => {
+      const item = document.createElement('div');
+      item.className = 'autocomplete__item';
+      item.innerHTML = `<strong>${escapeHTML(k.name)}</strong>`
+        + (k.anzahl > 1 ? ` <span class="text-muted">– ${k.anzahl}×</span>` : '');
+      // mousedown statt click: das Feld verliert sonst zuerst den Fokus und
+      // der Klick geht ins Leere, wenn die Liste dabei verschwindet.
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        input.value = k.name;
+        list.style.display = 'none';
+      });
+      list.appendChild(item);
+    });
+  }
+
+  input.addEventListener('input', zeichne);
+  input.addEventListener('focus', zeichne);
+  input.addEventListener('blur', () => {
+    // Kurz warten, damit ein Klick auf einen Vorschlag noch ankommt.
+    setTimeout(() => { list.style.display = 'none'; }, 120);
+  });
 }
