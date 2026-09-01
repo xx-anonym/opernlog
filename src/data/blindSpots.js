@@ -69,6 +69,9 @@ export function blindSpots(visits, { maxKomponisten = 3, maxWerke = 4 } = {}) {
             gesamt: katalog.length,
             schnitt,
             fehlend,
+            // Vor dem Kürzen festgehalten: die Zusammenfassung soll die
+            // tatsächliche Lücke nennen, nicht die Zahl der angezeigten Chips.
+            fehlendGesamt: fehlend.length,
         };
     });
 

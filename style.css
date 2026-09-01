@@ -4010,25 +4010,22 @@ body {
 
 /* ── Blinde Flecken ─────────────────────────────────────────────────── */
 
+/* Die Grundform kommt von .form-collapse (siehe Mitwirkende im Log-Formular),
+   damit beide Aufklapper in der App gleich aussehen. */
 .blindspots {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 16px 6px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
-.blindspots__title {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    color: var(--text);
-    margin: 0;
+.blindspots__done {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
 }
 
 .blindspots__lead {
     font-size: 0.84rem;
     color: var(--text-muted);
-    margin: 2px 0 14px;
+    margin: 0 0 14px;
 }
 
 .blindspot {
