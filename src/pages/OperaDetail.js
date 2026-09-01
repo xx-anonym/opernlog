@@ -61,12 +61,19 @@ export function OperaDetailPage(operaId) {
               ? icon('star', { filled: true }) + ' Auf der Wunschliste'
               : icon('star') + ' Auf die Wunschliste'}
           </button>
-          <button id="seenToggle" class="btn ${store.isSeenOpera(opera.id) ? 'btn--seen-active' : 'btn--outline'}"
-            title="Für Werke, die du vor OpernLog gesehen hast – ohne Datum, Haus und Bewertung">
-            ${store.isSeenOpera(opera.id)
-              ? icon('checkCircle', { filled: false }) + ' Schon gesehen'
-              : icon('check') + ' Schon gesehen'}
-          </button>
+          ${store.hasLoggedOpera(opera.id) ? `
+            <span class="btn btn--seen-static"
+              title="Ergibt sich aus deinem geloggten Besuch – dafür braucht es keine Markierung">
+              ${icon('checkCircle')} Gesehen · geloggt
+            </span>
+          ` : `
+            <button id="seenToggle" class="btn ${store.isSeenOpera(opera.id) ? 'btn--seen-active' : 'btn--outline'}"
+              title="Für Werke, die du vor OpernLog gesehen hast – ohne Datum, Haus und Bewertung">
+              ${store.isSeenOpera(opera.id)
+                ? icon('checkCircle') + ' Schon gesehen'
+                : icon('check') + ' Schon gesehen'}
+            </button>
+          `}
         </div>
       </div>
       
@@ -187,6 +194,10 @@ export function OperaDetailPage(operaId) {
   // "Schon gesehen" – für Werke von früher, ohne Besuchseintrag. Bewusst
   // neben dem Loggen und nicht statt dessen: wer Datum, Haus und Bewertung
   // weiß, soll den Abend loggen, nicht bloß ein Häkchen setzen.
+  //
+  // Bei einem geloggten Werk steht hier statt des Knopfes eine feste Angabe:
+  // gesehen ist es dann ohnehin, und umschalten ließe sich daran nichts, ohne
+  // den Besuch zu löschen. Deshalb kann seenBtn fehlen.
   const seenBtn = page.querySelector('#seenToggle');
   if (seenBtn) {
     seenBtn.addEventListener('click', async () => {

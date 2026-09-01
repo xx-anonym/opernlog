@@ -680,8 +680,23 @@ class Store {
         return this.data.seenOperas || [];
     }
 
+    /**
+     * Nur die ausdrückliche Markierung. Zum Umschalten des Knopfes.
+     */
     isSeenOpera(operaId) {
         return this.getSeenOperas().includes(operaId);
+    }
+
+    /**
+     * Gibt es zu diesem Werk einen eigenen geloggten Besuch?
+     *
+     * Ein geloggter Besuch erzeugt bewusst KEINE Zeile in seen_operas: das
+     * wäre derselbe Sachverhalt an zwei Stellen, und nach dem Löschen des
+     * Besuchs bliebe eine Markierung stehen, die niemand gesetzt hat. Die
+     * Werkseite führt beides stattdessen bei der Anzeige zusammen.
+     */
+    hasLoggedOpera(operaId) {
+        return (this.data.myVisits || []).some(v => v.operaId === operaId);
     }
 
     async markSeenOpera(operaId) {
