@@ -75,7 +75,12 @@ CREATE TABLE IF NOT EXISTS invites (
 );
 
 ALTER TABLE invites ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Invites sind öffentlich lesbar" ON invites FOR SELECT USING (true);
+-- Ausdrücklich nicht öffentlich lesbar: der anon-Schlüssel steht in jedem
+-- ausgelieferten Bundle, und wer die Codes lesen kann, kann sich über
+-- accept_invite() zum Kontakt jedes Nutzers machen. Die Anwendung legt
+-- Einladungen nur an; gelesen werden sie von accept_invite() selbst, das als
+-- SECURITY DEFINER mit Besitzerrechten läuft.
+CREATE POLICY "User sieht eigene Invites" ON invites FOR SELECT USING (auth.uid() = created_by);
 CREATE POLICY "User kann Invites erstellen" ON invites FOR INSERT WITH CHECK (auth.uid() = created_by);
 
 -- RPC Function for accepting invites securely (mutual follow)

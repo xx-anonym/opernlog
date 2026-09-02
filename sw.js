@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v69';
+const CACHE_NAME = 'opernlog-v70';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
@@ -16,6 +16,17 @@ const IMAGE_HOSTS = ['upload.wikimedia.org'];
 const IMAGE_CACHE_LIMIT = 220;
 
 // App shell files to cache for offline use
+//
+// Diese Liste schreibt auf, was ohnehin schon im Verzeichnis steht – und genau
+// solche Doppelungen gehen auseinander: Icon.js und Toast.js haben monatelang
+// gefehlt. Wer sie einmal online geladen hatte, merkte nichts, weil der
+// fetch-Handler unten nachträglich zwischenspeichert; wer die App installierte
+// und beim ersten Start offline war, bekam einen fehlgeschlagenen Import und
+// damit eine leere Seite.
+//
+// Deshalb prüft tests/checks/appShell.test.js die Liste gegen den Dateibaum.
+// Neue Datei unter src/ angelegt? Dann schlägt der Test fehl, bis sie hier
+// steht.
 const APP_SHELL = [
     './',
     './index.html',
@@ -44,9 +55,11 @@ const APP_SHELL = [
     './src/components/ReviewCard.js',
     './src/components/BlindSpots.js',
     './src/components/HouseMap.js',
+    './src/components/Icon.js',
     './src/components/ListModal.js',
     './src/components/RatingsHistogram.js',
     './src/components/StarRating.js',
+    './src/components/Toast.js',
     './src/store/store.js',
     './src/store/supabase.js',
     './src/data/operaHouses.js',

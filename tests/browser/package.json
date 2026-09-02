@@ -1,0 +1,9 @@
+{
+  "name": "opernlog-browsertests",
+  "private": true,
+  "type": "module",
+  "description": "Playwright nur für die Browser-Tests. Bewusst hier und nicht im Wurzelverzeichnis: eine package.json neben der index.html würde Vercel dazu bringen, das Projekt als Node-Anwendung zu behandeln statt als statische Seite.",
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

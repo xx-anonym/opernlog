@@ -1,0 +1,63 @@
+name: Tests
+
+# Läuft bei jedem Push und bei jedem Pull Request. Die Sammlung hat einen
+# konkreten Anlass: mehrere Fehler dieser App waren Wiedergänger – eine Zahl,
+# die nicht zur Liste darunter passte; ein Fenster, das hinter der Kopfzeile
+# lag; eine Datei, die im Offline-Cache fehlte. Geprüft wurde jedes Mal von
+# Hand, und beim nächsten Mal fiel es wieder niemandem auf.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Schnell und ohne Abhängigkeiten: Node bringt den Testläufer selbst mit.
+  # Läuft in unter einer Sekunde und deckt die Datenmodule und den Zustand des
+  # Projekts ab.
+  einheiten:
+    name: Module und Projektprüfungen
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Unit-Tests und Prüfungen
+        run: node --test "tests/unit/*.test.js" "tests/checks/*.test.js"
+
+  # Getrennter Auftrag: der Browser braucht gut eine Minute zum Einrichten,
+  # und ein Fehler in einem Datenmodul soll nicht erst danach sichtbar werden.
+  browser:
+    name: Oberfläche im Browser
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Die package.json liegt in tests/browser/, nicht im Wurzelverzeichnis –
+      # eine neben der index.html würde Vercel dazu bringen, das Projekt als
+      # Node-Anwendung zu behandeln statt als statische Seite.
+      - name: Playwright einrichten
+        working-directory: tests/browser
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      # Der Testlauf startet im Wurzelverzeichnis; umgebung.js sucht
+      # Playwright deshalb ausdrücklich in tests/browser/node_modules.
+      # NODE_PATH hülfe hier nicht – ESM-Importe beachten es nicht.
+      - name: Browser-Tests
+        run: node --test "tests/browser/*.test.js"
