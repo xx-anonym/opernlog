@@ -9,7 +9,9 @@ import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
-import { openSeenOperasModal } from '../components/SeenOperasModal.js';
+import { openListModal } from '../components/ListModal.js';
+import { seenOperaList } from '../data/seenOperas.js';
+import { visitedHouseList } from '../data/visitedHouses.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 
 function renderGroupedVisits(visitsArray, container) {
@@ -510,22 +512,26 @@ function renderLocalProfile(page, userId, isMe) {
     </div>
     
     <div class="profile-stats">
-      <div class="stat-card">
+      <a href="#/diary" class="stat-card stat-card--klickbar" title="Zum Tagebuch">
         <span class="stat-card__number">${stats?.totalVisits || 0}</span>
         <span class="stat-card__label">Besuche</span>
-      </div>
+        <span class="stat-card__hint">${icon('calendar')}</span>
+      </a>
       <div class="stat-card">
         <span class="stat-card__number">${stats?.avgRating || '0'}</span>
         <span class="stat-card__label">Ø Bewertung</span>
       </div>
-      <div class="stat-card">
+      <button type="button" class="stat-card stat-card--klickbar" id="visitedHousesCard"
+        title="Häuser, in denen du warst – anklicken für die Liste">
         <span class="stat-card__number">${stats?.uniqueHouses || 0}</span>
         <span class="stat-card__label">Häuser besucht</span>
-      </div>
+        <span class="stat-card__hint">${icon('list')}</span>
+      </button>
       <button type="button" class="stat-card stat-card--klickbar" id="seenOperasCard"
         title="Geloggte Werke und solche, die du als bereits gesehen markiert hast – anklicken für die Liste">
         <span class="stat-card__number">${stats?.uniqueOperas || 0}</span>
-        <span class="stat-card__label">Werke gesehen ${icon('list', { className: 'icon--meta' })}</span>
+        <span class="stat-card__label">Werke gesehen</span>
+        <span class="stat-card__hint">${icon('list')}</span>
       </button>
     </div>
     
@@ -657,11 +663,44 @@ function renderLocalProfile(page, userId, isMe) {
     });
   }
 
-  // Liste aller gesehenen Werke hinter der Kachel
+  // Listen hinter den Kacheln. Beide bauen ihre Zeilen aus denselben
+  // Funktionen, die auch die Zahlen darüber liefern – sonst könnte die Zahl
+  // acht sagen und die Liste sieben zeigen.
   const seenCard = page.querySelector('#seenOperasCard');
   if (seenCard) {
     seenCard.addEventListener('click', () => {
-      openSeenOperasModal(page, visits, store.getSeenOperas());
+      const werke = seenOperaList(visits, store.getSeenOperas());
+      openListModal(page, {
+        titel: 'Gesehene Werke',
+        symbol: 'music',
+        fussnote: '„markiert“ heißt: als gesehen vermerkt, aber ohne geloggten Abend.',
+        leerText: 'Noch kein Werk geloggt oder als gesehen markiert.',
+        zeilen: werke.map(e => ({
+          href: `#/opera/${encodeURIComponent(e.opera.id)}`,
+          titel: e.opera.title,
+          unterzeile: e.opera.composer,
+          rechts: e.abende ? `${e.abende} ${e.abende === 1 ? 'Abend' : 'Abende'}` : 'markiert',
+          betont: !e.abende,
+        })),
+      });
+    });
+  }
+
+  const housesCard = page.querySelector('#visitedHousesCard');
+  if (housesCard) {
+    housesCard.addEventListener('click', () => {
+      const haeuser = visitedHouseList(visits);
+      openListModal(page, {
+        titel: 'Besuchte Häuser',
+        symbol: 'building',
+        leerText: 'Noch kein Besuch geloggt.',
+        zeilen: haeuser.map(e => ({
+          href: `#/house/${encodeURIComponent(e.house.id)}`,
+          titel: e.house.name,
+          unterzeile: e.house.city,
+          rechts: `${e.besuche} ${e.besuche === 1 ? 'Abend' : 'Abende'}`,
+        })),
+      });
     });
   }
 

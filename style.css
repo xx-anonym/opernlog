@@ -4138,17 +4138,43 @@ body {
     color: var(--text);
 }
 
-/* ── Liste der gesehenen Werke ──────────────────────────────────────── */
+/* ── Listenfenster (gesehene Werke, besuchte Häuser) ──────────────────────────────────────── */
 
 /* Die Kachel ist jetzt ein Knopf. Ohne diese Zurücksetzung brächte sie die
    Standardgestaltung des Browsers mit und stünde schief neben den drei
    übrigen. */
+/* Die Kacheln sind jetzt teils Knopf, teils Verweis. Beide bringen eigene
+   Vorgaben des Browsers mit – Schrift, Farbe, Unterstreichung –, die hier
+   zurückgesetzt werden, damit sie neben der unveränderten Kachel nicht
+   auffallen. */
 .stat-card--klickbar {
     font: inherit;
+    color: inherit;
     text-align: center;
+    text-decoration: none;
+    display: block;
+    position: relative;
     cursor: pointer;
     width: 100%;
     transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+/* Der Hinweis, dass hier etwas passiert, sitzt in der Ecke und nicht in der
+   Beschriftung: dort brach er bei den längeren Wörtern in eine eigene Zeile
+   um und stand allein unter dem Text. */
+.stat-card__hint {
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    line-height: 1;
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+.stat-card--klickbar:hover .stat-card__hint {
+    opacity: 0.9;
 }
 
 .stat-card--klickbar:hover {
@@ -4156,7 +4182,7 @@ body {
     transform: translateY(-1px);
 }
 
-.seenlist {
+.listmodal {
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -4167,7 +4193,7 @@ body {
     min-height: 0;
 }
 
-.seenlist__row {
+.listmodal__row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -4178,28 +4204,28 @@ body {
     color: inherit;
 }
 
-.seenlist__row:hover {
+.listmodal__row:hover {
     background: var(--bg-tertiary);
 }
 
-.seenlist__work {
+.listmodal__main {
     display: flex;
     flex-direction: column;
     min-width: 0;
 }
 
-.seenlist__title {
+.listmodal__title {
     font-family: var(--font-display);
     font-size: 1rem;
     color: var(--text);
 }
 
-.seenlist__composer {
+.listmodal__sub {
     font-size: 0.78rem;
     color: var(--text-muted);
 }
 
-.seenlist__how {
+.listmodal__side {
     flex-shrink: 0;
     font-size: 0.78rem;
     color: var(--text-secondary);
@@ -4208,12 +4234,12 @@ body {
 
 /* Markierte Werke tragen dieselbe grüne Kennzeichnung wie auf der Werkseite,
    damit beide Zustände wiedererkennbar bleiben. */
-.seenlist__how--markiert {
+.listmodal__side--betont {
     color: var(--green);
     opacity: 0.85;
 }
 
-.seenlist__foot {
+.listmodal__foot {
     font-size: 0.76rem;
     color: var(--text-muted);
     margin-top: 12px;
