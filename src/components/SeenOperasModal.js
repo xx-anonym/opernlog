@@ -36,7 +36,7 @@ export function openSeenOperasModal(host, visits, seenIds = []) {
 
     modal.innerHTML = `
     <div class="modal__overlay"></div>
-    <div class="modal__content">
+    <div class="modal__content modal__content--liste">
       <h2 class="modal__title">${icon('music')}Gesehene Werke (${liste.length})</h2>
       ${liste.length ? `
         <div class="seenlist">${zeilen}</div>

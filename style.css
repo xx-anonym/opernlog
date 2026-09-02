@@ -1772,6 +1772,12 @@ h3 {
     align-items: center;
     justify-content: center;
     padding: 24px;
+    /* Wird der Inhalt höher als das Fenster, schiebt align-items: center ihn
+       zur Hälfte über den oberen Rand hinaus – Titel und Anfang sind dann
+       nicht mehr erreichbar. Mit scrollendem Behälter und margin: auto bleibt
+       ein kleines Fenster mittig und ein großes vollständig erreichbar. */
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .modal__overlay {
@@ -1788,15 +1794,49 @@ h3 {
     padding: 32px;
     max-width: 500px;
     width: 100%;
+    margin: auto;
+    /* vh meint auf dem iPhone die Höhe OHNE Browserleisten und ist damit
+       größer als das, was man sieht. dvh meint den sichtbaren Bereich; die
+       vh-Zeile bleibt als Rückfall für ältere Browser darüber stehen. */
     max-height: 80vh;
+    max-height: 85dvh;
     overflow-y: auto;
     border: 1px solid var(--border);
     box-shadow: var(--shadow);
 }
 
+/* Auf schmalen Geräten frisst der Innenabstand zu viel von der Breite. */
+@media (max-width: 520px) {
+    .modal {
+        padding: 16px;
+    }
+
+    .modal__content {
+        padding: 20px;
+    }
+}
+
 .modal__title {
     font-size: 22px;
     margin-bottom: 24px;
+}
+
+/* Fenster mit langer Liste: der Titel bleibt stehen, nur die Liste rollt.
+   Sonst scrollt die Überschrift als Erstes aus dem Bild – und dann weiß
+   niemand mehr, was er da vor sich hat. */
+.modal__content--liste {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal__content--liste .modal__title {
+    flex-shrink: 0;
+    margin-bottom: 16px;
+}
+
+.modal__content--liste .modal__actions {
+    flex-shrink: 0;
 }
 
 /* --- Selected Items --- */
@@ -4121,6 +4161,10 @@ body {
     flex-direction: column;
     gap: 2px;
     margin: 0 -8px;
+    /* Gerollt wird hier, nicht im ganzen Fenster – siehe
+       .modal__content--liste. */
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .seenlist__row {
@@ -4173,4 +4217,5 @@ body {
     font-size: 0.76rem;
     color: var(--text-muted);
     margin-top: 12px;
+    flex-shrink: 0;
 }
