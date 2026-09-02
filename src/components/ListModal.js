@@ -11,7 +11,11 @@ import { escapeHTML } from '../utils.js';
 import { icon } from './Icon.js';
 
 /**
- * @param {HTMLElement} host      Element, an das angehängt wird
+ * Hängt sich an document.body, nicht an die aufrufende Seite: ein
+ * position: fixed liegender Kasten hat in einem Vorfahren mit transform,
+ * filter oder will-change plötzlich einen anderen Bezugsrahmen und rutscht
+ * dann irgendwohin. Am body kann das nicht passieren.
+ *
  * @param {object}   o
  * @param {string}   o.titel      Überschrift ohne Anzahl – die kommt dazu
  * @param {string}   [o.symbol]   Icon-Name für die Überschrift
@@ -19,7 +23,7 @@ import { icon } from './Icon.js';
  * @param {string}   [o.fussnote] erklärender Satz unter der Liste
  * @param {string}   [o.leerText] was steht, wenn die Liste leer ist
  */
-export function openListModal(host, { titel, symbol, zeilen, fussnote, leerText }) {
+export function openListModal({ titel, symbol, zeilen, fussnote, leerText }) {
     const modal = document.createElement('div');
     modal.className = 'modal modal--active';
 
@@ -52,9 +56,10 @@ export function openListModal(host, { titel, symbol, zeilen, fussnote, leerText 
   `;
 
     function schliessen() {
-        // Der Zuhörer hängt am Dokument und muss mit dem Fenster verschwinden,
-        // sonst bleibt er bis zum nächsten Neuladen liegen.
+        // Die Zuhörer hängen am Dokument und am Fenster; beide müssen mit dem
+        // Kasten verschwinden, sonst bleiben sie bis zum Neuladen liegen.
         document.removeEventListener('keydown', aufTaste);
+        window.removeEventListener('hashchange', schliessen);
         modal.remove();
     }
 
@@ -68,7 +73,9 @@ export function openListModal(host, { titel, symbol, zeilen, fussnote, leerText 
     modal.querySelectorAll('.listmodal__row').forEach(a =>
         a.addEventListener('click', schliessen));
     document.addEventListener('keydown', aufTaste);
+    // Wer über die Navigation weggeht, soll das Fenster nicht mitschleppen.
+    window.addEventListener('hashchange', schliessen);
 
-    host.appendChild(modal);
+    document.body.appendChild(modal);
     return modal;
 }

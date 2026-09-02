@@ -670,7 +670,7 @@ function renderLocalProfile(page, userId, isMe) {
   if (seenCard) {
     seenCard.addEventListener('click', () => {
       const werke = seenOperaList(visits, store.getSeenOperas());
-      openListModal(page, {
+      openListModal({
         titel: 'Gesehene Werke',
         symbol: 'music',
         fussnote: '„markiert“ heißt: als gesehen vermerkt, aber ohne geloggten Abend.',
@@ -690,7 +690,7 @@ function renderLocalProfile(page, userId, isMe) {
   if (housesCard) {
     housesCard.addEventListener('click', () => {
       const haeuser = visitedHouseList(visits);
-      openListModal(page, {
+      openListModal({
         titel: 'Besuchte Häuser',
         symbol: 'building',
         leerText: 'Noch kein Besuch geloggt.',

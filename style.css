@@ -1795,20 +1795,38 @@ h3 {
     max-width: 500px;
     width: 100%;
     margin: auto;
-    /* vh meint auf dem iPhone die Höhe OHNE Browserleisten und ist damit
-       größer als das, was man sieht. dvh meint den sichtbaren Bereich; die
-       vh-Zeile bleibt als Rückfall für ältere Browser darüber stehen. */
+    /* Die Höhe bindet sich an den Behälter, nicht an das Sichtfeld: der
+       Behälter ist bereits das Sichtfeld minus Innenabstände – auf dem Handy
+       einschließlich des Platzes für die feste Kopfzeile. Damit passt das
+       Fenster immer genau in den Bereich, der wirklich frei ist. Die beiden
+       Zeilen darüber bleiben als Obergrenze und als Rückfall stehen; vh meint
+       auf dem iPhone die Höhe OHNE Browserleisten und ist größer als das
+       Sichtbare, dvh meint den sichtbaren Bereich. */
     max-height: 80vh;
     max-height: 85dvh;
+    max-height: 100%;
     overflow-y: auto;
     border: 1px solid var(--border);
     box-shadow: var(--shadow);
 }
 
 /* Auf schmalen Geräten frisst der Innenabstand zu viel von der Breite. */
+/* Unterhalb von 900px liegt die Navigation als feste Leiste am oberen Rand
+   (68px hoch). Ohne diesen Abstand schiebt sich ein hohes Fenster darunter und
+   seine Überschrift ist nicht mehr zu sehen – genau das ist auf dem iPhone
+   passiert. env(safe-area-inset-top) kommt für die Statusleiste dazu, wenn die
+   App vom Startbildschirm läuft. */
+@media (max-width: 900px) {
+    .modal {
+        padding-top: calc(80px + env(safe-area-inset-top, 0px));
+        padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
 @media (max-width: 520px) {
     .modal {
-        padding: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .modal__content {
