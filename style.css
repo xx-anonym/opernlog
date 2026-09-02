@@ -4097,3 +4097,80 @@ body {
     border-color: var(--gold-dark);
     color: var(--text);
 }
+
+/* ── Liste der gesehenen Werke ──────────────────────────────────────── */
+
+/* Die Kachel ist jetzt ein Knopf. Ohne diese Zurücksetzung brächte sie die
+   Standardgestaltung des Browsers mit und stünde schief neben den drei
+   übrigen. */
+.stat-card--klickbar {
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.stat-card--klickbar:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-1px);
+}
+
+.seenlist {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0 -8px;
+}
+
+.seenlist__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.seenlist__row:hover {
+    background: var(--bg-tertiary);
+}
+
+.seenlist__work {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.seenlist__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.seenlist__composer {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.seenlist__how {
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* Markierte Werke tragen dieselbe grüne Kennzeichnung wie auf der Werkseite,
+   damit beide Zustände wiedererkennbar bleiben. */
+.seenlist__how--markiert {
+    color: var(--green);
+    opacity: 0.85;
+}
+
+.seenlist__foot {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+}

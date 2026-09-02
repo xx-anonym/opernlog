@@ -1,6 +1,7 @@
 // Store – Hybrid: Supabase (Cloud) + localStorage (Offline-Fallback)
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
+import { seenOperaList } from '../data/seenOperas.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from './supabase.js';
 
@@ -751,7 +752,9 @@ class Store {
         // geraten.
         const eigenesProfil = userId === 'user-me' || userId === this._profile?.id;
         const markiert = eigenesProfil ? this.getSeenOperas() : [];
-        const werkeGesehen = new Set([...visits.map(v => v.operaId), ...markiert]).size;
+        // Dieselbe Funktion, die auch die Liste hinter der Kachel füllt – sonst
+        // könnte die Zahl acht sagen und die Liste sieben zeigen.
+        const werkeGesehen = seenOperaList(visits, markiert).length;
 
         if (visits.length === 0) {
             return {

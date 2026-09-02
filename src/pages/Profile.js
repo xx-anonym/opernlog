@@ -9,6 +9,7 @@ import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
+import { openSeenOperasModal } from '../components/SeenOperasModal.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 
 function renderGroupedVisits(visitsArray, container) {
@@ -521,10 +522,11 @@ function renderLocalProfile(page, userId, isMe) {
         <span class="stat-card__number">${stats?.uniqueHouses || 0}</span>
         <span class="stat-card__label">Häuser besucht</span>
       </div>
-      <div class="stat-card" title="Geloggte Werke und solche, die du als bereits gesehen markiert hast">
+      <button type="button" class="stat-card stat-card--klickbar" id="seenOperasCard"
+        title="Geloggte Werke und solche, die du als bereits gesehen markiert hast – anklicken für die Liste">
         <span class="stat-card__number">${stats?.uniqueOperas || 0}</span>
-        <span class="stat-card__label">Werke gesehen</span>
-      </div>
+        <span class="stat-card__label">Werke gesehen ${icon('list', { className: 'icon--meta' })}</span>
+      </button>
     </div>
     
     <div id="profileHistogram" class="profile-histogram"></div>
@@ -652,6 +654,14 @@ function renderLocalProfile(page, userId, isMe) {
       const nowFollowing = store.isFollowing(userId);
       followBtn.textContent = nowFollowing ? '✓ Folgst du' : '+ Folgen';
       followBtn.className = `btn ${nowFollowing ? 'btn--outline' : 'btn--primary'} btn--sm`;
+    });
+  }
+
+  // Liste aller gesehenen Werke hinter der Kachel
+  const seenCard = page.querySelector('#seenOperasCard');
+  if (seenCard) {
+    seenCard.addEventListener('click', () => {
+      openSeenOperasModal(page, visits, store.getSeenOperas());
     });
   }
 
