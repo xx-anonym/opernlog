@@ -1,25 +1,4 @@
 [
-  { "id": "wiener-staatsoper",        "begriffe": ["Wiener Staatsoper Gebäude", "Vienna State Opera house exterior"] },
-  { "id": "volksoper-wien",           "begriffe": ["Volksoper Wien", "Volksoper Vienna building"] },
-  { "id": "theater-an-der-wien",      "begriffe": ["Theater an der Wien", "Theater an der Wien Fassade"] },
-  { "id": "wiener-kammeroper",        "begriffe": ["Wiener Kammeroper", "Kammeroper Fleischmarkt Wien"] },
-  { "id": "schlosstheater-schoenbrunn", "begriffe": ["Schlosstheater Schönbrunn", "Schoenbrunn Palace Theatre"] },
-  { "id": "buehne-baden",             "begriffe": ["Stadttheater Baden bei Wien", "Buehne Baden Theater"] },
-  { "id": "oper-klosterneuburg",      "begriffe": ["Stift Klosterneuburg Kaiserhof", "Oper Klosterneuburg"] },
-  { "id": "oper-burg-gars",           "begriffe": ["Burgruine Gars am Kamp", "Oper Burg Gars"] },
-  { "id": "musiktheater-linz",        "begriffe": ["Musiktheater Linz", "Landestheater Linz Musiktheater Volksgarten"] },
-  { "id": "lehar-festival-bad-ischl", "begriffe": ["Kongress und TheaterHaus Bad Ischl", "Lehar Festival Bad Ischl Theater"] },
-  { "id": "grosses-festspielhaus",    "begriffe": ["Großes Festspielhaus Salzburg", "Grosses Festspielhaus Salzburg Hofstallgasse"] },
-  { "id": "haus-fuer-mozart",         "begriffe": ["Haus für Mozart Salzburg", "Haus fuer Mozart Festspiele"] },
-  { "id": "felsenreitschule",         "begriffe": ["Felsenreitschule Salzburg", "Felsenreitschule Innenraum"] },
-  { "id": "salzburger-landestheater", "begriffe": ["Salzburger Landestheater", "Landestheater Salzburg Gebäude"] },
-  { "id": "tiroler-landestheater",    "begriffe": ["Tiroler Landestheater Innsbruck", "Landestheater Innsbruck Rennweg"] },
-  { "id": "festspielhaus-erl",        "begriffe": ["Festspielhaus Erl", "Tiroler Festspiele Erl Festspielhaus"] },
-  { "id": "passionsspielhaus-erl",    "begriffe": ["Passionsspielhaus Erl", "Erl Tirol Passionsspielhaus"] },
-  { "id": "festspielhaus-bregenz",    "begriffe": ["Festspielhaus Bregenz", "Bregenzer Festspiele Festspielhaus"] },
-  { "id": "seebuehne-bregenz",        "begriffe": ["Seebühne Bregenz", "Bregenz Seebuehne Bodensee Bühnenbild"] },
-  { "id": "oper-graz",                "begriffe": ["Opernhaus Graz", "Oper Graz Gebäude"] },
-  { "id": "stadttheater-klagenfurt",  "begriffe": ["Stadttheater Klagenfurt", "Klagenfurt Theaterplatz Stadttheater"] },
-  { "id": "seefestspiele-moerbisch",  "begriffe": ["Seefestspiele Mörbisch Seebühne", "Moerbisch am See Seebuehne"] },
-  { "id": "oper-im-steinbruch-st-margarethen", "begriffe": ["Römersteinbruch St. Margarethen Oper", "Roemersteinbruch St Margarethen Burgenland"] }
+  { "id": "theater-an-der-wien", "begriffe": ["Theater an der Wien Papagenotor", "Theater an der Wien Linke Wienzeile", "Theater an der Wien exterior"] },
+  { "id": "wiener-staatsoper",   "begriffe": ["Wiener Staatsoper Opernring Ansicht", "Vienna State Opera Ringstrasse"] }
 ]
