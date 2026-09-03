@@ -14,7 +14,11 @@
 // selben Bau die Rede ist: bei einem Mehrspartenhaus meint eine Zahl mal das
 // Große Haus, mal das ganze Theater.
 //
-// Aufruf:  node tests/werkzeug/daten-pruefen.mjs [Land]
+// Aufruf:  node tests/werkzeug/daten-pruefen.mjs [Land] [--text id,id,…]
+//
+// Mit --text kommt zusätzlich der Anfang des deutschen Wikipedia-Artikels –
+// für die Fälle, in denen Wikidata und Katalog auseinandergehen und im
+// Fließtext steht, welche Zahl was meint.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -22,7 +26,10 @@ import { fileURLToPath } from 'node:url';
 import { holen } from './commons.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const nurLand = process.argv[2] || null;
+const nurLand = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : null;
+const textFuer = new Set(
+    (process.argv.find(a => a.startsWith('--text='))?.split('=')[1] || '').split(',').filter(Boolean)
+);
 
 const { operaHouses } = await import(path.join(WURZEL, 'src/data/operaHouses.js'));
 const haeuser = operaHouses.filter(h => !nurLand || h.state === nurLand);
@@ -96,6 +103,23 @@ for (const h of haeuser) {
             plaetze: plaetzeWeicht ? { katalog: h.capacity, wikidata: plaetze } : null,
             gruendung: gruendungWeicht ? { katalog: h.founded, wikidata: [...new Set(gruendung)] } : null,
         });
+    }
+}
+
+// Fließtext zu den strittigen Fällen. Wikidata nennt eine Zahl ohne zu sagen,
+// ob sie Sitzplätze, Stehplätze oder beides meint – der Artikel sagt es meist.
+if (textFuer.size) {
+    console.log('\n\n### Artikelanfänge\n');
+    for (const h of haeuser.filter(x => textFuer.has(x.id))) {
+        const titel = TITEL[h.id] || h.name;
+        const url = 'https://de.wikipedia.org/w/api.php?action=query&format=json'
+            + '&prop=extracts&exintro=1&explaintext=1&redirects=1'
+            + '&titles=' + encodeURIComponent(titel);
+        const daten = await json(url);
+        const seite = Object.values(daten?.query?.pages || {})[0];
+        console.log(`--- ${h.id}  ("${titel}")`);
+        console.log((seite?.extract || '(kein Artikel)').replace(/\n+/g, ' ').slice(0, 900));
+        console.log();
     }
 }
 
