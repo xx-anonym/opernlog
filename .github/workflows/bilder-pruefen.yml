@@ -23,6 +23,10 @@ on:
         description: 'nur für daten: alle, Deutschland, Österreich, Schweiz'
         type: string
         default: alle
+      extra:
+        description: 'nur für daten: zusätzliche Argumente, etwa --wikitext oder --voll=id,id'
+        type: string
+        default: ''
   # Bei Änderungen am Katalog sofort: dort entstehen die Adressen.
   push:
     paths:
@@ -60,4 +64,4 @@ jobs:
       # Haus, mal das ganze Theater.
       - name: Plätze und Gründungsjahre gegen Wikidata halten
         if: inputs.modus == 'daten'
-        run: node tests/werkzeug/daten-pruefen.mjs ${{ inputs.land || 'alle' }}
+        run: node tests/werkzeug/daten-pruefen.mjs ${{ inputs.land || 'alle' }} ${{ inputs.extra }}
