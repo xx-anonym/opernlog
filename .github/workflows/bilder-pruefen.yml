@@ -58,4 +58,4 @@ jobs:
         if: inputs.modus == 'daten'
         run: |
           node tests/werkzeug/daten-pruefen.mjs Österreich \
-            --text=volksoper-wien,wiener-kammeroper,oper-burg-gars,festspielhaus-erl,oper-graz,oper-klosterneuburg,passionsspielhaus-erl,seebuehne-bregenz,seefestspiele-moerbisch,lehar-festival-bad-ischl,tiroler-landestheater,felsenreitschule
+            --wikitext

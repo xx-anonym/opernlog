@@ -123,6 +123,28 @@ if (textFuer.size) {
     }
 }
 
+// Der Rohtext des Artikels. Die Infobox nennt die Platzzahl oft genauer als
+// Wikidata – und der Fließtext sagt dazu, was sie meint: Sitzplätze, Stehplätze
+// oder das ganze Haus mit allen Spielstätten.
+if (process.argv.includes('--wikitext')) {
+    console.log('\n\n### Zeilen mit Platzangaben\n');
+    for (const h of haeuser) {
+        const titel = TITEL[h.id] || h.name;
+        const url = 'https://de.wikipedia.org/w/api.php?action=parse&format=json'
+            + '&prop=wikitext&redirects=1&page=' + encodeURIComponent(titel);
+        const daten = await json(url);
+        const roh = daten?.parse?.wikitext?.['*'] || '';
+        const treffer = roh.split('\n')
+            .filter(z => /(Sitz)?[Pp]lätze|Zuschauer|Kapazit|Fassungsverm|Eröffn|gegründet|erbaut/.test(z))
+            .map(z => z.trim().replace(/<ref[^>]*>.*?<\/ref>/g, '').replace(/\s+/g, ' '))
+            .filter(z => z.length > 3 && z.length < 220)
+            .slice(0, 6);
+        console.log(`--- ${h.id}  (Katalog: ${h.capacity} Plätze, ${h.founded})`);
+        console.log(treffer.length ? treffer.map(z => '    ' + z).join('\n') : '    (nichts gefunden)');
+        console.log();
+    }
+}
+
 console.log('\n\n### Abweichungen\n');
 if (!abweichungen.length) console.log('keine');
 for (const a of abweichungen) console.log(JSON.stringify(a));
