@@ -57,7 +57,10 @@ export function HousesPage() {
   page.querySelector('#houseMapSlot').appendChild(HouseMap(besuchteHaeuser));
 
   // State filter chips
-  const states = [...new Set(operaHouses.map(h => h.state))].sort();
+  // Nach deutscher Sortierung: die Vorgabe von sort() vergleicht Zeichencodes
+  // und stellte "Österreich" hinter "Thüringen".
+  const states = [...new Set(operaHouses.map(h => h.state))]
+      .sort((a, b) => a.localeCompare(b, 'de'));
   const stateFilter = page.querySelector('#stateFilter');
   let activeState = savedState || null;
 

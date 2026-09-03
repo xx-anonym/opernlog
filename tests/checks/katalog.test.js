@@ -46,6 +46,47 @@ test('die Koordinaten liegen im deutschsprachigen Raum', () => {
     }
 });
 
+test('jedes Haus liegt in dem Land, das an ihm steht', () => {
+    // Grobe Umrisse der drei Länder. Sie fangen, was eine allgemeine
+    // Bereichsprüfung durchlässt: vertauschte lat/lon, ein verrutschtes
+    // Komma, eine aus der falschen Zeile kopierte Koordinate. Ein Haus in
+    // Bregenz mit Wiener Koordinaten sähe sonst niemand – außer dem Nutzer,
+    // dem beim Loggen das falsche Haus vorgeschlagen wird.
+    const KASTEN = {
+        'Österreich': { lat: [46.3, 49.1], lon: [9.4, 17.2] },
+        'Schweiz': { lat: [45.8, 47.9], lon: [5.9, 10.6] },
+    };
+    // Alles Übrige ist Deutschland – dort steht im Feld das Bundesland.
+    const DEUTSCHLAND = { lat: [47.2, 55.1], lon: [5.8, 15.1] };
+
+    for (const h of operaHouses) {
+        const k = KASTEN[h.state] || DEUTSCHLAND;
+        const land = KASTEN[h.state] ? h.state : 'Deutschland';
+        assert.ok(h.lat >= k.lat[0] && h.lat <= k.lat[1],
+            `${h.id}: Breite ${h.lat} liegt nicht in ${land}`);
+        assert.ok(h.lon >= k.lon[0] && h.lon <= k.lon[1],
+            `${h.id}: Länge ${h.lon} liegt nicht in ${land}`);
+    }
+});
+
+test('alle drei Länder sind vertreten', () => {
+    const laender = new Set(operaHouses.map(h => h.state));
+    assert.ok(laender.has('Österreich'), 'Österreich fehlt');
+    assert.ok(laender.has('Schweiz'), 'Schweiz fehlt');
+    assert.ok(laender.size > 10, 'die deutschen Bundesländer fehlen');
+});
+
+test('die österreichischen Häuser sind vollständig eingetragen', () => {
+    const at = operaHouses.filter(h => h.state === 'Österreich');
+    assert.ok(at.length >= 20, `nur ${at.length} österreichische Häuser`);
+    // Die Salzburger Festspielhäuser liegen keine hundert Meter auseinander;
+    // wenn die Vorauswahl beim Loggen sie unterscheiden soll, müssen es
+    // wirklich drei verschiedene Punkte sein.
+    const salzburg = at.filter(h => h.city === 'Salzburg');
+    assert.equal(salzburg.length, 4);
+    assert.equal(new Set(salzburg.map(h => `${h.lat},${h.lon}`)).size, 4);
+});
+
 test('keine zwei Häuser stehen auf demselben Punkt', () => {
     // Städte mit mehreren Häusern gibt es reichlich; identische Koordinaten
     // wären ein kopierter Eintrag, und die Vorauswahl beim Loggen träfe dann
