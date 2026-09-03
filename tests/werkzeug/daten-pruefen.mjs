@@ -54,15 +54,30 @@ async function json(url) {
     return await antwort.json();
 }
 
-/** Wikidata-Objekt über den Titel des deutschen Wikipedia-Artikels. */
+/**
+ * Wikidata-Objekt über den Titel des deutschen Wikipedia-Artikels.
+ *
+ * Der Umweg über die Wikipedia-Seite statt direkt über wbgetentities mit
+ * sites/titles: Letzteres folgt keinen Weiterleitungen. "Bayreuther
+ * Festspielhaus" oder "Oper Halle" sind aber genau das, und der Lauf meldete
+ * sie deshalb als nicht vorhanden. Die Seitenabfrage löst die Weiterleitung
+ * auf und gibt die Wikidata-Kennung gleich mit.
+ */
 async function ueberArtikel(titel) {
-    const url = 'https://www.wikidata.org/w/api.php?action=wbgetentities&format=json'
-        + '&sites=dewiki&titles=' + encodeURIComponent(titel)
-        + '&props=claims|labels|descriptions&languages=de';
-    const daten = await json(url);
+    const seite = await json('https://de.wikipedia.org/w/api.php?action=query&format=json'
+        + '&redirects=1&prop=pageprops&ppprop=wikibase_item'
+        + '&titles=' + encodeURIComponent(titel));
+    if (seite.fehler) return seite;
+
+    const treffer = Object.values(seite?.query?.pages || {})[0];
+    const kennung = treffer?.pageprops?.wikibase_item;
+    if (!kennung) return null;
+
+    const daten = await json('https://www.wikidata.org/w/api.php?action=wbgetentities&format=json'
+        + '&ids=' + kennung + '&props=claims|labels|descriptions&languages=de');
     if (daten.fehler) return daten;
-    const treffer = Object.values(daten?.entities || {}).filter(e => e.id && !e.missing);
-    return treffer[0] || null;
+    const objekt = daten?.entities?.[kennung];
+    return objekt && !objekt.missing ? { ...objekt, artikel: treffer.title } : null;
 }
 
 const jahr = (anspruch) => {
@@ -100,7 +115,8 @@ for (const h of haeuser) {
 
     console.log(`${h.name.padEnd(34)}${String(h.capacity).padStart(6)} / ${pTxt.padEnd(15)}`
         + `${String(h.founded).padStart(8)} / ${gTxt}`);
-    if (beschreibung) console.log(`${''.padEnd(34)}(${beschreibung})`);
+    const wohin = eintrag.artikel && eintrag.artikel !== titel ? `  [${titel} -> ${eintrag.artikel}]` : '';
+    if (beschreibung || wohin) console.log(`${''.padEnd(34)}(${beschreibung})${wohin}`);
 
     // Abweichung nur melden, wenn Wikidata überhaupt etwas dazu sagt.
     const plaetzeWeicht = plaetze.length && !plaetze.some(p => Math.abs(p - h.capacity) <= Math.max(20, h.capacity * 0.03));
