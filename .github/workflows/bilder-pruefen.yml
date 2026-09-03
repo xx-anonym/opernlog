@@ -1,0 +1,38 @@
+name: Bilder prüfen
+
+# Die Bilder des Katalogs liegen bei Wikimedia. Sie können dort umbenannt oder
+# gelöscht werden, ohne dass hier jemand etwas davon merkt – im Katalog steht
+# dann eine tote Adresse, und in der App bleibt die Kachel beim farbigen
+# Verlauf. Das fällt niemandem auf, weil es nicht kaputt aussieht.
+#
+# Deshalb eine eigene Prüfung. Nicht bei jedem Push: sie schickt 175 Anfragen
+# nach außen und sagt nichts über den Code aus, der gerade geändert wurde.
+# Einmal in der Woche reicht, und bei Bedarf von Hand.
+
+on:
+  schedule:
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+  # Bei Änderungen am Katalog sofort: dort entstehen die Adressen.
+  push:
+    paths:
+      - 'src/data/operas.js'
+      - 'src/data/operaHouses.js'
+      - 'tests/werkzeug/bilder-pruefen.mjs'
+
+jobs:
+  bilder:
+    name: Bildadressen im Katalog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Jede Adresse einmal anfragen
+        run: node tests/werkzeug/bilder-pruefen.mjs
