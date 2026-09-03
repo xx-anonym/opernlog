@@ -1,4 +1,4 @@
-// Der Katalog ist von Hand gepflegt: 69 Häuser, gut 90 Werke, jedes mit Bild
+// Der Katalog ist von Hand gepflegt: über 90 Häuser, gut 100 Werke, jedes mit Bild
 // und Koordinaten. Ein Tippfehler in einer Id fällt beim Lesen nicht auf, in
 // der App aber sehr wohl – ein Besuch zeigt dann ein leeres Haus.
 

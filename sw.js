@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v73';
+const CACHE_NAME = 'opernlog-v74';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
@@ -13,7 +13,7 @@ const IMAGE_HOSTS = ['upload.wikimedia.org'];
 // Obergrenze, damit der Cache nicht unbegrenzt wächst. Bilder von fremden
 // Hosts kommen als opaque Responses und zählen beim Speicherkontingent
 // großzügig gepolstert – deshalb eher knapp bemessen.
-const IMAGE_CACHE_LIMIT = 220;
+const IMAGE_CACHE_LIMIT = 260;
 
 // App shell files to cache for offline use
 //

@@ -6,9 +6,10 @@
 //
 // Bewusst ohne Landesumriss: einen halbwegs richtigen Umriss von Deutschland
 // und der Schweiz gäbe es nur mit Geodaten von außen, und ein aus dem
-// Gedächtnis gezeichneter sähe falsch aus – schlimmer als gar keiner. Die 69
+// Gedächtnis gezeichneter sähe falsch aus – schlimmer als gar keiner. Die
 // Häuser zeichnen die Form ohnehin selbst: Ruhrgebiet, Berlin, München,
-// Hamburg und die Schweizer Reihe am unteren Rand sind sofort erkennbar.
+// Hamburg, die Schweizer Reihe am unteren Rand und seit Österreich der Zug
+// nach Osten bis zum Neusiedler See sind sofort erkennbar.
 
 import { operaHouses } from '../data/operaHouses.js';
 import { escapeHTML } from '../utils.js';
@@ -81,7 +82,7 @@ export function HouseMap(besuchteIds = []) {
     const caption = box.querySelector('#housemapCaption');
     const standard = caption.textContent.trim();
 
-    // Beschriftungen direkt an den Punkten wären bei 69 Häusern ein Knäuel –
+    // Beschriftungen direkt an den Punkten wären bei über 90 Häusern ein Knäuel –
     // allein in Berlin liegen drei fast übereinander. Deshalb eine Zeile
     // darunter, die zeigt, worüber man gerade ist.
     box.addEventListener('pointerover', (e) => {
