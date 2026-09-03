@@ -13,6 +13,12 @@ on:
   schedule:
     - cron: '23 5 * * 1'
   workflow_dispatch:
+    inputs:
+      modus:
+        description: 'pruefen = Adressen im Katalog testen, suche = Bilder für neue Einträge finden'
+        type: choice
+        options: [pruefen, suche]
+        default: pruefen
   # Bei Änderungen am Katalog sofort: dort entstehen die Adressen.
   push:
     paths:
@@ -30,9 +36,16 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       - name: Jede Adresse einmal anfragen
+        if: inputs.modus != 'suche'
         run: node tests/werkzeug/bilder-pruefen.mjs
+
+      # Für neue Katalogeinträge: Dateinamen lassen sich nicht raten, die
+      # Adresse dahinter dann aber berechnen. Siehe tests/werkzeug/commons.mjs.
+      - name: Bilder für neue Einträge suchen
+        if: inputs.modus == 'suche'
+        run: node tests/werkzeug/commons-suche.mjs tests/werkzeug/suche.json
