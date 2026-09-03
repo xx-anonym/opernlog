@@ -19,6 +19,10 @@ on:
         type: choice
         options: [pruefen, suche, daten]
         default: pruefen
+      land:
+        description: 'nur für daten: alle, Deutschland, Österreich, Schweiz'
+        type: string
+        default: alle
   # Bei Änderungen am Katalog sofort: dort entstehen die Adressen.
   push:
     paths:
@@ -56,4 +60,4 @@ jobs:
       # Haus, mal das ganze Theater.
       - name: Plätze und Gründungsjahre gegen Wikidata halten
         if: inputs.modus == 'daten'
-        run: node tests/werkzeug/daten-pruefen.mjs Österreich --wikitext
+        run: node tests/werkzeug/daten-pruefen.mjs ${{ inputs.land || 'alle' }}

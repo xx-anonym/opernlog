@@ -32,7 +32,15 @@ const textFuer = new Set(
 );
 
 const { operaHouses } = await import(path.join(WURZEL, 'src/data/operaHouses.js'));
-const haeuser = operaHouses.filter(h => !nurLand || h.state === nurLand);
+
+// "Deutschland" ist kein Wert im Feld state – dort steht das Bundesland.
+// Gemeint ist alles, was weder Österreich noch Schweiz ist.
+const AUSLAND = ['Österreich', 'Schweiz'];
+const haeuser = operaHouses.filter(h => {
+    if (!nurLand || nurLand === 'alle') return true;
+    if (nurLand === 'Deutschland') return !AUSLAND.includes(h.state);
+    return h.state === nurLand;
+});
 
 // Artikeltitel, wo er vom Hausnamen abweicht. Ein falscher Titel liefert
 // nichts – das ist ein deutliches Zeichen und besser als ein falscher Treffer.
