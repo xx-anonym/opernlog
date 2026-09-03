@@ -1,4 +1,4 @@
-name: Bilder prüfen
+name: Katalog prüfen
 
 # Die Bilder des Katalogs liegen bei Wikimedia. Sie können dort umbenannt oder
 # gelöscht werden, ohne dass hier jemand etwas davon merkt – im Katalog steht
@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       modus:
-        description: 'pruefen = Adressen im Katalog testen, suche = Bilder für neue Einträge finden'
+        description: 'pruefen = Bildadressen testen, suche = Bilder finden, daten = Plätze und Gründungsjahre gegen Wikidata halten'
         type: choice
-        options: [pruefen, suche]
+        options: [pruefen, suche, daten]
         default: pruefen
   # Bei Änderungen am Katalog sofort: dort entstehen die Adressen.
   push:
@@ -28,7 +28,7 @@ on:
 
 jobs:
   bilder:
-    name: Bildadressen im Katalog
+    name: Katalogdaten von außen
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -49,3 +49,11 @@ jobs:
       - name: Bilder für neue Einträge suchen
         if: inputs.modus == 'suche'
         run: node tests/werkzeug/commons-suche.mjs tests/werkzeug/suche.json
+
+      # Sitzplatzzahl und Gründungsjahr stehen im Katalog von Hand. Wikidata
+      # führt beides strukturiert – der Abgleich stellt gegenüber, entscheidet
+      # aber nichts: bei einem Mehrspartenhaus meint eine Zahl mal das Große
+      # Haus, mal das ganze Theater.
+      - name: Plätze und Gründungsjahre gegen Wikidata halten
+        if: inputs.modus == 'daten'
+        run: node tests/werkzeug/daten-pruefen.mjs Österreich
