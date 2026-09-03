@@ -30,6 +30,10 @@ class App {
         }
         this.root = document.getElementById('app');
         this._splashStart = Date.now();
+        // Scrollposition je Route, damit die Rückkehr zu einer Liste dort
+        // landet, wo man sie verlassen hat.
+        this._positionen = new Map();
+        this._aktuellerHash = null;
         this.init();
     }
 
@@ -61,27 +65,89 @@ class App {
         // Set a maximum splash timeout (4s) so users aren't stuck on slow connections
         const splashTimeout = setTimeout(() => this.dismissSplash(), 4000);
 
+        // Der Start wartet höchstens so lange auf die Cloud. Danach wird die
+        // Oberfläche aus dem gebaut, was lokal liegt – Katalog, eigenes
+        // Tagebuch, eigenes Profil sind vollständig da und brauchen kein Netz.
+        //
+        // Vorher wurde der Abgleich abgewartet, bevor überhaupt etwas
+        // gezeichnet wurde. Ohne Netz laufen dabei mehrere Abfragen samt
+        // Wiederholungen ins Leere; der Vorhang ging nach vier Sekunden auf
+        // und dahinter war noch nichts. Das war der graue Bildschirm.
+        const GEDULD = 3000;
+        let cloudFertig = false;
+
+        const cloud = this.initCloudOrCarryOn()
+            .then(() => { cloudFertig = true; })
+            .catch(e => {
+                cloudFertig = true;
+                console.error('[App] Start ohne Cloud – weiter mit lokalen Daten', e);
+                store.syncError = e;
+            });
+
+        await Promise.race([cloud, new Promise(r => setTimeout(r, GEDULD))]);
+
+        clearTimeout(splashTimeout);
+
+        // Anmeldung oder Profileinrichtung haben die Oberfläche schon selbst
+        // übernommen – hier ist nichts mehr zu bauen.
+        if (this._startAbgeschlossen) {
+            this.dismissSplash();
+            return;
+        }
+
+        // Dismiss splash first, then build layout with a slight delay
+        // so content appears as the curtains open (synced reveal)
+        this.dismissSplash();
+        // Wait 600ms for curtains to be mostly open before showing content
+        await new Promise(r => setTimeout(r, 600));
+        this.buildLayout();
+
+        // Kam der Abgleich nicht rechtzeitig, wird nachgezeichnet, sobald er
+        // da ist – dann stehen die frischen Daten in derselben Ansicht.
+        if (!cloudFertig) {
+            cloud.then(() => {
+                if (this._startAbgeschlossen) return;
+                this.route();
+                this.reportSyncError();
+            });
+        }
+    }
+
+    /**
+     * Der Cloud-Teil des Starts. Setzt _startAbgeschlossen, wenn er die
+     * Oberfläche schon selbst übernommen hat (Auth-Rückleitung oder
+     * Profileinrichtung) – dann ist init() fertig.
+     */
+    async initCloudOrCarryOn() {
         if (isSupabaseConfigured()) {
             const handled = await this.handleAuthHash();
             if (handled) {
-                clearTimeout(splashTimeout);
-                this.dismissSplash();
+                this._startAbgeschlossen = true;
                 return;
             }
 
             // Wait for Supabase to determine the initial session
             const initialSession = await waitForInitialSession();
-            if (initialSession) {
-                // Der Start darf an einem Fehler hier nicht scheitern – sonst
-                // bleibt die App im Splash stehen. Der Store merkt sich den
-                // fehlgeschlagenen Abgleich, die Oberfläche weist darauf hin.
-                try {
-                    await store.refreshSession();
-                } catch (e) {
-                    console.error('[App] Abgleich beim Start fehlgeschlagen', e);
-                    store.syncError = e;
-                }
 
+            // Auch dann abgleichen, wenn oben nichts kam. Dieser erste Blick
+            // auf die Sitzung fällt in die Startphase der Bibliothek: findet
+            // sie dort ein Token, das sie erneuern möchte, und ist kein Netz
+            // da, gibt sie null zurück – obwohl im Speicher eine Sitzung
+            // liegt. Das Ergebnis wird zudem für den ganzen Seitenaufruf
+            // gemerkt. Wer sich darauf allein verließ, warf einen angemeldeten
+            // Nutzer ohne Netz auf die Anmeldeseite.
+            //
+            // Der Start darf an einem Fehler hier nicht scheitern – sonst
+            // bleibt die App im Splash stehen. Der Store merkt sich den
+            // fehlgeschlagenen Abgleich, die Oberfläche weist darauf hin.
+            try {
+                await store.refreshSession();
+            } catch (e) {
+                console.error('[App] Abgleich beim Start fehlgeschlagen', e);
+                store.syncError = e;
+            }
+
+            if (initialSession) {
                 // Check if this is a new Google user who needs to set up their profile
                 let profileDone = true;
                 try {
@@ -93,22 +159,17 @@ class App {
                     console.error('[App] Profilstatus konnte nicht geprüft werden', e);
                 }
 
-                if (!profileDone) {
-                    clearTimeout(splashTimeout);
+                // Nur wenn die Oberfläche noch nicht steht: kommt der
+                // Abgleich erst nach der Geduldsfrist zurück, ist die App
+                // längst sichtbar, und ein Einrichtungsbildschirm darüber wäre
+                // ein Sprung mitten in der Benutzung.
+                if (!profileDone && !this._layoutGebaut) {
                     this.showProfileSetup(initialSession);
-                    this.dismissSplash();
+                    this._startAbgeschlossen = true;
                     return;
                 }
             }
         }
-
-        clearTimeout(splashTimeout);
-        // Dismiss splash first, then build layout with a slight delay
-        // so content appears as the curtains open (synced reveal)
-        this.dismissSplash();
-        // Wait 600ms for curtains to be mostly open before showing content
-        await new Promise(r => setTimeout(r, 600));
-        this.buildLayout();
     }
 
     async handleAuthHash() {
@@ -228,6 +289,7 @@ class App {
     }
 
     buildLayout() {
+        this._layoutGebaut = true;
         this.root.innerHTML = '';
 
         const nav = Navigation();
@@ -292,6 +354,25 @@ class App {
         }
     }
 
+    /**
+     * Seite für die Stellen, die ohne Netz nicht gehen. Besser als die
+     * Anmeldemaske: die schlägt jemandem eine Anmeldung vor, der längst
+     * angemeldet ist und sie ohne Netz gar nicht durchführen könnte.
+     */
+    offlineHinweis(path) {
+        const box = document.createElement('div');
+        box.className = 'page empty-state offline-hinweis';
+        box.innerHTML = `
+            <p class="offline-hinweis__titel">${icon('globe', { className: 'icon--meta' })}Dafür fehlt gerade das Netz</p>
+            <p>${path === 'log'
+                ? 'Ein Besuch lässt sich nur mit Verbindung eintragen – er soll ja auch auf deinen anderen Geräten ankommen.'
+                : 'Diese Seite lädt Daten anderer Nutzer und braucht dafür eine Verbindung.'}</p>
+            <p class="text-muted">Dein Tagebuch, dein Profil und der Katalog sind auch ohne Netz da.</p>
+            <a class="btn btn--primary" href="#/diary">Zum Tagebuch</a>
+        `;
+        return box;
+    }
+
     route() {
         // e.g. #/log?edit=123
         const hash = window.location.hash || '#/';
@@ -311,19 +392,61 @@ class App {
             });
         }
 
-        // Scroll to top
-        window.scrollTo(0, 0);
+        // Wo stand die Seite, die gerade verlassen wird? Beim hashchange ist
+        // die Ansicht noch die alte – der Browser rollt bei einem Fragment
+        // ohne Sprungmarke nicht von selbst. Deshalb lässt sich die Position
+        // hier einfach ablesen; ein Scroll-Zuhörer wäre dafür nicht nötig.
+        const gleicheRoute = hash === this._aktuellerHash;
+        const zielPosition = gleicheRoute
+            ? window.scrollY                              // Neuzeichnen derselben Seite
+            : (this._positionen.get(hash) ?? 0);          // Rückkehr oder neue Seite
+
+        if (!gleicheRoute && this._aktuellerHash) {
+            this._positionen.set(this._aktuellerHash, window.scrollY);
+            // Nicht unbegrenzt wachsen lassen. Die ältesten Einträge stehen in
+            // einer Map vorn, die braucht niemand mehr.
+            if (this._positionen.size > 40) {
+                this._positionen.delete(this._positionen.keys().next().value);
+            }
+        }
+        this._aktuellerHash = hash;
+
+        // Ohne Netz gar nicht erst anbieten, was zwingend ans Netz muss –
+        // egal, ob die Sitzung gerade als angemeldet gilt. Ein Formular, das
+        // beim Absenden scheitert, ist ärgerlicher als ein klarer Hinweis.
+        if (store.isOffline && ['log', 'community'].includes(path)) {
+            this.content.innerHTML = '';
+            this.content.appendChild(this.offlineHinweis(path));
+            return;
+        }
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
             const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite', 'visit', 'season'];
+
+            // Ohne Netz zeigt die App das, was lokal liegt, statt zur Anmeldung
+            // zu schicken. Sinn und Zweck eines Offline-Modus: das eigene
+            // Tagebuch ist vollständig da, nur bestätigen lässt sich die
+            // Anmeldung gerade nicht.
+            const offlineErlaubt = ['diary', 'profile', 'visit', 'season', 'lists'];
+
             if (protectedRoutes.includes(path) && path !== 'invite') {
-                this.content.innerHTML = '';
-                const authPage = AuthPage(() => {
-                    this.route();
-                });
-                this.content.appendChild(authPage);
-                return;
+                if (store.isOfflineWithLocalUser && offlineErlaubt.includes(path)) {
+                    // durchlassen – unten wird die Seite aus lokalen Daten gebaut
+                } else if (store.isOfflineWithLocalUser) {
+                    // Übrig bleiben die Seiten, die zwingend ans Netz müssen:
+                    // Loggen schreibt, Community liest fremde Daten.
+                    this.content.innerHTML = '';
+                    this.content.appendChild(this.offlineHinweis(path));
+                    return;
+                } else {
+                    this.content.innerHTML = '';
+                    const authPage = AuthPage(() => {
+                        this.route();
+                    });
+                    this.content.appendChild(authPage);
+                    return;
+                }
             }
         }
 
@@ -409,9 +532,48 @@ class App {
         const navLinks = document.querySelector('.nav-links');
         if (navLinks) navLinks.classList.remove('nav-links--open');
 
-        // Force scroll to top to prevent history scroll restoration bugs
-        window.scrollTo(0, 0);
-        setTimeout(() => window.scrollTo(0, 0), 50);
+        this.stellePositionWiederher(zielPosition);
+    }
+
+    /**
+     * Zurück zu einer Liste soll dort landen, wo man sie verlassen hat – wer
+     * sich durch 106 Werke gescrollt hat, will nach einem Blick auf eines
+     * davon nicht wieder ganz oben anfangen.
+     *
+     * Mehrere Versuche, weil die Seite nach dem Einhängen noch wächst: Bilder
+     * bekommen ihre Höhe erst beim Laden, und einige Seiten zeichnen nach,
+     * wenn Daten da sind. Ein einzelnes scrollTo träfe dann auf ein zu kurzes
+     * Dokument und würde abgeschnitten.
+     */
+    stellePositionWiederher(ziel) {
+        if (this._positionsLauf) clearTimeout(this._positionsLauf);
+
+        // Immer ohne Animation. Für die Seite gilt scroll-behavior: smooth,
+        // und das ist beim Wechsel der Ansicht falsch: der Browser scrollt
+        // dann sichtbar durch die ganze Liste, und weil die Wiederholungen
+        // unten jeweils eine neue Animation anstoßen, schaukelt sich das auf –
+        // gemessen landete eine Rückkehr statt bei 1396 bei 2691.
+        const springe = (y) => window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+
+        if (!ziel) {
+            springe(0);
+            // Der Nachschlag fängt Seiten ab, die gleich noch wachsen und den
+            // Browser sonst eine alte Position wiederherstellen ließen.
+            this._positionsLauf = setTimeout(() => springe(0), 50);
+            return;
+        }
+
+        let versuche = 0;
+        const versuch = () => {
+            springe(ziel);
+            versuche += 1;
+            // Fertig, sobald die Position sitzt – oder nach einer halben
+            // Sekunde, wenn die Seite kürzer geworden ist als beim Verlassen.
+            if (Math.abs(window.scrollY - ziel) > 2 && versuche < 12) {
+                this._positionsLauf = setTimeout(versuch, 40);
+            }
+        };
+        versuch();
     }
 }
 

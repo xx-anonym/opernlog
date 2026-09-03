@@ -515,7 +515,11 @@
         }
     </style>
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Aus dem Projekt, nicht vom CDN: der Service Worker überspringt fremde
+         Hosts, die Bibliothek lag also in keinem Cache. Ohne Netz war
+         window.supabase undefined und die App startete gar nicht.
+         Siehe den Kopf von vendor/supabase-js.js. -->
+    <script src="vendor/supabase-js.js"></script>
 </head>
 
 <body>

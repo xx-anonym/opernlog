@@ -50,8 +50,20 @@ class Store {
             const session = await sb.waitForInitialSession();
             if (session) {
                 this._session = session;
-                this._profile = await sb.getProfile(session.user.id);
+                // Angemeldet ist, wer eine Sitzung hat. Diese Zeile stand
+                // früher hinter dem Profilabruf – und der geht übers Netz.
+                // Ohne Netz warf er, _cloudMode blieb false, und die
+                // Zugriffssperre im Router schickte einen angemeldeten Nutzer
+                // auf die Anmeldeseite. Genau das war offline zu sehen.
                 this._cloudMode = true;
+
+                try {
+                    this._profile = await sb.getProfile(session.user.id);
+                } catch (e) {
+                    console.error('[Store] Profil laden fehlgeschlagen', e);
+                    // Kein Abbruch: der Name steht auch in data.currentUser,
+                    // dort hat ihn der letzte gelungene Abgleich abgelegt.
+                }
             }
         } catch (e) {
             // Beim Start weiterlaufen, aber den Zustand festhalten statt ihn
@@ -63,6 +75,26 @@ class Store {
 
     get isCloud() { return this._cloudMode && this._session; }
     get isConfigured() { return isSupabaseConfigured(); }
+
+    /**
+     * Ohne Netz kann die Anmeldung nicht bestätigt werden: Supabase liest die
+     * Sitzung zwar aus dem Speicher, kann das Token aber nicht erneuern und
+     * meldet dann "keine Sitzung". Für die App sah das aus wie abgemeldet –
+     * und ein angemeldeter Nutzer landete im Flugzeug auf der Anmeldeseite,
+     * statt sein Tagebuch zu sehen, das vollständig lokal vorliegt.
+     *
+     * Der letzte gelungene Abgleich hat die eigene Kennung lokal hinterlegt.
+     * Sie zusammen mit navigator.onLine === false ist der Beleg dafür, dass
+     * hier jemand angemeldet ist und nur gerade kein Netz hat.
+     */
+    get isOfflineWithLocalUser() {
+        return this.isOffline
+            && !this.isCloud
+            && !!this.data.currentUser?.id;
+    }
+
+    /** Der Browser meldet ausdrücklich "kein Netz" (Flugmodus, WLAN aus). */
+    get isOffline() { return navigator.onLine === false; }
 
     // Letzter fehlgeschlagener Abgleich mit der Cloud, oder null.
     // Wird gesetzt, wenn lokale Daten angezeigt werden, die womöglich veraltet
@@ -81,11 +113,23 @@ class Store {
         const session = await sb.getSession();
         if (session) {
             this._session = session;
-            this._profile = await sb.getProfile(session.user.id);
-            this._cloudMode = true;
+            this._cloudMode = true;   // siehe initCloud()
 
-            // Sync cloud profile to local data so it persists
-            if (this._profile) {
+            // Zwischen "Profil gibt es nicht" und "Profil ließ sich nicht
+            // laden" muss unterschieden werden: im ersten Fall wird unten eins
+            // angelegt, im zweiten wäre das falsch – offline etwa gibt es das
+            // Profil ja, es ist nur gerade nicht erreichbar.
+            let profilFehler = null;
+            try {
+                this._profile = await sb.getProfile(session.user.id);
+            } catch (e) {
+                console.error('[Store] Profil laden fehlgeschlagen', e);
+                profilFehler = e;
+            }
+
+            if (profilFehler) {
+                failures.push('Profil');
+            } else if (this._profile) {
                 this.data.currentUser = {
                     ...this.data.currentUser,
                     id: this._profile.id,
@@ -192,6 +236,13 @@ class Store {
                 this.data.currentUser.id = session.user.id;
                 this.save();
             }
+        } else if (navigator.onLine === false && this._session) {
+            // Ohne Netz lässt sich eine abgelaufene Sitzung nicht erneuern, und
+            // getSession() gibt dann nichts zurück. Das ist kein Abmelden –
+            // wer hier _cloudMode fallen ließe, würfe den Nutzer mitten im
+            // Flugzeug auf die Anmeldeseite. Die Sitzung bleibt stehen, bis
+            // wieder Netz da ist und sie sich wirklich als ungültig erweist.
+            failures.push('Sitzung');
         } else {
             this._session = null;
             this._profile = null;
@@ -200,7 +251,9 @@ class Store {
 
         if (failures.length) {
             this.syncError = new Error(
-                `${failures.join(', ')} konnten nicht geladen werden. Angezeigte Daten sind möglicherweise nicht aktuell.`
+                navigator.onLine === false
+                    ? 'Kein Netz – angezeigt wird der zuletzt geladene Stand.'
+                    : `${failures.join(', ')} konnten nicht geladen werden. Angezeigte Daten sind möglicherweise nicht aktuell.`
             );
         }
         this.notify();
@@ -567,7 +620,10 @@ class Store {
     getMyLists() { return this.data.myLists; }
 
     getListsByUser(userId) {
-        if (userId === 'user-me') return this.data.myLists;
+        // Immer ein Array: ein lokaler Stand, dem das Feld fehlt – aus einer
+        // älteren Fassung oder von Hand angefasst – ließ sonst das Profil an
+        // lists.length abstürzen, und zwar mit weißer Seite statt Meldung.
+        if (userId === 'user-me') return this.data.myLists || [];
         return [];
     }
 

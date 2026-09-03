@@ -61,6 +61,25 @@ test('index.html lädt nichts, was nicht zwischengespeichert wird', () => {
     assert.deepEqual(fehlend, [], `von index.html geladen, aber nicht im APP_SHELL: ${fehlend}`);
 });
 
+test('index.html lädt kein Skript von einem fremden Host', () => {
+    // Der Service Worker überspringt fremde Hosts. Ein Skript von dort liegt
+    // also in keinem Cache – und wenn die App ohne es nicht startet, ist der
+    // "Offline-Modus" keiner. Genau so war es: die Supabase-Bibliothek kam von
+    // cdn.jsdelivr.net, ohne Netz blieb nach dem Vorhang ein grauer
+    // Bildschirm. Sie liegt jetzt unter vendor/.
+    const html = fs.readFileSync(path.join(WURZEL, 'index.html'), 'utf8');
+    const fremd = [...html.matchAll(/<script[^>]*\ssrc="(https?:)?\/\/[^"]+"/g)].map(m => m[0]);
+    assert.deepEqual(fremd, [],
+        `Skripte von fremden Hosts:\n  ${fremd.join('\n  ')}`);
+});
+
+test('die Supabase-Bibliothek liegt im Projekt und im Cache', () => {
+    const html = fs.readFileSync(path.join(WURZEL, 'index.html'), 'utf8');
+    assert.match(html, /<script src="vendor\/supabase-js\.js"><\/script>/);
+    assert.ok(fs.existsSync(path.join(WURZEL, 'vendor/supabase-js.js')));
+    assert.ok(appShell().some(p => p.endsWith('vendor/supabase-js.js')));
+});
+
 test('CACHE_NAME ist durchnummeriert', () => {
     // Der Name ist der einzige Hebel, mit dem ein Update bei den Nutzern
     // ankommt: activate löscht jeden Cache, der anders heißt.

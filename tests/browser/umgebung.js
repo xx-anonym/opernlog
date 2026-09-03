@@ -10,6 +10,22 @@ import { pathToFileURL, fileURLToPath } from 'node:url';
 
 export const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
+/**
+ * Liefert statt der echten Supabase-Bibliothek den Ersatz aus supabaseStub.js
+ * aus. Eine Stelle für alle Tests: die Adresse hat sich schon einmal geändert
+ * (früher cdn.jsdelivr.net, jetzt vendor/), und die Tests, die noch auf die
+ * alte zeigten, luden daraufhin still die echte Bibliothek – sie zeigten dann
+ * die Anmeldemaske statt der Seite, die sie prüfen sollten.
+ *
+ * Ausgenommen sind die Offline-Tests: die brauchen die echte Bibliothek, denn
+ * genau deren Fehlen war der Fehler.
+ */
+export async function ersetzeSupabase(page) {
+    const { STUB } = await import('./supabaseStub.js');
+    await page.route('**/vendor/supabase-js.js', r =>
+        r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+}
+
 const TYPEN = {
     '.html': 'text/html; charset=utf-8',
     '.js': 'text/javascript; charset=utf-8',   // ohne das lädt der Browser keine Module

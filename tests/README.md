@@ -35,10 +35,25 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `katalog.test.js` | eindeutige Ids, brauchbare Koordinaten, Bilder von bekannten Hosts |
 | `rls.test.js` | nur die bewusst öffentlichen Tabellen sind für jeden lesbar |
 
-**`browser/`** – die Stellen, an denen ein Fehler erst im Layout auftaucht.
-Sie starten einen Dateiserver für das Projektverzeichnis und ersetzen Supabase
-durch `supabaseStub.js`; es geht also nichts ins Netz und nichts in die echte
+**`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel
+auftaucht: im Layout, im Verlauf, ohne Netz. Sie starten einen Dateiserver für
+das Projektverzeichnis; es geht nichts ins Netz und nichts in die echte
 Datenbank.
+
+| Datei | prüft |
+| --- | --- |
+| `oberflaeche.test.js` | Profilkacheln, Listenfenster, Navigation |
+| `scrollposition.test.js` | zurück zu einer Liste landet an derselben Stelle |
+| `offline.test.js` | im Flugmodus kommt die App hoch und zeigt lokale Daten |
+
+`umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
+der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,
+weil ihre Adresse sich schon einmal geändert hat und die Tests, die noch auf
+die alte zeigten, still die echte Bibliothek luden.
+
+Die Offline-Tests nehmen ausdrücklich die echte Bibliothek: dass sie fehlte,
+war ja der Fehler. Sie öffnen die App einmal online, warten den Service Worker
+ab, schalten dann das Netz ab und laden neu – alles muss aus dem Cache kommen.
 
 ## Playwright
 

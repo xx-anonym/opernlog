@@ -10,8 +10,7 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { operas } from '../../src/data/operas.js';
-import { STUB } from './supabaseStub.js';
-import { starteServer, ladePlaywright, starteBrowser } from './umgebung.js';
+import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase } from './umgebung.js';
 
 const HANDY = { width: 390, height: 844 };      // iPhone 14/15
 const RECHNER = { width: 1200, height: 900 };
@@ -56,8 +55,7 @@ async function oeffneProfil(viewport) {
     p.on('pageerror', e => fehler.push(e.message));
 
     // Das echte Supabase-Skript kommt vom CDN und wird durch den Ersatz ersetzt.
-    await p.route('**/cdn.jsdelivr.net/**', r =>
-        r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+    await ersetzeSupabase(p);
 
     await p.goto(`${server.url}/index.html`);
     await p.waitForSelector('#app', { state: 'attached' });
@@ -217,8 +215,7 @@ test('ohne bekanntes Haus bleibt die Kachel ein schlichter Kasten', { skip: fehl
     const ctx = await browser.newContext({ viewport: RECHNER });
     const p = await ctx.newPage();
     try {
-        await p.route('**/cdn.jsdelivr.net/**', r =>
-            r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+        await ersetzeSupabase(p);
         await p.goto(`${server.url}/index.html#/profile/user-me`);
         await p.waitForSelector('#seenOperasCard', { timeout: 15000 });
         assert.equal(await p.locator('.favorite-item--klickbar').count(), 0);
@@ -236,8 +233,7 @@ test('auch auf einem fremden Profil führt das meistbesuchte Haus zum Haus', { s
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
     try {
-        await p.route('**/cdn.jsdelivr.net/**', r =>
-            r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+        await ersetzeSupabase(p);
         await p.goto(`${server.url}/index.html`);
         await p.waitForFunction(() => !!window.__visits, null, { timeout: 15000 });
 

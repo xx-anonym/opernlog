@@ -7,7 +7,16 @@ let _sessionReady = null;
 // ── Init ─────────────────────────────────────────────────
 export function getSupabase() {
     if (!supabaseClient && isSupabaseConfigured()) {
-        // supabase is imported via CDN in index.html
+        // Die Bibliothek liegt unter vendor/ und wird von index.html geladen.
+        // Fehlt sie trotzdem, wird hier null zurückgegeben statt geworfen: ein
+        // Wurf an dieser Stelle riss früher den ganzen Start mit sich, und
+        // nach dem Vorhang blieb ein grauer Bildschirm. Ohne Client läuft die
+        // App im lokalen Modus weiter – Katalog und eigene Daten sind da.
+        if (!window.supabase?.createClient) {
+            console.error('[Supabase] Bibliothek nicht geladen – die App läuft ohne Cloud weiter');
+            return null;
+        }
+
         // DISABLE detectSessionInUrl – we handle hash tokens manually
         // because Supabase's built-in detection silently fails
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {

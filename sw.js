@@ -1,5 +1,5 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v71';
+const CACHE_NAME = 'opernlog-v72';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
@@ -32,6 +32,10 @@ const APP_SHELL = [
     './index.html',
     './style.css',
     './manifest.json',
+    // Die Supabase-Bibliothek. Sie kam vorher vom CDN und war damit die eine
+    // Datei, ohne die die App nicht startet – und die einzige, die offline
+    // fehlte. Siehe den Kopf von vendor/supabase-js.js.
+    './vendor/supabase-js.js',
     './src/main.js',
     './src/config.js',
     './src/pages/Auth.js',
