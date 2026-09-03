@@ -2097,6 +2097,15 @@ h3 {
     opacity: 0;
 }
 
+/* Rückkehr zu einer Liste: sofort da, ohne Einblenden. Siehe route() in
+   main.js. Gestaffelt eingeblendet wurde früher unbegrenzt – bei 106 Werken
+   startete die letzte Karte nach 3,2 Sekunden, und wer weit unten zurückkam,
+   sah dort gemessen fast zwei Sekunden lang nichts. */
+.main-content--sofort .fade-in {
+    animation: none;
+    opacity: 1;
+}
+
 @keyframes shake {
 
     0%,

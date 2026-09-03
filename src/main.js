@@ -450,6 +450,16 @@ class App {
             }
         }
 
+        // Wer zu einer Liste zurückkehrt, hat sie schon gesehen – die
+        // Einblendung der Karten ist dann nur eine Wartezeit. Sie gilt für den
+        // ersten Blick auf eine Seite, nicht für die Rückkehr.
+        //
+        // Als Klasse am Behälter statt als Angabe an jeder Seite: die Seiten
+        // müssen dafür nichts vom Verlauf wissen. Umgeschaltet wird bei jedem
+        // Aufruf, und weil der Inhalt darunter ohnehin neu gebaut wird, kann
+        // keine Karte zurückbleiben, die dann doch noch einblendet.
+        this.content.classList.toggle('main-content--sofort', zielPosition > 0);
+
         // Clear content
         this.content.innerHTML = '';
 

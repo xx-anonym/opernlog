@@ -34,6 +34,26 @@ function cssUrl(url) {
  * Escapes HTML special characters to prevent XSS attacks.
  * Use this for ALL user-generated content before inserting into innerHTML.
  */
+/**
+ * Verzögerung für das Einblenden einer Karte in einer langen Liste.
+ *
+ * Gestaffelt wird nur das erste Bildschirmfoto voll – danach ist die
+ * Verzögerung gedeckelt. Ungedeckelt war sie der Grund, warum die Rückkehr in
+ * eine Liste "lange lud": bei 106 Werken startete die letzte Karte nach 3,2
+ * Sekunden, und wer an Position 12000 zurückkam, sah dort gemessen 1,9
+ * Sekunden lang nichts. Karten unterhalb des sichtbaren Bereichs haben von der
+ * Staffelung ohnehin nichts – dort ist längst niemand mehr, wenn sie an die
+ * Reihe kommen.
+ *
+ * @param {number} i        Position in der Liste
+ * @param {number} schritt  Abstand zwischen zwei Karten in Sekunden
+ * @param {number} maxIndex ab hier laufen alle gemeinsam los
+ * @returns {string}        Wert für style.animationDelay
+ */
+export function einblendVerzoegerung(i, schritt = 0.03, maxIndex = 10) {
+    return `${(Math.min(i, maxIndex) * schritt).toFixed(2)}s`;
+}
+
 export function escapeHTML(str) {
     if (str == null) return '';
     return String(str)

@@ -1,7 +1,7 @@
 // Operas Browse Page
 import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground } from '../utils.js';
+import { coverBackground, einblendVerzoegerung } from '../utils.js';
 import { store } from '../store/store.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -168,7 +168,7 @@ export function OperasPage() {
       const card = document.createElement('a');
       card.className = 'opera-card fade-in';
       card.href = `#/opera/${opera.id}`;
-      card.style.animationDelay = `${i * 0.03}s`;
+      card.style.animationDelay = einblendVerzoegerung(i);
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
       card.innerHTML = `

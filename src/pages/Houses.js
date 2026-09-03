@@ -1,7 +1,7 @@
 // Opera Houses Browse Page
 import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground } from '../utils.js';
+import { coverBackground, einblendVerzoegerung } from '../utils.js';
 import { store } from '../store/store.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -137,7 +137,7 @@ export function HousesPage() {
       const card = document.createElement('a');
       card.className = 'house-card fade-in';
       card.href = `#/house/${house.id}`;
-      card.style.animationDelay = `${i * 0.05}s`;
+      card.style.animationDelay = einblendVerzoegerung(i, 0.05, 6);
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
       card.innerHTML = `

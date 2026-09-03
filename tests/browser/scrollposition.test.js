@@ -100,6 +100,54 @@ test('Opernhäuser: zurück landet an derselben Stelle', { skip: fehltPlaywright
     await pruefeRueckkehr(HANDY, HAEUSER);
 });
 
+test('bei der Rückkehr sind die Karten sofort da', { skip: fehltPlaywright }, async () => {
+    // Die Karten blenden gestaffelt ein. Ungedeckelt startete bei 106 Werken
+    // die letzte nach 3,2 Sekunden – wer weit unten zurückkam, sah dort
+    // gemessen 1,9 Sekunden lang nichts und hielt es für Ladezeit. Bei einer
+    // Rückkehr entfällt die Einblendung ganz: die Liste war schon da.
+    const { ctx, p } = await oeffne(HANDY, '#/operas');
+    try {
+        await p.waitForSelector('.opera-card', { timeout: 15000 });
+        await p.waitForTimeout(2000);
+        await p.evaluate(() => window.scrollTo({ top: 12000, left: 0, behavior: 'instant' }));
+        await p.waitForTimeout(400);
+
+        const karte = await sichtbareKarte(p, '.opera-card');
+        assert.ok(karte, 'keine sichtbare Karte gefunden');
+        const titel = (await karte.innerText()).split('\n')[0];
+        await karte.click();
+        await p.waitForFunction(() => window.location.hash.startsWith('#/opera/'), null, { timeout: 5000 });
+        await p.waitForTimeout(600);
+
+        await p.goBack();
+        await p.waitForTimeout(150);
+
+        const undurchsichtig = await p.evaluate((titel) => {
+            const karte = [...document.querySelectorAll('.opera-card')]
+                .find(k => k.innerText.startsWith(titel));
+            return karte ? Number(getComputedStyle(karte).opacity) : null;
+        }, titel);
+        assert.ok(undurchsichtig !== null, 'die Karte ist nach der Rückkehr nicht da');
+        assert.ok(undurchsichtig > 0.95,
+            `die Karte ist nach 150 ms erst zu ${undurchsichtig} sichtbar`);
+    } finally { await ctx.close(); }
+});
+
+test('die Staffelung der Einblendung ist gedeckelt', { skip: fehltPlaywright }, async () => {
+    // Beim ersten Blick blendet die Liste weiterhin ein – aber nicht mehr über
+    // Sekunden. Karten unterhalb des Bildschirms haben von der Staffelung
+    // ohnehin nichts.
+    const { ctx, p } = await oeffne(HANDY, '#/operas');
+    try {
+        await p.waitForSelector('.opera-card', { timeout: 15000 });
+        await p.waitForTimeout(2000);
+        const letzte = await p.$$eval('.opera-card',
+            k => Math.max(...k.map(e => parseFloat(e.style.animationDelay) || 0)));
+        assert.ok(letzte <= 0.5, `letzte Karte startet erst nach ${letzte}s`);
+        assert.ok(letzte > 0, 'die Staffelung ist ganz verschwunden');
+    } finally { await ctx.close(); }
+});
+
 test('eine neue Seite beginnt oben, nicht bei der Position der vorigen', { skip: fehltPlaywright }, async () => {
     const { ctx, p } = await oeffne(RECHNER, '#/operas');
     try {
