@@ -56,6 +56,4 @@ jobs:
       # Haus, mal das ganze Theater.
       - name: Plätze und Gründungsjahre gegen Wikidata halten
         if: inputs.modus == 'daten'
-        run: |
-          node tests/werkzeug/daten-pruefen.mjs Österreich \
-            --voll=wiener-kammeroper,volksoper-wien,oper-graz,tiroler-landestheater,festspielhaus-bregenz,oper-im-steinbruch-st-margarethen,seebuehne-bregenz
+        run: node tests/werkzeug/daten-pruefen.mjs Österreich --wikitext
