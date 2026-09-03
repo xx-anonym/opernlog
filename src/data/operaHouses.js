@@ -1,5 +1,19 @@
 // Opernhäuser – Datenkatalog
 //
+// founded ist die Gründung des Betriebs, nicht die Eröffnung des heutigen
+// Baus: die Hamburgische Staatsoper steht mit 1678 (Oper am Gänsemarkt), nicht
+// mit 1955, Braunschweig mit 1690 statt 1861. Häuser, die nach ihrem Bau
+// heißen – Semperoper, Aalto-Theater, Großes Festspielhaus –, tragen das Jahr
+// dieses Baus, denn der ist das Haus. Wikidata führt oft das andere Datum;
+// beides stimmt, es datiert nur Verschiedenes.
+//
+// capacity sind die Sitzplätze des Hauptsaals, ohne Stehplätze und ohne die
+// Nebenspielstätten: die Wiener Staatsoper steht mit 1709 statt 2276, das
+// Musiktheater im Revier mit 1015 für das Große Haus statt 1344 für beide.
+//
+// Beides lässt sich mit tests/werkzeug/daten-pruefen.mjs gegen Wikidata und
+// die deutschsprachige Wikipedia halten.
+//
 // lat/lon bezeichnen das Opernhaus selbst, nicht den Stadtmittelpunkt – bei
 // Berlin oder München liegen mehrere Häuser in derselben Stadt, da entscheidet
 // erst die Adresse. Bei Wanderbühnen mit mehreren Spielstätten (Theater
@@ -60,7 +74,7 @@ export const operaHouses = [
     // ── Nordrhein-Westfalen ───────────────────────────────
     { id: 'oper-koeln', name: 'Oper Köln', city: 'Köln', state: 'Nordrhein-Westfalen', lat: 50.9384, lon: 6.9497, capacity: 1346, founded: 1957, description: 'Die Kölner Oper am Offenbachplatz, ein wichtiges Zentrum des Musiktheaters im Rheinland.', color: '#2c1a0e', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Oper_K%C3%B6ln_%284202-04%29.jpg/1280px-Oper_K%C3%B6ln_%284202-04%29.jpg' },
     { id: 'deutsche-oper-am-rhein', name: 'Deutsche Oper am Rhein', city: 'Düsseldorf / Duisburg', state: 'Nordrhein-Westfalen', lat: 51.227, lon: 6.776, capacity: 1292, founded: 1956, description: 'Theatergemeinschaft der Städte Düsseldorf und Duisburg mit Spielstätten in beiden Städten.', color: '#2d1f3d', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Rheinkniebr%C3%BCcke_at_night.jpg' },
-    { id: 'oper-dortmund', name: 'Oper Dortmund', city: 'Dortmund', state: 'Nordrhein-Westfalen', lat: 51.517, lon: 7.46, capacity: 1170, founded: 1966, description: 'Modernes Opernhaus im Ruhrgebiet mit vielseitigem Spielplan.', color: '#2d3d1f', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Dortmund_-_Schlo%C3%9Fstra%C3%9Fe_-_Haus_Bodelschwingh_08_ies.jpg/1280px-Dortmund_-_Schlo%C3%9Fstra%C3%9Fe_-_Haus_Bodelschwingh_08_ies.jpg' },
+    { id: 'oper-dortmund', name: 'Oper Dortmund', city: 'Dortmund', state: 'Nordrhein-Westfalen', lat: 51.517, lon: 7.46, capacity: 1170, founded: 1904, description: 'Modernes Opernhaus im Ruhrgebiet mit vielseitigem Spielplan.', color: '#2d3d1f', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Dortmund_-_Schlo%C3%9Fstra%C3%9Fe_-_Haus_Bodelschwingh_08_ies.jpg/1280px-Dortmund_-_Schlo%C3%9Fstra%C3%9Fe_-_Haus_Bodelschwingh_08_ies.jpg' },
     { id: 'theater-bonn', name: 'Theater Bonn', city: 'Bonn', state: 'Nordrhein-Westfalen', lat: 50.741, lon: 7.103, capacity: 890, founded: 1965, description: 'Oper der ehemaligen Bundeshauptstadt mit Schwerpunkt auf zeitgenössischem Musiktheater.', color: '#3d1f2d', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Kammerspiele_Bonn_Bad_Godesberg_20100106b.jpg/1280px-Kammerspiele_Bonn_Bad_Godesberg_20100106b.jpg' },
     { id: 'theater-essen', name: 'Aalto-Theater', city: 'Essen', state: 'Nordrhein-Westfalen', lat: 51.452, lon: 7.009, capacity: 1125, founded: 1988, description: 'Entworfen vom finnischen Architekten Alvar Aalto, eines der schönsten Opernhäuser Deutschlands.', color: '#2d1f1f', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Aalto-Theater-Abends-02-2014.jpg/1280px-Aalto-Theater-Abends-02-2014.jpg' },
     { id: 'theater-hagen', name: 'Theater Hagen', city: 'Hagen', state: 'Nordrhein-Westfalen', lat: 51.36, lon: 7.47, capacity: 804, founded: 1911, description: 'Das südlichste Theater im Ruhrgebiet mit traditionsreichem Opernensemble.', color: '#1f3d1f', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Theaterhagen.JPG/1280px-Theaterhagen.JPG' },
