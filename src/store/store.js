@@ -1,7 +1,6 @@
 // Store – Hybrid: Supabase (Cloud) + localStorage (Offline-Fallback)
-import { operaHouses } from '../data/operaHouses.js';
-import { operas } from '../data/operas.js';
 import { seenOperaList } from '../data/seenOperas.js';
+import { topComposer, topHouse } from '../data/favorites.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from './supabase.js';
 
@@ -760,43 +759,26 @@ class Store {
             return {
                 totalVisits: 0, avgRating: 0, uniqueHouses: 0,
                 uniqueOperas: werkeGesehen, topComposer: '-', topHouse: '-',
+                topHouseId: null,
             };
         }
 
         const houses = new Set(visits.map(v => v.houseId));
 
-        const composerData = {};
-        visits.forEach(v => {
-            const opera = operas.find(o => o.id === v.operaId);
-            if (opera) {
-                if (!composerData[opera.composer]) {
-                    composerData[opera.composer] = { count: 0, totalRating: 0 };
-                }
-                composerData[opera.composer].count += 1;
-                composerData[opera.composer].totalRating += (v.rating || 0);
-            }
-        });
-        const topComposer = Object.entries(composerData)
-            .sort((a, b) => {
-                // Primary: most visits; Tiebreaker: highest average rating
-                if (b[1].count !== a[1].count) return b[1].count - a[1].count;
-                return (b[1].totalRating / b[1].count) - (a[1].totalRating / a[1].count);
-            })[0];
-
-        const houseCount = {};
-        visits.forEach(v => {
-            houseCount[v.houseId] = (houseCount[v.houseId] || 0) + 1;
-        });
-        const topHouseId = Object.entries(houseCount).sort((a, b) => b[1] - a[1])[0];
-        const topHouse = topHouseId ? operaHouses.find(h => h.id === topHouseId[0]) : null;
+        // Beides kommt aus favorites.js – dieselbe Rechnung wie auf fremden
+        // Profilen, die sie vorher ein zweites Mal enthielten.
+        const komponist = topComposer(visits);
+        const haus = topHouse(visits);
 
         return {
             totalVisits: visits.length,
             avgRating: (visits.reduce((s, v) => s + v.rating, 0) / visits.length).toFixed(1),
             uniqueHouses: houses.size,
             uniqueOperas: werkeGesehen,
-            topComposer: topComposer ? topComposer[0] : '-',
-            topHouse: topHouse ? topHouse.name : '-',
+            topComposer: komponist ? komponist.composer : '-',
+            topHouse: haus ? haus.house.name : '-',
+            // Für den Link auf das Haus: der Name allein reicht dafür nicht.
+            topHouseId: haus ? haus.house.id : null,
         };
     }
 

@@ -193,6 +193,93 @@ test('ein Klick auf die Besuche führt ins Tagebuch', { skip: fehltPlaywright },
     } finally { await ctx.close(); }
 });
 
+test('ein Klick auf das meistbesuchte Haus ruft dieses Haus auf', { skip: fehltPlaywright }, async () => {
+    // Drei Abende in der Semperoper, zwei in der Bayerischen Staatsoper.
+    const { ctx, p } = await oeffneProfil(RECHNER);
+    try {
+        const kachel = p.locator('.favorite-item--klickbar');
+        assert.equal(await kachel.count(), 1);
+        assert.match(await kachel.textContent(), /Semperoper/);
+
+        await kachel.click();
+        await p.waitForFunction(() => window.location.hash.startsWith('#/house/'), null, { timeout: 5000 });
+        assert.equal(await p.evaluate(() => window.location.hash), '#/house/semperoper');
+
+        // Und die Seite zeigt danach auch wirklich dieses Haus.
+        await p.waitForFunction(
+            () => (document.querySelector('h1')?.textContent || '').includes('Semperoper'),
+            null, { timeout: 10000 });
+    } finally { await ctx.close(); }
+});
+
+test('ohne bekanntes Haus bleibt die Kachel ein schlichter Kasten', { skip: fehltPlaywright }, async () => {
+    // Kein Link ins Leere: ohne Besuche gibt es kein meistbesuchtes Haus.
+    const ctx = await browser.newContext({ viewport: RECHNER });
+    const p = await ctx.newPage();
+    try {
+        await p.route('**/cdn.jsdelivr.net/**', r =>
+            r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+        await p.goto(`${server.url}/index.html#/profile/user-me`);
+        await p.waitForSelector('#seenOperasCard', { timeout: 15000 });
+        assert.equal(await p.locator('.favorite-item--klickbar').count(), 0);
+    } finally { await ctx.close(); }
+});
+
+test('auch auf einem fremden Profil führt das meistbesuchte Haus zum Haus', { skip: fehltPlaywright }, async () => {
+    // Fremde Profile werden von einer eigenen Funktion gezeichnet
+    // (renderCloudProfile). Sie enthielt dieselbe Rechnung ein zweites Mal –
+    // in dieser App war eine solche Doppelung schon mehrfach der Grund, warum
+    // eine Änderung nur an einer von zwei Stellen ankam.
+    const FREMD = '22222222-2222-2222-2222-222222222222';
+    const ctx = await browser.newContext({ viewport: RECHNER });
+    const p = await ctx.newPage();
+    const fehler = [];
+    p.on('pageerror', e => fehler.push(e.message));
+    try {
+        await p.route('**/cdn.jsdelivr.net/**', r =>
+            r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+        await p.goto(`${server.url}/index.html`);
+        await p.waitForFunction(() => !!window.__visits, null, { timeout: 15000 });
+
+        await p.evaluate(({ id, besuche }) => { window.__visits = besuche; },
+            {
+                id: FREMD,
+                besuche: [
+                    { id: 'f1', user_id: FREMD, opera_id: 'la-traviata', house_id: 'staatsoper-berlin', date: '2026-01-01', rating: 5 },
+                    { id: 'f2', user_id: FREMD, opera_id: 'rigoletto', house_id: 'staatsoper-berlin', date: '2026-01-02', rating: 4 },
+                    { id: 'f3', user_id: FREMD, opera_id: 'zauberflote', house_id: 'semperoper', date: '2026-01-03', rating: 4 },
+                ],
+            });
+
+        await p.evaluate(id => { window.location.hash = `#/profile/${id}`; }, FREMD);
+        await p.waitForSelector('.favorite-item--klickbar', { timeout: 15000 });
+
+        const kachel = p.locator('.favorite-item--klickbar');
+        assert.match(await kachel.textContent(), /Staatsoper Unter den Linden|Staatsoper/);
+        await kachel.click();
+        await p.waitForFunction(() => window.location.hash.startsWith('#/house/'), null, { timeout: 5000 });
+        assert.equal(await p.evaluate(() => window.location.hash), '#/house/staatsoper-berlin');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('anklickbare Kästen wechseln beim Überfahren nicht die Schriftfarbe', { skip: fehltPlaywright }, async () => {
+    // a:hover setzt global Gold und gewinnt gegen die Klasse des Kastens. Ohne
+    // Ausnahme wurde mitten im Kasten ein Wort golden – der Kasten zeigt das
+    // über seinen Rand, nicht über die Schrift.
+    const { ctx, p } = await oeffneProfil(RECHNER);
+    try {
+        for (const wahl of ['.favorite-item--klickbar .favorite-item__value',
+            'a.stat-card[href="#/diary"] .stat-card__number']) {
+            const vorher = await p.$eval(wahl, el => getComputedStyle(el).color);
+            await p.hover(wahl);
+            await p.waitForTimeout(250);
+            const nachher = await p.$eval(wahl, el => getComputedStyle(el).color);
+            assert.equal(nachher, vorher, wahl);
+        }
+    } finally { await ctx.close(); }
+});
+
 test('das Listenfenster geht zu, wenn man weiternavigiert', { skip: fehltPlaywright }, async () => {
     // Sonst bliebe es über der neuen Seite liegen.
     const { ctx, p } = await oeffneProfil(RECHNER);

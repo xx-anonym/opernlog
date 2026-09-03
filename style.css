@@ -90,8 +90,15 @@ a:hover {
     color: var(--gold-light);
 }
 
+/* Kästen, die als Ganzes ein Link sind, sollen beim Überfahren nicht ihre
+   Schriftfarbe wechseln – sie zeigen das über ihren Rand. Ohne diese Ausnahme
+   gewinnt a:hover (0,1,1) gegen die Klasse des Kastens (0,1,0), und die Zahl
+   auf der Besuche-Kachel oder der Hausname wurden mitten im Kasten golden. */
 @media (hover: hover) {
-    a.opera-card:hover, a.house-card:hover {
+    a.opera-card:hover,
+    a.house-card:hover,
+    a.stat-card--klickbar:hover,
+    a.favorite-item--klickbar:hover {
         color: inherit;
     }
 }
@@ -1571,6 +1578,39 @@ h3 {
     font-family: var(--font-display);
     font-size: 16px;
     font-weight: 600;
+}
+
+/* Die Kachel "Meistbesuchtes Haus" führt zum Haus. Gleiche Sprache wie die
+   anklickbaren Zahlen darüber: Hinweis in der Ecke, Rand hebt sich beim
+   Überfahren. position: relative, damit der Hinweis am Kasten hängt. */
+.favorite-item--klickbar {
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.favorite-item__hint {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    line-height: 1;
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+.favorite-item--klickbar:hover .favorite-item__hint {
+    opacity: 0.9;
+}
+
+.favorite-item--klickbar:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-1px);
 }
 
 /* --- Tabs --- */

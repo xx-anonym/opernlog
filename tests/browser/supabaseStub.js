@@ -12,7 +12,8 @@ const SESSION = { user: { id: UID, email: 'test@opernlog.test', user_metadata: {
 const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar_icon: null,
   bio: '', profile_complete: true, created_at: '2024-01-01T00:00:00Z' };
 
-window.__seen = [];   // opera_id-Liste in der "Datenbank"
+window.__seen = [];     // opera_id-Liste in der "Datenbank"
+window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -27,8 +28,17 @@ function builder(table) {
         return Promise.resolve({ data: [{ user_id: UID, opera_id: nutzlast?.opera_id }], error: null }).then(res, rej);
       }
       let rows = [];
-      if (table === 'profiles') rows = [PROFILE];
+      if (table === 'profiles') {
+        // Nach einer fremden Id gefragt? Dann ein Profil mit genau dieser Id –
+        // sonst hielte die App das fremde Profil fuer das eigene.
+        rows = [filter.id && filter.id !== UID
+          ? { ...PROFILE, id: filter.id, username: 'Andere Person', avatar_initials: 'AP' }
+          : PROFILE];
+      }
       if (table === 'seen_operas') rows = window.__seen.map(id => ({ opera_id: id }));
+      if (table === 'visits') {
+        rows = window.__visits.filter(v => !filter.user_id || v.user_id === filter.user_id);
+      }
       return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
     },
     single() { single = true; return api; },

@@ -12,7 +12,36 @@ import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
 import { openListModal } from '../components/ListModal.js';
 import { seenOperaList } from '../data/seenOperas.js';
 import { visitedHouseList } from '../data/visitedHouses.js';
+import { topComposer, topHouse } from '../data/favorites.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
+
+/**
+ * Die Kachel "Meistbesuchtes Haus". Ist das Haus bekannt, ist sie ein Link
+ * dorthin – wer sein meistbesuchtes Haus sieht, will meist auch hin.
+ *
+ * Ein echter <a> und kein Knopf mit Klick-Zuhörer: so lässt er sich lange
+ * antippen, in einem neuen Tab öffnen und vorlesen.
+ *
+ * @param {{house: {id: string, name: string}}|null} eintrag
+ */
+function favoritHausHTML(eintrag) {
+    if (!eintrag?.house) {
+        return `
+      <div class="favorite-item">
+        <span class="favorite-item__label">Meistbesuchtes Haus</span>
+        <span class="favorite-item__value">-</span>
+      </div>`;
+    }
+
+    return `
+      <a class="favorite-item favorite-item--klickbar"
+         href="#/house/${encodeURIComponent(eintrag.house.id)}"
+         title="Zum Opernhaus">
+        <span class="favorite-item__label">Meistbesuchtes Haus</span>
+        <span class="favorite-item__value">${escapeHTML(eintrag.house.name)}</span>
+        <span class="favorite-item__hint">${icon('building')}</span>
+      </a>`;
+}
 
 function renderGroupedVisits(visitsArray, container) {
   if (visitsArray.length === 0) {
@@ -151,39 +180,11 @@ async function renderCloudProfile(page, userId) {
     const wishlist = userLists.find(l => l.type === 'wishlist');
     const regularLists = userLists.filter(l => l.type !== 'wishlist');
 
-    // Compute favorites from cloud visits
-    const composerData = {};
-    const houseCount = {};
-
-    visits.forEach(v => {
-      const oId = v.opera_id || v.operaId;
-      const hId = v.house_id || v.houseId;
-      const rating = parseFloat(v.rating) || 0;
-
-      const opera = operas.find(o => o.id === oId);
-      if (opera) {
-        if (!composerData[opera.composer]) {
-          composerData[opera.composer] = { count: 0, totalRating: 0 };
-        }
-        composerData[opera.composer].count += 1;
-        composerData[opera.composer].totalRating += rating;
-      }
-
-      if (hId) {
-        houseCount[hId] = (houseCount[hId] || 0) + 1;
-      }
-    });
-
-    const topComposerArr = Object.entries(composerData)
-      .sort((a, b) => {
-        if (b[1].count !== a[1].count) return b[1].count - a[1].count;
-        return (b[1].totalRating / b[1].count) - (a[1].totalRating / a[1].count);
-      })[0];
-    const topComposer = topComposerArr ? topComposerArr[0] : '-';
-
-    const topHouseIdArr = Object.entries(houseCount).sort((a, b) => b[1] - a[1])[0];
-    const topHouseObj = topHouseIdArr ? operaHouses.find(h => h.id === topHouseIdArr[0]) : null;
-    const topHouse = topHouseObj ? topHouseObj.name : '-';
+    // Lieblingskomponist und meistbesuchtes Haus – dieselbe Rechnung wie im
+    // eigenen Profil, siehe src/data/favorites.js. Sie stand hier lange ein
+    // zweites Mal Zeile für Zeile.
+    const lieblingsKomponist = topComposer(visits);
+    const meistbesuchtesHaus = topHouse(visits);
 
     // Build the relationship button HTML
     function getRelationshipButtonHTML(rel, priv) {
@@ -241,16 +242,13 @@ async function renderCloudProfile(page, userId) {
       
       <div id="cloudHistogram" class="profile-histogram"></div>
 
-      ${topComposer !== '-' ? `
+      ${lieblingsKomponist ? `
       <div class="profile-favorites">
         <div class="favorite-item">
           <span class="favorite-item__label">Lieblingskomponist</span>
-          <span class="favorite-item__value">${topComposer}</span>
+          <span class="favorite-item__value">${escapeHTML(lieblingsKomponist.composer)}</span>
         </div>
-        <div class="favorite-item">
-          <span class="favorite-item__label">Meistbesuchtes Haus</span>
-          <span class="favorite-item__value">${topHouse}</span>
-        </div>
+        ${favoritHausHTML(meistbesuchtesHaus)}
       </div>
       ` : ''}
 
@@ -543,10 +541,9 @@ function renderLocalProfile(page, userId, isMe) {
         <span class="favorite-item__label">Lieblingskomponist</span>
         <span class="favorite-item__value">${stats?.topComposer || '-'}</span>
       </div>
-      <div class="favorite-item">
-        <span class="favorite-item__label">Meistbesuchtes Haus</span>
-        <span class="favorite-item__value">${stats?.topHouse || '-'}</span>
-      </div>
+      ${favoritHausHTML(stats?.topHouseId
+        ? { house: { id: stats.topHouseId, name: stats.topHouse } }
+        : null)}
     </div>
     ` : ''}
     
