@@ -210,6 +210,33 @@ test('ein Klick auf das meistbesuchte Haus ruft dieses Haus auf', { skip: fehltP
     } finally { await ctx.close(); }
 });
 
+test('der Bundeslandfilter beschränkt die Karte auf dieselben Häuser wie die Liste', { skip: fehltPlaywright }, async () => {
+    const ctx = await browser.newContext({ viewport: RECHNER });
+    const p = await ctx.newPage();
+    try {
+        await ersetzeSupabase(p);
+        await p.goto(`${server.url}/index.html#/houses`);
+        await p.waitForSelector('#stateFilter', { timeout: 15000 });
+        await p.getByRole('button', { name: 'Rheinland-Pfalz', exact: true }).click();
+
+        const erwarteteHaeuser = await p.evaluate(() => import('/src/data/operaHouses.js')
+            .then(({ operaHouses }) => operaHouses.filter(h => h.state === 'Rheinland-Pfalz')));
+        const punkte = await p.locator('.housemap__dot').count();
+        const kartenZaehler = (await p.textContent('.housemap__count')).trim();
+        const kartenNamen = await p.locator('.housemap__dot').evaluateAll(dots =>
+            dots.map(dot => dot.dataset.houseId).sort());
+
+        assert.equal(punkte, erwarteteHaeuser.length);
+        assert.equal(kartenZaehler, `0 von ${erwarteteHaeuser.length}`);
+        assert.deepEqual(kartenNamen, erwarteteHaeuser.map(h => h.id).sort());
+
+        await p.getByRole('button', { name: 'Alle', exact: true }).click();
+        const alle = await p.evaluate(() => import('/src/data/operaHouses.js')
+            .then(({ operaHouses }) => operaHouses.length));
+        assert.equal(await p.locator('.housemap__dot').count(), alle);
+    } finally { await ctx.close(); }
+});
+
 test('ohne bekanntes Haus bleibt die Kachel ein schlichter Kasten', { skip: fehltPlaywright }, async () => {
     // Kein Link ins Leere: ohne Besuche gibt es kein meistbesuchtes Haus.
     const ctx = await browser.newContext({ viewport: RECHNER });

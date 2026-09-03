@@ -54,7 +54,7 @@ export function HousesPage() {
   const besuchteHaeuser = new Set(
     (store.getVisitsByUser('user-me') || []).map(v => v.houseId)
   );
-  page.querySelector('#houseMapSlot').appendChild(HouseMap(besuchteHaeuser));
+  const houseMapSlot = page.querySelector('#houseMapSlot');
 
   // State filter chips
   // Nach deutscher Sortierung: die Vorgabe von sort() vergleicht Zeichencodes
@@ -109,6 +109,11 @@ export function HousesPage() {
       const matchesState = !activeState || h.state === activeState;
       return matchesSearch && matchesState;
     });
+
+    // Liste und Karte zeigen immer denselben Ergebnisbestand. Die Karte wird
+    // bei jeder Filteränderung neu aufgebaut, damit kein Punkt eines anderen
+    // Bundeslands sichtbar bleibt.
+    houseMapSlot.replaceChildren(HouseMap(besuchteHaeuser, filtered));
 
     // Sort
     filtered.sort((a, b) => {

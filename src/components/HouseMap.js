@@ -1,8 +1,9 @@
 // Karte der Opernhäuser
 //
-// Zeichnet alle Häuser des Katalogs an ihrer geografischen Position; die
-// besuchten leuchten, die übrigen bleiben blass. Die Koordinaten liegen seit
-// der Opernhaus-Vorauswahl beim Loggen ohnehin in operaHouses.js.
+// Zeichnet die übergebenen Häuser an ihrer geografischen Position; die
+// besuchten leuchten, die übrigen bleiben blass. Ohne Auswahl bleibt das
+// Verhalten wie bisher und der gesamte Katalog wird gezeigt. Die Koordinaten
+// liegen seit der Opernhaus-Vorauswahl beim Loggen ohnehin in operaHouses.js.
 //
 // Bewusst ohne Landesumriss: einen halbwegs richtigen Umriss von Deutschland
 // und der Schweiz gäbe es nur mit Geodaten von außen, und ein aus dem
@@ -39,17 +40,20 @@ const y = (lat) => RAND + (LAT_MAX - lat) * SKALA;
 
 /**
  * @param {Set<string>|Array<string>} besuchteIds  IDs der besuchten Häuser
+ * @param {Array<object>} haeuser  Häuser, die auf der Karte sichtbar sind
  */
-export function HouseMap(besuchteIds = []) {
+export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN) {
     const besucht = besuchteIds instanceof Set ? besuchteIds : new Set(besuchteIds);
-    const anzahl = MIT_KOORDINATEN.filter(h => besucht.has(h.id)).length;
+    const sichtbareHaeuser = (Array.isArray(haeuser) ? haeuser : MIT_KOORDINATEN)
+        .filter(h => typeof h.lat === 'number' && typeof h.lon === 'number');
+    const anzahl = sichtbareHaeuser.filter(h => besucht.has(h.id)).length;
 
     const box = document.createElement('div');
     box.className = 'housemap';
 
     // Erst die blassen, dann die leuchtenden: so liegen die besuchten Punkte
     // oben und werden von Nachbarn nicht überdeckt.
-    const sortiert = [...MIT_KOORDINATEN].sort(
+    const sortiert = [...sichtbareHaeuser].sort(
         (a, b) => Number(besucht.has(a.id)) - Number(besucht.has(b.id))
     );
 
@@ -64,18 +68,20 @@ export function HouseMap(besuchteIds = []) {
 
     box.innerHTML = `
     <div class="housemap__head">
-      <span class="housemap__count">${anzahl} von ${MIT_KOORDINATEN.length}</span>
+      <span class="housemap__count">${anzahl} von ${sichtbareHaeuser.length}</span>
       <span class="housemap__legend">
         <span class="housemap__key housemap__key--besucht"></span>besucht
         <span class="housemap__key"></span>noch nicht
       </span>
     </div>
     <svg class="housemap__svg" viewBox="0 0 ${VB_BREITE} ${VB_HOEHE.toFixed(2)}"
-         role="img" aria-label="Karte mit ${anzahl} von ${MIT_KOORDINATEN.length} besuchten Opernhäusern">
+         role="img" aria-label="Karte mit ${anzahl} von ${sichtbareHaeuser.length} besuchten Opernhäusern">
       ${punkte}
     </svg>
     <p class="housemap__caption" id="housemapCaption">
-      ${anzahl ? 'Punkt antippen, um zum Haus zu springen' : 'Noch kein Haus besucht'}
+      ${sichtbareHaeuser.length === 0
+        ? 'Keine Opernhäuser für diese Auswahl'
+        : anzahl ? 'Punkt antippen, um zum Haus zu springen' : 'Noch kein Haus besucht'}
     </p>
   `;
 
