@@ -58,4 +58,4 @@ jobs:
         if: inputs.modus == 'daten'
         run: |
           node tests/werkzeug/daten-pruefen.mjs Österreich \
-            --wikitext
+            --voll=wiener-kammeroper,volksoper-wien,oper-graz,tiroler-landestheater,festspielhaus-bregenz,oper-im-steinbruch-st-margarethen,seebuehne-bregenz

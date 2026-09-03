@@ -145,6 +145,29 @@ if (process.argv.includes('--wikitext')) {
     }
 }
 
+// Ganze Artikel für die Fälle, die Wikidata und Katalog verschieden sehen und
+// die die Infobox nicht klärt. Gesucht werden Sätze mit Zahlen – dort steht
+// meist dabei, was gemeint ist.
+const vollFuer = new Set(
+    (process.argv.find(a => a.startsWith('--voll='))?.split('=')[1] || '').split(',').filter(Boolean)
+);
+if (vollFuer.size) {
+    console.log('\n\n### Sätze mit Zahlen aus dem ganzen Artikel\n');
+    for (const h of haeuser.filter(x => vollFuer.has(x.id))) {
+        const titel = TITEL[h.id] || h.name;
+        const url = 'https://de.wikipedia.org/w/api.php?action=query&format=json'
+            + '&prop=extracts&explaintext=1&redirects=1&titles=' + encodeURIComponent(titel);
+        const daten = await json(url);
+        const text = Object.values(daten?.query?.pages || {})[0]?.extract || '';
+        const saetze = text.split(/(?<=\.)\s+/)
+            .filter(z => /\d/.test(z) && /[Pp]lätze|Sitzplatz|Zuschauer|gegründet|Gründung|eröffnet|Eröffnung|seit \d{4}/.test(z))
+            .slice(0, 12);
+        console.log(`--- ${h.id}  (Katalog: ${h.capacity} Plätze, ${h.founded})`);
+        saetze.forEach(z => console.log('    ' + z.replace(/\s+/g, ' ').slice(0, 300)));
+        console.log();
+    }
+}
+
 console.log('\n\n### Abweichungen\n');
 if (!abweichungen.length) console.log('keine');
 for (const a of abweichungen) console.log(JSON.stringify(a));
