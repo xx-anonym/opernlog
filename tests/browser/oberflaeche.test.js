@@ -195,7 +195,10 @@ test('ein Klick auf das meistbesuchte Haus ruft dieses Haus auf', { skip: fehltP
     // Drei Abende in der Semperoper, zwei in der Bayerischen Staatsoper.
     const { ctx, p } = await oeffneProfil(RECHNER);
     try {
-        const kachel = p.locator('.favorite-item--klickbar');
+        // Auf das Haus gezielt und nicht auf "die eine klickbare Kachel":
+        // neben ihr steht seit den Komponistenseiten der Lieblingskomponist,
+        // und ein Selektor, der beide trifft, prüft nicht mehr, was er soll.
+        const kachel = p.locator('.favorite-item--klickbar[href^="#/house/"]');
         assert.equal(await kachel.count(), 1);
         assert.match(await kachel.textContent(), /Semperoper/);
 
@@ -237,6 +240,46 @@ test('der Bundeslandfilter beschränkt die Karte auf dieselben Häuser wie die L
     } finally { await ctx.close(); }
 });
 
+test('ein Klick auf den Lieblingskomponisten ruft dessen Seite auf', { skip: fehltPlaywright }, async () => {
+    // Fünf Abende: dreimal Verdi (La Traviata, Aida, Rigoletto), einmal Aida
+    // noch, einmal Wagner. Verdi führt also.
+    const { ctx, p } = await oeffneProfil(RECHNER);
+    try {
+        const kachel = p.locator('.favorite-item--klickbar[href^="#/composer/"]');
+        assert.equal(await kachel.count(), 1);
+        assert.match(await kachel.textContent(), /Verdi/);
+
+        await kachel.click();
+        await p.waitForFunction(() => window.location.hash.startsWith('#/composer/'), null, { timeout: 5000 });
+        assert.equal(await p.evaluate(() => window.location.hash), '#/composer/giuseppe-verdi');
+
+        // Und die Seite zeigt danach auch wirklich ihn – samt Biografie, die
+        // aus dem Katalog kommt und nicht erst geholt werden muss.
+        await p.waitForFunction(
+            () => (document.querySelector('.composer-hero__name')?.textContent || '').includes('Verdi'),
+            null, { timeout: 10000 });
+        assert.match(await p.textContent('.composer-hero__kurz'), /Komponist/);
+        assert.match(await p.textContent('.composer-quelle'), /Wikipedia/);
+    } finally { await ctx.close(); }
+});
+
+test('auf der Komponistenseite trägt ein markiertes Werk ein Häkchen', { skip: fehltPlaywright }, async () => {
+    // Gesehen heißt geloggt oder markiert. Wer ein Werk vor OpernLog gesehen
+    // hat, soll es hier wiederfinden – sonst zählt die Seite ihm sein halbes
+    // Opernleben nicht an.
+    const { ctx, p } = await oeffneProfil(RECHNER);
+    try {
+        await p.evaluate(() => { window.location.hash = '#/composer/giuseppe-verdi'; });
+        await p.waitForSelector('.composer-werke__eintrag', { timeout: 15000 });
+
+        const zeile = (titel) => p.locator('.composer-werke__eintrag', { hasText: titel }).first();
+        // La Traviata ist geloggt, Nabucco nur markiert (siehe MARKIERT oben).
+        assert.match(await zeile('La Traviata').textContent(), /×/);
+        assert.equal(await zeile('La Traviata').locator('.composer-werke__abende--markiert').count(), 0);
+        assert.equal(await zeile('Nabucco').locator('.composer-werke__abende--markiert').count(), 1);
+    } finally { await ctx.close(); }
+});
+
 test('ohne bekanntes Haus bleibt die Kachel ein schlichter Kasten', { skip: fehltPlaywright }, async () => {
     // Kein Link ins Leere: ohne Besuche gibt es kein meistbesuchtes Haus.
     const ctx = await browser.newContext({ viewport: RECHNER });
@@ -245,6 +288,7 @@ test('ohne bekanntes Haus bleibt die Kachel ein schlichter Kasten', { skip: fehl
         await ersetzeSupabase(p);
         await p.goto(`${server.url}/index.html#/profile/user-me`);
         await p.waitForSelector('#seenOperasCard', { timeout: 15000 });
+        // Weder Haus noch Komponist: ohne Besuche gibt es beides nicht.
         assert.equal(await p.locator('.favorite-item--klickbar').count(), 0);
     } finally { await ctx.close(); }
 });
@@ -277,7 +321,7 @@ test('auch auf einem fremden Profil führt das meistbesuchte Haus zum Haus', { s
         await p.evaluate(id => { window.location.hash = `#/profile/${id}`; }, FREMD);
         await p.waitForSelector('.favorite-item--klickbar', { timeout: 15000 });
 
-        const kachel = p.locator('.favorite-item--klickbar');
+        const kachel = p.locator('.favorite-item--klickbar[href^="#/house/"]');
         assert.match(await kachel.textContent(), /Staatsoper Unter den Linden|Staatsoper/);
         await kachel.click();
         await p.waitForFunction(() => window.location.hash.startsWith('#/house/'), null, { timeout: 5000 });

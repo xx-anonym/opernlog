@@ -4557,3 +4557,16 @@ body {
         font-size: 24px;
     }
 }
+
+/* Als gesehen markiert, aber ohne geloggten Abend – das Häkchen steht für
+   Werke von vor OpernLog, zu denen es kein Datum und kein Haus gibt. Grün
+   wie die Angabe "Gesehen · geloggt" auf der Werkseite. */
+.composer-werke__abende--markiert {
+    color: var(--green);
+}
+
+.composer-werke__abende--markiert .icon {
+    width: 0.95em;
+    height: 0.95em;
+    vertical-align: -0.14em;
+}

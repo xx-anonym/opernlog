@@ -38,7 +38,13 @@ export function ComposerDetailPage(composerId) {
     const abende = store.getAllVisits().filter(v => werkIds.has(v.operaId));
     const bewertet = abende.map(v => Number(v.rating)).filter(n => Number.isFinite(n) && n > 0);
     const schnitt = bewertet.length ? bewertet.reduce((s, n) => s + n, 0) / bewertet.length : null;
-    const gesehen = new Set(abende.map(v => v.operaId)).size;
+
+    // Gesehen heißt geloggt oder markiert. Wer ein Werk vor OpernLog gesehen
+    // hat, trägt es ohne Datum, Haus und Bewertung ein – es hier wegzulassen
+    // hieße, ihm sein halbes Opernleben nicht anzurechnen.
+    const geloggt = new Set(abende.map(v => v.operaId));
+    const markiert = new Set(werke.filter(o => !geloggt.has(o.id) && store.isSeenOpera(o.id)).map(o => o.id));
+    const gesehen = geloggt.size + markiert.size;
 
     const bildStil = coverBackground(
         komponist.bild,
@@ -88,14 +94,21 @@ export function ComposerDetailPage(composerId) {
           <ul class="composer-werke">
             ${werke.map((o, i) => {
                 const eigene = abende.filter(v => v.operaId === o.id).length;
+                // Drei Zustände, absichtlich verschieden benannt: die Zahl der
+                // Abende, das Häkchen für "vor OpernLog gesehen" – ohne Datum,
+                // Haus und Bewertung – und nichts.
+                const zeichen = eigene
+                    ? `<span class="composer-werke__abende" title="${eigene} ${eigene === 1 ? 'Abend' : 'Abende'} geloggt">${eigene}×</span>`
+                    : markiert.has(o.id)
+                        ? `<span class="composer-werke__abende composer-werke__abende--markiert"
+                                 title="Als gesehen markiert, ohne geloggten Abend">${icon('checkCircle', { label: 'Schon gesehen' })}</span>`
+                        : '<span class="composer-werke__abende composer-werke__abende--leer"></span>';
                 return `
               <li class="composer-werke__eintrag fade-in" style="animation-delay:${einblendVerzoegerung(i)}">
                 <a class="composer-werke__zeile" href="#/opera/${o.id}">
                   <span class="composer-werke__jahr">${o.yearComposed || ''}</span>
                   <span class="composer-werke__titel">${escapeHTML(o.title)}</span>
-                  ${eigene
-                    ? `<span class="composer-werke__abende">${eigene}×</span>`
-                    : '<span class="composer-werke__abende composer-werke__abende--leer"></span>'}
+                  ${zeichen}
                 </a>
               </li>`;
             }).join('')}

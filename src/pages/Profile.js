@@ -13,6 +13,7 @@ import { openListModal } from '../components/ListModal.js';
 import { seenOperaList } from '../data/seenOperas.js';
 import { visitedHouseList } from '../data/visitedHouses.js';
 import { topComposer, topHouse } from '../data/favorites.js';
+import { composerByName } from '../data/composers.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 
 /**
@@ -40,6 +41,39 @@ function favoritHausHTML(eintrag) {
         <span class="favorite-item__label">Meistbesuchtes Haus</span>
         <span class="favorite-item__value">${escapeHTML(eintrag.house.name)}</span>
         <span class="favorite-item__hint">${icon('building')}</span>
+      </a>`;
+}
+
+/**
+ * Der Lieblingskomponist als Link auf seine Seite.
+ *
+ * Wie beim meistbesuchten Haus: wer ihn sieht, will meist auch hin. Und wie
+ * dort ein echtes <a href> statt eines Knopfes mit Klick-Zuhörer, damit es
+ * sich lange antippen, in einem neuen Tab öffnen und vorlesen lässt.
+ *
+ * Eine Funktion für beide Profilwege – eigenes und fremdes Profil –, weil
+ * genau diese Doppelung hier schon mehrfach dazu geführt hat, dass eine
+ * Änderung nur an einer von zwei Stellen ankam.
+ *
+ * @param {string|null} name Name aus dem Werkkatalog
+ */
+function favoritKomponistHTML(name) {
+    const k = name ? composerByName(name) : null;
+    if (!k) {
+        return `
+      <div class="favorite-item">
+        <span class="favorite-item__label">Lieblingskomponist</span>
+        <span class="favorite-item__value">${escapeHTML(name || '-')}</span>
+      </div>`;
+    }
+
+    return `
+      <a class="favorite-item favorite-item--klickbar"
+         href="#/composer/${encodeURIComponent(k.id)}"
+         title="Zum Komponisten">
+        <span class="favorite-item__label">Lieblingskomponist</span>
+        <span class="favorite-item__value">${escapeHTML(k.name)}</span>
+        <span class="favorite-item__hint">${icon('music')}</span>
       </a>`;
 }
 
@@ -244,10 +278,7 @@ async function renderCloudProfile(page, userId) {
 
       ${lieblingsKomponist ? `
       <div class="profile-favorites">
-        <div class="favorite-item">
-          <span class="favorite-item__label">Lieblingskomponist</span>
-          <span class="favorite-item__value">${escapeHTML(lieblingsKomponist.composer)}</span>
-        </div>
+        ${favoritKomponistHTML(lieblingsKomponist.composer)}
         ${favoritHausHTML(meistbesuchtesHaus)}
       </div>
       ` : ''}
@@ -537,10 +568,7 @@ function renderLocalProfile(page, userId, isMe) {
     
     ${stats?.topComposer && stats.topComposer !== '-' ? `
     <div class="profile-favorites">
-      <div class="favorite-item">
-        <span class="favorite-item__label">Lieblingskomponist</span>
-        <span class="favorite-item__value">${stats?.topComposer || '-'}</span>
-      </div>
+      ${favoritKomponistHTML(stats?.topComposer)}
       ${favoritHausHTML(stats?.topHouseId
         ? { house: { id: stats.topHouseId, name: stats.topHouse } }
         : null)}
