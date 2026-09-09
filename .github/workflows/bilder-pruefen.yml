@@ -32,6 +32,7 @@ on:
     paths:
       - 'src/data/operas.js'
       - 'src/data/operaHouses.js'
+      - 'src/data/composers.js'
       - 'tests/werkzeug/bilder-pruefen.mjs'
 
 jobs:

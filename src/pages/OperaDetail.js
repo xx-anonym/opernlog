@@ -3,6 +3,7 @@ import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
 import { coverBackground, escapeHTML, datumKurz } from '../utils.js';
 import { werkVerlauf } from '../data/werkVerlauf.js';
+import { composerLink } from './ComposerDetail.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
@@ -112,7 +113,7 @@ export function OperaDetailPage(operaId) {
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${opera.title}</h1>
         <div class="detail-hero__meta">
-          <span>${icon('music', { className: 'icon--meta' })}${opera.composer}</span>
+          <span>${icon('music', { className: 'icon--meta' })}${composerLink(opera.composer)}</span>
           <span>${icon('calendar', { className: 'icon--meta' })}${opera.yearComposed}</span>
           <span>${icon('globe', { className: 'icon--meta' })}${opera.language}</span>
           <span>${icon('layers', { className: 'icon--meta' })}${opera.acts} ${opera.acts === 1 ? 'Akt' : 'Akte'}</span>

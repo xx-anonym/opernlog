@@ -22,7 +22,12 @@ const IMAGE_HOSTS = ['upload.wikimedia.org'];
 // Obergrenze, damit der Cache nicht unbegrenzt wächst. Bilder von fremden
 // Hosts kommen als opaque Responses und zählen beim Speicherkontingent
 // großzügig gepolstert – deshalb eher knapp bemessen.
-const IMAGE_CACHE_LIMIT = 260;
+//
+// 264 Adressen führt der Katalog inzwischen: 121 Werke, 92 Häuser und 51
+// Komponistenporträts. Bei 260 hätte der Cache genau die zuletzt geladenen
+// wieder weggeworfen und sie beim nächsten Blick erneut geholt. Seit der
+// Umstellung auf 500px sind das rund 17 MB statt der früheren 200.
+const IMAGE_CACHE_LIMIT = 320;
 
 // App shell files to cache for offline use
 //
@@ -58,6 +63,7 @@ const APP_SHELL = [
     './src/pages/ListDetail.js',
     './src/pages/LogVisit.js',
     './src/pages/OperaDetail.js',
+    './src/pages/ComposerDetail.js',
     './src/pages/Operas.js',
     './src/pages/Profile.js',
     './src/pages/ProfileSetup.js',
@@ -78,6 +84,7 @@ const APP_SHELL = [
     './src/store/supabase.js',
     './src/data/operaHouses.js',
     './src/data/operas.js',
+    './src/data/composers.js',
     './src/data/blindSpots.js',
     './src/data/favorites.js',
     './src/data/season.js',

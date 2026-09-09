@@ -14,14 +14,17 @@ import { fileURLToPath } from 'node:url';
 import { holen } from './commons.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const DATEIEN = ['src/data/operas.js', 'src/data/operaHouses.js'];
+const DATEIEN = ['src/data/operas.js', 'src/data/operaHouses.js', 'src/data/composers.js'];
 
 function adressen() {
     const gefunden = [];
     for (const datei of DATEIEN) {
         fs.readFileSync(path.join(WURZEL, datei), 'utf8').split('\n').forEach((zeile, i) => {
-            const id = (zeile.match(/id: '([^']+)'/) || [])[1] || '?';
-            for (const m of zeile.matchAll(/(?:image|imageUrl): '(https?:[^']+)'/g)) {
+            // Beide Schreibweisen: Werke und Häuser stehen von Hand da und
+            // benutzen einfache Anführungszeichen, composers.js schreibt
+            // komponisten-holen.mjs als JSON mit doppelten.
+            const id = (zeile.match(/id: '([^']+)'/) || zeile.match(/"id"\s*:\s*"([^"]+)"/) || [])[1] || '?';
+            for (const m of zeile.matchAll(/(?:image|imageUrl|bild)"?\s*:\s*['"](https?:[^'"]+)['"]/g)) {
                 gefunden.push({ datei, zeile: i + 1, id, url: m[1] });
             }
         });

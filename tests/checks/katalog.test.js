@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { operas } from '../../src/data/operas.js';
+import { composers, composerByName } from '../../src/data/composers.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -162,6 +163,60 @@ test('Bilder sind verkleinerte Fassungen, keine Originale', () => {
     }
     assert.deepEqual(zuGross, [],
         `zu große Bilder – jedes wird beim Öffnen der Liste geladen:\n  ${zuGross.join('\n  ')}`);
+});
+
+test('zu jedem Komponisten im Werkkatalog gibt es einen Eintrag', () => {
+    // Der Name ist der Schlüssel – er steht als Freitext im Werk und muss
+    // zeichengleich im Komponistenkatalog stehen. Ein zusätzliches Leerzeichen
+    // oder ein anderer Vorname, und die Werkseite verlinkt ins Leere.
+    const fehlend = [...new Set(operas.map(o => o.composer))]
+        .filter(n => !composerByName(n))
+        .sort();
+    assert.deepEqual(fehlend, [],
+        `ohne Eintrag in composers.js – tests/werkzeug/komponisten-holen.mjs holt sie:\n  ${fehlend.join('\n  ')}`);
+});
+
+test('der Komponistenkatalog führt niemanden ohne Werk', () => {
+    // Sonst stünde eine Seite herum, auf die nichts zeigt.
+    const namen = new Set(operas.map(o => o.composer));
+    const ohneWerk = composers.filter(c => !namen.has(c.name)).map(c => c.id);
+    assert.deepEqual(ohneWerk, []);
+});
+
+test('Komponisten-Ids sind eindeutig und url-tauglich', () => {
+    assert.deepEqual(doppelte(composers.map(c => c.id)), []);
+    for (const c of composers) {
+        assert.match(c.id, /^[a-z0-9-]+$/, `unbrauchbare Id: ${c.id}`);
+    }
+});
+
+test('jeder Komponist hat Kurzfassung, Biografie und Artikel', () => {
+    // Ohne Artikel dürfte der Text nicht hier stehen: er stammt aus der
+    // Wikipedia und steht unter CC BY-SA, das verlangt die Herkunftsangabe.
+    for (const c of composers) {
+        assert.ok(c.kurz?.trim(), `${c.id}: keine Kurzfassung`);
+        assert.ok(c.bio?.trim(), `${c.id}: keine Biografie`);
+        assert.match(c.wikipedia || '', /^https:\/\/de\.wikipedia\.org\/wiki\//, `${c.id}: kein Artikel`);
+    }
+});
+
+test('Biografien enden auf einem Satzende', () => {
+    // Der Text wird bei 320 Zeichen geschnitten. Mitten im Satz abzubrechen
+    // sähe nach einem Fehler aus, nicht nach einer Kurzfassung.
+    for (const c of composers) {
+        assert.match(c.bio, /[.!?]$/, `${c.id}: bricht ab – "…${c.bio.slice(-40)}"`);
+    }
+});
+
+test('Komponistenporträts sind verkleinert und nennen ihre Lizenz', () => {
+    // Dieselbe Breite wie der übrige Katalog, und ohne Lizenzangabe dürfte
+    // ein Bild hier nicht stehen. Ein Komponist ohne freies Porträt hat kein
+    // Bild – das ist erlaubt, die Seite zeigt dann den Verlauf.
+    for (const c of composers.filter(c => c.bild)) {
+        assert.match(c.bild, /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/thumb\//, `${c.id}: kein Commons-Thumbnail`);
+        assert.match(c.bild, /\/500px-|\/lossy-page1-500px-/, `${c.id}: nicht 500px breit`);
+        assert.ok(c.bildLizenz?.trim(), `${c.id}: Bild ohne Lizenzangabe`);
+    }
 });
 
 test('jedes Haus hat eine Farbe als Rückfallebene für fehlende Bilder', () => {
