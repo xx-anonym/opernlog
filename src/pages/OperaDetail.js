@@ -1,7 +1,8 @@
 // Opera Detail Page
 import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground } from '../utils.js';
+import { coverBackground, escapeHTML, datumKurz } from '../utils.js';
+import { werkVerlauf } from '../data/werkVerlauf.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
@@ -9,6 +10,80 @@ import { ReviewCard } from '../components/ReviewCard.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
+
+/** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
+function note(n) {
+    return n === null || n === undefined ? '' : n.toFixed(1).replace('.', ',');
+}
+
+/**
+ * "Deine Abende mit diesem Werk" – erst ab dem zweiten Abend.
+ *
+ * Ein Film bleibt derselbe, eine Oper wird jedes Mal neu gemacht. Interessant
+ * ist deshalb nicht, ob jemand Tosca mag, sondern welche Tosca – und das steht
+ * bisher über einzelne Tagebucheinträge verstreut, obwohl jeder Besuch Haus,
+ * Datum, Bewertung und Mitwirkende führt.
+ *
+ * Beim ersten Abend gibt es nichts zu vergleichen; eine Liste mit einem
+ * Eintrag stünde bloß im Weg, und der Abend selbst steht ohnehin unten bei den
+ * Reviews.
+ *
+ * Aus den eigenen Besuchen, die lokal vorliegen – der Block steht damit
+ * sofort da und wartet nicht auf die Bewertungen der Community.
+ */
+function werkVerlaufAbschnitt(operaId) {
+    const v = werkVerlauf(store.getVisitsByOpera(operaId), operaId);
+    if (!v || v.anzahl < 2) return '';
+
+    const zeilen = v.abende.map(a => {
+        // Dirigent und Regie prägen den Abend; die Besetzung ist zu lang für
+        // eine Zeile und steht vollständig auf der Review-Karte.
+        const wer = [a.credits.conductor, a.credits.director]
+            .filter(Boolean).map(escapeHTML).join(' · ');
+        return `
+          <li class="werkverlauf__abend">
+            <a class="werkverlauf__zeile" href="#/visit/${encodeURIComponent(a.visit.id)}">
+              <span class="werkverlauf__datum">${datumKurz(a.datum)}</span>
+              <span class="werkverlauf__haus">${a.haus
+                ? escapeHTML(a.haus.name)
+                : '<span class="text-muted">Haus nicht im Katalog</span>'}</span>
+              <span class="werkverlauf__note">${a.note === null
+                ? '<span class="text-muted">ohne Bewertung</span>'
+                : `${icon('star', { filled: true, className: 'icon--meta' })}${note(a.note)}`}</span>
+            </a>
+            ${wer ? `<p class="werkverlauf__credits">${wer}</p>` : ''}
+          </li>`;
+    }).join('');
+
+    const bewertet = v.abende.filter(a => a.note !== null);
+    const teile = [];
+    // entwicklung ist nur gesetzt, wenn mindestens zwei Abende bewertet sind –
+    // sonst gäbe es nichts zu vergleichen. "immer 4,0" stand sonst auch dann
+    // da, wenn genau ein Abend eine Note hatte, und behauptete eine
+    // Beständigkeit, für die es keinen zweiten Wert gab.
+    if (v.entwicklung !== null && v.entwicklung !== 0) {
+        teile.push(`von ${note(bewertet[0].note)} auf ${note(bewertet[bewertet.length - 1].note)}`);
+    } else if (v.entwicklung === 0) {
+        teile.push(`immer ${note(v.schnitt)}`);
+    }
+    if (v.haeuser > 1) teile.push(`${v.haeuser} Häuser`);
+    if (v.erste.jahr && v.letzte.jahr && v.erste.jahr !== v.letzte.jahr) {
+        teile.push(`${v.erste.jahr} bis ${v.letzte.jahr}`);
+    }
+
+    return `
+      <div class="detail-section">
+        <!-- Kurz gehalten: auf der Werkseite ist "mit diesem Werk" gesagt,
+             und mit dem Zusatz brach die Zahl bei 375 px in eine eigene
+             Zeile und stand dort als Waise. -->
+        <h2 class="section__title">
+          ${icon('calendar')}Deine Abende
+          <span class="section__count">${v.anzahl}×</span>
+        </h2>
+        <ol class="werkverlauf">${zeilen}</ol>
+        ${teile.length ? `<p class="werkverlauf__fazit">${teile.join(' · ')}</p>` : ''}
+      </div>`;
+}
 
 export function OperaDetailPage(operaId) {
   const opera = operas.find(o => o.id === operaId);
@@ -77,6 +152,8 @@ export function OperaDetailPage(operaId) {
         </div>
       </div>
       
+      ${werkVerlaufAbschnitt(operaId)}
+
       <div class="detail-section" id="performedAtSection" style="display:none">
         <h2 class="section__title">${icon('building')}Aufgeführt in</h2>
         <div class="tag-list" id="performedAt"></div>

@@ -9,7 +9,7 @@ import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { icon } from '../components/Icon.js';
 import { showToast, showError } from '../components/Toast.js';
-import { escapeHTML, copyToClipboard } from '../utils.js';
+import { escapeHTML, copyToClipboard, datumKurz } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
 import {
     buildSeasonReview,
@@ -19,14 +19,9 @@ import {
     seasonsWithVisits,
 } from '../data/season.js';
 
-const MONATE_KURZ = ['Jan.', 'Feb.', 'März', 'April', 'Mai', 'Juni',
-    'Juli', 'Aug.', 'Sept.', 'Okt.', 'Nov.', 'Dez.'];
-
-function datum(wert) {
-    const m = String(wert || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
-    if (!m) return '';
-    return `${Number(m[3])}. ${MONATE_KURZ[Number(m[2]) - 1]} ${m[1]}`;
-}
+// Liegt seit dem Werkverlauf in utils.js – dort braucht es dieselbe Ausgabe,
+// und zwei Fassungen desselben Formats laufen erfahrungsgemäß auseinander.
+const datum = datumKurz;
 
 function zahl(n) {
     return new Intl.NumberFormat('de-DE').format(n);

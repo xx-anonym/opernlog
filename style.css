@@ -4332,3 +4332,98 @@ body {
     margin-top: 12px;
     flex-shrink: 0;
 }
+
+/* --- Werkverlauf: die eigenen Abende mit einem Werk ------------------ */
+/* Ein Film bleibt derselbe, eine Oper wird jedes Mal neu gemacht. Die
+   Zeilen stehen deshalb untereinander wie ein Fahrplan: Datum, Haus,
+   Bewertung – damit sich die Abende spaltenweise vergleichen lassen. */
+
+.section__count {
+    margin-left: 8px;
+    font-family: var(--font-body);
+    font-size: 0.62em;
+    font-weight: 600;
+    color: var(--gold);
+    vertical-align: 0.18em;
+}
+
+.werkverlauf {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+
+.werkverlauf__abend {
+    border-bottom: 1px solid var(--border);
+}
+
+.werkverlauf__zeile {
+    display: grid;
+    /* Datum und Bewertung so breit wie nötig, das Haus bekommt den Rest –
+       so stehen die Bewertungen bündig untereinander. */
+    grid-template-columns: 7.4em 1fr auto;
+    align-items: baseline;
+    gap: 10px;
+    padding: 11px 4px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background var(--transition);
+}
+
+.werkverlauf__zeile:hover {
+    background: var(--bg-tertiary);
+}
+
+.werkverlauf__datum {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.werkverlauf__haus {
+    font-weight: 500;
+}
+
+.werkverlauf__note {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+/* a:hover färbt global golden und gewänne mit (0,1,1) gegen die Klasse
+   des Kastens – mitten in der Zeile würde sonst ein Wort golden. */
+.werkverlauf__zeile:hover .werkverlauf__haus {
+    color: var(--text);
+}
+
+.werkverlauf__credits {
+    margin: -4px 0 9px;
+    padding-left: calc(7.4em + 14px);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.werkverlauf__fazit {
+    margin: 12px 0 0;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 420px) {
+    /* Auf schmalen Bildschirmen bricht das Haus unter das Datum, statt die
+       Bewertung aus der Zeile zu drängen. */
+    .werkverlauf__zeile {
+        grid-template-columns: 1fr auto;
+    }
+
+    .werkverlauf__datum {
+        grid-column: 1 / -1;
+        margin-bottom: -6px;
+    }
+
+    .werkverlauf__credits {
+        padding-left: 4px;
+    }
+}

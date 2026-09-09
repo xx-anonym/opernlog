@@ -54,6 +54,26 @@ export function einblendVerzoegerung(i, schritt = 0.03, maxIndex = 10) {
     return `${(Math.min(i, maxIndex) * schritt).toFixed(2)}s`;
 }
 
+const MONATE_KURZ = ['Jan.', 'Feb.', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'Aug.', 'Sept.', 'Okt.', 'Nov.', 'Dez.'];
+
+/**
+ * Ein Besuchsdatum als "4. Jan. 2026".
+ *
+ * Über einen regulären Ausdruck und nicht über new Date(): "2026-01-04" gilt
+ * als UTC-Mitternacht, und getDate() liefert daraus westlich von Greenwich den
+ * dritten Januar. Ein Besuchsdatum hat keine Uhrzeit und keine Zeitzone – es
+ * soll überall dastehen, wie es eingetragen wurde.
+ *
+ * @param {string} wert Datum als JJJJ-MM-TT
+ * @returns {string} leer, wenn sich nichts lesen lässt
+ */
+export function datumKurz(wert) {
+    const m = String(wert || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return '';
+    return `${Number(m[3])}. ${MONATE_KURZ[Number(m[2]) - 1]} ${m[1]}`;
+}
+
 export function escapeHTML(str) {
     if (str == null) return '';
     return String(str)
