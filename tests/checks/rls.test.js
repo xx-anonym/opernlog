@@ -1,7 +1,7 @@
-// Die Zugriffsregeln stehen in .sql-Dateien, die von Hand im Supabase-Dashboard
-// ausgeführt werden. Niemand sieht sie im Alltag – und eine Regel zu viel fällt
-// erst auf, wenn jemand danach sucht. Deshalb hier festgehalten, was bewusst
-// öffentlich ist.
+// Die Zugriffsregeln stehen in .sql-Dateien unter supabase/, die von Hand im
+// Supabase-Dashboard ausgeführt werden. Niemand sieht sie im Alltag – und eine
+// Regel zu viel fällt erst auf, wenn jemand danach sucht. Deshalb hier
+// festgehalten, was bewusst öffentlich ist.
 //
 // Der anon-Schlüssel steckt in jedem ausgelieferten Bundle; er muss das, sonst
 // käme die Seite nicht an ihre Daten. "Öffentlich lesbar" heißt darum wörtlich:
@@ -18,8 +18,8 @@ const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..
 /**
  * SQL ohne Kommentare. Beide Formen müssen weg: die Erklärungen über einer
  * Regel nennen oft genau das, was sie abschafft ("Bisher galt USING (true)"),
- * und in friend_requests_migration.sql steht ein ganzer stillgelegter
- * Auslöser in einem Blockkommentar.
+ * und in supabase/migrations/friend_requests_migration.sql steht ein ganzer
+ * stillgelegter Auslöser in einem Blockkommentar.
  */
 function sqlOhneKommentare(datei) {
     return fs.readFileSync(path.join(WURZEL, datei), 'utf8')
@@ -27,9 +27,18 @@ function sqlOhneKommentare(datei) {
         .split('\n').map(z => z.replace(/--.*$/, '')).join('\n');
 }
 
-const sqlDateien = fs.readdirSync(WURZEL).filter(f => f.endsWith('.sql'));
+// Das Basisschema plus jede Migration darunter. Getrennt aufgeführt, weil das
+// Schema keine Migration ist; der Inhalt ist derselbe wie früher, als alle
+// .sql-Dateien im Wurzelverzeichnis lagen.
+const migrationen = 'supabase/migrations';
+const sqlDateien = [
+    ...fs.readdirSync(path.join(WURZEL, migrationen))
+        .filter(f => f.endsWith('.sql'))
+        .map(f => `${migrationen}/${f}`),
+    'supabase/schema.sql',
+];
 const allesSql = sqlDateien.map(sqlOhneKommentare).join('\n');
-const schema = sqlOhneKommentare('supabase_schema.sql');
+const schema = sqlOhneKommentare('supabase/schema.sql');
 
 // OpernLog ist ein öffentliches Tagebuch: Haus- und Opernseiten zeigen die
 // Abende aller, und die Community-Statistik lebt davon. Diese Tabellen sind

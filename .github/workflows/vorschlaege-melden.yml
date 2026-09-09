@@ -59,7 +59,7 @@ jobs:
             -H "Content-Type: application/json" -d '{}') || STATUS=000
 
           if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 300 ]; then
-            echo "::error::Supabase antwortet mit HTTP $STATUS – ist pending_suggestions_function_migration.sql eingespielt?"
+            echo "::error::Supabase antwortet mit HTTP $STATUS – ist supabase/migrations/pending_suggestions_function_migration.sql eingespielt?"
             head -c 500 antwort.json || true
             exit 1
           fi
