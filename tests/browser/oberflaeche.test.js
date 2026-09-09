@@ -183,11 +183,52 @@ test('ein Klick auf die Besuche führt ins Tagebuch', { skip: fehltPlaywright },
     try {
         // Ein echter Link, kein Knopf mit Klick-Zuhörer: so lässt er sich auch
         // lange antippen, in einem neuen Tab öffnen und vorlesen.
-        const kachel = p.locator('a.stat-card[href="#/diary"]');
+        //
+        // Über die Beschriftung gesucht und nicht über "die eine Kachel, die
+        // ins Tagebuch führt": seit die Ø-Bewertung ebenfalls dorthin führt,
+        // trifft der Selektor zwei, und ein count() === 1 prüfte danach nur
+        // noch, dass sich nichts geändert hat.
+        const kachel = p.locator('a.stat-card[href="#/diary"]', { hasText: 'Besuche' });
         assert.equal(await kachel.count(), 1, 'Besuche-Kachel ist kein Link auf das Tagebuch');
         await kachel.click();
         await p.waitForFunction(() => window.location.hash.startsWith('#/diary'), null, { timeout: 5000 });
         assert.match(await p.evaluate(() => window.location.hash), /^#\/diary/);
+    } finally { await ctx.close(); }
+});
+
+test('ein Klick auf die Ø Bewertung führt ebenfalls ins Tagebuch', { skip: fehltPlaywright }, async () => {
+    // Der Schnitt ist eine Zahl über genau den Abenden, die dort stehen – wer
+    // ihn ansieht, will meist wissen, woraus er sich ergibt.
+    const { ctx, p } = await oeffneProfil(RECHNER);
+    try {
+        const kachel = p.locator('a.stat-card[href="#/diary"]', { hasText: 'Bewertung' });
+        assert.equal(await kachel.count(), 1, 'Ø-Bewertung-Kachel ist kein Link auf das Tagebuch');
+        await kachel.click();
+        await p.waitForFunction(() => window.location.hash.startsWith('#/diary'), null, { timeout: 5000 });
+        assert.match(await p.evaluate(() => window.location.hash), /^#\/diary/);
+    } finally { await ctx.close(); }
+});
+
+test('auf einem fremden Profil führt keine Kachel ins eigene Tagebuch', { skip: fehltPlaywright }, async () => {
+    // Dort stehen fremde Zahlen; ein Link ins eigene Tagebuch wäre schlicht
+    // der falsche Ort. Fremde Profile zeichnet eine eigene Funktion, und diese
+    // Doppelung ist hier schon mehrfach auseinandergelaufen.
+    const FREMD = '33333333-3333-3333-3333-333333333333';
+    const ctx = await browser.newContext({ viewport: RECHNER });
+    const p = await ctx.newPage();
+    try {
+        await ersetzeSupabase(p);
+        await p.goto(`${server.url}/index.html`);
+        await p.waitForFunction(() => !!window.__visits, null, { timeout: 15000 });
+        await p.evaluate(({ id }) => {
+            window.__visits = [
+                { id: 'g1', user_id: id, opera_id: 'la-traviata', house_id: 'semperoper', date: '2026-01-01', rating: 5 },
+            ];
+        }, { id: FREMD });
+
+        await p.evaluate(id => { window.location.hash = `#/profile/${id}`; }, FREMD);
+        await p.waitForSelector('.profile-stats', { timeout: 15000 });
+        assert.equal(await p.locator('a.stat-card[href="#/diary"]').count(), 0);
     } finally { await ctx.close(); }
 });
 

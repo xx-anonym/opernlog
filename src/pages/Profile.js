@@ -546,10 +546,15 @@ function renderLocalProfile(page, userId, isMe) {
         <span class="stat-card__label">Besuche</span>
         <span class="stat-card__hint">${icon('calendar')}</span>
       </a>
-      <div class="stat-card">
+      <!-- Führt wie "Besuche" ins Tagebuch: der Schnitt ist eine Zahl über
+           genau diesen Abenden, und wer ihn ansieht, will meist wissen, woraus
+           er sich ergibt. Nur im eigenen Profil – im fremden zeigte der Link
+           auf das eigene Tagebuch und damit auf fremde Zahlen. -->
+      <a href="#/diary" class="stat-card stat-card--klickbar" title="Zum Tagebuch">
         <span class="stat-card__number">${stats?.avgRating || '0'}</span>
         <span class="stat-card__label">Ø Bewertung</span>
-      </div>
+        <span class="stat-card__hint">${icon('calendar')}</span>
+      </a>
       <button type="button" class="stat-card stat-card--klickbar" id="visitedHousesCard"
         title="Häuser, in denen du warst – anklicken für die Liste">
         <span class="stat-card__number">${stats?.uniqueHouses || 0}</span>
