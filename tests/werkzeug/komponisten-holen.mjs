@@ -94,6 +94,30 @@ async function json(url) {
     try { return await r.antwort.json(); } catch { return null; }
 }
 
+/**
+ * Das Porträt aus Wikidata (P18), wenn die Artikelzusammenfassung keins nennt.
+ *
+ * Die Zusammenfassung liefert das Artikelbild, und das fehlt, sobald es auf
+ * de.wikipedia nur unter einer Schutzschranke liegt – bei Komponisten des
+ * 20. Jahrhunderts der Regelfall. Wikidata führt daneben ein eigenes Feld, das
+ * nur freie Dateien enthält: Kálmán, Korngold und Strawinsky haben dort ein
+ * Porträt, obwohl die Zusammenfassung keins hergab.
+ *
+ * P18 meint die abgebildete Person selbst. Das ist der Unterschied zu einer
+ * Volltextsuche auf Commons, die auch Aufführungen, Denkmäler und Gräber
+ * findet – bei Bernd Alois Zimmermann etwa eine Aufführung seiner
+ * Ekklesiastischen Aktion, die dort unter seinem Namen liegt.
+ */
+async function wikidataPortraet(titel) {
+    const pp = await json('https://de.wikipedia.org/w/api.php?action=query&format=json&redirects=1'
+        + `&prop=pageprops&titles=${encodeURIComponent(titel)}`);
+    const q = Object.values(pp?.query?.pages || {})[0]?.pageprops?.wikibase_item;
+    if (!q) return null;
+
+    const ent = await json(`https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids=${q}&props=claims`);
+    return ent?.entities?.[q]?.claims?.P18?.[0]?.mainsnak?.datavalue?.value || null;
+}
+
 /** Lizenz und Urheber eines Commons-Bildes – für die Bildnachweise in der App. */
 async function bildRechte(datei) {
     const d = await json('https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo'
@@ -128,7 +152,9 @@ for (const name of gesucht) {
     }
 
     const bildUrl = d.originalimage?.source || d.thumbnail?.source || null;
-    const datei = bildUrl ? dateiname(bildUrl) : null;
+    // Erst das Artikelbild, dann Wikidata. Fehlt beides, bleibt es beim
+    // Verlauf – erfunden wird nichts.
+    const datei = (bildUrl ? dateiname(bildUrl) : null) || await wikidataPortraet(titel);
     const rechte = datei ? await bildRechte(datei) : { lizenz: '', urheber: '' };
 
     const eintrag = {
