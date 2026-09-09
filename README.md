@@ -53,6 +53,24 @@ Hand gestartet.
 | `tests/` | Tests und Katalog-Werkzeuge |
 | `.github/workflows/` | Tests, Katalogprüfung, Supabase wachhalten, offene Vorschläge melden |
 
+## Version erhöhen
+
+Die Version ist eine Kalenderversion (`JJJJ.MM.TT`) und steht im
+Ladebildschirm. Erhöhen heißt: **zwei** Stellen anfassen.
+
+1. `src/version.js` – `VERSION` auf das heutige Datum setzen
+2. `sw.js` – `CACHE_NAME` auf `opernlog-<dieselbe Version>` setzen
+
+Der Cache-Name ist kein Beiwerk: `activate` löscht jeden Cache, der anders
+heißt, und ist damit der einzige Hebel, mit dem eine neue App-Shell bei den
+Nutzern ankommt. Bleibt er stehen, zeigt der Ladebildschirm eine neue Nummer,
+während alle weiter die alten Dateien benutzen. Der Bilder-Cache hängt bewusst
+nicht an der Version – sonst würfe jede Erhöhung die geladenen Bilder weg.
+
+Zusammenlegen lässt sich das nicht: `sw.js` läuft als klassischer Worker und
+kann kein ES-Modul importieren. Dass beide Stellen übereinstimmen, prüft
+`tests/checks/version.test.js`.
+
 ## Datenbank
 
 Die Migrationen unter `supabase/migrations/` sind nicht automatisiert; sie

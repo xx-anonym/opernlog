@@ -106,12 +106,23 @@ async function imFlugmodus(hash = '#/diary') {
 test('der Service Worker hat die App-Dateien im Cache', { skip: fehltPlaywright }, async () => {
     const { ctx, p } = await imFlugmodus();
     try {
-        const anzahl = await p.evaluate(async () => {
+        const gefunden = await p.evaluate(async () => {
             const namen = await caches.keys();
-            const c = await caches.open(namen.find(n => n.startsWith('opernlog-v')));
-            return (await c.keys()).length;
+            // Den App-Shell-Cache über den Bilder-Cache abgrenzen, nicht über
+            // das Namensschema. Hier stand der feste Anfang 'opernlog-v';
+            // als der Name die Kalenderversion bekam, fand find() nichts,
+            // caches.open(undefined) legte einen leeren Cache namens
+            // "undefined" an, und der Test meldete "0 Dateien" – als läge es
+            // am Service Worker. Der war völlig in Ordnung.
+            const name = namen.find(n => n.startsWith('opernlog-') && !n.startsWith('opernlog-images'));
+            if (!name) return { name: null, namen, anzahl: 0 };
+            const eintraege = await (await caches.open(name)).keys();
+            return { name, namen, anzahl: eintraege.length };
         });
-        assert.ok(anzahl > 40, `nur ${anzahl} Dateien im Cache`);
+        assert.ok(gefunden.name,
+            `kein App-Shell-Cache gefunden. Vorhanden: ${gefunden.namen.join(', ') || '(keiner)'}`);
+        assert.ok(gefunden.anzahl > 40,
+            `nur ${gefunden.anzahl} Dateien im Cache ${gefunden.name}`);
     } finally { await ctx.close(); }
 });
 

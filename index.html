@@ -468,6 +468,25 @@
             }
         }
 
+        /* Die Nummer trägt main.js ein, nicht das HTML – sonst stünde sie ein
+           zweites Mal im Projekt und liefe von src/version.js weg. Die Höhe
+           steht deshalb schon vorher fest: sonst rückt der Inhalt nach, wenn
+           das Modul geladen ist, und das ausgerechnet unter einem Balken, der
+           ohnehin Bewegung zeigt. */
+        .splash__version {
+            min-height: 1.2em;
+            margin: 18px 0 0;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1.1px;
+            color: rgba(212, 182, 100, 0.82);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+            /* Zuletzt in der Staffelung, aber nicht später: der Vorhang geht
+               nach 1,8 s auf, und was erst ab 1,3 s voll dasteht, hat niemand
+               gelesen. Eine Versionsnummer wird abgelesen, nicht überflogen. */
+            animation: splashFadeUp 0.5s ease-out 0.7s both;
+        }
+
         @media (max-width: 420px) {
             .splash__logo {
                 width: 76px;
@@ -571,6 +590,7 @@
                     style="--i:6">o</span><span aria-hidden="true" style="--i:7">g</span></h1>
             <p class="splash__subtitle">Dein persönliches Operntagebuch</p>
             <div class="splash__progress" aria-hidden="true"></div>
+            <p class="splash__version" id="splashVersion"></p>
         </div>
     </div>
 
