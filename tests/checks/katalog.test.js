@@ -110,6 +110,25 @@ test('Komponistennamen sind einheitlich geschrieben', () => {
     }
 });
 
+/**
+ * Alle Bildadressen des Katalogs, mit der Id dazu.
+ *
+ * Beide Feldnamen, und das ist kein Schönheitsfehler: die Häuser führen das
+ * Bild als imageUrl, die Werke als image. Die Prüfung darunter fragte nur nach
+ * imageUrl und übersprang damit stillschweigend alle 121 Werke – sie war grün,
+ * weil sie 92 statt 213 Adressen ansah.
+ */
+function bildAdressen() {
+    return [...operaHouses, ...operas]
+        .map(e => ({ id: e.id, url: e.imageUrl || e.image }))
+        .filter(e => e.url);
+}
+
+test('der Katalog führt zu jedem Eintrag ein Bild', () => {
+    // Sonst deckt die Prüfung darunter wieder weniger ab, als sie vorgibt.
+    assert.equal(bildAdressen().length, operaHouses.length + operas.length);
+});
+
 test('Bilder kommen über https und von einem Host, den der Service Worker kennt', () => {
     // Fremde Hosts überspringt der fetch-Handler; ein Bild von woanders wäre
     // offline eine leere Kachel.
@@ -118,13 +137,31 @@ test('Bilder kommen über https und von einem Host, den der Service Worker kennt
     assert.ok(zeile, 'IMAGE_HOSTS nicht in sw.js gefunden');
     const erlaubt = new Set([...zeile[1].matchAll(/'([^']+)'/g)].map(m => m[1]));
 
-    for (const e of [...operaHouses, ...operas]) {
-        if (!e.imageUrl) continue;
-        const url = new URL(e.imageUrl);
+    for (const e of bildAdressen()) {
+        const url = new URL(e.url);
         assert.equal(url.protocol, 'https:', `${e.id}: kein https`);
         assert.ok(erlaubt.has(url.hostname),
             `${e.id}: ${url.hostname} steht nicht in IMAGE_HOSTS – offline bliebe die Kachel leer`);
     }
+});
+
+test('Bilder sind verkleinerte Fassungen, keine Originale', () => {
+    // Die Opernliste lud einmal 135 MB nach: 120 Bilder für zwei sichtbare
+    // Karten, 80 davon in Originalgröße, das größte 39,6 MB. Die Karte ist
+    // 341 x 80 px, der Hero der Detailseite 343 x 305 px – 500px reicht für
+    // beides und bringt den ganzen Katalog auf rund 17 MB.
+    //
+    // Wikimedia nimmt nur eine feste Liste von Breiten an und antwortet auf
+    // alles andere mit HTTP 400: 120, 250, 330, 500, 960, 1280. Wer hier
+    // erhöhen will, muss eine davon nehmen – 640 gibt es nicht.
+    const zuGross = [];
+    for (const e of bildAdressen()) {
+        const m = e.url.match(/\/thumb\/.*\/(\d+)px-/);
+        if (!m) { zuGross.push(`${e.id}: Original statt /thumb/`); continue; }
+        if (Number(m[1]) > 500) zuGross.push(`${e.id}: ${m[1]}px`);
+    }
+    assert.deepEqual(zuGross, [],
+        `zu große Bilder – jedes wird beim Öffnen der Liste geladen:\n  ${zuGross.join('\n  ')}`);
 });
 
 test('jedes Haus hat eine Farbe als Rückfallebene für fehlende Bilder', () => {
