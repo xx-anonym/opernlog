@@ -80,12 +80,12 @@ test('die Supabase-Bibliothek liegt im Projekt und im Cache', () => {
     assert.ok(appShell().some(p => p.endsWith('vendor/supabase-js.js')));
 });
 
-test('CACHE_NAME ist durchnummeriert', () => {
+test('CACHE_NAME trägt eine Version', () => {
     // Der Name ist der einzige Hebel, mit dem ein Update bei den Nutzern
-    // ankommt: activate löscht jeden Cache, der anders heißt.
-    const m = sw.match(/const CACHE_NAME = 'opernlog-v(\d+)';/);
-    assert.ok(m, "CACHE_NAME muss 'opernlog-v<Zahl>' heißen");
-    assert.ok(Number(m[1]) > 0);
+    // ankommt: activate löscht jeden Cache, der anders heißt. Hier nur die
+    // Form; dass die Nummer zu src/version.js passt, prüft version.test.js.
+    const m = sw.match(/const CACHE_NAME = 'opernlog-(\d{4}\.\d{2}\.\d{2})';/);
+    assert.ok(m, "CACHE_NAME muss 'opernlog-<JJJJ.MM.TT>' heißen");
 });
 
 test('der Bilder-Cache hat einen eigenen Namen', () => {

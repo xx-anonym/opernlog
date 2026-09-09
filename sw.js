@@ -1,5 +1,14 @@
 // OpernLog Service Worker – Offline Caching
-const CACHE_NAME = 'opernlog-v76';
+//
+// Der Cache trägt die Version aus src/version.js. Das ist keine Zierde: activate
+// löscht jeden Cache, der anders heißt, und der Name ist damit der einzige
+// Hebel, mit dem eine neue App-Shell bei den Nutzern ankommt. Vorher stand hier
+// eine feste Nummer, die seit dem ersten PWA-Commit nie erhöht wurde – der
+// Aufräumschritt lief also ins Leere.
+//
+// Von Hand nachgeführt, weil ein klassischer Worker kein ES-Modul importieren
+// kann. tests/checks/version.test.js hält beide Stellen zusammen.
+const CACHE_NAME = 'opernlog-2026.09.09';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
@@ -38,6 +47,7 @@ const APP_SHELL = [
     './vendor/supabase-js.js',
     './src/main.js',
     './src/config.js',
+    './src/version.js',
     './src/pages/Auth.js',
     './src/pages/Community.js',
     './src/pages/Home.js',

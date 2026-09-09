@@ -20,6 +20,7 @@ import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
+import { VERSION } from './version.js';
 import { showError } from './components/Toast.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
 
@@ -34,7 +35,22 @@ class App {
         // landet, wo man sie verlassen hat.
         this._positionen = new Map();
         this._aktuellerHash = null;
+        this.zeigeVersion();
         this.init();
+    }
+
+    /**
+     * Die Version steht im Ladebildschirm und sonst nirgends. Gefragt wird
+     * danach in aller Regel dann, wenn etwas klemmt – "welchen Stand hast du
+     * denn?" –, und der Ladebildschirm ist die eine Ansicht, die dabei jeder
+     * ohne Anleitung erreicht: App zu, App auf.
+     *
+     * Fehlt das Feld, passiert nichts. Der Ladebildschirm ist eine
+     * Bequemlichkeit, kein Teil der App; er darf den Start nie aufhalten.
+     */
+    zeigeVersion() {
+        const feld = document.getElementById('splashVersion');
+        if (feld) feld.textContent = `Version ${VERSION}`;
     }
 
     // Dismiss the opera curtain splash screen
