@@ -5,7 +5,7 @@ name: Supabase wachhalten
 # sie zeigt aber keine Daten mehr – für alle Nutzer, bis jemand das Projekt im
 # Supabase-Dashboard von Hand wieder aufweckt.
 #
-# Vorher lag diese Aufgabe in supabase-keepalive.sh auf einem MacBook. Stand
+# Vorher lag diese Aufgabe in scripts/supabase-keepalive.sh auf einem MacBook. Stand
 # der Rechner aus – Urlaub, verreist, Deckel zu –, lief nichts, und genau dann
 # war auch niemand da, der die App benutzt und sie dadurch wachgehalten hätte.
 # Hier läuft es auf GitHubs Rechnern und ist von keinem Gerät abhängig.

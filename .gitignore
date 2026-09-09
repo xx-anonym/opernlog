@@ -4,3 +4,9 @@ node_modules/
 package-lock.json
 
 .DS_Store
+
+# Antwortdateien der Workflows (curl -o). Sie entstehen bei jedem Lauf neu und
+# dienen nur der Fehlerausgabe – siehe .github/workflows/supabase-keepalive.yml
+# und .github/workflows/vorschlaege-melden.yml.
+antwort.json
+antwort.txt
