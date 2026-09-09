@@ -4570,3 +4570,31 @@ body {
     height: 0.95em;
     vertical-align: -0.14em;
 }
+
+/* Monogramm, wo es kein freies Porträt gibt. Der bloße Verlauf sah aus wie
+   ein Ladefehler; die Initialen sagen, dass hier nichts fehlt. */
+.composer-hero__portrait--monogramm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6b1525 0%, #3d0a15 55%, #14181c 100%);
+}
+
+.composer-hero__portrait--monogramm span {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    /* Die Initialen sitzen optisch zu weit rechts, weil der Buchstabenabstand
+       auch hinter dem letzten Zeichen steht. */
+    text-indent: 2px;
+    color: var(--gold);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 420px) {
+    .composer-hero__portrait--monogramm span {
+        font-size: 26px;
+        letter-spacing: 1px;
+    }
+}

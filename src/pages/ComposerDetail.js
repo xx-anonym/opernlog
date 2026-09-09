@@ -17,6 +17,23 @@ function note(n) {
     return n.toFixed(1).replace('.', ',');
 }
 
+/**
+ * Die Initialen eines Komponistennamens, höchstens drei: aus "Bernd Alois
+ * Zimmermann" wird BAZ.
+ *
+ * Namenszusätze fallen heraus. "von" und "van" fangen klein an, das genügt als
+ * Regel – "Carl Maria von Weber" ergibt CMW und nicht CMV. Ordnungszahlen
+ * müssen eigens weg, sonst stünde bei "Johann Strauss II" ein I am Ende.
+ */
+export function initialen(name) {
+    return String(name || '')
+        .split(/[\s-]+/)
+        .filter(teil => /^[A-ZÄÖÜÀ-Þ]/.test(teil) && !/^[IVXLC]+$/.test(teil))
+        .map(teil => teil[0])
+        .slice(0, 3)
+        .join('');
+}
+
 export function ComposerDetailPage(composerId) {
     const komponist = composers.find(c => c.id === composerId) || null;
 
@@ -46,21 +63,32 @@ export function ComposerDetailPage(composerId) {
     const markiert = new Set(werke.filter(o => !geloggt.has(o.id) && store.isSeenOpera(o.id)).map(o => o.id));
     const gesehen = geloggt.size + markiert.size;
 
-    const bildStil = coverBackground(
-        komponist.bild,
-        // Ohne freies Porträt bleibt der Verlauf – dieselbe Rückfallebene wie
-        // bei den Häusern. Vier Komponisten trifft das: ihre Fotos sind noch
-        // geschützt, Wikipedia hat keins, das hier stehen dürfte.
-        'linear-gradient(135deg, #8b1a2b, #14181c)',
-        'rgba(0,0,0,0.15), rgba(20,24,28,0.6)'
-    );
+    // Ohne freies Porträt ein Monogramm statt eines leeren Verlaufs.
+    //
+    // Für Bernd Alois Zimmermann gibt es nachweislich keins: weder die
+    // deutsche noch sechs weitere Wikipedias führen ein Artikelbild, Wikidata
+    // hat kein P18, seine Commons-Kategorie enthält drei Dateien, von denen
+    // keine ihn zeigt, und kein Bild ist als "bildet ihn ab" ausgezeichnet.
+    // Er starb 1970; Fotos von ihm sind noch geschützt. Ein Bild von einer
+    // Verlagsseite zu holen schied aus – der Service Worker kennt fremde
+    // Hosts nicht, und die Rechte daran sind ungeklärt.
+    //
+    // Der Verlauf allein sah aus wie ein Fehler. Die Initialen sagen: hier
+    // fehlt nichts, hier ist keins.
+    const portraetHTML = komponist.bild
+        ? `<div class="composer-hero__portrait"
+                style="${coverBackground(komponist.bild, 'linear-gradient(135deg, #8b1a2b, #14181c)', 'rgba(0,0,0,0.15), rgba(20,24,28,0.6)')}"
+                role="img" aria-label="Porträt von ${escapeHTML(komponist.name)}"></div>`
+        : `<div class="composer-hero__portrait composer-hero__portrait--monogramm"
+                role="img" aria-label="Kein freies Porträt von ${escapeHTML(komponist.name)} vorhanden">
+             <span aria-hidden="true">${escapeHTML(initialen(komponist.name))}</span>
+           </div>`;
 
     page.innerHTML = `
       <div class="composer-hero">
         <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
         <div class="composer-hero__row">
-          <div class="composer-hero__portrait" style="${bildStil}" role="img"
-               aria-label="${komponist.bild ? `Porträt von ${escapeHTML(komponist.name)}` : 'Kein Porträt vorhanden'}"></div>
+          ${portraetHTML}
           <div class="composer-hero__text">
             <h1 class="composer-hero__name">${escapeHTML(komponist.name)}</h1>
             <p class="composer-hero__kurz">${escapeHTML(komponist.kurz)}</p>
