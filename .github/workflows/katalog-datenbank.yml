@@ -43,6 +43,8 @@ jobs:
         with:
           node-version: '22'
 
+      # continue-on-error, damit der Schritt darunter das Issue noch anlegen
+      # kann. Der Lauf endet trotzdem rot – siehe den letzten Schritt.
       - name: Einträge prüfen
         id: pruefen
         continue-on-error: true
@@ -104,3 +106,14 @@ jobs:
           else
             echo "Issue #$NUMMER unverändert."
           fi
+
+      # Zweiter, unabhängiger Weg, davon zu erfahren: GitHub schickt dem
+      # Eigentümer eine Mail, wenn ein zeitgesteuerter Lauf fehlschlägt. Ohne
+      # diesen Schritt stünde der Lauf auf grün, obwohl etwas im Argen liegt –
+      # das Issue wäre dann das Einzige, und wer Issues stummgeschaltet hat,
+      # erführe gar nichts.
+      - name: Rot enden, wenn etwas zu tun ist
+        if: steps.pruefen.outputs.anzahl != ''
+        run: |
+          echo "::error::${{ steps.pruefen.outputs.anzahl }} selbst angelegte Katalogeinträge stimmen nicht – siehe das Issue mit der Marke 'katalog'."
+          exit 1
