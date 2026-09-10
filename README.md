@@ -16,6 +16,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Problem: der Service Worker überspringt sie, also fehlten sie offline – und
   jeder Aufruf von fonts.googleapis.com überträgt die IP des Besuchers an
   Google. Nachzuholen mit `tests/werkzeug/schriften-holen.mjs`.
+
+  Der Abgleich gegen geleakte Passwörter braucht zwangsläufig einen Dritten.
+  Deshalb fragt nicht der Browser bei HaveIBeenPwned nach, sondern die Edge
+  Function `passwort-pruefen` – der Browser spricht weiter nur mit Supabase.
 - **Vercel** liefert das Wurzelverzeichnis als statische Seite aus. Deshalb
   liegt die einzige `package.json` unter `tests/browser/` und nicht hier – eine
   `package.json` neben der `index.html` würde Vercel das Projekt als
@@ -54,7 +58,7 @@ Hand gestartet.
 | `src/` | Anwendung: `pages/`, `components/`, `store/`, `data/` (Katalog), Router in `main.js` |
 | `vendor/` | mitgelieferte Fremdbibliotheken (Supabase-JS, versioniert statt vom CDN) |
 | `fonts/` | DM Sans und Playfair Display, im Projekt statt von Google |
-| `supabase/` | `schema.sql` und `migrations/` – von Hand im Supabase-Dashboard eingespielt |
+| `supabase/` | `schema.sql` und `migrations/` – von Hand im Supabase-Dashboard eingespielt; `functions/` sind Edge Functions |
 | `scripts/` | Hilfsskripte am Rande (lokale Supabase-Rückfallebene) |
 | `tests/` | Tests und Katalog-Werkzeuge |
 | `.github/workflows/` | Tests, Katalogprüfung, Supabase wachhalten, offene Vorschläge melden |

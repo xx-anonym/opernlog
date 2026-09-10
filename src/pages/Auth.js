@@ -4,6 +4,7 @@ import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { profileIcons } from '../data/profileIcons.js';
+import { passwortEinwand, MINDESTLAENGE } from '../passwort.js';
 
 // ── E-Mail-Validierung ──────────────────────────────────
 const BLOCKED_DOMAINS = [
@@ -104,7 +105,8 @@ export function AuthPage(onSuccess) {
           </div>
           <div class="form-group">
             <label for="regPassword">Passwort</label>
-            <input type="password" id="regPassword" placeholder="Min. 6 Zeichen" required minlength="6" />
+            <input type="password" id="regPassword" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
+            <p class="form-hint">Ein Satz, den nur du kennst, ist sicherer als ein kurzes Kunstwort mit Sonderzeichen.</p>
           </div>
           <div class="form-group">
             <label class="form-label">Profilbild wählen</label>
@@ -259,9 +261,23 @@ export function AuthPage(onSuccess) {
       return;
     }
 
+    // Das Nachfragen beim Leak-Abgleich dauert einen Moment, deshalb schon
+    // hier die Schaltfläche sperren – sonst schickt ein zweiter Klick das
+    // Formular ein zweites Mal ab.
+    submitBtn.textContent = 'Passwort wird geprüft…';
+    submitBtn.disabled = true;
+
+    const einwand = await passwortEinwand(password, { email, benutzername: username });
+    if (einwand) {
+      errorEl.textContent = einwand;
+      errorEl.style.display = 'block';
+      submitBtn.textContent = 'Registrieren';
+      submitBtn.disabled = false;
+      return;
+    }
+
     // Show loading state
     submitBtn.textContent = 'Wird registriert…';
-    submitBtn.disabled = true;
 
     try {
       const activeIconBtn = page.querySelector('#regIconPicker .icon-picker__option--active');

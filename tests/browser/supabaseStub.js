@@ -16,6 +16,14 @@ window.__seen = [];     // opera_id-Liste in der "Datenbank"
 window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
 window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
 
+// Fuer die Passwortpruefung: was die Edge Function antworten soll, und was der
+// Browser ihr geschickt hat. Letzteres darf nur ein fuenfstelliges Praefix
+// sein – siehe tests/browser/passwort.test.js.
+window.__leakAntwort = '';      // Text im Format SUFFIX:ANZAHL je Zeile
+window.__leakFehler = false;    // true: Dienst antwortet nicht
+window.__leakGefragt = [];      // die Rumpfobjekte, die invoke() gesehen hat
+window.__registriert = [];      // was signUp() entgegengenommen hat
+
 function builder(table) {
   let single = false, op = null, nutzlast = null;
   const filter = {};
@@ -71,8 +79,24 @@ window.supabase = { createClient: () => ({
     getSession: async () => ({ data: { session: SESSION }, error: null }),
     onAuthStateChange: () => {},
     signOut: async () => ({ error: null }),
+    signUp: async (angaben) => {
+      window.__registriert.push(angaben);
+      return { data: { user: { id: UID } }, error: null };
+    },
+    signInWithPassword: async () => ({ data: { session: SESSION }, error: null }),
+    updateUser: async (angaben) => {
+      window.__registriert.push(angaben);
+      return { data: { user: { id: UID } }, error: null };
+    },
   },
   rpc: async () => ({ data: null, error: null }),
+  functions: {
+    invoke: async (name, optionen) => {
+      window.__leakGefragt.push({ name, body: optionen?.body });
+      if (window.__leakFehler) return { data: null, error: new Error('Dienst antwortet nicht') };
+      return { data: window.__leakAntwort, error: null };
+    },
+  },
   from: builder,
 })};
 `;

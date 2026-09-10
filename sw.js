@@ -106,6 +106,7 @@ const APP_SHELL = [
     './src/data/profileIcons.js',
     './src/data/brandMark.js',
     './src/utils.js',
+    './src/passwort.js',
 ];
 
 // Install – cache app shell

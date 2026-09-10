@@ -23,6 +23,7 @@ import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
 import { showError } from './components/Toast.js';
+import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
 
 class App {
@@ -237,11 +238,12 @@ class App {
                     <form id="updatePasswordForm" class="auth-form">
                         <div class="form-group">
                             <label for="newPassword">Neues Passwort</label>
-                            <input type="password" id="newPassword" placeholder="Min. 6 Zeichen" required minlength="6" />
+                            <input type="password" id="newPassword" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
+                            <p class="form-hint">Ein Satz, den nur du kennst, ist sicherer als ein kurzes Kunstwort mit Sonderzeichen.</p>
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Passwort bestätigen</label>
-                            <input type="password" id="confirmPassword" placeholder="Passwort wiederholen" required minlength="6" />
+                            <input type="password" id="confirmPassword" placeholder="Passwort wiederholen" required minlength="${MINDESTLAENGE}" />
                         </div>
                         <div id="updateError" class="auth-error" style="display:none"></div>
                         <div id="updateSuccess" class="auth-success" style="display:none"></div>
@@ -266,6 +268,16 @@ class App {
                 return;
             }
 
+            const knopf = this.root.querySelector('button[type="submit"]');
+            knopf.disabled = true;
+            const einwand = await passwortEinwand(password);
+            if (einwand) {
+                errorEl.textContent = einwand;
+                errorEl.style.display = 'block';
+                knopf.disabled = false;
+                return;
+            }
+
             try {
                 const sb = getSupabase();
                 const { error } = await sb.auth.updateUser({ password });
@@ -273,7 +285,6 @@ class App {
 
                 successEl.textContent = 'Passwort erfolgreich geändert! Du wirst weitergeleitet...';
                 successEl.style.display = 'block';
-                this.root.querySelector('button[type="submit"]').disabled = true;
 
                 setTimeout(() => {
                     window.location.hash = '#/';
@@ -282,6 +293,9 @@ class App {
             } catch (err) {
                 errorEl.textContent = err.message;
                 errorEl.style.display = 'block';
+                // Ohne das bliebe die Schaltfläche nach einem Fehlschlag
+                // gesperrt: gesperrt wird jetzt schon vor dem Leak-Abgleich.
+                knopf.disabled = false;
             }
         });
     }
