@@ -7,6 +7,7 @@ import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
+import { composerFarbe } from '../data/composerFarben.js';
 
 export function ListDetailPage(listId) {
   const page = document.createElement('div');
@@ -111,14 +112,7 @@ export function ListDetailPage(listId) {
       card.className = 'list-detail-card';
 
       if (isOpera) {
-        const composerColors = {
-          'Wolfgang Amadeus Mozart': '#c9a84c',
-          'Giuseppe Verdi': '#2d7d46',
-          'Richard Wagner': '#7d2d2d',
-          'Giacomo Puccini': '#2d5a7d',
-          'Richard Strauss': '#7d5a2d',
-        };
-        const color = composerColors[item.composer] || '#8b1a2b';
+        const color = composerFarbe(item.composer);
 
         card.innerHTML = `
           <div class="list-detail-card__image" style="${coverBackground(item.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">

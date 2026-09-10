@@ -11,6 +11,7 @@ import { ReviewCard } from '../components/ReviewCard.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
+import { composerFarbe } from '../data/composerFarben.js';
 
 /** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
 function note(n) {
@@ -98,14 +99,7 @@ export function OperaDetailPage(operaId) {
   const page = document.createElement('div');
   page.className = 'page page--opera-detail';
 
-  const composerColors = {
-    'Wolfgang Amadeus Mozart': '#c9a84c',
-    'Giuseppe Verdi': '#2d7d46',
-    'Richard Wagner': '#7d2d2d',
-    'Giacomo Puccini': '#2d5a7d',
-    'Richard Strauss': '#7d5a2d',
-  };
-  const color = composerColors[opera.composer] || '#8b1a2b';
+  const color = composerFarbe(opera.composer);
 
   page.innerHTML = `
     <div class="detail-hero" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.25), rgba(20,24,28,0.95)')}">

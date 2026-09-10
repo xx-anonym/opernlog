@@ -14,10 +14,13 @@ const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar
 
 window.__seen = [];     // opera_id-Liste in der "Datenbank"
 window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
+window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
   const filter = {};
+  const nicht = {};    // aus neq()
+  const drin = {};     // aus in()
   const api = {
     then(res, rej) {
       if (table === 'seen_operas' && op) {
@@ -38,14 +41,26 @@ function builder(table) {
       if (table === 'seen_operas') rows = window.__seen.map(id => ({ opera_id: id }));
       if (table === 'visits') {
         rows = window.__visits.filter(v => !filter.user_id || v.user_id === filter.user_id);
+        // neq schliesst aus – der Community-Block laesst so die eigenen Abende weg.
+        for (const [spalte, wert] of Object.entries(nicht)) {
+          rows = rows.filter(v => v[spalte] !== wert);
+        }
+        // in() ist sonst ein Durchreicher; ohne diese Zeile bekaeme der Feed
+        // alle Besuche statt nur die der Gefolgten und pruefte damit nichts.
+        if (drin.user_id) rows = rows.filter(v => drin.user_id.includes(v.user_id));
+      }
+      if (table === 'follows') {
+        rows = window.__follows.filter(f => !filter.follower_id || f.follower_id === filter.follower_id);
       }
       return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
     },
     single() { single = true; return api; },
     maybeSingle() { single = true; return api; },
   };
-  for (const m of ['select', 'in', 'order', 'limit', 'ilike', 'gte', 'lte']) api[m] = () => api;
+  for (const m of ['select', 'order', 'limit', 'ilike', 'gte', 'lte']) api[m] = () => api;
   api.eq = (spalte, wert) => { filter[spalte] = wert; return api; };
+  api.neq = (spalte, wert) => { nicht[spalte] = wert; return api; };
+  api.in = (spalte, werte) => { drin[spalte] = werte || []; return api; };
   for (const m of ['insert', 'update', 'upsert']) api[m] = (n) => { op = m; nutzlast = n; return api; };
   api.delete = () => { op = 'delete'; return api; };
   return api;

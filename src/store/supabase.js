@@ -749,6 +749,34 @@ export async function getFeedCloud() {
     return await enrichVisitsWithSocial(data || []);
 }
 
+/**
+ * Die letzten Abende aller – die Rückfallebene des Feeds.
+ *
+ * Der Feed lebt von den Freunden; wer noch niemandem folgt, bekam bisher eine
+ * leere Kiste mit dem Rat, doch Opernfreunde zu suchen. Statt dessen zeigt der
+ * Feed dann, was sonst geloggt wurde. Die Besuche sind dafür freigegeben –
+ * "Visits sind öffentlich lesbar" steht so in supabase/schema.sql, und die
+ * Haus- und Werkseiten zeigen sie längst.
+ *
+ * Ohne die eigenen: die stehen im Tagebuch, und im Feed wäre der eigene Abend
+ * zwischen fremden nur Verwirrung.
+ *
+ * @param {number} [limit]
+ */
+export async function getRecentCommunityVisits(limit = 20) {
+    const sb = getSupabase();
+    const session = await getSession();
+
+    let abfrage = sb.from('visits')
+        .select('*, profiles:user_id(id, username, avatar_initials, avatar_icon)')
+        .order('created_at', { ascending: false })
+        .limit(limit);
+    if (session) abfrage = abfrage.neq('user_id', session.user.id);
+
+    const data = unwrap(await abfrage, 'Letzte Abende der Community laden');
+    return await enrichVisitsWithSocial(data || []);
+}
+
 // ── Visits by house/opera (all users) ────────────────────
 export async function getVisitByIdCloud(visitId) {
     const sb = getSupabase();

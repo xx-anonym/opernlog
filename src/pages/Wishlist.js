@@ -4,6 +4,7 @@ import { icon } from '../components/Icon.js';
 import { coverBackground } from '../utils.js';
 import { runWithFeedback } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
+import { composerFarbe } from '../data/composerFarben.js';
 
 export function WishlistPage() {
     const page = document.createElement('div');
@@ -37,14 +38,7 @@ export function WishlistPage() {
         grid.className = 'wishlist-grid';
 
         items.forEach(opera => {
-            const composerColors = {
-                'Wolfgang Amadeus Mozart': '#c9a84c',
-                'Giuseppe Verdi': '#2d7d46',
-                'Richard Wagner': '#7d2d2d',
-                'Giacomo Puccini': '#2d5a7d',
-                'Richard Strauss': '#7d5a2d',
-            };
-            const color = composerColors[opera.composer] || '#8b1a2b';
+            const color = composerFarbe(opera.composer);
 
             const card = document.createElement('div');
             card.className = 'wishlist-card';

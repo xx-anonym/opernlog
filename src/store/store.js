@@ -608,9 +608,6 @@ class Store {
     }
 
     // ── Feed (local) ─────────────────────────────────────
-    getFeed() {
-        return this.getAllVisits().slice(0, 30);
-    }
 
     // ── Lists ────────────────────────────────────────────
     getAllLists() {

@@ -85,6 +85,7 @@ const APP_SHELL = [
     './src/data/operaHouses.js',
     './src/data/operas.js',
     './src/data/composers.js',
+    './src/data/composerFarben.js',
     './src/data/blindSpots.js',
     './src/data/favorites.js',
     './src/data/season.js',

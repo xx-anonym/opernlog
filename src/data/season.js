@@ -84,6 +84,33 @@ export function visitsInSeason(visits, startYear) {
         .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
 }
 
+/**
+ * Die laufende Spielzeit in vier Zahlen – für den Kopf des Feeds.
+ *
+ * Dort stand vorher, wie viele Häuser und Werke der Katalog kennt. Das ändert
+ * sich nie und sagt über den Nutzer nichts; diese vier Zahlen wachsen mit ihm.
+ *
+ * Besuche ohne Bewertung zählen als Abend mit, aber nicht im Schnitt – sonst
+ * zöge eine fehlende Note den Durchschnitt nach unten, als wäre sie eine Null.
+ *
+ * @param {Array}  visits    eigene Besuche
+ * @param {number} startYear Anfangsjahr der Spielzeit
+ * @returns {{abende: number, haeuser: number, werke: number, schnitt: number|null}}
+ */
+export function seasonSummary(visits, startYear) {
+    const besuche = visitsInSeason(visits, startYear);
+    const noten = besuche
+        .map(v => Number(v.rating))
+        .filter(n => Number.isFinite(n) && n > 0);
+
+    return {
+        abende: besuche.length,
+        haeuser: new Set(besuche.map(v => v.houseId ?? v.house_id).filter(Boolean)).size,
+        werke: new Set(besuche.map(v => v.operaId ?? v.opera_id).filter(Boolean)).size,
+        schnitt: noten.length ? noten.reduce((s, n) => s + n, 0) / noten.length : null,
+    };
+}
+
 /** Spielzeiten mit mindestens einem Besuch, jüngste zuerst. */
 export function seasonsWithVisits(visits) {
     const jahre = new Set();

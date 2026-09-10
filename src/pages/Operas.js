@@ -5,6 +5,7 @@ import { coverBackground, einblendVerzoegerung } from '../utils.js';
 import { store } from '../store/store.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { isSupabaseConfigured } from '../config.js';
+import { composerFarbe } from '../data/composerFarben.js';
 
 export function OperasPage() {
   const page = document.createElement('div');
@@ -112,20 +113,6 @@ export function OperasPage() {
   // Community stats cache (populated async from cloud)
   let communityOperaStats = {};
 
-  const composerColors = {
-    'Wolfgang Amadeus Mozart': '#c9a84c',
-    'Giuseppe Verdi': '#2d7d46',
-    'Richard Wagner': '#7d2d2d',
-    'Giacomo Puccini': '#2d5a7d',
-    'Richard Strauss': '#7d5a2d',
-    'Georges Bizet': '#7d2d5a',
-    'Georg Friedrich Händel': '#5a2d7d',
-    'Gioachino Rossini': '#2d7d7d',
-    'Gaetano Donizetti': '#7d7d2d',
-    'Leoš Janáček': '#4a7d2d',
-    'Benjamin Britten': '#2d4a7d',
-    'Claudio Monteverdi': '#6d3a1a',
-  };
 
   function renderOperas() {
     const grid = page.querySelector('#operasGrid');
@@ -163,7 +150,7 @@ export function OperasPage() {
     filtered.forEach((opera, i) => {
       const avgRating = (communityOperaStats[opera.id]?.avg) || store.getAverageRatingForOpera(opera.id);
       const visitCount = (communityOperaStats[opera.id]?.count) || store.getVisitsByOpera(opera.id).length;
-      const color = composerColors[opera.composer] || '#8b1a2b';
+      const color = composerFarbe(opera.composer);
 
       const card = document.createElement('a');
       card.className = 'opera-card fade-in';
