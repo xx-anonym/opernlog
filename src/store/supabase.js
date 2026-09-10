@@ -203,7 +203,13 @@ export async function signUp(email, password, username, avatarIcon = '') {
         email,
         password,
         options: {
-            data: { username } // Store username in auth metadata too
+            data: { username }, // Store username in auth metadata too
+            // Ohne diese Zeile nimmt der Bestätigungslink die Site URL aus den
+            // Projekteinstellungen – eine zweite Stelle, an der die Adresse
+            // stimmen muss, und die einzige, die niemand sieht. Anmeldung über
+            // Google und das Zurücksetzen des Passworts geben ihr Ziel längst
+            // ausdrücklich mit; die Registrierung war die Ausnahme.
+            emailRedirectTo: window.location.origin,
         }
     });
     if (error) throw error;
