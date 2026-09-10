@@ -78,8 +78,11 @@ async function imFlugmodus(hash = '#/diary') {
     p.on('pageerror', e => fehler.push(e.message));
 
     // Es gibt hier kein echtes Supabase-Projekt und keine Bilder – beides
-    // abweisen, damit der erste Aufruf nicht daran hängt.
-    for (const muster of ['**://*.supabase.co/**', '**://upload.wikimedia.org/**', '**://fonts.googleapis.com/**']) {
+    // abweisen, damit der erste Aufruf nicht daran hängt. Google steht in der
+    // Liste, damit der Test rot wird, falls die Schriften je dorthin
+    // zurückwandern: abgewiesen wären sie dann offline wieder weg.
+    for (const muster of ['**://*.supabase.co/**', '**://upload.wikimedia.org/**',
+        '**://fonts.googleapis.com/**', '**://fonts.gstatic.com/**']) {
         await p.route(muster, r => r.abort());
     }
 
@@ -123,6 +126,31 @@ test('der Service Worker hat die App-Dateien im Cache', { skip: fehltPlaywright 
             `kein App-Shell-Cache gefunden. Vorhanden: ${gefunden.namen.join(', ') || '(keiner)'}`);
         assert.ok(gefunden.anzahl > 40,
             `nur ${gefunden.anzahl} Dateien im Cache ${gefunden.name}`);
+    } finally { await ctx.close(); }
+});
+
+test('ohne Netz stehen die Schriften der App da, nicht die des Systems', { skip: fehltPlaywright }, async () => {
+    // Das war die letzte bekannte Lücke des Offline-Modus: die Schriften kamen
+    // von fonts.googleapis.com, der Service Worker überspringt fremde Hosts,
+    // und ohne Netz fiel die App auf die Systemschrift zurück. Seit sie im
+    // Projekt liegen, gehören sie in den Cache wie jede andere Datei.
+    const { ctx, p } = await imFlugmodus('#/diary');
+    try {
+        const stand = await p.evaluate(async () => {
+            await document.fonts.ready;
+            const geladen = [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family);
+            const titel = document.querySelector('h1, .diary-month__title');
+            return {
+                geladen: [...new Set(geladen)],
+                // Deckt die Schrift den Text, der wirklich dasteht?
+                deckt: titel ? document.fonts.check(getComputedStyle(titel).font || '16px "Playfair Display"',
+                    titel.textContent) : null,
+            };
+        });
+        assert.ok(stand.geladen.includes('Playfair Display'),
+            `Playfair fehlt, geladen sind: ${stand.geladen.join(', ') || '(keine)'}`);
+        assert.ok(stand.geladen.includes('DM Sans'),
+            `DM Sans fehlt, geladen sind: ${stand.geladen.join(', ') || '(keine)'}`);
     } finally { await ctx.close(); }
 });
 

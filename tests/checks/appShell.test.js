@@ -61,6 +61,40 @@ test('index.html lädt nichts, was nicht zwischengespeichert wird', () => {
     assert.deepEqual(fehlend, [], `von index.html geladen, aber nicht im APP_SHELL: ${fehlend}`);
 });
 
+test('die Seite holt nichts von einem fremden Host', () => {
+    // Nicht nur Skripte: eine Schrift von fonts.googleapis.com überträgt die
+    // IP jedes Besuchers an Google, und der Service Worker überspringt fremde
+    // Hosts – ohne Netz fiel die App deshalb auf die Systemschrift zurück.
+    // Beides behoben, indem die Schriften im Projekt liegen.
+    //
+    // Bilder sind ausgenommen: die kommen bewusst von Wikimedia, dafür gibt es
+    // IMAGE_HOSTS im Service Worker und eine eigene Prüfung im Katalog.
+    const html = fs.readFileSync(path.join(WURZEL, 'index.html'), 'utf8');
+    const fremd = [...html.matchAll(/(?:href|src)="(https?:)?\/\/([^/"]+)/g)]
+        .map(m => m[2])
+        .filter(host => host !== 'upload.wikimedia.org');
+    assert.deepEqual([...new Set(fremd)], [],
+        `index.html holt von fremden Hosts: ${[...new Set(fremd)].join(', ')}`);
+});
+
+test('die Schriften liegen im Projekt und im Cache', () => {
+    const html = fs.readFileSync(path.join(WURZEL, 'index.html'), 'utf8');
+    assert.match(html, /<link rel="stylesheet" href="fonts\/schriften\.css">/);
+
+    const css = fs.readFileSync(path.join(WURZEL, 'fonts/schriften.css'), 'utf8');
+    const dateien = [...css.matchAll(/url\('([^']+)'\)/g)].map(m => m[1]);
+    assert.ok(dateien.length >= 8, `nur ${dateien.length} Schnitte in schriften.css`);
+
+    // latin-ext ist nicht verzichtbar: dort stehen Janáček, Dvořák, Smetana.
+    assert.ok(dateien.some(d => d.includes('latin-ext')), 'latin-ext fehlt');
+
+    const gelistet = new Set(appShell().map(p => p.replace(/^\.\//, '')));
+    for (const d of dateien) {
+        assert.ok(fs.existsSync(path.join(WURZEL, 'fonts', d)), `fonts/${d} fehlt im Projekt`);
+        assert.ok(gelistet.has(`fonts/${d}`), `fonts/${d} fehlt im APP_SHELL – offline bliebe es bei der Systemschrift`);
+    }
+});
+
 test('index.html lädt kein Skript von einem fremden Host', () => {
     // Der Service Worker überspringt fremde Hosts. Ein Skript von dort liegt
     // also in keinem Cache – und wenn die App ohne es nicht startet, ist der

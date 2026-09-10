@@ -28,12 +28,19 @@
     <!-- Prevent iOS zoom on input focus -->
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-        rel="stylesheet">
+    <!-- Schriften aus dem Projekt, nicht von Google.
+         Zwei Gründe: jeder Aufruf von fonts.googleapis.com überträgt die IP
+         des Besuchers dorthin, und der Service Worker überspringt fremde
+         Hosts – ohne Netz fiel die App deshalb auf die Systemschrift zurück.
+         Geholt und erzeugt von tests/werkzeug/schriften-holen.mjs.
+
+         Die beiden lateinischen Schnitte werden vorgeladen: der Vorhang zeigt
+         den Titel in Playfair, bevor style.css überhaupt da ist. Ohne preload
+         beginnt ihr Abruf erst, wenn schriften.css gelesen ist – eine
+         Rundreise später. -->
+    <link rel="preload" href="fonts/playfair-display-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="fonts/schriften.css">
     <!-- Splash styles are inlined so the first paint already shows the curtain.
          As a separate stylesheet they had to wait for a ~90KB render-blocking
          request, and until then the browser painted nothing. -->

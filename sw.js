@@ -45,6 +45,17 @@ const APP_SHELL = [
     './',
     './index.html',
     './style.css',
+    './fonts/schriften.css',
+    // Die Schriften gehören in den Cache, sonst bleibt die App offline bei der
+    // Systemschrift – genau die Lücke, die das Selbst-Hosten schließen soll.
+    './fonts/dm-sans-normal-latin.woff2',
+    './fonts/dm-sans-normal-latin-ext.woff2',
+    './fonts/dm-sans-italic-latin.woff2',
+    './fonts/dm-sans-italic-latin-ext.woff2',
+    './fonts/playfair-display-normal-latin.woff2',
+    './fonts/playfair-display-normal-latin-ext.woff2',
+    './fonts/playfair-display-italic-latin.woff2',
+    './fonts/playfair-display-italic-latin-ext.woff2',
     './manifest.json',
     // Die Supabase-Bibliothek. Sie kam vorher vom CDN und war damit die eine
     // Datei, ohne die die App nicht startet – und die einzige, die offline

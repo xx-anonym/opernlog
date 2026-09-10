@@ -11,6 +11,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Tagebuch, Profil und Katalog funktionieren offline.
 - **Supabase** als Backend (Auth, Postgres mit Row Level Security). Adresse und
   öffentlicher `anon`-Schlüssel stehen in `src/config.js`.
+- **Nichts von Dritten.** Schriften und die Supabase-Bibliothek liegen im
+  Projekt. Beides kam einmal von fremden Hosts und war damit zweimal ein
+  Problem: der Service Worker überspringt sie, also fehlten sie offline – und
+  jeder Aufruf von fonts.googleapis.com überträgt die IP des Besuchers an
+  Google. Nachzuholen mit `tests/werkzeug/schriften-holen.mjs`.
 - **Vercel** liefert das Wurzelverzeichnis als statische Seite aus. Deshalb
   liegt die einzige `package.json` unter `tests/browser/` und nicht hier – eine
   `package.json` neben der `index.html` würde Vercel das Projekt als
@@ -48,6 +53,7 @@ Hand gestartet.
 | `index.html`, `style.css`, `sw.js`, `manifest.json`, `icons/` | die ausgelieferte Seite |
 | `src/` | Anwendung: `pages/`, `components/`, `store/`, `data/` (Katalog), Router in `main.js` |
 | `vendor/` | mitgelieferte Fremdbibliotheken (Supabase-JS, versioniert statt vom CDN) |
+| `fonts/` | DM Sans und Playfair Display, im Projekt statt von Google |
 | `supabase/` | `schema.sql` und `migrations/` – von Hand im Supabase-Dashboard eingespielt |
 | `scripts/` | Hilfsskripte am Rande (lokale Supabase-Rückfallebene) |
 | `tests/` | Tests und Katalog-Werkzeuge |
