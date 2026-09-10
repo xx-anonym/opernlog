@@ -1272,3 +1272,37 @@ export const addKatalogKomponist = (k) => katalogAnlegen('catalog_composers', {
     bild_urheber: k.bildUrheber || '',
     wikipedia: k.wikipedia,
 }, 'Komponist zum Katalog hinzufügen');
+
+/**
+ * Was hängt an einem Katalogeintrag? Nur Zahlen, keine Namen.
+ *
+ * Die Zählung läuft in der Datenbank, weil der Admin das meiste davon gar
+ * nicht sehen darf: seen_operas zeigt jedem nur die eigenen Markierungen.
+ */
+export async function katalogVerweise(art, id) {
+    const sb = getSupabase();
+    if (!sb) throw new Error('Keine Verbindung.');
+    const { data, error } = await sb.rpc('katalog_verweise', { p_art: art, p_id: id });
+    if (error) throw new SupabaseError('Verweise auf den Eintrag zählen', error);
+    const z = Array.isArray(data) ? data[0] : data;
+    return {
+        besuche: Number(z?.besuche ?? 0),
+        markierungen: Number(z?.markierungen ?? 0),
+        listen: Number(z?.listen ?? 0),
+    };
+}
+
+/**
+ * Einen selbst angelegten Katalogeintrag löschen.
+ *
+ * Greift nur bei Einträgen aus der Datenbank. Was in src/data/ als Datei
+ * liegt, kann die App nicht entfernen – dafür braucht es einen Commit.
+ */
+async function katalogLoeschen(tabelle, id, was) {
+    const sb = getSupabase();
+    if (!sb) throw new Error('Keine Verbindung.');
+    return unwrapWritten(await sb.from(tabelle).delete().eq('id', id).select(), was);
+}
+
+export const deleteKatalogWerk = (id) => katalogLoeschen('catalog_operas', id, 'Werk aus dem Katalog entfernen');
+export const deleteKatalogHaus = (id) => katalogLoeschen('catalog_houses', id, 'Haus aus dem Katalog entfernen');

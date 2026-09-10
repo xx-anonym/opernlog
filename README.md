@@ -30,6 +30,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   die Tabellen gibt es dieses Vorher nicht, deshalb prüft das Formular schon
   beim Absenden gegen dieselben Regeln (`src/data/katalogRegeln.js`) und ein
   täglicher Lauf noch einmal hinterher.
+
+  Entfernen lässt sich nur, was in den Tabellen steht – eine Datei im Repo
+  ändert man mit einem Commit. Vorher zählt die Datenbank, was an dem Eintrag
+  hängt; hängt etwas dran, wird nicht gelöscht.
 - **Vercel** liefert das Wurzelverzeichnis als statische Seite aus. Deshalb
   liegt die einzige `package.json` unter `tests/browser/` und nicht hier – eine
   `package.json` neben der `index.html` würde Vercel das Projekt als

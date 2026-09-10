@@ -40,6 +40,9 @@ function alsKatalogEintrag(zeile) {
         if (spalte === 'created_at' || spalte === 'created_by') continue;
         eintrag[UMBENANNT[spalte] ?? spalte] = wert;
     }
+    // Woher der Eintrag stammt, entscheidet, ob er sich aus der App entfernen
+    // lässt: was in einer Datei im Repo steht, kann die App nicht löschen.
+    eintrag.ausDatenbank = true;
     return eintrag;
 }
 
@@ -66,6 +69,27 @@ export function uebernehmen({ werke = [], haeuser = [], komponisten = [] } = {})
         haeuser: mischen(operaHouses, haeuser.map(alsKatalogEintrag)),
         komponisten: mischen(composers, komponisten.map(alsKatalogEintrag)),
     };
+}
+
+/**
+ * Einen Eintrag aus dem Katalog nehmen – aus dem Array und aus dem
+ * Zwischenspeicher. Gelöscht wird in der Datenbank, hier wird nur nachgezogen,
+ * damit die Seite nicht erst neu geladen werden muss.
+ */
+export function entfernen(art, id) {
+    const ziel = { werk: operas, haus: operaHouses, komponist: composers }[art];
+    if (!ziel) throw new Error(`Unbekannte Art: ${art}`);
+
+    const platz = ziel.findIndex(e => e.id === id);
+    if (platz !== -1) ziel.splice(platz, 1);
+
+    const stand = ausSpeicher();
+    if (stand) {
+        const schluessel = { werk: 'werke', haus: 'haeuser', komponist: 'komponisten' }[art];
+        stand[schluessel] = (stand[schluessel] ?? []).filter(e => e.id !== id);
+        inSpeicher(stand);
+    }
+    return platz !== -1;
 }
 
 /** Den zuletzt gesehenen Stand lesen. Fehlt er, ist das kein Fehler. */

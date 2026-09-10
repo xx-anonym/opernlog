@@ -110,6 +110,7 @@ const APP_SHELL = [
     './src/data/katalogRegeln.js',
     './src/data/katalogZusatz.js',
     './src/components/KatalogFormular.js',
+    './src/components/KatalogLoeschen.js',
 ];
 
 // Install – cache app shell

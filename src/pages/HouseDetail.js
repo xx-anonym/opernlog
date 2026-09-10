@@ -1,6 +1,8 @@
 // House Detail Page
 import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
+import { istAdmin } from '../store/supabase.js';
+import { loeschSchalter } from '../components/KatalogLoeschen.js';
 import { coverBackground } from '../utils.js';
 import { showError } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
@@ -143,6 +145,16 @@ export function HouseDetailPage(houseId) {
     }
   }
   loadVisits();
+
+  // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet
+  // ist – und nur bei Einträgen, die in der Datenbank stehen. Was als Datei im
+  // Repo liegt, kann die App nicht löschen.
+  istAdmin().then(ja => {
+    const schalter = loeschSchalter('haus', house, ja, () => {
+      window.location.hash = '#/houses';
+    });
+    if (schalter) page.appendChild(schalter);
+  }).catch(() => {});
 
   return page;
 }

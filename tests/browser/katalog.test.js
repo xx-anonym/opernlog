@@ -308,3 +308,138 @@ test('ein zu breites Vorschaubild wird auf 500px gebracht', { skip: fehltPlaywri
         assert.match(await p.inputValue('#kfImageUrl'), /500px-P\.jpg$/);
     } finally { await ctx.close(); }
 });
+
+// ── Entfernen ────────────────────────────────────────────────────────────
+//
+// Löschen ist hier etwas anderes als bei einem Tagebucheintrag: der Katalog
+// gehört allen. Deshalb prüfen die Tests hier vor allem, wann NICHT gelöscht
+// wird.
+
+/** Legt ein Werk an und öffnet dessen Detailseite. */
+async function werkAnlegenUndOeffnen(p, id = 'der-kaiser-von-atlantis') {
+    await p.click('#suggestOperaBtn');
+    await p.waitForSelector('#kfForm');
+    await fuelleWerk(p);
+    await p.click('#kfSenden');
+    await p.waitForTimeout(600);
+    await p.evaluate(i => { window.location.hash = `#/opera/${i}`; }, id);
+    await p.waitForTimeout(700);
+}
+
+test('ein Werk aus dem Repo lässt sich nicht aus der App entfernen', { skip: fehltPlaywright }, async () => {
+    // Es steht als Datei im Repo. Ein Schalter, der nichts bewirken kann,
+    // gehört nicht auf die Seite.
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.evaluate(() => { window.location.hash = '#/opera/zauberflote'; });
+        await p.waitForTimeout(800);
+        assert.equal(await p.locator('#katalogLoeschenBtn').count(), 0,
+            'für ein Werk aus dem Repo stand ein Entfernen-Schalter da');
+    } finally { await ctx.close(); }
+});
+
+test('wer kein Admin ist, sieht keinen Entfernen-Schalter', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne('#/operas', { admin: false });
+    try {
+        await p.evaluate(() => { window.location.hash = '#/opera/zauberflote'; });
+        await p.waitForTimeout(800);
+        assert.equal(await p.locator('#katalogLoeschenBtn').count(), 0);
+    } finally { await ctx.close(); }
+});
+
+test('ein selbst angelegtes Werk lässt sich entfernen, aber erst nach Abtippen', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/operas', { admin: true });
+    try {
+        await werkAnlegenUndOeffnen(p);
+        assert.equal(await p.locator('#katalogLoeschenBtn').count(), 1, 'kein Entfernen-Schalter');
+
+        await p.click('#katalogLoeschenBtn');
+        await p.waitForSelector('#klTitel', { timeout: 5000 });
+
+        // Gesperrt, solange der Titel nicht steht.
+        assert.equal(await p.isDisabled('#klLoeschen'), true, 'der Knopf war von Anfang an offen');
+        await p.fill('#klTitel', 'Der Kaiser');
+        assert.equal(await p.isDisabled('#klLoeschen'), true, 'ein Teil des Titels genügte');
+        await p.fill('#klTitel', 'der kaiser von atlantis');
+        assert.equal(await p.isDisabled('#klLoeschen'), true, 'Kleinschreibung genügte');
+
+        await p.fill('#klTitel', 'Der Kaiser von Atlantis');
+        assert.equal(await p.isDisabled('#klLoeschen'), false, 'der richtige Titel öffnete den Knopf nicht');
+
+        const vorher = await p.evaluate(async () => (await import('/src/data/operas.js')).operas.length);
+        await p.click('#klLoeschen');
+        await p.waitForTimeout(600);
+
+        assert.deepEqual(await p.evaluate(() => window.__geloescht),
+            [{ tabelle: 'catalog_operas', id: 'der-kaiser-von-atlantis' }]);
+        const nachher = await p.evaluate(async () => (await import('/src/data/operas.js')).operas.length);
+        assert.equal(nachher, vorher - 1, 'der Katalog schrumpfte nicht mit');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('hängt ein geloggter Abend daran, wird nicht gelöscht', { skip: fehltPlaywright }, async () => {
+    // Der Abend stünde sonst im Tagebuch eines anderen und zeigte auf ein
+    // Werk, das es nicht mehr gibt.
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.evaluate(() => { window.__verweise = { besuche: 3, markierungen: 0, listen: 0 }; });
+        await werkAnlegenUndOeffnen(p);
+        await p.click('#katalogLoeschenBtn');
+        await p.waitForTimeout(400);
+
+        assert.match(await p.textContent('#klStand'), /3 geloggte Abende/);
+        assert.equal(await p.locator('#klTitel').count(), 0, 'das Eingabefeld stand trotzdem da');
+        assert.equal(await p.isDisabled('#klLoeschen'), true);
+        assert.deepEqual(await p.evaluate(() => window.__geloescht), []);
+    } finally { await ctx.close(); }
+});
+
+test('auch eine einzelne Gesehen-Markierung hält den Eintrag', { skip: fehltPlaywright }, async () => {
+    // Sie gehört jemand anderem, und niemand außer der Datenbank kann sie
+    // sehen – deshalb wird sie überhaupt gezählt.
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.evaluate(() => { window.__verweise = { besuche: 0, markierungen: 1, listen: 0 }; });
+        await werkAnlegenUndOeffnen(p);
+        await p.click('#katalogLoeschenBtn');
+        await p.waitForTimeout(400);
+
+        assert.match(await p.textContent('#klStand'), /1 Gesehen-Markierung/);
+        assert.deepEqual(await p.evaluate(() => window.__geloescht), []);
+    } finally { await ctx.close(); }
+});
+
+test('scheitert die Zählung, wird nichts entfernt', { skip: fehltPlaywright }, async () => {
+    // Im Zweifel nicht löschen: eine fehlgeschlagene Zählung ist keine Null.
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.evaluate(() => { window.__verweiseFehler = 'Netz weg'; });
+        await werkAnlegenUndOeffnen(p);
+        await p.click('#katalogLoeschenBtn');
+        await p.waitForTimeout(400);
+
+        assert.match(await p.textContent('#klFehler'), /Es wird nichts entfernt/);
+        assert.equal(await p.isDisabled('#klLoeschen'), true);
+        assert.deepEqual(await p.evaluate(() => window.__geloescht), []);
+    } finally { await ctx.close(); }
+});
+
+test('lehnt die Datenbank das Löschen ab, bleibt der Eintrag im Katalog', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.evaluate(() => { window.__deleteFehler = 'new row violates row-level security policy'; });
+        await werkAnlegenUndOeffnen(p);
+        const vorher = await p.evaluate(async () => (await import('/src/data/operas.js')).operas.length);
+
+        await p.click('#katalogLoeschenBtn');
+        await p.waitForSelector('#klTitel');
+        await p.fill('#klTitel', 'Der Kaiser von Atlantis');
+        await p.click('#klLoeschen');
+        await p.waitForTimeout(500);
+
+        assert.match(await p.textContent('#klFehler'), /Entfernen fehlgeschlagen/);
+        const nachher = await p.evaluate(async () => (await import('/src/data/operas.js')).operas.length);
+        assert.equal(nachher, vorher, 'der Eintrag verschwand trotz Fehlschlag aus dem Katalog');
+    } finally { await ctx.close(); }
+});

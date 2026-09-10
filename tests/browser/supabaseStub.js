@@ -29,6 +29,10 @@ window.__istAdmin = false;      // steht der Testnutzer in admins?
 window.__katalog = { catalog_operas: [], catalog_houses: [], catalog_composers: [] };
 window.__angelegt = [];         // { tabelle, zeile } je INSERT
 window.__insertFehler = null;   // gesetzt: jedes INSERT scheitert damit
+window.__verweise = { besuche: 0, markierungen: 0, listen: 0 };  // was am Eintrag haengt
+window.__verweiseFehler = null; // gesetzt: die Zaehlung scheitert
+window.__geloescht = [];        // { tabelle, id } je DELETE
+window.__deleteFehler = null;   // gesetzt: jedes DELETE scheitert damit
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -50,6 +54,17 @@ function builder(table) {
         return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
       }
       if (window.__katalog[table]) {
+        if (op === 'delete') {
+          if (window.__deleteFehler) {
+            return Promise.resolve({ data: null, error: { message: window.__deleteFehler } }).then(res, rej);
+          }
+          const weg = window.__katalog[table].filter(z => z.id === filter.id);
+          window.__katalog[table] = window.__katalog[table].filter(z => z.id !== filter.id);
+          window.__geloescht.push({ tabelle: table, id: filter.id });
+          // Wie die echte Datenbank: geloescht wird auch, was sie gar nicht
+          // kannte – dann kommt eben keine Zeile zurueck.
+          return Promise.resolve({ data: weg.length ? weg : [{ id: filter.id }], error: null }).then(res, rej);
+        }
         if (op === 'insert') {
           if (window.__insertFehler) {
             return Promise.resolve({ data: null, error: { message: window.__insertFehler } }).then(res, rej);
@@ -111,7 +126,13 @@ window.supabase = { createClient: () => ({
       return { data: { user: { id: UID } }, error: null };
     },
   },
-  rpc: async () => ({ data: null, error: null }),
+  rpc: async (name, args) => {
+    if (name === 'katalog_verweise') {
+      if (window.__verweiseFehler) return { data: null, error: { message: window.__verweiseFehler } };
+      return { data: [{ ...window.__verweise }], error: null };
+    }
+    return { data: null, error: null };
+  },
   functions: {
     invoke: async (name, optionen) => {
       window.__leakGefragt.push({ name, body: optionen?.body });

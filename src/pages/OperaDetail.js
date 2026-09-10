@@ -1,6 +1,8 @@
 // Opera Detail Page
 import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
+import { istAdmin } from '../store/supabase.js';
+import { loeschSchalter } from '../components/KatalogLoeschen.js';
 import { coverBackground, escapeHTML, datumKurz } from '../utils.js';
 import { werkVerlauf } from '../data/werkVerlauf.js';
 import { composerLink } from './ComposerDetail.js';
@@ -293,6 +295,16 @@ export function OperaDetailPage(operaId) {
         : icon('checkCircle') + ' Schon gesehen';
     });
   }
+
+  // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet
+  // ist – und nur bei Einträgen, die in der Datenbank stehen. Was als Datei im
+  // Repo liegt, kann die App nicht löschen.
+  istAdmin().then(ja => {
+    const schalter = loeschSchalter('werk', opera, ja, () => {
+      window.location.hash = '#/operas';
+    });
+    if (schalter) page.appendChild(schalter);
+  }).catch(() => {});
 
   return page;
 }
