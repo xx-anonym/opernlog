@@ -201,3 +201,79 @@ test('der Id-Vorschlag ist selbst id-tauglich', () => {
         assert.match(id, /^[a-z0-9-]+$/, `"${titel}" ergibt "${id}"`);
     }
 });
+
+// ── Aus einer Originaladresse eine Vorschaufassung machen ─────────────────
+//
+// Alle Formen hier sind an echten Dateien auf Commons nachgemessen: die so
+// gebauten Adressen antworten mit HTTP 200. Das ist der Punkt, an dem Raten
+// teuer wird – Wikimedia nimmt nur eine feste Liste von Breiten an, und
+// TIFF, PDF und SVG brauchen ein Präfix und eine angehängte Endung.
+
+import { thumbAdresse } from '../../src/data/katalogRegeln.js';
+
+const COMMONS = 'https://upload.wikimedia.org/wikipedia/commons';
+
+test('aus einer Originaladresse wird die 500px-Fassung', () => {
+    assert.equal(thumbAdresse(`${COMMONS}/8/83/Papageno.jpg`),
+        `${COMMONS}/thumb/8/83/Papageno.jpg/500px-Papageno.jpg`);
+});
+
+test('TIFF bekommt lossy-page1- und eine angehängte Endung', () => {
+    // Genau diese Form steht für Giordano im Komponistenkatalog.
+    assert.equal(thumbAdresse(`${COMMONS}/e/e9/Bild.tif`),
+        `${COMMONS}/thumb/e/e9/Bild.tif/lossy-page1-500px-Bild.tif.jpg`);
+});
+
+test('PDF bekommt page1-, SVG nur die angehängte Endung', () => {
+    assert.equal(thumbAdresse(`${COMMONS}/1/1a/Heft.pdf`),
+        `${COMMONS}/thumb/1/1a/Heft.pdf/page1-500px-Heft.pdf.jpg`);
+    assert.equal(thumbAdresse(`${COMMONS}/a/a4/Fahne.svg`),
+        `${COMMONS}/thumb/a/a4/Fahne.svg/500px-Fahne.svg.png`);
+});
+
+test('ein zu breites Vorschaubild wird auf 500px gebracht', () => {
+    assert.equal(thumbAdresse(`${COMMONS}/thumb/8/83/P.jpg/1280px-P.jpg`),
+        `${COMMONS}/thumb/8/83/P.jpg/500px-P.jpg`);
+});
+
+test('beim Umrechnen der Breite bleibt das Präfix stehen', () => {
+    // Ohne diesen Erhalt käme eine Adresse heraus, die es nicht gibt: TIFF
+    // wird von Wikimedia nur mit lossy-page1- ausgeliefert.
+    assert.equal(thumbAdresse(`${COMMONS}/thumb/e/e9/B.tif/lossy-page1-1280px-B.tif.jpg`),
+        `${COMMONS}/thumb/e/e9/B.tif/lossy-page1-500px-B.tif.jpg`);
+});
+
+test('eine Adresse, die schon passt, bleibt unangetastet', () => {
+    const passt = `${COMMONS}/thumb/8/83/P.jpg/500px-P.jpg`;
+    assert.equal(thumbAdresse(passt), passt);
+});
+
+test('kodierte Zeichen im Dateinamen überleben', () => {
+    // Der Katalog führt "Umberto_Giordano%2C_1942_-_...tif". Wer hier
+    // dekodiert und neu zusammensetzt, baut eine Adresse, die es nicht gibt.
+    const roh = `${COMMONS}/e/e9/Umberto_Giordano%2C_1942.tif`;
+    assert.match(thumbAdresse(roh), /Umberto_Giordano%2C_1942\.tif\/lossy-page1-500px-Umberto_Giordano%2C_1942\.tif\.jpg$/);
+});
+
+test('was nicht von Wikimedia kommt, bleibt unverändert', () => {
+    // Die Funktion rechnet um, sie entscheidet nicht. Ob ein fremder Host
+    // erlaubt ist, sagt pruefeWerk().
+    //
+    // Der dritte Fall ist der eigentliche: ein fremder Host mit einem Pfad,
+    // der genau wie Wikimedia aussieht. Ohne die Host-Prüfung baute die
+    // Funktion daraus eine Vorschauadresse – und der Admin sähe eine
+    // zurechtgemachte Adresse, die es nirgends gibt. Die ersten beiden Fälle
+    // fallen schon an der Pfadform durch und prüfen die Sperre nicht.
+    const faelle = [
+        'https://example.com/bild.jpg',
+        'einfach text',
+        'https://example.com/wikipedia/commons/8/83/Papageno.jpg',
+    ];
+    for (const fremd of faelle) assert.equal(thumbAdresse(fremd), fremd);
+    for (const leer of ['', null, undefined]) assert.equal(thumbAdresse(leer), '');
+});
+
+test('eine andere Breite lässt sich verlangen', () => {
+    assert.equal(thumbAdresse(`${COMMONS}/8/83/P.jpg`, 330),
+        `${COMMONS}/thumb/8/83/P.jpg/330px-P.jpg`);
+});

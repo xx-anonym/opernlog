@@ -54,6 +54,7 @@ async function oeffne(seite, { admin = false, insertFehler = null } = {}) {
 
 /** Füllt das Werkformular vollständig aus. */
 async function fuelleWerk(p, { titel = 'Der Kaiser von Atlantis', komponist = 'Wolfgang Amadeus Mozart', bild = BILD } = {}) {
+    // bild: undefined lässt das Bildfeld in Ruhe – für den Umrechnungstest.
     await p.fill('#kfTitle', titel);
     await p.selectOption('#kfComposer', komponist);
     await p.fill('#kfYear', '1943');
@@ -62,7 +63,7 @@ async function fuelleWerk(p, { titel = 'Der Kaiser von Atlantis', komponist = 'W
     await p.fill('#kfGenre', 'Oper');
     await p.fill('#kfLibrettist', 'Peter Kien');
     await p.fill('#kfDescription', 'Im Ghetto Theresienstadt entstanden.');
-    await p.fill('#kfImage', bild);
+    if (bild !== undefined) await p.fill('#kfImage', bild);
 }
 
 test('wer kein Admin ist, sieht den Vorschlagsschalter', { skip: fehltPlaywright }, async () => {
@@ -184,14 +185,17 @@ test('ein Werk mit Mängeln wird gar nicht erst gespeichert', { skip: fehltPlayw
     try {
         await p.click('#suggestOperaBtn');
         await p.waitForSelector('#kfForm');
-        // Ein Bild in Originalgröße – genau der Fehler, der die Opernliste
-        // einmal 135 MB nachladen ließ.
-        await fuelleWerk(p, { bild: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Papageno.jpg' });
+        // Ein Bild von einem fremden Host. Bewusst nicht mehr die
+        // Originaladresse: die rechnet das Formular seit der Umstellung selbst
+        // in ein Vorschaubild um, und der Mangel wäre geheilt, bevor er
+        // gemeldet werden könnte. Einen fremden Host lässt thumbAdresse
+        // absichtlich unangetastet – umrechnen ist keine Erlaubnis.
+        await fuelleWerk(p, { bild: 'https://example.com/thumb/a/b/x.jpg/500px-x.jpg' });
         await p.click('#kfSenden');
         await p.waitForTimeout(400);
 
         assert.equal(await p.locator('#kfForm').count(), 1, 'das Formular schloss trotz Mangel');
-        assert.match(await p.textContent('#kfMaengel'), /Original statt/);
+        assert.match(await p.textContent('#kfMaengel'), /nicht upload\.wikimedia\.org/);
         assert.deepEqual(await p.evaluate(() => window.__angelegt), [],
             'trotz Mangel wurde gespeichert');
     } finally { await ctx.close(); }
@@ -261,5 +265,46 @@ test('lehnt die Datenbank ab, bleibt das Formular stehen und sagt es', { skip: f
         assert.equal(await p.locator('#kfForm').count(), 1, 'das Formular schloss trotz Fehlschlag');
         assert.match(await p.textContent('#kfMaengel'), /row-level security|Speichern fehlgeschlagen/);
         assert.equal(await p.isDisabled('#kfSenden'), false, 'die Schaltfläche blieb gesperrt');
+    } finally { await ctx.close(); }
+});
+
+test('eine Originaladresse wird beim Verlassen des Feldes umgerechnet', { skip: fehltPlaywright }, async () => {
+    // Die Adresse eines Vorschaubilds steht auf Commons nirgends – sie wird
+    // aus der des Originals abgeleitet. Wer das nicht weiß, fügt die
+    // Originaladresse ein und bekam dafür bisher nur einen Mangel zu lesen,
+    // ohne einen Weg heraus.
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.click('#suggestOperaBtn');
+        await p.waitForSelector('#kfForm');
+
+        await p.fill('#kfImage', 'https://upload.wikimedia.org/wikipedia/commons/8/83/Papageno.jpg');
+        await p.locator('#kfTitle').focus();   // Feld verlassen
+        await p.waitForTimeout(150);
+
+        assert.equal(await p.inputValue('#kfImage'),
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Papageno.jpg/500px-Papageno.jpg');
+
+        // Und das Werk lässt sich damit auch wirklich anlegen.
+        await fuelleWerk(p, { bild: undefined });
+        await p.fill('#kfImage', 'https://upload.wikimedia.org/wikipedia/commons/8/83/Papageno.jpg');
+        await p.locator('#kfTitle').focus();
+        await p.waitForTimeout(150);
+        await p.click('#kfSenden');
+        await p.waitForTimeout(600);
+
+        assert.equal(await p.locator('#kfForm').count(), 0, 'trotz umgerechneter Adresse abgelehnt');
+    } finally { await ctx.close(); }
+});
+
+test('ein zu breites Vorschaubild wird auf 500px gebracht', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne('#/houses', { admin: true });
+    try {
+        await p.click('#suggestHouseBtn');
+        await p.waitForSelector('#kfForm');
+        await p.fill('#kfImageUrl', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/P.jpg/1280px-P.jpg');
+        await p.locator('#kfName').focus();
+        await p.waitForTimeout(150);
+        assert.match(await p.inputValue('#kfImageUrl'), /500px-P\.jpg$/);
     } finally { await ctx.close(); }
 });

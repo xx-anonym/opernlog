@@ -239,3 +239,66 @@ export function pruefeKomponist(k = {}, bestand = {}) {
 
     return maengel;
 }
+
+// ── Aus einer Originaladresse eine Vorschaufassung machen ─────────────────
+//
+// Wikimedia leitet die Adresse eines Vorschaubilds mechanisch aus der des
+// Originals ab: "thumb/" einschieben, "/500px-<Dateiname>" anhängen. Wer das
+// nicht weiß, sucht auf Commons vergeblich nach einem Link darauf – es gibt
+// keinen, die Adresse existiert einfach.
+//
+// Drei Dateitypen kann der Bildbetrachter nicht direkt anzeigen; für sie
+// erzeugt Wikimedia ein gerastertes Vorschaubild mit eigenem Präfix und
+// angehängter Endung. Im Katalog steht ein solcher Fall (Giordano, TIFF).
+//
+// Nachgemessen an echten Dateien auf Commons: TIFF, PDF und SVG liefern unter
+// der so gebauten Adresse HTTP 200. DjVu stand hier auch einmal, ist aber
+// wieder raus – es ließ sich keine Datei finden, an der sich die Regel prüfen
+// ließ, und eine ungeprüfte Regel ist schlechter als keine. Ein Opernbild als
+// DjVu wäre ohnehin ein sehr seltsamer Fund.
+const RASTER = [
+    [/\.tiff?$/i, 'lossy-page1-', '.jpg'],
+    [/\.pdf$/i,   'page1-',       '.jpg'],
+    [/\.svg$/i,   '',             '.png'],
+];
+
+/**
+ * Die 500px-Fassung zu einer Wikimedia-Adresse.
+ *
+ * Nimmt sowohl eine Originaladresse als auch ein Vorschaubild anderer Breite.
+ * Was nicht von Wikimedia kommt oder schon passt, kommt unverändert zurück –
+ * die Funktion entscheidet nichts, sie rechnet nur um.
+ */
+export function thumbAdresse(adresse, breite = BILD_BREITE) {
+    const roh = String(adresse ?? '').trim();
+    if (!roh) return roh;
+
+    let url;
+    try {
+        url = new URL(roh);
+    } catch {
+        return roh;
+    }
+    if (!BILD_HOSTS.includes(url.hostname)) return roh;
+
+    // Schon ein Vorschaubild: nur die Breite austauschen. Das Präfix
+    // (lossy-page1- und Verwandte) bleibt stehen.
+    const schon = url.pathname.match(/^(.*\/thumb\/.*\/)((?:lossy-page1-|page1-)?)(\d+)px-(.*)$/);
+    if (schon) {
+        if (Number(schon[3]) === breite) return roh;
+        url.pathname = `${schon[1]}${schon[2]}${breite}px-${schon[4]}`;
+        return url.toString();
+    }
+
+    // Eine Originaladresse hat die Form /wikipedia/commons/<a>/<ab>/<Datei>.
+    const original = url.pathname.match(/^(\/wikipedia\/[^/]+\/)([0-9a-f]\/[0-9a-f]{2})\/([^/]+)$/);
+    if (!original) return roh;
+
+    const [, anfang, streu, datei] = original;
+    const treffer = RASTER.find(([muster]) => muster.test(decodeURIComponent(datei)));
+    const praefix = treffer ? treffer[1] : '';
+    const endung = treffer ? treffer[2] : '';
+
+    url.pathname = `${anfang}thumb/${streu}/${datei}/${praefix}${breite}px-${datei}${endung}`;
+    return url.toString();
+}

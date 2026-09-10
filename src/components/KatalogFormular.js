@@ -16,7 +16,7 @@ import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { composers } from '../data/composers.js';
 import { uebernehmen } from '../data/katalogZusatz.js';
-import { pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag } from '../data/katalogRegeln.js';
+import { pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, thumbAdresse, BILD_BREITE } from '../data/katalogRegeln.js';
 import { addKatalogWerk, addKatalogHaus, addKatalogKomponist } from '../store/supabase.js';
 import { escapeHTML } from '../utils.js';
 
@@ -47,7 +47,8 @@ const auswahl = ({ id, label, optionen, hinweis = '' }) => `
 
 // Der Hinweis steht an jedem Bildfeld: es ist die Regel, an der beim Anlegen
 // am ehesten etwas schiefgeht, und die Begründung ist nicht offensichtlich.
-const BILD_HINWEIS = 'Adresse eines 500px-Vorschaubilds von upload.wikimedia.org. '
+const BILD_HINWEIS = 'Adresse von upload.wikimedia.org einfügen, gern die des Originals – '
+    + `sie wird beim Verlassen des Feldes auf die ${BILD_BREITE}px-Fassung umgerechnet. `
     + 'Größere Fassungen blähen die Liste auf, fremde Hosts fehlen offline.';
 
 /** Die Felder eines Werks. */
@@ -161,6 +162,26 @@ export function katalogModal(art, fertig, dienste = {}) {
         });
         auswahlfeld.addEventListener('change', () => {
             block.hidden = auswahlfeld.value !== '__neu';
+        });
+    }
+
+    // Die Adresse eines Vorschaubilds steht auf Commons nirgends: sie wird aus
+    // der des Originals abgeleitet. Wer das nicht weiß, sucht vergeblich und
+    // fügt am Ende die Originaladresse ein – die dann als Mangel zurückkommt,
+    // ohne zu sagen, wie man es besser macht. Also rechnet das Formular selbst
+    // um, sobald das Feld verlassen wird.
+    for (const id of ['kfImage', 'kfImageUrl', 'kfKompBild']) {
+        const eingabe = q('#' + id);
+        if (!eingabe) continue;
+        eingabe.addEventListener('change', () => {
+            const umgerechnet = thumbAdresse(eingabe.value);
+            if (umgerechnet === eingabe.value.trim()) return;
+            eingabe.value = umgerechnet;
+            const hinweis = eingabe.parentElement.querySelector('.form-hint');
+            if (hinweis) {
+                hinweis.textContent = `Auf die ${BILD_BREITE}px-Fassung umgerechnet.`;
+                hinweis.style.color = 'var(--accent)';
+            }
         });
     }
 
