@@ -8,4 +8,4 @@
 // Beim Erhöhen muss CACHE_NAME in sw.js mitwandern. Zusammenlegen geht nicht:
 // sw.js läuft als klassischer Worker und kann kein ES-Modul importieren.
 // Dass beide übereinstimmen, prüft tests/checks/version.test.js.
-export const VERSION = '2026.09.10';
+export const VERSION = '2026.09.11';

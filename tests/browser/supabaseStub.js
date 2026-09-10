@@ -24,6 +24,12 @@ window.__leakFehler = false;    // true: Dienst antwortet nicht
 window.__leakGefragt = [];      // die Rumpfobjekte, die invoke() gesehen hat
 window.__registriert = [];      // was signUp() entgegengenommen hat
 
+// Fuer das Admin-Katalogformular.
+window.__istAdmin = false;      // steht der Testnutzer in admins?
+window.__katalog = { catalog_operas: [], catalog_houses: [], catalog_composers: [] };
+window.__angelegt = [];         // { tabelle, zeile } je INSERT
+window.__insertFehler = null;   // gesetzt: jedes INSERT scheitert damit
+
 function builder(table) {
   let single = false, op = null, nutzlast = null;
   const filter = {};
@@ -37,6 +43,22 @@ function builder(table) {
         }
         if (op === 'delete') window.__seen = window.__seen.filter(id => id !== filter.opera_id);
         return Promise.resolve({ data: [{ user_id: UID, opera_id: nutzlast?.opera_id }], error: null }).then(res, rej);
+      }
+      if (table === 'admins') {
+        // Die Regel in der Datenbank zeigt jedem nur die eigene Zeile.
+        const rows = window.__istAdmin ? [{ user_id: UID }] : [];
+        return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
+      }
+      if (window.__katalog[table]) {
+        if (op === 'insert') {
+          if (window.__insertFehler) {
+            return Promise.resolve({ data: null, error: { message: window.__insertFehler } }).then(res, rej);
+          }
+          window.__angelegt.push({ tabelle: table, zeile: nutzlast });
+          window.__katalog[table].push(nutzlast);
+          return Promise.resolve({ data: [nutzlast], error: null }).then(res, rej);
+        }
+        return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
       }
       let rows = [];
       if (table === 'profiles') {

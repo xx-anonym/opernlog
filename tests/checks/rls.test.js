@@ -73,9 +73,12 @@ test('Markierungen "schon gesehen" bleiben privat', () => {
 test('auf jeder Tabelle ist RLS eingeschaltet', () => {
     // Ohne ENABLE ROW LEVEL SECURITY sind alle Regeln darunter wirkungslos.
     // Über alle Dateien: Tabellen aus späteren Migrationen zählen genauso.
+    //
+    // \s+ statt eines festen Leerzeichens: an ausgerichteten Spalten hat
+    // dieser Test schon einmal Alarm geschlagen, obwohl RLS eingeschaltet war.
     const tabellen = [...allesSql.matchAll(/CREATE TABLE (?:IF NOT EXISTS )?(\w+)/gi)].map(m => m[1]);
     const mitRls = new Set(
-        [...allesSql.matchAll(/ALTER TABLE (\w+) ENABLE ROW LEVEL SECURITY/gi)].map(m => m[1])
+        [...allesSql.matchAll(/ALTER TABLE\s+(\w+)\s+ENABLE ROW LEVEL SECURITY/gi)].map(m => m[1])
     );
     const ohne = [...new Set(tabellen)].filter(t => !mitRls.has(t));
     assert.deepEqual(ohne, [], `ohne RLS: ${ohne.join(', ')}`);

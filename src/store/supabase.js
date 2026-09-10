@@ -1172,3 +1172,103 @@ export async function hasPendingSuggestionCloud(type) {
         .eq('status', 'pending'), 'Offene Vorschläge prüfen');
     return !!data && data.length > 0;
 }
+
+// ── Katalog: die Einträge, die der Admin selbst angelegt hat ─────────────
+//
+// Sie liegen in catalog_operas, catalog_houses und catalog_composers und
+// werden beim Start unter den Katalog aus dem Repo gemischt; siehe
+// src/data/katalogZusatz.js.
+//
+// Lesen darf jeder, auch ohne Anmeldung – der Katalog ist der Inhalt der App.
+// Schreiben lässt nur die Datenbank zu, und zwar nur, wer in admins steht.
+// Die Prüfung hier in der Oberfläche ist reine Höflichkeit: sie blendet
+// Schaltflächen aus, die ohnehin nichts bewirkt hätten.
+
+/** Steht das angemeldete Konto in der Admin-Tabelle? */
+export async function istAdmin() {
+    const session = await getSession();
+    if (!session) return false;
+    const sb = getSupabase();
+    if (!sb) return false;
+    // Die Regel auf admins zeigt jedem nur die eigene Zeile. Kommt eine
+    // zurück, ist man Admin; kommt keine, nicht. Wer sonst Admin ist, erfährt
+    // man auf diesem Weg nicht.
+    const { data, error } = await sb.from('admins').select('user_id').maybeSingle();
+    if (error) {
+        console.error('[Supabase] Adminrecht prüfen', error);
+        return false;
+    }
+    return !!data;
+}
+
+/** Alle drei Zusatztabellen auf einmal. */
+export async function getKatalogZusatzCloud() {
+    const sb = getSupabase();
+    if (!sb) return { werke: [], haeuser: [], komponisten: [] };
+
+    const [werke, haeuser, komponisten] = await Promise.all([
+        sb.from('catalog_operas').select('*'),
+        sb.from('catalog_houses').select('*'),
+        sb.from('catalog_composers').select('*'),
+    ]);
+
+    return {
+        werke: unwrap(werke, 'Werke aus dem Katalog holen') ?? [],
+        haeuser: unwrap(haeuser, 'Häuser aus dem Katalog holen') ?? [],
+        komponisten: unwrap(komponisten, 'Komponisten aus dem Katalog holen') ?? [],
+    };
+}
+
+/**
+ * Legt einen Katalogeintrag an.
+ *
+ * Schlägt die Regel der Datenbank zu, kommt "Keine Zeile betroffen" zurück –
+ * unwrapWritten macht daraus einen Fehler statt eines stillen Nichts. Genau
+ * das würde passieren, wenn jemand ohne Adminrecht das Formular aufruft.
+ */
+async function katalogAnlegen(tabelle, zeile, was) {
+    const session = await getSession();
+    if (!session) throw new Error('Dafür musst du angemeldet sein.');
+    const sb = getSupabase();
+    return unwrapWritten(
+        await sb.from(tabelle).insert({ ...zeile, created_by: session.user.id }).select(),
+        was);
+}
+
+export const addKatalogWerk = (werk) => katalogAnlegen('catalog_operas', {
+    id: werk.id,
+    title: werk.title,
+    composer: werk.composer,
+    year_composed: Number(werk.yearComposed),
+    language: werk.language,
+    acts: Number(werk.acts),
+    genre: werk.genre,
+    librettist: werk.librettist,
+    description: werk.description,
+    image: werk.image,
+}, 'Werk zum Katalog hinzufügen');
+
+export const addKatalogHaus = (haus) => katalogAnlegen('catalog_houses', {
+    id: haus.id,
+    name: haus.name,
+    city: haus.city,
+    state: haus.state,
+    lat: Number(haus.lat),
+    lon: Number(haus.lon),
+    capacity: Number(haus.capacity),
+    founded: Number(haus.founded),
+    description: haus.description,
+    color: haus.color,
+    image_url: haus.imageUrl,
+}, 'Haus zum Katalog hinzufügen');
+
+export const addKatalogKomponist = (k) => katalogAnlegen('catalog_composers', {
+    id: k.id,
+    name: k.name,
+    kurz: k.kurz,
+    bio: k.bio,
+    bild: k.bild || '',
+    bild_lizenz: k.bildLizenz || '',
+    bild_urheber: k.bildUrheber || '',
+    wikipedia: k.wikipedia,
+}, 'Komponist zum Katalog hinzufügen');

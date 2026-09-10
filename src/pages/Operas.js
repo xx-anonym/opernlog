@@ -5,6 +5,8 @@ import { coverBackground, einblendVerzoegerung } from '../utils.js';
 import { store } from '../store/store.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { isSupabaseConfigured } from '../config.js';
+import { istAdmin } from '../store/supabase.js';
+import { katalogModal } from '../components/KatalogFormular.js';
 import { composerFarbe } from '../data/composerFarben.js';
 
 export function OperasPage() {
@@ -187,7 +189,22 @@ export function OperasPage() {
   page.querySelector('#operaSort').addEventListener('change', () => { saveFilterState(); renderOperas(); });
   page.querySelector('#languageFilter').addEventListener('change', () => { saveFilterState(); renderOperas(); });
 
+  // Der Admin schlägt nichts vor, er trägt ein. Bis die Antwort da ist,
+  // bleibt der Schalter der Vorschlagsschalter – das ist der Normalfall.
+  let adminModus = false;
+  istAdmin().then(ja => {
+    adminModus = ja;
+    if (!ja) return;
+    const k = page.querySelector('#suggestOperaBtn');
+    if (k) k.innerHTML = k.innerHTML.replace('Fehlendes Werk vorschlagen', 'Werk hinzufügen');
+  }).catch(() => {});
+
   page.querySelector('#suggestOperaBtn').addEventListener('click', () => {
+    if (adminModus) {
+      document.body.appendChild(katalogModal('werk', () => renderOperas()));
+      return;
+    }
+
     if (!store.isCloud) {
       alert('Bitte logge dich ein, um einen Vorschlag zu machen.');
       return;

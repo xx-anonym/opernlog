@@ -24,7 +24,8 @@ import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
 import { showError } from './components/Toast.js';
 import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete } from './store/supabase.js';
+import { ladeKatalogZusatz } from './data/katalogZusatz.js';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud } from './store/supabase.js';
 
 class App {
     constructor() {
@@ -138,6 +139,18 @@ class App {
      */
     async initCloudOrCarryOn() {
         if (isSupabaseConfigured()) {
+            // Die selbst angelegten Katalogeinträge. Läuft neben allem
+            // anderen und darf den Start nicht aufhalten: der Katalog aus dem
+            // Repo steht ohnehin, und der zuletzt gesehene Stand ist beim
+            // Import schon aus dem localStorage dazugekommen.
+            ladeKatalogZusatz(getKatalogZusatzCloud)
+                .then(({ werke, haeuser, komponisten }) => {
+                    // Nur neu zeichnen, wenn die Oberfläche schon steht –
+                    // sonst baut init() sie gleich ohnehin.
+                    if ((werke || haeuser || komponisten) && this._layoutGebaut) this.route();
+                })
+                .catch(e => console.error('[App] Katalogzusatz nicht geladen', e));
+
             const handled = await this.handleAuthHash();
             if (handled) {
                 this._startAbgeschlossen = true;

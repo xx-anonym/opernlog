@@ -1,0 +1,106 @@
+name: Selbst angelegte Katalogeinträge prüfen
+
+# Der Katalog im Repo wird von tests/checks/katalog.test.js bewacht, bevor
+# etwas ankommt: ohne grüne CI kein Merge. Für die Einträge, die der Admin aus
+# der App heraus anlegt, gibt es dieses Vorher nicht – sie stehen im selben
+# Augenblick im Katalog, in dem er auf "Hinzufügen" klickt.
+#
+# Das Formular prüft dieselben Regeln schon beim Absenden. Dieser Lauf ist die
+# zweite Reihe: er sieht, was das Formular nicht sehen kann – ein Bild, das
+# zwar richtig aussieht, aber nicht mehr existiert – und er merkt es auch dann,
+# wenn jemand die Zeile später im Dashboard von Hand ändert.
+#
+# Wie bei den Vorschlägen: immer höchstens ein offenes Issue. Ist alles in
+# Ordnung, schließt es sich von selbst.
+
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/katalogRegeln.js'
+      - 'tests/werkzeug/katalog-datenbank-pruefen.mjs'
+      - '.github/workflows/katalog-datenbank.yml'
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    env:
+      LABEL: katalog
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Einträge prüfen
+        id: pruefen
+        continue-on-error: true
+        run: node tests/werkzeug/katalog-datenbank-pruefen.mjs
+
+      - name: Issue anlegen, anpassen oder schließen
+        run: |
+          set -euo pipefail
+
+          ANZAHL="${{ steps.pruefen.outputs.anzahl }}"
+          gh label create "$LABEL" --description "Selbst angelegte Katalogeinträge" --color D4C5F9 2>/dev/null || true
+          NUMMER=$(gh issue list --state open --label "$LABEL" --limit 1 --json number --jq '.[0].number // empty')
+
+          if [ -z "$ANZAHL" ]; then
+            if [ -n "$NUMMER" ]; then
+              gh issue close "$NUMMER" --comment "Alle selbst angelegten Einträge genügen wieder den Katalogregeln."
+              echo "Issue #$NUMMER geschlossen."
+            else
+              echo "Nichts zu beanstanden."
+            fi
+            exit 0
+          fi
+
+          if [ "$ANZAHL" = "1" ]; then
+            TITEL="1 selbst angelegter Katalogeintrag stimmt nicht"
+          else
+            TITEL="$ANZAHL selbst angelegte Katalogeinträge stimmen nicht"
+          fi
+
+          KOERPER=$(cat <<TEXT
+          Diese Einträge stehen in der Datenbank und damit im Katalog, genügen aber
+          nicht den Regeln aus \`src/data/katalogRegeln.js\`:
+
+          ${{ steps.pruefen.outputs.bericht }}
+
+          Zu ändern in der Supabase-Tabelle \`catalog_operas\`, \`catalog_houses\` oder
+          \`catalog_composers\`. Ist es behoben, schließt sich dieses Issue beim
+          nächsten Lauf von selbst.
+
+          <sub>Automatisch erstellt von \`.github/workflows/katalog-datenbank.yml\`.</sub>
+          TEXT
+          )
+
+          if [ -z "$NUMMER" ]; then
+            if ! gh issue create --title "$TITEL" --body "$KOERPER" \
+                   --label "$LABEL" --assignee "${{ github.repository_owner }}"; then
+              echo "::warning::Zuweisen fehlgeschlagen, Issue wird ohne Zuweisung angelegt"
+              gh issue create --title "$TITEL" --body "$KOERPER" --label "$LABEL"
+            fi
+            echo "Issue angelegt."
+            exit 0
+          fi
+
+          ALT=$(gh issue view "$NUMMER" --json title --jq .title)
+          gh issue edit "$NUMMER" --title "$TITEL" --body "$KOERPER"
+          if [ "$ALT" != "$TITEL" ]; then
+            gh issue comment "$NUMMER" --body "Neuer Stand: $TITEL."
+            echo "Issue #$NUMMER angepasst und kommentiert."
+          else
+            echo "Issue #$NUMMER unverändert."
+          fi

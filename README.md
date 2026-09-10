@@ -20,6 +20,16 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Der Abgleich gegen geleakte Passwörter braucht zwangsläufig einen Dritten.
   Deshalb fragt nicht der Browser bei HaveIBeenPwned nach, sondern die Edge
   Function `passwort-pruefen` – der Browser spricht weiter nur mit Supabase.
+- **Der Katalog steht an zwei Orten.** Die 121 Werke, 92 Häuser und 55
+  Komponisten liegen als Dateien unter `src/data/`; was der Admin aus der App
+  heraus anlegt, liegt in drei Supabase-Tabellen und wird beim Start
+  daruntergemischt (`src/data/katalogZusatz.js`). Schreiben darf nur, wer in
+  der Tabelle `admins` steht – die niemand über die API beschreiben kann.
+
+  Die Dateien bewacht `tests/checks/katalog.test.js`, bevor etwas ankommt. Für
+  die Tabellen gibt es dieses Vorher nicht, deshalb prüft das Formular schon
+  beim Absenden gegen dieselben Regeln (`src/data/katalogRegeln.js`) und ein
+  täglicher Lauf noch einmal hinterher.
 - **Vercel** liefert das Wurzelverzeichnis als statische Seite aus. Deshalb
   liegt die einzige `package.json` unter `tests/browser/` und nicht hier – eine
   `package.json` neben der `index.html` würde Vercel das Projekt als
@@ -61,7 +71,7 @@ Hand gestartet.
 | `supabase/` | `schema.sql` und `migrations/` – von Hand im Supabase-Dashboard eingespielt; `functions/` sind Edge Functions |
 | `scripts/` | Hilfsskripte am Rande (lokale Supabase-Rückfallebene) |
 | `tests/` | Tests und Katalog-Werkzeuge |
-| `.github/workflows/` | Tests, Katalogprüfung, Supabase wachhalten, offene Vorschläge melden |
+| `.github/workflows/` | Tests, Katalogprüfung, selbst angelegte Einträge prüfen, Supabase wachhalten, offene Vorschläge melden |
 
 ## Version erhöhen
 

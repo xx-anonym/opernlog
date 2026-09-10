@@ -5,6 +5,8 @@ import { coverBackground, einblendVerzoegerung } from '../utils.js';
 import { store } from '../store/store.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { isSupabaseConfigured } from '../config.js';
+import { istAdmin } from '../store/supabase.js';
+import { katalogModal } from '../components/KatalogFormular.js';
 
 export function HousesPage() {
   const page = document.createElement('div');
@@ -177,7 +179,22 @@ export function HousesPage() {
   page.querySelector('#houseSearch').addEventListener('input', () => { saveFilterState(); renderHouses(); });
   page.querySelector('#houseSort').addEventListener('change', () => { saveFilterState(); renderHouses(); });
 
+  // Der Admin schlägt nichts vor, er trägt ein. Bis die Antwort da ist,
+  // bleibt der Schalter der Vorschlagsschalter – das ist der Normalfall.
+  let adminModus = false;
+  istAdmin().then(ja => {
+    adminModus = ja;
+    if (!ja) return;
+    const k = page.querySelector('#suggestHouseBtn');
+    if (k) k.innerHTML = k.innerHTML.replace('Fehlendes Haus vorschlagen', 'Haus hinzufügen');
+  }).catch(() => {});
+
   page.querySelector('#suggestHouseBtn').addEventListener('click', () => {
+    if (adminModus) {
+      document.body.appendChild(katalogModal('haus', () => renderHouses()));
+      return;
+    }
+
     if (!store.isCloud) {
       alert('Bitte logge dich ein, um einen Vorschlag zu machen.');
       return;
