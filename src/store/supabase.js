@@ -750,6 +750,28 @@ export async function getFeedCloud() {
 }
 
 /**
+ * Wie vielen Leuten der angemeldete Nutzer folgt.
+ *
+ * getFeedCloud() gibt in zwei ganz verschiedenen Fällen eine leere Liste
+ * zurück: wenn man niemandem folgt, und wenn die Gefolgten noch nichts
+ * geloggt haben. Der Feed konnte das nicht auseinanderhalten und schrieb auch
+ * dem, der längst jemandem folgt, "Du folgst noch niemandem" hin.
+ *
+ * Eine eigene kleine Abfrage statt eines anderen Rückgabewerts von
+ * getFeedCloud(): die Funktion hat drei Aufrufer, und diese hier läuft nur,
+ * wenn der Feed ohnehin leer ist.
+ */
+export async function getFollowingCount() {
+    const session = await getSession();
+    if (!session) return 0;
+    const sb = getSupabase();
+    const data = unwrap(await sb.from('follows')
+        .select('following_id')
+        .eq('follower_id', session.user.id), 'Gefolgte zählen');
+    return (data || []).length;
+}
+
+/**
  * Die letzten Abende aller – die Rückfallebene des Feeds.
  *
  * Der Feed lebt von den Freunden; wer noch niemandem folgt, bekam bisher eine

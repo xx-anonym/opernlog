@@ -159,10 +159,15 @@ function feedAbschnitt() {
     const angemeldet = store.isCloud && isSupabaseConfigured();
     let feed = [];
     let gescheitert = false;
+    let folgt = 0;
 
     if (angemeldet) {
       try {
         feed = (await sb.getFeedCloud()).map(v => sb.mapCloudVisit(v));
+        // Ein leerer Feed hat zwei Ursachen, und sie verlangen verschiedene
+        // Sätze: niemandem folgen, oder Gefolgten ohne Abende. Nur im
+        // Leerfall gefragt – sonst wäre es eine Abfrage für nichts.
+        if (!feed.length) folgt = await sb.getFollowingCount();
       } catch (e) {
         console.error('[Feed laden]', e);
         showError('Der Feed konnte nicht geladen werden.');
@@ -187,6 +192,11 @@ function feedAbschnitt() {
            Die Abende deiner Freunde sind gerade nicht erreichbar. Dein eigenes
            Tagebuch liegt lokal und ist davon nicht betroffen.</p>
          <a href="#/diary" class="btn btn--primary">Zum Tagebuch</a>`
+      : angemeldet && folgt > 0
+        ? `<p class="feed-leer__text">${icon('calendar', { className: 'icon--meta' })}
+             Du folgst ${folgt} ${folgt === 1 ? 'Person' : 'Personen'}, aber dort wurde
+             noch kein Abend geloggt. Sobald das passiert, steht er hier.</p>
+           <a href="#/community" class="btn btn--outline">Weitere Opernfreunde finden</a>`
       : angemeldet
         ? `<p class="feed-leer__text">${icon('user', { className: 'icon--meta' })}
              Du folgst noch niemandem. Sobald du das tust, stehen die Abende deiner

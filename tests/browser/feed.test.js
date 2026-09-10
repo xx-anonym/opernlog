@@ -101,6 +101,22 @@ test('ohne Freunde stehen die letzten Abende der anderen darunter', { skip: fehl
     } finally { await ctx.close(); }
 });
 
+test('wer jemandem folgt, dem nichts geloggt hat, liest nicht "folgst noch niemandem"', { skip: fehltPlaywright }, async () => {
+    // getFeedCloud() gibt in zwei ganz verschiedenen Fällen [] zurück:
+    // niemandem folgen, und Gefolgte ohne Abende. Der Feed hielt beides für
+    // dasselbe und behauptete dem gegenüber, der längst folgt, das Gegenteil.
+    const { ctx, p } = await oeffneFeed({
+        folgt: [{ follower_id: ICH, following_id: FREUND }],
+        besuche: [besuch('x1', FREMD, 'rigoletto', '2026-04-02', 4)],   // nur von jemand anderem
+    });
+    try {
+        const text = await p.textContent('.feed-leer');
+        assert.doesNotMatch(text, /folgst noch niemandem/);
+        assert.match(text, /noch kein Abend geloggt/);
+        assert.match(text, /folgst 1 Person\b/, 'Einzahl bei einer Person');
+    } finally { await ctx.close(); }
+});
+
 test('die eigenen Abende stehen nicht im Feed', { skip: fehltPlaywright }, async () => {
     // Sie stehen im Tagebuch. Früher füllte store.getFeed() den Feed mit ihnen
     // – unter "Dein Feed" fiel das nicht auf, unter "Von deinen Freunden" wäre
