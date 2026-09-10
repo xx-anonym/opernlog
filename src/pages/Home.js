@@ -68,13 +68,18 @@ function kopf(eigene) {
   el.className = 'feedkopf';
 
   if (!eigene.length) {
+    // Auch der erste Bildschirm steht auf dem Theaterzettel – sonst wäre
+    // ausgerechnet er der einzige ohne.
     el.classList.add('feedkopf--neu');
     el.innerHTML = `
-      <h1 class="feedkopf__gruss">Willkommen bei <span class="text-accent">OpernLog</span></h1>
-      <p class="feedkopf__zeile">Dein Operntagebuch: Abende festhalten, Werke entdecken, mit Freunden teilen.</p>
-      <div class="feedkopf__aktionen">
-        <a href="#/log" class="btn btn--primary btn--lg">+ Ersten Besuch loggen</a>
-        <a href="#/houses" class="btn btn--outline btn--lg">Opernhäuser ansehen</a>
+      <div class="feedkopf__buehne">
+        <span class="feedkopf__kicker">Dein Operntagebuch</span>
+        <h1 class="feedkopf__gruss">Willkommen bei <span class="text-accent">OpernLog</span></h1>
+        <p class="feedkopf__zeile">Abende festhalten, Werke entdecken, mit Freunden teilen.</p>
+        <div class="feedkopf__aktionen">
+          <a href="#/log" class="btn btn--primary btn--lg">+ Ersten Besuch loggen</a>
+          <a href="#/houses" class="btn btn--outline btn--lg">Opernhäuser ansehen</a>
+        </div>
       </div>`;
     return el;
   }
@@ -93,21 +98,28 @@ function kopf(eigene) {
       <span class="feedkopf__label">${label}</span>
     </a>`;
 
+  // Der Kopf als Theaterzettel: Samtgrund, goldene Haarlinie, die Spielzeit
+  // in Kapitälchen darüber. Die App zieht diese Sprache beim Start schon durch
+  // – Vorhang, Gold, Playfair –, der Feed nahm bisher nichts davon auf.
   el.innerHTML = `
-    <div class="feedkopf__oben">
-      <div>
-        <span class="feedkopf__kicker">Spielzeit ${seasonLabel(zeigeJahr)}</span>
-        <h1 class="feedkopf__gruss">${z.abende
-          ? `${z.abende} ${z.abende === 1 ? 'Abend' : 'Abende'}`
-          : 'Noch kein Abend'}</h1>
+    <div class="feedkopf__buehne">
+      <div class="feedkopf__oben">
+        <div>
+          <span class="feedkopf__kicker">Spielzeit ${seasonLabel(zeigeJahr)}</span>
+          <h1 class="feedkopf__gruss">${z.abende
+            ? `${z.abende} <span class="feedkopf__einheit">${z.abende === 1 ? 'Abend' : 'Abende'}</span>`
+            : 'Noch kein Abend'}</h1>
+          <a class="feedkopf__unterzeile" href="#/diary">
+            ${eigene.length} ${eigene.length === 1 ? 'Abend' : 'Abende'} insgesamt${icon('link', { className: 'icon--meta' })}
+          </a>
+        </div>
+        <a href="#/log" class="btn btn--primary">+ Loggen</a>
       </div>
-      <a href="#/log" class="btn btn--primary">+ Loggen</a>
     </div>
     <div class="feedkopf__zahlen">
       ${zahl(z.haeuser, z.haeuser === 1 ? 'Haus' : 'Häuser', '#/houses')}
       ${zahl(z.werke, z.werke === 1 ? 'Werk' : 'Werke', '#/operas')}
       ${zahl(z.schnitt === null ? '–' : note(z.schnitt), 'Schnitt', '#/diary')}
-      ${zahl(eigene.length, 'insgesamt', '#/diary')}
     </div>`;
   return el;
 }

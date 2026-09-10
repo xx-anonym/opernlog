@@ -4599,12 +4599,43 @@ body {
     }
 }
 
-/* --- Feed: Kopf ------------------------------------------------------ */
-/* Statt "Willkommen bei OpernLog" samt Katalogzahlen die laufende
-   Spielzeit. Die Zahlen sind Links: jede führt dorthin, wo sie herkommt. */
+/* --- Feed: Kopf als Theaterzettel ------------------------------------ */
+/* Die App zieht ihre Bildsprache beim Start durch – Samtvorhang, Gold,
+   Playfair. Der Feed nahm davon nichts auf und sah aus wie ein
+   Verwaltungsformular. Jetzt: Samtgrund, goldene Haarlinie oben, die
+   Spielzeit in Kapitälchen darüber. */
 
 .feedkopf {
     margin-bottom: 28px;
+}
+
+.feedkopf__buehne {
+    position: relative;
+    padding: 26px 26px 22px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse 120% 100% at 12% 0%, rgba(139, 26, 43, 0.32), transparent 62%),
+        linear-gradient(160deg, #241017 0%, var(--card-bg) 58%);
+}
+
+/* Die Haarlinie am oberen Rand – wie die Goldkante der Blende über dem
+   Vorhang. Als ::before, damit sie innerhalb der Rundung sitzt. */
+.feedkopf__buehne::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent, var(--gold) 18%, var(--gold-light, #f0dc9a) 50%, var(--gold) 82%, transparent);
+    opacity: 0.75;
+}
+
+.feedkopf--neu .feedkopf__buehne {
+    padding-bottom: 26px;
 }
 
 .feedkopf__oben {
@@ -4617,18 +4648,41 @@ body {
 
 .feedkopf__kicker {
     display: block;
-    font-size: 0.76rem;
-    letter-spacing: 1.4px;
+    font-size: 0.72rem;
+    letter-spacing: 2.2px;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
 
 .feedkopf__gruss {
     font-family: var(--font-display);
-    font-size: 32px;
-    line-height: 1.1;
+    font-size: 38px;
+    line-height: 1.05;
     margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* Die Einheit tritt zurück, die Zahl trägt. */
+.feedkopf__einheit {
+    font-size: 0.58em;
+    font-weight: 400;
+    color: var(--text-secondary);
+    letter-spacing: 0;
+}
+
+.feedkopf__unterzeile {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.feedkopf__unterzeile:hover {
+    color: var(--gold);
 }
 
 .feedkopf__zeile {
@@ -4643,34 +4697,39 @@ body {
     flex-wrap: wrap;
 }
 
+/* Drei Zahlen statt vier: die vierte wiederholte, was oben schon groß steht.
+   Sie sitzen halb im Theaterzettel, halb darunter – das verzahnt Kopf und
+   Seite, statt zwei Kästen übereinanderzustellen. */
 .feedkopf__zahlen {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    margin-top: 18px;
+    margin: -14px 14px 0;
+    position: relative;
 }
 
 .feedkopf__zahl {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 12px 10px;
+    padding: 12px 14px;
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: var(--card-bg);
+    background: var(--bg-elevated, var(--card-bg));
     text-decoration: none;
     color: var(--text);
-    transition: border-color var(--transition), background var(--transition);
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition), transform var(--transition);
 }
 
 .feedkopf__zahl:hover {
     border-color: var(--gold);
-    background: var(--bg-tertiary);
+    transform: translateY(-2px);
 }
 
 .feedkopf__wert {
     font-family: var(--font-display);
-    font-size: 24px;
+    font-size: 25px;
     line-height: 1;
     color: var(--gold);
     font-variant-numeric: tabular-nums;
@@ -4682,53 +4741,102 @@ body {
 }
 
 .feedkopf__label {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.4px;
     color: var(--text-muted);
+}
+
+/* Editorial: die Überschrift endet nicht im Nichts, sondern zieht eine
+   Haarlinie bis zum Rand. Nur im Feed – die übrigen Seiten haben ihre
+   eigene Ordnung, und ein globaler Eingriff wäre hier nicht gefragt. */
+.page--home .section__title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page--home .section__title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
 }
 
 /* --- Feed: leerer Freundes-Feed und Rückfallebene -------------------- */
 
 .feed-leer {
-    padding: 22px;
-    border: 1px dashed var(--border);
+    padding: 26px;
+    border: 1px solid var(--border);
     border-radius: 14px;
-    background: var(--card-bg);
+    background:
+        radial-gradient(ellipse 90% 120% at 100% 0%, rgba(201, 168, 76, 0.06), transparent 60%),
+        var(--card-bg);
 }
 
 .feed-leer__text {
-    margin: 0 0 16px;
+    margin: 0 0 18px;
     color: var(--text-secondary);
+    line-height: 1.6;
     max-width: 54ch;
 }
 
-/* Deutlich abgesetzt: das sind keine Freunde, und es soll nicht so
-   aussehen. Deshalb eine eigene Trennlinie und eine kleinere Überschrift
-   als die des Feeds darüber. */
+/* Deutlich abgesetzt: das sind keine Freunde, und es soll nicht so aussehen.
+   Die Beschriftung sitzt mittig auf der Linie – ein Absatzzeichen, kein
+   zweiter Abschnitt, der mit dem Feed darüber konkurriert. */
 .feed-sonst {
-    margin-top: 32px;
-    padding-top: 22px;
-    border-top: 1px solid var(--border);
+    margin-top: 38px;
 }
 
 .feed-sonst__titel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-family: var(--font-display);
-    font-size: 19px;
-    margin: 0 0 2px;
+    font-size: 17px;
+    font-weight: 400;
+    margin: 0 0 4px;
     color: var(--text-secondary);
 }
 
+.feed-sonst__titel::before,
+.feed-sonst__titel::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
 .feed-sonst__zeile {
-    margin: 0 0 16px;
-    font-size: 0.82rem;
+    margin: 0 0 20px;
+    font-size: 0.8rem;
     color: var(--text-muted);
+    text-align: center;
 }
 
 @media (max-width: 520px) {
-    .feedkopf__gruss {
-        font-size: 26px;
+    .feedkopf__buehne {
+        padding: 22px 18px 20px;
     }
 
+    .feedkopf__gruss {
+        font-size: 30px;
+    }
+
+    /* Drei nebeneinander werden auf dem Handy zu schmal für "Schnitt". */
     .feedkopf__zahlen {
-        grid-template-columns: repeat(2, 1fr);
+        margin: -12px 8px 0;
+        gap: 8px;
+    }
+
+    .feedkopf__zahl {
+        padding: 10px;
+    }
+
+    .feedkopf__wert {
+        font-size: 21px;
+    }
+
+    .feedkopf__label {
+        font-size: 0.68rem;
     }
 }
