@@ -1264,12 +1264,20 @@ h3 {
     margin-bottom: 32px;
 }
 
-.diary-month__title {
+.diary-month__title,
+.diary-bewertung__title {
     font-size: 20px;
     color: var(--gold);
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
+}
+
+/* Nach Bewertung sortiert tragen die Blöcke Noten als Überschrift statt
+ * Monate. Der Aufbau ist derselbe, der Name darf es nicht sein: ein Block mit
+ * der Überschrift "4,5 Sterne" ist kein Monat. */
+.diary-bewertung {
+    margin-bottom: 32px;
 }
 
 /* Grenze zwischen zwei Spielzeiten im Tagebuch.
@@ -1349,6 +1357,19 @@ h3 {
     font-size: 11px;
     color: var(--text-muted);
     text-transform: uppercase;
+}
+
+/* Nach Bewertung sortiert stehen über den Blöcken die Noten, nicht die Monate.
+ * Der Tag allein sagt dann nicht mehr, wann der Abend war – deshalb tritt an
+ * die Stelle des Wochentags der Monat samt Jahr. Der breitere Block hält
+ * "Sep 2025" auf einer Zeile; umgebrochen verschöbe er die ganze Karte. */
+.diary-entry__date--lang {
+    min-width: 58px;
+}
+
+.diary-entry__date--lang .diary-entry__weekday {
+    white-space: nowrap;
+    letter-spacing: 0.02em;
 }
 
 .diary-entry__color {

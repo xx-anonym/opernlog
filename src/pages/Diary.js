@@ -6,7 +6,8 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
 import { visitCredits } from '../utils.js';
-import { seasonStartYear, seasonLabel } from '../data/season.js';
+import { seasonLabel } from '../data/season.js';
+import { gruppiereBesuche, nachNote } from '../data/tagebuch.js';
 
 export function DiaryPage() {
   const page = document.createElement('div');
@@ -108,61 +109,47 @@ export function DiaryPage() {
       filtered = filtered.filter(v => new Date(v.date).getFullYear() === parseInt(yearFilter));
     }
 
-    filtered.sort((a, b) => {
-      switch (sort) {
-        case 'date-desc': return new Date(b.date) - new Date(a.date);
-        case 'date-asc': return new Date(a.date) - new Date(b.date);
-        case 'rating-desc': return b.rating - a.rating;
-        case 'rating-asc': return a.rating - b.rating;
-        default: return 0;
-      }
-    });
-
     content.innerHTML = '';
 
-    // Group by month
-    const months = {};
-    filtered.forEach(visit => {
-      const date = new Date(visit.date);
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      if (!months[key]) months[key] = [];
-      months[key].push(visit);
-    });
+    // Sortieren und Gruppieren gehören zusammen: nach Bewertung sortiert
+    // stehen über den Blöcken die Noten, nicht die Monate. Warum, steht in
+    // src/data/tagebuch.js.
+    const gruppen = gruppiereBesuche(filtered, sort);
 
-    const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    const monatsNamen = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
     // Die Spielzeit läuft von August bis Juli, nicht von Januar bis Dezember.
     // Zwischen Juli und August liegt also der Einschnitt, den ein Opernjahr
     // kennt – die Monatsüberschriften allein zeigen ihn nicht.
     //
-    // Nur bei chronologischer Sortierung. Nach Bewertung geordnet stehen die
-    // Monate durcheinander, und eine Linie zöge dort eine Grenze, die es an
-    // der Stelle nicht gibt.
-    const chronologisch = sort === 'date-desc' || sort === 'date-asc';
+    // Nur bei chronologischer Sortierung. Nach Bewertung geordnet gibt es gar
+    // keine Monatsblöcke mehr, zwischen die eine Linie passte.
+    const chronologisch = !nachNote(sort);
     let vorigeSpielzeit = null;
 
-    Object.entries(months).forEach(([key, visits]) => {
-      const [year, month] = key.split('-');
-      const spielzeit = seasonStartYear(`${key}-01`);
-
-      if (chronologisch && vorigeSpielzeit !== null && spielzeit !== vorigeSpielzeit) {
+    gruppen.forEach(gruppe => {
+      if (chronologisch && vorigeSpielzeit !== null && gruppe.spielzeit !== vorigeSpielzeit) {
         const trenner = document.createElement('div');
         trenner.className = 'saison-trenner';
         // Beschriftet wird die Spielzeit, die unterhalb der Linie beginnt –
         // egal ob von neu nach alt sortiert wird oder umgekehrt.
-        trenner.innerHTML = `<span class="saison-trenner__text">Spielzeit ${seasonLabel(spielzeit)}</span>`;
+        trenner.innerHTML = `<span class="saison-trenner__text">Spielzeit ${seasonLabel(gruppe.spielzeit)}</span>`;
         content.appendChild(trenner);
       }
-      vorigeSpielzeit = spielzeit;
+      vorigeSpielzeit = gruppe.spielzeit;
 
-      const monthSection = document.createElement('div');
-      monthSection.className = 'diary-month fade-in';
-      monthSection.innerHTML = `<h3 class="diary-month__title">${monthNames[parseInt(month) - 1]} ${year}</h3>`;
+      // Ein Block heißt nach dem, was über ihm steht: bei chronologischer
+      // Sortierung ein Monat, sonst eine Note.
+      const block = document.createElement('div');
+      block.className = `${chronologisch ? 'diary-month' : 'diary-bewertung'} fade-in`;
+      const titelKlasse = chronologisch ? 'diary-month__title' : 'diary-bewertung__title';
+      block.innerHTML = `<h3 class="${titelKlasse}">${gruppe.titel}</h3>`;
 
       const list = document.createElement('div');
       list.className = 'diary-list';
 
-      visits.forEach(visit => {
+      gruppe.besuche.forEach(visit => {
         const house = operaHouses.find(h => h.id === visit.houseId);
         const opera = operas.find(o => o.id === visit.operaId);
         const date = new Date(visit.date);
@@ -170,9 +157,11 @@ export function DiaryPage() {
         const entry = document.createElement('div');
         entry.className = 'diary-entry';
         entry.innerHTML = `
-          <div class="diary-entry__date">
+          <div class="diary-entry__date${chronologisch ? '' : ' diary-entry__date--lang'}">
             <span class="diary-entry__day">${date.getDate()}</span>
-            <span class="diary-entry__weekday">${['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][date.getDay()]}</span>
+            <span class="diary-entry__weekday">${chronologisch
+              ? ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][date.getDay()]
+              : `${monatsNamen[date.getMonth()]} ${date.getFullYear()}`}</span>
           </div>
           <div class="diary-entry__color" style="background: linear-gradient(135deg, ${house ? house.color : '#8b1a2b'}, #14181c)"></div>
           <div class="diary-entry__info">
@@ -226,8 +215,8 @@ export function DiaryPage() {
         list.appendChild(entry);
       });
 
-      monthSection.appendChild(list);
-      content.appendChild(monthSection);
+      block.appendChild(list);
+      content.appendChild(block);
     });
 
     if (filtered.length === 0) {

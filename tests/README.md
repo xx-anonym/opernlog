@@ -22,6 +22,7 @@ node --test "tests/**/*.test.js"
 | `visitedHouses.test.js` | besuchte Häuser je Besuch |
 | `blindSpots.test.js` | Markierungen zählen als gesehen, aber nicht als Abend |
 | `season.test.js` | Spielzeitgrenze 1. August, Saisonrückblick, bester Abend |
+| `tagebuch.test.js` | Reihenfolge im Tagebuch – und die Blöcke, die ihr folgen müssen |
 | `geo.test.js` | Entfernung und Vorauswahl des nächsten Opernhauses |
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen |
 
@@ -45,6 +46,7 @@ Datenbank.
 | `oberflaeche.test.js` | Profilkacheln, Listenfenster, Navigation |
 | `scrollposition.test.js` | zurück zu einer Liste landet an derselben Stelle |
 | `offline.test.js` | im Flugmodus kommt die App hoch und zeigt lokale Daten |
+| `tagebuchSortierung.test.js` | nach Bewertung sortiert stehen Noten über den Blöcken, keine Monate |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,
