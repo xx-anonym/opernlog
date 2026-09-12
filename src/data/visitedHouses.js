@@ -27,3 +27,18 @@ export function visitedHouseList(visits = []) {
         .filter(e => e.house)
         .sort((a, b) => a.house.name.localeCompare(b.house.name, 'de'));
 }
+
+/**
+ * Nur die Ids der besuchten Häuser, als Set.
+ *
+ * Dieselbe Definition wie visitedHouseList, nur in der Form, die ein Filter
+ * braucht – und die Karte der eigenen Abdeckung. Eine zweite Definition wäre
+ * die Stelle, an der Liste, Karte und Filter auseinanderlaufen.
+ *
+ * Anders als bei den Werken zählt hier nur der geloggte Abend: ein Haus kennt
+ * man aus dem Tagebuch oder gar nicht, eine Markierung ohne Besuch gibt es
+ * nicht.
+ */
+export function besuchteIds(visits = []) {
+    return new Set(visitedHouseList(visits).map(e => e.house.id));
+}

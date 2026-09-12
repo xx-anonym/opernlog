@@ -1,9 +1,13 @@
-// Der Filter "schon gesehen / noch nicht gesehen" im Opernkatalog.
+// Die Filter "schon gesehen" im Opernkatalog und "schon besichtigt" im
+// Hauskatalog.
 //
-// Gesehen heißt geloggt ODER markiert. Der Filter muss beide Wege
+// Gesehen heißt bei Werken geloggt ODER markiert. Der Filter muss beide Wege
 // berücksichtigen: wer ein Werk vor OpernLog gesehen hat, trägt es ohne Datum
 // und Bewertung ein, und es dann unter "noch nicht gesehen" zu führen wäre
 // schlicht falsch.
+//
+// Bei Häusern gibt es die Markierung nicht – ein Haus kennt man aus dem
+// Tagebuch oder gar nicht.
 
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -138,5 +142,105 @@ test('die Wahl überlebt einen Seitenwechsel', { skip: fehltPlaywright }, async 
 
         assert.equal(await p.inputValue('#seenFilter'), 'gesehen');
         assert.deepEqual(await titel(p), ['Tosca']);
+    } finally { await ctx.close(); }
+});
+
+// ── Hauskatalog ──────────────────────────────────────────────────────────
+
+/** Öffnet den Hauskatalog mit vorgegebenen Besuchen. */
+async function oeffneHaeuser({ eigene = [] } = {}) {
+    const ctx = await browser.newContext({ viewport: RECHNER });
+    const p = await ctx.newPage();
+    const fehler = [];
+    p.on('pageerror', e => fehler.push(e.message));
+
+    await ersetzeSupabase(p);
+    await p.goto(`${server.url}/index.html`);
+    await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
+    if (eigene.length) {
+        await p.evaluate(v => import('/src/store/store.js').then(m => { m.store.data.myVisits = v; }), eigene);
+    }
+    await p.evaluate(() => { window.location.hash = '#/houses'; });
+    await p.waitForSelector('#besuchtFilter', { timeout: 15000 });
+    await p.waitForTimeout(500);
+    return { ctx, p, fehler };
+}
+
+const hausBesuch = (houseId) => ({
+    id: 'h-' + houseId, userId: ICH, houseId, operaId: 'zauberflote',
+    date: '2026-05-01', rating: 4,
+});
+
+const hausNamen = (p) => p.locator('.house-card__name').allTextContents();
+
+/** Der Name zu einer Haus-Id, aus dem Katalog statt abgetippt. */
+const hausName = (p, id) => p.evaluate(async i =>
+    (await import('/src/data/operaHouses.js')).operaHouses.find(h => h.id === i).name, id);
+
+test('"Schon besichtigt" zeigt nur die geloggten Häuser', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await oeffneHaeuser({
+        eigene: [hausBesuch('semperoper'), hausBesuch('bayerische-staatsoper')],
+    });
+    try {
+        await p.selectOption('#besuchtFilter', 'besucht');
+        await p.waitForTimeout(300);
+        const sichtbar = await hausNamen(p);
+        assert.equal(sichtbar.length, 2, `stattdessen: ${sichtbar.join(', ')}`);
+        const erwartet = [await hausName(p, 'semperoper'), await hausName(p, 'bayerische-staatsoper')];
+        assert.deepEqual(sichtbar.sort(), erwartet.sort());
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('"Noch nicht besichtigt" lässt genau diese Häuser weg', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffneHaeuser({ eigene: [hausBesuch('semperoper')] });
+    try {
+        const alle = await p.evaluate(async () => (await import('/src/data/operaHouses.js')).operaHouses.length);
+        await p.selectOption('#besuchtFilter', 'offen');
+        await p.waitForTimeout(300);
+
+        const sichtbar = await hausNamen(p);
+        assert.equal(sichtbar.length, alle - 1);
+        assert.ok(!sichtbar.includes(await hausName(p, 'semperoper')));
+    } finally { await ctx.close(); }
+});
+
+test('mehrere Abende im selben Haus zählen als ein Haus', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffneHaeuser({
+        eigene: [
+            { ...hausBesuch('semperoper'), id: 'h1' },
+            { ...hausBesuch('semperoper'), id: 'h2' },
+            { ...hausBesuch('semperoper'), id: 'h3' },
+        ],
+    });
+    try {
+        await p.selectOption('#besuchtFilter', 'besucht');
+        await p.waitForTimeout(300);
+        assert.deepEqual(await hausNamen(p), [await hausName(p, 'semperoper')]);
+    } finally { await ctx.close(); }
+});
+
+test('ohne geloggten Abend sagt der Leerzustand, woran es liegt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffneHaeuser();
+    try {
+        await p.selectOption('#besuchtFilter', 'besucht');
+        await p.waitForTimeout(300);
+        assert.match(await p.textContent('.empty-state'), /noch keinen Abend geloggt/);
+    } finally { await ctx.close(); }
+});
+
+test('die Wahl im Hauskatalog überlebt einen Seitenwechsel', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffneHaeuser({ eigene: [hausBesuch('semperoper')] });
+    try {
+        await p.selectOption('#besuchtFilter', 'besucht');
+        await p.waitForTimeout(300);
+        await p.evaluate(() => { window.location.hash = '#/house/semperoper'; });
+        await p.waitForTimeout(400);
+        await p.evaluate(() => { window.location.hash = '#/houses'; });
+        await p.waitForSelector('#besuchtFilter');
+        await p.waitForTimeout(400);
+
+        assert.equal(await p.inputValue('#besuchtFilter'), 'besucht');
+        assert.deepEqual(await hausNamen(p), [await hausName(p, 'semperoper')]);
     } finally { await ctx.close(); }
 });

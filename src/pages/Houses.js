@@ -6,6 +6,7 @@ import { store } from '../store/store.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { isSupabaseConfigured } from '../config.js';
 import { istAdmin } from '../store/supabase.js';
+import { besuchteIds } from '../data/visitedHouses.js';
 import { katalogModal } from '../components/KatalogFormular.js';
 
 export function HousesPage() {
@@ -16,6 +17,7 @@ export function HousesPage() {
   const savedState = sessionStorage.getItem('houses_activeState') || '';
   const savedSort = sessionStorage.getItem('houses_sort') || 'name';
   const savedSearch = sessionStorage.getItem('houses_search') || '';
+  const savedBesucht = sessionStorage.getItem('houses_besucht') || '';
 
   page.innerHTML = `
     <div class="page-header">
@@ -38,6 +40,11 @@ export function HousesPage() {
       </div>
       <div class="filter-chips" id="stateFilter"></div>
       <div class="sort-controls">
+        <select class="select" id="besuchtFilter">
+          <option value=""${savedBesucht === '' ? ' selected' : ''}>Alles</option>
+          <option value="besucht"${savedBesucht === 'besucht' ? ' selected' : ''}>Schon besichtigt</option>
+          <option value="offen"${savedBesucht === 'offen' ? ' selected' : ''}>Noch nicht besichtigt</option>
+        </select>
         <select class="select" id="houseSort">
           <option value="name"${savedSort === 'name' ? ' selected' : ''}>Name A–Z</option>
           <option value="city"${savedSort === 'city' ? ' selected' : ''}>Stadt A–Z</option>
@@ -53,9 +60,6 @@ export function HousesPage() {
 
   // Karte der eigenen Abdeckung, über dem Katalog: hier steht ohnehin die
   // Frage "wo war ich schon".
-  const besuchteHaeuser = new Set(
-    (store.getVisitsByUser('user-me') || []).map(v => v.houseId)
-  );
   const houseMapSlot = page.querySelector('#houseMapSlot');
 
   // State filter chips
@@ -70,6 +74,7 @@ export function HousesPage() {
     sessionStorage.setItem('houses_activeState', activeState || '');
     sessionStorage.setItem('houses_sort', page.querySelector('#houseSort').value);
     sessionStorage.setItem('houses_search', page.querySelector('#houseSearch').value);
+    sessionStorage.setItem('houses_besucht', page.querySelector('#besuchtFilter').value);
   }
 
   const allChip = document.createElement('button');
@@ -105,11 +110,22 @@ export function HousesPage() {
     const grid = page.querySelector('#housesGrid');
     const search = page.querySelector('#houseSearch').value.toLowerCase();
     const sort = page.querySelector('#houseSort').value;
+    const besucht = page.querySelector('#besuchtFilter').value;
+
+    // Bei jedem Zeichnen neu, nicht einmal beim Aufbau der Seite: wer einen
+    // Abend loggt und hierher zurückkehrt, soll das Haus sofort als besucht
+    // sehen – in der Liste wie auf der Karte.
+    //
+    // Anders als bei den Werken zählt hier nur der geloggte Abend. Eine
+    // Markierung ohne Besuch gibt es für Häuser nicht.
+    const besuchteHaeuser = besuchteIds(store.getVisitsByUser('user-me'));
 
     let filtered = operaHouses.filter(h => {
       const matchesSearch = !search || h.name.toLowerCase().includes(search) || h.city.toLowerCase().includes(search);
       const matchesState = !activeState || h.state === activeState;
-      return matchesSearch && matchesState;
+      const matchesBesucht = !besucht
+        || (besucht === 'besucht' ? besuchteHaeuser.has(h.id) : !besuchteHaeuser.has(h.id));
+      return matchesSearch && matchesState && matchesBesucht;
     });
 
     // Liste und Karte zeigen immer denselben Ergebnisbestand. Die Karte wird
@@ -171,12 +187,20 @@ export function HousesPage() {
     });
 
     if (filtered.length === 0) {
-      grid.innerHTML = '<div class="empty-state">Keine Opernhäuser gefunden.</div>';
+      // "Keine Opernhäuser gefunden" wäre irreführend: gefunden wurde nichts,
+      // weil noch kein Abend geloggt ist, nicht weil die Suche danebenging.
+      const leer = besucht === 'besucht' && besuchteHaeuser.size === 0
+        ? 'Du hast noch keinen Abend geloggt, also auch noch kein Haus besucht.'
+        : besucht === 'offen' && !search && !activeState
+          ? 'Du warst in jedem Haus im Katalog.'
+          : 'Keine Opernhäuser gefunden.';
+      grid.innerHTML = `<div class="empty-state">${leer}</div>`;
     }
   }
 
   // Event listeners
   page.querySelector('#houseSearch').addEventListener('input', () => { saveFilterState(); renderHouses(); });
+  page.querySelector('#besuchtFilter').addEventListener('change', () => { saveFilterState(); renderHouses(); });
   page.querySelector('#houseSort').addEventListener('change', () => { saveFilterState(); renderHouses(); });
 
   // Der Admin schlägt nichts vor, er trägt ein. Bis die Antwort da ist,
