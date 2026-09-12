@@ -8,6 +8,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { istAdmin } from '../store/supabase.js';
 import { katalogModal } from '../components/KatalogFormular.js';
 import { composerFarbe } from '../data/composerFarben.js';
+import { gesehenIds } from '../data/seenOperas.js';
 
 export function OperasPage() {
   const page = document.createElement('div');
@@ -18,6 +19,7 @@ export function OperasPage() {
   const savedSort = sessionStorage.getItem('operas_sort') || 'title';
   const savedSearch = sessionStorage.getItem('operas_search') || '';
   const savedLang = sessionStorage.getItem('operas_language') || '';
+  const savedSeen = sessionStorage.getItem('operas_seen') || '';
 
   page.innerHTML = `
     <div class="page-header">
@@ -42,6 +44,11 @@ export function OperasPage() {
       <div class="filter-row">
         <select class="select" id="languageFilter">
           <option value="">Alle Sprachen</option>
+        </select>
+        <select class="select" id="seenFilter">
+          <option value=""${savedSeen === '' ? ' selected' : ''}>Gesehen und nicht</option>
+          <option value="gesehen"${savedSeen === 'gesehen' ? ' selected' : ''}>Schon gesehen</option>
+          <option value="offen"${savedSeen === 'offen' ? ' selected' : ''}>Noch nicht gesehen</option>
         </select>
         <select class="select" id="operaSort">
           <option value="title"${savedSort === 'title' ? ' selected' : ''}>Titel A–Z</option>
@@ -72,6 +79,7 @@ export function OperasPage() {
     sessionStorage.setItem('operas_sort', page.querySelector('#operaSort').value);
     sessionStorage.setItem('operas_search', page.querySelector('#operaSearch').value);
     sessionStorage.setItem('operas_language', page.querySelector('#languageFilter').value);
+    sessionStorage.setItem('operas_seen', page.querySelector('#seenFilter').value);
   }
 
   const allChip = document.createElement('button');
@@ -121,12 +129,23 @@ export function OperasPage() {
     const search = page.querySelector('#operaSearch').value.toLowerCase();
     const sort = page.querySelector('#operaSort').value;
     const lang = page.querySelector('#languageFilter').value;
+    const seen = page.querySelector('#seenFilter').value;
+
+    // Gesehen heißt geloggt ODER als gesehen markiert – dieselbe Definition
+    // wie im Profil. Wer ein Werk vor OpernLog gesehen hat, trägt es ohne
+    // Datum und Bewertung ein; es hier nicht mitzuzählen hieße, ihm sein
+    // halbes Opernleben nicht anzurechnen.
+    //
+    // Bei jedem Zeichnen neu, nicht einmal beim Aufbau der Seite: das Häkchen
+    // lässt sich auf der Werkseite setzen, und danach kehrt man hierher zurück.
+    const gesehen = seen ? gesehenIds(store.getVisitsByUser('user-me'), store.getSeenOperas()) : null;
 
     let filtered = operas.filter(o => {
       const matchesSearch = !search || o.title.toLowerCase().includes(search) || o.composer.toLowerCase().includes(search);
       const matchesComposer = !activeComposer || o.composer === activeComposer;
       const matchesLang = !lang || o.language === lang;
-      return matchesSearch && matchesComposer && matchesLang;
+      const matchesSeen = !seen || (seen === 'gesehen' ? gesehen.has(o.id) : !gesehen.has(o.id));
+      return matchesSearch && matchesComposer && matchesLang && matchesSeen;
     });
 
     filtered.sort((a, b) => {
@@ -181,13 +200,22 @@ export function OperasPage() {
     });
 
     if (filtered.length === 0) {
-      grid.innerHTML = '<div class="empty-state">Keine Opern gefunden.</div>';
+      // "Keine Opern gefunden" wäre hier irreführend: gefunden wurde nichts,
+      // weil noch nichts geloggt oder markiert ist, nicht weil die Suche
+      // danebenging.
+      const leer = seen === 'gesehen' && gesehen.size === 0
+        ? 'Du hast noch kein Werk geloggt oder als gesehen markiert.'
+        : seen === 'offen' && !search && !lang && !activeComposer
+          ? 'Du hast jedes Werk im Katalog gesehen.'
+          : 'Keine Opern gefunden.';
+      grid.innerHTML = `<div class="empty-state">${leer}</div>`;
     }
   }
 
   page.querySelector('#operaSearch').addEventListener('input', () => { saveFilterState(); renderOperas(); });
   page.querySelector('#operaSort').addEventListener('change', () => { saveFilterState(); renderOperas(); });
   page.querySelector('#languageFilter').addEventListener('change', () => { saveFilterState(); renderOperas(); });
+  page.querySelector('#seenFilter').addEventListener('change', () => { saveFilterState(); renderOperas(); });
 
   // Der Admin schlägt nichts vor, er trägt ein. Bis die Antwort da ist,
   // bleibt der Schalter der Vorschlagsschalter – das ist der Normalfall.

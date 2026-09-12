@@ -34,3 +34,14 @@ export function seenOperaList(visits = [], seenIds = []) {
         .filter(e => e.opera)
         .sort((a, b) => a.opera.title.localeCompare(b.opera.title, 'de'));
 }
+
+/**
+ * Nur die Ids der gesehenen Werke, als Set.
+ *
+ * Dieselbe Definition wie seenOperaList – geloggt ODER markiert –, nur in der
+ * Form, die ein Filter braucht. Eine zweite Definition wäre die Stelle, an der
+ * die Kachel im Profil und der Filter im Katalog auseinanderlaufen.
+ */
+export function gesehenIds(visits = [], seenIds = []) {
+    return new Set(seenOperaList(visits, seenIds).map(e => e.opera.id));
+}
