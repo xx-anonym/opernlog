@@ -85,6 +85,11 @@ Ladebildschirm. Erhöhen heißt: **zwei** Stellen anfassen.
 1. `src/version.js` – `VERSION` auf das heutige Datum setzen
 2. `sw.js` – `CACHE_NAME` auf `opernlog-<dieselbe Version>` setzen
 
+Vergessen fällt auf: bei jedem Push auf `main` prüft
+`tests/werkzeug/version-pruefen.mjs`, ob ausgelieferte Dateien geändert wurden,
+während die Version älter ist als der Commit. Ändern sich nur Tests, README
+oder Workflows, darf sie stehen bleiben.
+
 Der Cache-Name ist kein Beiwerk: `activate` löscht jeden Cache, der anders
 heißt, und ist damit der einzige Hebel, mit dem eine neue App-Shell bei den
 Nutzern ankommt. Bleibt er stehen, zeigt der Ladebildschirm eine neue Nummer,

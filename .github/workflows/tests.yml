@@ -23,7 +23,11 @@ jobs:
       contents: read
 
     steps:
+      # Mit Historie, sonst kann der Versions-Wächter darunter nichts
+      # vergleichen: ein flacher Klon kennt den Vorgänger-Commit nicht.
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -31,6 +35,16 @@ jobs:
 
       - name: Unit-Tests und Prüfungen
         run: node --test "tests/unit/*.test.js" "tests/checks/*.test.js"
+
+      # Nur auf main: die Version benennt den App-Shell-Cache, und wer sie
+      # stehen lässt, lässt allen installierten Nutzern offline ihre alte
+      # Shell. Auf einem Zweig wäre die Meldung verfrüht.
+      #
+      # github.event.before ist bei einem erzwungenen oder allerersten Push
+      # lauter Nullen; dann gibt es nichts zu vergleichen.
+      - name: Version erhöht?
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.before != '0000000000000000000000000000000000000000'
+        run: node tests/werkzeug/version-pruefen.mjs "${{ github.event.before }}" "${{ github.sha }}"
 
   # Getrennter Auftrag: der Browser braucht gut eine Minute zum Einrichten,
   # und ein Fehler in einem Datenmodul soll nicht erst danach sichtbar werden.
