@@ -33,6 +33,9 @@ window.__verweise = { besuche: 0, markierungen: 0, listen: 0 };  // was am Eintr
 window.__verweiseFehler = null; // gesetzt: die Zaehlung scheitert
 window.__geloescht = [];        // { tabelle, id } je DELETE
 window.__deleteFehler = null;   // gesetzt: jedes DELETE scheitert damit
+window.__kontoGeloescht = 0;    // wie oft konto_loeschen() gerufen wurde
+window.__kontoFehler = null;    // gesetzt: Loeschen scheitert damit
+window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -115,7 +118,7 @@ window.supabase = { createClient: () => ({
   auth: {
     getSession: async () => ({ data: { session: SESSION }, error: null }),
     onAuthStateChange: () => {},
-    signOut: async () => ({ error: null }),
+    signOut: async () => { window.__abgemeldet++; return { error: null }; },
     signUp: async (angaben) => {
       window.__registriert.push(angaben);
       return { data: { user: { id: UID } }, error: null };
@@ -127,6 +130,11 @@ window.supabase = { createClient: () => ({
     },
   },
   rpc: async (name, args) => {
+    if (name === 'konto_loeschen') {
+      if (window.__kontoFehler) return { data: null, error: { message: window.__kontoFehler } };
+      window.__kontoGeloescht++;
+      return { data: null, error: null };
+    }
     if (name === 'katalog_verweise') {
       if (window.__verweiseFehler) return { data: null, error: { message: window.__verweiseFehler } };
       return { data: [{ ...window.__verweise }], error: null };

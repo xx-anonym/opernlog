@@ -4873,3 +4873,24 @@ body {
         font-size: 0.68rem;
     }
 }
+
+/* Konto löschen – ganz unten im Profil, deutlich abgesetzt.
+ *
+ * Wer sich abmeldet, will wiederkommen; wer löscht, nicht. Beide Schalter
+ * nebeneinander wären eine Einladung zum Vergreifen. */
+.konto-loeschen {
+    margin: 56px 0 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.konto-loeschen__knopf {
+    color: var(--accent);
+}
+
+.konto-loeschen__liste {
+    margin: 0 0 0 1.2em;
+    padding: 0;
+    line-height: 1.7;
+}

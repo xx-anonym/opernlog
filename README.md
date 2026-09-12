@@ -34,6 +34,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Entfernen lässt sich nur, was in den Tabellen steht – eine Datei im Repo
   ändert man mit einem Commit. Vorher zählt die Datenbank, was an dem Eintrag
   hängt; hängt etwas dran, wird nicht gelöscht.
+- **Konto löschen** geht aus dem Profil heraus, endgültig und ohne Sicherung.
+  `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
+  ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte
+  Katalogeinträge bleiben stehen, nur die Urheberangabe fällt weg.
 - **Vercel** liefert das Wurzelverzeichnis als statische Seite aus. Deshalb
   liegt die einzige `package.json` unter `tests/browser/` und nicht hier – eine
   `package.json` neben der `index.html` würde Vercel das Projekt als

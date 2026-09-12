@@ -15,6 +15,7 @@ import { visitedHouseList } from '../data/visitedHouses.js';
 import { topComposer, topHouse } from '../data/favorites.js';
 import { composerByName } from '../data/composers.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
+import { kontoLoeschModal } from '../components/KontoLoeschen.js';
 
 /**
  * Die Kachel "Meistbesuchtes Haus". Ist das Haus bekannt, ist sie ein Link
@@ -810,6 +811,29 @@ function renderLocalProfile(page, userId, isMe) {
     if (ratings.length > 0) {
       histogramEl.appendChild(RatingsHistogram(ratings));
     }
+  }
+
+  // Konto löschen: ganz unten, deutlich abgesetzt von "Abmelden". Wer sich
+  // abmeldet, will wiederkommen; wer löscht, nicht.
+  if (isMe && store.isConfigured && store.isCloud) {
+    const bereich = document.createElement('div');
+    bereich.className = 'konto-loeschen';
+    bereich.innerHTML = `
+      <button class="btn btn--ghost btn--sm konto-loeschen__knopf" id="deleteAccountBtn">
+        Konto löschen
+      </button>
+      <p class="form-hint">Endgültig, mit allem, was du geloggt hast.</p>`;
+
+    bereich.querySelector('#deleteAccountBtn').addEventListener('click', () => {
+      document.body.appendChild(kontoLoeschModal(user.name || '', {
+        abende: visits.length,
+        markierungen: seenOperaList(visits, store.getSeenOperas())
+          .filter(e => e.abende === 0).length,
+        listen: lists.length,
+      }));
+    });
+
+    page.appendChild(bereich);
   }
 
   setTimeout(renderTab, 0);

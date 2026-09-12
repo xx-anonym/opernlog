@@ -1306,3 +1306,24 @@ async function katalogLoeschen(tabelle, id, was) {
 
 export const deleteKatalogWerk = (id) => katalogLoeschen('catalog_operas', id, 'Werk aus dem Katalog entfernen');
 export const deleteKatalogHaus = (id) => katalogLoeschen('catalog_houses', id, 'Haus aus dem Katalog entfernen');
+
+/**
+ * Das eigene Konto endgültig löschen.
+ *
+ * Die Funktion in der Datenbank nimmt keine Kennung entgegen – sie nimmt die
+ * des Aufrufers. Es gibt also keinen Weg, darüber ein fremdes Konto zu
+ * treffen, auch nicht mit einem aufgebohrten Client.
+ *
+ * Was mitgeht, regeln die Fremdschlüssel: Profil, Abende, Markierungen,
+ * Listen, Likes, Kommentare, Folgebeziehungen, Einladungen, Vorschläge. Was
+ * bleibt, sind selbst angelegte Katalogeinträge – die gehören nach dem
+ * Anlegen allen, nur die Urheberangabe fällt weg.
+ */
+export async function kontoLoeschen() {
+    const session = await getSession();
+    if (!session) throw new Error('Dafür musst du angemeldet sein.');
+    const sb = getSupabase();
+    if (!sb) throw new Error('Keine Verbindung.');
+    const { error } = await sb.rpc('konto_loeschen');
+    if (error) throw new SupabaseError('Konto löschen', error);
+}
