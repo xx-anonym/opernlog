@@ -46,7 +46,7 @@ export function OperasPage() {
           <option value="">Alle Sprachen</option>
         </select>
         <select class="select" id="seenFilter">
-          <option value=""${savedSeen === '' ? ' selected' : ''}>Gesehen und nicht</option>
+          <option value=""${savedSeen === '' ? ' selected' : ''}>Alles</option>
           <option value="gesehen"${savedSeen === 'gesehen' ? ' selected' : ''}>Schon gesehen</option>
           <option value="offen"${savedSeen === 'offen' ? ' selected' : ''}>Noch nicht gesehen</option>
         </select>
