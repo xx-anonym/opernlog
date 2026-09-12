@@ -203,7 +203,16 @@ export async function signUp(email, password, username, avatarIcon = '') {
         email,
         password,
         options: {
-            data: { username }, // Store username in auth metadata too
+            // Name und Bild gehören in die Metadaten, nicht in ein eigenes
+            // Schreiben danach: verlangt das Projekt eine E-Mail-Bestätigung,
+            // gibt signUp() keine Sitzung zurück. Ein upsert liefe dann als
+            // anon und scheiterte an der Regel "auth.uid() = id" – genau das
+            // war der Fehler "new row violates row-level security policy".
+            //
+            // Der Trigger handle_new_user() liest sie von hier und legt das
+            // Profil an. Er läuft als SECURITY DEFINER und braucht keine
+            // Sitzung.
+            data: { username, avatar_icon: avatarIcon || '' },
             // Ohne diese Zeile nimmt der Bestätigungslink die Site URL aus den
             // Projekteinstellungen – eine zweite Stelle, an der die Adresse
             // stimmen muss, und die einzige, die niemand sieht. Anmeldung über
@@ -214,9 +223,14 @@ export async function signUp(email, password, username, avatarIcon = '') {
     });
     if (error) throw error;
 
-    // Create profile – use upsert in case trigger already created one
-    // Mark as complete since user chose username + icon during registration
-    if (data.user) {
+    // Das Profil hat der Trigger schon angelegt. Hier wird nur noch
+    // nachgezogen – und ausschließlich dann, wenn es wirklich eine Sitzung
+    // gibt. Ohne sie würde der Aufruf an der Regel scheitern und eine
+    // gelungene Registrierung als Fehler erscheinen lassen.
+    //
+    // Wann es eine Sitzung gibt: wenn die E-Mail-Bestätigung im Projekt
+    // abgeschaltet ist. Dann ist man sofort angemeldet.
+    if (data.session && data.user) {
         const initials = username.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
         const profileData = {
             id: data.user.id,
@@ -226,8 +240,9 @@ export async function signUp(email, password, username, avatarIcon = '') {
         };
         if (avatarIcon) profileData.avatar_icon = avatarIcon;
         const { error: profileError } = await sb.from('profiles').upsert(profileData, { onConflict: 'id' });
-        // Ohne Profil ist das Konto unbrauchbar – das darf nicht durchrutschen.
-        if (profileError) throw new SupabaseError('Profil zum Konto anlegen', profileError);
+        // Kein Wurf mehr: das Profil steht bereits, dies ist die Kür. Ein
+        // Fehler hier soll keine gelungene Registrierung zunichtemachen.
+        if (profileError) console.error('[Supabase] Profil nachziehen', profileError);
     }
     return data;
 }

@@ -54,6 +54,8 @@ async function oeffneRegistrierung({ leakAntwort = '', leakFehler = false } = {}
         window.__leakFehler = f;
         window.__leakGefragt = [];
         window.__registriert = [];
+        window.__profilUpsert = [];
+        window.__profilSchreibfehler = null;
     }, { a: leakAntwort, f: leakFehler });
 
     // Die Anmeldeseite direkt einhängen: der Stub liefert immer eine Sitzung,
@@ -169,5 +171,69 @@ test('ein gutes Passwort kommt durch', { skip: fehltPlaywright }, async () => {
         await registriere(p, { passwort: 'Vorhang-auf-fuer-Chowanschtschina' });
         assert.equal(await p.isVisible('#regError'), false, 'unerwarteter Einwand');
         assert.equal((await p.evaluate(() => window.__registriert)).length, 1);
+    } finally { await ctx.close(); }
+});
+
+// ── Registrierung ohne Sitzung ───────────────────────────────────────────
+//
+// Verlangt das Projekt eine E-Mail-Bestätigung, gibt signUp() einen Nutzer
+// zurück, aber keine Sitzung. Die App schrieb danach trotzdem ins Profil und
+// scheiterte an der Regel "auth.uid() = id" – die Registrierung war gelungen,
+// die Meldung sagte "new row violates row-level security policy".
+//
+// Das Profil legt jetzt der Trigger in der Datenbank an, aus den Metadaten.
+
+test('Name und Bild gehen als Metadaten mit', { skip: fehltPlaywright }, async () => {
+    // Sie sind die einzige Quelle, aus der der Trigger sie nehmen kann. Fehlen
+    // sie, fragt die Profileinrichtung nach der Bestätigung erneut danach.
+    const { ctx, p } = await oeffneRegistrierung();
+    try {
+        await p.evaluate(() => { window.__signUpMitSitzung = false; });
+        await p.click('#regIconPicker [data-icon]:not([data-icon=""])');
+        await registriere(p, { name: 'Opernfan42', passwort: 'Vorhang-auf-fuer-Chowanschtschina' });
+
+        const angaben = await p.evaluate(() => window.__registriert);
+        assert.equal(angaben.length, 1);
+        assert.equal(angaben[0].options.data.username, 'Opernfan42');
+        assert.ok('avatar_icon' in angaben[0].options.data,
+            'das Profilbild fehlt in den Metadaten und wäre nach der Bestätigung weg');
+    } finally { await ctx.close(); }
+});
+
+test('ohne Sitzung wird nicht ins Profil geschrieben', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await oeffneRegistrierung();
+    try {
+        await p.evaluate(() => {
+            window.__signUpMitSitzung = false;
+            // Ein Schreibversuch würde hieran scheitern – er darf gar nicht
+            // erst stattfinden.
+            window.__profilSchreibfehler = 'new row violates row-level security policy for table "profiles"';
+        });
+        await registriere(p, { passwort: 'Vorhang-auf-fuer-Chowanschtschina' });
+
+        assert.equal((await p.evaluate(() => window.__registriert)).length, 1, 'nicht registriert');
+        assert.deepEqual(await p.evaluate(() => window.__profilUpsert), [],
+            'ohne Sitzung wurde trotzdem ins Profil geschrieben');
+        const text = await p.textContent('#regError');
+        assert.doesNotMatch(text, /row-level security/,
+            'die gelungene Registrierung wurde als Fehler gemeldet');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('mit Sitzung wird das Profil nachgezogen', { skip: fehltPlaywright }, async () => {
+    // Ist die Bestätigung im Projekt abgeschaltet, ist man sofort angemeldet.
+    // Dann darf und soll die App nachziehen.
+    const { ctx, p } = await oeffneRegistrierung();
+    try {
+        await p.evaluate(() => { window.__signUpMitSitzung = true; });
+        await registriere(p, { name: 'Opernfan42', passwort: 'Vorhang-auf-fuer-Chowanschtschina' });
+        await p.waitForTimeout(300);
+
+        const geschrieben = await p.evaluate(() => window.__profilUpsert);
+        assert.equal(geschrieben.length, 1, 'mit Sitzung wurde das Profil nicht nachgezogen');
+        assert.equal(geschrieben[0].username, 'Opernfan42');
+        assert.equal(geschrieben[0].profile_complete, true);
+        assert.equal(await p.isVisible('#regError'), false);
     } finally { await ctx.close(); }
 });

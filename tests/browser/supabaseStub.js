@@ -36,6 +36,11 @@ window.__deleteFehler = null;   // gesetzt: jedes DELETE scheitert damit
 window.__kontoGeloescht = 0;    // wie oft konto_loeschen() gerufen wurde
 window.__kontoFehler = null;    // gesetzt: Loeschen scheitert damit
 window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
+// Verlangt das Projekt eine E-Mail-Bestaetigung, gibt signUp() KEINE Sitzung
+// zurueck. Dann darf die App nicht mehr selbst ins Profil schreiben.
+window.__signUpMitSitzung = false;
+window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
+window.__profilUpsert = [];     // jedes upsert auf profiles
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -77,6 +82,10 @@ function builder(table) {
           return Promise.resolve({ data: [nutzlast], error: null }).then(res, rej);
         }
         return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
+      }
+      if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
+      if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
+        return Promise.resolve({ data: null, error: { message: window.__profilSchreibfehler, code: '42501' } }).then(res, rej);
       }
       let rows = [];
       if (table === 'profiles') {
@@ -121,7 +130,10 @@ window.supabase = { createClient: () => ({
     signOut: async () => { window.__abgemeldet++; return { error: null }; },
     signUp: async (angaben) => {
       window.__registriert.push(angaben);
-      return { data: { user: { id: UID } }, error: null };
+      return { data: {
+        user: { id: UID },
+        session: window.__signUpMitSitzung ? SESSION : null,
+      }, error: null };
     },
     signInWithPassword: async () => ({ data: { session: SESSION }, error: null }),
     updateUser: async (angaben) => {
