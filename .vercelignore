@@ -1,0 +1,20 @@
+# Was Vercel NICHT ausliefern soll.
+#
+# Vercel gibt das Wurzelverzeichnis als statische Seite heraus – ohne diese
+# Datei also auch alles, was nur zur Entwicklung gehört. Das Datenbankschema
+# samt sämtlicher RLS-Regeln stand unter
+# https://opernlog.vercel.app/supabase/schema.sql im Netz, die Workflows und
+# die Testdateien ebenso.
+#
+# Geheim ist davon nichts, das Repo ist öffentlich. Aber es gehört nicht auf
+# die Website: es lädt zum Stöbern ein, zeigt Angreifern die Regeln, gegen die
+# sie antreten, und kostet bei jedem Abruf Bandbreite.
+#
+# Was die App braucht, steht im APP_SHELL von sw.js: index.html, style.css,
+# manifest.json, src/, fonts/, vendor/ und icons/. Nichts davon steht hier.
+# tests/checks/vercelignore.test.js hält beide Seiten zusammen.
+
+tests/
+supabase/
+.github/
+scripts/

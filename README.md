@@ -37,7 +37,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
 - **Vercel** liefert das Wurzelverzeichnis als statische Seite aus. Deshalb
   liegt die einzige `package.json` unter `tests/browser/` und nicht hier – eine
   `package.json` neben der `index.html` würde Vercel das Projekt als
-  Node-Anwendung behandeln lassen.
+  Node-Anwendung behandeln lassen. Was nicht zur App gehört, hält
+  `.vercelignore` zurück: ohne sie lag das Datenbankschema samt aller
+  RLS-Regeln unter `/supabase/schema.sql` im Netz. `vercel.json` setzt drei
+  Sicherheits-Header und sonst nichts – stünde dort ein `buildCommand`, wäre
+  es keine statische Seite mehr.
 
 ## Lokal starten
 
@@ -76,6 +80,7 @@ Hand gestartet.
 | `scripts/` | Hilfsskripte am Rande (lokale Supabase-Rückfallebene) |
 | `tests/` | Tests und Katalog-Werkzeuge |
 | `.github/workflows/` | Tests, Katalogprüfung, selbst angelegte Einträge prüfen, Supabase wachhalten, offene Vorschläge melden |
+| `.vercelignore`, `vercel.json` | was Vercel nicht ausliefert, und die Sicherheits-Header |
 
 ## Version erhöhen
 
