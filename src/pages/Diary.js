@@ -6,6 +6,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
 import { visitCredits } from '../utils.js';
+import { seasonStartYear, seasonLabel } from '../data/season.js';
 
 export function DiaryPage() {
   const page = document.createElement('div');
@@ -130,8 +131,30 @@ export function DiaryPage() {
 
     const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 
+    // Die Spielzeit läuft von August bis Juli, nicht von Januar bis Dezember.
+    // Zwischen Juli und August liegt also der Einschnitt, den ein Opernjahr
+    // kennt – die Monatsüberschriften allein zeigen ihn nicht.
+    //
+    // Nur bei chronologischer Sortierung. Nach Bewertung geordnet stehen die
+    // Monate durcheinander, und eine Linie zöge dort eine Grenze, die es an
+    // der Stelle nicht gibt.
+    const chronologisch = sort === 'date-desc' || sort === 'date-asc';
+    let vorigeSpielzeit = null;
+
     Object.entries(months).forEach(([key, visits]) => {
       const [year, month] = key.split('-');
+      const spielzeit = seasonStartYear(`${key}-01`);
+
+      if (chronologisch && vorigeSpielzeit !== null && spielzeit !== vorigeSpielzeit) {
+        const trenner = document.createElement('div');
+        trenner.className = 'saison-trenner';
+        // Beschriftet wird die Spielzeit, die unterhalb der Linie beginnt –
+        // egal ob von neu nach alt sortiert wird oder umgekehrt.
+        trenner.innerHTML = `<span class="saison-trenner__text">Spielzeit ${seasonLabel(spielzeit)}</span>`;
+        content.appendChild(trenner);
+      }
+      vorigeSpielzeit = spielzeit;
+
       const monthSection = document.createElement('div');
       monthSection.className = 'diary-month fade-in';
       monthSection.innerHTML = `<h3 class="diary-month__title">${monthNames[parseInt(month) - 1]} ${year}</h3>`;

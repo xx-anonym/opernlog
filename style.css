@@ -1272,6 +1272,39 @@ h3 {
     border-bottom: 1px solid var(--border);
 }
 
+/* Grenze zwischen zwei Spielzeiten im Tagebuch.
+ *
+ * Die Spielzeit läuft von August bis Juli. Zwischen Juli und August liegt der
+ * Einschnitt, den ein Opernjahr kennt, und die Monatsüberschriften allein
+ * zeigen ihn nicht – Juli und August sehen dort aus wie jeder andere
+ * Monatswechsel.
+ *
+ * Gestrichelt und in Gold, damit die Linie als Zäsur gelesen wird und nicht
+ * als weitere Trennlinie zwischen Karten. */
+.saison-trenner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 40px 0 32px;
+    color: var(--gold);
+}
+
+.saison-trenner::before,
+.saison-trenner::after {
+    content: '';
+    flex: 1;
+    border-top: 1px dashed var(--gold-dark);
+}
+
+.saison-trenner__text {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--gold);
+}
+
 .diary-list {
     display: flex;
     flex-direction: column;
