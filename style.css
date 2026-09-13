@@ -4956,6 +4956,84 @@ body {
     }
 }
 
+/* Passkeys im eigenen Profil, über "Konto löschen". */
+.passkeys {
+    margin: 48px 0 0;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+}
+
+.passkeys__titel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    margin: 0 0 4px;
+}
+
+.passkeys__erklaerung {
+    margin: 0 0 14px;
+}
+
+.passkeys__liste {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.passkeys__zeile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.passkeys__text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.passkeys__name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.passkeys__unterzeile,
+.passkeys__leer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.passkeys__loeschen {
+    flex-shrink: 0;
+}
+
+.passkeys__fehler {
+    margin: 0 0 14px;
+}
+
+.passkeys__fehler[hidden] {
+    display: none;
+}
+
+/* Der Schlüssel im Anmeldeknopf steht wie das Google-Logo vor dem Text. */
+#passkeySignInBtn .icon {
+    margin-right: 8px;
+}
+
+.auth-passkey-hint {
+    margin-top: -4px;
+    text-align: center;
+}
+
 /* Konto löschen – ganz unten im Profil, deutlich abgesetzt.
  *
  * Wer sich abmeldet, will wiederkommen; wer löscht, nicht. Beide Schalter

@@ -34,6 +34,15 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Entfernen lässt sich nur, was in den Tabellen steht – eine Datei im Repo
   ändert man mit einem Commit. Vorher zählt die Datenbank, was an dem Eintrag
   hängt; hängt etwas dran, wird nicht gelöscht.
+- **Passkeys** melden mit Face ID, Fingerabdruck oder Geräte-PIN an. Anlegen
+  kann einen nur, wer schon angemeldet ist – registriert wird weiter per
+  E-Mail oder Google. Supabase führt die Funktion als experimentell, die App
+  schaltet sie in `getSupabase()` ausdrücklich frei.
+
+  Jeder Passkey ist an die Domain `opernlog.vercel.app` gebunden (Relying
+  Party ID unter Authentication → Passkeys im Supabase-Dashboard). **Zieht die
+  App auf eine andere Domain, taugt kein einziger Passkey mehr**, und jeder muss
+  einen neuen anlegen.
 - **Konto löschen** geht aus dem Profil heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte

@@ -41,6 +41,13 @@ window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
 window.__signUpMitSitzung = false;
 window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
 window.__profilUpsert = [];     // jedes upsert auf profiles
+// Passkeys. Die WebAuthn-Zeremonie selbst laeuft im Test nicht – der Stub
+// antwortet an ihrer Stelle, so wie supabase-js es nach der Zeremonie taete.
+window.__passkeys = [];         // { id, friendly_name, created_at, last_used_at }
+window.__passkeyFehler = null;  // gesetzt: signInWithPasskey/registerPasskey liefern diesen Fehler
+window.__passkeyListeFehler = null;
+window.__passkeyAnmeldungen = 0;
+window.__passkeyGeloescht = [];
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -136,6 +143,28 @@ window.supabase = { createClient: () => ({
       }, error: null };
     },
     signInWithPassword: async () => ({ data: { session: SESSION }, error: null }),
+    signInWithPasskey: async () => {
+      if (window.__passkeyFehler) return { data: null, error: window.__passkeyFehler };
+      window.__passkeyAnmeldungen++;
+      return { data: { session: SESSION, user: SESSION.user }, error: null };
+    },
+    registerPasskey: async () => {
+      if (window.__passkeyFehler) return { data: null, error: window.__passkeyFehler };
+      const neu = { id: 'pk-' + (window.__passkeys.length + 1), friendly_name: 'iCloud-Schluesselbund',
+        created_at: '2026-09-14T10:00:00Z', last_used_at: null };
+      window.__passkeys.push(neu);
+      return { data: neu, error: null };
+    },
+    passkey: {
+      list: async () => window.__passkeyListeFehler
+        ? { data: null, error: { message: window.__passkeyListeFehler } }
+        : { data: [...window.__passkeys], error: null },
+      delete: async ({ passkeyId }) => {
+        window.__passkeyGeloescht.push(passkeyId);
+        window.__passkeys = window.__passkeys.filter(p => p.id !== passkeyId);
+        return { data: null, error: null };
+      },
+    },
     updateUser: async (angaben) => {
       window.__registriert.push(angaben);
       return { data: { user: { id: UID } }, error: null };

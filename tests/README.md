@@ -25,6 +25,7 @@ node --test "tests/**/*.test.js"
 | `tagebuch.test.js` | Reihenfolge im Tagebuch – und die Blöcke, die ihr folgen müssen |
 | `geo.test.js` | Entfernung und Vorauswahl des nächsten Opernhauses |
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen, Kurzfassung der Besetzung |
+| `passkey.test.js` | wann es Passkeys gibt, welcher Fehler welchen Satz bekommt |
 
 **`checks/`** – nicht die Logik, sondern der Zustand des Projekts. Diese
 Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
@@ -48,6 +49,7 @@ Datenbank.
 | `offline.test.js` | im Flugmodus kommt die App hoch und zeigt lokale Daten |
 | `tagebuchSortierung.test.js` | nach Bewertung sortiert stehen Noten über den Blöcken, keine Monate |
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
+| `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

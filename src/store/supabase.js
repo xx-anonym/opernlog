@@ -23,6 +23,11 @@ export function getSupabase() {
             auth: {
                 flowType: 'implicit',
                 detectSessionInUrl: false,
+                // Passkeys gelten bei Supabase als experimentell und müssen
+                // ausdrücklich eingeschaltet werden. Die Bibliothek liegt in
+                // vendor/ in fester Version, eine Änderung der Schnittstelle
+                // kommt also nicht unbemerkt über Nacht.
+                experimental: { passkey: true },
             }
         });
     }
@@ -264,6 +269,42 @@ export async function signInWithGoogle() {
     });
     if (error) throw error;
     return data;
+}
+
+// ── Passkeys ─────────────────────────────────────────────
+//
+// Anmelden mit Face ID, Fingerabdruck oder Gerätesperre. Ein Passkey ersetzt
+// kein Konto: anlegen kann ihn nur, wer schon angemeldet und bestätigt ist.
+//
+// Die Passkeys sind an die Domain opernlog.vercel.app gebunden (Relying Party
+// ID im Supabase-Dashboard). Zieht die App auf eine andere Domain, taugt keiner
+// mehr – dann muss jeder einen neuen anlegen.
+
+export async function signInWithPasskey() {
+    const sb = getSupabase();
+    const { data, error } = await sb.auth.signInWithPasskey();
+    if (error) throw error;
+    return data;
+}
+
+export async function registerPasskey() {
+    const sb = getSupabase();
+    const { data, error } = await sb.auth.registerPasskey();
+    if (error) throw error;
+    return data;
+}
+
+export async function listPasskeys() {
+    const sb = getSupabase();
+    const { data, error } = await sb.auth.passkey.list();
+    if (error) throw error;
+    return data || [];
+}
+
+export async function deletePasskey(passkeyId) {
+    const sb = getSupabase();
+    const { error } = await sb.auth.passkey.delete({ passkeyId });
+    if (error) throw error;
 }
 
 export async function signOut() {

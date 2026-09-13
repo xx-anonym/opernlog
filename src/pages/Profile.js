@@ -16,6 +16,8 @@ import { topComposer, topHouse } from '../data/favorites.js';
 import { composerByName } from '../data/composers.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 import { kontoLoeschModal } from '../components/KontoLoeschen.js';
+import { passkeyBereich } from '../components/Passkeys.js';
+import { passkeysMoeglich } from '../passkey.js';
 
 /**
  * Die Kachel "Meistbesuchtes Haus". Ist das Haus bekannt, ist sie ein Link
@@ -811,6 +813,13 @@ function renderLocalProfile(page, userId, isMe) {
     if (ratings.length > 0) {
       histogramEl.appendChild(RatingsHistogram(ratings));
     }
+  }
+
+  // Passkeys: nur mit Cloud-Konto – ein Passkey meldet bei Supabase an – und
+  // nur in Browsern, die WebAuthn können. Sonst stünde da ein Knopf, der beim
+  // Drücken bloß "geht nicht" sagt.
+  if (isMe && store.isConfigured && store.isCloud && passkeysMoeglich()) {
+    page.appendChild(passkeyBereich());
   }
 
   // Konto löschen: ganz unten, deutlich abgesetzt von "Abmelden". Wer sich
