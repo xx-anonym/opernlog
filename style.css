@@ -3908,6 +3908,67 @@ body {
     white-space: pre-line;
 }
 
+/* Eingeklappte Besetzung in der Karte. Zu sieht man eine Zeile mit den ersten
+ * Namen, auf die Zahl der Mitwirkenden und darunter die ganze Liste. Der Pfeil
+ * ist derselbe wie beim Formularabschnitt "Mitwirkende". */
+.besetzung {
+    min-width: 0;
+}
+
+.besetzung__summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.besetzung__summary::-webkit-details-marker { display: none; }
+
+.besetzung__summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg) translate(-2px, -2px);
+    transition: transform 0.18s ease;
+}
+
+.besetzung[open] > .besetzung__summary::after {
+    transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+/* Umbrechen statt abschneiden: auf dem Handy fiele bei einer Auslassung
+ * sonst genau die Zahl der übrigen Mitwirkenden weg – "und 4 w…". */
+.besetzung__kurz {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.besetzung__offen {
+    color: var(--text-muted);
+}
+
+.besetzung:not([open]) .besetzung__offen,
+.besetzung[open] .besetzung__kurz {
+    display: none;
+}
+
+.besetzung[open] > .credit__value {
+    display: block;
+    margin-top: 4px;
+}
+
+@media (hover: hover) {
+    .besetzung__summary:hover .besetzung__kurz,
+    .besetzung__summary:hover .besetzung__offen {
+        color: var(--gold);
+    }
+}
+
 @media (max-width: 420px) {
     .credit {
         grid-template-columns: 1fr;

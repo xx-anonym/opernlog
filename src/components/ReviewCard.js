@@ -3,7 +3,7 @@ import { StarRating } from './StarRating.js';
 import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, runWithFeedback } from '../components/Toast.js';
-import { escapeHTML, visitCredits } from '../utils.js';
+import { escapeHTML, visitCredits, besetzungKurz } from '../utils.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
@@ -44,6 +44,29 @@ export function ReviewCard(visit, options = {}) {
           <span class="credit__value">${escapeHTML(wert)}</span>
         </div>` : '';
 
+  // Die Besetzung ist oft die längste Angabe der Karte – sechs Zeilen und
+  // mehr schieben die Review aus dem Blick. Ab drei Zeilen steht deshalb
+  // eingeklappt nur eine Kurzfassung da. Dirigent und Regie bleiben offen:
+  // sie sind je eine Zeile.
+  //
+  // Auf der Seite eines einzelnen Besuchs ist sie von Anfang an aufgeklappt.
+  // Dort ist man hingegangen, um alles zu lesen.
+  const besetzung = besetzungKurz(credits.castList);
+  const besetzungRow = () => {
+    if (!besetzung.einklappen) return creditRow('Besetzung', credits.castList);
+    return `
+        <div class="credit">
+          <span class="credit__label">Besetzung</span>
+          <details class="besetzung"${standalone ? ' open' : ''}>
+            <summary class="besetzung__summary">
+              <span class="besetzung__kurz">${escapeHTML(besetzung.kurz)}</span>
+              <span class="besetzung__offen">${besetzung.zeilen.length} Mitwirkende</span>
+            </summary>
+            <span class="credit__value">${escapeHTML(besetzung.zeilen.join('\n'))}</span>
+          </details>
+        </div>`;
+  };
+
   const card = document.createElement('div');
   card.className = `review-card ${compact ? 'review-card--compact' : ''} ${standalone ? 'review-card--standalone' : 'review-card--clickable'} fade-in`;
 
@@ -76,7 +99,7 @@ export function ReviewCard(visit, options = {}) {
       <div class="review-card__credits">
         ${creditRow('Dirigent', credits.conductor)}
         ${creditRow('Regie', credits.director)}
-        ${creditRow('Besetzung', credits.castList)}
+        ${besetzungRow()}
       </div>
     ` : ''}
     ${visit.review && !compact ? `
@@ -128,6 +151,8 @@ export function ReviewCard(visit, options = {}) {
     if (!action) {
         // If clicking on an input or button, don't navigate
         if (e.target.closest('input') || e.target.closest('button')) return;
+        // Auf- und Zuklappen der Besetzung ist kein Klick auf den Besuch.
+        if (e.target.closest('summary')) return;
         
         // If it's not standalone, navigate to the visit detail
         if (!standalone) {

@@ -311,3 +311,33 @@ export function visitCredits(visit = {}) {
     const castList = text(visit.castList, visit.cast_list);
     return { conductor, director, castList, any: !!(conductor || director || castList) };
 }
+
+// Ab so vielen Zeilen klappt die Besetzung in einer Karte ein. Zwei Zeilen
+// nehmen kaum mehr Platz ein als die Kurzfassung, die an ihrer Stelle stünde –
+// sie einzuklappen hieße nur, einen Klick zu verlangen, der nichts spart.
+export const BESETZUNG_EINKLAPPEN_AB = 3;
+
+/**
+ * Die Besetzung für eine Karte: die einzelnen Zeilen, eine Kurzfassung für
+ * den eingeklappten Zustand und ob überhaupt eingeklappt wird.
+ *
+ * Die Kurzfassung nennt die ersten beiden Namen ohne Rolle – "Ben Bliss
+ * (Herzog von Mantua)" wird zu "Ben Bliss" – und zählt den Rest. Wer die
+ * Besetzung nicht aufklappt, sieht so trotzdem, wer auf der Bühne stand.
+ *
+ * @param {string} castList die Besetzung, eine Person je Zeile
+ * @returns {{zeilen: string[], kurz: string, einklappen: boolean}}
+ */
+export function besetzungKurz(castList) {
+    const zeilen = String(castList ?? '').split('\n').map(z => z.trim()).filter(Boolean);
+    // Nur eine Rolle am Zeilenende fällt weg. Steht die Klammer mittendrin,
+    // gehört sie vermutlich zum Namen.
+    const name = z => z.replace(/\s*\([^()]*\)$/, '') || z;
+    const vorn = zeilen.slice(0, 2).map(name).join(', ');
+    const rest = zeilen.length - 2;
+    return {
+        zeilen,
+        kurz: rest > 0 ? `${vorn} und ${rest === 1 ? 'eine weitere Person' : `${rest} weitere`}` : vorn,
+        einklappen: zeilen.length >= BESETZUNG_EINKLAPPEN_AB,
+    };
+}
