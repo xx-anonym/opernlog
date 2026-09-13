@@ -7,7 +7,7 @@
 import * as sb from '../store/supabase.js';
 import { escapeHTML } from '../utils.js';
 import { icon } from './Icon.js';
-import { passkeyFehlertext, passkeyZeile } from '../passkey.js';
+import { passkeyFehlertext, passkeyZeile, passkeyVermerken } from '../passkey.js';
 
 const STANDARD = {
     liste: () => sb.listPasskeys(),
@@ -17,10 +17,12 @@ const STANDARD = {
 };
 
 /**
+ * @param {string} nutzerId  wessen Passkeys das sind – die Anmeldeseite zeigt
+ *                           ihren Knopf nur für Konten, die hier welche hatten
  * @param {object} [dienste] für Tests austauschbar: liste, anlegen, loeschen, bestaetigen
  * @returns {HTMLElement}
  */
-export function passkeyBereich(dienste = {}) {
+export function passkeyBereich(nutzerId, dienste = {}) {
     const d = { ...STANDARD, ...dienste };
 
     const bereich = document.createElement('section');
@@ -51,6 +53,10 @@ export function passkeyBereich(dienste = {}) {
             zeigeFehler('Deine Passkeys ließen sich nicht laden.');
             return;
         }
+
+        // Nach jedem Laden stimmt der Vermerk für die Anmeldeseite wieder –
+        // auch nach Anlegen und Löschen, die beide hier enden.
+        passkeyVermerken(nutzerId, passkeys.length > 0);
 
         if (!passkeys.length) {
             liste.innerHTML = '<li class="passkeys__leer">Noch kein Passkey angelegt.</li>';

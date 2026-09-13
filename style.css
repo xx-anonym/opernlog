@@ -4956,13 +4956,19 @@ body {
     }
 }
 
-/* Passkeys im eigenen Profil, über "Konto löschen". */
+/* Unter Speichern/Abbrechen im Fenster "Profil bearbeiten": Passkeys und
+ * Konto löschen. Die Linie trennt sie von den Feldern, die "Speichern"
+ * betrifft – beides hier wirkt sofort. */
+.profil-konto:not(:empty) {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
 .passkeys {
-    margin: 48px 0 0;
-    padding: 20px;
+    padding: 16px;
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: var(--bg-secondary);
 }
 
 .passkeys__titel {
@@ -5029,19 +5035,12 @@ body {
     margin-right: 8px;
 }
 
-.auth-passkey-hint {
-    margin-top: -4px;
-    text-align: center;
-}
-
-/* Konto löschen – ganz unten im Profil, deutlich abgesetzt.
+/* Konto löschen – zuunterst im Fenster "Profil bearbeiten".
  *
  * Wer sich abmeldet, will wiederkommen; wer löscht, nicht. Beide Schalter
  * nebeneinander wären eine Einladung zum Vergreifen. */
 .konto-loeschen {
-    margin: 56px 0 24px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
+    margin-top: 20px;
     text-align: center;
 }
 

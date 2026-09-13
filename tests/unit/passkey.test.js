@@ -6,7 +6,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { passkeysMoeglich, passkeyFehlertext, passkeyZeile } from '../../src/passkey.js';
+import { passkeysMoeglich, passkeyFehlertext, passkeyZeile, passkeyVermerken, passkeyAnmeldungAnbieten }
+    from '../../src/passkey.js';
 
 const MIT_WEBAUTHN = {
     PublicKeyCredential: function PublicKeyCredential() {},
@@ -22,6 +23,74 @@ test('ohne WebAuthn gibt es keinen Knopf', () => {
     assert.equal(passkeysMoeglich({ navigator: {} }), false);
     assert.equal(passkeysMoeglich({ ...MIT_WEBAUTHN, PublicKeyCredential: undefined }), false);
     assert.equal(passkeysMoeglich({ ...MIT_WEBAUTHN, navigator: { credentials: { get() {} } } }), false);
+});
+
+// ── Knopf auf der Anmeldeseite ───────────────────────────────────────────
+
+/** Ein localStorage zum Mitschauen. */
+function speicher(vorher = {}) {
+    const daten = { ...vorher };
+    return {
+        daten,
+        getItem: k => (k in daten ? daten[k] : null),
+        setItem: (k, v) => { daten[k] = String(v); },
+        removeItem: k => { delete daten[k]; },
+    };
+}
+
+const umgebung = (s) => ({ ...MIT_WEBAUTHN, localStorage: s });
+
+test('ohne Vermerk kein Knopf – auch wenn der Browser Passkeys kann', () => {
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(speicher())), false);
+});
+
+test('ein Konto mit Passkey bringt den Knopf', () => {
+    const s = speicher();
+    passkeyVermerken('konto-a', true, s);
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(s)), true);
+});
+
+test('ohne WebAuthn nützt auch ein Vermerk nichts', () => {
+    const s = speicher();
+    passkeyVermerken('konto-a', true, s);
+    assert.equal(passkeyAnmeldungAnbieten({ navigator: {}, localStorage: s }), false);
+});
+
+test('löscht ein Konto seine Passkeys, bleibt der Knopf für das andere', () => {
+    // Zwei Leute auf einem Gerät: A hat Passkeys, B räumt seine weg.
+    const s = speicher();
+    passkeyVermerken('konto-a', true, s);
+    passkeyVermerken('konto-b', true, s);
+    passkeyVermerken('konto-b', false, s);
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(s)), true);
+    passkeyVermerken('konto-a', false, s);
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(s)), false);
+    assert.deepEqual(s.daten, {}, 'ein leerer Vermerk bleibt als Leiche im Speicher liegen');
+});
+
+test('dasselbe Konto zweimal vermerkt steht einmal da', () => {
+    const s = speicher();
+    passkeyVermerken('konto-a', true, s);
+    passkeyVermerken('konto-a', true, s);
+    assert.deepEqual(JSON.parse(s.daten['opernlog:passkeyKonten']), ['konto-a']);
+});
+
+test('ohne Nutzerkennung wird nichts vermerkt', () => {
+    const s = speicher();
+    passkeyVermerken(undefined, true, s);
+    passkeyVermerken('', true, s);
+    assert.deepEqual(s.daten, {});
+});
+
+test('kaputter oder gesperrter Speicher: kein Knopf, kein Absturz', () => {
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(speicher({ 'opernlog:passkeyKonten': '{kaputt' }))), false);
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(speicher({ 'opernlog:passkeyKonten': '{"a":1}' }))), false);
+
+    // Safari im privaten Modus und gesperrte Website-Daten werfen schon beim Zugriff.
+    const gesperrt = { getItem() { throw new Error('SecurityError'); }, setItem() { throw new Error('SecurityError'); }, removeItem() {} };
+    assert.doesNotThrow(() => passkeyVermerken('konto-a', true, gesperrt));
+    assert.equal(passkeyAnmeldungAnbieten(umgebung(gesperrt)), false);
+    assert.equal(passkeyAnmeldungAnbieten({ ...MIT_WEBAUTHN }), false, 'ganz ohne localStorage');
 });
 
 // ── Fehlertexte ──────────────────────────────────────────────────────────

@@ -30,8 +30,14 @@ after(async () => {
 
 const ABBRUCH = { code: 'ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY', message: 'The operation either timed out or was not allowed.', cause: { name: 'NotAllowedError' } };
 
-/** Startet die App mit Stub; ohneWebAuthn nimmt dem Browser die Schnittstelle. */
-async function starte({ ohneWebAuthn = false, passkeys = [] } = {}) {
+const ICH = '11111111-1111-1111-1111-111111111111';
+const VERMERK = 'opernlog:passkeyKonten';
+
+/**
+ * Startet die App mit Stub. ohneWebAuthn nimmt dem Browser die Schnittstelle,
+ * vermerkt legt fest, ob das Gerät schon ein Konto mit Passkey gesehen hat.
+ */
+async function starte({ ohneWebAuthn = false, passkeys = [], vermerkt = false } = {}) {
     const ctx = await browser.newContext({ viewport: HANDY });
     if (ohneWebAuthn) {
         await ctx.addInitScript(() => { delete window.PublicKeyCredential; });
@@ -42,9 +48,15 @@ async function starte({ ohneWebAuthn = false, passkeys = [] } = {}) {
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
-    await p.evaluate(liste => { window.__passkeys = liste; }, passkeys);
+    await p.evaluate(({ liste, vermerkt, ich, schluessel }) => {
+        window.__passkeys = liste;
+        if (vermerkt) localStorage.setItem(schluessel, JSON.stringify([ich]));
+        else localStorage.removeItem(schluessel);
+    }, { liste: passkeys, vermerkt, ich: ICH, schluessel: VERMERK });
     return { ctx, p, fehler };
 }
+
+const vermerk = p => p.evaluate(k => JSON.parse(localStorage.getItem(k) || '[]'), VERMERK);
 
 /** Hängt die Anmeldeseite ein. Der Stub hat immer eine Sitzung, die App käme sonst nie dorthin. */
 async function anmeldeseite(p) {
@@ -56,50 +68,68 @@ async function anmeldeseite(p) {
     });
 }
 
+/** Öffnet das eigene Profil und darin das Fenster "Profil bearbeiten". */
 async function profil(p) {
     await p.evaluate(() => { window.location.hash = '#/profile'; });
-    await p.waitForSelector('.profile-hero, .profile-actions', { timeout: 15000 });
+    await p.waitForSelector('#editProfileBtn', { timeout: 15000 });
+    await p.click('#editProfileBtn');
+    await p.waitForSelector('#editProfileModal', { state: 'visible' });
     await p.waitForTimeout(400);
 }
 
 // ── Anmeldeseite ─────────────────────────────────────────────────────────
 
-test('die Anmeldeseite bietet Passkeys an', { skip: fehltPlaywright }, async () => {
-    const { ctx, p, fehler } = await starte();
+test('wer nie einen Passkey hatte, sieht keinen Knopf', { skip: fehltPlaywright }, async () => {
+    // Der Knopf öffnete sonst nur einen leeren Dialog des Systems.
+    const { ctx, p, fehler } = await starte({ vermerkt: false });
+    try {
+        await anmeldeseite(p);
+        assert.equal(await p.locator('#passkeySignInBtn').count(), 0);
+        assert.equal(await p.isVisible('#googleSignInBtn'), true);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('mit Passkey auf diesem Gerät steht der Knopf da – ohne Erklärtext', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await starte({ vermerkt: true });
     try {
         await anmeldeseite(p);
         assert.equal(await p.isVisible('#passkeySignInBtn'), true);
         assert.match(await p.textContent('#passkeySignInBtn'), /Mit Passkey anmelden/);
+        assert.doesNotMatch(await p.textContent('#loginForm'), /Noch keinen Passkey/);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
 
 test('ohne WebAuthn gibt es weder Knopf noch Profilbereich', { skip: fehltPlaywright }, async () => {
     // Ein Knopf, der erst beim Drücken "geht nicht" sagt, ist schlechter als keiner.
-    const { ctx, p, fehler } = await starte({ ohneWebAuthn: true });
+    const { ctx, p, fehler } = await starte({ ohneWebAuthn: true, vermerkt: true });
     try {
         await profil(p);
         assert.equal(await p.locator('.passkeys').count(), 0);
         await anmeldeseite(p);
         assert.equal(await p.locator('#passkeySignInBtn').count(), 0);
-        assert.equal(await p.locator('.auth-passkey-hint').count(), 0);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
 
-test('eine gelungene Anmeldung führt weiter', { skip: fehltPlaywright }, async () => {
-    const { ctx, p } = await starte();
+test('eine gelungene Anmeldung führt weiter und hält den Knopf', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ vermerkt: true });
     try {
         await anmeldeseite(p);
+        // Den Vermerk wegnehmen: die Anmeldung selbst muss ihn wieder setzen,
+        // sonst verschwände der Knopf nach geleertem Speicher für immer.
+        await p.evaluate(k => localStorage.removeItem(k), VERMERK);
         await p.click('#passkeySignInBtn');
         await p.waitForFunction(() => window.__erfolg > 0, null, { timeout: 5000 });
         assert.equal(await p.evaluate(() => window.__passkeyAnmeldungen), 1);
         assert.equal(await p.isVisible('#loginError'), false);
+        assert.deepEqual(await vermerk(p), [ICH]);
     } finally { await ctx.close(); }
 });
 
 test('wer im Dialog abbricht, sieht keine Fehlermeldung', { skip: fehltPlaywright }, async () => {
-    const { ctx, p } = await starte();
+    const { ctx, p } = await starte({ vermerkt: true });
     try {
         await anmeldeseite(p);
         await p.evaluate(f => { window.__passkeyFehler = f; }, ABBRUCH);
@@ -112,7 +142,7 @@ test('wer im Dialog abbricht, sieht keine Fehlermeldung', { skip: fehltPlaywrigh
 });
 
 test('ein unbekannter Passkey sagt, wie es weitergeht', { skip: fehltPlaywright }, async () => {
-    const { ctx, p } = await starte();
+    const { ctx, p } = await starte({ vermerkt: true });
     try {
         await anmeldeseite(p);
         await p.evaluate(() => { window.__passkeyFehler = { code: 'webauthn_credential_not_found', message: 'credential not found' }; });
@@ -131,6 +161,31 @@ const ZWEI = [
     { id: 'a', friendly_name: 'iCloud-Schlüsselbund', created_at: '2026-09-10T12:00:00Z', last_used_at: '2026-09-14T12:00:00Z' },
     { id: 'b', friendly_name: 'Google Password Manager', created_at: '2026-09-11T12:00:00Z', last_used_at: null },
 ];
+
+test('die Passkeys stehen im Fenster "Profil bearbeiten", nicht auf der Seite', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await starte({ passkeys: ZWEI });
+    try {
+        await p.evaluate(() => { window.location.hash = '#/profile'; });
+        await p.waitForSelector('#editProfileBtn', { timeout: 15000 });
+        await p.waitForTimeout(400);
+        // Vor dem Öffnen gibt es den Bereich noch gar nicht – die Liste ist
+        // eine Anfrage an Supabase, die nur braucht, wer das Fenster öffnet.
+        assert.equal(await p.locator('.passkeys').count(), 0, 'Passkeys stehen schon vor dem Öffnen da');
+
+        await p.click('#editProfileBtn');
+        await p.waitForSelector('#editProfileModal .passkeys__zeile');
+        await p.locator('#editProfileModal .passkeys').scrollIntoViewIfNeeded();
+        assert.equal(await p.isVisible('#editProfileModal .passkeys'), true);
+
+        // Zweimal öffnen ergibt keinen doppelten Bereich.
+        await p.click('#closeModalBtn');
+        await p.click('#editProfileBtn');
+        await p.waitForTimeout(300);
+        assert.equal(await p.locator('.passkeys').count(), 1);
+        assert.equal(await p.locator('#deleteAccountBtn').count(), 1);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
 
 test('das Profil listet die Passkeys', { skip: fehltPlaywright }, async () => {
     const { ctx, p, fehler } = await starte({ passkeys: ZWEI });
@@ -160,16 +215,75 @@ test('ohne Passkey steht da, dass noch keiner angelegt ist', { skip: fehltPlaywr
     } finally { await ctx.close(); }
 });
 
-test('hinzufügen legt an und zeigt den neuen Passkey', { skip: fehltPlaywright }, async () => {
+test('hinzufügen legt an, zeigt den neuen Passkey und bringt den Knopf', { skip: fehltPlaywright }, async () => {
     const { ctx, p } = await starte();
     try {
         await profil(p);
         await p.waitForSelector('.passkeys__leer');
+        assert.deepEqual(await vermerk(p), []);
+
         await p.click('#passkeyAnlegenBtn');
         await p.waitForSelector('.passkeys__zeile');
         assert.equal(await p.locator('.passkeys__zeile').count(), 1);
         assert.equal(await p.locator('.passkeys__leer').count(), 0);
         assert.equal(await p.isVisible('.passkeys__fehler'), false);
+        assert.deepEqual(await vermerk(p), [ICH], 'nach dem Anlegen fehlt der Vermerk');
+
+        await anmeldeseite(p);
+        assert.equal(await p.isVisible('#passkeySignInBtn'), true);
+    } finally { await ctx.close(); }
+});
+
+test('Passkeys im Profil bringen den Knopf auch auf ein neues Gerät', { skip: fehltPlaywright }, async () => {
+    // Auf dem Laptop normal angemeldet, der Passkey liegt auf dem iPhone. Der
+    // Dialog bietet dort an, das Handy zu benutzen – also soll der Knopf da sein.
+    const { ctx, p } = await starte({ passkeys: ZWEI, vermerkt: false });
+    try {
+        await profil(p);
+        await p.waitForSelector('.passkeys__zeile');
+        assert.deepEqual(await vermerk(p), [ICH]);
+    } finally { await ctx.close(); }
+});
+
+test('wer den letzten Passkey löscht, verliert den Knopf', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ passkeys: [ZWEI[0]], vermerkt: true });
+    try {
+        await profil(p);
+        await p.waitForSelector('.passkeys__zeile');
+        p.once('dialog', d => d.accept());
+        await p.locator('.passkeys__loeschen').first().click();
+        await p.waitForSelector('.passkeys__leer');
+        assert.deepEqual(await vermerk(p), []);
+
+        await anmeldeseite(p);
+        assert.equal(await p.locator('#passkeySignInBtn').count(), 0);
+    } finally { await ctx.close(); }
+});
+
+test('mit dem Konto verschwindet auch der Knopf', { skip: fehltPlaywright }, async () => {
+    // Die Passkeys gehen mit dem Konto. Ein stehengebliebener Knopf könnte nur
+    // noch "Diesen Passkey kennt OpernLog nicht mehr" sagen.
+    const { ctx, p } = await starte({ vermerkt: true });
+    try {
+        await p.evaluate(() => { window.__kontoFehler = 'kaputt'; });
+        await p.evaluate(() => import('/src/store/supabase.js').then(m => m.kontoLoeschen()).catch(() => {}));
+        assert.deepEqual(await vermerk(p), [ICH], 'ein gescheitertes Löschen hat den Vermerk trotzdem entfernt');
+
+        await p.evaluate(() => { window.__kontoFehler = null; });
+        await p.evaluate(() => import('/src/store/supabase.js').then(m => m.kontoLoeschen()));
+        assert.equal(await p.evaluate(() => window.__kontoGeloescht), 1);
+        assert.deepEqual(await vermerk(p), []);
+    } finally { await ctx.close(); }
+});
+
+test('ließ sich die Liste nicht laden, bleibt der Vermerk, wie er war', { skip: fehltPlaywright }, async () => {
+    // Ein Netzfehler ist kein Beweis, dass es keine Passkeys gibt.
+    const { ctx, p } = await starte({ vermerkt: true });
+    try {
+        await p.evaluate(() => { window.__passkeyListeFehler = 'Netz weg'; });
+        await profil(p);
+        await p.waitForSelector('.passkeys__fehler:not([hidden])');
+        assert.deepEqual(await vermerk(p), [ICH]);
     } finally { await ctx.close(); }
 });
 

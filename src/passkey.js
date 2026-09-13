@@ -15,6 +15,60 @@ export function passkeysMoeglich(umgebung = globalThis) {
         && typeof umgebung.navigator?.credentials?.create === 'function';
 }
 
+// ── Soll die Anmeldeseite den Knopf zeigen? ──────────────────────────────
+//
+// Nur wenn es hier schon einen Passkey gab. Wer nie einen angelegt hat, soll
+// auf der Anmeldeseite keinen Knopf sehen, der ihm bloß einen leeren Dialog
+// des Systems öffnet.
+//
+// Fragen lässt sich das nicht: Browser verraten einer Seite absichtlich nicht,
+// ob für sie Passkeys gespeichert sind, und Supabase kann vor der Anmeldung
+// nicht wissen, wer da kommt. Deshalb merkt sich das Gerät selbst, für welche
+// Konten es Passkeys gesehen hat – beim Anlegen, bei jeder Passkey-Anmeldung
+// und immer, wenn das Profil die Liste lädt.
+//
+// Kontobezogen statt gerätebezogen: wer auf dem Laptop einmal normal angemeldet
+// ins Profil schaut und dort den Passkey vom iPhone sieht, bekommt den Knopf
+// auch auf dem Laptop. Der Dialog bietet dann an, das iPhone zu benutzen.
+//
+// Pro Konto, weil sich auf einem Gerät mehrere anmelden können. Löscht einer
+// seine Passkeys, verschwindet der Knopf nicht für den anderen.
+
+const SPEICHER = 'opernlog:passkeyKonten';
+
+function lies(speicher) {
+    try {
+        const roh = JSON.parse(speicher?.getItem(SPEICHER) || '[]');
+        return Array.isArray(roh) ? roh.filter(id => typeof id === 'string' && id) : [];
+    } catch {
+        // Kein Speicher (privates Fenster, gesperrte Website-Daten) oder
+        // Unfug darin: dann eben kein Knopf. Anmelden geht auch ohne.
+        return [];
+    }
+}
+
+/**
+ * Hält fest, ob ein Konto Passkeys hat.
+ * @param {string}  nutzerId
+ * @param {boolean} hatPasskey
+ */
+export function passkeyVermerken(nutzerId, hatPasskey, speicher = globalThis.localStorage) {
+    if (!nutzerId) return;
+    const konten = lies(speicher).filter(id => id !== nutzerId);
+    if (hatPasskey) konten.push(nutzerId);
+    try {
+        if (konten.length) speicher.setItem(SPEICHER, JSON.stringify(konten));
+        else speicher.removeItem(SPEICHER);
+    } catch {
+        // Siehe lies(): ohne Speicher bleibt der Knopf eben weg.
+    }
+}
+
+/** Zeigt die Anmeldeseite "Mit Passkey anmelden"? */
+export function passkeyAnmeldungAnbieten(umgebung = globalThis) {
+    return passkeysMoeglich(umgebung) && lies(umgebung.localStorage).length > 0;
+}
+
 /**
  * Der Satz, den der Nutzer zu einem gescheiterten Passkey-Vorgang liest.
  *
@@ -24,8 +78,8 @@ export function passkeysMoeglich(umgebung = globalThis) {
  *
  * Browser melden den Abbruch als NotAllowedError, und zwar auch dann, wenn
  * die Zeit abläuft oder auf dem Gerät gar kein Passkey liegt. Unterscheiden
- * lässt sich das von außen nicht; deshalb auch dort keine Meldung, sondern der
- * Hinweis unter dem Knopf, wo man einen Passkey anlegt.
+ * lässt sich das von außen nicht. Der letzte Fall ist selten, weil der Knopf
+ * nur erscheint, wo schon ein Passkey im Spiel war.
  *
  * @param {Error & {code?: string, cause?: Error}} fehler
  * @param {'anmelden'|'anlegen'} vorgang

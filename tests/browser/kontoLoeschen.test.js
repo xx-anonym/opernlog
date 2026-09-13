@@ -48,7 +48,10 @@ async function oeffneProfil({ eigene = [], kontoFehler = null } = {}) {
         await p.evaluate(v => import('/src/store/store.js').then(m => { m.store.data.myVisits = v; }), eigene);
     }
     await p.evaluate(() => { window.location.hash = '#/profile'; });
-    await p.waitForSelector('#deleteAccountBtn', { timeout: 15000 });
+    // "Konto löschen" steht im Fenster "Profil bearbeiten".
+    await p.waitForSelector('#editProfileBtn', { timeout: 15000 });
+    await p.click('#editProfileBtn');
+    await p.waitForSelector('#deleteAccountBtn', { state: 'visible', timeout: 15000 });
     await p.waitForTimeout(400);
     return { ctx, p, fehler };
 }
@@ -57,10 +60,17 @@ const besuch = (id) => ({
     id, userId: ICH, operaId: 'tosca', houseId: 'semperoper', date: '2026-05-01', rating: 4,
 });
 
-test('der Schalter steht im eigenen Profil', { skip: fehltPlaywright }, async () => {
+test('der Schalter steht im Fenster "Profil bearbeiten"', { skip: fehltPlaywright }, async () => {
     const { ctx, p, fehler } = await oeffneProfil();
     try {
         assert.equal(await p.locator('#deleteAccountBtn').count(), 1);
+        // Nicht mehr am Ende der Profilseite, hinter allen Reviews.
+        assert.equal(await p.locator('#editProfileModal #deleteAccountBtn').count(), 1,
+            'Konto löschen steht nicht im Bearbeiten-Fenster');
+        // Und zuunterst darin, unter Speichern/Abbrechen.
+        const unterSpeichern = await p.evaluate(() => !!(document.querySelector('#saveProfileBtn')
+            .compareDocumentPosition(document.querySelector('#deleteAccountBtn')) & Node.DOCUMENT_POSITION_FOLLOWING));
+        assert.equal(unterSpeichern, true);
         // Nicht in derselben Knopfleiste wie "Abmelden": wer sich abmeldet,
         // will wiederkommen; wer löscht, nicht. Strukturell geprüft, nicht
         // über den Abstand in Pixeln – der kommt beim langen Profil ohnehin

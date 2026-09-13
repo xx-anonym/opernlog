@@ -35,15 +35,19 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   ändert man mit einem Commit. Vorher zählt die Datenbank, was an dem Eintrag
   hängt; hängt etwas dran, wird nicht gelöscht.
 - **Passkeys** melden mit Face ID, Fingerabdruck oder Geräte-PIN an. Anlegen
-  kann einen nur, wer schon angemeldet ist – registriert wird weiter per
-  E-Mail oder Google. Supabase führt die Funktion als experimentell, die App
-  schaltet sie in `getSupabase()` ausdrücklich frei.
+  kann einen nur, wer schon angemeldet ist – im Fenster „Profil bearbeiten“;
+  registriert wird weiter per E-Mail oder Google. Supabase führt die Funktion
+  als experimentell, die App schaltet sie in `getSupabase()` ausdrücklich frei.
+
+  Den Knopf auf der Anmeldeseite gibt es nur, wenn das Gerät schon ein Konto
+  mit Passkey gesehen hat. Browser verraten nicht, ob Passkeys gespeichert
+  sind; deshalb merkt sich `src/passkey.js` die Konten in `localStorage`.
 
   Jeder Passkey ist an die Domain `opernlog.vercel.app` gebunden (Relying
   Party ID unter Authentication → Passkeys im Supabase-Dashboard). **Zieht die
   App auf eine andere Domain, taugt kein einziger Passkey mehr**, und jeder muss
   einen neuen anlegen.
-- **Konto löschen** geht aus dem Profil heraus, endgültig und ohne Sicherung.
+- **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte
   Katalogeinträge bleiben stehen, nur die Urheberangabe fällt weg.

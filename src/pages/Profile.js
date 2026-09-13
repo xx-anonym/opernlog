@@ -633,6 +633,12 @@ function renderLocalProfile(page, userId, isMe) {
           <button class="btn btn--primary" id="saveProfileBtn">Speichern</button>
           <button class="btn btn--outline" id="closeModalBtn">Abbrechen</button>
         </div>
+        ${store.isConfigured && store.isCloud ? `
+        <!-- Passkeys und Konto löschen: gefüllt beim ersten Öffnen, siehe unten.
+             Unter Speichern/Abbrechen, weil beides sofort wirkt und mit dem
+             Speichern der Felder darüber nichts zu tun hat. -->
+        <div class="profil-konto" id="profilKonto"></div>
+        ` : ''}
       </div>
     </div>
     ` : ''}
@@ -741,7 +747,10 @@ function renderLocalProfile(page, userId, isMe) {
   const editBtn = page.querySelector('#editProfileBtn');
   if (editBtn) {
     const modal = page.querySelector('#editProfileModal');
-    editBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+    editBtn.addEventListener('click', () => {
+      kontoBereichFuellen();
+      modal.style.display = 'flex';
+    });
     page.querySelector('#closeModalBtn').addEventListener('click', () => { modal.style.display = 'none'; });
     page.querySelector('.modal__overlay').addEventListener('click', () => { modal.style.display = 'none'; });
 
@@ -815,16 +824,25 @@ function renderLocalProfile(page, userId, isMe) {
     }
   }
 
-  // Passkeys: nur mit Cloud-Konto – ein Passkey meldet bei Supabase an – und
-  // nur in Browsern, die WebAuthn können. Sonst stünde da ein Knopf, der beim
-  // Drücken bloß "geht nicht" sagt.
-  if (isMe && store.isConfigured && store.isCloud && passkeysMoeglich()) {
-    page.appendChild(passkeyBereich());
-  }
+  // Passkeys und Konto löschen stehen im Fenster "Profil bearbeiten", nicht
+  // am Ende der Profilseite. Dort musste man erst an allen Reviews vorbei
+  // scrollen, um sie zu finden.
+  //
+  // Gefüllt wird erst beim ersten Öffnen: die Passkey-Liste ist eine Anfrage
+  // an Supabase, und die braucht nur, wer das Fenster wirklich aufmacht.
+  function kontoBereichFuellen() {
+    const ziel = page.querySelector('#profilKonto');
+    if (!ziel || ziel.dataset.gefuellt) return;
+    ziel.dataset.gefuellt = '1';
 
-  // Konto löschen: ganz unten, deutlich abgesetzt von "Abmelden". Wer sich
-  // abmeldet, will wiederkommen; wer löscht, nicht.
-  if (isMe && store.isConfigured && store.isCloud) {
+    // Passkeys nur in Browsern, die WebAuthn können. Sonst stünde da ein
+    // Knopf, der beim Drücken bloß "geht nicht" sagt.
+    if (passkeysMoeglich()) {
+      ziel.appendChild(passkeyBereich(user.id));
+    }
+
+    // Konto löschen: zuunterst, abgesetzt von allem anderen. Das eigentliche
+    // Löschen verlangt im nächsten Fenster noch den abgetippten Namen.
     const bereich = document.createElement('div');
     bereich.className = 'konto-loeschen';
     bereich.innerHTML = `
@@ -842,7 +860,7 @@ function renderLocalProfile(page, userId, isMe) {
       }));
     });
 
-    page.appendChild(bereich);
+    ziel.appendChild(bereich);
   }
 
   setTimeout(renderTab, 0);

@@ -1,5 +1,6 @@
 // ── Supabase Client & Backend-Funktionen ─────────────────
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from '../config.js';
+import { passkeyVermerken } from '../passkey.js';
 
 let supabaseClient = null;
 let _sessionReady = null;
@@ -1382,4 +1383,7 @@ export async function kontoLoeschen() {
     if (!sb) throw new Error('Keine Verbindung.');
     const { error } = await sb.rpc('konto_loeschen');
     if (error) throw new SupabaseError('Konto löschen', error);
+    // Mit dem Konto sind auch seine Passkeys weg. Bliebe der Vermerk, böte die
+    // Anmeldeseite einen Knopf an, der nur noch scheitern kann.
+    passkeyVermerken(session.user?.id, false);
 }
