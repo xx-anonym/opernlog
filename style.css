@@ -3329,6 +3329,82 @@ body {
     background: rgba(201, 168, 76, 0.25);
 }
 
+/* "Läuft demnächst" in der Karte der Wunschliste. */
+.spielplan-block {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.spielplan-block__titel {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 6px;
+}
+
+.spielplan-block__leer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.spielplan-zeile {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 7px 0;
+    text-decoration: none;
+    color: var(--text);
+    border-bottom: 1px dashed var(--border);
+}
+
+.spielplan-zeile:last-child {
+    border-bottom: none;
+}
+
+.spielplan-zeile__haus {
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.spielplan-zeile__ort {
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: 6px;
+    font-size: 0.78rem;
+}
+
+.spielplan-zeile__termine {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.spielplan-zeile__mehr {
+    color: var(--gold);
+}
+
+@media (hover: hover) {
+    .spielplan-zeile:hover .spielplan-zeile__haus {
+        color: var(--gold);
+    }
+}
+
+.spielplan-block__weitere summary {
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--gold);
+    padding: 6px 0 2px;
+}
+
+.spielplan-quelle {
+    margin: 20px 0 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 @media (max-width: 768px) {
     .wishlist-grid {
         grid-template-columns: 1fr;

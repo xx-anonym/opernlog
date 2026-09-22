@@ -2,7 +2,8 @@
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
-import { escapeHTML, coverBackground} from '../utils.js';
+import { escapeHTML, coverBackground, getCachedPosition } from '../utils.js';
+import { spielplanBlock, spielplanQuelle } from '../components/SpielplanBlock.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import * as sb from '../store/supabase.js';
@@ -106,6 +107,10 @@ export function ListDetailPage(listId) {
 
     const grid = document.createElement('div');
     grid.className = 'list-detail-grid';
+    // Auf der Wunschliste steht bei jedem Werk, wo es demnächst läuft. Ein
+    // gespeicherter Standort sortiert die Häuser nach Nähe; gefragt wird hier
+    // nicht – das tut "Loggen", wenn es das nächste Haus sucht.
+    const position = isWishlist ? getCachedPosition() : null;
 
     items.forEach(item => {
       const card = document.createElement('div');
@@ -130,6 +135,7 @@ export function ListDetailPage(listId) {
               <a href="#/opera/${item.id}" class="btn btn--outline btn--sm">Details</a>
               ${isWishlist && isOwner ? `<a href="#/log?opera=${item.id}" class="btn btn--primary btn--sm">+ Loggen</a>` : ''}
             </div>
+            ${isWishlist ? spielplanBlock(item.id, position) : ''}
           </div>
         `;
 
@@ -165,6 +171,7 @@ export function ListDetailPage(listId) {
     });
 
     content.appendChild(grid);
+    if (isWishlist) content.appendChild(spielplanQuelle());
 
     // Comments Section (if not wishlist)
     if (!isWishlist) {

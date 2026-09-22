@@ -70,6 +70,26 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Funktion ausweist, und der private VAPID-Schlüssel. **Den VAPID-Schlüssel nie
   austauschen**: jedes Abo hängt an ihm, ein neuer machte alle auf einen
   Schlag wertlos.
+- **Spielpläne:** Auf der Wunschliste steht bei jedem Werk, an welchen Häusern
+  des Katalogs es in dieser Spielzeit noch läuft, mit Link auf die Seite des
+  Hauses. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
+  werden einmal je Spielzeit erneuert – im September, dazu ein kleiner Lauf im
+  Januar, weil viele Stadttheater die Frühjahrstermine erst im Winter
+  veröffentlichen:
+
+  ```sh
+  node tests/werkzeug/spielplaene-lesen.mjs lauf.json      # liest alle Häuser, gut eine Stunde
+  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json   # schreibt src/data/spielplan.js
+  ```
+
+  Das Lesen nimmt nur Termine mit Uhrzeit, wo es welche gibt, und lässt
+  Spannen, Matineen, Vorverkaufsdaten und Uraufführungsjahre weg. Dazwischen
+  wird trotzdem durchgesehen: Was kein Opernabend ist (Schauspiel-„Faust“,
+  Ballett-„Carmen“) oder falsch gelesen wurde, kommt nach
+  `tests/werkzeug/spielplan-korrekturen.json` – nie von Hand in die erzeugte
+  Datei, sonst ist es beim nächsten Lauf weg. Die Einstiegsseiten je Haus
+  stehen in `tests/werkzeug/spielplan-quellen.json`; ändert ein Haus seine
+  Webseite, ist das die Stelle.
 - **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte

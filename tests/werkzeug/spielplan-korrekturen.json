@@ -1,0 +1,85 @@
+{
+  "_hinweis": "Ergebnis der Durchsicht von Hand. ausschliessen: Treffer, die kein Opernabend sind (Schauspiel, Ballett, Konzert, Kinderfassung …). aufnehmen: Treffer, bei denen der Komponist auf der Seite fehlt, die aber sicher stimmen. termineEntfernen: einzelne falsch gelesene Daten. adressen: bessere Links. werk '*' gilt für alle Werke eines Hauses.",
+  "ausschliessen": [
+    {
+      "haus": "theater-erfurt",
+      "werk": "la-traviata",
+      "grund": "Domstufen-Festspiele auf dem Domplatz, nicht im Theater"
+    },
+    {
+      "haus": "deutsche-oper-berlin",
+      "werk": "parsifal",
+      "grund": "Seite eines Sinfoniekonzerts; die Daten gehören zu anderen Produktionen"
+    },
+    {
+      "haus": "theater-bonn",
+      "werk": "alcina",
+      "grund": "Seite zu Sonderaktionen; ob der 12. Januar eine Vorstellung ist, steht dort nicht"
+    },
+    {
+      "haus": "theater-bonn",
+      "werk": "rigoletto",
+      "grund": "Datum aus einem Magazintext, kein Termin erkennbar"
+    },
+    {
+      "haus": "gaertnerplatztheater",
+      "werk": "wildschuetz",
+      "grund": "Archivseite; der 14. Januar ist eine Werkeinführung"
+    }
+  ],
+  "aufnehmen": [],
+  "termineEntfernen": [
+    {
+      "haus": "theater-bonn",
+      "werk": "madama-butterfly",
+      "termine": [
+        "2027-03-01"
+      ],
+      "grund": "Anmeldeschluss für „Blind Date in der Oper“"
+    },
+    {
+      "haus": "gaertnerplatztheater",
+      "werk": "fledermaus",
+      "termine": [
+        "2027-05-20",
+        "2027-05-22"
+      ],
+      "grund": "Gastspiel auswärts"
+    },
+    {
+      "haus": "hamburgische-staatsoper",
+      "werk": "carmen",
+      "termine": [
+        "2027-02-02"
+      ],
+      "grund": "Vermittlungsangebot auf der Probebühne"
+    },
+    {
+      "haus": "oper-graz",
+      "werk": "la-boheme",
+      "termine": [
+        "2026-11-15",
+        "2026-11-21"
+      ],
+      "grund": "Matinee auf der Studiobühne und Probe am Vormittag, keine Vorstellungen"
+    },
+    {
+      "haus": "oper-graz",
+      "werk": "rusalka",
+      "termine": [
+        "2027-01-10",
+        "2027-01-16"
+      ],
+      "grund": "Matinee und Probe am Vormittag"
+    },
+    {
+      "haus": "oper-graz",
+      "werk": "elektra",
+      "termine": [
+        "2027-05-02"
+      ],
+      "grund": "Matinee"
+    }
+  ],
+  "adressen": []
+}

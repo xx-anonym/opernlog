@@ -1,0 +1,361 @@
+{
+  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
+  "bayerische-staatsoper": [
+    "https://www.staatsoper.de/spielplan/{JJJJ}-{MM}",
+    "https://www.staatsoper.de/spielzeit-2026-27"
+  ],
+  "gaertnerplatztheater": [
+    "https://www.gaertnerplatztheater.de/de/spielplan/index.html"
+  ],
+  "festspielhaus-bayreuth": [
+    "https://www.bayreuther-festspiele.de/programm/"
+  ],
+  "staatstheater-nuernberg": [
+    "https://www.staatstheater-nuernberg.de/spielplan"
+  ],
+  "theater-augsburg": [
+    "https://staatstheater-augsburg.de/spielplan"
+  ],
+  "theater-regensburg": [
+    "https://www.staatstheater-regensburg.de/spielplan/index.html",
+    "https://www.staatstheater-regensburg.de/premieren/tanz-schauspiel-musiktheater-junges-theater-konzert-26-27-2.html"
+  ],
+  "landestheater-coburg": [
+    "https://www.landestheater-coburg.de/spielplan"
+  ],
+  "theater-passau": {
+    "start": [
+      "https://www.landestheater-niederbayern.de/spielplan"
+    ],
+    "ortJeTermin": "Passau|Landshut"
+  },
+  "staatsoper-berlin": [
+    "https://www.staatsoper-berlin.de/de/spielplan/01-{MM}-{JJJJ}/"
+  ],
+  "deutsche-oper-berlin": [
+    "https://deutscheoperberlin.de/de_DE/calendar?p=&date_from={JJJJ}-{MM}-01&location=alle&category=alle&status=alle&q="
+  ],
+  "komische-oper-berlin": [
+    "https://www.komische-oper-berlin.de/spielplan/"
+  ],
+  "staatstheater-stuttgart": [
+    "https://www.staatsoper-stuttgart.de/spielplan/kalender/{JJJJ}-{MM}/",
+    "https://www.staatsoper-stuttgart.de/spielplan/saison-26-27/"
+  ],
+  "badisches-staatstheater": [
+    "https://staatstheater.karlsruhe.de/"
+  ],
+  "theater-freiburg": [
+    "https://theater.freiburg.de/de_DE/spielplan?date={JJJJ}-{MM}-01&category=all&location=&p=1"
+  ],
+  "theater-heidelberg": [
+    "https://www.theaterheidelberg.de/spielplan/"
+  ],
+  "theater-ulm": [
+    "https://www.theater-ulm.de/spielplan"
+  ],
+  "nationaltheater-mannheim": [
+    "https://www.nationaltheater-mannheim.de/spielplan/"
+  ],
+  "staatstheater-cottbus": [
+    "https://www.staatstheater-cottbus.de/spielplan/"
+  ],
+  "theater-bremen": [
+    "https://theaterbremen.de/de_DE/programm"
+  ],
+  "theater-bremerhaven": [
+    "https://www.stadttheaterbremerhaven.de/spielplan"
+  ],
+  "hamburgische-staatsoper": [
+    "https://www.die-hamburgische-staatsoper.de/de/programm/premieren",
+    "https://www.die-hamburgische-staatsoper.de/de/programm/repertoire",
+    "https://www.die-hamburgische-staatsoper.de/de/kalender/oper"
+  ],
+  "oper-frankfurt": [
+    "https://oper-frankfurt.de/de/spielplan/"
+  ],
+  "wuerttembergische-staatstheater": [
+    "https://www.staatstheater-wiesbaden.de/spielplan/"
+  ],
+  "staatstheater-kassel": [
+    "https://www.staatstheater-kassel.de/play-schedule?section=Musiktheater",
+    "https://www.staatstheater-kassel.de/musiktheater"
+  ],
+  "staatstheater-darmstadt": [
+    "https://www.staatstheater-darmstadt.de/spielplan/"
+  ],
+  "theater-giessen": [
+    "https://www.stadttheater-giessen.de/spielplan"
+  ],
+  "mecklenburgisches-staatstheater": [
+    "https://www.mecklenburgisches-staatstheater.de/spielplan/"
+  ],
+  "theater-rostock": [
+    "https://www.volkstheater-rostock.de/spielplan"
+  ],
+  "theater-vorpommern": [
+    "https://www.theater-vorpommern.de/spielplan"
+  ],
+  "niedersaechsische-staatsoper": [
+    "https://staatstheater-hannover.de/de_DE/programm-staatsoper-26-27",
+    "https://staatstheater-hannover.de/de_DE/kalender?date_from={JJJJ}-{MM}-01&location=alle&category=alle&q="
+  ],
+  "oldenburgisches-staatstheater": [
+    "https://www.staatstheater.de/spielplan"
+  ],
+  "theater-osnabrueck": [
+    "https://www.theater-osnabrueck.de/spielplan/"
+  ],
+  "staatstheater-braunschweig": [
+    "https://staatstheater-braunschweig.de/programm/musiktheater/premieren",
+    "https://staatstheater-braunschweig.de/programm/musiktheater/repertoire",
+    "https://staatstheater-braunschweig.de/programm/spielplan"
+  ],
+  "oper-koeln": [
+    "https://www.oper.koeln/de/spielplan"
+  ],
+  "deutsche-oper-am-rhein": [
+    "https://www.operamrhein.de/spielplan/kalender/{JJJJ}-{MM}/"
+  ],
+  "oper-dortmund": [
+    "https://www.theaterdo.de/oper/premieren/",
+    "https://www.theaterdo.de/oper/startseite/"
+  ],
+  "theater-bonn": [
+    "https://www.theater-bonn.de/de/?mode=repertoire&is_premiere=false&category=Oper",
+    "https://www.theater-bonn.de/de/?mode=kalender&is_premiere=false&category=Oper"
+  ],
+  "theater-essen": [
+    "https://www.theater-essen.de/spielplan/"
+  ],
+  "theater-hagen": [
+    "https://www.theaterhagen.de/stueckekonzerte/theaterhagen/musiktheater/",
+    "https://www.theaterhagen.de/kalender/alle-termine/"
+  ],
+  "theater-wuppertal": [
+    "https://www.oper-wuppertal.de/programm/alle-stuecke",
+    "https://www.oper-wuppertal.de/programm"
+  ],
+  "musiktheater-im-revier": [
+    "https://mirgelsenkirchen.de/kalender-tickets"
+  ],
+  "theater-aachen": [
+    "https://www.theateraachen.de/de/premieren/musiktheater-2026-2027.html",
+    "https://www.theateraachen.de/de/spielplan/kalender.html?filterIsSet=true&filterSparte=4"
+  ],
+  "theater-krefeld-mg": [
+    "https://www.theater-kr-mg.de/spielplan/"
+  ],
+  "landestheater-detmold": {
+    "start": [
+      "https://www.landestheater-detmold.de/de/programm"
+    ],
+    "ortJeTermin": "Detmold"
+  },
+  "pfalztheater": [
+    "https://pfalztheater.de/spielplan-fuer-die-spielzeit-2026-27/",
+    "https://pfalztheater.de/kalender/"
+  ],
+  "staatstheater-mainz": [
+    "https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27",
+    "https://www.staatstheater-mainz.com/uebersicht/september"
+  ],
+  "theater-trier": [
+    "https://www.theater-trier.de/programm/index-2026-27.html",
+    "https://www.theater-trier.de/spielplan/index.html"
+  ],
+  "saarlaendisches-staatstheater": [
+    "https://www.staatstheater.saarland/spielplan"
+  ],
+  "semperoper": [
+    "https://www.semperoper.de/spielplan.html",
+    "https://www.semperoper.de/spielzeit-2026-27.html",
+    "https://www.semperoper.de/spielzeit-2026-27/programmhighlights-2026-27.html"
+  ],
+  "oper-leipzig": [
+    "https://www.oper-leipzig.de/de/programm"
+  ],
+  "oper-chemnitz": [
+    "https://www.theater-chemnitz.de/spielplan"
+  ],
+  "landesbuehnen-sachsen": [
+    "https://www.landesbuehnen-sachsen.de/spielplan/"
+  ],
+  "theater-magdeburg": [
+    "https://www.theater-magdeburg.de/spielplan/"
+  ],
+  "anhaltisches-theater": [
+    "https://www.anhaltisches-theater.de/spielplan"
+  ],
+  "oper-halle": [
+    "https://www.buehnen-halle.de/de/program?genre=oper",
+    "https://www.buehnen-halle.de/de/oper-spielzeit2627"
+  ],
+  "nordharzer-staedtebundtheater": [
+    "https://www.harztheater.de/spielplan"
+  ],
+  "theater-kiel": [
+    "https://www.theater-kiel.de/spielplan"
+  ],
+  "theater-luebeck": [
+    "https://www.theaterluebeck.de/premieren_wiederaufnahmen/musiktheater-schauspiel-jung-plus-x-2026-27.html",
+    "https://www.theaterluebeck.de/spielplan/kalender.html"
+  ],
+  "theater-flensburg": [
+    "https://www.sh-landestheater.de/premieren/2026-2027.html",
+    "https://www.sh-landestheater.de/spielplan/index.html"
+  ],
+  "theater-erfurt": [
+    "https://www.theater-erfurt.de/"
+  ],
+  "dnt-weimar": [
+    "https://www.dnt-weimar.de/de/programm/repertoire_26-27.php",
+    "https://www.dnt-weimar.de/de/programm/premiere_26-27.php",
+    "https://www.dnt-weimar.de/de/spielplan.php"
+  ],
+  "theater-gera-altenburg": [
+    "https://www.theater-altenburg-gera.de/spielplan"
+  ],
+  "theater-nordhausen": [
+    "https://www.theater-nordhausen.de/spielplan"
+  ],
+  "opernhaus-zuerich": [
+    "https://www.opernhaus.ch/spielplan/kalendarium/",
+    "https://www.opernhaus.ch/"
+  ],
+  "grand-theatre-geneve": [
+    "https://www.gtg.ch/saison-26-27/?filter=opera"
+  ],
+  "theater-basel": [
+    "https://www.theater-basel.ch/de/oper",
+    "https://www.theater-basel.ch/de/spielzeit2627",
+    "https://www.theater-basel.ch/de/kalender"
+  ],
+  "buehnen-bern": [
+    "https://www.buehnenbern.ch/spielplan"
+  ],
+  "opera-de-lausanne": [
+    "https://www.opera-lausanne.ch/season/2026-27/"
+  ],
+  "theater-st-gallen": [
+    "https://www.konzertundtheater.ch/programm/",
+    "https://www.konzertundtheater.ch/spielplan"
+  ],
+  "wiener-staatsoper": [
+    "https://www.wiener-staatsoper.at/spielplan-tickets/"
+  ],
+  "volksoper-wien": [
+    "https://www.volksoper.at/spielplan/"
+  ],
+  "theater-an-der-wien": {
+    "start": [
+      "https://www.theater-wien.at/de/spielplan/musiktheater",
+      "https://www.theater-wien.at/de/spielplan/konzertantes-musiktheater",
+      "https://www.theater-wien.at/de/kalendarium"
+    ],
+    "ort": "Theater an der Wien"
+  },
+  "wiener-kammeroper": {
+    "start": [
+      "https://www.theater-wien.at/de/spielplan/musiktheater",
+      "https://www.theater-wien.at/de/spielplan/konzertantes-musiktheater",
+      "https://www.theater-wien.at/de/kalendarium"
+    ],
+    "ort": "Kammeroper"
+  },
+  "schlosstheater-schoenbrunn": {
+    "start": [
+      "https://www.theater-wien.at/de/spielplan/musiktheater",
+      "https://www.theater-wien.at/de/spielplan/konzertantes-musiktheater",
+      "https://www.theater-wien.at/de/kalendarium"
+    ],
+    "ort": "Schönbrunn"
+  },
+  "buehne-baden": [
+    "https://www.buehnebaden.at/spielplan"
+  ],
+  "oper-klosterneuburg": [
+    "https://www.operklosterneuburg.at/"
+  ],
+  "oper-burg-gars": [
+    "https://www.operburggars.at/"
+  ],
+  "musiktheater-linz": [
+    "https://www.landestheater-linz.at/stuecke?haus=musiktheater",
+    "https://www.landestheater-linz.at/termine"
+  ],
+  "lehar-festival-bad-ischl": [
+    "https://www.leharfestival.at/"
+  ],
+  "grosses-festspielhaus": {
+    "start": [
+      "https://www.salzburgerfestspiele.at/programm",
+      "https://osterfestspiele.at/",
+      "https://osterfestspiele.at/programm/2027-2/"
+    ],
+    "ort": "Großes Festspielhaus"
+  },
+  "haus-fuer-mozart": {
+    "start": [
+      "https://www.salzburgerfestspiele.at/programm",
+      "https://osterfestspiele.at/",
+      "https://osterfestspiele.at/programm/2027-2/"
+    ],
+    "ort": "Haus für Mozart"
+  },
+  "felsenreitschule": {
+    "start": [
+      "https://www.salzburgerfestspiele.at/programm",
+      "https://osterfestspiele.at/",
+      "https://osterfestspiele.at/programm/2027-2/"
+    ],
+    "ort": "Felsenreitschule"
+  },
+  "salzburger-landestheater": [
+    "https://www.salzburger-landestheater.at/spielplan"
+  ],
+  "tiroler-landestheater": [
+    "https://www.landestheater.at/spielplan"
+  ],
+  "festspielhaus-erl": {
+    "start": [
+      "https://www.tiroler-festspiele.at/spielplan-karten",
+      "https://www.tiroler-festspiele.at/"
+    ],
+    "ort": "Festspielhaus"
+  },
+  "passionsspielhaus-erl": {
+    "start": [
+      "https://www.tiroler-festspiele.at/spielplan-karten",
+      "https://www.tiroler-festspiele.at/"
+    ],
+    "ort": "Passionsspielhaus"
+  },
+  "festspielhaus-bregenz": {
+    "start": [
+      "https://bregenzerfestspiele.com/de/oper-und-musiktheater",
+      "https://bregenzerfestspiele.com/de"
+    ],
+    "ort": "Festspielhaus"
+  },
+  "seebuehne-bregenz": {
+    "start": [
+      "https://bregenzerfestspiele.com/de/oper-und-musiktheater",
+      "https://bregenzerfestspiele.com/de"
+    ],
+    "ort": "Seebühne"
+  },
+  "oper-graz": [
+    "https://oper-graz.buehnen-graz.com/spielplan"
+  ],
+  "stadttheater-klagenfurt": [
+    "https://www.stadttheater-klagenfurt.at/spielplan"
+  ],
+  "seefestspiele-moerbisch": [
+    "https://www.seefestspiele-moerbisch.at/"
+  ],
+  "oper-im-steinbruch-st-margarethen": [
+    "https://www.operimsteinbruch.at/"
+  ],
+  "_gesperrt": "badisches-staatstheater: antwortet Programmen mit 403 – wird respektiert, das Haus bleibt ohne Termine."
+}
