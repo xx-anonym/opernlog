@@ -26,6 +26,7 @@ node --test "tests/**/*.test.js"
 | `geo.test.js` | Entfernung und Vorauswahl des nächsten Opernhauses |
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen, Kurzfassung der Besetzung |
 | `passkey.test.js` | wann es Passkeys gibt, welcher Fehler welchen Satz bekommt |
+| `sterne.test.js` | Sterne als Text, auch bei Noten außerhalb von 0 bis 5 |
 
 **`checks/`** – nicht die Logik, sondern der Zustand des Projekts. Diese
 Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
@@ -36,6 +37,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `css.test.js` | kein `var(--x)` auf eine nirgends definierte Eigenschaft |
 | `katalog.test.js` | eindeutige Ids, brauchbare Koordinaten, Bilder von bekannten Hosts |
 | `rls.test.js` | nur die bewusst öffentlichen Tabellen sind für jeden lesbar |
+| `visitsPruefungen.test.js` | Datenbank und App prüfen Werk- und Hauskennungen gleich |
 
 **`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel
 auftaucht: im Layout, im Verlauf, ohne Netz. Sie starten einen Dateiserver für
@@ -50,6 +52,7 @@ Datenbank.
 | `tagebuchSortierung.test.js` | nach Bewertung sortiert stehen Noten über den Blöcken, keine Monate |
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
 | `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
+| `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

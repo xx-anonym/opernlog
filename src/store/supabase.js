@@ -310,7 +310,11 @@ export async function deletePasskey(passkeyId) {
 
 export async function signOut() {
     const sb = getSupabase();
-    const { error } = await sb.auth.signOut();
+    // Nur dieses Gerät. Ohne Angabe meldet Supabase überall ab: wer sich am
+    // Mac abmeldete, flog auch auf dem iPhone raus und merkte es erst, als
+    // die Sitzung dort nicht mehr verlängert werden konnte ("Refresh Token
+    // Not Found").
+    const { error } = await sb.auth.signOut({ scope: 'local' });
     if (error) throw error;
 }
 

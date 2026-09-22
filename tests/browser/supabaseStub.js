@@ -43,6 +43,9 @@ window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
 window.__profilUpsert = [];     // jedes upsert auf profiles
 // Passkeys. Die WebAuthn-Zeremonie selbst laeuft im Test nicht – der Stub
 // antwortet an ihrer Stelle, so wie supabase-js es nach der Zeremonie taete.
+window.__einlader = null;       // wessen Einladung accept_invite annimmt
+window.__fremderName = null;    // Benutzername fremder Profile, sonst 'Andere Person'
+window.__abmeldeArt = undefined; // scope, mit dem signOut() gerufen wurde
 window.__passkeys = [];         // { id, friendly_name, created_at, last_used_at }
 window.__passkeyFehler = null;  // gesetzt: signInWithPasskey/registerPasskey liefern diesen Fehler
 window.__passkeyListeFehler = null;
@@ -99,7 +102,7 @@ function builder(table) {
         // Nach einer fremden Id gefragt? Dann ein Profil mit genau dieser Id –
         // sonst hielte die App das fremde Profil fuer das eigene.
         rows = [filter.id && filter.id !== UID
-          ? { ...PROFILE, id: filter.id, username: 'Andere Person', avatar_initials: 'AP' }
+          ? { ...PROFILE, id: filter.id, username: window.__fremderName || 'Andere Person', avatar_initials: 'AP' }
           : PROFILE];
       }
       if (table === 'seen_operas') rows = window.__seen.map(id => ({ opera_id: id }));
@@ -134,7 +137,7 @@ window.supabase = { createClient: () => ({
   auth: {
     getSession: async () => ({ data: { session: SESSION }, error: null }),
     onAuthStateChange: () => {},
-    signOut: async () => { window.__abgemeldet++; return { error: null }; },
+    signOut: async (optionen) => { window.__abgemeldet++; window.__abmeldeArt = optionen?.scope; return { error: null }; },
     signUp: async (angaben) => {
       window.__registriert.push(angaben);
       return { data: {
@@ -171,6 +174,7 @@ window.supabase = { createClient: () => ({
     },
   },
   rpc: async (name, args) => {
+    if (name === 'accept_invite') return { data: window.__einlader, error: null };
     if (name === 'konto_loeschen') {
       if (window.__kontoFehler) return { data: null, error: { message: window.__kontoFehler } };
       window.__kontoGeloescht++;

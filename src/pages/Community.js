@@ -7,7 +7,7 @@ import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
-import { escapeHTML, copyToClipboard} from '../utils.js';
+import { escapeHTML, copyToClipboard, sterneText } from '../utils.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -137,7 +137,7 @@ export function CommunityPage() {
           content.appendChild(grid);
         }
       } catch (err) {
-        content.innerHTML = `<div class="empty-state"><p>Fehler beim Laden: ${err.message}</p></div>`;
+        content.innerHTML = `<div class="empty-state"><p>Fehler beim Laden: ${escapeHTML(err.message)}</p></div>`;
       }
     } else {
       // Local mode: same as before
@@ -225,6 +225,12 @@ export function CommunityPage() {
           const feedList = document.createElement('div');
           feedList.className = 'feed-list';
 
+          // Was hier aus der Datenbank kommt, hat ein anderer geschrieben:
+          // Werk und Haus sind dort freier Text, wenn sie nicht im Katalog
+          // stehen, und die Note war bis zur Prüfung in der Datenbank jede
+          // Zahl von -9,9 bis 9,9. Deshalb wird alles maskiert und die Note
+          // begrenzt – eine einzige Note über 5 warf sonst in repeat() und
+          // leerte den ganzen Feed.
           feedItems.forEach(item => {
             const house = operaHouses.find(h => h.id === item.house_id);
             const opera = operas.find(o => o.id === item.opera_id);
@@ -241,9 +247,9 @@ export function CommunityPage() {
                                 </div>
                             </div>
                             <div class="feed-card__body">
-                                <h3>${opera?.title || item.opera_id}</h3>
-                                <p class="text-muted">${house?.name || item.house_id}, ${house?.city || ''}</p>
-                                <div class="feed-card__rating">${'★'.repeat(Math.round(item.rating || 0))}${'☆'.repeat(5 - Math.round(item.rating || 0))} ${item.rating ? parseFloat(item.rating).toFixed(1) : '–'}</div>
+                                <h3>${escapeHTML(opera?.title || item.opera_id)}</h3>
+                                <p class="text-muted">${escapeHTML(house?.name || item.house_id)}, ${escapeHTML(house?.city || '')}</p>
+                                <div class="feed-card__rating">${sterneText(item.rating)} ${item.rating ? parseFloat(item.rating).toFixed(1) : '–'}</div>
                                 ${item.review ? `<p class="feed-card__review">${escapeHTML(item.review)}</p>` : ''}
                             </div>
                         `;
@@ -260,7 +266,7 @@ export function CommunityPage() {
           content.appendChild(feedList);
         }
       } catch (err) {
-        content.innerHTML = `<div class="empty-state"><p>Fehler beim Laden: ${err.message}</p></div>`;
+        content.innerHTML = `<div class="empty-state"><p>Fehler beim Laden: ${escapeHTML(err.message)}</p></div>`;
       }
     } else {
       // Local mode: show own visits

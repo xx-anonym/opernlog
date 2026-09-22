@@ -341,3 +341,16 @@ export function besetzungKurz(castList) {
         einklappen: zeilen.length >= BESETZUNG_EINKLAPPEN_AB,
     };
 }
+
+/**
+ * Fünf Sterne als Text, "★★★★☆". Die Note wird auf 0 bis 5 begrenzt.
+ *
+ * Die Begrenzung ist kein Schmuck: '☆'.repeat() wirft bei einer negativen
+ * Zahl. Eine Note über 5 – in der Datenbank bis zur Prüfung vom 22.09.2026
+ * möglich, über die Schnittstelle an der App vorbei – riss so den ganzen
+ * Freunde-Feed mit ("Invalid count value: -5").
+ */
+export function sterneText(note) {
+    const n = Math.min(5, Math.max(0, Math.round(Number(note) || 0)));
+    return '★'.repeat(n) + '☆'.repeat(5 - n);
+}

@@ -77,6 +77,9 @@ async function renderAcceptInvite(page, code) {
   `;
 
   try {
+    // Der Name des Einladenden kommt aus dessen Profil, und das Profil
+    // schreibt jeder selbst. Unmaskiert lief ein Name wie
+    // <img onerror="…"> hier im Browser des Eingeladenen als Code.
     const result = await sb.acceptInvite(code);
     const statusEl = page.querySelector('.invite-status');
 
@@ -85,7 +88,7 @@ async function renderAcceptInvite(page, code) {
         <div class="invite-success">
           <span class="status-glyph status-glyph--ok">${icon('checkCircle')}</span>
           <h2>Verbunden!</h2>
-          <p>Du folgst jetzt <strong>${result.friend?.username || 'deinem Freund'}</strong> und sie/er folgt dir.</p>
+          <p>Du folgst jetzt <strong>${escapeHTML(result.friend?.username || 'deinem Freund')}</strong> und sie/er folgt dir.</p>
           <a href="#/community" class="btn btn--primary btn--lg">Zu Freunde</a>
         </div>
       `;

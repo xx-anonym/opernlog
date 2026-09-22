@@ -36,7 +36,10 @@ export const LAENDER = {
 };
 export const DEUTSCHLAND = { lat: [47.2, 55.1], lon: [5.8, 15.1] };
 
-const ID_MUSTER = /^[a-z0-9-]+$/;
+// Auch die Datenbank prüft Besuche gegen dieses Muster
+// (supabase/migrations/visits_pruefungen_migration.sql). Dass beide gleich
+// bleiben, prüft tests/checks/visitsPruefungen.test.js.
+export const ID_MUSTER = /^[a-z0-9-]+$/;
 
 // Lizenzen mit "BY" verlangen die Namensnennung des Urhebers – das ist der
 // ganze Inhalt des Kürzels. Public domain und CC0 verlangen sie nicht.

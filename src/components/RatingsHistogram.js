@@ -93,6 +93,9 @@ function formatStep(step) {
 }
 
 function renderStars(rating) {
+    // Auf 0 bis 5 begrenzt: der Durchschnitt fremder Profile kommt aus der
+    // Datenbank, und repeat() wirft bei einer negativen Zahl.
+    rating = Math.min(5, Math.max(0, Number(rating) || 0));
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.25 && rating % 1 < 0.75 ? 1 : 0;
     const empty = 5 - full - half;
