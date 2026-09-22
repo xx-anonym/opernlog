@@ -47,6 +47,22 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Party ID unter Authentication → Passkeys im Supabase-Dashboard). **Zieht die
   App auf eine andere Domain, taugt kein einziger Passkey mehr**, und jeder muss
   einen neuen anlegen.
+- **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
+  Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
+  Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil
+  bearbeiten“; auf dem iPhone nur, wenn OpernLog auf dem Home-Bildschirm liegt.
+
+  Der Weg: Auslöser in der Datenbank (`supabase/migrations/push_migration.sql`)
+  legen über pg_net eine Anfrage an die Edge Function `push-senden`; die
+  verschlüsselt für jedes Gerät (RFC 8291) und schickt an Apple, Google oder
+  Mozilla. Die Verschlüsselung steht ohne Fremdbibliothek in
+  `supabase/functions/push-senden/webpush.js` und wird gegen das Rechenbeispiel
+  aus dem RFC geprüft. Den Saisonrückblick verschickt pg_cron.
+
+  Im Supabase Vault liegen das Geheimnis, mit dem sich die Datenbank bei der
+  Funktion ausweist, und der private VAPID-Schlüssel. **Den VAPID-Schlüssel nie
+  austauschen**: jedes Abo hängt an ihm, ein neuer machte alle auf einen
+  Schlag wertlos.
 - **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte

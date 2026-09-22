@@ -308,6 +308,41 @@ export async function deletePasskey(passkeyId) {
     if (error) throw error;
 }
 
+// ── Push-Mitteilungen ────────────────────────────────────
+//
+// Versand und Auslöser liegen auf dem Server (supabase/migrations/
+// push_migration.sql, supabase/functions/push-senden). Hier nur, was die App
+// selbst braucht: den öffentlichen Schlüssel zum Abonnieren und das Ablegen
+// oder Entfernen des Abos für dieses Gerät.
+
+export async function pushSchluessel() {
+    const sb = getSupabase();
+    const { data, error } = await sb.functions.invoke('push-senden', { method: 'GET' });
+    if (error) throw error;
+    if (!data?.schluessel) throw new Error('Kein Schlüssel für Mitteilungen');
+    return data.schluessel;
+}
+
+export async function pushAboSpeichern({ endpoint, p256dh, auth }) {
+    const sb = getSupabase();
+    const { error } = await sb.rpc('push_abo_speichern', { p_endpoint: endpoint, p_p256dh: p256dh, p_auth: auth });
+    if (error) throw new SupabaseError('Mitteilungen einschalten', error);
+}
+
+export async function pushAboLoeschen(endpoint) {
+    const sb = getSupabase();
+    const { error } = await sb.rpc('push_abo_loeschen', { p_endpoint: endpoint });
+    if (error) throw new SupabaseError('Mitteilungen ausschalten', error);
+}
+
+/** Schickt eine Probemitteilung an die eigenen Geräte. false: gerade erst eine geschickt. */
+export async function pushTest() {
+    const sb = getSupabase();
+    const { data, error } = await sb.rpc('push_test');
+    if (error) throw new SupabaseError('Probemitteilung', error);
+    return data === true;
+}
+
 export async function signOut() {
     const sb = getSupabase();
     // Nur dieses Gerät. Ohne Angabe meldet Supabase überall ab: wer sich am

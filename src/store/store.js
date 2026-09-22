@@ -3,6 +3,7 @@ import { seenOperaList } from '../data/seenOperas.js';
 import { topComposer, topHouse } from '../data/favorites.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from './supabase.js';
+import { pushBeimAbmelden } from '../push.js';
 
 const STORAGE_KEY = 'opernlog_data';
 const STORE_VERSION = 3;
@@ -863,6 +864,9 @@ class Store {
     // ── Auth helpers ─────────────────────────────────────
     async logout() {
         if (this.isCloud) {
+            // Vor dem Abmelden, solange die Sitzung noch gilt: dieses Gerät
+            // soll dem abgemeldeten Konto keine Mitteilungen mehr zeigen.
+            await pushBeimAbmelden();
             await sb.signOut();
         }
         this._session = null;

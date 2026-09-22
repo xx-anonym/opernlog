@@ -109,12 +109,14 @@ const APP_SHELL = [
     './src/utils.js',
     './src/passwort.js',
     './src/passkey.js',
+    './src/push.js',
     './src/data/katalogRegeln.js',
     './src/data/katalogZusatz.js',
     './src/components/KatalogFormular.js',
     './src/components/KatalogLoeschen.js',
     './src/components/KontoLoeschen.js',
     './src/components/Passkeys.js',
+    './src/components/Mitteilungen.js',
 ];
 
 // Install – cache app shell
@@ -212,4 +214,49 @@ self.addEventListener('fetch', (event) => {
                 });
             })
     );
+});
+
+// ── Push-Mitteilungen ────────────────────────────────────────────────────
+//
+// Die Nachricht kommt verschlüsselt von der Edge Function push-senden; der
+// Browser entschlüsselt sie, bevor sie hier ankommt. Sie trägt titel, text,
+// url (ein Pfad der App, etwa "#/visit/…") und tag. Mitteilungen mit
+// demselben tag ersetzen einander – drei Kommentare unter derselben Review
+// stehen dann als einer da, der neueste.
+
+self.addEventListener('push', (event) => {
+    let daten = {};
+    try {
+        daten = event.data ? event.data.json() : {};
+    } catch (e) {
+        daten = { text: event.data ? event.data.text() : '' };
+    }
+    event.waitUntil(self.registration.showNotification(daten.titel || 'OpernLog', {
+        body: daten.text || '',
+        icon: './icons/icon-any-192.png',
+        tag: daten.tag || undefined,
+        lang: 'de',
+        data: { url: pushZiel(daten.url) },
+    }));
+});
+
+// Nur Pfade innerhalb der App. Was nicht mit "#/" beginnt, führt zur Startseite.
+function pushZiel(url) {
+    return typeof url === 'string' && /^#\//.test(url) ? url : '#/';
+}
+
+// Tippen auf die Mitteilung: ist die App schon offen, wechselt sie dorthin,
+// sonst öffnet sie sich an dieser Stelle.
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    const ziel = pushZiel(event.notification.data && event.notification.data.url);
+    event.waitUntil((async () => {
+        const fenster = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+        const offen = fenster.find(f => new URL(f.url).origin === self.location.origin);
+        if (offen) {
+            offen.postMessage({ typ: 'oeffne', url: ziel });
+            return offen.focus();
+        }
+        return self.clients.openWindow(new URL(ziel, self.registration.scope).href);
+    })());
 });

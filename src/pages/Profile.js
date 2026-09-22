@@ -17,6 +17,7 @@ import { composerByName } from '../data/composers.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 import { kontoLoeschModal } from '../components/KontoLoeschen.js';
 import { passkeyBereich } from '../components/Passkeys.js';
+import { mitteilungenBereich } from '../components/Mitteilungen.js';
 import { passkeysMoeglich } from '../passkey.js';
 
 /**
@@ -834,6 +835,11 @@ function renderLocalProfile(page, userId, isMe) {
     const ziel = page.querySelector('#profilKonto');
     if (!ziel || ziel.dataset.gefuellt) return;
     ziel.dataset.gefuellt = '1';
+
+    // Mitteilungen zuerst: sie betreffen den Alltag, Passkeys und Löschen
+    // braucht man selten. Kann der Browser keine, bleibt der Bereich weg.
+    const mitteilungen = mitteilungenBereich();
+    if (mitteilungen) ziel.appendChild(mitteilungen);
 
     // Passkeys nur in Browsern, die WebAuthn können. Sonst stünde da ein
     // Knopf, der beim Drücken bloß "geht nicht" sagt.

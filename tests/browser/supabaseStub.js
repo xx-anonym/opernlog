@@ -43,6 +43,12 @@ window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
 window.__profilUpsert = [];     // jedes upsert auf profiles
 // Passkeys. Die WebAuthn-Zeremonie selbst laeuft im Test nicht – der Stub
 // antwortet an ihrer Stelle, so wie supabase-js es nach der Zeremonie taete.
+window.__pushAbos = [];         // was push_abo_speichern bekommen hat
+window.__pushGeloescht = [];    // Endpunkte aus push_abo_loeschen
+window.__pushProben = [];       // Antworten für push_test, der Reihe nach (Standard: true)
+window.__pushProbeGerufen = 0;
+window.__pushSpeichernFehler = null;
+window.__ablauf = [];            // Reihenfolge von push_abo_loeschen und signOut
 window.__einlader = null;       // wessen Einladung accept_invite annimmt
 window.__fremderName = null;    // Benutzername fremder Profile, sonst 'Andere Person'
 window.__abmeldeArt = undefined; // scope, mit dem signOut() gerufen wurde
@@ -137,7 +143,7 @@ window.supabase = { createClient: () => ({
   auth: {
     getSession: async () => ({ data: { session: SESSION }, error: null }),
     onAuthStateChange: () => {},
-    signOut: async (optionen) => { window.__abgemeldet++; window.__abmeldeArt = optionen?.scope; return { error: null }; },
+    signOut: async (optionen) => { window.__ablauf.push('signOut'); window.__abgemeldet++; window.__abmeldeArt = optionen?.scope; return { error: null }; },
     signUp: async (angaben) => {
       window.__registriert.push(angaben);
       return { data: {
@@ -175,6 +181,13 @@ window.supabase = { createClient: () => ({
   },
   rpc: async (name, args) => {
     if (name === 'accept_invite') return { data: window.__einlader, error: null };
+    if (name === 'push_abo_speichern') {
+      if (window.__pushSpeichernFehler) return { data: null, error: { message: window.__pushSpeichernFehler } };
+      window.__pushAbos.push(args);
+      return { data: null, error: null };
+    }
+    if (name === 'push_abo_loeschen') { window.__ablauf.push('push_abo_loeschen'); window.__pushGeloescht.push(args.p_endpoint); return { data: null, error: null }; }
+    if (name === 'push_test') { window.__pushProbeGerufen++; const a = window.__pushProben.shift(); return { data: a === undefined ? true : a, error: null }; }
     if (name === 'konto_loeschen') {
       if (window.__kontoFehler) return { data: null, error: { message: window.__kontoFehler } };
       window.__kontoGeloescht++;
@@ -188,6 +201,9 @@ window.supabase = { createClient: () => ({
   },
   functions: {
     invoke: async (name, optionen) => {
+      if (name === 'push-senden') {
+        return { data: { schluessel: 'BJjAqw6svCgTxnYuAjvx6g2GzSFlqdeBl4v-uIwfl-9597T6bg3pP02CqBV9EZsfpCVtg6PGSa2tzrekGxi3jnI' }, error: null };
+      }
       window.__leakGefragt.push({ name, body: optionen?.body });
       if (window.__leakFehler) return { data: null, error: new Error('Dienst antwortet nicht') };
       return { data: window.__leakAntwort, error: null };

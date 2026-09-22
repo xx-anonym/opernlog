@@ -27,6 +27,9 @@ node --test "tests/**/*.test.js"
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen, Kurzfassung der Besetzung |
 | `passkey.test.js` | wann es Passkeys gibt, welcher Fehler welchen Satz bekommt |
 | `sterne.test.js` | Sterne als Text, auch bei Noten außerhalb von 0 bis 5 |
+| `webpush.test.js` | Verschlüsselung Byte für Byte gegen RFC 8291, VAPID-Ausweis, nur bekannte Push-Dienste |
+| `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
+| `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
 
 **`checks/`** – nicht die Logik, sondern der Zustand des Projekts. Diese
 Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
@@ -38,6 +41,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `katalog.test.js` | eindeutige Ids, brauchbare Koordinaten, Bilder von bekannten Hosts |
 | `rls.test.js` | nur die bewusst öffentlichen Tabellen sind für jeden lesbar |
 | `visitsPruefungen.test.js` | Datenbank und App prüfen Werk- und Hauskennungen gleich |
+| `push.test.js` | Datenbank und Edge Function erlauben dieselben Push-Dienste; jeder Anlass hat einen Auslöser |
 
 **`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel
 auftaucht: im Layout, im Verlauf, ohne Netz. Sie starten einen Dateiserver für
@@ -53,6 +57,7 @@ Datenbank.
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
 | `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
 | `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
+| `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster, Hinweis aufs Installieren auf dem iPhone |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

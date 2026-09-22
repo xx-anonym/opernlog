@@ -4965,6 +4965,45 @@ body {
     border-top: 1px solid var(--border);
 }
 
+/* Mitteilungen – über den Passkeys, gleich aufgebaut. */
+.mitteilungen {
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.mitteilungen__titel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    margin: 0 0 4px;
+}
+
+.mitteilungen__erklaerung {
+    margin: 0 0 12px;
+}
+
+.mitteilungen__stand {
+    font-size: 0.88rem;
+    margin: 0 0 12px;
+}
+
+.mitteilungen__fehler {
+    margin: 0 0 12px;
+}
+
+.mitteilungen__fehler[hidden] {
+    display: none;
+}
+
+.mitteilungen__knoepfe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 .passkeys {
     padding: 16px;
     border: 1px solid var(--border);
