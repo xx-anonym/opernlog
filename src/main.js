@@ -20,6 +20,7 @@ import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { mitteilungenFrage } from './components/MitteilungenFrage.js';
 import { mitteilungenFrageFaellig } from './push.js';
+import { zurueckGesteEinrichten } from './zurueckGeste.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
@@ -41,6 +42,8 @@ class App {
         this._positionen = new Map();
         this._aktuellerHash = null;
         this.zeigeVersion();
+        // "Zurück" schließt ein offenes Fenster, statt die Seite zu verlassen.
+        zurueckGesteEinrichten();
         this.init();
     }
 

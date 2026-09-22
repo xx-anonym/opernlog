@@ -60,6 +60,7 @@ Datenbank.
 | `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
 | `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster und die Frage beim ersten Start neuer Konten |
 | `installHinweis.test.js` | der Hinweis in der Leiste bleibt oben und verdeckt weder Inhalt noch Menü noch Fenster |
+| `zurueckGeste.test.js` | Zurück schließt das oberste Fenster; kein toter Schritt, kein Zurückwerfen nach einem Seitenwechsel |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

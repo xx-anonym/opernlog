@@ -111,6 +111,7 @@ const APP_SHELL = [
     './src/passkey.js',
     './src/push.js',
     './src/installHinweis.js',
+    './src/zurueckGeste.js',
     './src/data/katalogRegeln.js',
     './src/data/katalogZusatz.js',
     './src/components/KatalogFormular.js',
