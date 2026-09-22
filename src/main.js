@@ -18,6 +18,8 @@ import { SeasonReviewPage } from './pages/SeasonReview.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
+import { mitteilungenFrage } from './components/MitteilungenFrage.js';
+import { mitteilungenFrageFaellig } from './push.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
@@ -584,12 +586,36 @@ class App {
         }
 
         this.content.appendChild(page);
+        this.vielleichtNachMitteilungenFragen(path);
 
         // Close mobile nav on route change
         const navLinks = document.querySelector('.nav-links');
         if (navLinks) navLinks.classList.remove('nav-links--open');
 
         this.stellePositionWiederher(zielPosition);
+    }
+
+    /**
+     * Beim ersten Anmelden eines neuen Kontos auf diesem Gerät: Mitteilungen?
+     * Einmal pro Seitenaufruf und Konto geprüft; ob die Frage fällig ist,
+     * entscheidet mitteilungenFrageFaellig(). Nicht über der Anmeldung und
+     * nicht über dem Annehmen einer Einladung – dort geht es gerade um etwas
+     * anderes, gefragt wird auf der nächsten Seite.
+     */
+    vielleichtNachMitteilungenFragen(path) {
+        if (!store.isCloud || ['auth', 'invite'].includes(path)) return;
+        const profil = store._profile;
+        if (!profil?.id || this._mitteilungenGeprueft === profil.id) return;
+        this._mitteilungenGeprueft = profil.id;
+        try {
+            // Wer schon abonniert hat, hat die Erlaubnis erteilt – und dann
+            // ist die Frage nicht mehr fällig. Ein eigener Blick aufs Abo
+            // erübrigt sich.
+            if (!mitteilungenFrageFaellig({ profilErstellt: profil.created_at })) return;
+            if (!document.querySelector('.mitteilungen-frage')) mitteilungenFrage();
+        } catch (e) {
+            console.warn('[Mitteilungen] Frage nicht gestellt', e);
+        }
     }
 
     /**

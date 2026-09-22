@@ -109,7 +109,10 @@ function builder(table) {
         // sonst hielte die App das fremde Profil fuer das eigene.
         rows = [filter.id && filter.id !== UID
           ? { ...PROFILE, id: filter.id, username: window.__fremderName || 'Andere Person', avatar_initials: 'AP' }
-          : PROFILE];
+          // __profilErstellt per addInitScript setzen: das eigene Profil wird
+          // schon beim Start geladen. Für die Frage nach Mitteilungen, die
+          // nur neue Konten bekommen.
+          : { ...PROFILE, created_at: window.__profilErstellt || PROFILE.created_at }];
       }
       if (table === 'seen_operas') rows = window.__seen.map(id => ({ opera_id: id }));
       if (table === 'visits') {

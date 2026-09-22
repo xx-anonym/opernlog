@@ -30,6 +30,7 @@ node --test "tests/**/*.test.js"
 | `webpush.test.js` | Verschlüsselung Byte für Byte gegen RFC 8291, VAPID-Ausweis, nur bekannte Push-Dienste |
 | `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
+| `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
 
 **`checks/`** – nicht die Logik, sondern der Zustand des Projekts. Diese
 Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
@@ -57,7 +58,8 @@ Datenbank.
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
 | `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
 | `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
-| `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster, Hinweis aufs Installieren auf dem iPhone |
+| `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster und die Frage beim ersten Start neuer Konten |
+| `installHinweis.test.js` | der Hinweis in der Leiste bleibt oben und verdeckt weder Inhalt noch Menü noch Fenster |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

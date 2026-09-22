@@ -3,6 +3,7 @@ import { store } from '../store/store.js';
 import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
+import { installHinweis } from './InstallHinweis.js';
 
 export function Navigation() {
   const nav = document.createElement('nav');
@@ -54,6 +55,22 @@ export function Navigation() {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </div>
   `;
+
+  // Auf dem Handy im Browser: der Hinweis aufs Installieren, als letzte Zeile
+  // der Leiste und damit oben angeheftet wie sie. Die Leiste wird dadurch
+  // höher, und was darunter steht, muss das wissen – deshalb wird ihre Höhe
+  // gemessen und als --kopfhoehe bereitgestellt (siehe .mit-installhinweis
+  // in style.css).
+  const hinweis = installHinweis();
+  if (hinweis) {
+    nav.appendChild(hinweis);
+    document.body.classList.add('mit-installhinweis');
+    if (typeof ResizeObserver === 'function') {
+      new ResizeObserver(() => {
+        document.documentElement.style.setProperty('--kopfhoehe', `${nav.offsetHeight}px`);
+      }).observe(nav);
+    }
+  }
 
   // Click handlers
   nav.addEventListener('click', (e) => {

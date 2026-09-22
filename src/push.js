@@ -136,3 +136,44 @@ export async function pushBeimAbmelden({ umgebung = globalThis, dienste = {} } =
         console.warn('[Push] Abmelden: Abo nicht entfernt', e);
     }
 }
+
+// ── Die Frage beim ersten Anmelden ──────────────────────────────────────
+
+const GEFRAGT = 'opernlog:mitteilungenGefragt';
+const NEU_TAGE = 30;
+
+/**
+ * Soll dieses Gerät jetzt fragen, ob Mitteilungen gewünscht sind?
+ *
+ * Nur bei neuen Konten (höchstens 30 Tage alt), nur einmal pro Gerät, und nur
+ * wenn die Frage etwas bewirken kann: Push möglich, noch nie beantwortet,
+ * nicht schon eingeschaltet. Das iPhone im Safari-Tab fragt deshalb nicht –
+ * dort steht der Hinweis aufs Installieren, und gefragt wird beim ersten
+ * Anmelden in der installierten App. Die hat ihren eigenen Speicher und
+ * damit ihr eigenes "schon gefragt".
+ *
+ * @param {object} o
+ * @param {string} o.profilErstellt  created_at des Profils
+ */
+export function mitteilungenFrageFaellig({ umgebung = globalThis, profilErstellt, jetzt = Date.now() } = {}) {
+    if (pushZustand(umgebung) !== 'bereit') return false;
+    if (umgebung.Notification.permission !== 'default') return false;
+    const erstellt = Date.parse(profilErstellt || '');
+    if (!Number.isFinite(erstellt) || jetzt - erstellt > NEU_TAGE * 24 * 3600 * 1000) return false;
+    try {
+        if (umgebung.localStorage?.getItem(GEFRAGT)) return false;
+    } catch {
+        // Ohne Speicher lieber nicht fragen: sonst käme die Frage bei jedem Start.
+        return false;
+    }
+    return true;
+}
+
+/** Die Frage ist beantwortet – auf diesem Gerät nicht noch einmal stellen. */
+export function mitteilungenFrageErledigt(umgebung = globalThis) {
+    try {
+        umgebung.localStorage?.setItem(GEFRAGT, new Date().toISOString());
+    } catch {
+        // siehe oben
+    }
+}

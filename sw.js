@@ -110,6 +110,7 @@ const APP_SHELL = [
     './src/passwort.js',
     './src/passkey.js',
     './src/push.js',
+    './src/installHinweis.js',
     './src/data/katalogRegeln.js',
     './src/data/katalogZusatz.js',
     './src/components/KatalogFormular.js',
@@ -117,6 +118,8 @@ const APP_SHELL = [
     './src/components/KontoLoeschen.js',
     './src/components/Passkeys.js',
     './src/components/Mitteilungen.js',
+    './src/components/MitteilungenFrage.js',
+    './src/components/InstallHinweis.js',
 ];
 
 // Install – cache app shell

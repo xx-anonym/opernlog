@@ -69,9 +69,12 @@ function pushNachbau({ push = true, erlaubnis = 'default', antwort = 'granted', 
     };
 }
 
-async function starte({ nachbau = {}, userAgent } = {}) {
+async function starte({ nachbau = {}, userAgent, neuesKonto = false } = {}) {
     const ctx = await browser.newContext({ viewport: HANDY, ...(userAgent ? { userAgent } : {}) });
     await ctx.addInitScript(pushNachbau, nachbau);
+    // Die Frage nach Mitteilungen bekommen nur neue Konten. Das Testprofil ist
+    // von 2024; neuesKonto macht es zwei Tage alt.
+    if (neuesKonto) await ctx.addInitScript(() => { window.__profilErstellt = new Date(Date.now() - 2 * 864e5).toISOString(); });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
@@ -214,5 +217,86 @@ test('beim Abmelden verschwindet das Abo – vor dem Abmelden', { skip: fehltPla
         await p.evaluate(() => import('/src/store/store.js').then(m => m.store.logout()));
         assert.deepEqual(await p.evaluate(() => window.__ablauf), ['push_abo_loeschen', 'signOut']);
         assert.equal(await p.evaluate(() => window.__pushLog.abbestellt), 1);
+    } finally { await ctx.close(); }
+});
+
+// ── Die Frage beim ersten Anmelden ────────────────────────────────────────
+
+const frage = '.mitteilungen-frage';
+
+test('ein neues Konto wird beim ersten Start gefragt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await starte({ neuesKonto: true });
+    try {
+        await p.waitForSelector(frage, { timeout: 5000 });
+        assert.match(await p.textContent(frage), /Mitteilungen einschalten\?/);
+        assert.match(await p.textContent(frage), /Saisonrückblick/);
+        // Die Erlaubnisfrage des Systems kommt erst nach dem Tippen.
+        assert.equal(await p.evaluate(() => window.__pushLog.gefragt), 0);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('"Mitteilungen einschalten" fragt das System und legt das Abo ab', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ neuesKonto: true });
+    try {
+        await p.waitForSelector(frage);
+        await p.click('#mitteilungenFrageJa');
+        await p.waitForSelector(frage, { state: 'detached' });
+        assert.equal(await p.evaluate(() => window.__pushLog.gefragt), 1);
+        assert.equal((await p.evaluate(() => window.__pushAbos)).length, 1);
+    } finally { await ctx.close(); }
+});
+
+test('"Später" schließt, und das Gerät fragt nicht wieder', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ neuesKonto: true });
+    try {
+        await p.waitForSelector(frage);
+        await p.click('#mitteilungenFrageSpaeter');
+        await p.waitForSelector(frage, { state: 'detached' });
+        assert.equal(await p.evaluate(() => window.__pushLog.gefragt), 0, 'trotz "Später" nach Erlaubnis gefragt');
+
+        await p.evaluate(() => { location.hash = '#/diary'; });
+        await p.waitForTimeout(600);
+        assert.equal(await p.locator(frage).count(), 0, 'beim nächsten Seitenwechsel wieder gefragt');
+
+        await p.reload();
+        await p.waitForFunction(() => !!window.supabase);
+        await p.waitForTimeout(1500);
+        assert.equal(await p.locator(frage).count(), 0, 'nach dem Neuladen wieder gefragt');
+    } finally { await ctx.close(); }
+});
+
+test('wer abgelehnt hat, wird auch nicht wieder gefragt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ neuesKonto: true, nachbau: { antwort: 'denied' } });
+    try {
+        await p.waitForSelector(frage);
+        await p.click('#mitteilungenFrageJa');
+        await p.waitForSelector(frage, { state: 'detached' });
+        assert.equal(await p.evaluate(() => localStorage.getItem('opernlog:mitteilungenGefragt') !== null), true);
+    } finally { await ctx.close(); }
+});
+
+test('ein altes Konto wird nicht gefragt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte();
+    try {
+        await p.waitForTimeout(1500);
+        assert.equal(await p.locator(frage).count(), 0);
+    } finally { await ctx.close(); }
+});
+
+test('wer schon eingeschaltet hat, wird nicht gefragt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ neuesKonto: true, nachbau: { erlaubnis: 'granted', schonAbonniert: true } });
+    try {
+        await p.waitForTimeout(1500);
+        assert.equal(await p.locator(frage).count(), 0);
+    } finally { await ctx.close(); }
+});
+
+test('auf dem iPhone im Safari-Tab keine Frage – dort steht der Hinweis', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ neuesKonto: true, nachbau: { push: false }, userAgent: IPHONE });
+    try {
+        await p.waitForTimeout(1500);
+        assert.equal(await p.locator(frage).count(), 0);
+        assert.equal(await p.isVisible('.installhinweis'), true);
     } finally { await ctx.close(); }
 });

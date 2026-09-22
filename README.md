@@ -51,6 +51,13 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil
   bearbeiten“; auf dem iPhone nur, wenn OpernLog auf dem Home-Bildschirm liegt.
+  Neue Konten (bis 30 Tage) fragt die App beim ersten Start auf einem Gerät
+  einmal selbst, mit einem eigenen Fenster vor der Erlaubnisfrage des
+  Systems – die stellt das iPhone nämlich nur ein einziges Mal.
+
+  Auf dem Handy im Browser steht oben in der Leiste immer ein Hinweis, die
+  App auf den Home-Bildschirm zu legen (`src/installHinweis.js`); auf Android
+  mit Knopf, sobald der Browser das Installieren anbietet.
 
   Der Weg: Auslöser in der Datenbank (`supabase/migrations/push_migration.sql`)
   legen über pg_net eine Anfrage an die Edge Function `push-senden`; die

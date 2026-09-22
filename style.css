@@ -5092,3 +5092,69 @@ body {
     padding: 0;
     line-height: 1.7;
 }
+
+/* ── Hinweis aufs Installieren ─────────────────────────────────────────
+ *
+ * Nur auf dem Handy im Browser (siehe src/installHinweis.js). Er steht als
+ * letzte Zeile in der festen Leiste oben; die wird dadurch höher. Ihre Höhe
+ * misst Navigation.js und stellt sie als --kopfhoehe bereit – damit rücken
+ * Inhalt, aufgeklapptes Menü und Fenster entsprechend nach unten. */
+.installhinweis {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mit-installhinweis .main-nav {
+        flex-wrap: wrap;
+    }
+
+    .installhinweis {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Über die volle Breite: die Leiste hat links und rechts 16px Innenabstand. */
+        flex: 0 0 calc(100% + 32px);
+        margin: 6px -16px -8px;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, rgba(139, 26, 43, 0.9), rgba(160, 128, 48, 0.9));
+        color: #fff;
+        font-size: 0.82rem;
+        line-height: 1.35;
+    }
+
+    .installhinweis__text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .installhinweis__teilen {
+        width: 15px;
+        height: 15px;
+        vertical-align: -2px;
+    }
+
+    .installhinweis__knopf {
+        flex-shrink: 0;
+        background: #fff;
+        color: var(--accent);
+    }
+
+    .mit-installhinweis .main-content {
+        padding-top: calc(var(--kopfhoehe, 110px) + 4px);
+    }
+
+    .mit-installhinweis .nav-links {
+        top: var(--kopfhoehe, 110px);
+    }
+
+    .mit-installhinweis .modal {
+        padding-top: calc(var(--kopfhoehe, 110px) + 16px);
+    }
+}
+
+/* Die Frage nach Mitteilungen beim ersten Anmelden. */
+.mitteilungen-frage__liste {
+    margin: 8px 0 12px 1.2em;
+    padding: 0;
+    line-height: 1.6;
+}
