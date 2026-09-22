@@ -21,6 +21,14 @@ test('Ids kommen nur einmal vor', () => {
     assert.deepEqual(doppelte(operas.map(o => o.id)), []);
 });
 
+test('kein Bild steht bei zwei Einträgen', () => {
+    // Verdis "Macbeth" zeigte das Plakat von Schostakowitschs "Lady Macbeth
+    // von Mzensk" – beim Anlegen vom ähnlichen Titel mitgenommen. Ein Bild
+    // gehört zu genau einem Werk oder Haus.
+    assert.deepEqual(doppelte(operas.map(o => o.image).filter(Boolean)), []);
+    assert.deepEqual(doppelte(operaHouses.map(h => h.imageUrl).filter(Boolean)), []);
+});
+
 test('Ids sind url-tauglich', () => {
     // Sie landen im Adress-Fragment (#/house/<id>); alles, was dort kodiert
     // werden müsste, macht die Adresse unlesbar.
