@@ -10,6 +10,9 @@
 
 export const SPIELPLAN_STAND = '2026-09-23';
 
+// Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.
+export const SPIELPLAN_ZUSATZWERKE = ['rienzi'];
+
 export const spielplan = [
     { werk: 'aida', haus: 'oper-frankfurt', url: "https://oper-frankfurt.de/de/spielplan/aida_3/",
       termine: ['2027-05-15', '2027-05-22', '2027-05-27', '2027-06-14', '2027-06-20', '2027-06-25'] },

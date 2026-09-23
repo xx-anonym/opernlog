@@ -1,6 +1,16 @@
 // Liest die Spielpläne der Häuser im Katalog und schlägt Termine vor.
 //
-//   node tests/werkzeug/spielplaene-lesen.mjs [ausgabe.json] [haus-id …]
+//   node tests/werkzeug/spielplaene-lesen.mjs [ausgabe.json] [haus-id …] [--werke id,id] [--straenge 4]
+//
+//   --werke     nur nach diesen Werken suchen – für ein Werk, das neu in den
+//               Katalog gekommen ist. Das Ergebnis mit
+//               `spielplan-uebernehmen.mjs ausgabe.json --dazu` übernehmen:
+//               dann ändern sich nur die Einträge dieser Werke.
+//   --straenge  so viele Häuser gleichzeitig (Standard 4). Je Haus bleibt es
+//               bei einer Seite nach der anderen.
+//
+// Die Werke kommen aus src/data/operas.js und aus der Datenbank
+// (catalog_operas) – was der Admin in der App anlegt, wird mitgesucht.
 //
 // Gedacht für einen Lauf je Spielzeit, im September, dazu ein kleiner im
 // Januar – viele Stadttheater stellen die Termine fürs Frühjahr erst im
@@ -19,7 +29,7 @@
 //      Komponist genannt ist und ob es nach Ballett oder Schauspiel aussieht –
 //      "Faust" ist in Deutschland meist Goethe, "Macbeth" meist Shakespeare.
 //
-// Höflich: ein Haus nach dem anderen, eine Seite nach der anderen.
+// Höflich: je Haus eine Seite nach der anderen.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -33,9 +43,6 @@ import { termineAusText, termineMitUhrzeit } from './spielplan-termine.mjs';
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const QUELLEN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-quellen.json'), 'utf8'));
 
-// Werke, die der Admin in der Datenbank ergänzt hat, stehen nicht in
-// operas.js. Hier von Hand nachgetragen, bis es dafür einen Weg gibt.
-export const ZUSATZ = [{ id: 'rienzi', title: 'Rienzi', composer: 'Richard Wagner' }];
 
 // Andere Titel, unter denen dieselben Werke auf Spielplänen stehen.
 export const ANDERE_TITEL = {
@@ -126,7 +133,7 @@ export function komponistMuster(nachname) {
     return new RegExp(quelle, 'i');
 }
 
-const WERKE = [...operas, ...ZUSATZ].map(o => {
+function alsWerk(o) {
     const titel = [...new Set([o.title, ...(ANDERE_TITEL[o.id] || [])].map(norm))];
     const nachname = o.composer.replace(/\s+(II|I|Sohn|der Jüngere)$/i, '').split(' ').pop();
     return {
@@ -138,7 +145,32 @@ const WERKE = [...operas, ...ZUSATZ].map(o => {
         // "Siegfried Jerusalem" treffen, "Aida" nicht in "Aidan".
         muster: titel.map(t => new RegExp(`(^|[^a-zäöüß0-9])${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^a-zäöüß0-9])`, 'i')),
     };
-});
+}
+
+// Die Werke aus operas.js; main() nimmt die aus der Datenbank dazu.
+const WERKE = [];
+
+/** Nimmt Werke ({id, title, composer}) in die Suche auf, die dort noch fehlen. */
+export function werkeErgaenzen(liste) {
+    for (const o of liste) if (o?.id && o.title && o.composer && !WERKE.some(w => w.id === o.id)) WERKE.push(alsWerk(o));
+}
+werkeErgaenzen(operas);
+
+/**
+ * Die Werke, die der Admin in der App angelegt hat (catalog_operas). Adresse
+ * und Schlüssel aus src/config.js; der anon-Schlüssel ist öffentlich, und
+ * die Katalogtabellen sind für jeden lesbar.
+ */
+async function werkeAusDatenbank() {
+    const config = fs.readFileSync(path.join(WURZEL, 'src/config.js'), 'utf8');
+    const adresse = config.match(/SUPABASE_URL = '([^']+)'/)?.[1];
+    const schluessel = config.match(/SUPABASE_ANON_KEY = '([^']+)'/)?.[1];
+    const r = await fetch(`${adresse}/rest/v1/catalog_operas?select=id,title,composer`, {
+        headers: { apikey: schluessel, Authorization: `Bearer ${schluessel}` },
+    });
+    if (!r.ok) throw new Error(`catalog_operas: HTTP ${r.status}`);
+    return r.json();
+}
 
 function werkeImText(text) {
     const t = norm(text);
@@ -149,11 +181,16 @@ function seitenPfad(href) {
     try { return slug(entschluesselt(new URL(href).pathname)); } catch { return ''; }
 }
 
-function werkeImLink(text, href) {
+// Mit --werke: nur diese. Gesucht wird trotzdem im ganzen Katalog, sonst
+// hielte man die Seite von "Lady Macbeth von Mzensk" für "Macbeth".
+let SUCHE = null;
+
+export function werkeImLink(text, href, suche = SUCHE) {
     const treffer = new Set(werkeImText(text).map(w => w.id));
     const pfad = seitenPfad(href);
     for (const w of WERKE) if (w.slugs.some(s => pfad.includes(s))) treffer.add(w.id);
-    return ohneEnthaltene([...treffer]);
+    const ids = ohneEnthaltene([...treffer]);
+    return suche ? ids.filter(id => suche.has(id)) : ids;
 }
 
 // "Lady Macbeth von Mzensk" enthält "Macbeth", "Götterdämmerung" nicht, aber
@@ -520,7 +557,25 @@ async function lesen(kontext, hausId, fenster) {
 }
 
 async function main() {
-    const [ausgabe = 'spielplan-vorschlag.json', ...nur] = process.argv.slice(2);
+    const args = process.argv.slice(2);
+    const option = name => { const i = args.indexOf(name); if (i < 0) return null; const [, wert] = args.splice(i, 2); return wert; };
+    const werkeOption = option('--werke');
+    const straenge = Math.max(1, Number(option('--straenge')) || 4);
+    const [ausgabe = 'spielplan-vorschlag.json', ...nur] = args;
+
+    let ausDatenbank = [];
+    try {
+        ausDatenbank = await werkeAusDatenbank();
+        werkeErgaenzen(ausDatenbank);
+    } catch (e) {
+        console.warn(`Werke aus der Datenbank nicht geladen (${e.message}) – nur die aus operas.js.`);
+    }
+    if (werkeOption) {
+        SUCHE = new Set(werkeOption.split(',').map(w => w.trim()).filter(Boolean));
+        const unbekannt = [...SUCHE].filter(id => !WERKE.some(w => w.id === id));
+        if (unbekannt.length) { console.error(`Nicht im Katalog: ${unbekannt.join(', ')}`); process.exit(1); }
+    }
+
     // Ortszeit, nicht UTC: kurz nach Mitternacht wäre es sonst noch gestern.
     const heute = heuteIso();
     const jahr = Number(heute.slice(0, 4));
@@ -529,6 +584,9 @@ async function main() {
     const haeuser = operaHouses.map(h => h.id).filter(id => !nur.length || nur.includes(id));
 
     const bisher = fs.existsSync(ausgabe) ? JSON.parse(fs.readFileSync(ausgabe, 'utf8')) : {};
+    // Für die Übernahme: welche Werke aus der Datenbank kamen, und wonach gesucht wurde.
+    bisher._werke = ausDatenbank.map(({ id, title, composer }) => ({ id, title, composer }));
+    if (SUCHE) bisher._suche = [...SUCHE];
     const pw = await ladePlaywright();
     const browser = await pw.chromium.launch();
     const kontext = await browser.newContext({
@@ -536,14 +594,20 @@ async function main() {
         locale: 'de-DE',
         viewport: { width: 1280, height: 1600 },
     });
-    for (const id of haeuser) {
-        const t0 = Date.now();
-        const erg = await lesen(kontext, id, fenster);
-        bisher[id] = { ...erg, fenster, stand: heute };
-        fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
-        const werke = Object.values(erg.werke);
-        console.log(`${id.padEnd(36)} ${String(werke.length).padStart(3)} Werke, ${String(werke.filter(w => w.termine.length).length).padStart(3)} mit Terminen, ${erg.fehler.length} Fehler, ${Math.round((Date.now() - t0) / 1000)}s`);
-    }
+    // Mehrere Häuser gleichzeitig, je Haus eine Seite nach der anderen.
+    const warteschlange = [...haeuser];
+    const strang = async () => {
+        while (warteschlange.length) {
+            const id = warteschlange.shift();
+            const t0 = Date.now();
+            const erg = await lesen(kontext, id, fenster);
+            bisher[id] = { ...erg, fenster, stand: heute };
+            fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
+            const werke = Object.values(erg.werke);
+            console.log(`${id.padEnd(36)} ${String(werke.length).padStart(3)} Werke, ${String(werke.filter(w => w.termine.length).length).padStart(3)} mit Terminen, ${erg.fehler.length} Fehler, ${Math.round((Date.now() - t0) / 1000)}s`);
+        }
+    };
+    await Promise.all(Array.from({ length: Math.min(straenge, haeuser.length) }, strang));
     await browser.close();
 }
 

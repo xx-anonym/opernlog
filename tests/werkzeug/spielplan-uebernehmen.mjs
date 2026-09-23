@@ -2,6 +2,10 @@
 // src/data/spielplan.js.
 //
 //   node tests/werkzeug/spielplan-uebernehmen.mjs vorschlag.json
+//   node tests/werkzeug/spielplan-uebernehmen.mjs nachtrag.json --dazu
+//
+// Mit --dazu (nach einem Lauf mit --werke) ändern sich nur die Einträge der
+// gesuchten Werke; alles andere in src/data/spielplan.js bleibt, wie es ist.
 //
 // Übernommen wird ein Werk an einem Haus nur, wenn
 //   - auf der Seite der Komponist steht (sonst ist "Faust" Goethe),
@@ -17,16 +21,15 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
-import { ZUSATZ } from './spielplaene-lesen.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KORREKTUREN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-korrekturen.json'), 'utf8'));
 
-const werkIds = new Set([...operas, ...ZUSATZ].map(o => o.id));
+const ausRepo = new Set(operas.map(o => o.id));
 const hausIds = new Set(operaHouses.map(h => h.id));
 const passt = (k, haus, werk) => k.haus === haus && (k.werk === werk || k.werk === '*');
 
@@ -46,6 +49,8 @@ export function seitenrahmen(werke) {
 }
 
 export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
+    // Katalog: operas.js und die Werke aus der Datenbank, die der Lauf kannte.
+    const werkIds = new Set([...ausRepo, ...(vorschlag._werke || []).map(w => w.id)]);
     const zeilen = [];
     const weggelassen = [];
     let stand = '';
@@ -81,18 +86,44 @@ export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
         else zeilen.push({ werk: e.werk, haus: e.haus, url: e.url, termine: [...termine].sort() });
     }
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
-    return { zeilen, weggelassen, stand };
+    return { zeilen, weggelassen, stand, zusatzwerke: zusatzwerke(zeilen) };
 }
 
-export function alsModul({ zeilen, stand }) {
+// Werke aus der Datenbank, die in den Zeilen vorkommen – damit die Prüfung
+// ohne Netz weiß, dass es sie gibt.
+const zusatzwerke = zeilen => [...new Set(zeilen.map(z => z.werk).filter(w => !ausRepo.has(w)))].sort();
+
+/**
+ * Ein Nachtrag für einzelne Werke (Lauf mit --werke): deren Einträge
+ * ersetzen, alle anderen behalten. Der Stand bleibt der ältere – er sagt,
+ * wie alt die Daten höchstens sind.
+ */
+export function dazunehmen(bestehend, nachtrag, suche) {
+    const gesucht = new Set(suche);
+    const zeilen = [...bestehend.zeilen.filter(z => !gesucht.has(z.werk)), ...nachtrag.zeilen.filter(z => gesucht.has(z.werk))];
+    zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
+    const stand = [bestehend.stand, nachtrag.stand].filter(Boolean).sort()[0] || '';
+    return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen) };
+}
+
+export function alsModul({ zeilen, stand, zusatzwerke = [] }) {
     const kopf = fs.readFileSync(path.join(WURZEL, 'src/data/spielplan.js'), 'utf8').split('export const SPIELPLAN_STAND')[0];
     const eintraege = zeilen.map(z => `    { werk: '${z.werk}', haus: '${z.haus}', url: ${JSON.stringify(z.url)},\n      termine: [${z.termine.map(t => `'${t}'`).join(', ')}] },`).join('\n');
-    return `${kopf}export const SPIELPLAN_STAND = '${stand}';\n\nexport const spielplan = [\n${eintraege}\n];\n`;
+    return `${kopf}export const SPIELPLAN_STAND = '${stand}';\n\n`
+        + `// Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.\n`
+        + `export const SPIELPLAN_ZUSATZWERKE = [${zusatzwerke.map(w => `'${w}'`).join(', ')}];\n\n`
+        + `export const spielplan = [\n${eintraege}\n];\n`;
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
     const vorschlag = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-    const erg = uebernehmen(vorschlag);
+    let erg = uebernehmen(vorschlag);
+    if (process.argv.includes('--dazu')) {
+        if (!vorschlag._suche?.length) { console.error('--dazu braucht einen Lauf mit --werke'); process.exit(1); }
+        const alt = await import(pathToFileURL(path.join(WURZEL, 'src/data/spielplan.js')).href);
+        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, vorschlag._suche), weggelassen: erg.weggelassen };
+        console.log(`Nachtrag für ${vorschlag._suche.join(', ')}.`);
+    }
     fs.writeFileSync(path.join(WURZEL, 'src/data/spielplan.js'), alsModul(erg));
     const haeuser = new Set(erg.zeilen.map(z => z.haus));
     console.log(`${erg.zeilen.length} Einträge an ${haeuser.size} Häusern übernommen, ${erg.zeilen.reduce((s, z) => s + z.termine.length, 0)} Termine.`);

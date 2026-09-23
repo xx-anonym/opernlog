@@ -78,9 +78,20 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   veröffentlichen:
 
   ```sh
-  node tests/werkzeug/spielplaene-lesen.mjs lauf.json      # liest alle Häuser, gut eine Stunde
-  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json   # schreibt src/data/spielplan.js
+  node tests/werkzeug/spielplaene-lesen.mjs lauf.json --straenge 6   # liest alle Häuser, etwa 40 Minuten
+  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json             # schreibt src/data/spielplan.js
   ```
+
+  Kommt ein Werk neu in den Katalog – auch über das Admin-Formular, das
+  Werkzeug liest die Datenbank mit –, reicht ein Nachtrag für dieses Werk:
+
+  ```sh
+  node tests/werkzeug/spielplaene-lesen.mjs nachtrag.json --werke rienzi --straenge 6
+  node tests/werkzeug/spielplan-uebernehmen.mjs nachtrag.json --dazu
+  ```
+
+  `--dazu` ersetzt nur die Einträge der gesuchten Werke und lässt alle
+  anderen stehen.
 
   Das Lesen nimmt nur Termine mit Uhrzeit, wo es welche gibt, und lässt
   Spannen, Matineen, Vorverkaufsdaten und Uraufführungsjahre weg. Dazwischen
@@ -89,8 +100,9 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   `tests/werkzeug/spielplan-korrekturen.json` – nie von Hand in die erzeugte
   Datei, sonst ist es beim nächsten Lauf weg. Die Einstiegsseiten je Haus
   stehen in `tests/werkzeug/spielplan-quellen.json`; ändert ein Haus seine
-  Webseite, ist das die Stelle. Häuser, die Programme aussperren (Karlsruhe,
-  Basel), bekommen ihre Termine aus dem Spielzeitheft: von Hand unter
+  Webseite, ist das die Stelle. Häuser, die das Werkzeug nicht lesen kann
+  (Basel sperrt Programme aus, das Salzburger Landestheater antwortet dem
+  Browser nicht), bekommen ihre Termine aus dem Spielzeitheft: von Hand unter
   `ergaenzen` in den Korrekturen, mit Quelle. Diese Termine veralten von
   selbst und müssen jede Spielzeit neu eingetragen werden.
 - **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.

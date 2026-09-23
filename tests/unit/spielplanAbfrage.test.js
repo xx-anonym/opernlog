@@ -135,3 +135,33 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
     assert.equal(zeile('semperoper', 'unbekanntes-werk'), undefined);
     assert.ok(weggelassen.some(w => w.werk === 'unbekanntes-werk' && w.grund === 'nicht im Katalog'));
 });
+
+import { dazunehmen } from '../werkzeug/spielplan-uebernehmen.mjs';
+
+test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
+    const lauf = { _werke: [{ id: 'neues-werk', title: 'Neues Werk', composer: 'A. Komponist' }], 'semperoper': { stand: '2026-09-22', werke: {
+        'neues-werk': { url: 'https://semperoper.example/neu', komponistGenannt: true, termine: ['2026-11-01'] },
+    } } };
+    const { zeilen, zusatzwerke } = uebernehmen(lauf, LEER);
+    assert.deepEqual(zeilen.map(z => z.werk), ['neues-werk']);
+    assert.deepEqual(zusatzwerke, ['neues-werk']);
+    // Ohne den Hinweis des Laufs ist es unbekannt.
+    const ohne = uebernehmen({ 'semperoper': lauf.semperoper }, LEER);
+    assert.equal(ohne.zeilen.length, 0);
+    assert.equal(ohne.weggelassen[0].grund, 'nicht im Katalog');
+});
+
+test('ein Nachtrag ersetzt nur die gesuchten Werke', () => {
+    const bestehend = { stand: '2026-09-23', zeilen: [
+        { werk: 'aida', haus: 'semperoper', url: 'https://a.example/', termine: ['2026-10-01'] },
+        { werk: 'tosca', haus: 'semperoper', url: 'https://t.example/', termine: ['2026-10-02'] },
+    ] };
+    const nachtrag = { stand: '2026-11-05', zeilen: [
+        { werk: 'tosca', haus: 'oper-frankfurt', url: 'https://f.example/', termine: ['2026-12-01'] },
+        // nicht gesucht – bleibt draußen, auch wenn der Lauf es gefunden hat
+        { werk: 'aida', haus: 'oper-frankfurt', url: 'https://f.example/aida', termine: ['2026-12-02'] },
+    ] };
+    const erg = dazunehmen(bestehend, nachtrag, ['tosca']);
+    assert.deepEqual(erg.zeilen.map(z => `${z.werk}@${z.haus}`), ['aida@semperoper', 'tosca@oper-frankfurt']);
+    assert.equal(erg.stand, '2026-09-23');
+});

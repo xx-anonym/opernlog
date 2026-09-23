@@ -242,3 +242,18 @@ test('der Komponist wird mit ß und ss erkannt', () => {
     assert.ok(!komponistMuster('Strauss').test('Straube'));
     assert.ok(komponistMuster('Verdi').test('von Giuseppe Verdi'));
 });
+
+import { werkeImLink, werkeErgaenzen } from '../werkzeug/spielplaene-lesen.mjs';
+
+test('mit --werke nur die gesuchten, aber gegen den ganzen Katalog geprüft', () => {
+    assert.deepEqual(werkeImLink('Tosca', 'https://oper.example/tosca/', new Set(['aida'])), []);
+    assert.deepEqual(werkeImLink('Tosca', 'https://oper.example/tosca/', new Set(['tosca'])), ['tosca']);
+    // "Lady Macbeth von Mzensk" ist nicht "Macbeth", auch wenn nur Macbeth gesucht wird.
+    assert.deepEqual(werkeImLink('Lady Macbeth von Mzensk', 'https://oper.example/lady-macbeth/', new Set(['macbeth'])), []);
+});
+
+test('ein Werk aus der Datenbank wird gefunden, sobald es dazukommt', () => {
+    assert.deepEqual(werkeImLink('Der Zwerg', 'https://oper.example/zwerg-test/'), []);
+    werkeErgaenzen([{ id: 'zwerg-test', title: 'Der Zwerg', composer: 'Alexander Zemlinsky' }]);
+    assert.deepEqual(werkeImLink('Der Zwerg', 'https://oper.example/zwerg-test/'), ['zwerg-test']);
+});
