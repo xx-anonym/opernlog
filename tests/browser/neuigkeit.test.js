@@ -33,6 +33,22 @@ async function oeffne(p) {
     await p.waitForSelector('#splash', { state: 'detached' }).catch(() => {});
 }
 
+/**
+ * Das Fenster schließen und warten, bis die Zurück-Geste ihren Eintrag im
+ * Verlauf wieder weggenommen hat (history.back). Wer vorher neu lädt, dem
+ * bricht diese Navigation das Neuladen ab – auf dem CI-Rechner geschehen.
+ */
+async function schliessenUndAbwarten(p, schliessen) {
+    await p.evaluate(() => {
+        window.__zurueck = new Promise(r => {
+            addEventListener('popstate', () => setTimeout(r, 100), { once: true });
+            setTimeout(r, 3000);
+        });
+    });
+    await schliessen();
+    await p.evaluate(() => window.__zurueck);
+}
+
 async function starte({ neuesKonto = false } = {}) {
     // Ohne Service Worker: sonst holte er beim Neuladen die echte
     // Supabase-Bibliothek statt des Ersatzes, und niemand wäre angemeldet.
@@ -56,7 +72,7 @@ test('ein Konto von vorher sieht die Neuigkeit einmal', { skip: fehltPlaywright 
         assert.match(text, /Wo deine Opern gerade laufen/);
         assert.match(text, /[\d.]+ Termine an \d+ Häusern/);
         assert.match(text, /Aktuelle Termine/);
-        await p.click('#neuigkeitSchliessen');
+        await schliessenUndAbwarten(p, () => p.click('#neuigkeitSchliessen'));
         assert.equal(await fenster.count(), 0);
         // Beim nächsten Start nicht wieder. Gewartet wird, bis die Startseite
         // steht – dort käme das Fenster sonst.
@@ -96,7 +112,7 @@ test('gesehen ist es erst nach dem Schließen, nicht schon beim Zeigen', { skip:
     try {
         await p.locator('.neuigkeit').waitFor({ timeout: 10000 });
         // Weg, ohne gesehen zu sein – etwa weil die App geschlossen wurde.
-        await p.evaluate(() => document.querySelector('.neuigkeit').remove());
+        await schliessenUndAbwarten(p, () => p.evaluate(() => document.querySelector('.neuigkeit').remove()));
         await p.reload();
         await p.locator('.neuigkeit').waitFor({ timeout: 10000 });
     } finally { await ctx.close(); }
