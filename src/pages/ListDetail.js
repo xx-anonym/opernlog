@@ -2,10 +2,10 @@
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
-import { escapeHTML, coverBackground, getCachedPosition } from '../utils.js';
+import { escapeHTML, coverBackground, getCachedPosition, requestPosition } from '../utils.js';
 import { spielplanBlock, spielplanQuelle } from '../components/SpielplanBlock.js';
 import { operas } from '../data/operas.js';
-import { operaHouses } from '../data/operaHouses.js';
+import { operaHouses, distanceKm } from '../data/operaHouses.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
@@ -107,9 +107,9 @@ export function ListDetailPage(listId) {
 
     const grid = document.createElement('div');
     grid.className = 'list-detail-grid';
-    // Auf der Wunschliste steht bei jedem Werk, wo es demnächst läuft. Ein
-    // gespeicherter Standort sortiert die Häuser nach Nähe; gefragt wird hier
-    // nicht – das tut "Loggen", wenn es das nächste Haus sucht.
+    // Auf der Wunschliste steht bei jedem Werk, wo es demnächst läuft, die
+    // nächsten Häuser zuerst. Sofort mit dem gespeicherten Standort; dazu
+    // wird nach dem aktuellen gefragt (siehe unten).
     const position = isWishlist ? getCachedPosition() : null;
 
     items.forEach(item => {
@@ -172,6 +172,20 @@ export function ListDetailPage(listId) {
 
     content.appendChild(grid);
     if (isWishlist) content.appendChild(spielplanQuelle());
+
+    // Standort erfragen und die Häuser danach neu ordnen. requestPosition()
+    // fragt nicht, wenn der Standort verweigert wurde – dann bleibt es bei der
+    // Reihenfolge nach Datum. Kaum bewegt: nichts neu zeichnen, sonst klappte
+    // ein geöffnetes "weitere Häuser" wieder zu.
+    if (isWishlist && items.length) {
+      requestPosition().then(neu => {
+        if (!neu || !grid.isConnected) return;
+        if (position && distanceKm(position.lat, position.lon, neu.lat, neu.lon) < 1) return;
+        grid.querySelectorAll('.spielplan-block[data-werk]').forEach(block => {
+          block.outerHTML = spielplanBlock(block.dataset.werk, neu);
+        });
+      });
+    }
 
     // Comments Section (if not wishlist)
     if (!isWishlist) {

@@ -41,8 +41,11 @@ export const spielplan = [
   { werk: 'carmen', haus: 'semperoper', url: 'javascript:alert(1)" onmouseover="window.__xss=1', termine: ['${iso(-2)}'] },
 ];`;
 
-async function starte(wunschliste, { position = null } = {}) {
-    const ctx = await browser.newContext({ viewport: HANDY });
+async function starte(wunschliste, { position = null, geraet = null } = {}) {
+    // geraet: der Standort, den das Gerät auf Nachfrage meldet
+    const ctx = await browser.newContext(geraet
+        ? { viewport: HANDY, geolocation: geraet, permissions: ['geolocation'] }
+        : { viewport: HANDY });
     if (position) {
         await ctx.addInitScript(p => {
             localStorage.setItem('opernlog:position', JSON.stringify({ ...p, at: Date.now() }));
@@ -153,4 +156,16 @@ test('eine Adresse, die keine https-Seite ist, wird kein Link', { skip: fehltPla
         assert.equal(await p.locator('a.spielplan-zeile').count(), 0, 'javascript: wurde zum Link');
         assert.match(await p.textContent('.spielplan-zeile'), /Semperoper/);
     } finally { await ctx.close(); }
+});
+
+test('die Wunschliste fragt nach dem Standort und ordnet die Häuser danach', { skip: fehltPlaywright }, async () => {
+    // Nichts gespeichert, das Gerät steht in Hamburg: ohne Nachfrage stünde
+    // Wien vorn (nächster Termin), Hamburg (Termin in 50 Tagen) ganz hinten.
+    const { ctx, p } = await starte(['tosca'], { geraet: { latitude: 53.55, longitude: 9.99 } });
+    const erste = karte(p, 'Tosca').locator('.spielplan-block > .spielplan-zeile').first();
+    await erste.filter({ hasText: 'Hamburg' }).waitFor({ timeout: 5000 });
+    assert.match(await erste.innerText(), /km/);
+    const gespeichert = await p.evaluate(() => JSON.parse(localStorage.getItem('opernlog:position')));
+    assert.ok(Math.abs(gespeichert.lat - 53.55) < 0.01);
+    await ctx.close();
 });

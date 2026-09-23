@@ -17,7 +17,7 @@ export function spielplanBlock(werkId, position = null) {
     const heute = heuteIso();
     const zeilen = kommendeAuffuehrungen(werkId, { heute, position });
     if (!zeilen.length) {
-        return `<div class="spielplan-block"><p class="spielplan-block__leer">In dieser Spielzeit an keinem Haus im Katalog gefunden.</p></div>`;
+        return `<div class="spielplan-block" data-werk="${escapeHTML(werkId)}"><p class="spielplan-block__leer">In dieser Spielzeit an keinem Haus im Katalog gefunden.</p></div>`;
     }
     const zeile = z => {
         const sichtbar = z.termine.slice(0, TERMINE_SICHTBAR).map(t => terminKurz(t, heute)).join(' · ');
@@ -34,7 +34,7 @@ export function spielplanBlock(werkId, position = null) {
     };
     const rest = zeilen.slice(HAEUSER_SICHTBAR);
     return `
-      <div class="spielplan-block">
+      <div class="spielplan-block" data-werk="${escapeHTML(werkId)}">
         <p class="spielplan-block__titel">Läuft demnächst</p>
         ${zeilen.slice(0, HAEUSER_SICHTBAR).map(zeile).join('')}
         ${rest.length ? `<details class="spielplan-block__weitere"><summary>${rest.length} ${rest.length === 1 ? 'weiteres Haus' : 'weitere Häuser'}</summary>${rest.map(zeile).join('')}</details>` : ''}
