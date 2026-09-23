@@ -5,14 +5,15 @@
 // Verhalten wie bisher und der gesamte Katalog wird gezeigt. Die Koordinaten
 // liegen seit der Opernhaus-Vorauswahl beim Loggen ohnehin in operaHouses.js.
 //
-// Bewusst ohne Landesumriss: einen halbwegs richtigen Umriss von Deutschland
-// und der Schweiz gäbe es nur mit Geodaten von außen, und ein aus dem
-// Gedächtnis gezeichneter sähe falsch aus – schlimmer als gar keiner. Die
-// Häuser zeichnen die Form ohnehin selbst: Ruhrgebiet, Berlin, München,
-// Hamburg, die Schweizer Reihe am unteren Rand und seit Österreich der Zug
-// nach Osten bis zum Neusiedler See sind sofort erkennbar.
+// Die Ländergrenzen darunter stammen aus Natural Earth (gemeinfrei, siehe
+// src/data/landkarte.js). Lange stand hier bewusst kein Umriss: ein aus dem
+// Gedächtnis gezeichneter sähe falsch aus, schlimmer als gar keiner. Mit
+// echten Geodaten gibt es dieses Problem nicht, und die Karte bekommt Halt –
+// vor allem im Ausschnitt um den eigenen Standort, wo sonst nur ein paar
+// Punkte im Leeren stünden.
 
 import { operaHouses } from '../data/operaHouses.js';
+import { LAENDER } from '../data/landkarte.js';
 import { escapeHTML } from '../utils.js';
 
 const MIT_KOORDINATEN = operaHouses.filter(
@@ -37,6 +38,15 @@ const VB_HOEHE = (LAT_MAX - LAT_MIN) * SKALA + 2 * RAND;
 
 const x = (lon) => RAND + (lon - LON_MIN) * KOSINUS * SKALA;
 const y = (lat) => RAND + (LAT_MAX - lat) * SKALA;
+
+// Die Länder als Pfade, einmal berechnet. Die Linienstärke bleibt beim
+// Heranzoomen gleich (vector-effect in style.css).
+const LAENDER_SVG = LAENDER.map(land => `<path class="housemap__land${land.kern ? ' housemap__land--kern' : ''}" d="${
+    land.ringe.map(ring => {
+        const punkte = [];
+        for (let i = 0; i < ring.length; i += 2) punkte.push(`${x(ring[i]).toFixed(2)} ${y(ring[i + 1]).toFixed(2)}`);
+        return `M${punkte.join('L')}Z`;
+    }).join('')}"></path>`).join('');
 
 // Ein Kilometer in Karteneinheiten. Ein Breitengrad sind rund 111 km; die
 // Längengrade sind oben schon mit dem Kosinus gestaucht, also gilt dasselbe
@@ -69,6 +79,7 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
         punktText = h => `${h.name} – ${h.city}`,
         position = null,
         radiusKm = null,
+        gewicht = null,
         beiKlick = (id) => { window.location.hash = `#/house/${id}`; },
     } = optionen;
 
@@ -91,23 +102,56 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
         (a, b) => Number(besucht.has(a.id)) - Number(besucht.has(b.id))
     );
 
+    // Mit Gewicht (etwa die Zahl der Abende) wächst ein Punkt mit der
+    // Wurzel daraus – vier Abende doppelt so wichtig, nicht viermal so groß.
+    const radius = (h, ist) => {
+        if (!ist) return 1;
+        const n = gewicht?.get(h.id) || 1;
+        // Auf der ganzen Karte weniger Spielraum: dort liegen die Häuser dicht.
+        const spielraum = mass < 1 ? 3 : 1.5;
+        return 1.9 * (1 + 0.3 * Math.min(Math.sqrt(n) - 1, spielraum));
+    };
+
     const punkte = sortiert.map(h => {
         const ist = besucht.has(h.id);
         return `<circle class="housemap__dot${ist ? ' housemap__dot--besucht' : ''}"
-      cx="${x(h.lon).toFixed(2)}" cy="${y(h.lat).toFixed(2)}" r="${((ist ? 1.9 : 1) * mass).toFixed(3)}"
+      cx="${x(h.lon).toFixed(2)}" cy="${y(h.lat).toFixed(2)}" r="${(radius(h, ist) * mass).toFixed(3)}"
       data-house-id="${escapeHTML(h.id)}"
       data-name="${escapeHTML(h.name)}" data-city="${escapeHTML(h.city)}"
     ><title>${escapeHTML(punktText(h))}</title></circle>`;
     }).join('');
 
+    const umkreis = position && radiusKm ? `
+      <circle class="housemap__umkreis" cx="${x(position.lon).toFixed(2)}" cy="${y(position.lat).toFixed(2)}"
+        r="${(radiusKm * PRO_KM).toFixed(2)}"></circle>
+      <text class="housemap__umkreis-text" x="${x(position.lon).toFixed(2)}"
+        y="${(y(position.lat) - radiusKm * PRO_KM - 1.2 * mass).toFixed(2)}" font-size="${(3 * mass).toFixed(3)}">${radiusKm} km</text>` : '';
     const standort = position ? `
-      ${radiusKm ? `<circle class="housemap__umkreis" cx="${x(position.lon).toFixed(2)}" cy="${y(position.lat).toFixed(2)}"
-        r="${(radiusKm * PRO_KM).toFixed(2)}" stroke-width="${(0.35 * mass).toFixed(3)}"
-        stroke-dasharray="${(1.2 * mass).toFixed(3)} ${(1.2 * mass).toFixed(3)}"></circle>` : ''}
       <g class="housemap__standort" transform="translate(${x(position.lon).toFixed(2)} ${y(position.lat).toFixed(2)}) scale(${mass.toFixed(3)})">
+        <circle class="housemap__standort-puls" r="2.6"></circle>
         <circle r="2.6"></circle><circle class="housemap__standort-kern" r="1.1"></circle>
         <title>Dein Standort</title>
       </g>` : '';
+
+    // Im Ausschnitt ist Platz für Namen: die Städte der hervorgehobenen
+    // Häuser, jede einmal, und keine über einer anderen.
+    const namen = [];
+    if (ausschnitt.breite < VB_BREITE) {
+        const belegt = [];
+        const groesse = 3 * mass;
+        const staedte = new Map();
+        for (const h of sichtbareHaeuser.filter(h => besucht.has(h.id))) {
+            if (!staedte.has(h.city)) staedte.set(h.city, h);
+        }
+        for (const [stadt, h] of staedte) {
+            const r = radius(h, true) * mass;
+            const kasten = { x: x(h.lon) + r + 0.6 * mass, y: y(h.lat) - groesse * 0.7, b: stadt.length * groesse * 0.55, h: groesse * 1.1 };
+            if (belegt.some(k => kasten.x < k.x + k.b && k.x < kasten.x + kasten.b && kasten.y < k.y + k.h && k.y < kasten.y + kasten.h)) continue;
+            belegt.push(kasten);
+            namen.push(`<text class="housemap__name" x="${kasten.x.toFixed(2)}" y="${(y(h.lat) + groesse * 0.35).toFixed(2)}"
+              font-size="${groesse.toFixed(3)}" stroke-width="${(0.9 * mass).toFixed(3)}">${escapeHTML(stadt)}</text>`);
+        }
+    }
 
     box.innerHTML = `
     <div class="housemap__head">
@@ -119,8 +163,11 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
     </div>
     <svg class="housemap__svg${ausschnitt.breite < VB_BREITE ? ' housemap__svg--ausschnitt' : ''}" viewBox="${[ausschnitt.x, ausschnitt.y, ausschnitt.breite, ausschnitt.hoehe].map(v => v.toFixed(2)).join(' ')}"
          role="img" aria-label="${escapeHTML(`Karte: ${zaehler(anzahl, sichtbareHaeuser.length)} ${legende[0]}`)}">
-      ${standort}
+      <g class="housemap__laender">${LAENDER_SVG}</g>
+      ${umkreis}
       ${punkte}
+      ${namen.join('')}
+      ${standort}
     </svg>
     <p class="housemap__caption" id="housemapCaption">
       ${escapeHTML(hinweis(anzahl, sichtbareHaeuser.length))}

@@ -67,3 +67,30 @@ test('Texte und Punkte lassen sich für andere Seiten anpassen', () => {
     assert.match(karte.innerHTML, /mit Abenden/);
     assert.match(karte.innerHTML, /<title>Semperoper · 3 Abende<\/title>/);
 });
+
+test('unter den Punkten liegen die Länder, Deutschland, Österreich und die Schweiz hervorgehoben', () => {
+    const karte = mitKartenDOM(() => HouseMap());
+    assert.equal((karte.innerHTML.match(/housemap__land--kern/g) || []).length, 4, 'DEU, AUT, CHE, LIE');
+    assert.ok((karte.innerHTML.match(/class="housemap__land"/g) || []).length >= 8, 'Nachbarn fehlen');
+    // Die Länder zuerst, damit sie unter den Punkten liegen.
+    assert.ok(karte.innerHTML.indexOf('housemap__land') < karte.innerHTML.indexOf('housemap__dot'));
+});
+
+test('mehr Abende, größerer Punkt – aber nicht beliebig', () => {
+    const r = (html, id) => Number(html.match(new RegExp(`r="([\\d.]+)"\\s*data-house-id="${id}"`))[1]);
+    const gewicht = new Map([['semperoper', 1], ['oper-leipzig', 4], ['wiener-staatsoper', 400]]);
+    const karte = mitKartenDOM(() => HouseMap([...gewicht.keys()], operaHouses, { gewicht }));
+    assert.ok(r(karte.innerHTML, 'oper-leipzig') > r(karte.innerHTML, 'semperoper'));
+    assert.ok(r(karte.innerHTML, 'wiener-staatsoper') < r(karte.innerHTML, 'semperoper') * 2, 'zu groß');
+});
+
+test('im Ausschnitt stehen die Städte dabei, jede einmal', () => {
+    const dresden = { lat: 51.05, lon: 13.74 };
+    const karte = mitKartenDOM(() => HouseMap(['semperoper', 'oper-leipzig'], operaHouses, { position: dresden, radiusKm: 150 }));
+    const namen = [...karte.innerHTML.matchAll(/class="housemap__name"[^>]*>([^<]+)</g)].map(m => m[1]);
+    assert.deepEqual(namen.sort(), ['Dresden', 'Leipzig']);
+    assert.match(karte.innerHTML, /housemap__umkreis-text[^>]*>150 km</);
+    // Auf der ganzen Karte keine Namen: dort wären es zu viele.
+    const gesamt = mitKartenDOM(() => HouseMap(['semperoper', 'oper-leipzig']));
+    assert.doesNotMatch(gesamt.innerHTML, /housemap__name/);
+});

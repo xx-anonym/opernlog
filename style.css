@@ -4328,7 +4328,8 @@ body {
 /* ── Karte der Opernhäuser ──────────────────────────────────────────── */
 
 .housemap {
-    background: var(--card-bg);
+    /* Ein Hauch Licht in der Mitte, wie über einer Bühne. */
+    background: radial-gradient(ellipse at 50% 45%, rgba(201, 168, 76, 0.06), transparent 70%), var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 14px 14px 10px;
@@ -4383,7 +4384,31 @@ body {
     height: clamp(280px, 52vh, 460px);
     width: auto;
     max-width: 100%;
-    overflow: visible;
+    /* Die Nachbarländer reichen über den Rand hinaus. Abgeschnitten und an
+       den Kanten ausgeblendet, sonst stünde ein hartes Rechteck in der Karte. */
+    overflow: hidden;
+    -webkit-mask-image:
+        linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
+        linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
+        linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    mask-composite: intersect;
+}
+
+.housemap__land {
+    fill: rgba(154, 170, 187, 0.035);
+    stroke: rgba(154, 170, 187, 0.16);
+    stroke-width: 0.8px;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.housemap__land--kern {
+    fill: rgba(154, 170, 187, 0.09);
+    stroke: rgba(154, 170, 187, 0.38);
 }
 
 .housemap__dot {
@@ -4395,6 +4420,10 @@ body {
 .housemap__dot--besucht {
     fill: var(--gold);
     opacity: 1;
+    /* Ein dunkler Rand trennt Punkte, die sich überlappen. */
+    stroke: rgba(20, 24, 28, 0.7);
+    stroke-width: 0.8px;
+    vector-effect: non-scaling-stroke;
     cursor: pointer;
     /* Der Schein hebt die besuchten Häuser vom Raster der übrigen ab. */
     filter: drop-shadow(0 0 3px rgba(201, 168, 76, 0.55));
@@ -4407,14 +4436,48 @@ body {
 
 /* Nur ein Ausschnitt: was außerhalb liegt, bleibt draußen. Sonst ragen die
    Häuser jenseits des Umkreises über die Karte hinaus in die Seite. */
-.housemap__svg--ausschnitt {
-    overflow: hidden;
+.housemap__umkreis {
+    fill: rgba(201, 168, 76, 0.07);
+    stroke: rgba(201, 168, 76, 0.55);
+    stroke-width: 1.2px;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
 }
 
-.housemap__umkreis {
-    fill: rgba(201, 168, 76, 0.06);
-    stroke: rgba(201, 168, 76, 0.45);
+.housemap__umkreis-text {
+    fill: rgba(201, 168, 76, 0.85);
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-anchor: middle;
     pointer-events: none;
+}
+
+.housemap__name {
+    fill: var(--text-secondary);
+    font-family: var(--font-body);
+    /* Ein Rand in der Farbe des Grunds, damit Namen über Linien lesbar bleiben. */
+    stroke: rgba(20, 24, 28, 0.9);
+    paint-order: stroke;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.housemap__standort-puls {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: housemapPuls 2.4s ease-out infinite;
+}
+
+@keyframes housemapPuls {
+    from { transform: scale(1); opacity: 0.7; }
+    to { transform: scale(3.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .housemap__standort-puls {
+        animation: none;
+        opacity: 0;
+    }
 }
 
 .housemap__standort circle {
@@ -5534,4 +5597,46 @@ body {
     gap: 10px;
     margin: 0 0 8px;
     font-weight: 600;
+}
+
+/* Umkreis: ein Schieber statt fester Stufen im Auswahlfeld. */
+.naehe-umkreis {
+    margin-bottom: 12px;
+}
+
+.naehe-umkreis__kopf {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.naehe-umkreis__wert {
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--gold);
+}
+
+.naehe-umkreis__zeile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.naehe-umkreis__schieber {
+    flex: 1;
+    min-width: 0;
+    accent-color: var(--gold);
+    height: 28px;
+}
+
+.naehe-umkreis--alle .naehe-umkreis__schieber {
+    opacity: 0.4;
+}
+
+.naehe-umkreis__alle--an {
+    border-color: var(--gold);
+    color: var(--gold);
 }

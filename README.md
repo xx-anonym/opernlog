@@ -75,8 +75,12 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Hauses; auf der Seite eines Werks klappt „Aktuelle Termine“ dasselbe auf.
   „In der Nähe“ (`#/naehe`) dreht die Frage um: was läuft demnächst im
   gewählten Umkreis, jeder Abend einzeln nach Datum, auf Wunsch nur Werke der
-  Wunschliste. Die Karte darüber (dieselbe wie bei den Opernhäusern) zeigt den
-  Umkreis; ein Tipp auf ein Haus zeigt nur dessen Abende.
+  Wunschliste; den Umkreis stellt ein Schieber von 5 bis 300 km ein. Die
+  Karte darüber (dieselbe wie bei den Opernhäusern) zeigt den Umkreis, die
+  Städte und je Haus einen Punkt, der mit der Zahl der Abende wächst; ein
+  Tipp auf ein Haus zeigt nur dessen Abende. Die Ländergrenzen darunter
+  stammen aus Natural Earth (gemeinfrei) und entstehen mit
+  `node tests/werkzeug/landkarte-erzeugen.mjs ne_50m_admin_0_countries.geojson`.
   Steht ein Werk der Wunschliste neu im Spielplan eines Hauses, kommt eine
   Mitteilung („Neu im Spielplan“). Die Datenbank holt dafür jeden Morgen
   `daten/spielplan.json` von der Website und vergleicht mit dem, was sie schon

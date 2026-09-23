@@ -16,7 +16,15 @@ import { HouseMap } from '../components/HouseMap.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
 
-const UMKREISE = [25, 50, 100, 200];
+// Die Stufen des Schiebers: fein, wo es auf wenige Kilometer ankommt, grob
+// weiter draußen. Nicht über 300 km: dahinter endet die Landkarte
+// (src/data/landkarte.js), und wer noch weiter will, nimmt "Alle Häuser".
+export const UMKREIS_STUFEN = [5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 125, 150, 175, 200, 250, 300];
+
+/** Die Stufe, die einem gemerkten Wert am nächsten liegt. */
+function naechsteStufe(km) {
+    return UMKREIS_STUFEN.reduce((beste, s) => Math.abs(s - km) < Math.abs(beste - km) ? s : beste);
+}
 const ZEITRAEUME = [
     { tage: 7, text: 'Nächste 7 Tage' },
     { tage: 30, text: 'Nächste 30 Tage' },
@@ -46,7 +54,10 @@ export function NaehePage() {
     const vorher = gemerkt();
     const wahl = {
         // Ohne Standort gibt es keinen Umkreis; dann alle Häuser.
-        umkreis: UMKREISE.includes(vorher.umkreis) || vorher.umkreis === null ? vorher.umkreis : 100,
+        umkreis: vorher.umkreis === null ? null
+            : Number.isFinite(vorher.umkreis) ? naechsteStufe(vorher.umkreis) : 100,
+        // Wohin der Schieber zurückkehrt, wenn "Alle Häuser" wieder aus ist.
+        letzterUmkreis: Number.isFinite(vorher.umkreis) ? naechsteStufe(vorher.umkreis) : 100,
         tage: ZEITRAEUME.some(z => z.tage === vorher.tage) ? vorher.tage : 30,
         nurWunschliste: !!vorher.nurWunschliste,
         karte: vorher.karte !== false,
@@ -64,11 +75,17 @@ export function NaehePage() {
         <p class="page-header__subtitle">Was an den Häusern im Katalog demnächst läuft</p>
       </div>
       <div class="filters naehe-filter">
+        <div class="naehe-umkreis">
+          <div class="naehe-umkreis__kopf">
+            <label for="naeheUmkreis">Umkreis</label>
+            <span class="naehe-umkreis__wert" id="naeheUmkreisWert"></span>
+          </div>
+          <div class="naehe-umkreis__zeile">
+            <input type="range" class="naehe-umkreis__schieber" id="naeheUmkreis" min="0" max="${UMKREIS_STUFEN.length - 1}" step="1" />
+            <button type="button" class="btn btn--sm btn--outline naehe-umkreis__alle" id="naeheAlle" aria-pressed="false">Alle Häuser</button>
+          </div>
+        </div>
         <div class="filter-row">
-          <select class="select" id="naeheUmkreis" aria-label="Umkreis">
-            ${UMKREISE.map(km => `<option value="${km}">Bis ${km} km</option>`).join('')}
-            <option value="alle">Alle Häuser</option>
-          </select>
           <select class="select" id="naeheZeitraum" aria-label="Zeitraum">
             ${ZEITRAEUME.map(z => `<option value="${z.tage ?? 'alle'}">${z.text}</option>`).join('')}
           </select>
@@ -88,7 +105,18 @@ export function NaehePage() {
     const umkreisWahl = page.querySelector('#naeheUmkreis');
     const zeitraumWahl = page.querySelector('#naeheZeitraum');
     const wunschWahl = page.querySelector('#naeheNurWunschliste');
-    umkreisWahl.value = wahl.umkreis === null ? 'alle' : String(wahl.umkreis);
+    const alleKnopf = page.querySelector('#naeheAlle');
+    const umkreisWert = page.querySelector('#naeheUmkreisWert');
+    function umkreisAnzeigen() {
+        const alle = wahl.umkreis === null;
+        umkreisWahl.value = String(UMKREIS_STUFEN.indexOf(alle ? wahl.letzterUmkreis : wahl.umkreis));
+        const text = !position ? 'ohne Standort alle Häuser' : alle ? 'alle Häuser' : `bis ${wahl.umkreis} km`;
+        umkreisWert.textContent = text;
+        umkreisWahl.setAttribute('aria-valuetext', text);
+        alleKnopf.setAttribute('aria-pressed', String(alle));
+        alleKnopf.classList.toggle('naehe-umkreis__alle--an', alle);
+        page.querySelector('.naehe-umkreis').classList.toggle('naehe-umkreis--alle', alle || !position);
+    }
     zeitraumWahl.value = wahl.tage === null ? 'alle' : String(wahl.tage);
     wunschWahl.checked = wahl.nurWunschliste;
     // Die Wahl gibt es nur, wenn es eine Wunschliste mit Werken gibt.
@@ -121,6 +149,8 @@ export function NaehePage() {
     function zeichnen() {
         standortZeile();
         umkreisWahl.disabled = !position;
+        alleKnopf.disabled = !position;
+        umkreisAnzeigen();
         const heute = heuteIso();
         let abende = abendeInDerNaehe({
             heute,
@@ -193,6 +223,8 @@ export function NaehePage() {
             punktText: h => `${h.name} – ${h.city}${jeHaus.has(h.id) ? ` · ${abendeText(jeHaus.get(h.id))}` : ''}`,
             position,
             radiusKm: position ? wahl.umkreis : null,
+            // Häuser mit mehr Abenden bekommen größere Punkte.
+            gewicht: jeHaus,
             beiKlick: (id, mitAbenden) => {
                 if (!mitAbenden) return;
                 wahl.haus = wahl.haus === id ? null : id;
@@ -218,8 +250,18 @@ export function NaehePage() {
         showToast('Kalendereintrag erstellt');
     });
 
-    umkreisWahl.addEventListener('change', () => {
-        wahl.umkreis = umkreisWahl.value === 'alle' ? null : Number(umkreisWahl.value);
+    // Beim Ziehen gleich neu zeichnen, aber höchstens einmal je Bild.
+    let bild = 0;
+    umkreisWahl.addEventListener('input', () => {
+        wahl.umkreis = wahl.letzterUmkreis = UMKREIS_STUFEN[Number(umkreisWahl.value)];
+        alleZeigen = false;
+        umkreisAnzeigen();
+        cancelAnimationFrame(bild);
+        bild = requestAnimationFrame(zeichnen);
+    });
+    umkreisWahl.addEventListener('change', () => merken(wahl));
+    alleKnopf.addEventListener('click', () => {
+        wahl.umkreis = wahl.umkreis === null ? wahl.letzterUmkreis : null;
         merken(wahl);
         alleZeigen = false;
         zeichnen();

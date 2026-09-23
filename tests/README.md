@@ -34,6 +34,7 @@ node --test "tests/**/*.test.js"
 | `suche.test.js` | die Suche findet ohne Umlaute und Akzente („zauberflote“, „Haensel“, „zurich“); „heute“ ist der Tag in Ortszeit |
 | `standort.test.js` | Standortabfrage: eine Freigabe im Browser zählt mehr als eine gemerkte frühere Ablehnung; „Standort verwenden“ fragt immer; der Grund eines Fehlschlags samt Hinweis |
 | `naehe.test.js` | „In der Nähe“: jeder Abend einzeln nach Datum und Beginn, nur im Umkreis und Zeitraum, nur Werke der Wunschliste |
+| `landkarte.test.js` | die Ländergrenzen unter der Karte (Natural Earth): Deutschland, Österreich, Schweiz, Liechtenstein als Kern, jedes Haus darin oder dicht an der Grenze, die Datei bleibt klein |
 | `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
 | `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung; wohin sie auf iPhone und iPad geht (Safari-Tab: eigenes Fenster, installierte App: echtes Safari) |
 | `neuigkeiten.test.js` | wann „Neu in OpernLog“ fällig ist: Konten von vorher, einmal je Gerät, ohne Speicher lieber nicht |
@@ -78,7 +79,7 @@ Datenbank.
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 | `durchsicht.test.js` | Funde der Durchsicht vom 23.09.2026: gestaltete Anmeldefelder, kein Tagebuch-Versprechen ohne Konto, Suche ohne Umlaute, Datum kurz nach Mitternacht, angefangener Text und offene Termine überleben die Rückkehr in die App; abgemeldet keine Wunschliste, keine Markierung, keine Liste |
 | `offlineLoggen.test.js` | Loggen ohne Netz: das Formular ist da, der Besuch wartet auf dem Gerät und geht mit derselben Kennung hoch, sobald Netz da ist; kein Doppel, wenn ein Versuch doch ankam; Abmelden fragt vorher |
-| `naehe.test.js` | „In der Nähe“: Umkreis und Zeitraum, ohne Standort alle Häuser, Wunschliste mit Stern, Kalender für genau den Abend, Eintrag in der Navigation; Karte mit Umkreis, ein Tipp auf ein Haus schränkt die Liste ein |
+| `naehe.test.js` | „In der Nähe“: Umkreis und Zeitraum, ohne Standort alle Häuser, Wunschliste mit Stern, Kalender für genau den Abend, Eintrag in der Navigation; Karte mit Umkreis, ein Tipp auf ein Haus schränkt die Liste ein; Umkreis frei per Schieber; Ländergrenzen, Punktgröße nach Abenden, Städtenamen |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

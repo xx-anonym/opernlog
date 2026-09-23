@@ -58,6 +58,17 @@ async function naehe({ standort = true, merker = null } = {}) {
     return { ctx, p, fehler };
 }
 
+/** Den Schieber auf eine Entfernung stellen, wie beim Ziehen und Loslassen. */
+async function umkreis(p, km) {
+    await p.evaluate(km => import('/src/pages/Naehe.js').then(({ UMKREIS_STUFEN }) => {
+        const s = document.querySelector('#naeheUmkreis');
+        s.value = String(UMKREIS_STUFEN.indexOf(km));
+        s.dispatchEvent(new Event('input'));
+        s.dispatchEvent(new Event('change'));
+    }), km);
+    await p.waitForTimeout(150);   // gezeichnet wird im nächsten Bild
+}
+
 const zeilen = (p) => p.$$eval('.naehe-abend', els => els.map(e => e.querySelector('.naehe-abend__werk').textContent.trim()));
 
 test('im Umkreis nach Datum, Vergangenes und Fernes nicht', { skip: fehltPlaywright }, async () => {
@@ -73,7 +84,7 @@ test('im Umkreis nach Datum, Vergangenes und Fernes nicht', { skip: fehltPlaywri
 test('Umkreis und Zeitraum lassen sich weiten, und die Wahl bleibt', { skip: fehltPlaywright }, async () => {
     const { ctx, p } = await naehe();
     try {
-        await p.selectOption('#naeheUmkreis', 'alle');
+        await p.click('#naeheAlle');
         await p.selectOption('#naeheZeitraum', 'alle');
         assert.deepEqual(await zeilen(p), ['Carmen', 'Tosca', 'Aida', 'Tosca']);
         const gemerkt = await p.evaluate(() => JSON.parse(localStorage.getItem('opernlog_naehe')));
@@ -153,5 +164,45 @@ test('die Karte lässt sich zuklappen, und das bleibt so', { skip: fehltPlaywrig
         assert.equal(await p.evaluate(() => document.querySelector('#naeheKarte').open), false);
         // Das toggle-Ereignis kommt erst nach dem Klick.
         await p.waitForFunction(() => JSON.parse(localStorage.getItem('opernlog_naehe') || '{}').karte === false);
+    } finally { await ctx.close(); }
+});
+
+test('der Umkreis lässt sich frei einstellen, Karte und Liste folgen', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await naehe();
+    try {
+        // 60 km: Leipzig (100 km) fällt heraus, die Semperoper bleibt.
+        await umkreis(p, 60);
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 60 km');
+        assert.deepEqual(await zeilen(p), ['Tosca']);
+        assert.match(await p.locator('.housemap__umkreis-text').textContent(), /60 km/);
+        // Gemerkt wird die Wahl.
+        await p.waitForFunction(() => JSON.parse(localStorage.getItem('opernlog_naehe')).umkreis === 60);
+
+        // "Alle Häuser" und zurück: der Schieber kehrt auf 60 km zurück.
+        await p.click('#naeheAlle');
+        assert.equal(await p.getAttribute('#naeheAlle', 'aria-pressed'), 'true');
+        assert.deepEqual(await zeilen(p), ['Carmen', 'Tosca', 'Aida']);
+        await p.click('#naeheAlle');
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 60 km');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('ein gemerkter Umkreis außerhalb der Stufen landet auf der nächsten', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await naehe({ merker: { umkreis: 90, tage: 30 } });
+    try {
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 100 km');
+    } finally { await ctx.close(); }
+});
+
+test('die Karte zeigt Ländergrenzen, größere Punkte für mehr Abende und Städtenamen', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await naehe({ merker: { umkreis: 300, tage: null } });
+    try {
+        await p.waitForSelector('#naeheKarte .housemap__land--kern');
+        const r = await p.$$eval('.housemap__dot--besucht', els => Object.fromEntries(els.map(e => [e.dataset.houseId, Number(e.getAttribute('r'))])));
+        // Tosca läuft zweimal an der Semperoper, Carmen einmal in Leipzig.
+        assert.ok(r.semperoper > r['oper-leipzig'], `Semperoper ${r.semperoper}, Leipzig ${r['oper-leipzig']}`);
+        const namen = await p.$$eval('.housemap__name', els => els.map(e => e.textContent));
+        assert.ok(namen.includes('Dresden') && namen.includes('Leipzig'), namen.join(', '));
     } finally { await ctx.close(); }
 });
