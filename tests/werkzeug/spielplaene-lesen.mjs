@@ -116,6 +116,16 @@ const norm = s => String(s || '').toLowerCase().normalize('NFC').replace(/[\u00a
 const KINDERFASSUNG = /für kinder|kinderfassung|kinderoper|kinderkonzert|familienkonzert|für kids|gekürzte fassung|kurzfassung/i;
 const slug = s => norm(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+/**
+ * Der Nachname des Komponisten als Muster. ß und ss gelten gleich: der
+ * Katalog schreibt "Strauss", die Volksoper und Karlsruhe "Strauß" – sonst
+ * fiel dort die Fledermaus als "Komponist nicht genannt" heraus.
+ */
+export function komponistMuster(nachname) {
+    const quelle = nachname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ss|ß/g, '(?:ss|ß)');
+    return new RegExp(quelle, 'i');
+}
+
 const WERKE = [...operas, ...ZUSATZ].map(o => {
     const titel = [...new Set([o.title, ...(ANDERE_TITEL[o.id] || [])].map(norm))];
     const nachname = o.composer.replace(/\s+(II|I|Sohn|der Jüngere)$/i, '').split(' ').pop();
@@ -123,7 +133,7 @@ const WERKE = [...operas, ...ZUSATZ].map(o => {
         id: o.id,
         titel,
         slugs: [...new Set(titel.map(slug).filter(s => s.length >= 4))],
-        komponist: nachname,
+        komponist: komponistMuster(nachname),
         // Nur Titel, die für sich stehen: "Siegfried" soll nicht in
         // "Siegfried Jerusalem" treffen, "Aida" nicht in "Aidan".
         muster: titel.map(t => new RegExp(`(^|[^a-zäöüß0-9])${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^a-zäöüß0-9])`, 'i')),
@@ -475,7 +485,7 @@ async function lesen(kontext, hausId, fenster) {
                     werk: id,
                     url: d.endUrl,
                     seitenTitel: d.titel.slice(0, 120),
-                    komponistGenannt: new RegExp(w.komponist, 'i').test(ganz),
+                    komponistGenannt: w.komponist.test(ganz),
                     mehrdeutig: MEHRDEUTIG.has(id),
                     hinweise: HINWEISE.filter(([, m]) => m.test(d.text.slice(0, 4000))).map(([n]) => n),
                     termine,

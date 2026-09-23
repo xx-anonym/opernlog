@@ -43,7 +43,8 @@
     "https://www.staatsoper-stuttgart.de/spielplan/saison-26-27/"
   ],
   "badisches-staatstheater": [
-    "https://staatstheater.karlsruhe.de/"
+    "https://staatstheater-karlsruhe.de/programm/oper/",
+    "https://staatstheater-karlsruhe.de/spielplan/uebersicht/a-z/"
   ],
   "theater-freiburg": [
     "https://theater.freiburg.de/de_DE/spielplan?date={JJJJ}-{MM}-01&category=all&location=&p=1"
@@ -363,5 +364,5 @@
   "oper-im-steinbruch-st-margarethen": [
     "https://www.operimsteinbruch.at/"
   ],
-  "_gesperrt": "badisches-staatstheater und theater-basel antworten Programmen mit 403 – das wird respektiert. Ihre Termine kommen aus den Spielzeitheften (ergaenzen in spielplan-korrekturen.json). salzburger-landestheater antwortet dem Browser des Werkzeugs nicht (curl geht); Termine ebenfalls über ergaenzen."
+  "_gesperrt": "theater-basel antwortet Programmen mit 403 – das wird respektiert; die Termine kommen aus dem Spielzeitheft (ergaenzen in spielplan-korrekturen.json). Karlsruhe sperrt nur die alte Adresse staatstheater.karlsruhe.de, nicht staatstheater-karlsruhe.de. salzburger-landestheater antwortet dem Browser des Werkzeugs nicht (curl geht); Termine ebenfalls über ergaenzen."
 }

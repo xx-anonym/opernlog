@@ -232,3 +232,13 @@ test('von der Seite einer Vorstellung zur Seite der Produktion', () => {
     assert.equal(produktionsSeite('https://oper.example/kalender/detail/die-fledermaus/2026-12-31/'), 'https://oper.example/kalender/detail/die-fledermaus/');
     assert.equal(produktionsSeite('https://oper.example/spielplan-26-27/tosca/'), null);
 });
+
+import { komponistMuster } from '../werkzeug/spielplaene-lesen.mjs';
+
+test('der Komponist wird mit ß und ss erkannt', () => {
+    assert.ok(komponistMuster('Strauss').test('Operette von Johann Strauß'));
+    assert.ok(komponistMuster('Strauss').test('Johann Strauss (Sohn)'));
+    assert.ok(komponistMuster('Strauß').test('Richard Strauss'));
+    assert.ok(!komponistMuster('Strauss').test('Straube'));
+    assert.ok(komponistMuster('Verdi').test('von Giuseppe Verdi'));
+});
