@@ -6,8 +6,8 @@
 // "wo läuft Tosca?", sondern "was läuft hier?".
 
 import { icon } from '../components/Icon.js';
-import { showToast } from '../components/Toast.js';
-import { escapeHTML, getCachedPosition, requestPosition } from '../utils.js';
+import { showToast, showError } from '../components/Toast.js';
+import { escapeHTML, getCachedPosition, requestPosition, standortHinweis } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import { abendeInDerNaehe, heuteIso, tagePlus, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
@@ -103,9 +103,14 @@ export function NaehePage() {
         zeile.innerHTML = `${icon('pin', { className: 'icon--meta' })}Ohne Standort stehen alle Häuser da.
           <button type="button" class="btn btn--sm btn--outline" id="naeheStandortFragen">Standort verwenden</button>`;
         zeile.querySelector('#naeheStandortFragen').addEventListener('click', async () => {
-            const neu = await requestPosition();
+            // Ausdrücklich gewünscht: auch nach einer früheren Ablehnung
+            // fragen, und etwas länger warten – ein Mac ortet über WLAN.
+            const knopf = zeile.querySelector('#naeheStandortFragen');
+            knopf.disabled = true;
+            const neu = await requestPosition({ nachfragen: true, timeout: 15000 });
+            knopf.disabled = false;
             if (!neu) {
-                showToast('Der Standort ist nicht freigegeben. Das lässt sich in den Einstellungen des Browsers ändern.');
+                showError(standortHinweis());
                 return;
             }
             position = neu;

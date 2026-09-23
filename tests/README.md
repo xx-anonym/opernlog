@@ -32,6 +32,7 @@ node --test "tests/**/*.test.js"
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
 | `swBilder.test.js` | der Service Worker holt Bilder mit CORS (echte Größe statt rund 7 MB je Bild) und zeigt sie auch, wenn das Speichern scheitert |
 | `suche.test.js` | die Suche findet ohne Umlaute und Akzente („zauberflote“, „Haensel“, „zurich“); „heute“ ist der Tag in Ortszeit |
+| `standort.test.js` | Standortabfrage: eine Freigabe im Browser zählt mehr als eine gemerkte frühere Ablehnung; „Standort verwenden“ fragt immer; der Grund eines Fehlschlags samt Hinweis |
 | `naehe.test.js` | „In der Nähe“: jeder Abend einzeln nach Datum und Beginn, nur im Umkreis und Zeitraum, nur Werke der Wunschliste |
 | `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
 | `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung; wohin sie auf iPhone und iPad geht (Safari-Tab: eigenes Fenster, installierte App: echtes Safari) |

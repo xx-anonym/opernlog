@@ -214,27 +214,64 @@ export function getCachedPosition(maxAge = POSITION_MAX_AGE) {
     return { lat: p.lat, lon: p.lon, cached: true };
 }
 
+let letzterStandortFehler = null;
+
+/**
+ * Warum die letzte Standortabfrage nichts brachte: 'verweigert',
+ * 'nicht-ermittelbar', 'zeit', 'nicht-verfuegbar' – oder null, wenn sie
+ * gelang. Für eine Meldung, die sagt, was zu tun ist.
+ */
+export function standortFehler() {
+    return letzterStandortFehler;
+}
+
 /**
  * Fragt den aktuellen Standort ab. Scheitert das – kein Empfang, verweigert,
  * unsicherer Kontext –, kommt null zurück; die Stelle im Aufrufer verhält sich
- * dann so, als hätte es die Funktion nie gegeben.
+ * dann so, als hätte es die Funktion nie gegeben. Den Grund nennt
+ * standortFehler().
+ *
+ * Ein Vermerk "verweigert" hält die Seiten davon ab, bei jedem Aufruf von
+ * selbst neu zu fragen. Er gilt aber nicht mehr, sobald der Browser die
+ * Freigabe meldet, und nicht, wenn jemand ausdrücklich darum bittet
+ * (nachfragen). Vorher prüfte die Funktion den Vermerk zuerst: wer einmal
+ * abgelehnt und die Freigabe dann in Safari erteilt hatte, bekam eine Woche
+ * lang "nicht freigegeben" zu hören – obwohl Safari "Erlauben" sagte.
  *
  * @returns {Promise<{lat: number, lon: number, cached: false}|null>}
  */
-export async function requestPosition({ timeout = 8000, maximumAge = 10 * 60 * 1000 } = {}) {
+export async function requestPosition({ timeout = 8000, maximumAge = 10 * 60 * 1000, nachfragen = false } = {}) {
+    letzterStandortFehler = null;
     // Geolocation gibt es nur in sicheren Kontexten (https bzw. localhost)
-    if (!navigator.geolocation) return null;
-    if (positionDenied()) return null;
+    if (!navigator.geolocation) {
+        letzterStandortFehler = 'nicht-verfuegbar';
+        return null;
+    }
 
+    let erteilt = false;
     if (navigator.permissions?.query) {
         try {
             const status = await navigator.permissions.query({ name: 'geolocation' });
-            if (status.state === 'denied') { rememberDenied(); return null; }
-            // Nachträglich erteilt: den alten Vermerk wegräumen
-            forgetDenied();
+            if (status.state === 'denied') {
+                rememberDenied();
+                letzterStandortFehler = 'verweigert';
+                return null;
+            }
+            if (status.state === 'granted') {
+                // Nachträglich erteilt: den alten Vermerk wegräumen
+                forgetDenied();
+                erteilt = true;
+            }
         } catch (e) {
             // Manche Browser kennen den Namen 'geolocation' nicht – dann eben fragen
         }
+    }
+
+    if (nachfragen) {
+        forgetDenied();
+    } else if (!erteilt && positionDenied()) {
+        letzterStandortFehler = 'verweigert';
+        return null;
     }
 
     return new Promise((resolve) => {
@@ -246,13 +283,30 @@ export async function requestPosition({ timeout = 8000, maximumAge = 10 * 60 * 1
                 resolve({ lat, lon, cached: false });
             },
             (err) => {
-                if (err && err.code === err.PERMISSION_DENIED) rememberDenied();
+                // 1 verweigert, 2 nicht ermittelbar, 3 Zeit abgelaufen
+                if (err?.code === 1) rememberDenied();
+                letzterStandortFehler = err?.code === 1 ? 'verweigert' : err?.code === 3 ? 'zeit' : 'nicht-ermittelbar';
                 console.warn('[Standort] nicht ermittelbar:', err?.message || err);
                 resolve(null);
             },
             { enableHighAccuracy: false, timeout, maximumAge }
         );
     });
+}
+
+/** Was jemand tun kann, wenn der Standort nicht kam – je nach Grund. */
+export function standortHinweis(grund = letzterStandortFehler) {
+    switch (grund) {
+        case 'verweigert':
+            return 'Der Standort ist gesperrt – im Browser für diese Seite oder in den Ortungsdiensten des Geräts. '
+                + 'Am Mac: Systemeinstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari einschalten.';
+        case 'zeit':
+            return 'Die Standortabfrage hat zu lange gedauert. Bitte noch einmal versuchen.';
+        case 'nicht-verfuegbar':
+            return 'Dieser Browser gibt keinen Standort heraus.';
+        default:
+            return 'Der Standort ließ sich gerade nicht ermitteln. Am Mac braucht das eingeschaltetes WLAN.';
+    }
 }
 
 // ── Grobe Ortung über die IP-Adresse ──────────────────────
