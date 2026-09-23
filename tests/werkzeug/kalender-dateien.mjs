@@ -20,7 +20,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname } from '../../src/kalender.js';
-import { werkeAusDatenbank } from './datenbank-werke.mjs';
+import { zusatzWerkeFuer } from './datenbank-werke.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const KALENDER_ORDNER = path.join(WURZEL, 'kalender');
@@ -52,10 +52,7 @@ export function kalenderDateien(zeilen, stand, zusatz = []) {
  * Titel und Komponist der Werke aus der Datenbank holt es selbst.
  */
 export async function kalenderOrdnerSchreiben(zeilen, stand) {
-    const imRepo = new Set(operas.map(o => o.id));
-    const fehlen = new Set(zeilen.map(z => z.werk).filter(w => !imRepo.has(w)));
-    const zusatz = fehlen.size ? (await werkeAusDatenbank()).filter(w => fehlen.has(w.id)) : [];
-    const dateien = kalenderDateien(zeilen, stand, zusatz);
+    const dateien = kalenderDateien(zeilen, stand, await zusatzWerkeFuer(zeilen));
     fs.mkdirSync(KALENDER_ORDNER, { recursive: true });
     for (const alt of fs.readdirSync(KALENDER_ORDNER)) {
         if (alt.endsWith('.ics') && !dateien.has(alt)) fs.rmSync(path.join(KALENDER_ORDNER, alt));

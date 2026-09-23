@@ -19,7 +19,8 @@
 // Was die Durchsicht von Hand ergibt, gehört in spielplan-korrekturen.json,
 // nicht in die erzeugte Datei – sonst ist es beim nächsten Lauf weg.
 // Zuletzt entstehen die Kalenderdateien unter kalender/ neu
-// (kalender-dateien.mjs).
+// (kalender-dateien.mjs) und daten/spielplan.json, aus der die Datenbank
+// die Mitteilungen zur Wunschliste macht (spielplan-daten.mjs).
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,6 +29,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderOrdnerSchreiben } from './kalender-dateien.mjs';
+import { spielplanDatenSchreiben } from './spielplan-daten.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KORREKTUREN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-korrekturen.json'), 'utf8'));
@@ -147,6 +149,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
     }
     fs.writeFileSync(path.join(WURZEL, 'src/data/spielplan.js'), alsModul(erg));
     console.log(`${await kalenderOrdnerSchreiben(erg.zeilen, erg.stand)} Kalenderdateien in kalender/.`);
+    console.log(`${await spielplanDatenSchreiben(erg.zeilen, erg.stand)} Einträge in daten/spielplan.json (für die Mitteilungen zur Wunschliste).`);
     const haeuser = new Set(erg.zeilen.map(z => z.haus));
     console.log(`${erg.zeilen.length} Einträge an ${haeuser.size} Häusern übernommen, ${erg.zeilen.reduce((s, z) => s + z.termine.length, 0)} Termine.`);
     const gruende = {};

@@ -9,6 +9,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { operas } from '../../src/data/operas.js';
+
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
 /** [{id, title, composer}] */
@@ -21,4 +23,14 @@ export async function werkeAusDatenbank() {
     });
     if (!r.ok) throw new Error(`catalog_operas: HTTP ${r.status}`);
     return r.json();
+}
+
+/**
+ * Die Werke aus der Datenbank, die in diesen Spielplanzeilen vorkommen, aber
+ * nicht in operas.js stehen. Fragt nur, wenn es solche gibt.
+ */
+export async function zusatzWerkeFuer(zeilen) {
+    const imRepo = new Set(operas.map(o => o.id));
+    const fehlen = new Set(zeilen.map(z => z.werk).filter(w => !imRepo.has(w)));
+    return fehlen.size ? (await werkeAusDatenbank()).filter(w => fehlen.has(w.id)) : [];
 }

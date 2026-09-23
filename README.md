@@ -77,6 +77,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   gewählten Umkreis, jeder Abend einzeln nach Datum, auf Wunsch nur Werke der
   Wunschliste. Die Karte darüber (dieselbe wie bei den Opernhäusern) zeigt den
   Umkreis; ein Tipp auf ein Haus zeigt nur dessen Abende.
+  Steht ein Werk der Wunschliste neu im Spielplan eines Hauses, kommt eine
+  Mitteilung („Neu im Spielplan“). Die Datenbank holt dafür jeden Morgen
+  `daten/spielplan.json` von der Website und vergleicht mit dem, was sie schon
+  kennt (`supabase/migrations/spielplan_mitteilungen_migration.sql`); die
+  Datei schreibt das Übernahme-Werkzeug mit.
   Mit Standort stehen die nächsten Häuser vorn. Das Kalender-Symbol neben
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
@@ -92,7 +97,7 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
 
   ```sh
   node tests/werkzeug/spielplaene-lesen.mjs lauf.json --straenge 6   # liest alle Häuser, etwa 40 Minuten
-  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json             # schreibt src/data/spielplan.js und kalender/
+  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json             # schreibt src/data/spielplan.js, kalender/ und daten/spielplan.json
   ```
 
   Kommt ein Werk neu in den Katalog – auch über das Admin-Formular, das

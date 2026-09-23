@@ -31,7 +31,7 @@ export function mitteilungenBereich(dienste = {}) {
     bereich.className = 'mitteilungen';
     bereich.innerHTML = `
       <h3 class="mitteilungen__titel">${icon('bell')}Mitteilungen</h3>
-      <p class="form-hint mitteilungen__erklaerung">Bei neuen Freundschaftsanfragen, angenommenen Einladungen, Likes und Kommentaren zu deinen Reviews – und am 31. Juli zu deinem Saisonrückblick.</p>
+      <p class="form-hint mitteilungen__erklaerung">Bei neuen Freundschaftsanfragen, angenommenen Einladungen, Likes und Kommentaren zu deinen Reviews, wenn ein Werk deiner Wunschliste neu im Spielplan steht – und am 31. Juli zu deinem Saisonrückblick.</p>
       <p class="mitteilungen__stand" aria-live="polite"></p>
       <p class="auth-error mitteilungen__fehler" hidden></p>
       <div class="mitteilungen__knoepfe"></div>`;
