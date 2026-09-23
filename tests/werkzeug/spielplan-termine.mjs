@@ -140,6 +140,7 @@ const NUR_TAG = /^(\d{1,2})\.?$/;
 const NUR_MONAT = new RegExp(`^(${MONATSMUSTER})\\.?(\\s+20\\d\\d)?$`, 'i');
 const NUR_WOCHENTAG = new RegExp(`^(${WOCHENTAG})\\.?,?$`, 'i');
 const WOCHENTAG_TAG = new RegExp(`^(${WOCHENTAG})\\.?,?\\s*(\\d{1,2})\\.?$`, 'i');
+const VOLLES_DATUM = new RegExp(`(?<![\\d.])\\d{1,2}\\.\\s*(?:\\d{1,2}\\.|(?:${MONATSMUSTER})(?![a-zäöüéû]))`, 'i');
 const MONATSKOPF = new RegExp(`^(${MONATSMUSTER})\\.?\\s*(20\\d\\d)$`, 'i');
 
 /**
@@ -177,9 +178,12 @@ function ordnen(text) {
         if ((m = z.match(MONATSKOPF))) { kopfEnde(); kopf = `${MONATSNAME[MONATE[m[1].toLowerCase()]]} ${m[2]}`; aus.push(z); continue; }
         if (NUR_TAG.test(z) && NUR_MONAT.test(n)) { aus.push(`${z.match(NUR_TAG)[1]}. ${n}`); i++; continue; }
         if (NUR_MONAT.test(z) && NUR_TAG.test(n)) { aus.push(`${n.match(NUR_TAG)[1]}. ${z}`); i++; continue; }
-        if (kopf && NUR_TAG.test(z) && NUR_WOCHENTAG.test(n)) { ausKopf(`${z.match(NUR_TAG)[1]}. ${kopf}`); continue; }
-        if (kopf && (m = z.match(WOCHENTAG_TAG))) { ausKopf(`${m[1]} ${m[2]}. ${kopf}`); continue; }
-        if (kopf && NUR_WOCHENTAG.test(z) && NUR_TAG.test(n)) { ausKopf(`${z} ${n.match(NUR_TAG)[1]}. ${kopf}`); i++; continue; }
+        // Steht das volle Datum gleich darunter, gilt das – der Monatskopf
+        // kann dort schon der vorige sein. Semperoper: "Oktober 2026" …
+        // "06" / "Fr" / "6. November 2026, 19 Uhr" wurde sonst der 6. Oktober.
+        if (kopf && NUR_TAG.test(z) && NUR_WOCHENTAG.test(n) && !VOLLES_DATUM.test(roh[i + 2] || '')) { ausKopf(`${z.match(NUR_TAG)[1]}. ${kopf}`); continue; }
+        if (kopf && (m = z.match(WOCHENTAG_TAG)) && !VOLLES_DATUM.test(n)) { ausKopf(`${m[1]} ${m[2]}. ${kopf}`); continue; }
+        if (kopf && NUR_WOCHENTAG.test(z) && NUR_TAG.test(n) && !VOLLES_DATUM.test(roh[i + 2] || '')) { ausKopf(`${z} ${n.match(NUR_TAG)[1]}. ${kopf}`); i++; continue; }
         aus.push(z);
     }
     kopfEnde();
@@ -195,7 +199,7 @@ const nurDaten = z => z.replace(OHNE_DATEN, '').length === 0;
 // Führung, Rabattaktion, die Uraufführung vor 150 Jahren.
 // Foyer, Probebühne und Treffpunkt als Ort: Führung, Workshop, Probenbesuch
 // (Hamburg: "10. Dezember 2026, 9:15 – 11:45 · Eingangsfoyer").
-const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
+const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
 
 // Eine Zeile, die nur sagt, was für ein Anlass es ist: "Einführung",
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),

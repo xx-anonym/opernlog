@@ -46,7 +46,8 @@ test('eine Spanne nennt keine Vorstellungen', () => {
 
 test('Matinee, Vorverkauf und Rabatt sind keine Vorstellungen', () => {
     for (const t of ['Einführungsmatinee zu „La traviata“ am 29. November 2026', 'Tickets können ab 2. Dezember 2026 hier erworben werden',
-        '16. JUNI\n50 % PREISVORTEIL', 'Extra: Familienführung vor der Vorstellung am 15.11.']) {
+        '16. JUNI\n50 % PREISVORTEIL', 'Extra: Familienführung vor der Vorstellung am 15.11.',
+        'Das Vorbestellkontingent ist erschöpft. Der Freiverkauf beginnt am 1.10.26.']) {
         assert.deepEqual(termineAusText(t, F), [], t);
     }
     assert.deepEqual(termineAusText('Aufführung am 3. Oktober 2026', F), ['2026-10-03']);
@@ -307,4 +308,12 @@ test('Treffpunkt und Probebühne gelten im ganzen Eintrag, das Foyer der Einfüh
     assert.deepEqual(termineMitUhrzeit('Dezember 2026\n12\nSamstag,\n09:45 Uhr\nTreffpunkt Bühnenpforte', F), []);
     // Kiel: die Einführung im Foyer gehört zu einer echten Vorstellung
     assert.deepEqual(termineMitUhrzeit('Fr. 02. Okt 2026 | 19.00 Uhr\nEinführung | 18.15 Uhr | 2. Foyer Opernhaus', F), ['2026-10-02']);
+});
+
+test('ein volles Datum unter Tag und Wochentag geht dem Monatskopf vor', () => {
+    // Semperoper: der Monat steht unter jedem Eintrag; "06" / "Fr" gehört zum 6. November.
+    const semper = '11\nSo\n11. Oktober 2026, 19 Uhr\nOktober 2026\n19 Uhr\nTickets\n06\nFr\n6. November 2026, 19 Uhr\nNovember 2026\n19 Uhr';
+    assert.deepEqual(termineMitUhrzeit(semper, F), ['2026-10-11', '2026-11-06']);
+    // Ohne volles Datum darunter bleibt es beim Monatskopf (Dortmund).
+    assert.deepEqual(termineMitUhrzeit('November 2026\n07\nSamstag\nOpernhaus 19:30 Uhr', F), ['2026-11-07']);
 });
