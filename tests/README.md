@@ -31,7 +31,7 @@ node --test "tests/**/*.test.js"
 | `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
 | `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
-| `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung |
+| `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung; wohin sie auf iPhone und iPad geht (Safari-Tab: eigenes Fenster, installierte App: echtes Safari) |
 | `neuigkeiten.test.js` | wann „Neu in OpernLog“ fällig ist: Konten von vorher, einmal je Gerät, ohne Speicher lieber nicht |
 | `spielplanTermine.test.js` | Termine aus Spielplantexten: Schreibweisen, Jahr aus dem Zusammenhang, Kalender über mehrere Zeilen, Uhrzeit, Monatsnavigation; was kein Termin ist (Uraufführung, Spanne, Matinee, Vorverkauf, Gastspiel) |
 | `spielplanAbfrage.test.js` | welche Häuser ein Werk demnächst spielen, nach Nähe oder Datum; Übernahme eines Laufs ohne Daten, die zur Seite gehören statt zum Stück |
@@ -48,7 +48,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `visitsPruefungen.test.js` | Datenbank und App prüfen Werk- und Hauskennungen gleich |
 | `push.test.js` | Datenbank und Edge Function erlauben dieselben Push-Dienste; jeder Anlass hat einen Auslöser |
 | `spielplan.test.js` | die erzeugte Spielplandatei passt zum Katalog: Werke, Häuser, Daten, Links |
-| `kalenderDateien.test.js` | unter `kalender/` liegt zu jedem Termin im Spielplan genau eine Kalenderdatei, mit dem Inhalt, den die App selbst erzeugen würde |
+| `kalenderDateien.test.js` | unter `kalender/` liegt zu jedem Termin im Spielplan genau eine Kalenderdatei, mit dem Inhalt, den die App selbst erzeugen würde; auch für Werke, die nur in der Datenbank stehen |
 
 **`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel
 auftaucht: im Layout, im Verlauf, ohne Netz. Sie starten einen Dateiserver für
@@ -69,7 +69,7 @@ Datenbank.
 | `zurueckGeste.test.js` | Zurück schließt das oberste Fenster; kein toter Schritt, kein Zurückwerfen nach einem Seitenwechsel |
 | `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
 | `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
-| `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich |
+| `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich; in der installierten App kein Fenster |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt

@@ -20,21 +20,23 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname } from '../../src/kalender.js';
+import { werkeAusDatenbank } from './datenbank-werke.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const KALENDER_ORDNER = path.join(WURZEL, 'kalender');
 
 /**
  * Dateiname → Inhalt, für jeden Termin, den "In den Kalender" anbieten kann.
- * Werke, die nur in der Datenbank stehen, kennt KalenderWahl.js nicht; für
- * sie entsteht auch keine Datei. Der Zeitstempel ist der Stand des
- * Spielplans, damit dieselben Daten dieselben Dateien ergeben.
+ * Werke, die nur in der Datenbank stehen (zusatz), mischt die App unter
+ * operas.js; ohne sie fehlten deren Dateien. Der Zeitstempel ist der Stand
+ * des Spielplans, damit dieselben Daten dieselben Dateien ergeben.
  */
-export function kalenderDateien(zeilen, stand) {
+export function kalenderDateien(zeilen, stand, zusatz = []) {
     const jetzt = new Date(`${stand}T00:00:00Z`);
+    const werke = [...operas, ...zusatz];
     const dateien = new Map();
     for (const e of zeilen) {
-        const werk = operas.find(o => o.id === e.werk);
+        const werk = werke.find(o => o.id === e.werk);
         const haus = operaHouses.find(h => h.id === e.haus);
         if (!werk || !haus) continue;
         for (const datum of e.termine) {
@@ -45,9 +47,15 @@ export function kalenderDateien(zeilen, stand) {
     return dateien;
 }
 
-/** Schreibt den Ordner neu; was nicht mehr im Spielplan steht, fällt weg. */
-export function kalenderOrdnerSchreiben(zeilen, stand) {
-    const dateien = kalenderDateien(zeilen, stand);
+/**
+ * Schreibt den Ordner neu; was nicht mehr im Spielplan steht, fällt weg.
+ * Titel und Komponist der Werke aus der Datenbank holt es selbst.
+ */
+export async function kalenderOrdnerSchreiben(zeilen, stand) {
+    const imRepo = new Set(operas.map(o => o.id));
+    const fehlen = new Set(zeilen.map(z => z.werk).filter(w => !imRepo.has(w)));
+    const zusatz = fehlen.size ? (await werkeAusDatenbank()).filter(w => fehlen.has(w.id)) : [];
+    const dateien = kalenderDateien(zeilen, stand, zusatz);
     fs.mkdirSync(KALENDER_ORDNER, { recursive: true });
     for (const alt of fs.readdirSync(KALENDER_ORDNER)) {
         if (alt.endsWith('.ics') && !dateien.has(alt)) fs.rmSync(path.join(KALENDER_ORDNER, alt));
@@ -61,5 +69,5 @@ export function kalenderOrdnerSchreiben(zeilen, stand) {
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
     const { spielplan, SPIELPLAN_STAND } = await import(pathToFileURL(path.join(WURZEL, 'src/data/spielplan.js')).href);
-    console.log(`${kalenderOrdnerSchreiben(spielplan, SPIELPLAN_STAND)} Kalenderdateien in kalender/.`);
+    console.log(`${await kalenderOrdnerSchreiben(spielplan, SPIELPLAN_STAND)} Kalenderdateien in kalender/.`);
 }

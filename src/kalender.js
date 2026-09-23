@@ -145,13 +145,18 @@ export function kalenderDateiname(werk, haus, datum) {
  * den Kalender. Auf iPhone und iPad landet ein Download in "Dateien". Dort
  * öffnet sich deshalb dieselbe Datei vom Server (kalender/, erzeugt von
  * tests/werkzeug/kalender-dateien.mjs) in einem eigenen Fenster: Safari
- * erkennt text/calendar und bietet "Hinzufügen" an. Eine im Browser erzeugte
- * Datei (blob:) ging dort nur im Safari-Tab – aus der installierten App
- * heraus blieb das Fenster leer, weil es die Datei nicht sehen kann.
+ * erkennt text/calendar und bietet "Hinzufügen" an.
+ *
+ * Aus der installierten App heraus bleibt dieses Fenster leer, mit einer
+ * im Browser erzeugten Datei (blob:) ebenso wie mit der vom Server. Dort
+ * geht die Adresse deshalb an das echte Safari (x-safari-https:, ab iOS 17),
+ * das dann nachfragt und den Termin übernimmt.
  */
 export function kalenderHerunterladen(text, dateiname, umgebung = globalThis) {
     if (istAppleMobil(umgebung)) {
-        umgebung.open(new URL(`/kalender/${encodeURIComponent(dateiname)}`, umgebung.location.href).href, '_blank');
+        const datei = new URL(`/kalender/${encodeURIComponent(dateiname)}`, umgebung.location.href).href;
+        if (istInstalliert(umgebung)) umgebung.location.href = `x-safari-${datei}`;
+        else umgebung.open(datei, '_blank');
         return;
     }
     const adresse = URL.createObjectURL(new Blob([text], { type: 'text/calendar;charset=utf-8' }));
@@ -168,4 +173,10 @@ export function kalenderHerunterladen(text, dateiname, umgebung = globalThis) {
 function istAppleMobil(umgebung) {
     const nav = umgebung.navigator || {};
     return /iPhone|iPad|iPod/.test(nav.userAgent || '') || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1);
+}
+
+// Vom Home-Bildschirm gestartet, wie in installHinweis.js und push.js.
+function istInstalliert(umgebung) {
+    return umgebung.navigator?.standalone === true
+        || !!umgebung.matchMedia?.('(display-mode: standalone)')?.matches;
 }

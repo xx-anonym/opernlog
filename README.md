@@ -77,9 +77,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
   Werkzeug mit, wo sie eindeutig neben dem Datum stehen. iPhone und iPad
-  öffnen dieselbe Datei vom Server, weil eine im Browser erzeugte aus der
-  installierten App heraus nur ein leeres Fenster ergibt; dafür liegt jeder
-  Abend einzeln unter `kalender/`. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
+  öffnen dieselbe Datei vom Server; dafür liegt jeder Abend einzeln unter
+  `kalender/`. Aus der installierten App heraus geht die Adresse an das
+  echte Safari (`x-safari-https:`), denn das Fenster, das iOS dort öffnet,
+  bleibt bei Kalenderdateien leer. Werke, die nur in der Datenbank stehen,
+  holt das Werkzeug für ihre Dateien von dort. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
   werden einmal je Spielzeit erneuert – im September, dazu ein kleiner Lauf im
   Januar, weil viele Stadttheater die Frühjahrstermine erst im Winter
   veröffentlichen:

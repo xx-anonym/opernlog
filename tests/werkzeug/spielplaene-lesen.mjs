@@ -38,6 +38,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
+import { werkeAusDatenbank } from './datenbank-werke.mjs';
 import { termineAusText, termineMitZeiten } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -155,22 +156,6 @@ export function werkeErgaenzen(liste) {
     for (const o of liste) if (o?.id && o.title && o.composer && !WERKE.some(w => w.id === o.id)) WERKE.push(alsWerk(o));
 }
 werkeErgaenzen(operas);
-
-/**
- * Die Werke, die der Admin in der App angelegt hat (catalog_operas). Adresse
- * und Schlüssel aus src/config.js; der anon-Schlüssel ist öffentlich, und
- * die Katalogtabellen sind für jeden lesbar.
- */
-async function werkeAusDatenbank() {
-    const config = fs.readFileSync(path.join(WURZEL, 'src/config.js'), 'utf8');
-    const adresse = config.match(/SUPABASE_URL = '([^']+)'/)?.[1];
-    const schluessel = config.match(/SUPABASE_ANON_KEY = '([^']+)'/)?.[1];
-    const r = await fetch(`${adresse}/rest/v1/catalog_operas?select=id,title,composer`, {
-        headers: { apikey: schluessel, Authorization: `Bearer ${schluessel}` },
-    });
-    if (!r.ok) throw new Error(`catalog_operas: HTTP ${r.status}`);
-    return r.json();
-}
 
 function werkeImText(text) {
     const t = norm(text);

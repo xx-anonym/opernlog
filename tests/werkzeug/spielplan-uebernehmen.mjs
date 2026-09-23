@@ -146,7 +146,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
         console.log(`Nachtrag für ${vorschlag._suche.join(', ')}.`);
     }
     fs.writeFileSync(path.join(WURZEL, 'src/data/spielplan.js'), alsModul(erg));
-    console.log(`${kalenderOrdnerSchreiben(erg.zeilen, erg.stand)} Kalenderdateien in kalender/.`);
+    console.log(`${await kalenderOrdnerSchreiben(erg.zeilen, erg.stand)} Kalenderdateien in kalender/.`);
     const haeuser = new Set(erg.zeilen.map(z => z.haus));
     console.log(`${erg.zeilen.length} Einträge an ${haeuser.size} Häusern übernommen, ${erg.zeilen.reduce((s, z) => s + z.termine.length, 0)} Termine.`);
     const gruende = {};

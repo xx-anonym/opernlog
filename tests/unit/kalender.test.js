@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { kalenderEintrag, kalenderDateiname } from '../../src/kalender.js';
+import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../../src/kalender.js';
 
 const TOSCA = { id: 'tosca', title: 'Tosca', composer: 'Giacomo Puccini' };
 const SEMPER = { id: 'semperoper', name: 'Semperoper', city: 'Dresden', state: 'Sachsen', lat: 51.0543, lon: 13.7351 };
@@ -67,4 +67,43 @@ test('Sonderzeichen werden maskiert, lange Zeilen gefaltet, Zeilen enden mit CRL
 
 test('Dateiname aus Werk, Haus und Tag', () => {
     assert.equal(kalenderDateiname(TOSCA, SEMPER, '2026-12-05'), 'tosca-semperoper-2026-12-05.ics');
+});
+
+// Wohin die Datei auf iPhone und iPad geht. Die Umgebung ist nachgebaut:
+// was geöffnet wird und wohin die Seite springen soll.
+const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1';
+function apfel({ navigator, standalone = false } = {}) {
+    const u = {
+        navigator: navigator || { userAgent: IPHONE, ...(standalone ? { standalone: true } : {}) },
+        location: { href: 'https://opernlog.vercel.app/index.html#/opera/tosca' },
+        geoeffnet: [],
+        open(adresse, ziel) { u.geoeffnet.push([adresse, ziel]); },
+        matchMedia: () => ({ matches: false }),
+    };
+    return u;
+}
+const DATEI = 'https://opernlog.vercel.app/kalender/tosca-semperoper-2026-12-05.ics';
+
+test('iPhone im Safari-Tab: die Datei vom Server in einem eigenen Fenster', () => {
+    const u = apfel();
+    kalenderHerunterladen('egal', 'tosca-semperoper-2026-12-05.ics', u);
+    assert.deepEqual(u.geoeffnet, [[DATEI, '_blank']]);
+    assert.equal(u.location.href, 'https://opernlog.vercel.app/index.html#/opera/tosca', 'die App bleibt, wo sie war');
+});
+
+test('iPhone, installierte App: die Datei geht an das echte Safari', () => {
+    // Das Fenster, das iOS aus der App heraus öffnet, blieb leer – mit
+    // blob: wie mit der Datei vom Server.
+    const u = apfel({ standalone: true });
+    kalenderHerunterladen('egal', 'tosca-semperoper-2026-12-05.ics', u);
+    assert.deepEqual(u.geoeffnet, []);
+    assert.equal(u.location.href, `x-safari-${DATEI}`);
+});
+
+test('installiert erkannt auch am Anzeigemodus, und das iPad zählt mit', () => {
+    const u = apfel({ navigator: { userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', platform: 'MacIntel', maxTouchPoints: 5 } });
+    u.matchMedia = anfrage => ({ matches: anfrage === '(display-mode: standalone)' });
+    kalenderHerunterladen('egal', 'tosca-semperoper-2026-12-05.ics', u);
+    assert.deepEqual(u.geoeffnet, []);
+    assert.equal(u.location.href, `x-safari-${DATEI}`);
 });

@@ -43,10 +43,12 @@ export const spielplan = [
 
 const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.7 Mobile/15E148 Safari/604.1';
 
-async function werkseite({ userAgent } = {}) {
+async function werkseite({ userAgent, installiert = false } = {}) {
     const ctx = await browser.newContext({ viewport: HANDY, acceptDownloads: true, ...(userAgent ? { userAgent } : {}) });
     // window.open mitschreiben statt ein Fenster zu öffnen
     await ctx.addInitScript(() => { window.__geoeffnet = []; window.open = (u, z) => { window.__geoeffnet.push([u, z]); return null; }; });
+    // vom Home-Bildschirm gestartet
+    if (installiert) await ctx.addInitScript(() => Object.defineProperty(navigator, 'standalone', { get: () => true }));
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
@@ -131,6 +133,24 @@ test('auf dem iPhone öffnet sich die Datei vom Server in einem eigenen Fenster'
         const geoeffnet = await p.evaluate(() => window.__geoeffnet);
         assert.deepEqual(geoeffnet, [[`${server.url}/kalender/tosca-semperoper-${iso(5)}.ics`, '_blank']]);
         assert.equal(geladen, false);
+    } finally { await ctx.close(); }
+});
+
+test('in der installierten iPhone-App öffnet sich kein eigenes Fenster', { skip: fehltPlaywright }, async () => {
+    // Das Fenster bliebe leer; die Adresse geht an Safari (x-safari-https:,
+    // siehe tests/unit/kalender.test.js). Hier: kein Fenster, kein Download,
+    // kein Fehler, und die App steht danach noch.
+    const { ctx, p, fehler } = await werkseite({ userAgent: IPHONE, installiert: true });
+    try {
+        let geladen = false;
+        p.on('download', () => { geladen = true; });
+        await p.click('#operaTermine .spielplan-zeile__kalender');
+        await p.locator('.kalender-wahl__tag').first().click();
+        await p.waitForTimeout(500);
+        assert.deepEqual(await p.evaluate(() => window.__geoeffnet), []);
+        assert.equal(geladen, false);
+        assert.deepEqual(fehler, []);
+        assert.equal(await p.locator('#termineToggle').count(), 1, 'die Werkseite steht noch');
     } finally { await ctx.close(); }
 });
 
