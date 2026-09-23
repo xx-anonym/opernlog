@@ -165,3 +165,17 @@ test('ein Nachtrag ersetzt nur die gesuchten Werke', () => {
     assert.deepEqual(erg.zeilen.map(z => `${z.werk}@${z.haus}`), ['aida@semperoper', 'tosca@oper-frankfurt']);
     assert.equal(erg.stand, '2026-09-23');
 });
+
+test('Zeiten kommen mit – nur für Termine, die bleiben, und nur gültige', () => {
+    const lauf = { 'semperoper': { stand: '2026-09-22', werke: {
+        'tosca': { url: 'https://semperoper.example/tosca', komponistGenannt: true,
+            termine: ['2026-09-22', '2026-10-08', '2026-10-11'],
+            zeiten: { '2026-09-22': '19:00', '2026-10-08': '19:30-22:15', '2026-10-11': '25:00' } },
+    } } };
+    const { zeilen } = uebernehmen(lauf, { ...LEER, ergaenzen: [
+        { haus: 'semperoper', werk: 'tosca', url: 'https://heft.example/', termine: ['2026-10-11', '2026-10-20'], zeiten: { '2026-10-11': '18:00', '2026-10-08': '11:00' } },
+    ] });
+    // Der Lauftag fällt weg, "25:00" ist keine Uhrzeit, das Heft füllt die Lücke,
+    // überschreibt aber nicht, was die Seite sagt.
+    assert.deepEqual(zeilen[0].zeiten, { '2026-10-08': '19:30-22:15', '2026-10-11': '18:00' });
+});

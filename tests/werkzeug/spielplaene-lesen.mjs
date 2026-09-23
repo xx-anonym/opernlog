@@ -38,7 +38,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
-import { termineAusText, termineMitUhrzeit } from './spielplan-termine.mjs';
+import { termineAusText, termineMitZeiten } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const QUELLEN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-quellen.json'), 'utf8'));
@@ -387,18 +387,20 @@ async function lesen(kontext, hausId, fenster) {
     const uebersichten = [];
 
     const ausListen = new Map(); // operaId -> Set(Datum)
+    const listenZeiten = new Map(); // operaId -> {Datum: Zeit}
     const sammleBloecke = (daten) => {
         for (const b of daten.bloecke || []) {
             if (NEBENHER.test(b.block) || !enthaeltOrt(b.block, q.ort)) continue;
             const ids = werkeImLink(b.text, b.href);
             if (!ids.length) continue;
-            const mit = termineMitUhrzeit(b.block, fenster, { ort: q.ortJeTermin });
+            const { termine: mit, zeiten } = termineMitZeiten(b.block, fenster, { ort: q.ortJeTermin });
             // Mehr als drei Termine in einem Eintrag: das ist kein Eintrag,
             // sondern ein Behälter mit mehreren – lieber nichts nehmen.
             if (!mit.length || mit.length > 3) continue;
             for (const id of ids) {
                 if (!ausListen.has(id)) ausListen.set(id, new Set());
                 mit.forEach(t => ausListen.get(id).add(t));
+                listenZeiten.set(id, { ...zeiten, ...(listenZeiten.get(id) || {}) });
             }
         }
     };
@@ -497,7 +499,7 @@ async function lesen(kontext, hausId, fenster) {
     for (const [url, ids] of [...auswahl].slice(0, 60)) {
         try {
             const d = await seite(kontext, url);
-            const mitUhrzeit = termineMitUhrzeit(d.text, fenster, { ort: q.ortJeTermin });
+            const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort: q.ortJeTermin });
             // Daten aus Attributen haben keinen Eintrag, in dem ein Ort stehen könnte.
             const termine = mitUhrzeit.length ? mitUhrzeit
                 : termineAusText(q.ortJeTermin ? d.text : `${d.text}\n${d.zusatz}`, fenster, { ort: q.ortJeTermin });
@@ -526,6 +528,7 @@ async function lesen(kontext, hausId, fenster) {
                     mehrdeutig: MEHRDEUTIG.has(id),
                     hinweise: HINWEISE.filter(([, m]) => m.test(d.text.slice(0, 4000))).map(([n]) => n),
                     termine,
+                    zeiten,
                     ohneUhrzeit: !mitUhrzeit.length,
                 });
             }
@@ -551,6 +554,8 @@ async function lesen(kontext, hausId, fenster) {
             ohneUhrzeit: beste ? beste.ohneUhrzeit : false,
             ausListe: liste.sort(),
             termine: [...new Set([...(beste?.termine || []), ...liste])].sort(),
+            // Beginn (und Ende) je Termin, soweit eindeutig gelesen
+            zeiten: { ...(listenZeiten.get(id) || {}), ...(beste?.zeiten || {}) },
         };
     }
     return erg;

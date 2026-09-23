@@ -257,3 +257,54 @@ test('ein Werk aus der Datenbank wird gefunden, sobald es dazukommt', () => {
     werkeErgaenzen([{ id: 'zwerg-test', title: 'Der Zwerg', composer: 'Alexander Zemlinsky' }]);
     assert.deepEqual(werkeImLink('Der Zwerg', 'https://oper.example/zwerg-test/'), ['zwerg-test']);
 });
+
+import { termineMitZeiten } from '../werkzeug/spielplan-termine.mjs';
+
+const zeiten = t => termineMitZeiten(t, F).zeiten;
+
+test('Beginn und Ende einer Vorstellung', () => {
+    assert.deepEqual(zeiten('Samstag, 05.12.2026\n18:00 – 22:30 Uhr\nGroßes Haus'), { '2026-12-05': '18:00-22:30' });
+    assert.deepEqual(zeiten('So. 06.06.2027\n18:00 bis ca. 21:15'), { '2027-06-06': '18:00-21:15' });
+    assert.deepEqual(zeiten('Sonntag, 13. Dezember 2026, 20 Uhr'), { '2026-12-13': '20:00' });
+    assert.deepEqual(zeiten('Fr. 02. Okt 2026 | 19.00 Uhr'), { '2026-10-02': '19:00' });
+});
+
+test('die Uhrzeit der Einführung ist nicht der Beginn', () => {
+    // Dortmund, Kiel, Halle, Hagen: die Einführung steht dahinter
+    assert.deepEqual(zeiten('November 2026\n07\nSamstag\nOpernhaus 19:30 Uhr (eine Pause) Einführung: 18:45 Uhr'), { '2026-11-07': '19:30' });
+    assert.deepEqual(zeiten('Fr, 16.10.2026, 19:30 Uhr\n19:00 | Stückeinführung'), { '2026-10-16': '19:30' });
+    // Stuttgart: die Einführung steht davor, in eigener Zeile
+    assert.deepEqual(zeiten('OKT 2026\nSa\n3\n17:15\nEinführung im Foyer I. Rang\n18:00\nLUCIA DI LAMMERMOOR'), { '2026-10-03': '18:00' });
+    // davor in derselben Zeile, als Etikett oder hinter der Uhrzeit
+    assert.deepEqual(zeiten('Sa 03.10.2026 | Einführung 18:45 | Beginn 19:30'), { '2026-10-03': '19:30' });
+    assert.deepEqual(zeiten('Sa 03.10.2026\n18:45 Einführung\n19:30 Vorstellung'), { '2026-10-03': '19:30' });
+});
+
+test('eine Leiste von Terminen hat keine Zeiten, ein einzelner schon', () => {
+    // Deutsche Oper Berlin: nur der eine Termin mit eigener Zeile hat eine Zeit
+    assert.deepEqual(zeiten('Carmen\nSo 4.10.26 Fr 9.10.26 Fr 16.10.26\nSo 4.10.26, 16:00'), { '2026-10-04': '16:00' });
+    // Zwei Daten, eine Uhrzeit: welcher Tag gemeint ist, bleibt offen.
+    assert.deepEqual(zeiten('Sa 3.10.2026, So 4.10.2026, 19:30 Uhr'), {});
+});
+
+test('Foyer, Probebühne, Treffpunkt und Absacker sind keine Vorstellungen', () => {
+    // Hamburg, Ulm, Erfurt, Baden – mit weichem Trennstrich wie in Hamburg
+    for (const t of ['10. Dezember 2026, 9:15 – 11:45 · Eingangsfoyer', 'Samstag, 12. Dezember 2026, 9:45 Uhr, Treffpunkt Bühnenpforte – Teil II',
+        'Absacker / Fr, 04.12.2026, 22.40 Uhr', 'Mo 02.02.2027 16:30 PROBEN\u00adBESUCHE AM VORMITTAG', 'Di 02.02.2027 16:30 · Probebühne 2']) {
+        assert.deepEqual(termineMitUhrzeit(t, F), [], t);
+    }
+    assert.deepEqual(termineMitUhrzeit('So, 14. März 2027 10:30 Uhr\nDas Land des Lächelns\nEinführungsgespräch', F), []);
+    assert.deepEqual(termineMitUhrzeit('Fr, 18. Dezember 2026, 19:30 Uhr, Großes Haus', F), ['2026-12-18']);
+});
+
+test('eine Uhrzeit "p.m." ist nachmittags oder abends', () => {
+    assert.deepEqual(zeiten('22 July 2027 – 9.15 p.m.\nSeebühne'), { '2027-07-22': '21:15' });
+    assert.deepEqual(zeiten('22 July 2027 – 11.00 a.m.'), { '2027-07-22': '11:00' });
+});
+
+test('Treffpunkt und Probebühne gelten im ganzen Eintrag, das Foyer der Einführung nicht', () => {
+    // Ulm, Kalender unten auf der Stückseite
+    assert.deepEqual(termineMitUhrzeit('Dezember 2026\n12\nSamstag,\n09:45 Uhr\nTreffpunkt Bühnenpforte', F), []);
+    // Kiel: die Einführung im Foyer gehört zu einer echten Vorstellung
+    assert.deepEqual(termineMitUhrzeit('Fr. 02. Okt 2026 | 19.00 Uhr\nEinführung | 18.15 Uhr | 2. Foyer Opernhaus', F), ['2026-10-02']);
+});

@@ -162,7 +162,8 @@ export function zeilenOrdnen(text) {
 // Produktion auch ohne Uhrzeit (Frankfurt). Mehr als 20 unter einem Kopf
 // sind aber ein ganzes Monatsraster und zählen nicht.
 function ordnen(text) {
-    const roh = String(text || '').split(/\n+/).map(z => z.trim()).filter(Boolean);
+    // Weiche Trennstriche weg: "PROBEN\u00adBESUCHE" soll "Probenbesuche" heißen.
+    const roh = String(text || '').replace(/\u00ad/g, '').split(/\n+/).map(z => z.trim()).filter(Boolean);
     const aus = [];
     const kalender = new Set();
     let kopf = null;
@@ -192,15 +193,18 @@ const nurDaten = z => z.replace(OHNE_DATEN, '').length === 0;
 
 // Zeilen mit einem Datum, das kein Opernabend ist: Matinee, Vorverkauf,
 // Führung, Rabattaktion, die Uraufführung vor 150 Jahren.
-const NEBEN_ZEILE = /matin[ée]e|vorverkauf|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
+// Foyer, Probebühne und Treffpunkt als Ort: Führung, Workshop, Probenbesuch
+// (Hamburg: "10. Dezember 2026, 9:15 – 11:45 · Eingangsfoyer").
+const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
 
 // Eine Zeile, die nur sagt, was für ein Anlass es ist: "Einführung",
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),
 // "Verkaufsstart V-Club" (Volksoper), "MATINEE ZU …" (Essen). Nicht "Vorverkauf über …": das steht in
 // Augsburg unter jeder Vorstellung.
+const ORT_NEBENHER = /treffpunkt|probebühne|probenbesuch|click in|absacker/i;
 const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
-const EINDEUTIG_NEBENHER = /^(\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
 // Die Zeilen eines Eintrags: ab dem Datum bis vor das nächste Datum.
 function eintrag(zeilen, i, fenster, kontext, hoechstens) {
@@ -259,9 +263,53 @@ const UHRZEIT = /(?<![\d.])([01]?\d|2[0-3])[:.][0-5]\d(?![\d.])(?:\s*uhr)?|\b\d{
  *
  * @param {{ort?: string}} [optionen]  wie bei termineAusText()
  */
-export function termineMitUhrzeit(text, fenster, { ort } = {}) {
+export function termineMitUhrzeit(text, fenster, optionen = {}) {
+    return termineMitZeiten(text, fenster, optionen).termine;
+}
+
+// Ein Datum wie "19.10." ist keine Uhrzeit 19:10.
+const DATUM_KURZ = /(?<![\d.])\d{1,2}\.\s?\d{1,2}\.(?:\s?(20\d\d|\d\d)(?![\d]|[.:]\d))?/g;
+const ZEIT_ALLE = /(?<![\d.:])([01]?\d|2[0-3])(?:[:.h]([0-5]\d)(?![\d.])(?:\s*uhr)?|\s*uhr\b)/gi;
+const EINFUEHRUNG = /einführung|einlass/i;
+
+/**
+ * Beginn (und, wo angegeben, Ende) einer Vorstellung aus den Zeilen ihres
+ * Eintrags: die erste Uhrzeit, die nicht die der Einführung ist.
+ *   "19:30 – 22:30"                      → "19:30-22:30"
+ *   "Opernhaus 19:30 Uhr … Einführung: 18:45 Uhr" → "19:30"
+ *   "17:15" / "Einführung im Foyer" / "18:00" → "18:00"  (Stuttgart)
+ * @returns {string|null} "HH:MM" oder "HH:MM-HH:MM"
+ */
+export function beginnFinden(teile) {
+    for (let i = 0; i < teile.length; i++) {
+        const zeile = teile[i].replace(DATUM_KURZ, m => ' '.repeat(m.length));
+        for (const m of zeile.matchAll(ZEIT_ALLE)) {
+            const davor = zeile.slice(Math.max(0, m.index - 20), m.index);
+            const danach = zeile.slice(m.index + m[0].length);
+            const allein = !zeile.replace(m[0], '').trim();
+            if (/(einführung|einlass)\W{0,3}$/i.test(davor) || /^\W{0,4}\S*(einführung|einlass)/i.test(danach)
+                || (allein && EINFUEHRUNG.test((teile[i + 1] || '').split(/\s+/)[0] || ''))) continue;
+            // "9.15 p.m." (Bregenz, englische Seite)
+            const nachmittag = /^\s*p\.?\s?m\b/i.test(danach) && Number(m[1]) < 12;
+            const hh = String(Number(m[1]) + (nachmittag ? 12 : 0)).padStart(2, '0');
+            const beginn = `${hh}:${m[2] || '00'}`;
+            const ende = danach.match(/^\s*(?:uhr)?\s*(?:[-–—]|bis(?:\s+ca\.)?)\s*([01]?\d|2[0-3])[:.]([0-5]\d)/i);
+            return ende ? `${beginn}-${ende[1].padStart(2, '0')}:${ende[2]}` : beginn;
+        }
+    }
+    return null;
+}
+
+/**
+ * Wie termineMitUhrzeit(), dazu je Termin die Zeit, wo sie eindeutig ist –
+ * nur bei einem Datum je Zeile. Eine Leiste ("So 4.10.26 Fr 9.10.26") hat
+ * keine Zeiten.
+ * @returns {{termine: string[], zeiten: Object<string, string>}}
+ */
+export function termineMitZeiten(text, fenster, { ort } = {}) {
     const { zeilen, kalender } = ordnen(text);
     const gefunden = new Set();
+    const zeiten = {};
     // Das Jahr aus den Zeilen davor gilt weiter – siehe termineLesen().
     let kontext = null;
     zeilen.forEach((z, i) => {
@@ -277,11 +325,21 @@ export function termineMitUhrzeit(text, fenster, { ort } = {}) {
         // über dem Datum ist nicht zu deuten: in Ulm gehört er zum Datum
         // darunter, in Krefeld zum Eintrag davor – das bleibt der Durchsicht.
         if (NUR_NEBENHER.test(teile[1] || '') || EINDEUTIG_NEBENHER.test(teile[2] || '')) return;
+        // Orte, an denen keine Vorstellung stattfindet, gelten im ganzen
+        // Eintrag (Ulm: Datum, Wochentag, Uhrzeit, dann "Treffpunkt
+        // Bühnenpforte"). "Foyer" nicht – dort steht oft nur die Einführung.
+        if (teile.some(t => ORT_NEBENHER.test(t))) return;
         const umgebung = teile.join(' ');
         // Die Uhrzeit darf nicht Teil des Datums selbst sein ("19.10." ist kein 19:10).
-        const ohneDaten = umgebung.replace(/(?<![\d.])\d{1,2}\.\s?\d{1,2}\.(?:\s?(20\d\d|\d\d)(?![\d]|[.:]\d))?/g, ' ');
+        const ohneDaten = umgebung.replace(DATUM_KURZ, ' ');
         const leiste = kalender.has(i) || (daten.length >= 2 && nurDaten(z));
-        if ((leiste || UHRZEIT.test(ohneDaten)) && ortPasst(zeilen, i, fenster, vorher, ort)) daten.forEach(d => gefunden.add(d));
+        if ((leiste || UHRZEIT.test(ohneDaten)) && ortPasst(zeilen, i, fenster, vorher, ort)) {
+            daten.forEach(d => gefunden.add(d));
+            if (daten.length === 1 && !(daten[0] in zeiten)) {
+                const zeit = beginnFinden(teile);
+                if (zeit) zeiten[daten[0]] = zeit;
+            }
+        }
     });
-    return [...gefunden].sort();
+    return { termine: [...gefunden].sort(), zeiten };
 }

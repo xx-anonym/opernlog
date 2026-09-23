@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Ergebnis der Durchsicht von Hand. ausschliessen: Treffer, die kein Opernabend sind (Schauspiel, Ballett, Konzert, Kinderfassung …). aufnehmen: Treffer, bei denen der Komponist auf der Seite fehlt, die aber sicher stimmen. termineEntfernen: einzelne falsch gelesene Daten. adressen: bessere Links. werk '*' gilt für alle Werke eines Hauses. ergaenzen: Termine aus Quellen, die das Werkzeug nicht lesen kann (Spielzeithefte von Häusern, die Programme aussperren), mit Quelle; sie kommen zu den gelesenen hinzu und zählen nur, solange sie nach dem Stand liegen.",
+  "_hinweis": "Ergebnis der Durchsicht von Hand. ausschliessen: Treffer, die kein Opernabend sind (Schauspiel, Ballett, Konzert, Kinderfassung …). aufnehmen: Treffer, bei denen der Komponist auf der Seite fehlt, die aber sicher stimmen. termineEntfernen: einzelne falsch gelesene Daten. adressen: bessere Links. werk '*' gilt für alle Werke eines Hauses. ergaenzen: Termine (und, wo bekannt, zeiten) aus Quellen, die das Werkzeug nicht lesen kann (Spielzeithefte von Häusern, die Programme aussperren), mit Quelle; sie kommen zu den gelesenen hinzu und zählen nur, solange sie nach dem Stand liegen.",
   "ausschliessen": [
     {
       "haus": "theater-erfurt",
@@ -25,9 +25,25 @@
       "haus": "gaertnerplatztheater",
       "werk": "wildschuetz",
       "grund": "Archivseite; der 14. Januar ist eine Werkeinführung"
+    },
+    {
+      "haus": "salzburger-landestheater",
+      "werk": "tosca",
+      "grund": "halbszenisch im Großen Festspielhaus – dort eingetragen (ergaenzen)"
+    },
+    {
+      "haus": "salzburger-landestheater",
+      "werk": "zauberflote",
+      "grund": "„Die kleine Zauberflöte“, Kinderfassung von Marco Dott"
     }
   ],
-  "aufnehmen": [],
+  "aufnehmen": [
+    {
+      "haus": "bayerische-staatsoper",
+      "werk": "ring-walkuere",
+      "grund": "Ring-Zyklus der Opernfestspiele 2027; der Komponist wurde auf der Seite nicht jedes Mal erkannt"
+    }
+  ],
   "termineEntfernen": [
     {
       "haus": "theater-bonn",
@@ -278,7 +294,14 @@
         "2026-11-10",
         "2026-11-14"
       ],
-      "quelle": "Salzburger Landestheater, halbszenisch im Großen Festspielhaus; Spielzeitheft 2026/27, bestätigt von der Seite der Produktion"
+      "quelle": "Salzburger Landestheater, halbszenisch im Großen Festspielhaus; Spielzeitheft 2026/27, bestätigt von der Seite der Produktion",
+      "zeiten": {
+        "2026-10-31": "19:00",
+        "2026-11-05": "19:30",
+        "2026-11-07": "19:00",
+        "2026-11-10": "19:30",
+        "2026-11-14": "15:00"
+      }
     },
     {
       "haus": "salzburger-landestheater",
@@ -291,7 +314,14 @@
         "2026-12-30",
         "2027-01-22"
       ],
-      "quelle": "Seite der Produktion (ohne die Schulvorstellung am 20.11.) und Spielzeitheft 2026/27"
+      "quelle": "Seite der Produktion (ohne die Schulvorstellung am 20.11.) und Spielzeitheft 2026/27",
+      "zeiten": {
+        "2026-11-15": "15:00",
+        "2026-11-18": "19:30",
+        "2026-12-09": "19:30",
+        "2026-12-30": "19:30",
+        "2027-01-22": "19:30"
+      }
     }
   ]
 }

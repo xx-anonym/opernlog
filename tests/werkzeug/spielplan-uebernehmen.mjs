@@ -69,7 +69,7 @@ export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
             const termine = w.termine.filter(t => !entfernen.has(t));
             if (!termine.length) { weggelassen.push({ haus, werk, grund: 'alle Termine entfernt' }); continue; }
             const url = (korrekturen.adressen || []).find(k => passt(k, haus, werk))?.url || w.url || erg.start?.[0];
-            zeilen.push({ werk, haus, url, termine });
+            zeilen.push(mitZeiten({ werk, haus, url, termine }, w.zeiten));
         }
     }
     // Termine aus Quellen, die das Werkzeug nicht lesen kann – Spielzeithefte
@@ -82,11 +82,25 @@ export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
         const termine = e.termine.filter(t => t > stand && t <= bis);
         if (!termine.length) continue;
         const da = zeilen.find(z => z.haus === e.haus && z.werk === e.werk);
-        if (da) da.termine = [...new Set([...da.termine, ...termine])].sort();
-        else zeilen.push({ werk: e.werk, haus: e.haus, url: e.url, termine: [...termine].sort() });
+        if (da) {
+            // Was die Seite sagt, geht vor; das Heft füllt Lücken.
+            const zusammen = mitZeiten({ ...da, termine: [...new Set([...da.termine, ...termine])].sort() }, { ...(e.zeiten || {}), ...(da.zeiten || {}) });
+            zeilen[zeilen.indexOf(da)] = zusammen;
+        } else {
+            zeilen.push(mitZeiten({ werk: e.werk, haus: e.haus, url: e.url, termine: [...termine].sort() }, e.zeiten));
+        }
     }
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
     return { zeilen, weggelassen, stand, zusatzwerke: zusatzwerke(zeilen) };
+}
+
+// Die Zeile mit den Zeiten ihrer Termine, soweit gültig – ohne leeres Feld.
+const ZEIT = /^([01]\d|2[0-3]):[0-5]\d(-([01]\d|2[0-3]):[0-5]\d)?$/;
+function mitZeiten(zeile, zeiten = {}) {
+    const { zeiten: _alt, ...ohne } = zeile;
+    const aus = {};
+    for (const t of zeile.termine) if (ZEIT.test(zeiten?.[t] || '')) aus[t] = zeiten[t];
+    return Object.keys(aus).length ? { ...ohne, zeiten: aus } : ohne;
 }
 
 // Werke aus der Datenbank, die in den Zeilen vorkommen – damit die Prüfung
@@ -108,7 +122,11 @@ export function dazunehmen(bestehend, nachtrag, suche) {
 
 export function alsModul({ zeilen, stand, zusatzwerke = [] }) {
     const kopf = fs.readFileSync(path.join(WURZEL, 'src/data/spielplan.js'), 'utf8').split('export const SPIELPLAN_STAND')[0];
-    const eintraege = zeilen.map(z => `    { werk: '${z.werk}', haus: '${z.haus}', url: ${JSON.stringify(z.url)},\n      termine: [${z.termine.map(t => `'${t}'`).join(', ')}] },`).join('\n');
+    const zeitenText = z => {
+        const paare = Object.entries(z.zeiten || {});
+        return paare.length ? `,\n      zeiten: { ${paare.map(([t, h]) => `'${t}': '${h}'`).join(', ')} }` : '';
+    };
+    const eintraege = zeilen.map(z => `    { werk: '${z.werk}', haus: '${z.haus}', url: ${JSON.stringify(z.url)},\n      termine: [${z.termine.map(t => `'${t}'`).join(', ')}]${zeitenText(z)} },`).join('\n');
     return `${kopf}export const SPIELPLAN_STAND = '${stand}';\n\n`
         + `// Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.\n`
         + `export const SPIELPLAN_ZUSATZWERKE = [${zusatzwerke.map(w => `'${w}'`).join(', ')}];\n\n`

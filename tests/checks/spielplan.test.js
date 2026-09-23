@@ -54,6 +54,15 @@ test('Termine: gültig, sortiert, ohne Doppelte, innerhalb eines Jahres ab Stand
     }
 });
 
+test('Zeiten gehören zu Terminen und sind Uhrzeiten', () => {
+    for (const e of spielplan) {
+        for (const [t, zeit] of Object.entries(e.zeiten || {})) {
+            assert.ok(e.termine.includes(t), `${e.werk}@${e.haus}: Zeit für ${t}, aber kein Termin`);
+            assert.match(zeit, /^([01]\d|2[0-3]):[0-5]\d(-([01]\d|2[0-3]):[0-5]\d)?$/, `${e.werk}@${e.haus} ${t}: ${zeit}`);
+        }
+    }
+});
+
 test('jeder Link führt per https auf eine Seite', () => {
     for (const e of spielplan) {
         assert.match(e.url, /^https:\/\/[^/]+\.[a-z]{2,}/i, `${e.werk}@${e.haus}: ${e.url}`);
