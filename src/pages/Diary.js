@@ -5,7 +5,7 @@ import { runWithFeedback } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
-import { visitCredits } from '../utils.js';
+import { visitCredits, passtZurSuche } from '../utils.js';
 import { seasonLabel } from '../data/season.js';
 import { gruppiereBesuche, nachNote } from '../data/tagebuch.js';
 
@@ -101,7 +101,7 @@ export function DiaryPage() {
           credits.conductor, credits.director, credits.castList,
         ];
 
-        return durchsuchbar.some(feld => feld && feld.toLowerCase().includes(searchFilter));
+        return passtZurSuche(searchFilter, ...durchsuchbar);
       });
     }
 

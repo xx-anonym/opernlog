@@ -12,16 +12,18 @@ const CACHE_NAME = 'opernlog-2026.09.23';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
-const IMAGE_CACHE = 'opernlog-images-v1';
+//
+// v2 seit dem Wechsel auf CORS (siehe holeBild): in v1 lagen die Bilder als
+// opaque Responses, und die belegten das Kontingent um ein Vielfaches. activate
+// räumt v1 weg; die Bilder werden einmal neu geholt, zusammen rund 17 MB.
+const IMAGE_CACHE = 'opernlog-images-v2';
 
 // Sämtliche Opern- und Hausbilder liegen bei Wikimedia. Ohne diese Ausnahme
 // überspringt der Fetch-Handler sie als fremden Host – die installierte PWA
 // zeigte den Katalog offline dann als leere Karten.
 const IMAGE_HOSTS = ['upload.wikimedia.org'];
 
-// Obergrenze, damit der Cache nicht unbegrenzt wächst. Bilder von fremden
-// Hosts kommen als opaque Responses und zählen beim Speicherkontingent
-// großzügig gepolstert – deshalb eher knapp bemessen.
+// Obergrenze, damit der Cache nicht unbegrenzt wächst.
 //
 // 264 Adressen führt der Katalog inzwischen: 121 Werke, 92 Häuser und 51
 // Komponistenporträts. Bei 260 hätte der Cache genau die zuletzt geladenen
@@ -173,19 +175,42 @@ async function serveImage(request) {
     const cached = await cache.match(request);
     if (cached) return cached;
 
+    let response;
     try {
-        const response = await fetch(request);
-        // Fremde Bilder kommen als opaque Response (status 0). Die lässt sich
-        // nicht auf ok prüfen, aber sehr wohl speichern und später ausliefern.
-        if (response && (response.ok || response.type === 'opaque')) {
-            await cache.put(request, response.clone());
-            trimCache(IMAGE_CACHE, IMAGE_CACHE_LIMIT);
-        }
-        return response;
+        response = await holeBild(request);
     } catch (e) {
         // Kein Netz und nichts im Cache: die Bild-Ebene malt dann nichts und
         // der farbige Verlauf darunter wird sichtbar (siehe coverBackground).
         return Response.error();
+    }
+
+    // Eine opaque Response (Host ohne CORS) lässt sich nicht auf ok prüfen,
+    // aber sehr wohl speichern und später ausliefern.
+    if (response.ok || response.type === 'opaque') {
+        // Scheitert das Speichern – Kontingent voll, Speicher gesperrt –, wird
+        // das Bild trotzdem gezeigt. Vorher landete der Fehler im catch oben,
+        // und das Bild fiel aus, obwohl es längst geladen war.
+        try {
+            await cache.put(request, response.clone());
+            trimCache(IMAGE_CACHE, IMAGE_CACHE_LIMIT).catch(() => {});
+        } catch (e) {
+            console.warn('[SW] Bild nicht zwischengespeichert', e);
+        }
+    }
+    return response;
+}
+
+// Wikimedia erlaubt den Abruf von fremden Seiten (Access-Control-Allow-Origin:
+// *). Mit CORS geholt ist die Antwort lesbar und zählt mit ihrer echten Größe,
+// rund 60 KB. Ohne CORS kommt sie opaque, und Chrome rechnet jede davon mit
+// etwa 7 MB an: gemessen waren nach 92 Häuserbildern 712 MB belegt, nach gut
+// 120 Bildern war das Kontingent voll, und jedes weitere Bild fiel aus.
+async function holeBild(request) {
+    try {
+        return await fetch(request.url, { mode: 'cors', credentials: 'omit' });
+    } catch (e) {
+        // Ein Host ohne CORS: dann wie der Browser selbst, opaque.
+        return fetch(request);
     }
 }
 

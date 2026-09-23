@@ -3,7 +3,7 @@ import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { runWithFeedback } from '../components/Toast.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, passtZurSuche } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 
@@ -161,7 +161,7 @@ export function ListsPage() {
     const matches = source.filter(item => {
       const name = item.title || item.name;
       const extra = item.composer || item.city || '';
-      return (name.toLowerCase().includes(query) || extra.toLowerCase().includes(query)) && !selectedItems.includes(item.id);
+      return passtZurSuche(query, name, extra) && !selectedItems.includes(item.id);
     }).slice(0, 6);
 
     itemResults.innerHTML = '';

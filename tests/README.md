@@ -30,6 +30,8 @@ node --test "tests/**/*.test.js"
 | `webpush.test.js` | Verschlüsselung Byte für Byte gegen RFC 8291, VAPID-Ausweis, nur bekannte Push-Dienste |
 | `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
+| `swBilder.test.js` | der Service Worker holt Bilder mit CORS (echte Größe statt rund 7 MB je Bild) und zeigt sie auch, wenn das Speichern scheitert |
+| `suche.test.js` | die Suche findet ohne Umlaute und Akzente („zauberflote“, „Haensel“, „zurich“); „heute“ ist der Tag in Ortszeit |
 | `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
 | `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung; wohin sie auf iPhone und iPad geht (Safari-Tab: eigenes Fenster, installierte App: echtes Safari) |
 | `neuigkeiten.test.js` | wann „Neu in OpernLog“ fällig ist: Konten von vorher, einmal je Gerät, ohne Speicher lieber nicht |
@@ -71,6 +73,7 @@ Datenbank.
 | `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
 | `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich; in der installierten App kein Fenster |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
+| `durchsicht.test.js` | Funde der Durchsicht vom 23.09.2026: gestaltete Anmeldefelder, kein Tagebuch-Versprechen ohne Konto, Suche ohne Umlaute, Datum kurz nach Mitternacht, angefangener Text und offene Termine überleben die Rückkehr in die App |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

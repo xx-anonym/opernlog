@@ -2493,6 +2493,11 @@ h3 {
     gap: 16px;
 }
 
+/* Den Abstand gibt hier gap; der Außenabstand der Gruppe käme sonst dazu. */
+.auth-form .form-group {
+    margin-bottom: 0;
+}
+
 .auth-error {
     padding: 10px 14px;
     background: rgba(220, 53, 69, 0.15);

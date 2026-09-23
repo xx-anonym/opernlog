@@ -3,7 +3,7 @@ import { operaHouses, nearestOperaHouse } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
-import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, visitCredits } from '../utils.js';
+import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, visitCredits, passtZurSuche, heuteIso } from '../utils.js';
 import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
 
@@ -23,6 +23,11 @@ export function LogVisitPage(params = {}) {
   // Formular nicht für alle, die sie nicht ausfüllen wollen. Beim Bearbeiten
   // klappt der Block auf, sobald eines der Felder etwas enthält.
   const credits = visitCredits(editVisit || {});
+
+  // Heute in Ortszeit. Mit toISOString() stand zwischen Mitternacht und
+  // 2 Uhr (im Winter 1 Uhr) der Vortag im Feld, und der heutige Tag galt
+  // beim Speichern als "in der Zukunft".
+  const heute = heuteIso();
 
   page.innerHTML = `
     <div class="page-header">
@@ -52,7 +57,7 @@ export function LogVisitPage(params = {}) {
       
       <div class="form-group">
         <label class="form-label">${icon('calendar', { className: 'icon--meta' })}Datum</label>
-        <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : new Date().toISOString().split('T')[0]}" />
+        <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : heute}" max="${heute}" />
       </div>
       
       <details class="form-collapse"${credits.any ? ' open' : ''}>
@@ -285,9 +290,7 @@ export function LogVisitPage(params = {}) {
     const query = houseInput.value.toLowerCase();
     if (query.length < 1) { houseList.innerHTML = ''; houseList.style.display = 'none'; return; }
 
-    const matches = operaHouses.filter(h =>
-      h.name.toLowerCase().includes(query) || h.city.toLowerCase().includes(query)
-    ).slice(0, 8);
+    const matches = operaHouses.filter(h => passtZurSuche(query, h.name, h.city)).slice(0, 8);
 
     houseList.innerHTML = '';
     houseList.style.display = matches.length ? 'block' : 'none';
@@ -328,9 +331,7 @@ export function LogVisitPage(params = {}) {
     const query = operaInput.value.toLowerCase();
     if (query.length < 1) { operaList.innerHTML = ''; operaList.style.display = 'none'; return; }
 
-    const matches = operas.filter(o =>
-      o.title.toLowerCase().includes(query) || o.composer.toLowerCase().includes(query)
-    ).slice(0, 8);
+    const matches = operas.filter(o => passtZurSuche(query, o.title, o.composer)).slice(0, 8);
 
     operaList.innerHTML = '';
     operaList.style.display = matches.length ? 'block' : 'none';
@@ -388,7 +389,8 @@ export function LogVisitPage(params = {}) {
     if (!operaId) { shakeElement(operaInput); return; }
     if (!selectedRating) { shakeElement(ratingWidget); return; }
     if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
-    if (new Date(date) > new Date()) { shakeElement(page.querySelector('#visitDate')); showToast('Datum darf nicht in der Zukunft liegen'); return; }
+    // Als Zeichenkette verglichen: new Date('JJJJ-MM-TT') wäre UTC-Mitternacht.
+    if (date > heuteIso()) { shakeElement(page.querySelector('#visitDate')); showToast('Datum darf nicht in der Zukunft liegen'); return; }
 
     const payload = {
       houseId, operaId, date, rating: selectedRating, review,
@@ -566,7 +568,7 @@ function suggestField({ input, list, werte }) {
     const treffer = kandidaten()
       // Was schon vollständig im Feld steht, muss nicht vorgeschlagen werden.
       .filter(k => k.name.toLowerCase() !== query)
-      .filter(k => !query || k.name.toLowerCase().includes(query))
+      .filter(k => passtZurSuche(query, k.name))
       .slice(0, 6);
 
     list.innerHTML = '';

@@ -32,6 +32,18 @@ import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud } from './store/supabase.js';
 
+/**
+ * Steht irgendwo Text, den jemand selbst eingegeben hat? Verglichen wird mit
+ * dem Anfangswert des Felds: ein vorbelegter Name zählt nicht, eine
+ * angefangene Eingabe schon – auch in einem offenen Fenster.
+ */
+function ungesicherteEingabe() {
+    return [...document.querySelectorAll('input, textarea')].some(feld =>
+        !['hidden', 'checkbox', 'radio', 'button', 'submit'].includes(feld.type)
+        && feld.value.trim() !== ''
+        && feld.value !== feld.defaultValue);
+}
+
 class App {
     constructor() {
         if ('scrollRestoration' in history) {
@@ -257,13 +269,13 @@ class App {
                     </div>
                     <form id="updatePasswordForm" class="auth-form">
                         <div class="form-group">
-                            <label for="newPassword">Neues Passwort</label>
-                            <input type="password" id="newPassword" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
+                            <label class="form-label" for="newPassword">Neues Passwort</label>
+                            <input type="password" class="input" id="newPassword" autocomplete="new-password" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
                             <p class="form-hint">Ein Satz, den nur du kennst, ist sicherer als ein kurzes Kunstwort mit Sonderzeichen.</p>
                         </div>
                         <div class="form-group">
-                            <label for="confirmPassword">Passwort bestätigen</label>
-                            <input type="password" id="confirmPassword" placeholder="Passwort wiederholen" required minlength="${MINDESTLAENGE}" />
+                            <label class="form-label" for="confirmPassword">Passwort bestätigen</label>
+                            <input type="password" class="input" id="confirmPassword" autocomplete="new-password" placeholder="Passwort wiederholen" required minlength="${MINDESTLAENGE}" />
                         </div>
                         <div id="updateError" class="auth-error" style="display:none"></div>
                         <div id="updateSuccess" class="auth-success" style="display:none"></div>
@@ -395,7 +407,10 @@ class App {
         try {
             if (isSupabaseConfigured()) await store.refreshSession();
             this._lastRefresh = Date.now();
-            this.route();
+            // Wer gerade etwas tippt, verliert es nicht: ein halber Kommentar,
+            // eine Suche. Die Daten sind trotzdem frisch, zu sehen sind sie
+            // beim nächsten Seitenwechsel.
+            if (!ungesicherteEingabe()) this.route();
             this.reportSyncError();
         } catch (e) {
             console.error('[App] Abgleich beim Zurückkehren fehlgeschlagen', e);

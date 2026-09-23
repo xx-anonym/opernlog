@@ -64,12 +64,12 @@ export function AuthPage(onSuccess) {
 
         <form id="loginForm" class="auth-form">
           <div class="form-group">
-            <label for="loginEmail">E-Mail</label>
-            <input type="email" id="loginEmail" placeholder="deine@email.de" required />
+            <label class="form-label" for="loginEmail">E-Mail</label>
+            <input type="email" class="input" id="loginEmail" autocomplete="email" placeholder="deine@email.de" required />
           </div>
           <div class="form-group">
-            <label for="loginPassword">Passwort</label>
-            <input type="password" id="loginPassword" placeholder="••••••••" required minlength="6" />
+            <label class="form-label" for="loginPassword">Passwort</label>
+            <input type="password" class="input" id="loginPassword" autocomplete="current-password" placeholder="••••••••" required minlength="6" />
           </div>
           <div id="loginError" class="auth-error" style="display:none"></div>
           <button type="submit" class="btn btn--primary btn--lg btn--full" id="loginSubmitBtn">
@@ -92,8 +92,8 @@ export function AuthPage(onSuccess) {
         <form id="resetForm" class="auth-form" style="display:none">
           <p class="auth-reset-info">Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.</p>
           <div class="form-group">
-            <label for="resetEmail">E-Mail</label>
-            <input type="email" id="resetEmail" placeholder="deine@email.de" required />
+            <label class="form-label" for="resetEmail">E-Mail</label>
+            <input type="email" class="input" id="resetEmail" autocomplete="email" placeholder="deine@email.de" required />
           </div>
           <div id="resetError" class="auth-error" style="display:none"></div>
           <div id="resetSuccess" class="auth-success" style="display:none"></div>
@@ -103,16 +103,16 @@ export function AuthPage(onSuccess) {
 
         <form id="registerForm" class="auth-form" style="display:none">
           <div class="form-group">
-            <label for="regUsername">Benutzername</label>
-            <input type="text" id="regUsername" placeholder="z.B. Opernfan42" required minlength="3" />
+            <label class="form-label" for="regUsername">Benutzername</label>
+            <input type="text" class="input" id="regUsername" autocomplete="nickname" placeholder="z.B. Opernfan42" required minlength="3" />
           </div>
           <div class="form-group">
-            <label for="regEmail">E-Mail</label>
-            <input type="email" id="regEmail" placeholder="deine@email.de" required />
+            <label class="form-label" for="regEmail">E-Mail</label>
+            <input type="email" class="input" id="regEmail" autocomplete="email" placeholder="deine@email.de" required />
           </div>
           <div class="form-group">
-            <label for="regPassword">Passwort</label>
-            <input type="password" id="regPassword" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
+            <label class="form-label" for="regPassword">Passwort</label>
+            <input type="password" class="input" id="regPassword" autocomplete="new-password" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
             <p class="form-hint">Ein Satz, den nur du kennst, ist sicherer als ein kurzes Kunstwort mit Sonderzeichen.</p>
           </div>
           <div class="form-group">

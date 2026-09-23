@@ -1,7 +1,7 @@
 // Operas Browse Page
 import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground, einblendVerzoegerung } from '../utils.js';
+import { coverBackground, einblendVerzoegerung, passtZurSuche } from '../utils.js';
 import { store } from '../store/store.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -141,7 +141,7 @@ export function OperasPage() {
     const gesehen = seen ? gesehenIds(store.getVisitsByUser('user-me'), store.getSeenOperas()) : null;
 
     let filtered = operas.filter(o => {
-      const matchesSearch = !search || o.title.toLowerCase().includes(search) || o.composer.toLowerCase().includes(search);
+      const matchesSearch = passtZurSuche(search, o.title, o.composer);
       const matchesComposer = !activeComposer || o.composer === activeComposer;
       const matchesLang = !lang || o.language === lang;
       const matchesSeen = !seen || (seen === 'gesehen' ? gesehen.has(o.id) : !gesehen.has(o.id));

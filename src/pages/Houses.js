@@ -1,7 +1,7 @@
 // Opera Houses Browse Page
 import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground, einblendVerzoegerung } from '../utils.js';
+import { coverBackground, einblendVerzoegerung, passtZurSuche } from '../utils.js';
 import { store } from '../store/store.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -121,7 +121,7 @@ export function HousesPage() {
     const besuchteHaeuser = besuchteIds(store.getVisitsByUser('user-me'));
 
     let filtered = operaHouses.filter(h => {
-      const matchesSearch = !search || h.name.toLowerCase().includes(search) || h.city.toLowerCase().includes(search);
+      const matchesSearch = passtZurSuche(search, h.name, h.city);
       const matchesState = !activeState || h.state === activeState;
       const matchesBesucht = !besucht
         || (besucht === 'besucht' ? besuchteHaeuser.has(h.id) : !besuchteHaeuser.has(h.id));

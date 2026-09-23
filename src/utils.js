@@ -74,6 +74,33 @@ export function datumKurz(wert) {
     return `${Number(m[3])}. ${MONATE_KURZ[Number(m[2]) - 1]} ${m[1]}`;
 }
 
+/** Heute als JJJJ-MM-TT in Ortszeit – toISOString() läge nach 22 Uhr schon beim nächsten Tag. */
+export function heuteIso(jetzt = new Date()) {
+    return `${jetzt.getFullYear()}-${String(jetzt.getMonth() + 1).padStart(2, '0')}-${String(jetzt.getDate()).padStart(2, '0')}`;
+}
+
+/**
+ * Ein Text in den Formen, in denen er gesucht wird: klein, ohne Akzente, ß
+ * als ss. Umlaute zweimal, weil beides getippt wird – "Zauberflote" mit
+ * weggelassenen Punkten und "Zauberfloete" umschrieben.
+ */
+function suchFormen(text) {
+    const klein = String(text ?? '').toLowerCase().replace(/ß/g, 'ss');
+    const ohneAkzent = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    return [ohneAkzent(klein), ohneAkzent(klein.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue'))];
+}
+
+/**
+ * Steckt die Anfrage in einem der Felder? Groß und klein, Akzente und
+ * Umlaute spielen keine Rolle: "zurich" findet Zürich, "Hansel" wie
+ * "Haensel" findet Hänsel und Gretel. Eine leere Anfrage passt immer.
+ */
+export function passtZurSuche(anfrage, ...felder) {
+    const [q] = suchFormen(String(anfrage ?? '').trim());
+    if (!q) return true;
+    return felder.some(f => f && suchFormen(f).some(form => form.includes(q)));
+}
+
 export function escapeHTML(str) {
     if (str == null) return '';
     return String(str)

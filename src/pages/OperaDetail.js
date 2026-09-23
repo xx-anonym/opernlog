@@ -90,6 +90,11 @@ function werkVerlaufAbschnitt(operaId) {
       </div>`;
 }
 
+// Werke, deren "Aktuelle Termine" gerade aufgeklappt sind. Die Seite wird
+// neu gebaut, sobald die App aus dem Hintergrund zurückkommt; ohne das
+// klappte die Liste dabei jedes Mal wieder zu.
+const offeneTermine = new Set();
+
 export function OperaDetailPage(operaId) {
   const opera = operas.find(o => o.id === operaId);
   if (!opera) {
@@ -309,8 +314,7 @@ export function OperaDetailPage(operaId) {
   const termineBtn = page.querySelector('#termineToggle');
   const termine = page.querySelector('#operaTermine');
   if (termineBtn && termine) {
-    termineBtn.addEventListener('click', () => {
-      const oeffnen = termine.hidden;
+    const zeigen = (oeffnen) => {
       if (oeffnen && !termine.childElementCount) {
         const position = getCachedPosition();
         termine.innerHTML = spielplanBlock(opera.id, position);
@@ -319,7 +323,13 @@ export function OperaDetailPage(operaId) {
       }
       termine.hidden = !oeffnen;
       termineBtn.setAttribute('aria-expanded', String(oeffnen));
-    });
+      if (oeffnen) offeneTermine.add(opera.id);
+      else offeneTermine.delete(opera.id);
+    };
+    termineBtn.addEventListener('click', () => zeigen(termine.hidden));
+    // Neu gezeichnet – nach der Rückkehr in die App oder zurück von einem
+    // Haus – bleibt offen, was offen war.
+    if (offeneTermine.has(opera.id)) zeigen(true);
   }
 
   // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet

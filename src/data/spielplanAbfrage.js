@@ -5,13 +5,13 @@
 
 import { spielplan } from './spielplan.js';
 import { operaHouses, distanceKm } from './operaHouses.js';
+import { heuteIso } from '../utils.js';
+
+// Liegt in utils.js, weil auch das Log-Formular es braucht; hier weiter
+// erreichbar für alle, die es von hier holen.
+export { heuteIso };
 
 const MONATE = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
-
-/** Heute als JJJJ-MM-TT in Ortszeit – toISOString() läge nach 22 Uhr schon beim nächsten Tag. */
-export function heuteIso(jetzt = new Date()) {
-    return `${jetzt.getFullYear()}-${String(jetzt.getMonth() + 1).padStart(2, '0')}-${String(jetzt.getDate()).padStart(2, '0')}`;
-}
 
 const WOCHENTAGE = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 

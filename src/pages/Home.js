@@ -84,7 +84,9 @@ function kopf(eigene) {
     return el;
   }
 
-  const jahr = seasonStartYear(new Date().toISOString().slice(0, 10));
+  // Das Datum selbst, nicht toISOString(): das wäre am 1. August bis 2 Uhr
+  // noch der 31. Juli und damit die alte Spielzeit.
+  const jahr = seasonStartYear(new Date());
   const s = seasonSummary(eigene, jahr);
 
   // In der Sommerpause steht hier sonst eine Reihe Nullen. Dann lieber die
@@ -215,8 +217,8 @@ function feedAbschnitt() {
              Freunde hier – mit Bewertung, Besetzung und Platz für einen Kommentar.</p>
            <a href="#/community" class="btn btn--primary">Opernfreunde finden</a>`
         : `<p class="feed-leer__text">${icon('user', { className: 'icon--meta' })}
-             Mit einem Konto siehst du hier, was deine Opernfreunde erlebt haben.
-             Dein Tagebuch führst du auch ohne.</p>
+             Mit einem Konto führst du dein Operntagebuch und siehst hier, was
+             deine Opernfreunde erlebt haben.</p>
            <a href="#/auth" class="btn btn--primary">Anmelden</a>`;
     el.appendChild(leer);
 

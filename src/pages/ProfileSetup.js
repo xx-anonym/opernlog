@@ -2,6 +2,7 @@
 import { profileIcons } from '../data/profileIcons.js';
 import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
+import { escapeHTML } from '../utils.js';
 
 export function ProfileSetupPage(session, onComplete) {
     const page = document.createElement('div');
@@ -23,8 +24,8 @@ export function ProfileSetupPage(session, onComplete) {
 
         <form id="profileSetupForm" class="auth-form">
             <div class="form-group">
-                <label for="setupUsername">Benutzername</label>
-                <input type="text" id="setupUsername" placeholder="z.B. Opernfan42" required minlength="3" value="${defaultUsername}" />
+                <label class="form-label" for="setupUsername">Benutzername</label>
+                <input type="text" class="input" id="setupUsername" autocomplete="nickname" placeholder="z.B. Opernfan42" required minlength="3" value="${escapeHTML(defaultUsername)}" />
                 <span class="form-hint">Dieser Name wird anderen Nutzern angezeigt.</span>
             </div>
 
