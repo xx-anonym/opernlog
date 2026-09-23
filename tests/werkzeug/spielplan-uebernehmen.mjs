@@ -11,6 +11,7 @@
 // (siehe seitenrahmen), und der Tag des Laufs selbst: Kalender auf den
 // Seiten zeigen oft das heutige Datum, und bis die Datei live ist, ist
 // der Tag ohnehin vorbei.
+// Dazu kommen Termine aus Spielzeitheften (ergaenzen in den Korrekturen).
 // Was die Durchsicht von Hand ergibt, gehört in spielplan-korrekturen.json,
 // nicht in die erzeugte Datei – sonst ist es beim nächsten Lauf weg.
 
@@ -65,6 +66,19 @@ export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
             const url = (korrekturen.adressen || []).find(k => passt(k, haus, werk))?.url || w.url || erg.start?.[0];
             zeilen.push({ werk, haus, url, termine });
         }
+    }
+    // Termine aus Quellen, die das Werkzeug nicht lesen kann – Spielzeithefte
+    // von Häusern, die Programme aussperren (Karlsruhe, Basel). Sie kommen zu
+    // dem hinzu, was der Lauf gefunden hat, und veralten von selbst: es zählen
+    // nur Termine nach dem Stand und in der Spielzeit.
+    const bis = stand ? `${Number(stand.slice(0, 4)) + 1}-09-30` : '9999';
+    for (const e of korrekturen.ergaenzen || []) {
+        if (!werkIds.has(e.werk) || !hausIds.has(e.haus)) { weggelassen.push({ haus: e.haus, werk: e.werk, grund: 'nicht im Katalog' }); continue; }
+        const termine = e.termine.filter(t => t > stand && t <= bis);
+        if (!termine.length) continue;
+        const da = zeilen.find(z => z.haus === e.haus && z.werk === e.werk);
+        if (da) da.termine = [...new Set([...da.termine, ...termine])].sort();
+        else zeilen.push({ werk: e.werk, haus: e.haus, url: e.url, termine: [...termine].sort() });
     }
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
     return { zeilen, weggelassen, stand };

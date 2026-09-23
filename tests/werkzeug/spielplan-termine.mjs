@@ -192,13 +192,15 @@ const nurDaten = z => z.replace(OHNE_DATEN, '').length === 0;
 
 // Zeilen mit einem Datum, das kein Opernabend ist: Matinee, Vorverkauf,
 // Führung, Rabattaktion, die Uraufführung vor 150 Jahren.
-const NEBEN_ZEILE = /matinee|vorverkauf|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
+const NEBEN_ZEILE = /matin[ée]e|vorverkauf|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
 
 // Eine Zeile, die nur sagt, was für ein Anlass es ist: "Einführung",
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),
 // "Verkaufsstart V-Club" (Volksoper), "MATINEE ZU …" (Essen). Nicht "Vorverkauf über …": das steht in
 // Augsburg unter jeder Vorstellung.
-const NUR_NEBENHER = /^(\S*einführung\S*|\S*matinee\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(matinee|öffentliche[rs]? probe|probenbesuch)/i;
+const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+
+const EINDEUTIG_NEBENHER = /^(\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
 // Die Zeilen eines Eintrags: ab dem Datum bis vor das nächste Datum.
 function eintrag(zeilen, i, fenster, kontext, hoechstens) {
@@ -269,7 +271,12 @@ export function termineMitUhrzeit(text, fenster, { ort } = {}) {
         const daten = erg.termine;
         if (!daten.length || NEBEN_ZEILE.test(z)) return;
         const teile = eintrag(zeilen, i, fenster, vorher, 3);
-        if (teile.slice(1, 3).some(t => NUR_NEBENHER.test(t))) return;
+        // Der Anlass steht direkt darunter ("Einführung") oder eine Zeile tiefer
+        // ("MATINEE ZU …" in Essen); dort zählt "Einführung" nicht, bei manchen
+        // Häusern ist das nur ein Hinweis am Ende eines Eintrags. Ein Anlass
+        // über dem Datum ist nicht zu deuten: in Ulm gehört er zum Datum
+        // darunter, in Krefeld zum Eintrag davor – das bleibt der Durchsicht.
+        if (NUR_NEBENHER.test(teile[1] || '') || EINDEUTIG_NEBENHER.test(teile[2] || '')) return;
         const umgebung = teile.join(' ');
         // Die Uhrzeit darf nicht Teil des Datums selbst sein ("19.10." ist kein 19:10).
         const ohneDaten = umgebung.replace(/(?<![\d.])\d{1,2}\.\s?\d{1,2}\.(?:\s?(20\d\d|\d\d)(?![\d]|[.:]\d))?/g, ' ');

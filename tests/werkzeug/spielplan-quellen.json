@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
+  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
   "bayerische-staatsoper": [
     "https://www.staatsoper.de/spielplan/{JJJJ}-{MM}",
     "https://www.staatsoper.de/spielzeit-2026-27"
@@ -152,10 +152,16 @@
     ],
     "ortJeTermin": "Detmold"
   },
-  "pfalztheater": [
-    "https://pfalztheater.de/spielplan-fuer-die-spielzeit-2026-27/",
-    "https://pfalztheater.de/kalender/"
-  ],
+  "pfalztheater": {
+    "start": [
+      "https://pfalztheater.de/spielplan-fuer-die-spielzeit-2026-27/",
+      "https://pfalztheater.de/kalender/"
+    ],
+    "stuecke": [
+      "https://pfalztheater.de/unsere-stuecke/der-rosenkavalier/",
+      "https://pfalztheater.de/unsere-stuecke/aida/"
+    ]
+  },
   "staatstheater-mainz": [
     "https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27",
     "https://www.staatstheater-mainz.com/uebersicht/september"
@@ -312,7 +318,7 @@
     "ort": "Felsenreitschule"
   },
   "salzburger-landestheater": [
-    "https://www.salzburger-landestheater.at/spielplan"
+    "https://www.salzburger-landestheater.at/de/start/index.html"
   ],
   "tiroler-landestheater": [
     "https://www.landestheater.at/spielplan"
@@ -357,5 +363,5 @@
   "oper-im-steinbruch-st-margarethen": [
     "https://www.operimsteinbruch.at/"
   ],
-  "_gesperrt": "badisches-staatstheater: antwortet Programmen mit 403 – wird respektiert, das Haus bleibt ohne Termine."
+  "_gesperrt": "badisches-staatstheater und theater-basel antworten Programmen mit 403 – das wird respektiert. Ihre Termine kommen aus den Spielzeitheften (ergaenzen in spielplan-korrekturen.json). salzburger-landestheater antwortet dem Browser des Werkzeugs nicht (curl geht); Termine ebenfalls über ergaenzen."
 }

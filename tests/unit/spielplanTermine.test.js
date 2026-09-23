@@ -186,7 +186,14 @@ test('eine Einführung als eigener Eintrag ist keine Vorstellung', () => {
     assert.deepEqual(termineMitUhrzeit('01.04.2027 10:00\nVerkaufsstart V-Club', F), []);
     assert.deepEqual(termineMitUhrzeit('Dernière: Fr, 18.12.2026\n11:00 Uhr\nEINFÜHRUNGS-MATINEE', F), []);
     assert.deepEqual(termineMitUhrzeit('So 02 Mai 2027\n11:00\nMATINEE ZU "ZAR UND ZIMMERMANN"', F), []);
+    assert.deepEqual(termineMitUhrzeit('So 02 Mai 2027, 11:00\nMATINEE ZU "ZAR UND ZIMMERMANN"', F), []);
     assert.deepEqual(termineMitUhrzeit('Di 11 Mai 2027\n18:00\nÖFFENTLICHER PROBENBESUCH ZU "ZAR UND ZIMMERMANN"', F), []);
+    assert.deepEqual(termineMitUhrzeit('Sonntag, 04.04.2027, 11:00 Uhr\nMatinée', F), []);
+    // Krefeld: "Soiree" beendet den Eintrag davor und gehört nicht zur Premiere darunter.
+    assert.deepEqual(termineMitUhrzeit('14 Nov. 2026\nSA\n19:30\nTheater MG – Große Bühne\nPremiere', F), ['2026-11-14']);
+    assert.ok(termineMitUhrzeit('11 Nov. 2026\nMI\n18:45\nTheater MG – Theaterbar\nSoiree\n14 Nov. 2026\nSA\n19:30\nPremiere', F).includes('2026-11-14'));
+    // "Einführung" am Ende des vorigen Eintrags gehört nicht zum nächsten.
+    assert.deepEqual(termineMitUhrzeit('Fr 09.10.2026\n19:30 Uhr\nEinführung\nSa 10.10.2026\n19:30 Uhr', F), ['2026-10-09', '2026-10-10']);
     // Eine Einführung vor der Vorstellung macht sie nicht zur Nebensache.
     assert.deepEqual(termineMitUhrzeit('Fr, 16.10.2026, 19:30 Uhr\n19:00 | Stückeinführung', F), ['2026-10-16']);
     assert.deepEqual(termineMitUhrzeit('Di 15.12.2026, 15:00 | martini-Park\nVorverkauf über Besucherservice', F), ['2026-12-15']);

@@ -316,11 +316,14 @@ export function monatsVorlage(hrefs, fenster) {
  * einem gemeinsamen Programm (Salzburg, Bregenz, Erl, Theater an der Wien).
  * Mit ortJeTermin zählt jeder einzelne Termin nur, wenn der Ort in seinem
  * Eintrag steht – für Häuser, die viel auf Gastspiel gehen (Detmold).
+ * Unter stuecke stehen Seiten einzelner Produktionen, die das Haus nirgends
+ * verlinkt, wo das Werkzeug hinkommt (Pfalztheater); welche es gibt, sagt
+ * das Spielzeitheft.
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null }
-        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null };
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [] }
+        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [] };
 }
 
 // Adressen mit kaputtem Prozentzeichen ("50%-Rabatt") ließen decodeURIComponent
@@ -415,6 +418,13 @@ async function lesen(kontext, hausId, fenster) {
         } catch (e) {
             erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
         }
+    }
+
+    for (const u of q.stuecke) {
+        const ids = werkeImLink('', u);
+        if (!ids.length) { erg.fehler.push(`${u}: kein Werk aus dem Katalog in der Adresse`); continue; }
+        if (!kandidaten.has(u)) kandidaten.set(u, new Set());
+        ids.forEach(id => kandidaten.get(u).add(id));
     }
 
     // Je Werk höchstens zwei Seiten, je Haus höchstens 60. Kalender, die

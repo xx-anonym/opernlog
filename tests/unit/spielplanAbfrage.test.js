@@ -118,3 +118,20 @@ test('der Tag des Laufs fällt weg', () => {
     assert.deepEqual(zeilen.map(z => [z.werk, z.termine]), [['tosca', ['2026-10-08']]]);
     assert.equal(weggelassen.find(w => w.werk === 'aida').grund, 'keine Termine');
 });
+
+test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () => {
+    const { zeilen, weggelassen } = uebernehmen(LAUF, { ...LEER, ergaenzen: [
+        // ein Haus, das der Lauf nicht lesen konnte
+        { haus: 'badisches-staatstheater', werk: 'arabella', url: 'https://karlsruhe.example/', termine: ['2026-09-01', '2027-04-04', '2028-01-01'] },
+        // ein Werk, das der Lauf schon kennt: die Termine kommen hinzu
+        { haus: 'semperoper', werk: 'tosca', url: 'https://heft.example/', termine: ['2026-10-11', '2026-12-01'] },
+        { haus: 'semperoper', werk: 'unbekanntes-werk', url: 'https://heft.example/', termine: ['2026-12-01'] },
+    ] });
+    const zeile = (haus, werk) => zeilen.find(z => z.haus === haus && z.werk === werk);
+    // Vor dem Stand und nach der Spielzeit fällt weg.
+    assert.deepEqual(zeile('badisches-staatstheater', 'arabella'), { werk: 'arabella', haus: 'badisches-staatstheater', url: 'https://karlsruhe.example/', termine: ['2027-04-04'] });
+    // Der Link des Laufs bleibt, die Termine werden vereinigt.
+    assert.deepEqual(zeile('semperoper', 'tosca'), { werk: 'tosca', haus: 'semperoper', url: 'https://semperoper.example/tosca', termine: ['2026-10-08', '2026-10-11', '2026-12-01'] });
+    assert.equal(zeile('semperoper', 'unbekanntes-werk'), undefined);
+    assert.ok(weggelassen.some(w => w.werk === 'unbekanntes-werk' && w.grund === 'nicht im Katalog'));
+});

@@ -89,7 +89,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   `tests/werkzeug/spielplan-korrekturen.json` – nie von Hand in die erzeugte
   Datei, sonst ist es beim nächsten Lauf weg. Die Einstiegsseiten je Haus
   stehen in `tests/werkzeug/spielplan-quellen.json`; ändert ein Haus seine
-  Webseite, ist das die Stelle.
+  Webseite, ist das die Stelle. Häuser, die Programme aussperren (Karlsruhe,
+  Basel), bekommen ihre Termine aus dem Spielzeitheft: von Hand unter
+  `ergaenzen` in den Korrekturen, mit Quelle. Diese Termine veralten von
+  selbst und müssen jede Spielzeit neu eingetragen werden.
 - **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte

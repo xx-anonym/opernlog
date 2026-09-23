@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Ergebnis der Durchsicht von Hand. ausschliessen: Treffer, die kein Opernabend sind (Schauspiel, Ballett, Konzert, Kinderfassung …). aufnehmen: Treffer, bei denen der Komponist auf der Seite fehlt, die aber sicher stimmen. termineEntfernen: einzelne falsch gelesene Daten. adressen: bessere Links. werk '*' gilt für alle Werke eines Hauses.",
+  "_hinweis": "Ergebnis der Durchsicht von Hand. ausschliessen: Treffer, die kein Opernabend sind (Schauspiel, Ballett, Konzert, Kinderfassung …). aufnehmen: Treffer, bei denen der Komponist auf der Seite fehlt, die aber sicher stimmen. termineEntfernen: einzelne falsch gelesene Daten. adressen: bessere Links. werk '*' gilt für alle Werke eines Hauses. ergaenzen: Termine aus Quellen, die das Werkzeug nicht lesen kann (Spielzeithefte von Häusern, die Programme aussperren), mit Quelle; sie kommen zu den gelesenen hinzu und zählen nur, solange sie nach dem Stand liegen.",
   "ausschliessen": [
     {
       "haus": "theater-erfurt",
@@ -79,7 +79,219 @@
         "2027-05-02"
       ],
       "grund": "Matinee"
+    },
+    {
+      "haus": "pfalztheater",
+      "werk": "aida",
+      "termine": [
+        "2027-04-04"
+      ],
+      "grund": "Matinée im Foyer"
+    },
+    {
+      "haus": "pfalztheater",
+      "werk": "rosenkavalier",
+      "termine": [
+        "2026-11-22"
+      ],
+      "grund": "Matinée"
+    },
+    {
+      "haus": "theater-ulm",
+      "werk": "eugen-onegin",
+      "termine": [
+        "2027-01-23",
+        "2027-01-30"
+      ],
+      "grund": "Workshop, Treffpunkt Bühnenpforte"
+    },
+    {
+      "haus": "theater-krefeld-mg",
+      "werk": "la-boheme",
+      "termine": [
+        "2026-11-11"
+      ],
+      "grund": "Soiree in der Theaterbar"
     }
   ],
-  "adressen": []
+  "adressen": [],
+  "ergaenzen": [
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "tote-stadt",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2026-12-06",
+        "2026-12-10",
+        "2026-12-29",
+        "2027-01-24",
+        "2027-02-05",
+        "2027-02-17",
+        "2027-03-20",
+        "2027-03-26",
+        "2027-04-08"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "arabella",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-04-04",
+        "2027-04-09",
+        "2027-04-15",
+        "2027-05-16",
+        "2027-05-19",
+        "2027-06-19",
+        "2027-06-24",
+        "2027-07-06"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "il-tabarro",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-07-03",
+        "2027-07-09",
+        "2027-07-18",
+        "2027-07-21",
+        "2027-07-23"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine (Il Trittico)"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "suor-angelica",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-07-03",
+        "2027-07-09",
+        "2027-07-18",
+        "2027-07-21",
+        "2027-07-23"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine (Il Trittico)"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "gianni-schicchi",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-07-03",
+        "2027-07-09",
+        "2027-07-18",
+        "2027-07-21",
+        "2027-07-23"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine (Il Trittico)"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "rigoletto",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2026-10-17",
+        "2027-01-19"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "haensel-gretel",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2026-12-12"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "la-traviata",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-01-07",
+        "2027-01-31",
+        "2027-04-11"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "lohengrin",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-01-30",
+        "2027-03-21",
+        "2027-03-28"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "badisches-staatstheater",
+      "werk": "fledermaus",
+      "url": "https://staatstheater.karlsruhe.de/",
+      "termine": [
+        "2027-05-02",
+        "2027-06-02",
+        "2027-06-23"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine"
+    },
+    {
+      "haus": "theater-basel",
+      "werk": "nozze-di-figaro",
+      "url": "https://www.theater-basel.ch/de/figaro",
+      "termine": [
+        "2026-11-21"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Theater Basel: nur Premieren"
+    },
+    {
+      "haus": "theater-basel",
+      "werk": "lucia",
+      "url": "https://www.theater-basel.ch/de/lammermoor",
+      "termine": [
+        "2026-12-12"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Theater Basel: nur Premieren"
+    },
+    {
+      "haus": "theater-basel",
+      "werk": "rusalka",
+      "url": "https://www.theater-basel.ch/de/rusalka",
+      "termine": [
+        "2027-01-30"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Theater Basel: nur Premieren"
+    },
+    {
+      "haus": "grosses-festspielhaus",
+      "werk": "tosca",
+      "url": "https://www.salzburger-landestheater.at/de/produktionen/tosca-2.html",
+      "termine": [
+        "2026-10-31",
+        "2026-11-05",
+        "2026-11-07",
+        "2026-11-10",
+        "2026-11-14"
+      ],
+      "quelle": "Salzburger Landestheater, halbszenisch im Großen Festspielhaus; Spielzeitheft 2026/27, bestätigt von der Seite der Produktion"
+    },
+    {
+      "haus": "salzburger-landestheater",
+      "werk": "haensel-gretel",
+      "url": "https://www.salzburger-landestheater.at/de/produktionen/haensel-und-gretel-2.html",
+      "termine": [
+        "2026-11-15",
+        "2026-11-18",
+        "2026-12-09",
+        "2026-12-30",
+        "2027-01-22"
+      ],
+      "quelle": "Seite der Produktion (ohne die Schulvorstellung am 20.11.) und Spielzeitheft 2026/27"
+    }
+  ]
 }
