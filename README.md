@@ -75,7 +75,8 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Hauses; auf der Seite eines Werks klappt „Aktuelle Termine“ dasselbe auf.
   „In der Nähe“ (`#/naehe`) dreht die Frage um: was läuft demnächst im
   gewählten Umkreis, jeder Abend einzeln nach Datum, auf Wunsch nur Werke der
-  Wunschliste; den Umkreis stellt ein Schieber von 5 bis 300 km ein. Die
+  Wunschliste; den Umkreis stellt ein Schieber von 5 bis 300 km ein, oder
+  man zoomt die Karte mit zwei Fingern (am Rechner mit dem Trackpad). Die
   Karte darüber (dieselbe wie bei den Opernhäusern) zeigt den Umkreis, die
   Städte und je Haus einen Punkt, der mit der Zahl der Abende wächst; ein
   Tipp auf ein Haus zeigt nur dessen Abende. Die Ländergrenzen darunter

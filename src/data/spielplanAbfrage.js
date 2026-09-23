@@ -103,3 +103,36 @@ export function abendeInDerNaehe({ heute = heuteIso(), bis = null, position = nu
         || (a.km ?? 0) - (b.km ?? 0)
         || a.haus.name.localeCompare(b.haus.name, 'de'));
 }
+
+// ── Umkreis für "In der Nähe" ──────────────────────────────────────────
+//
+// Die Stufen des Schiebers: fein, wo es auf wenige Kilometer ankommt, grob
+// weiter draußen. Nicht über 300 km: dahinter endet die Landkarte
+// (src/data/landkarte.js), und wer noch weiter will, nimmt "Alle Häuser".
+export const UMKREIS_STUFEN = [5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 125, 150, 175, 200, 250, 300];
+
+/** Die Stufe, die einem gemerkten Wert am nächsten liegt. */
+export function naechsteStufe(km) {
+    return UMKREIS_STUFEN.reduce((beste, s) => Math.abs(s - km) < Math.abs(beste - km) ? s : beste);
+}
+
+// "Alle Häuser" zählt beim Zoomen wie ein Umkreis ein Stück jenseits der
+// letzten Stufe: wer ganz herauszoomt, sieht alle, wer von dort hineinzoomt,
+// landet bei 300 km.
+const ALLE_ALS_KM = 400;
+
+/**
+ * Der Umkreis nach einer Zoom-Geste. faktor > 1 heißt hineinzoomen (Finger
+ * auseinander), also kleinerer Umkreis. Gerastet wird auf die Stufen des
+ * Schiebers, nach Verhältnis statt nach Abstand – von 10 auf 5 km ist so
+ * weit wie von 200 auf 100.
+ *
+ * @param {number|null} startKm  Umkreis zu Beginn der Geste; null = alle Häuser
+ * @returns {number|null}        neue Stufe, oder null für alle Häuser
+ */
+export function umkreisNachZoom(startKm, faktor) {
+    const ziel = (startKm ?? ALLE_ALS_KM) / faktor;
+    if (ziel > UMKREIS_STUFEN.at(-1) * 1.15) return null;
+    return UMKREIS_STUFEN.reduce((beste, s) =>
+        Math.abs(Math.log(s / ziel)) < Math.abs(Math.log(beste / ziel)) ? s : beste);
+}

@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { abendeInDerNaehe, tagePlus } from '../../src/data/spielplanAbfrage.js';
+import { abendeInDerNaehe, tagePlus, umkreisNachZoom, naechsteStufe } from '../../src/data/spielplanAbfrage.js';
 
 const DATEN = [
     { werk: 'tosca', haus: 'semperoper', url: 'https://s.example/tosca',
@@ -59,4 +59,25 @@ test('nur bestimmte Werke, etwa die der Wunschliste', () => {
 test('tagePlus rechnet über Monats- und Jahresgrenzen', () => {
     assert.equal(tagePlus('2026-12-30', 3), '2027-01-02');
     assert.equal(tagePlus('2027-02-27', 2), '2027-03-01');
+});
+
+test('Zoomen: Finger auseinander verkleinert den Umkreis, zusammen vergrößert ihn', () => {
+    assert.equal(umkreisNachZoom(100, 2), 50);
+    assert.equal(umkreisNachZoom(100, 0.5), 200);
+    assert.equal(umkreisNachZoom(100, 1), 100);
+    // gerastet auf die Stufen, nach Verhältnis
+    assert.equal(umkreisNachZoom(100, 1.3), 75);
+    assert.equal(umkreisNachZoom(10, 4), 5, 'nicht unter die kleinste Stufe');
+});
+
+test('ganz herausgezoomt: alle Häuser; von dort hinein: 300 km', () => {
+    assert.equal(umkreisNachZoom(300, 0.7), null);
+    assert.equal(umkreisNachZoom(null, 1.4), 300);
+    assert.equal(umkreisNachZoom(null, 1), null);
+});
+
+test('gemerkte Werte landen auf der nächsten Stufe', () => {
+    assert.equal(naechsteStufe(90), 100);
+    assert.equal(naechsteStufe(1), 5);
+    assert.equal(naechsteStufe(1000), 300);
 });

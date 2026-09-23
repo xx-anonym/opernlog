@@ -10,21 +10,16 @@ import { showToast, showError } from '../components/Toast.js';
 import { escapeHTML, getCachedPosition, requestPosition, standortHinweis } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
-import { abendeInDerNaehe, heuteIso, tagePlus, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
+import {
+    abendeInDerNaehe, heuteIso, tagePlus, terminMitWochentag, zeitText,
+    UMKREIS_STUFEN, naechsteStufe, umkreisNachZoom,
+} from '../data/spielplanAbfrage.js';
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
 
-// Die Stufen des Schiebers: fein, wo es auf wenige Kilometer ankommt, grob
-// weiter draußen. Nicht über 300 km: dahinter endet die Landkarte
-// (src/data/landkarte.js), und wer noch weiter will, nimmt "Alle Häuser".
-export const UMKREIS_STUFEN = [5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 125, 150, 175, 200, 250, 300];
-
-/** Die Stufe, die einem gemerkten Wert am nächsten liegt. */
-function naechsteStufe(km) {
-    return UMKREIS_STUFEN.reduce((beste, s) => Math.abs(s - km) < Math.abs(beste - km) ? s : beste);
-}
+export { UMKREIS_STUFEN };
 const ZEITRAEUME = [
     { tage: 7, text: 'Nächste 7 Tage' },
     { tage: 30, text: 'Nächste 30 Tage' },
@@ -35,6 +30,9 @@ const ZEITRAEUME = [
 const SICHTBAR = 60;
 
 const MERKER = 'opernlog_naehe';
+
+/** Ein Gerät mit Fingern statt Maus – für den Hinweis unter der Karte. */
+const beruehrbar = () => !!globalThis.matchMedia?.('(pointer: coarse)')?.matches;
 
 function gemerkt() {
     try { return JSON.parse(localStorage.getItem(MERKER)) || {}; } catch { return {}; }
@@ -107,10 +105,12 @@ export function NaehePage() {
     const wunschWahl = page.querySelector('#naeheNurWunschliste');
     const alleKnopf = page.querySelector('#naeheAlle');
     const umkreisWert = page.querySelector('#naeheUmkreisWert');
-    function umkreisAnzeigen() {
-        const alle = wahl.umkreis === null;
-        umkreisWahl.value = String(UMKREIS_STUFEN.indexOf(alle ? wahl.letzterUmkreis : wahl.umkreis));
-        const text = !position ? 'ohne Standort alle Häuser' : alle ? 'alle Häuser' : `bis ${wahl.umkreis} km`;
+    // km: was gerade zu sehen sein soll – während einer Zoom-Geste die
+    // Vorschau, sonst die Wahl.
+    function umkreisAnzeigen(km = wahl.umkreis) {
+        const alle = km === null;
+        umkreisWahl.value = String(UMKREIS_STUFEN.indexOf(alle ? wahl.letzterUmkreis : km));
+        const text = !position ? 'ohne Standort alle Häuser' : alle ? 'alle Häuser' : `bis ${km} km`;
         umkreisWert.textContent = text;
         umkreisWahl.setAttribute('aria-valuetext', text);
         alleKnopf.setAttribute('aria-pressed', String(alle));
@@ -219,7 +219,9 @@ export function NaehePage() {
         page.querySelector('#naeheKarteInhalt').replaceChildren(HouseMap(new Set(jeHaus.keys()), operaHouses, {
             legende: ['mit Abenden', 'ohne'],
             zaehler: n => `${n} ${n === 1 ? 'Haus' : 'Häuser'} mit Abenden`,
-            hinweis: n => n ? 'Punkt antippen: nur dieses Haus' : 'Im gewählten Zeitraum steht hier nichts.',
+            hinweis: n => !n ? 'Im gewählten Zeitraum steht hier nichts.'
+                : position && beruehrbar() ? 'Mit zwei Fingern zoomen ändert den Umkreis. Punkt antippen: nur dieses Haus.'
+                : 'Punkt antippen: nur dieses Haus',
             punktText: h => `${h.name} – ${h.city}${jeHaus.has(h.id) ? ` · ${abendeText(jeHaus.get(h.id))}` : ''}`,
             position,
             radiusKm: position ? wahl.umkreis : null,
@@ -260,11 +262,108 @@ export function NaehePage() {
         bild = requestAnimationFrame(zeichnen);
     });
     umkreisWahl.addEventListener('change', () => merken(wahl));
-    alleKnopf.addEventListener('click', () => {
-        wahl.umkreis = wahl.umkreis === null ? wahl.letzterUmkreis : null;
+    function umkreisSetzen(km) {
+        wahl.umkreis = km;
+        if (km !== null) wahl.letzterUmkreis = km;
         merken(wahl);
         alleZeigen = false;
         zeichnen();
+    }
+
+    alleKnopf.addEventListener('click', () => {
+        umkreisSetzen(wahl.umkreis === null ? wahl.letzterUmkreis : null);
+    });
+
+    // ── Zoomen auf der Karte ändert den Umkreis ─────────────────────────
+    //
+    // Mit zwei Fingern auf dem Handy, mit dem Trackpad am Rechner (Chrome
+    // meldet das als Mausrad mit Strg, Safari als eigene Geste). Während der
+    // Geste wird die Karte nur vergrößert und der Wert oben mitgeführt; neu
+    // gezeichnet wird erst am Ende. Ein Neuzeichnen mittendrin nähme den
+    // Fingern das Element weg, auf dem sie liegen.
+    const karteInhalt = page.querySelector('#naeheKarteInhalt');
+    let geste = null;   // { km, vorschau }
+
+    function gesteBeginnen() {
+        geste = { km: wahl.umkreis, vorschau: wahl.umkreis };
+    }
+    function gesteZeigen(faktor) {
+        geste.vorschau = umkreisNachZoom(geste.km, faktor);
+        const svg = karteInhalt.querySelector('.housemap__svg');
+        if (svg) svg.style.transform = `scale(${Math.max(0.3, Math.min(faktor, 4)).toFixed(3)})`;
+        umkreisAnzeigen(geste.vorschau);
+    }
+    function gesteBeenden() {
+        const g = geste;
+        geste = null;
+        if (!g) return;
+        if (g.vorschau !== wahl.umkreis) {
+            umkreisSetzen(g.vorschau);
+        } else {
+            const svg = karteInhalt.querySelector('.housemap__svg');
+            if (svg) svg.style.transform = '';
+            umkreisAnzeigen();
+        }
+    }
+
+    // Zwei Finger
+    const finger = new Map();
+    let startAbstand = 0;
+    const abstand = () => {
+        const [a, b] = [...finger.values()];
+        return Math.hypot(a.x - b.x, a.y - b.y);
+    };
+    karteInhalt.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'touch' || !position) return;
+        finger.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (finger.size === 2) {
+            startAbstand = abstand();
+            gesteBeginnen();
+        }
+    });
+    karteInhalt.addEventListener('pointermove', (e) => {
+        if (!finger.has(e.pointerId)) return;
+        finger.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (!geste || finger.size !== 2 || !startAbstand) return;
+        e.preventDefault();
+        gesteZeigen(abstand() / startAbstand);
+    });
+    const fingerWeg = (e) => {
+        if (!finger.delete(e.pointerId)) return;
+        if (finger.size < 2 && geste) gesteBeenden();
+    };
+    karteInhalt.addEventListener('pointerup', fingerWeg);
+    karteInhalt.addEventListener('pointercancel', fingerWeg);
+
+    // Trackpad (Chrome, Firefox): Mausrad mit Strg. Ende, wenn eine Weile nichts kommt.
+    let radFaktor = 1;
+    let radUhr = 0;
+    karteInhalt.addEventListener('wheel', (e) => {
+        if (!e.ctrlKey || !position) return;
+        e.preventDefault();
+        if (!geste) { gesteBeginnen(); radFaktor = 1; }
+        radFaktor *= Math.exp(-e.deltaY * 0.01);
+        gesteZeigen(radFaktor);
+        clearTimeout(radUhr);
+        radUhr = setTimeout(gesteBeenden, 300);
+    }, { passive: false });
+
+    // Safari: eigene Gesten-Ereignisse, am Mac vom Trackpad, auf dem iPhone
+    // zusätzlich zu den Fingern. Dort nur verhindern, dass die ganze Seite
+    // zoomt – die Finger erledigen es schon.
+    karteInhalt.addEventListener('gesturestart', (e) => {
+        e.preventDefault();
+        if (finger.size || !position) return;
+        gesteBeginnen();
+    });
+    karteInhalt.addEventListener('gesturechange', (e) => {
+        e.preventDefault();
+        if (finger.size || !geste || !e.scale) return;
+        gesteZeigen(e.scale);
+    });
+    karteInhalt.addEventListener('gestureend', (e) => {
+        e.preventDefault();
+        if (!finger.size) gesteBeenden();
     });
     zeitraumWahl.addEventListener('change', () => {
         wahl.tage = zeitraumWahl.value === 'alle' ? null : Number(zeitraumWahl.value);

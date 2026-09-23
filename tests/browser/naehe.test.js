@@ -206,3 +206,61 @@ test('die Karte zeigt Ländergrenzen, größere Punkte für mehr Abende und Stä
         assert.ok(namen.includes('Dresden') && namen.includes('Leipzig'), namen.join(', '));
     } finally { await ctx.close(); }
 });
+
+/** Zwei Finger auf die Karte, von einem Abstand zum anderen, und wieder los. */
+async function zweiFinger(p, von, bis) {
+    await p.evaluate(({ von, bis }) => {
+        const svg = document.querySelector('#naeheKarte .housemap__svg');
+        const k = svg.getBoundingClientRect();
+        const mx = k.left + k.width / 2, my = k.top + k.height / 2;
+        const ev = (art, id, dx) => svg.dispatchEvent(new PointerEvent(art, {
+            pointerId: id, pointerType: 'touch', isPrimary: id === 1, bubbles: true, cancelable: true,
+            clientX: mx + dx, clientY: my,
+        }));
+        ev('pointerdown', 1, -von / 2);
+        ev('pointerdown', 2, von / 2);
+        for (let i = 1; i <= 5; i++) {
+            const d = von + (bis - von) * i / 5;
+            ev('pointermove', 1, -d / 2);
+            ev('pointermove', 2, d / 2);
+        }
+        window.__vorschau = document.querySelector('#naeheUmkreisWert').textContent;
+        ev('pointerup', 1, -bis / 2);
+        ev('pointerup', 2, bis / 2);
+    }, { von, bis });
+    await p.waitForTimeout(200);
+}
+
+test('zwei Finger auseinander: kleinerer Umkreis; zusammen: größerer, bis alle Häuser', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await naehe();
+    try {
+        await zweiFinger(p, 100, 200);          // doppelt so groß: 100 km → 50 km
+        assert.equal(await p.evaluate(() => window.__vorschau), 'bis 50 km', 'keine Vorschau während der Geste');
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 50 km');
+        assert.deepEqual(await zeilen(p), ['Tosca'], 'Leipzig liegt außerhalb von 50 km');
+        await p.waitForFunction(() => JSON.parse(localStorage.getItem('opernlog_naehe')).umkreis === 50);
+
+        await zweiFinger(p, 200, 20);           // weit zusammen: alle Häuser
+        assert.equal(await p.getAttribute('#naeheAlle', 'aria-pressed'), 'true');
+        assert.equal(await p.locator('.housemap__svg--ausschnitt').count(), 0, 'noch im Ausschnitt');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('am Rechner: Trackpad-Zoom (Strg + Mausrad) ändert den Umkreis ebenso', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await naehe();
+    try {
+        await p.evaluate(() => {
+            const svg = document.querySelector('#naeheKarte .housemap__svg');
+            for (let i = 0; i < 7; i++) svg.dispatchEvent(new WheelEvent('wheel', { deltaY: -10, ctrlKey: true, bubbles: true, cancelable: true }));
+        });
+        await p.waitForTimeout(500);    // Ende der Geste: eine Weile nichts
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 50 km');
+        // Ohne Strg bleibt das Mausrad ein Mausrad.
+        const vorher = await p.locator('#naeheUmkreisWert').innerText();
+        await p.evaluate(() => document.querySelector('#naeheKarte .housemap__svg')
+            .dispatchEvent(new WheelEvent('wheel', { deltaY: 300, bubbles: true, cancelable: true })));
+        await p.waitForTimeout(400);
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), vorher);
+    } finally { await ctx.close(); }
+});

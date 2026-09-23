@@ -5640,3 +5640,10 @@ body {
     border-color: var(--gold);
     color: var(--gold);
 }
+
+/* Auf der Karte in der Nähe: senkrecht wischen blättert die Seite, zwei
+   Finger zoomen die Karte – nicht die Seite. */
+.naehe-karte .housemap__svg {
+    touch-action: pan-y;
+    transform-origin: 50% 50%;
+}
