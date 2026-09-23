@@ -101,6 +101,18 @@ export function passtZurSuche(anfrage, ...felder) {
     return felder.some(f => f && suchFormen(f).some(form => form.includes(q)));
 }
 
+/**
+ * Kleine Marke für einen Besuch, der noch auf dem Gerät wartet (ohne Netz
+ * geloggt, siehe store.addVisit). Lehnte der Server ihn ab, steht der Grund
+ * dabei – dann lässt er sich korrigieren oder löschen.
+ */
+export function ausstehendMarke(visit) {
+    if (!visit?.ausstehend) return '';
+    return visit.uebertragungsfehler
+        ? `<span class="ausstehend-marke ausstehend-marke--fehler">Nicht übertragen: ${escapeHTML(visit.uebertragungsfehler)}</span>`
+        : '<span class="ausstehend-marke">Wartet auf Netz</span>';
+}
+
 export function escapeHTML(str) {
     if (str == null) return '';
     return String(str)

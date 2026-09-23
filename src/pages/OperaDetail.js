@@ -7,7 +7,7 @@ import { coverBackground, escapeHTML, datumKurz, getCachedPosition } from '../ut
 import { spielplanBlock, spielplanQuelle, nachStandortOrdnen, hatKommendeTermine } from '../components/SpielplanBlock.js';
 import { werkVerlauf } from '../data/werkVerlauf.js';
 import { composerLink } from './ComposerDetail.js';
-import { runWithFeedback, showError } from '../components/Toast.js';
+import { runWithFeedback, showError, showToast } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
@@ -88,6 +88,17 @@ function werkVerlaufAbschnitt(operaId) {
         <ol class="werkverlauf">${zeilen}</ol>
         ${teile.length ? `<p class="werkverlauf__fazit">${teile.join(' · ')}</p>` : ''}
       </div>`;
+}
+
+/**
+ * Abgemeldet führen Wunschliste und "Schon gesehen" zur Anmeldung, statt
+ * etwas zu speichern, das zu keinem Konto gehört.
+ */
+function zurAnmeldung(grund) {
+  if (store.hatKonto) return false;
+  showToast(`${grund} Melde dich an oder registriere dich.`);
+  window.location.hash = '#/auth';
+  return true;
 }
 
 // Werke, deren "Aktuelle Termine" gerade aufgeklappt sind. Die Seite wird
@@ -261,6 +272,7 @@ export function OperaDetailPage(operaId) {
   const wishlistBtn = page.querySelector('#wishlistToggle');
   if (wishlistBtn) {
     wishlistBtn.addEventListener('click', async () => {
+      if (zurAnmeldung('Für die Wunschliste brauchst du ein Konto.')) return;
       const wasOn = store.isOnWishlist(opera.id);
       wishlistBtn.disabled = true;
       const ok = await runWithFeedback(
@@ -288,6 +300,7 @@ export function OperaDetailPage(operaId) {
   const seenBtn = page.querySelector('#seenToggle');
   if (seenBtn) {
     seenBtn.addEventListener('click', async () => {
+      if (zurAnmeldung('Zum Markieren brauchst du ein Konto.')) return;
       const warMarkiert = store.isSeenOpera(opera.id);
       seenBtn.disabled = true;
       const ok = await runWithFeedback(

@@ -5,7 +5,7 @@ import { runWithFeedback } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
-import { visitCredits, passtZurSuche } from '../utils.js';
+import { visitCredits, passtZurSuche, ausstehendMarke } from '../utils.js';
 import { seasonLabel } from '../data/season.js';
 import { gruppiereBesuche, nachNote } from '../data/tagebuch.js';
 
@@ -167,6 +167,7 @@ export function DiaryPage() {
           <div class="diary-entry__info">
             <div class="diary-entry__title">${opera ? opera.title : 'Unbekannt'}</div>
             <div class="diary-entry__house">${house ? `${house.name}, ${house.city}` : 'Unbekannt'}</div>
+            ${ausstehendMarke(visit)}
           </div>
           <div class="diary-entry__rating" id="rating-${visit.id}"></div>
           ${visit.review ? `<div class="diary-entry__review-icon" title="Review geschrieben">${icon('note')}</div>` : ''}

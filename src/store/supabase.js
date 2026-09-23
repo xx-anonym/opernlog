@@ -727,6 +727,9 @@ export async function addVisitCloud(visit) {
     if (!session) return null;
     const sb = getSupabase();
     return unwrapWritten(await sb.from('visits').insert({
+        // Die Kennung vergibt der Browser (store.addVisit), damit ein
+        // wiederholter Versuch nicht doppelt anlegt.
+        ...(visit.id ? { id: visit.id } : {}),
         user_id: session.user.id,
         house_id: visit.houseId,
         opera_id: visit.operaId,

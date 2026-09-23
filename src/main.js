@@ -27,7 +27,7 @@ import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
-import { showError } from './components/Toast.js';
+import { showError, showToast } from './components/Toast.js';
 import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud } from './store/supabase.js';
@@ -139,6 +139,10 @@ class App {
         // Wait 600ms for curtains to be mostly open before showing content
         await new Promise(r => setTimeout(r, 600));
         this.buildLayout();
+
+        // Was beim letzten Mal ohne Netz geloggt wurde, geht jetzt hoch –
+        // sobald der Abgleich durch ist und damit die Sitzung steht.
+        cloud.then(() => this.ausstehendeSenden());
 
         // Kam der Abgleich nicht rechtzeitig, wird nachgezeichnet, sobald er
         // da ist – dann stehen die frischen Daten in derselben Ansicht.
@@ -377,8 +381,41 @@ class App {
         };
         document.addEventListener('visibilitychange', this._visibilityHandler);
 
+        // Netz ist wieder da: wartende Besuche hochschicken. Ohne Sitzung (sie
+        // ließ sich offline nicht erneuern) erst den Abgleich, der sie holt.
+        if (this._onlineHandler) window.removeEventListener('online', this._onlineHandler);
+        this._onlineHandler = async () => {
+            if (!store.isCloud && isSupabaseConfigured()) {
+                try { await store.refreshSession(); } catch (e) { console.warn('[App] Abgleich nach Rückkehr des Netzes', e); }
+            }
+            this.ausstehendeSenden();
+        };
+        window.addEventListener('online', this._onlineHandler);
+
         this.route();
         this.reportSyncError();
+    }
+
+    /**
+     * Ohne Netz geloggte Besuche übertragen und sagen, wie es ausging. Neu
+     * gezeichnet wird nur, wenn sich etwas getan hat und niemand gerade tippt.
+     */
+    async ausstehendeSenden({ neuZeichnen = true } = {}) {
+        let ergebnis;
+        try {
+            ergebnis = await store.ausstehendeUebertragen();
+        } catch (e) {
+            console.error('[App] Wartende Besuche übertragen', e);
+            return;
+        }
+        if (!ergebnis?.uebertragen) return;
+        const n = ergebnis.uebertragen;
+        showToast(n === 1
+            ? 'Der ohne Netz geloggte Besuch ist jetzt gespeichert.'
+            : `${n} ohne Netz geloggte Besuche sind jetzt gespeichert.`);
+        if (neuZeichnen && this._layoutGebaut && !['log', 'auth'].includes(this.currentPath()) && !ungesicherteEingabe()) {
+            this.route();
+        }
     }
 
     // Weist darauf hin, wenn angezeigte Daten aus dem lokalen Zwischenspeicher
@@ -389,6 +426,13 @@ class App {
         const message = store.syncError.userMessage || store.syncError.message;
         store.syncError = null;
         showError(message);
+    }
+
+    /** Neuer Besuch, oder Änderung an einem, der noch auf dem Gerät wartet. */
+    offlineLoggenErlaubt(params) {
+        if (!store.kannSpaeterUebertragen) return false;
+        if (!params.edit) return true;
+        return !!store.getAusstehendeBesuche().find(v => v.id === params.edit);
     }
 
     // Current route path, e.g. "diary" for "#/diary" or "log" for "#/log?edit=1"
@@ -407,6 +451,7 @@ class App {
         try {
             if (isSupabaseConfigured()) await store.refreshSession();
             this._lastRefresh = Date.now();
+            await this.ausstehendeSenden({ neuZeichnen: false });
             // Wer gerade etwas tippt, verliert es nicht: ein halber Kommentar,
             // eine Suche. Die Daten sind trotzdem frisch, zu sehen sind sie
             // beim nächsten Seitenwechsel.
@@ -425,14 +470,16 @@ class App {
      * Anmeldemaske: die schlägt jemandem eine Anmeldung vor, der längst
      * angemeldet ist und sie ohne Netz gar nicht durchführen könnte.
      */
-    offlineHinweis(path) {
+    offlineHinweis(path, params = {}) {
         const box = document.createElement('div');
         box.className = 'page empty-state offline-hinweis';
         box.innerHTML = `
             <p class="offline-hinweis__titel">${icon('globe', { className: 'icon--meta' })}Dafür fehlt gerade das Netz</p>
-            <p>${path === 'log'
-                ? 'Ein Besuch lässt sich nur mit Verbindung eintragen – er soll ja auch auf deinen anderen Geräten ankommen.'
-                : 'Diese Seite lädt Daten anderer Nutzer und braucht dafür eine Verbindung.'}</p>
+            <p>${path !== 'log'
+                ? 'Diese Seite lädt Daten anderer Nutzer und braucht dafür eine Verbindung.'
+                : params.edit
+                    ? 'Einen gespeicherten Besuch ändern geht nur mit Verbindung – die Änderung soll ja auch auf deinen anderen Geräten ankommen. Neue Besuche kannst du auch ohne Netz loggen.'
+                    : 'Zum Loggen brauchst du ein Konto. Melde dich an, sobald du wieder Netz hast.'}</p>
             <p class="text-muted">Dein Tagebuch, dein Profil und der Katalog sind auch ohne Netz da.</p>
             <a class="btn btn--primary" href="#/diary">Zum Tagebuch</a>
         `;
@@ -480,21 +527,23 @@ class App {
         // Ohne Netz gar nicht erst anbieten, was zwingend ans Netz muss –
         // egal, ob die Sitzung gerade als angemeldet gilt. Ein Formular, das
         // beim Absenden scheitert, ist ärgerlicher als ein klarer Hinweis.
-        if (store.isOffline && ['log', 'community'].includes(path)) {
+        // Loggen geht auch ohne Netz: der Besuch wartet dann auf dem Gerät.
+        // Nur einen schon übertragenen zu ändern, braucht die Verbindung.
+        if (store.isOffline && (path === 'community' || (path === 'log' && !this.offlineLoggenErlaubt(params)))) {
             this.content.innerHTML = '';
-            this.content.appendChild(this.offlineHinweis(path));
+            this.content.appendChild(this.offlineHinweis(path, params));
             return;
         }
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'community', 'invite', 'visit', 'season'];
+            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'invite', 'visit', 'season'];
 
             // Ohne Netz zeigt die App das, was lokal liegt, statt zur Anmeldung
             // zu schicken. Sinn und Zweck eines Offline-Modus: das eigene
             // Tagebuch ist vollständig da, nur bestätigen lässt sich die
             // Anmeldung gerade nicht.
-            const offlineErlaubt = ['diary', 'profile', 'visit', 'season', 'lists'];
+            const offlineErlaubt = ['diary', 'profile', 'visit', 'season', 'lists', 'wishlist', 'log'];
 
             if (protectedRoutes.includes(path) && path !== 'invite') {
                 if (store.isOfflineWithLocalUser && offlineErlaubt.includes(path)) {
@@ -503,7 +552,7 @@ class App {
                     // Übrig bleiben die Seiten, die zwingend ans Netz müssen:
                     // Loggen schreibt, Community liest fremde Daten.
                     this.content.innerHTML = '';
-                    this.content.appendChild(this.offlineHinweis(path));
+                    this.content.appendChild(this.offlineHinweis(path, params));
                     return;
                 } else {
                     this.content.innerHTML = '';

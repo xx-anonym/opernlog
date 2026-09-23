@@ -196,13 +196,16 @@ test('ohne Netz zeigt das Profil die eigenen Zahlen', { skip: fehltPlaywright },
     } finally { await ctx.close(); }
 });
 
-test('ohne Netz sagt das Loggen klar, dass es Netz braucht', { skip: fehltPlaywright }, async () => {
-    // Ein Formular, das beim Absenden scheitert, ist ärgerlicher als ein
-    // Hinweis vorher – und die Anmeldemaske wäre schlicht falsch.
+test('ohne Netz bietet das Loggen das Formular an und sagt, dass es später überträgt', { skip: fehltPlaywright }, async () => {
+    // Früher stand hier ein Hinweis statt des Formulars: das Speichern wäre
+    // gescheitert. Seit ein Besuch auf dem Gerät warten kann, bis wieder Netz
+    // da ist (tests/browser/offlineLoggen.test.js), gibt es das Formular –
+    // mit der echten Bibliothek und aus dem Cache des Service Workers.
+    // Die Anmeldemaske wäre weiterhin schlicht falsch.
     const { ctx, p } = await imFlugmodus('#/log');
     try {
-        assert.ok(await p.$('.offline-hinweis'), 'kein Hinweis auf das fehlende Netz');
+        assert.ok(await p.$('#logForm'), 'das Formular fehlt ohne Netz');
+        assert.ok(await p.$('.log-offline'), 'kein Hinweis, dass der Besuch erst später übertragen wird');
         assert.equal(await p.$('.auth-page'), null);
-        assert.equal(await p.$('#logForm, form'), null, 'das Formular wird ohne Netz nicht angeboten');
     } finally { await ctx.close(); }
 });

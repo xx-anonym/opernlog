@@ -207,3 +207,67 @@ test('aufgeklappte Termine bleiben nach der Rückkehr offen', { skip: fehltPlayw
         assert.equal(await p.locator('#operaTermine').isHidden(), false);
     } finally { await ctx.close(); }
 });
+
+// ── Abgemeldet keine Wunschliste ─────────────────────────────────────────
+//
+// Gemeldet am 23.09.2026: abgemeldet ließ sich eine Wunschliste anlegen. Sie
+// lag nur im Browser und gehörte zu keinem Konto.
+
+async function abgemeldet(p) {
+    await p.evaluate(async () => {
+        const { store } = await import('/src/store/store.js');
+        store._session = null;
+        store._cloudMode = false;
+        store.data.currentUser = { ...store.data.currentUser, id: 'user-me' };
+        store.data.myLists = [];
+        store.data.seenOperas = [];
+    });
+}
+
+test('abgemeldet führt „Auf die Wunschliste“ zur Anmeldung, ohne etwas anzulegen', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne();
+    try {
+        await abgemeldet(p);
+        await p.evaluate(() => { location.hash = '#/opera/tosca'; });
+        await p.waitForSelector('#wishlistToggle');
+        await p.click('#wishlistToggle');
+        await p.waitForFunction(() => location.hash === '#/auth');
+        const stand = await p.evaluate(() => import('/src/store/store.js').then(m => ({
+            listen: m.store.data.myLists.length, wunschliste: m.store.getWishlist(),
+        })));
+        assert.equal(stand.listen, 0, 'eine Liste ohne Konto angelegt');
+        assert.equal(stand.wunschliste, null);
+    } finally { await ctx.close(); }
+});
+
+test('abgemeldet: „Schon gesehen“ ebenso, und die Wunschliste selbst verlangt die Anmeldung', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne();
+    try {
+        await abgemeldet(p);
+        await p.evaluate(() => { location.hash = '#/opera/tosca'; });
+        await p.waitForSelector('#seenToggle');
+        await p.click('#seenToggle');
+        await p.waitForFunction(() => location.hash === '#/auth');
+        assert.deepEqual(await p.evaluate(() => import('/src/store/store.js').then(m => m.store.data.seenOperas)), []);
+
+        await p.evaluate(() => { location.hash = '#/wishlist'; });
+        await p.waitForSelector('#loginForm');
+    } finally { await ctx.close(); }
+});
+
+test('auch am Store vorbei lässt sich abgemeldet keine Liste anlegen', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne();
+    try {
+        await abgemeldet(p);
+        const fehler = await p.evaluate(async () => {
+            const { store } = await import('/src/store/store.js');
+            const ergebnis = [];
+            for (const f of [() => store.addToWishlist('tosca'), () => store.markSeenOpera('tosca'),
+                () => store.addList({ name: 'x', type: 'operas', items: [] })]) {
+                try { await f(); ergebnis.push('ging durch'); } catch (e) { ergebnis.push(e.code); }
+            }
+            return ergebnis;
+        });
+        assert.deepEqual(fehler, ['OHNE_KONTO', 'OHNE_KONTO', 'OHNE_KONTO']);
+    } finally { await ctx.close(); }
+});

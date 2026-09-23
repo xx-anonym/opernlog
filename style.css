@@ -5343,3 +5343,34 @@ body {
     padding: 0;
     line-height: 1.6;
 }
+
+/* --- Ohne Netz geloggt ---------------------------------------------------- */
+/* Ein Besuch, der noch auf dem Gerät wartet (store.addVisit). */
+.ausstehend-marke {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.ausstehend-marke--fehler {
+    border-color: rgba(220, 53, 69, 0.5);
+    color: #ff6b6b;
+}
+
+.review-card > .ausstehend-marke {
+    margin: 0 0 8px;
+}
+
+.log-offline {
+    margin: 0 0 16px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(201, 168, 76, 0.1);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    color: var(--text-secondary);
+    font-size: 14px;
+}

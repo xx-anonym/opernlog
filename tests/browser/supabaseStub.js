@@ -15,6 +15,12 @@ const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar
 window.__seen = [];     // opera_id-Liste in der "Datenbank"
 window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
 window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
+// Neue Besuche: jeder Versuch landet in __besuchVersuche. __besuchFehler ist
+// eine Schlange – je Versuch wird der vorderste Fehler geliefert, solange
+// einer da ist. Eine schon vorhandene Kennung scheitert wie in der echten
+// Datenbank am Primaerschluessel (23505).
+window.__besuchVersuche = [];
+window.__besuchFehler = [];
 
 // Fuer die Passwortpruefung: was die Edge Function antworten soll, und was der
 // Browser ihr geschickt hat. Letzteres darf nur ein fuenfstelliges Praefix
@@ -102,6 +108,16 @@ function builder(table) {
       if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
       if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
         return Promise.resolve({ data: null, error: { message: window.__profilSchreibfehler, code: '42501' } }).then(res, rej);
+      }
+      if (table === 'visits' && op === 'insert') {
+        window.__besuchVersuche.push(nutzlast);
+        const fehler = window.__besuchFehler.length ? window.__besuchFehler.shift() : null;
+        if (fehler) return Promise.resolve({ data: null, error: fehler }).then(res, rej);
+        if (window.__visits.some(v => v.id === nutzlast.id)) {
+          return Promise.resolve({ data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint "visits_pkey"' } }).then(res, rej);
+        }
+        window.__visits.push({ ...nutzlast });
+        return Promise.resolve({ data: [nutzlast], error: null }).then(res, rej);
       }
       let rows = [];
       if (table === 'profiles') {

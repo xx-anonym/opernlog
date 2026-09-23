@@ -34,6 +34,9 @@ export function LogVisitPage(params = {}) {
       <h1 class="page-header__title">${editVisit ? icon('pencil') + 'Besuch bearbeiten' : icon('plus') + 'Besuch loggen'}</h1>
       <p class="page-header__subtitle">${editVisit ? 'Korrigiere deine Eintragung' : 'Halte deinen Opernbesuch fest'}</p>
     </div>
+    ${store.isOffline ? `
+    <p class="log-offline">${icon('globe', { className: 'icon--meta' })}Gerade kein Netz. Der Besuch wird auf diesem Gerät
+      gespeichert und übertragen, sobald wieder Verbindung besteht.</p>` : ''}
     
     <form class="log-form" id="logForm">
       <div class="form-group">
@@ -402,13 +405,14 @@ export function LogVisitPage(params = {}) {
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
+    let ergebnis;
     const ok = await runWithFeedback(
-      () => editVisit ? store.updateVisit(editVisit.id, payload) : store.addVisit(payload),
+      async () => {
+        ergebnis = editVisit ? await store.updateVisit(editVisit.id, payload) : await store.addVisit(payload);
+      },
       {
         failure: editVisit ? 'Änderungen konnten nicht gespeichert werden'
                            : 'Besuch konnte nicht gespeichert werden',
-        success: editVisit ? 'Besuch erfolgreich aktualisiert!'
-                           : 'Besuch erfolgreich geloggt!',
       }
     );
 
@@ -416,6 +420,11 @@ export function LogVisitPage(params = {}) {
       submitBtn.disabled = false;
       return;
     }
+
+    // Ohne Netz (oder ohne Antwort vom Server) wartet der Besuch auf dem Gerät.
+    showToast(ergebnis?.ausstehend
+      ? 'Auf diesem Gerät gespeichert – wird übertragen, sobald wieder Netz da ist.'
+      : editVisit ? 'Besuch erfolgreich aktualisiert!' : 'Besuch erfolgreich geloggt!');
 
     setTimeout(() => { window.location.hash = '#/diary'; }, 800);
   });

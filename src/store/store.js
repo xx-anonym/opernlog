@@ -4,9 +4,36 @@ import { topComposer, topHouse } from '../data/favorites.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from './supabase.js';
 import { pushBeimAbmelden } from '../push.js';
+import { heuteIso } from '../utils.js';
 
 const STORAGE_KEY = 'opernlog_data';
 const STORE_VERSION = 3;
+
+// Wie lange ein Besuch höchstens auf den Server wartet, bevor er als
+// "ausstehend" auf dem Gerät bleibt. Im Theater gibt es oft Netz, das keines
+// ist: das Telefon meldet Verbindung, aber nichts kommt durch.
+const HOCHLADEN_GEDULD_MS = 12000;
+
+/**
+ * Eine Kennung für einen neuen Besuch, schon im Browser vergeben. Damit ist
+ * das Hochladen wiederholbar: kam ein erster Versuch doch an, scheitert der
+ * zweite am Primärschlüssel, und das heißt dann "schon da" statt "doppelt".
+ */
+function neueKennung() {
+    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+    const b = globalThis.crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 0x0f) | 0x40;
+    b[8] = (b[8] & 0x3f) | 0x80;
+    const h = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+    return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+
+/** Lag es am Netz – oder hat der Server den Besuch abgelehnt? */
+function istNetzfehler(e) {
+    if (!e) return false;
+    if (e.transient || e.code === 'ZEIT') return true;
+    return e instanceof TypeError || /failed to fetch|networkerror|network error|load failed|timeout/i.test(String(e.message || ''));
+}
 
 function getDefaultData() {
     return {
@@ -97,6 +124,43 @@ class Store {
     /** Der Browser meldet ausdrücklich "kein Netz" (Flugmodus, WLAN aus). */
     get isOffline() { return navigator.onLine === false; }
 
+    /**
+     * Kann ein Besuch, der jetzt nicht hochgeht, später übertragen werden?
+     * Nur mit Konto: angemeldet, oder ohne Netz mit einer Kennung, die der
+     * letzte Abgleich hinterlegt hat ('user-me' ist bloß der Platzhalter).
+     */
+    get kannSpaeterUebertragen() {
+        return isSupabaseConfigured() && (this.isCloud
+            || (this.isOffline && !!this.data.currentUser?.id && this.data.currentUser.id !== 'user-me'));
+    }
+
+    /**
+     * Gehört das, was hier gespeichert wird, zu einem Konto? Mit Supabase nur
+     * angemeldet (oder ohne Netz mit hinterlegter Kennung). Ohne Supabase
+     * läuft die App rein lokal, dann ja.
+     *
+     * Anlass: abgemeldet ließ sich eine Wunschliste anlegen. Sie lag nur im
+     * Browser, tauchte nirgends sonst auf und war nach der Anmeldung weg.
+     */
+    get hatKonto() {
+        if (!isSupabaseConfigured()) return true;
+        return !!this.isCloud
+            || (this.isOffline && !!this.data.currentUser?.id && this.data.currentUser.id !== 'user-me');
+    }
+
+    _kontoNoetig() {
+        if (this.hatKonto) return;
+        throw Object.assign(new Error('Ohne Anmeldung'), {
+            code: 'OHNE_KONTO',
+            userMessage: 'Dafür brauchst du ein Konto – melde dich an oder registriere dich.',
+        });
+    }
+
+    /** Besuche, die auf diesem Gerät auf die Übertragung warten. */
+    getAusstehendeBesuche() {
+        return (this.data.myVisits || []).filter(v => v.ausstehend);
+    }
+
     // Letzter fehlgeschlagener Abgleich mit der Cloud, oder null.
     // Wird gesetzt, wenn lokale Daten angezeigt werden, die womöglich veraltet
     // sind – die Oberfläche kann darauf hinweisen, statt Veraltetes als
@@ -180,12 +244,17 @@ class Store {
                 // Sync visits from cloud to avoid cross-account bleed
                 try {
                     const cloudVisits = await sb.getMyVisitsCloud();
-                    this.data.myVisits = cloudVisits.map(v => ({
+                    // Was noch auf dem Gerät wartet, bleibt stehen – außer es
+                    // ist inzwischen doch angekommen (ein Versuch, dessen
+                    // Antwort im Funkloch verloren ging).
+                    const angekommen = new Set(cloudVisits.map(v => String(v.id)));
+                    const ausstehend = this.getAusstehendeBesuche().filter(v => !angekommen.has(String(v.id)));
+                    this.data.myVisits = [...ausstehend, ...cloudVisits.map(v => ({
                         ...sb.mapCloudVisit(v),
                         // Eigene Besuche laufen in der Oberfläche unter 'user-me'
                         userId: 'user-me',
                         createdAt: v.created_at?.split('T')[0] || v.date,
-                    }));
+                    }))];
                 } catch (e) {
                     console.error('[Store] Besuche-Abgleich fehlgeschlagen', e);
                     failures.push('Besuche');
@@ -248,6 +317,14 @@ class Store {
             this._session = null;
             this._profile = null;
             this._cloudMode = false;
+            // Nie angemeldet gewesen: was hier an Listen und Markierungen
+            // liegt, stammt aus der Zeit, als das abgemeldet noch ging, und
+            // gehört zu keinem Konto.
+            if (this.data.currentUser?.id === 'user-me' && (this.data.myLists?.length || this.data.seenOperas?.length)) {
+                this.data.myLists = [];
+                this.data.seenOperas = [];
+                this.save();
+            }
         }
 
         if (failures.length) {
@@ -399,36 +476,39 @@ class Store {
         return this.getAllVisits().filter(v => v.operaId === operaId);
     }
 
+    /**
+     * Ein neuer Besuch. Ohne Netz – oder wenn der Server nicht antwortet –
+     * bleibt er als "ausstehend" auf dem Gerät und geht später hoch
+     * (ausstehendeUebertragen). Der Rückgabewert sagt, welcher Fall es war.
+     */
     async addVisit(visit) {
         const newVisit = {
-            id: 'visit-' + Date.now(),
+            id: neueKennung(),
             userId: 'user-me',
             ...visit,
             likes: 0,
             likedBy: [],
             comments: [],
-            createdAt: new Date().toISOString().split('T')[0],
+            createdAt: heuteIso(),
         };
         this.data.myVisits.unshift(newVisit);
         this.save();
 
-        if (this.isCloud) {
+        if (this.isCloud && !this.isOffline) {
             try {
-                const cloudData = await sb.addVisitCloud(visit);
-                // Replace local ID with cloud UUID so delete/update work correctly
-                const localVisit = this.data.myVisits.find(v => v.id === newVisit.id);
-                if (localVisit && cloudData?.id) {
-                    localVisit.id = cloudData.id;
-                    newVisit.id = cloudData.id;
-                    this.save();
-                }
+                await this._besuchHochladen(newVisit);
             } catch (e) {
-                // Nicht gespeicherten Eintrag wieder entfernen, sonst steht er
-                // bis zum nächsten Laden da und verschwindet dann kommentarlos.
-                this.data.myVisits = this.data.myVisits.filter(v => v.id !== newVisit.id);
-                this.save();
-                throw e;
+                if (!istNetzfehler(e)) {
+                    // Abgelehnt: den Eintrag wieder entfernen, sonst steht er
+                    // bis zum nächsten Laden da und verschwindet dann kommentarlos.
+                    this.data.myVisits = this.data.myVisits.filter(v => v.id !== newVisit.id);
+                    this.save();
+                    throw e;
+                }
+                return this._alsAusstehend(newVisit);
             }
+        } else if (this.kannSpaeterUebertragen) {
+            return this._alsAusstehend(newVisit);
         }
 
         // Erst nach erfolgreichem Speichern von der Wunschliste nehmen
@@ -439,9 +519,91 @@ class Store {
         return newVisit;
     }
 
+    _alsAusstehend(visit) {
+        visit.ausstehend = true;
+        this.save();
+        return visit;
+    }
+
+    /**
+     * Lädt einen Besuch hoch. Steht er schon in der Datenbank (Primärschlüssel
+     * belegt), ist das kein Fehler: ein früherer Versuch kam an, nur die
+     * Antwort nicht zurück. Antwortet der Server nicht rechtzeitig, gilt das
+     * als Netzfehler.
+     */
+    async _besuchHochladen(visit) {
+        let uhr;
+        const zeit = new Promise((_, nein) => {
+            uhr = setTimeout(() => nein(Object.assign(new Error('Zeitüberschreitung beim Hochladen'), { code: 'ZEIT' })), HOCHLADEN_GEDULD_MS);
+        });
+        try {
+            const zeile = await Promise.race([sb.addVisitCloud(visit), zeit]);
+            // Keine Sitzung greifbar (abgelaufen, ohne Netz nicht erneuerbar):
+            // nichts ist oben, also später noch einmal.
+            if (!zeile) throw Object.assign(new Error('Keine Sitzung'), { code: 'ZEIT' });
+        } catch (e) {
+            if (e.code === '23505') return;
+            throw e;
+        } finally {
+            clearTimeout(uhr);
+        }
+    }
+
+    /**
+     * Schickt die wartenden Besuche nach oben, der Reihe nach. Bricht beim
+     * ersten Netzfehler ab – dann ist ohnehin keine Verbindung. Lehnt der
+     * Server einen Besuch ab, bleibt er mit dem Grund stehen, damit man ihn
+     * korrigieren oder löschen kann; die übrigen gehen trotzdem hoch.
+     *
+     * @returns {Promise<{uebertragen: number, offen: number}>}
+     */
+    async ausstehendeUebertragen() {
+        if (this._uebertragung) return this._uebertragung;
+        const offen = this.getAusstehendeBesuche();
+        if (!offen.length || !this.isCloud || this.isOffline) {
+            return { uebertragen: 0, offen: offen.length };
+        }
+        this._uebertragung = (async () => {
+            let uebertragen = 0;
+            for (const visit of offen) {
+                try {
+                    await this._besuchHochladen(visit);
+                } catch (e) {
+                    if (istNetzfehler(e)) break;
+                    visit.uebertragungsfehler = e.userMessage || e.message;
+                    this.save();
+                    continue;
+                }
+                delete visit.ausstehend;
+                delete visit.uebertragungsfehler;
+                uebertragen += 1;
+                this.save();
+                // Wie bei addVisit: erst jetzt, wo der Abend wirklich oben ist.
+                if (visit.operaId && this.isOnWishlist(visit.operaId)) {
+                    await this.removeFromWishlist(visit.operaId).catch(e =>
+                        console.warn('[Store] Wunschliste nach Übertragung', e));
+                }
+            }
+            return { uebertragen, offen: this.getAusstehendeBesuche().length };
+        })();
+        try {
+            return await this._uebertragung;
+        } finally {
+            this._uebertragung = null;
+        }
+    }
+
     async updateVisit(visitId, updates) {
         const visit = this.data.myVisits.find(v => v.id === visitId);
         if (!visit) return;
+
+        // Noch nicht oben: nur hier ändern. Hochgeladen wird der neue Stand.
+        if (visit.ausstehend) {
+            Object.assign(visit, updates);
+            delete visit.uebertragungsfehler;
+            this.save();
+            return visit;
+        }
 
         const previous = { ...visit };
         Object.assign(visit, updates);
@@ -462,8 +624,10 @@ class Store {
 
     async deleteVisit(visitId) {
         // Erst löschen lassen, dann lokal entfernen. Andersherum wäre der
-        // Eintrag verschwunden und beim nächsten Laden wieder da.
-        if (this.isCloud) await sb.deleteVisitCloud(visitId);
+        // Eintrag verschwunden und beim nächsten Laden wieder da. Ein noch
+        // nicht übertragener Besuch steht nur hier.
+        const wartet = this.data.myVisits.find(v => v.id === visitId)?.ausstehend;
+        if (this.isCloud && !wartet) await sb.deleteVisitCloud(visitId);
         this.data.myVisits = this.data.myVisits.filter(v => v.id !== visitId);
         this.save();
     }
@@ -626,6 +790,7 @@ class Store {
     }
 
     async addList(list) {
+        this._kontoNoetig();
         const newList = {
             id: 'list-' + Date.now(),
             userId: 'user-me',
@@ -695,6 +860,7 @@ class Store {
 
     // ── Wishlist ─────────────────────────────────────────
     getWishlist() {
+        if (!this.hatKonto) return null;
         return this.data.myLists.find(l => l.type === 'wishlist') || null;
     }
 
@@ -704,6 +870,7 @@ class Store {
     }
 
     async addToWishlist(operaId) {
+        this._kontoNoetig();
         const wl = this.getWishlist();
         if (!wl) {
             await this.addList({
@@ -731,6 +898,7 @@ class Store {
     // keine Bewertung. Sie fließen in die blinden Flecken ein, nicht in die
     // Zahl der Abende.
     getSeenOperas() {
+        if (!this.hatKonto) return [];
         return this.data.seenOperas || [];
     }
 
@@ -754,6 +922,7 @@ class Store {
     }
 
     async markSeenOpera(operaId) {
+        this._kontoNoetig();
         if (this.isSeenOpera(operaId)) return;
         this.data.seenOperas = [...this.getSeenOperas(), operaId];
         this.save();

@@ -810,6 +810,12 @@ function renderLocalProfile(page, userId, isMe) {
   const logoutBtn = page.querySelector('#logoutBtn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
+      // Ohne Netz geloggte Besuche liegen nur auf diesem Gerät. Erst ein
+      // Versuch, sie hochzuschicken; bleibt etwas übrig, wird gefragt.
+      await store.ausstehendeUebertragen().catch(() => {});
+      const wartend = store.getAusstehendeBesuche().length;
+      if (wartend && !confirm(`${wartend === 1 ? 'Ein Besuch ist' : `${wartend} Besuche sind`} noch nicht übertragen `
+          + `und ${wartend === 1 ? 'ginge' : 'gingen'} beim Abmelden verloren. Trotzdem abmelden?`)) return;
       await store.logout();
       window.location.hash = '#/auth';
       window.location.reload();

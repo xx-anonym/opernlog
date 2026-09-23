@@ -3,7 +3,7 @@ import { StarRating } from './StarRating.js';
 import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, runWithFeedback } from '../components/Toast.js';
-import { escapeHTML, visitCredits, besetzungKurz } from '../utils.js';
+import { escapeHTML, visitCredits, besetzungKurz, ausstehendMarke } from '../utils.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
@@ -83,6 +83,7 @@ export function ReviewCard(visit, options = {}) {
       </div>
       <div class="review-card__rating"></div>
     </div>
+    ${ausstehendMarke(visit)}
     ${showOpera && opera ? `
       <div class="review-card__opera" data-action="opera" data-opera-id="${opera.id}">
         <span class="review-card__opera-title">${opera.title}</span>
@@ -105,6 +106,7 @@ export function ReviewCard(visit, options = {}) {
     ${visit.review && !compact ? `
       <p class="review-card__text">${escapeHTML(visit.review)}</p>
     ` : ''}
+    ${visit.ausstehend ? '' : `
     <div class="review-card__actions">
       <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" data-action="like" data-visit-id="${visit.id}">
         ${icon('heart', { filled: isLiked, label: 'Gefällt mir' })}
@@ -114,7 +116,7 @@ export function ReviewCard(visit, options = {}) {
         ${icon('message', { label: 'Kommentare' })}
         <span class="btn-icon__count">${visit.comments ? visit.comments.length : 0}</span>
       </button>
-    </div>
+    </div>`}
     ${visit.comments && visit.comments.length > 0 && !compact ? `
       <div class="review-card__comments">
         ${visit.comments.map(c => {
