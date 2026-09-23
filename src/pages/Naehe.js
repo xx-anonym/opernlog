@@ -12,7 +12,7 @@ import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import {
     abendeInDerNaehe, heuteIso, tagePlus, terminMitWochentag, zeitText,
-    UMKREIS_STUFEN, naechsteStufe, umkreisNachZoom,
+    UMKREIS_STUFEN, naechsteStufe, rundeKm, umkreisNachZoom,
 } from '../data/spielplanAbfrage.js';
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { HouseMap } from '../components/HouseMap.js';
@@ -53,9 +53,9 @@ export function NaehePage() {
     const wahl = {
         // Ohne Standort gibt es keinen Umkreis; dann alle Häuser.
         umkreis: vorher.umkreis === null ? null
-            : Number.isFinite(vorher.umkreis) ? naechsteStufe(vorher.umkreis) : 100,
+            : Number.isFinite(vorher.umkreis) ? rundeKm(vorher.umkreis) : 100,
         // Wohin der Schieber zurückkehrt, wenn "Alle Häuser" wieder aus ist.
-        letzterUmkreis: Number.isFinite(vorher.umkreis) ? naechsteStufe(vorher.umkreis) : 100,
+        letzterUmkreis: Number.isFinite(vorher.umkreis) ? rundeKm(vorher.umkreis) : 100,
         tage: ZEITRAEUME.some(z => z.tage === vorher.tage) ? vorher.tage : 30,
         nurWunschliste: !!vorher.nurWunschliste,
         karte: vorher.karte !== false,
@@ -64,6 +64,7 @@ export function NaehePage() {
         haus: null,
     };
     let alleZeigen = false;
+    let karte = null;   // die zuletzt gezeichnete Karte, für die Vorschau beim Zoomen
 
     const wunschliste = () => new Set(store.getWishlist()?.items || []);
 
@@ -109,7 +110,9 @@ export function NaehePage() {
     // Vorschau, sonst die Wahl.
     function umkreisAnzeigen(km = wahl.umkreis) {
         const alle = km === null;
-        umkreisWahl.value = String(UMKREIS_STUFEN.indexOf(alle ? wahl.letzterUmkreis : km));
+        // Der Schieber kennt nur Stufen; mit den Fingern gewählte Werte
+        // dazwischen zeigt er an der nächsten, oben steht der genaue.
+        umkreisWahl.value = String(UMKREIS_STUFEN.indexOf(naechsteStufe(alle ? wahl.letzterUmkreis : km)));
         const text = !position ? 'ohne Standort alle Häuser' : alle ? 'alle Häuser' : `bis ${km} km`;
         umkreisWert.textContent = text;
         umkreisWahl.setAttribute('aria-valuetext', text);
@@ -216,7 +219,7 @@ export function NaehePage() {
 
     function karteZeichnen(jeHaus) {
         const abendeText = n => `${n} ${n === 1 ? 'Abend' : 'Abende'}`;
-        page.querySelector('#naeheKarteInhalt').replaceChildren(HouseMap(new Set(jeHaus.keys()), operaHouses, {
+        karte = HouseMap(new Set(jeHaus.keys()), operaHouses, {
             legende: ['mit Abenden', 'ohne'],
             zaehler: n => `${n} ${n === 1 ? 'Haus' : 'Häuser'} mit Abenden`,
             hinweis: n => !n ? 'Im gewählten Zeitraum steht hier nichts.'
@@ -234,7 +237,8 @@ export function NaehePage() {
                 zeichnen();
                 page.querySelector('#naeheListe').scrollIntoView({ behavior: 'smooth', block: 'start' });
             },
-        }));
+        });
+        page.querySelector('#naeheKarteInhalt').replaceChildren(karte);
     }
 
     // Ein Zuhörer für alle Kalenderknöpfe der Liste.
@@ -283,27 +287,30 @@ export function NaehePage() {
     // Fingern das Element weg, auf dem sie liegen.
     const karteInhalt = page.querySelector('#naeheKarteInhalt');
     let geste = null;   // { km, vorschau }
+    let bildGeste = 0;
 
     function gesteBeginnen() {
         geste = { km: wahl.umkreis, vorschau: wahl.umkreis };
     }
+    // Höchstens einmal je Bild: ein paar Attribute an der Karte, der Wert
+    // oben und der Schieber. Die Liste folgt erst am Ende der Geste.
     function gesteZeigen(faktor) {
+        if (!geste) return;
         geste.vorschau = umkreisNachZoom(geste.km, faktor);
-        const svg = karteInhalt.querySelector('.housemap__svg');
-        if (svg) svg.style.transform = `scale(${Math.max(0.3, Math.min(faktor, 4)).toFixed(3)})`;
-        umkreisAnzeigen(geste.vorschau);
+        cancelAnimationFrame(bildGeste);
+        bildGeste = requestAnimationFrame(() => {
+            if (!geste) return;
+            karte?.vorschau?.(geste.vorschau);
+            umkreisAnzeigen(geste.vorschau);
+        });
     }
     function gesteBeenden() {
         const g = geste;
         geste = null;
+        cancelAnimationFrame(bildGeste);
         if (!g) return;
-        if (g.vorschau !== wahl.umkreis) {
-            umkreisSetzen(g.vorschau);
-        } else {
-            const svg = karteInhalt.querySelector('.housemap__svg');
-            if (svg) svg.style.transform = '';
-            umkreisAnzeigen();
-        }
+        if (g.vorschau !== wahl.umkreis) umkreisSetzen(g.vorschau);
+        else zeichnen();   // Namen und Punkte wieder wie vorher
     }
 
     // Zwei Finger
@@ -335,35 +342,48 @@ export function NaehePage() {
     karteInhalt.addEventListener('pointerup', fingerWeg);
     karteInhalt.addEventListener('pointercancel', fingerWeg);
 
-    // Trackpad (Chrome, Firefox): Mausrad mit Strg. Ende, wenn eine Weile nichts kommt.
+    // Trackpad (Chrome, Firefox): Mausrad mit Strg. Ende, wenn eine Weile
+    // nichts kommt. Nicht, solange Safari seine eigene Geste meldet.
     let radFaktor = 1;
     let radUhr = 0;
+    let safariGeste = false;
     karteInhalt.addEventListener('wheel', (e) => {
         if (!e.ctrlKey || !position) return;
         e.preventDefault();
+        if (safariGeste) return;
         if (!geste) { gesteBeginnen(); radFaktor = 1; }
         radFaktor *= Math.exp(-e.deltaY * 0.01);
         gesteZeigen(radFaktor);
         clearTimeout(radUhr);
-        radUhr = setTimeout(gesteBeenden, 300);
+        radUhr = setTimeout(gesteBeenden, 250);
     }, { passive: false });
 
     // Safari: eigene Gesten-Ereignisse, am Mac vom Trackpad, auf dem iPhone
     // zusätzlich zu den Fingern. Dort nur verhindern, dass die ganze Seite
-    // zoomt – die Finger erledigen es schon.
+    // zoomt – die Finger erledigen es schon. Falls das Ende ausbleibt,
+    // schließt eine Uhr die Geste.
+    let safariUhr = 0;
+    const safariEnde = () => {
+        safariGeste = false;
+        if (!finger.size) gesteBeenden();
+    };
     karteInhalt.addEventListener('gesturestart', (e) => {
         e.preventDefault();
         if (finger.size || !position) return;
+        safariGeste = true;
         gesteBeginnen();
     });
     karteInhalt.addEventListener('gesturechange', (e) => {
         e.preventDefault();
-        if (finger.size || !geste || !e.scale) return;
+        if (finger.size || !safariGeste || !e.scale) return;
         gesteZeigen(e.scale);
+        clearTimeout(safariUhr);
+        safariUhr = setTimeout(safariEnde, 600);
     });
     karteInhalt.addEventListener('gestureend', (e) => {
         e.preventDefault();
-        if (!finger.size) gesteBeenden();
+        clearTimeout(safariUhr);
+        if (safariGeste) safariEnde();
     });
     zeitraumWahl.addEventListener('change', () => {
         wahl.tage = zeitraumWahl.value === 'alle' ? null : Number(zeitraumWahl.value);

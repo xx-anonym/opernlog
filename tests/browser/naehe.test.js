@@ -188,10 +188,12 @@ test('der Umkreis lässt sich frei einstellen, Karte und Liste folgen', { skip: 
     } finally { await ctx.close(); }
 });
 
-test('ein gemerkter Umkreis außerhalb der Stufen landet auf der nächsten', { skip: fehltPlaywright }, async () => {
-    const { ctx, p } = await naehe({ merker: { umkreis: 90, tage: 30 } });
+test('ein gemerkter Umkreis zwischen den Stufen bleibt, nur gerundet', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await naehe({ merker: { umkreis: 93, tage: 30 } });
     try {
-        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 100 km');
+        assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 95 km');
+        // Der Schieber steht an der nächsten Stufe.
+        assert.equal(await p.inputValue('#naeheUmkreis'), '10');
     } finally { await ctx.close(); }
 });
 
@@ -209,8 +211,10 @@ test('die Karte zeigt Ländergrenzen, größere Punkte für mehr Abende und Stä
 
 /** Zwei Finger auf die Karte, von einem Abstand zum anderen, und wieder los. */
 async function zweiFinger(p, von, bis) {
-    await p.evaluate(({ von, bis }) => {
+    await p.evaluate(async ({ von, bis }) => {
+        const bild = () => new Promise(requestAnimationFrame);
         const svg = document.querySelector('#naeheKarte .housemap__svg');
+        const vorherBox = svg.getAttribute('viewBox');
         const k = svg.getBoundingClientRect();
         const mx = k.left + k.width / 2, my = k.top + k.height / 2;
         const ev = (art, id, dx) => svg.dispatchEvent(new PointerEvent(art, {
@@ -223,8 +227,17 @@ async function zweiFinger(p, von, bis) {
             const d = von + (bis - von) * i / 5;
             ev('pointermove', 1, -d / 2);
             ev('pointermove', 2, d / 2);
+            await bild();
         }
-        window.__vorschau = document.querySelector('#naeheUmkreisWert').textContent;
+        await bild();
+        // Während der Geste: dieselbe Karte, nur ein anderer Ausschnitt – kein
+        // vergrößertes Bild, das über den Rahmen hinausragt.
+        window.__vorschau = {
+            wert: document.querySelector('#naeheUmkreisWert').textContent,
+            dieselbe: svg.isConnected,
+            ausschnittGeaendert: svg.getAttribute('viewBox') !== vorherBox,
+            transform: svg.style.transform,
+        };
         ev('pointerup', 1, -bis / 2);
         ev('pointerup', 2, bis / 2);
     }, { von, bis });
@@ -235,7 +248,10 @@ test('zwei Finger auseinander: kleinerer Umkreis; zusammen: größerer, bis alle
     const { ctx, p, fehler } = await naehe();
     try {
         await zweiFinger(p, 100, 200);          // doppelt so groß: 100 km → 50 km
-        assert.equal(await p.evaluate(() => window.__vorschau), 'bis 50 km', 'keine Vorschau während der Geste');
+        const vorschau = await p.evaluate(() => window.__vorschau);
+        assert.equal(vorschau.wert, 'bis 50 km', 'keine Vorschau während der Geste');
+        assert.ok(vorschau.dieselbe && vorschau.ausschnittGeaendert, 'die Karte folgt den Fingern nicht');
+        assert.equal(vorschau.transform, '', 'die Karte wird als Bild vergrößert');
         assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 50 km');
         assert.deepEqual(await zeilen(p), ['Tosca'], 'Leipzig liegt außerhalb von 50 km');
         await p.waitForFunction(() => JSON.parse(localStorage.getItem('opernlog_naehe')).umkreis === 50);

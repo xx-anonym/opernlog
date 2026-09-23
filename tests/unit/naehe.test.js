@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { abendeInDerNaehe, tagePlus, umkreisNachZoom, naechsteStufe } from '../../src/data/spielplanAbfrage.js';
+import { abendeInDerNaehe, tagePlus, umkreisNachZoom, naechsteStufe, rundeKm } from '../../src/data/spielplanAbfrage.js';
 
 const DATEN = [
     { werk: 'tosca', haus: 'semperoper', url: 'https://s.example/tosca',
@@ -65,15 +65,20 @@ test('Zoomen: Finger auseinander verkleinert den Umkreis, zusammen vergrößert 
     assert.equal(umkreisNachZoom(100, 2), 50);
     assert.equal(umkreisNachZoom(100, 0.5), 200);
     assert.equal(umkreisNachZoom(100, 1), 100);
-    // gerastet auf die Stufen, nach Verhältnis
-    assert.equal(umkreisNachZoom(100, 1.3), 75);
-    assert.equal(umkreisNachZoom(10, 4), 5, 'nicht unter die kleinste Stufe');
+    // stufenlos, nur gerundet – nicht auf die Stufen des Schiebers gerastet
+    assert.equal(umkreisNachZoom(100, 1.2), 85);
+    assert.equal(umkreisNachZoom(20, 1.5), 13);
+    assert.equal(umkreisNachZoom(10, 4), 5, 'nicht unter 5 km');
 });
 
-test('ganz herausgezoomt: alle Häuser; von dort hinein: 300 km', () => {
+test('ganz herausgezoomt: alle Häuser; von dort hinein: knapp unter 300 km', () => {
     assert.equal(umkreisNachZoom(300, 0.7), null);
-    assert.equal(umkreisNachZoom(null, 1.4), 300);
+    assert.equal(umkreisNachZoom(null, 1.4), 290);
     assert.equal(umkreisNachZoom(null, 1), null);
+});
+
+test('gerundet wird nah fein, weiter draußen gröber, zwischen 5 und 300 km', () => {
+    assert.deepEqual([3, 13.4, 22, 83, 147, 999].map(rundeKm), [5, 13, 20, 85, 150, 300]);
 });
 
 test('gemerkte Werte landen auf der nächsten Stufe', () => {

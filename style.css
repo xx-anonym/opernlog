@@ -5645,5 +5645,4 @@ body {
    Finger zoomen die Karte – nicht die Seite. */
 .naehe-karte .housemap__svg {
     touch-action: pan-y;
-    transform-origin: 50% 50%;
 }

@@ -86,12 +86,14 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
     // Ausschnitt: ohne Umkreis alle Häuser; mit Umkreis das Quadrat um ihn,
     // mit etwas Rand. Die Punkte wachsen nicht mit – sie werden im
     // Verhältnis zum Ausschnitt gezeichnet.
-    let ausschnitt = { x: 0, y: 0, breite: VB_BREITE, hoehe: VB_HOEHE };
-    if (position && radiusKm) {
-        const r = radiusKm * PRO_KM * 1.12;
-        ausschnitt = { x: x(position.lon) - r, y: y(position.lat) - r, breite: 2 * r, hoehe: 2 * r };
-    }
+    const ausschnittFuer = (km) => {
+        if (!position || !km) return { x: 0, y: 0, breite: VB_BREITE, hoehe: VB_HOEHE };
+        const r = km * PRO_KM * 1.12;
+        return { x: x(position.lon) - r, y: y(position.lat) - r, breite: 2 * r, hoehe: 2 * r };
+    };
+    const ausschnitt = ausschnittFuer(radiusKm);
     const mass = ausschnitt.breite / VB_BREITE;
+    const viewBox = a => [a.x, a.y, a.breite, a.hoehe].map(v => v.toFixed(2)).join(' ');
 
     const box = document.createElement('div');
     box.className = 'housemap';
@@ -116,16 +118,18 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
         const ist = besucht.has(h.id);
         return `<circle class="housemap__dot${ist ? ' housemap__dot--besucht' : ''}"
       cx="${x(h.lon).toFixed(2)}" cy="${y(h.lat).toFixed(2)}" r="${(radius(h, ist) * mass).toFixed(3)}"
-      data-house-id="${escapeHTML(h.id)}"
+      data-r="${radius(h, ist).toFixed(3)}" data-house-id="${escapeHTML(h.id)}"
       data-name="${escapeHTML(h.name)}" data-city="${escapeHTML(h.city)}"
     ><title>${escapeHTML(punktText(h))}</title></circle>`;
     }).join('');
 
-    const umkreis = position && radiusKm ? `
+    // Ring und Entfernung stehen mit Standort immer im Bild, ohne Umkreis
+    // unsichtbar – so kann eine Zoom-Geste sie einblenden (vorschau unten).
+    const umkreis = position ? `
       <circle class="housemap__umkreis" cx="${x(position.lon).toFixed(2)}" cy="${y(position.lat).toFixed(2)}"
-        r="${(radiusKm * PRO_KM).toFixed(2)}"></circle>
+        r="${((radiusKm || 1) * PRO_KM).toFixed(2)}"${radiusKm ? '' : ' visibility="hidden"'}></circle>
       <text class="housemap__umkreis-text" x="${x(position.lon).toFixed(2)}"
-        y="${(y(position.lat) - radiusKm * PRO_KM - 1.2 * mass).toFixed(2)}" font-size="${(3 * mass).toFixed(3)}">${radiusKm} km</text>` : '';
+        y="${(y(position.lat) - (radiusKm || 1) * PRO_KM - 1.2 * mass).toFixed(2)}" font-size="${(3 * mass).toFixed(3)}"${radiusKm ? '' : ' visibility="hidden"'}>${radiusKm ? `${radiusKm} km` : ''}</text>` : '';
     const standort = position ? `
       <g class="housemap__standort" transform="translate(${x(position.lon).toFixed(2)} ${y(position.lat).toFixed(2)}) scale(${mass.toFixed(3)})">
         <circle class="housemap__standort-puls" r="2.6"></circle>
@@ -161,7 +165,7 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
         <span class="housemap__key"></span>${escapeHTML(legende[1])}
       </span>
     </div>
-    <svg class="housemap__svg${ausschnitt.breite < VB_BREITE ? ' housemap__svg--ausschnitt' : ''}" viewBox="${[ausschnitt.x, ausschnitt.y, ausschnitt.breite, ausschnitt.hoehe].map(v => v.toFixed(2)).join(' ')}"
+    <svg class="housemap__svg${ausschnitt.breite < VB_BREITE ? ' housemap__svg--ausschnitt' : ''}" viewBox="${viewBox(ausschnitt)}"
          role="img" aria-label="${escapeHTML(`Karte: ${zaehler(anzahl, sichtbareHaeuser.length)} ${legende[0]}`)}">
       <g class="housemap__laender">${LAENDER_SVG}</g>
       ${umkreis}
@@ -176,6 +180,42 @@ export function HouseMap(besuchteIds = [], haeuser = MIT_KOORDINATEN, optionen =
 
     const caption = box.querySelector('#housemapCaption');
     const standard = caption.textContent.trim();
+
+    /**
+     * Während einer Zoom-Geste: nur den Ausschnitt ändern, nicht neu bauen.
+     * Das sind ein paar Attribute je Bild – flüssig, und die Finger behalten
+     * das Element, auf dem sie liegen. Die Karte bleibt dabei in ihrem
+     * Rahmen. Städtenamen treten zurück, bis am Ende neu gezeichnet wird.
+     *
+     * @param {number|null} km  Umkreis; null zeigt alle Häuser
+     */
+    if (position) {
+        box.vorschau = (km) => {
+            const svg = box.querySelector('.housemap__svg');
+            if (!svg) return;
+            const a = ausschnittFuer(km);
+            const m = a.breite / VB_BREITE;
+            svg.setAttribute('viewBox', viewBox(a));
+            svg.classList.toggle('housemap__svg--ausschnitt', a.breite < VB_BREITE);
+            svg.querySelectorAll('.housemap__dot').forEach(c => c.setAttribute('r', (Number(c.dataset.r) * m).toFixed(3)));
+            svg.querySelectorAll('.housemap__name').forEach(t => t.setAttribute('visibility', 'hidden'));
+            const ring = svg.querySelector('.housemap__umkreis');
+            const text = svg.querySelector('.housemap__umkreis-text');
+            if (ring && text) {
+                const sichtbar = km ? 'visible' : 'hidden';
+                ring.setAttribute('visibility', sichtbar);
+                text.setAttribute('visibility', sichtbar);
+                if (km) {
+                    ring.setAttribute('r', (km * PRO_KM).toFixed(2));
+                    text.setAttribute('y', (y(position.lat) - km * PRO_KM - 1.2 * m).toFixed(2));
+                    text.setAttribute('font-size', (3 * m).toFixed(3));
+                    text.textContent = `${km} km`;
+                }
+            }
+            svg.querySelector('.housemap__standort')?.setAttribute('transform',
+                `translate(${x(position.lon).toFixed(2)} ${y(position.lat).toFixed(2)}) scale(${m.toFixed(3)})`);
+        };
+    }
     const hausZu = id => sichtbareHaeuser.find(h => h.id === id);
 
     // Beschriftungen direkt an den Punkten wären bei über 90 Häusern ein Knäuel –
