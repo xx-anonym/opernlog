@@ -41,8 +41,8 @@ export const spielplan = [
   { werk: 'aida', haus: 'wiener-staatsoper', url: 'https://www.wiener-staatsoper.at/aida', termine: ['${iso(5)}'] },
 ];`;
 
-async function naehe({ standort = true, merker = null } = {}) {
-    const ctx = await browser.newContext({ viewport: HANDY, acceptDownloads: true,
+async function naehe({ standort = true, merker = null, touch = false } = {}) {
+    const ctx = await browser.newContext({ viewport: HANDY, acceptDownloads: true, hasTouch: touch,
         ...(standort ? { geolocation: DRESDEN, permissions: ['geolocation'] } : {}) });
     if (merker) await ctx.addInitScript(m => localStorage.setItem('opernlog_naehe', JSON.stringify(m)), merker);
     const p = await ctx.newPage();
@@ -209,49 +209,52 @@ test('die Karte zeigt Ländergrenzen, größere Punkte für mehr Abende und Stä
     } finally { await ctx.close(); }
 });
 
-/** Zwei Finger auf die Karte, von einem Abstand zum anderen, und wieder los. */
+/**
+ * Zwei Finger auf die Karte, von einem Abstand zum anderen, und wieder los –
+ * als echte Touch-Eingabe über das DevTools-Protokoll, also so, wie der
+ * Browser sie vom Bildschirm bekäme, samt Scrollen und Abbrechen.
+ * Die Finger wandern schräg, mit senkrechtem Anteil: genau dabei brach die
+ * Geste auf dem iPhone ab, weil der Browser Scrollen daraus machte.
+ */
 async function zweiFinger(p, von, bis) {
-    await p.evaluate(async ({ von, bis }) => {
-        const bild = () => new Promise(requestAnimationFrame);
-        const svg = document.querySelector('#naeheKarte .housemap__svg');
-        const vorherBox = svg.getAttribute('viewBox');
-        const k = svg.getBoundingClientRect();
-        const mx = k.left + k.width / 2, my = k.top + k.height / 2;
-        const ev = (art, id, dx) => svg.dispatchEvent(new PointerEvent(art, {
-            pointerId: id, pointerType: 'touch', isPrimary: id === 1, bubbles: true, cancelable: true,
-            clientX: mx + dx, clientY: my,
-        }));
-        ev('pointerdown', 1, -von / 2);
-        ev('pointerdown', 2, von / 2);
-        for (let i = 1; i <= 5; i++) {
-            const d = von + (bis - von) * i / 5;
-            ev('pointermove', 1, -d / 2);
-            ev('pointermove', 2, d / 2);
-            await bild();
-        }
-        await bild();
-        // Während der Geste: dieselbe Karte, nur ein anderer Ausschnitt – kein
-        // vergrößertes Bild, das über den Rahmen hinausragt.
-        window.__vorschau = {
-            wert: document.querySelector('#naeheUmkreisWert').textContent,
-            dieselbe: svg.isConnected,
-            ausschnittGeaendert: svg.getAttribute('viewBox') !== vorherBox,
-            transform: svg.style.transform,
-        };
-        ev('pointerup', 1, -bis / 2);
-        ev('pointerup', 2, bis / 2);
-    }, { von, bis });
-    await p.waitForTimeout(200);
+    const cdp = await p.context().newCDPSession(p);
+    await p.locator('#naeheKarte .housemap__svg').scrollIntoViewIfNeeded();
+    const k = await p.locator('#naeheKarte .housemap__svg').boundingBox();
+    const mx = k.x + k.width / 2, my = k.y + k.height / 2;
+    const punkte = d => [
+        { x: mx - d / 2 * 0.8, y: my - d / 2 * 0.6, id: 1 },
+        { x: mx + d / 2 * 0.8, y: my + d / 2 * 0.6, id: 2 },
+    ];
+    const vorher = await p.evaluate(() => ({ box: document.querySelector('#naeheKarte .housemap__svg').getAttribute('viewBox'), y: scrollY }));
+    await p.evaluate(() => { window.__svg = document.querySelector('#naeheKarte .housemap__svg'); });
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: punkte(von) });
+    for (let i = 1; i <= 10; i++) {
+        await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: punkte(von + (bis - von) * i / 10) });
+        await p.waitForTimeout(25);
+    }
+    const mitten = await p.evaluate(() => ({
+        wert: document.querySelector('#naeheUmkreisWert').textContent,
+        dieselbe: window.__svg.isConnected,
+        box: window.__svg.getAttribute('viewBox'),
+        transform: window.__svg.style.transform,
+        y: scrollY,
+        leicht: !!document.querySelector('#naeheKarte .housemap--zoomt'),
+    }));
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await p.waitForTimeout(250);
+    return { vorher, mitten };
 }
 
 test('zwei Finger auseinander: kleinerer Umkreis; zusammen: größerer, bis alle Häuser', { skip: fehltPlaywright }, async () => {
-    const { ctx, p, fehler } = await naehe();
+    const { ctx, p, fehler } = await naehe({ touch: true });
     try {
-        await zweiFinger(p, 100, 200);          // doppelt so groß: 100 km → 50 km
-        const vorschau = await p.evaluate(() => window.__vorschau);
-        assert.equal(vorschau.wert, 'bis 50 km', 'keine Vorschau während der Geste');
-        assert.ok(vorschau.dieselbe && vorschau.ausschnittGeaendert, 'die Karte folgt den Fingern nicht');
-        assert.equal(vorschau.transform, '', 'die Karte wird als Bild vergrößert');
+        const { vorher, mitten } = await zweiFinger(p, 100, 200);   // doppelt so weit: 100 km → 50 km
+        assert.equal(mitten.wert, 'bis 50 km', 'keine Vorschau während der Geste');
+        assert.ok(mitten.dieselbe && mitten.box !== vorher.box, 'die Karte folgt den Fingern nicht');
+        assert.equal(mitten.transform, '', 'die Karte wird als Bild vergrößert');
+        assert.equal(mitten.y, vorher.y, 'die Seite hat mitgescrollt – die Geste bräche ab');
+        assert.equal(mitten.leicht, true, 'während der Geste mit allen Effekten gezeichnet');
+        assert.equal(await p.locator('#naeheKarte .housemap--zoomt').count(), 0, 'nach der Geste ohne Effekte');
         assert.equal(await p.locator('#naeheUmkreisWert').innerText(), 'bis 50 km');
         assert.deepEqual(await zeilen(p), ['Tosca'], 'Leipzig liegt außerhalb von 50 km');
         await p.waitForFunction(() => JSON.parse(localStorage.getItem('opernlog_naehe')).umkreis === 50);
@@ -278,5 +281,32 @@ test('am Rechner: Trackpad-Zoom (Strg + Mausrad) ändert den Umkreis ebenso', { 
             .dispatchEvent(new WheelEvent('wheel', { deltaY: 300, bubbles: true, cancelable: true })));
         await p.waitForTimeout(400);
         assert.equal(await p.locator('#naeheUmkreisWert').innerText(), vorher);
+    } finally { await ctx.close(); }
+});
+
+test('zwei Finger auf der Karte halten den Browser vom Scrollen ab, einer nicht', { skip: fehltPlaywright }, async () => {
+    // Das iPhone-Verhalten selbst lässt sich in Chromium nicht nachstellen:
+    // Safari machte aus schrägen Fingerbewegungen Scrollen und brach die
+    // Geste ab. Verhindern lässt sich das nur über touchmove mit
+    // preventDefault() – genau das prüft der Test.
+    const { ctx, p } = await naehe({ touch: true });
+    try {
+        const ergebnis = await p.evaluate(() => {
+            const svg = document.querySelector('#naeheKarte .housemap__svg');
+            const k = svg.getBoundingClientRect();
+            const t = (id, dx) => new Touch({ identifier: id, target: svg, clientX: k.left + k.width / 2 + dx, clientY: k.top + k.height / 2 });
+            const senden = (art, touches) => {
+                const ev = new TouchEvent(art, { touches, targetTouches: touches, changedTouches: touches, bubbles: true, cancelable: true });
+                svg.dispatchEvent(ev);
+                return ev.defaultPrevented;
+            };
+            const einer = senden('touchmove', [t(1, 0)]);
+            senden('touchstart', [t(1, -40), t(2, 40)]);
+            const zwei = senden('touchmove', [t(1, -60), t(2, 60)]);
+            senden('touchend', []);
+            return { einer, zwei };
+        });
+        assert.equal(ergebnis.zwei, true, 'zwei Finger: der Browser darf scrollen und die Geste abbrechen');
+        assert.equal(ergebnis.einer, false, 'ein Finger: die Seite muss weiter scrollen können');
     } finally { await ctx.close(); }
 });

@@ -5646,3 +5646,18 @@ body {
 .naehe-karte .housemap__svg {
     touch-action: pan-y;
 }
+
+/* Während einer Zoom-Geste: nur das Nötigste zeichnen. */
+.housemap--zoomt .housemap__dot--besucht {
+    filter: none;
+}
+
+.housemap--zoomt .housemap__svg {
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.housemap--zoomt .housemap__standort-puls {
+    animation: none;
+    opacity: 0;
+}

@@ -291,6 +291,9 @@ export function NaehePage() {
 
     function gesteBeginnen() {
         geste = { km: wahl.umkreis, vorschau: wahl.umkreis };
+        // Ohne Leuchten und weiche Ränder, solange gezoomt wird: auf dem
+        // iPhone kosten sie in jedem Bild spürbar Zeit.
+        karte?.classList.add('housemap--zoomt');
     }
     // Höchstens einmal je Bild: ein paar Attribute an der Karte, der Wert
     // oben und der Schieber. Die Liste folgt erst am Ende der Geste.
@@ -313,34 +316,35 @@ export function NaehePage() {
         else zeichnen();   // Namen und Punkte wieder wie vorher
     }
 
-    // Zwei Finger
-    const finger = new Map();
+    // Zwei Finger – über Touch-Ereignisse, nicht Pointer Events. Auf dem
+    // iPhone war das Zoomen erst flüssig und dann abgehackt: sobald die
+    // Finger sich auch senkrecht bewegten, hielt Safari das für Scrollen,
+    // übernahm (pointercancel) und die Geste brach mitten drin ab. Nur ein
+    // touchmove lässt sich mit preventDefault() anhalten; mit zwei Fingern
+    // auf der Karte geschieht das jetzt. Ein Finger scrollt weiter die Seite.
+    let fingerGeste = false;
     let startAbstand = 0;
-    const abstand = () => {
-        const [a, b] = [...finger.values()];
-        return Math.hypot(a.x - b.x, a.y - b.y);
-    };
-    karteInhalt.addEventListener('pointerdown', (e) => {
-        if (e.pointerType !== 'touch' || !position) return;
-        finger.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (finger.size === 2) {
-            startAbstand = abstand();
-            gesteBeginnen();
-        }
-    });
-    karteInhalt.addEventListener('pointermove', (e) => {
-        if (!finger.has(e.pointerId)) return;
-        finger.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (!geste || finger.size !== 2 || !startAbstand) return;
+    const abstand = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    karteInhalt.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 2 || !position) return;
         e.preventDefault();
-        gesteZeigen(abstand() / startAbstand);
-    });
+        startAbstand = abstand(e.touches);
+        if (!startAbstand) return;
+        fingerGeste = true;
+        gesteBeginnen();
+    }, { passive: false });
+    karteInhalt.addEventListener('touchmove', (e) => {
+        if (!fingerGeste || e.touches.length < 2) return;
+        e.preventDefault();
+        gesteZeigen(abstand(e.touches) / startAbstand);
+    }, { passive: false });
     const fingerWeg = (e) => {
-        if (!finger.delete(e.pointerId)) return;
-        if (finger.size < 2 && geste) gesteBeenden();
+        if (!fingerGeste || e.touches.length >= 2) return;
+        fingerGeste = false;
+        gesteBeenden();
     };
-    karteInhalt.addEventListener('pointerup', fingerWeg);
-    karteInhalt.addEventListener('pointercancel', fingerWeg);
+    karteInhalt.addEventListener('touchend', fingerWeg);
+    karteInhalt.addEventListener('touchcancel', fingerWeg);
 
     // Trackpad (Chrome, Firefox): Mausrad mit Strg. Ende, wenn eine Weile
     // nichts kommt. Nicht, solange Safari seine eigene Geste meldet.
@@ -365,17 +369,17 @@ export function NaehePage() {
     let safariUhr = 0;
     const safariEnde = () => {
         safariGeste = false;
-        if (!finger.size) gesteBeenden();
+        if (!fingerGeste) gesteBeenden();
     };
     karteInhalt.addEventListener('gesturestart', (e) => {
         e.preventDefault();
-        if (finger.size || !position) return;
+        if (fingerGeste || !position) return;
         safariGeste = true;
         gesteBeginnen();
     });
     karteInhalt.addEventListener('gesturechange', (e) => {
         e.preventDefault();
-        if (finger.size || !safariGeste || !e.scale) return;
+        if (fingerGeste || !safariGeste || !e.scale) return;
         gesteZeigen(e.scale);
         clearTimeout(safariUhr);
         safariUhr = setTimeout(safariEnde, 600);
