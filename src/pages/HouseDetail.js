@@ -17,7 +17,7 @@ export function HouseDetailPage(houseId) {
   if (!house) {
     const page = document.createElement('div');
     page.className = 'page';
-    page.innerHTML = '<div class="empty-state">Opernhaus nicht gefunden.</div>';
+    page.innerHTML = '<div class="empty-state"><p>Opernhaus nicht gefunden.</p><a href="#/houses" class="btn btn--primary">Zu den Opernhäusern</a></div>';
     return page;
   }
 

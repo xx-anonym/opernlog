@@ -41,7 +41,7 @@ export function ComposerDetailPage(composerId) {
     page.className = 'page page--composer-detail';
 
     if (!komponist) {
-        page.innerHTML = '<div class="empty-state">Komponist nicht gefunden.</div>';
+        page.innerHTML = '<div class="empty-state"><p>Komponist nicht gefunden.</p><a href="#/operas" class="btn btn--primary">Zu den Opern</a></div>';
         return page;
     }
 

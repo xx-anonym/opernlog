@@ -111,7 +111,7 @@ export function OperaDetailPage(operaId) {
   if (!opera) {
     const page = document.createElement('div');
     page.className = 'page';
-    page.innerHTML = '<div class="empty-state">Oper nicht gefunden.</div>';
+    page.innerHTML = '<div class="empty-state"><p>Oper nicht gefunden.</p><a href="#/operas" class="btn btn--primary">Zu den Opern</a></div>';
     return page;
   }
 

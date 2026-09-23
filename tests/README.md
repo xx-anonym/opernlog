@@ -79,6 +79,7 @@ Datenbank.
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 | `durchsicht.test.js` | Funde der Durchsicht vom 23.09.2026: gestaltete Anmeldefelder, kein Tagebuch-Versprechen ohne Konto, Suche ohne Umlaute, Datum kurz nach Mitternacht, angefangener Text und offene Termine überleben die Rückkehr in die App; abgemeldet keine Wunschliste, keine Markierung, keine Liste |
 | `offlineLoggen.test.js` | Loggen ohne Netz: das Formular ist da, der Besuch wartet auf dem Gerät und geht mit derselben Kennung hoch, sobald Netz da ist; kein Doppel, wenn ein Versuch doch ankam; Abmelden fragt vorher |
+| `listen.test.js` | Häuser-Listen mit Stadt, Land, Gründung und Bild; Like auf Listen samt Rücknahme bei Fehler; ein gespeicherter Besuch gilt als gespeichert, auch wenn das Austragen von der Wunschliste scheitert; unbekannte Oper und unbekanntes Haus führen zurück |
 | `naehe.test.js` | „In der Nähe“: Umkreis und Zeitraum, ohne Standort alle Häuser, Wunschliste mit Stern, Kalender für genau den Abend, Eintrag in der Navigation; Karte mit Umkreis, ein Tipp auf ein Haus schränkt die Liste ein; Umkreis frei per Schieber, mit zwei Fingern und per Trackpad; Ländergrenzen, Punktgröße nach Abenden, Städtenamen |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt

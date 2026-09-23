@@ -289,7 +289,7 @@ async function renderCloudProfile(page, userId) {
 
       <div class="profile-tabs">
         <button class="tab tab--active" data-cloud-tab="reviews">Reviews (${visits.length})</button>
-        <button class="tab" data-cloud-tab="lists">Listen (${userLists.length})</button>
+        <button class="tab" data-cloud-tab="lists">Listen (${regularLists.length + (wishlist && wishlist.items.length > 0 ? 1 : 0)})</button>
       </div>
 
       <div id="cloudTabReviews">
@@ -307,7 +307,7 @@ async function renderCloudProfile(page, userId) {
           <div id="cloudLists" class="lists-grid"></div>
         ` : ''}
 
-        ${!wishlist && regularLists.length === 0 ? `
+        ${!(wishlist && wishlist.items.length > 0) && regularLists.length === 0 ? `
           <div class="empty-state">Noch keine Listen.</div>
         ` : ''}
       </div>

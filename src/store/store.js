@@ -511,9 +511,16 @@ class Store {
             return this._alsAusstehend(newVisit);
         }
 
-        // Erst nach erfolgreichem Speichern von der Wunschliste nehmen
+        // Erst nach erfolgreichem Speichern von der Wunschliste nehmen. Scheitert
+        // das, ist der Besuch trotzdem gespeichert – ein Fehler hier meldete
+        // "Besuch konnte nicht gespeichert werden", und wer es dann noch einmal
+        // versuchte, hatte den Abend doppelt im Tagebuch.
         if (visit.operaId && this.isOnWishlist(visit.operaId)) {
-            await this.removeFromWishlist(visit.operaId);
+            try {
+                await this.removeFromWishlist(visit.operaId);
+            } catch (e) {
+                console.warn('[Store] Von der Wunschliste nehmen nach dem Loggen', e);
+            }
         }
 
         return newVisit;
@@ -537,7 +544,11 @@ class Store {
             uhr = setTimeout(() => nein(Object.assign(new Error('Zeitüberschreitung beim Hochladen'), { code: 'ZEIT' })), HOCHLADEN_GEDULD_MS);
         });
         try {
-            const zeile = await Promise.race([sb.addVisitCloud(visit), zeit]);
+            const hochladen = sb.addVisitCloud(visit);
+            // Nach einer Zeitüberschreitung hört niemand mehr zu; ein späterer
+            // Fehler soll nicht als unbehandelt in der Konsole landen.
+            hochladen.catch(() => {});
+            const zeile = await Promise.race([hochladen, zeit]);
             // Keine Sitzung greifbar (abgelaufen, ohne Netz nicht erneuerbar):
             // nichts ist oben, also später noch einmal.
             if (!zeile) throw Object.assign(new Error('Keine Sitzung'), { code: 'ZEIT' });

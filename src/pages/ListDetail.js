@@ -72,22 +72,35 @@ export function ListDetailPage(listId) {
     if (likeBtn) {
       likeBtn.addEventListener('click', async () => {
         if (!store.isCloud || !isSupabaseConfigured()) {
-          alert('Likes für Listen erfordern Cloud-Sync.');
+          showError('Zum Liken musst du angemeldet sein.');
           return;
         }
+        if (likeBtn.disabled) return;
 
         const countSpan = page.querySelector('#listLikeCount');
-        const iconSpan = likeBtn.querySelector('span:first-child');
-        const currentlyLiked = likeBtn.classList.contains('btn-icon--active');
-        const change = currentlyLiked ? -1 : 1;
+        // Das Herz ist ein SVG (.icon). Hier stand span:first-child – das
+        // fand nichts, der Klick warf, und die Zahl blieb stehen, obwohl
+        // der Like gespeichert war.
+        const zeigen = (liked, zahl) => {
+          likeBtn.classList.toggle('btn-icon--active', liked);
+          likeBtn.querySelector('.icon').outerHTML = icon('heart', { filled: liked, label: 'Gefällt mir' });
+          countSpan.textContent = zahl;
+        };
+        const warGeliked = likeBtn.classList.contains('btn-icon--active');
+        const vorher = countSpan.textContent;
 
-        const dbLikeAction = sb.toggleLike('list', list.id);
-
-        likeBtn.classList.toggle('btn-icon--active');
-        iconSpan.outerHTML = icon('heart', { filled: !currentlyLiked, label: 'Gefällt mir' });
-        countSpan.textContent = parseInt(countSpan.textContent) + change;
-
-        await dbLikeAction; // Await sync operation without blocking UI
+        zeigen(!warGeliked, Math.max(0, parseInt(vorher, 10) + (warGeliked ? -1 : 1)));
+        likeBtn.disabled = true;
+        try {
+          await sb.toggleLike('list', list.id);
+        } catch (e) {
+          // Anzeige zurückdrehen – sonst zeigt sie einen Like, den es nicht gibt
+          console.error('Like fehlgeschlagen', e);
+          zeigen(warGeliked, vorher);
+          showError('Like konnte nicht gespeichert werden');
+        } finally {
+          likeBtn.disabled = false;
+        }
       });
     }
 
@@ -154,12 +167,12 @@ export function ListDetailPage(listId) {
       } else {
         // Opera house
         card.innerHTML = `
-          <div class="list-detail-card__image" style="${coverBackground(item.image, 'linear-gradient(135deg, #8b1a2b, #14181c)', 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
+          <div class="list-detail-card__image" style="${coverBackground(item.imageUrl, `linear-gradient(135deg, ${item.color || '#8b1a2b'}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
           </div>
           <div class="list-detail-card__body">
-            <h3 class="list-detail-card__title">${item.name}</h3>
-            <p class="list-detail-card__subtitle">${icon('pin', { className: 'icon--meta' })}${item.city}, ${item.country}</p>
-            ${item.capacity ? `<div class="list-detail-card__meta"><span>${icon('seat', { className: 'icon--meta' })}${item.capacity} Plätze</span><span>${icon('calendar', { className: 'icon--meta' })}${item.yearBuilt || ''}</span></div>` : ''}
+            <h3 class="list-detail-card__title">${escapeHTML(item.name)}</h3>
+            <p class="list-detail-card__subtitle">${icon('pin', { className: 'icon--meta' })}${escapeHTML([item.city, item.state].filter(Boolean).join(', '))}</p>
+            ${item.capacity || item.founded ? `<div class="list-detail-card__meta">${item.capacity ? `<span>${icon('seat', { className: 'icon--meta' })}${item.capacity} Plätze</span>` : ''}${item.founded ? `<span>${icon('calendar', { className: 'icon--meta' })}Gegründet ${item.founded}</span>` : ''}</div>` : ''}
             <div class="list-detail-card__actions">
               <a href="#/house/${item.id}" class="btn btn--outline btn--sm">Details</a>
             </div>

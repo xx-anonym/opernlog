@@ -21,6 +21,7 @@ window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer 
 // Datenbank am Primaerschluessel (23505).
 window.__besuchVersuche = [];
 window.__besuchFehler = [];
+window.__likeFehler = null;     // gesetzt: jeder Zugriff auf likes scheitert damit
 
 // Fuer die Passwortpruefung: was die Edge Function antworten soll, und was der
 // Browser ihr geschickt hat. Letzteres darf nur ein fuenfstelliges Praefix
@@ -108,6 +109,9 @@ function builder(table) {
       if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
       if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
         return Promise.resolve({ data: null, error: { message: window.__profilSchreibfehler, code: '42501' } }).then(res, rej);
+      }
+      if (table === 'likes' && window.__likeFehler) {
+        return Promise.resolve({ data: null, error: { message: window.__likeFehler } }).then(res, rej);
       }
       if (table === 'visits' && op === 'insert') {
         window.__besuchVersuche.push(nutzlast);
