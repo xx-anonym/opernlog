@@ -44,7 +44,7 @@ export function installHinweis(umgebung = globalThis) {
             // Seit iOS 26 steht „Teilen“ nicht mehr in der Leiste, sondern im
             // Menü links in der Adressleiste; „Zum Home-Bildschirm“ findet
             // sich dort unter „Mehr anzeigen“. Im iOS-Simulator nachgesehen.
-            el.innerHTML = `<span class="installhinweis__text"><strong>Als App nutzen:</strong> In Safari auf ${TEILEN} „Teilen“ tippen (neues Safari: im Menü der Adressleiste), dann „Zum Home-Bildschirm“. Erst dann gibt es Mitteilungen.</span>`;
+            el.innerHTML = `<span class="installhinweis__text"><strong>Als App nutzen:</strong> Safari ${TEILEN} „Teilen“ (neu: im Menü ≡) → „Zum Home-Bildschirm“. Erst dann gibt es Mitteilungen.</span>`;
         } else if (installAngebot) {
             el.innerHTML = `<span class="installhinweis__text"><strong>Als App nutzen</strong> – mit Mitteilungen und ganzem Bildschirm.</span>
               <button type="button" class="btn btn--primary btn--sm installhinweis__knopf">Installieren</button>`;
