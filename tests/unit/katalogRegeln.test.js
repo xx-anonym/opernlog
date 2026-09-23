@@ -277,3 +277,10 @@ test('eine andere Breite lässt sich verlangen', () => {
     assert.equal(thumbAdresse(`${COMMONS}/8/83/P.jpg`, 330),
         `${COMMONS}/thumb/8/83/P.jpg/330px-P.jpg`);
 });
+
+test('ein Namensvetter statt des Komponisten fällt auf', () => {
+    const praesident = { ...KOMPONIST, kurz: 'US-amerikanischer Politiker und zweiter Präsident der USA (1797–1801)',
+        bio: 'John Adams war einer der Gründerväter der Vereinigten Staaten.' };
+    assert.match(text(pruefeKomponist(praesident, { komponisten: [] })), /keinen Musiker/);
+    assert.deepEqual(pruefeKomponist({ ...KOMPONIST, kurz: 'US-amerikanischer Komponist', bio: 'Er schrieb Nixon in China.' }, { komponisten: [] }), []);
+});

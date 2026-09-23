@@ -13,6 +13,7 @@
 //   node tests/werkzeug/komponisten-holen.mjs             Vorschlag ausgeben
 //   node tests/werkzeug/komponisten-holen.mjs --schreiben  src/data/composers.js schreiben
 //   node tests/werkzeug/komponisten-holen.mjs --nur=verdi  nur einen prüfen
+//   node tests/werkzeug/komponisten-holen.mjs --nur=verdi --schreiben  nur diesen ersetzen
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -194,9 +195,15 @@ if (!schreiben) {
     console.log('\nVorschlag, nichts geschrieben. Mit --schreiben landet er in ' + ZIEL + '.');
     process.exit(0);
 }
+// Mit --nur ersetzt der Lauf nur die gefundenen Einträge und lässt die
+// übrigen stehen – etwa nach einem falschen Artikel (John Adams war erst der
+// Präsident, nicht der Komponist).
 if (nur) {
-    console.log('\n--nur schreibt nicht: das Ergebnis wäre ein Katalog mit einem Eintrag.');
-    process.exit(1);
+    const { composers: bisher } = await import('../../src/data/composers.js');
+    const neu = new Map(eintraege.map(e => [e.id, e]));
+    const gemischt = bisher.map(e => neu.get(e.id) || e);
+    for (const e of eintraege) if (!bisher.some(b => b.id === e.id)) gemischt.push(e);
+    eintraege.splice(0, eintraege.length, ...gemischt);
 }
 
 const zeile = (e) => '    ' + JSON.stringify({

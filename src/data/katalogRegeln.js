@@ -209,6 +209,14 @@ export function pruefeKomponist(k = {}, bestand = {}) {
     }
     if (leer(k.kurz)) maengel.push('Die Kurzfassung fehlt.');
 
+    // Namensgleiche führen leicht auf den falschen Artikel: bei "John Adams"
+    // stand erst der zweite Präsident der USA im Katalog, nicht der Komponist.
+    const person = `${k.kurz ?? ''} ${k.bio ?? ''}`;
+    if (!leer(k.kurz) && !leer(k.bio) && !/komponist|musiker|dirigent|tonsetzer|pianist|organist|kapellmeister|oper|musik/i.test(person)) {
+        maengel.push('Kurzfassung und Biografie nennen keinen Musiker – vermutlich der falsche '
+            + 'Wikipedia-Artikel (etwa ein Namensvetter).');
+    }
+
     if (leer(k.bio)) {
         maengel.push('Die Biografie fehlt.');
     } else if (!/[.!?]$/.test(k.bio.trim())) {
