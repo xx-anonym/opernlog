@@ -15,6 +15,7 @@ import { ListsPage } from './pages/Lists.js';
 import { ListDetailPage } from './pages/ListDetail.js';
 import { WishlistPage } from './pages/Wishlist.js';
 import { SeasonReviewPage } from './pages/SeasonReview.js';
+import { NaehePage } from './pages/Naehe.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
@@ -630,6 +631,9 @@ class App {
             }
             case 'community':
                 page = CommunityPage();
+                break;
+            case 'naehe':
+                page = NaehePage();
                 break;
             case 'season':
                 // #/season zeigt die zuletzt abgeschlossene Spielzeit,

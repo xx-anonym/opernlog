@@ -61,3 +61,45 @@ export function kommendeAuffuehrungen(werkId, { heute = heuteIso(), position = n
 
     return zeilen.sort((a, b) => (position ? a.km - b.km : 0) || a.termine[0].localeCompare(b.termine[0]));
 }
+
+/** "2026-10-05" plus n Tage, in Ortszeit gerechnet. */
+export function tagePlus(iso, n) {
+    const [j, m, t] = iso.split('-').map(Number);
+    return heuteIso(new Date(j, m - 1, t + n));
+}
+
+/**
+ * Was demnächst läuft – für "In der Nähe". Jeder Abend einzeln, nach Datum
+ * und Uhrzeit; bei gleichem Beginn das nähere Haus zuerst.
+ *
+ * @param {object} o
+ * @param {string} [o.heute]       JJJJ-MM-TT
+ * @param {string} [o.bis]         letzter Tag, einschließlich; ohne: alles Kommende
+ * @param {{lat: number, lon: number}|null} [o.position]
+ * @param {number|null} [o.radiusKm]  nur mit Position; ohne: alle Häuser
+ * @param {Set<string>|null} [o.werke]  nur diese Werke, etwa die Wunschliste
+ * @param {Array}  [o.daten]       nur für Tests; sonst src/data/spielplan.js
+ * @returns {Array<{datum: string, zeit: string|null, werk: string, haus: object, url: string, km: number|null}>}
+ */
+export function abendeInDerNaehe({ heute = heuteIso(), bis = null, position = null, radiusKm = null, werke = null, daten = spielplan } = {}) {
+    const abende = [];
+    for (const e of daten) {
+        if (werke && !werke.has(e.werk)) continue;
+        const haus = operaHouses.find(h => h.id === e.haus);
+        if (!haus) continue;
+        const km = position && Number.isFinite(haus.lat)
+            ? Math.round(distanceKm(position.lat, position.lon, haus.lat, haus.lon))
+            : null;
+        if (position && radiusKm !== null && (km === null || km > radiusKm)) continue;
+        for (const datum of e.termine) {
+            if (datum < heute || (bis && datum > bis)) continue;
+            abende.push({ datum, zeit: e.zeiten?.[datum] || null, werk: e.werk, haus, url: e.url, km });
+        }
+    }
+    // Ohne bekannte Uhrzeit ans Ende des Tages.
+    const beginn = a => a.zeit ? a.zeit.slice(0, 5) : '99:99';
+    return abende.sort((a, b) => a.datum.localeCompare(b.datum)
+        || beginn(a).localeCompare(beginn(b))
+        || (a.km ?? 0) - (b.km ?? 0)
+        || a.haus.name.localeCompare(b.haus.name, 'de'));
+}

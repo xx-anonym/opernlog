@@ -73,6 +73,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
 - **Spielpläne:** Auf der Wunschliste steht bei jedem Werk, an welchen Häusern
   des Katalogs es in dieser Spielzeit noch läuft, mit Link auf die Seite des
   Hauses; auf der Seite eines Werks klappt „Aktuelle Termine“ dasselbe auf.
+  „In der Nähe“ (`#/naehe`) dreht die Frage um: was läuft demnächst im
+  gewählten Umkreis, jeder Abend einzeln nach Datum, auf Wunsch nur Werke der
+  Wunschliste. Die Karte darüber (dieselbe wie bei den Opernhäusern) zeigt den
+  Umkreis; ein Tipp auf ein Haus zeigt nur dessen Abende.
   Mit Standort stehen die nächsten Häuser vorn. Das Kalender-Symbol neben
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das

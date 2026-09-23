@@ -130,6 +130,7 @@ const APP_SHELL = [
     './src/components/Mitteilungen.js',
     './src/components/MitteilungenFrage.js',
     './src/components/InstallHinweis.js',
+    './src/pages/Naehe.js',
 ];
 
 // Install – cache app shell

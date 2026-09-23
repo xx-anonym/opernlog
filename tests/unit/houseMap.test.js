@@ -44,3 +44,26 @@ test('HouseMap zeigt ohne Auswahl weiterhin den gesamten Katalog', () => {
 
     assert.equal(punkte.length, operaHouses.length);
 });
+
+test('mit Standort und Umkreis zeigt die Karte nur den Ausschnitt, mit Ring und Kreuz', () => {
+    const dresden = { lat: 51.05, lon: 13.74 };
+    const gesamt = mitKartenDOM(() => HouseMap());
+    const nah = mitKartenDOM(() => HouseMap(['semperoper'], operaHouses, { position: dresden, radiusKm: 100 }));
+    const breite = html => Number(html.match(/viewBox="[^ ]+ [^ ]+ ([^ ]+) /)[1]);
+    assert.ok(breite(nah.innerHTML) < breite(gesamt.innerHTML) / 3, 'kein Ausschnitt');
+    assert.match(nah.innerHTML, /housemap__svg--ausschnitt/);
+    assert.match(nah.innerHTML, /class="housemap__umkreis"/);
+    assert.match(nah.innerHTML, /class="housemap__standort"/);
+    assert.doesNotMatch(gesamt.innerHTML, /housemap__umkreis|housemap__standort/);
+});
+
+test('Texte und Punkte lassen sich für andere Seiten anpassen', () => {
+    const karte = mitKartenDOM(() => HouseMap(['semperoper'], operaHouses, {
+        legende: ['mit Abenden', 'ohne'],
+        zaehler: n => `${n} Haus mit Abenden`,
+        punktText: h => `${h.name} · 3 Abende`,
+    }));
+    assert.match(karte.innerHTML, /1 Haus mit Abenden/);
+    assert.match(karte.innerHTML, /mit Abenden/);
+    assert.match(karte.innerHTML, /<title>Semperoper · 3 Abende<\/title>/);
+});

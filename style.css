@@ -1128,6 +1128,11 @@ h3 {
     border-color: var(--gold);
 }
 
+.select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* --- Form Elements --- */
 .input {
     width: 100%;
@@ -4400,6 +4405,27 @@ body {
     cursor: pointer;
 }
 
+/* Nur ein Ausschnitt: was außerhalb liegt, bleibt draußen. Sonst ragen die
+   Häuser jenseits des Umkreises über die Karte hinaus in die Seite. */
+.housemap__svg--ausschnitt {
+    overflow: hidden;
+}
+
+.housemap__umkreis {
+    fill: rgba(201, 168, 76, 0.06);
+    stroke: rgba(201, 168, 76, 0.45);
+    pointer-events: none;
+}
+
+.housemap__standort circle {
+    fill: rgba(120, 170, 255, 0.35);
+    pointer-events: none;
+}
+
+.housemap__standort .housemap__standort-kern {
+    fill: #7aaaff;
+}
+
 .housemap__caption {
     text-align: center;
     font-size: 0.82rem;
@@ -5373,4 +5399,139 @@ body {
     border: 1px solid rgba(201, 168, 76, 0.3);
     color: var(--text-secondary);
     font-size: 14px;
+}
+
+/* --- In der Nähe ---------------------------------------------------------- */
+.naehe-filter__wunsch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.naehe-standort {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.naehe-anzahl {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.naehe-tag {
+    margin-bottom: 20px;
+}
+
+.naehe-tag__datum {
+    margin: 0 0 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--gold);
+}
+
+.naehe-abend {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.naehe-abend__zeit {
+    flex: 0 0 44px;
+    padding-top: 1px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.naehe-abend__was {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.naehe-abend__werk {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.naehe-abend__stern .icon {
+    width: 13px;
+    height: 13px;
+    margin-right: 4px;
+    color: var(--gold);
+    vertical-align: -1px;
+}
+
+.naehe-abend__wo {
+    font-size: 13px;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+
+.naehe-abend__haus {
+    color: var(--text-secondary);
+}
+
+.naehe-abend__kalender {
+    flex: 0 0 auto;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.naehe-abend__kalender .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.naehe-mehr {
+    display: block;
+    margin: 8px auto 16px;
+}
+
+.naehe-karte {
+    margin: 16px 0 8px;
+}
+
+.naehe-karte__schalter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.naehe-karte .housemap {
+    margin-bottom: 16px;
+}
+
+.naehe-hausfilter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 8px;
+    font-weight: 600;
 }
