@@ -43,7 +43,7 @@ export function mitteilungenBereich(dienste = {}) {
     const zeigeFehler = (text) => { fehlerEl.textContent = text || ''; fehlerEl.hidden = !text; };
 
     if (zustand === 'installieren') {
-        stand.textContent = 'Auf dem iPhone kommen Mitteilungen nur an, wenn OpernLog auf dem Home-Bildschirm liegt: in Safari auf „Teilen“ tippen, dann „Zum Home-Bildschirm“. Danach OpernLog von dort öffnen und hier einschalten.';
+        stand.textContent = 'Auf dem iPhone kommen Mitteilungen nur an, wenn OpernLog auf dem Home-Bildschirm liegt: in Safari auf „Teilen“ tippen (neues Safari: im Menü der Adressleiste), dann „Zum Home-Bildschirm“. Danach OpernLog von dort öffnen und hier einschalten.';
         return bereich;
     }
     if (zustand === 'verweigert') {
