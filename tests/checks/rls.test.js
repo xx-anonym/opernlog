@@ -106,3 +106,24 @@ test('die Anwendung liest invites nirgends – sonst bräche die neue Regel etwa
     const zugriffe = [...store.matchAll(/from\('invites'\)\s*\.?\s*(\w+)/g)].map(m => m[1]);
     assert.deepEqual([...new Set(zugriffe)], ['insert']);
 });
+
+// Ab dem 30. Oktober 2026 gibt Supabase neuen Tabellen in public keine Rechte
+// für die Datenschnittstelle mehr von selbst (Mail vom 23.9.2026). Eine
+// Tabelle ohne GRANT ist dann für supabase-js unerreichbar – die App bekäme
+// "permission denied". Die Tabellen bis heute behalten ihre Rechte. Jede neue
+// muss in ihrer Migration sagen, wer darf: GRANT an anon/authenticated, oder
+// REVOKE ALL, wenn nur SECURITY-DEFINER-Funktionen an sie heranmüssen.
+const TABELLEN_MIT_ALTEN_RECHTEN = ['admins', 'catalog_composers', 'catalog_houses', 'catalog_operas', 'comments', 'follows',
+    'friend_requests', 'invites', 'likes', 'lists', 'profiles', 'push_abos', 'push_protokoll', 'seen_operas', 'suggestions', 'visits'];
+
+test('jede neue Tabelle regelt ihre Rechte selbst', () => {
+    for (const datei of sqlDateien) {
+        const sql = sqlOhneKommentare(datei);
+        for (const m of sql.matchAll(/CREATE TABLE\s+(?:IF NOT EXISTS\s+)?(?:public\.)?(\w+)/gi)) {
+            const tabelle = m[1].toLowerCase();
+            if (TABELLEN_MIT_ALTEN_RECHTEN.includes(tabelle)) continue;
+            const geregelt = new RegExp(String.raw`GRANT\b[^;]*\bON\s+(TABLE\s+)?(public\.)?${tabelle}\b[^;]*\bTO\b|REVOKE\s+ALL\b[^;]*\bON\s+(TABLE\s+)?(public\.)?${tabelle}\b`, 'i');
+            assert.match(sql, geregelt, `${datei}: Tabelle ${tabelle} ohne GRANT oder REVOKE – ab 30.10.2026 für die App sonst unerreichbar`);
+        }
+    }
+});
