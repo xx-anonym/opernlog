@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:la-traviata-deutsche-oper-berlin-2027-06-11@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270611
+DTEND;VALUE=DATE:20270612
+SUMMARY:La Traviata – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/la-traviata.1385739
+DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://deutsc
+ heoperberlin.de/de_DE/production/la-traviata.1385739\nDie Uhrzeit steht au
+ f der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Ha
+ uses.
+END:VEVENT
+END:VCALENDAR

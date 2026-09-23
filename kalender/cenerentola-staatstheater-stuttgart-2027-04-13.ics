@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:cenerentola-staatstheater-stuttgart-2027-04-13@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270413T190000
+DTEND;TZID=Europe/Berlin:20270413T223000
+SUMMARY:La Cenerentola – Staatsoper Stuttgart
+LOCATION:Staatsoper Stuttgart\, Stuttgart
+GEO:48.7808;9.1837
+URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/la-cenerentola/9
+ 566/
+DESCRIPTION:Gioachino Rossini: La Cenerentola\nTermine und Karten: https://
+ www.staatsoper-stuttgart.de/spielplan/kalender/la-cenerentola/9566/\nAus O
+ pernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

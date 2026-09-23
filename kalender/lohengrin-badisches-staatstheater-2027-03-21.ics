@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:lohengrin-badisches-staatstheater-2027-03-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270321
+DTEND;VALUE=DATE:20270322
+SUMMARY:Lohengrin – Badisches Staatstheater
+LOCATION:Badisches Staatstheater\, Karlsruhe
+GEO:48.9975;8.4045
+URL:https://staatstheater-karlsruhe.de/programm/info/3775/
+DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://staatsth
+ eater-karlsruhe.de/programm/info/3775/\nDie Uhrzeit steht auf der Seite de
+ s Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

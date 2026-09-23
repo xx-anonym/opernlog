@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:rigoletto-badisches-staatstheater-2027-01-19@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270119
+DTEND;VALUE=DATE:20270120
+SUMMARY:Rigoletto – Badisches Staatstheater
+LOCATION:Badisches Staatstheater\, Karlsruhe
+GEO:48.9975;8.4045
+URL:https://staatstheater-karlsruhe.de/programm/info/3780/
+DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://staatsth
+ eater-karlsruhe.de/programm/info/3780/\nDie Uhrzeit steht auf der Seite de
+ s Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

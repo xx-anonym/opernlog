@@ -52,6 +52,15 @@ test('die Symbole werden ausgeliefert', () => {
         'icons/ ist ausgeschlossen, wird aber gebraucht');
 });
 
+test('die Kalenderdateien werden ausgeliefert', () => {
+    // kalender/ steht ebenfalls nicht im APP_SHELL. iPhone und iPad öffnen
+    // die Dateien von dort; fehlen sie, bleibt nach "In den Kalender" nur
+    // ein leeres Fenster.
+    const muster = ausgeschlossen();
+    assert.ok(!muster.some(m => m.replace(/\/$/, '') === 'kalender'),
+        'kalender/ ist ausgeschlossen, wird aber gebraucht');
+});
+
 test('was nicht zur App gehört, ist auch wirklich ausgeschlossen', () => {
     // Andersherum: wer ein Verzeichnis anlegt und es hier vergisst, legt es
     // ins Netz. supabase/ enthält das Schema samt aller RLS-Regeln.

@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:freischuetz-nordharzer-staedtebundtheater-2027-04-02@opernlog.vercel.ap
+ p
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270402
+DTEND;VALUE=DATE:20270403
+SUMMARY:Der Freischütz – Nordharzer Städtebundtheater
+LOCATION:Nordharzer Städtebundtheater\, Halberstadt / Quedlinburg
+GEO:51.896;11.048
+URL:https://harztheater.de/produktion/der-freischuetz
+DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
+ s://harztheater.de/produktion/der-freischuetz\nDie Uhrzeit steht auf der S
+ eite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

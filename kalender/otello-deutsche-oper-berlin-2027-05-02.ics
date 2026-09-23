@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:otello-deutsche-oper-berlin-2027-05-02@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270502
+DTEND;VALUE=DATE:20270503
+SUMMARY:Otello – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/otello.1385835
+DESCRIPTION:Giuseppe Verdi: Otello\nTermine und Karten: https://deutscheope
+ rberlin.de/de_DE/production/otello.1385835\nDie Uhrzeit steht auf der Seit
+ e des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

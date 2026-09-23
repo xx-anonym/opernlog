@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:perlenfischer-wiener-staatsoper-2026-12-19@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:Les pêcheurs de perles – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/les-pecheurs-de-perles
+ /
+DESCRIPTION:Georges Bizet: Les pêcheurs de perles\nTermine und Karten: htt
+ ps://www.wiener-staatsoper.at/kalender/detail/les-pecheurs-de-perles/\nDie
+  Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist
+  die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

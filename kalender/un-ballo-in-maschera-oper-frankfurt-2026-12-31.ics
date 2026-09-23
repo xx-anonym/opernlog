@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:un-ballo-in-maschera-oper-frankfurt-2026-12-31@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Un ballo in maschera – Oper Frankfurt
+LOCATION:Oper Frankfurt\, Frankfurt am Main
+GEO:50.1078;8.6725
+URL:https://oper-frankfurt.de/de/spielplan/un-ballo-in-maschera/
+DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https
+ ://oper-frankfurt.de/de/spielplan/un-ballo-in-maschera/\nDie Uhrzeit steht
+  auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des
+  Hauses.
+END:VEVENT
+END:VCALENDAR

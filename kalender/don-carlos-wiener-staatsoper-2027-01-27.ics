@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:don-carlos-wiener-staatsoper-2027-01-27@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270127
+DTEND;VALUE=DATE:20270128
+SUMMARY:Don Carlos – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/don-carlos/
+DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://www.wie
+ ner-staatsoper.at/kalender/detail/don-carlos/\nDie Uhrzeit steht auf der S
+ eite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

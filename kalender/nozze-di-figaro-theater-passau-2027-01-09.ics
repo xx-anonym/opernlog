@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:nozze-di-figaro-theater-passau-2027-01-09@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270109T193000
+DTEND;TZID=Europe/Berlin:20270109T223000
+SUMMARY:Le nozze di Figaro – Landestheater Niederbayern
+LOCATION:Landestheater Niederbayern\, Passau / Landshut
+GEO:48.5745;13.4655
+URL:https://www.landestheater-niederbayern.de/event/le-nozze-di-figaro/
+DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
+ : https://www.landestheater-niederbayern.de/event/le-nozze-di-figaro/\nDas
+  Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Se
+ ite des Hauses.
+END:VEVENT
+END:VCALENDAR

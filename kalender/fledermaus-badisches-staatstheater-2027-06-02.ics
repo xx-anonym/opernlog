@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fledermaus-badisches-staatstheater-2027-06-02@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270602
+DTEND;VALUE=DATE:20270603
+SUMMARY:Die Fledermaus – Badisches Staatstheater
+LOCATION:Badisches Staatstheater\, Karlsruhe
+GEO:48.9975;8.4045
+URL:https://staatstheater-karlsruhe.de/programm/info/3647/
+DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
+ staatstheater-karlsruhe.de/programm/info/3647/\nDie Uhrzeit steht auf der 
+ Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

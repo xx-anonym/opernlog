@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:perlenfischer-wuerttembergische-staatstheater-2027-06-23@opernlog.verce
+ l.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270623
+DTEND;VALUE=DATE:20270624
+SUMMARY:Les pêcheurs de perles – Staatstheater Wiesbaden
+LOCATION:Staatstheater Wiesbaden\, Wiesbaden
+GEO:50.0857;8.2478
+URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/die-perlenfischer/
+DESCRIPTION:Georges Bizet: Les pêcheurs de perles\nTermine und Karten: htt
+ ps://www.staatstheater-wiesbaden.de/spielplan/a-z/die-perlenfischer/\nDie 
+ Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist 
+ die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

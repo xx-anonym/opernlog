@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:don-pasquale-staatstheater-cottbus-2027-03-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270321T190000
+DTEND;TZID=Europe/Berlin:20270321T205000
+SUMMARY:Don Pasquale – Staatstheater Cottbus
+LOCATION:Staatstheater Cottbus\, Cottbus
+GEO:51.7565;14.3268
+URL:https://www.staatstheater-cottbus.de/de/programm/repertoire/artikel-don
+ _pasquale.html
+DESCRIPTION:Gaetano Donizetti: Don Pasquale\nTermine und Karten: https://ww
+ w.staatstheater-cottbus.de/de/programm/repertoire/artikel-don_pasquale.htm
+ l\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

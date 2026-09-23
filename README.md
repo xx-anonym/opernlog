@@ -76,14 +76,17 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Mit Standort stehen die nächsten Häuser vorn. Das Kalender-Symbol neben
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
-  Werkzeug mit, wo sie eindeutig neben dem Datum stehen. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
+  Werkzeug mit, wo sie eindeutig neben dem Datum stehen. iPhone und iPad
+  öffnen dieselbe Datei vom Server, weil eine im Browser erzeugte aus der
+  installierten App heraus nur ein leeres Fenster ergibt; dafür liegt jeder
+  Abend einzeln unter `kalender/`. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
   werden einmal je Spielzeit erneuert – im September, dazu ein kleiner Lauf im
   Januar, weil viele Stadttheater die Frühjahrstermine erst im Winter
   veröffentlichen:
 
   ```sh
   node tests/werkzeug/spielplaene-lesen.mjs lauf.json --straenge 6   # liest alle Häuser, etwa 40 Minuten
-  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json             # schreibt src/data/spielplan.js
+  node tests/werkzeug/spielplan-uebernehmen.mjs lauf.json             # schreibt src/data/spielplan.js und kalender/
   ```
 
   Kommt ein Werk neu in den Katalog – auch über das Admin-Formular, das
@@ -95,7 +98,9 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   ```
 
   `--dazu` ersetzt nur die Einträge der gesuchten Werke und lässt alle
-  anderen stehen.
+  anderen stehen. Ändert sich nur das Format der Kalenderdateien
+  (`src/kalender.js`), erneuert `node tests/werkzeug/kalender-dateien.mjs`
+  den Ordner `kalender/`.
 
   Das Lesen nimmt nur Termine mit Uhrzeit, wo es welche gibt, und lässt
   Spannen, Matineen, Vorverkaufsdaten und Uraufführungsjahre weg. Dazwischen

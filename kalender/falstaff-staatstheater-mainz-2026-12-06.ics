@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:falstaff-staatstheater-mainz-2026-12-06@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Falstaff – Staatstheater Mainz
+LOCATION:Staatstheater Mainz\, Mainz
+GEO:50;8.272
+URL:https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/falstaff
+DESCRIPTION:Giuseppe Verdi: Falstaff\nTermine und Karten: https://www.staat
+ stheater-mainz.com/veranstaltungen/oper-26-27/falstaff\nDie Uhrzeit steht 
+ auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des 
+ Hauses.
+END:VEVENT
+END:VCALENDAR

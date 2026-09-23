@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:manon-lescaut-wiener-staatsoper-2027-04-07@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270407
+DTEND;VALUE=DATE:20270408
+SUMMARY:Manon Lescaut – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/manon-lescaut/
+DESCRIPTION:Giacomo Puccini: Manon Lescaut\nTermine und Karten: https://www
+ .wiener-staatsoper.at/kalender/detail/manon-lescaut/\nDie Uhrzeit steht au
+ f der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Ha
+ uses.
+END:VEVENT
+END:VCALENDAR

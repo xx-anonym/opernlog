@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:zauberflote-staatstheater-braunschweig-2027-01-31@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270131T180000
+DTEND;TZID=Europe/Berlin:20270131T210000
+SUMMARY:Die Zauberflöte – Staatstheater Braunschweig
+LOCATION:Staatstheater Braunschweig\, Braunschweig
+GEO:52.264;10.531
+URL:https://staatstheater-braunschweig.de/produktion/die-zauberfloete-the-o
+ pera-but-not-the-opera
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://staatstheater-braunschweig.de/produktion/die-zauberfloete-the-oper
+ a-but-not-the-opera\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog 
+ – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

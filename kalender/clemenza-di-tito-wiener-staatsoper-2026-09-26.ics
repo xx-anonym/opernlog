@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:clemenza-di-tito-wiener-staatsoper-2026-09-26@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Vienna:20260926T193000
+DTEND;TZID=Europe/Vienna:20260926T223000
+SUMMARY:La clemenza di Tito – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/la-clemenza-di-tito/
+DESCRIPTION:Wolfgang Amadeus Mozart: La clemenza di Tito\nTermine und Karte
+ n: https://www.wiener-staatsoper.at/kalender/detail/la-clemenza-di-tito/\n
+ Das Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die
+  Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:forza-del-destino-deutsche-oper-berlin-2026-10-18@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:La forza del destino – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/la-forza-del-destino.138
+ 5519
+DESCRIPTION:Giuseppe Verdi: La forza del destino\nTermine und Karten: https
+ ://deutscheoperberlin.de/de_DE/production/la-forza-del-destino.1385519\nDi
+ e Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich is
+ t die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:la-traviata-gaertnerplatztheater-2027-01-22@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270122T193000
+DTEND;TZID=Europe/Berlin:20270122T223000
+SUMMARY:La Traviata – Staatstheater am Gärtnerplatz
+LOCATION:Staatstheater am Gärtnerplatz\, München
+GEO:48.13;11.5751
+URL:https://www.gaertnerplatztheater.de/de/produktionen/la-traviata.html
+DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.ga
+ ertnerplatztheater.de/de/produktionen/la-traviata.html\nDas Ende ist gesch
+ ätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

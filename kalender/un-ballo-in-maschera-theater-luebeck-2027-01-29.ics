@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:un-ballo-in-maschera-theater-luebeck-2027-01-29@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270129
+DTEND;VALUE=DATE:20270130
+SUMMARY:Un ballo in maschera – Theater Lübeck
+LOCATION:Theater Lübeck\, Lübeck
+GEO:53.869;10.683
+URL:https://www.theaterluebeck.de/produktionen/ein-maskenball_2026-27.html?
+ m=1
+DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https
+ ://www.theaterluebeck.de/produktionen/ein-maskenball_2026-27.html?m=1\nDie
+  Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist
+  die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

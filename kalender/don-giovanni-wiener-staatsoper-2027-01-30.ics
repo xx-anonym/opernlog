@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:don-giovanni-wiener-staatsoper-2027-01-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270130
+DTEND;VALUE=DATE:20270131
+SUMMARY:Don Giovanni – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/don-giovanni/
+DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
+ s://www.wiener-staatsoper.at/kalender/detail/don-giovanni/\nDie Uhrzeit st
+ eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
+ des Hauses.
+END:VEVENT
+END:VCALENDAR

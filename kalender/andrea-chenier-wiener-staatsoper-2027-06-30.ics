@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:andrea-chenier-wiener-staatsoper-2027-06-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270630
+DTEND;VALUE=DATE:20270701
+SUMMARY:Andrea Chénier – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/andrea-chenier/
+DESCRIPTION:Umberto Giordano: Andrea Chénier\nTermine und Karten: https://
+ www.wiener-staatsoper.at/kalender/detail/andrea-chenier/\nDie Uhrzeit steh
+ t auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite de
+ s Hauses.
+END:VEVENT
+END:VCALENDAR

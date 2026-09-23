@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:andrea-chenier-staatstheater-darmstadt-2026-10-23@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261023T193000
+DTEND;TZID=Europe/Berlin:20261023T223000
+SUMMARY:Andrea Chénier – Staatstheater Darmstadt
+LOCATION:Staatstheater Darmstadt\, Darmstadt
+GEO:49.8697;8.6435
+URL:https://www.staatstheater-darmstadt.de/veranstaltungen/andrea-chenier.2
+ 253/
+DESCRIPTION:Umberto Giordano: Andrea Chénier\nTermine und Karten: https://
+ www.staatstheater-darmstadt.de/veranstaltungen/andrea-chenier.2253/\nDas E
+ nde ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seit
+ e des Hauses.
+END:VEVENT
+END:VCALENDAR

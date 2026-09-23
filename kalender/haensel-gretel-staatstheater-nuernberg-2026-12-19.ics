@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:haensel-gretel-staatstheater-nuernberg-2026-12-19@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261219T180000
+DTEND;TZID=Europe/Berlin:20261219T202000
+SUMMARY:Hänsel und Gretel – Staatstheater Nürnberg
+LOCATION:Staatstheater Nürnberg\, Nürnberg
+GEO:49.4472;11.0797
+URL:https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel/1
+ 9-12-2026/1800
+DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
+ https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel/19-1
+ 2-2026/1800\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

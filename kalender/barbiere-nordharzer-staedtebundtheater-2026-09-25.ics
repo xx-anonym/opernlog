@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:barbiere-nordharzer-staedtebundtheater-2026-09-25@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+SUMMARY:Il barbiere di Siviglia – Nordharzer Städtebundtheater
+LOCATION:Nordharzer Städtebundtheater\, Halberstadt / Quedlinburg
+GEO:51.896;11.048
+URL:https://harztheater.de/produktion/il-barbiere-di-sivglia
+DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
+  https://harztheater.de/produktion/il-barbiere-di-sivglia\nDie Uhrzeit ste
+ ht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite d
+ es Hauses.
+END:VEVENT
+END:VCALENDAR

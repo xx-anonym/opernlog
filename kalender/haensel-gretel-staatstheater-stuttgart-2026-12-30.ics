@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:haensel-gretel-staatstheater-stuttgart-2026-12-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261230T190000
+DTEND;TZID=Europe/Berlin:20261230T211500
+SUMMARY:Hänsel und Gretel – Staatsoper Stuttgart
+LOCATION:Staatsoper Stuttgart\, Stuttgart
+GEO:48.7808;9.1837
+URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/haensel-und-gret
+ el/9611/
+DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
+ https://www.staatsoper-stuttgart.de/spielplan/kalender/haensel-und-gretel/
+ 9611/\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:parsifal-festspielhaus-bayreuth-2027-08-19@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270819
+DTEND;VALUE=DATE:20270820
+SUMMARY:Parsifal – Bayreuther Festspielhaus
+LOCATION:Bayreuther Festspielhaus\, Bayreuth
+GEO:49.9578;11.5803
+URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/parsifal/
+DESCRIPTION:Richard Wagner: Parsifal\nTermine und Karten: https://www.bayre
+ uther-festspiele.de/programm/auffuehrungen/parsifal/\nDie Uhrzeit steht au
+ f der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Ha
+ uses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fliegender-hollaender-deutsche-oper-berlin-2027-02-20@opernlog.vercel.a
+ pp
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270220
+DTEND;VALUE=DATE:20270221
+SUMMARY:Der fliegende Holländer – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/der-fliegende-hollaender
+ .1385827
+DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h
+ ttps://deutscheoperberlin.de/de_DE/production/der-fliegende-hollaender.138
+ 5827\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßge
+ blich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

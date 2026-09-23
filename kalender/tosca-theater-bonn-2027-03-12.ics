@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tosca-theater-bonn-2027-03-12@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270312
+DTEND;VALUE=DATE:20270313
+SUMMARY:Tosca – Theater Bonn
+LOCATION:Theater Bonn\, Bonn
+GEO:50.741;7.103
+URL:https://www.theater-bonn.de/de/magazin/freddie_de_tommaso
+DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.theater
+ -bonn.de/de/magazin/freddie_de_tommaso\nDie Uhrzeit steht auf der Seite de
+ s Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

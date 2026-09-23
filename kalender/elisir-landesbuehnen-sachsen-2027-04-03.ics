@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:elisir-landesbuehnen-sachsen-2027-04-03@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270403
+DTEND;VALUE=DATE:20270404
+SUMMARY:L'elisir d'amore – Landesbühnen Sachsen
+LOCATION:Landesbühnen Sachsen\, Radebeul
+GEO:51.105;13.642
+URL:https://www.landesbuehnen-sachsen.de/spielzeit/der-liebestrank/
+DESCRIPTION:Gaetano Donizetti: L'elisir d'amore\nTermine und Karten: https:
+ //www.landesbuehnen-sachsen.de/spielzeit/der-liebestrank/\nDie Uhrzeit ste
+ ht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite d
+ es Hauses.
+END:VEVENT
+END:VCALENDAR

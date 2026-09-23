@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:don-carlos-deutsche-oper-berlin-2027-06-13@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270613
+DTEND;VALUE=DATE:20270614
+SUMMARY:Don Carlos – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/don-carlo.1385834
+DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://deutsch
+ eoperberlin.de/de_DE/production/don-carlo.1385834\nDie Uhrzeit steht auf d
+ er Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hause
+ s.
+END:VEVENT
+END:VCALENDAR

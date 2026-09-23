@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:zauberflote-wiener-staatsoper-2027-05-11@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270511
+DTEND;VALUE=DATE:20270512
+SUMMARY:Die Zauberflöte – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/die-zauberfloete/
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://www.wiener-staatsoper.at/kalender/detail/die-zauberfloete/\nDie Uh
+ rzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist di
+ e Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

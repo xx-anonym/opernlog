@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ring-walkuere-bayerische-staatsoper-2027-07-18@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270718
+DTEND;VALUE=DATE:20270719
+SUMMARY:Die Walküre – Bayerische Staatsoper
+LOCATION:Bayerische Staatsoper\, München
+GEO:48.1397;11.5794
+URL:https://www.staatsoper.de/stuecke/die-walkuere/2027-07-18-1600-16351
+DESCRIPTION:Richard Wagner: Die Walküre\nTermine und Karten: https://www.s
+ taatsoper.de/stuecke/die-walkuere/2027-07-18-1600-16351\nDie Uhrzeit steht
+  auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des
+  Hauses.
+END:VEVENT
+END:VCALENDAR

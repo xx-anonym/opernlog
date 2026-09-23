@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:carmen-deutsche-oper-am-rhein-2027-02-07@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270207T183000
+DTEND;TZID=Europe/Berlin:20270207T213000
+SUMMARY:Carmen – Deutsche Oper am Rhein
+LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
+GEO:51.227;6.776
+URL:https://www.operamrhein.de/spielplan/produktionen/carmen/
+DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.operamrh
+ ein.de/spielplan/produktionen/carmen/\nAus OpernLog – maßgeblich ist di
+ e Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:meistersinger-theater-bonn-2026-10-03@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Die Meistersinger von Nürnberg – Theater Bonn
+LOCATION:Theater Bonn\, Bonn
+GEO:50.741;7.103
+URL:https://www.theater-bonn.de/de/meistersinger_magazin/
+DESCRIPTION:Richard Wagner: Die Meistersinger von Nürnberg\nTermine und Ka
+ rten: https://www.theater-bonn.de/de/meistersinger_magazin/\nDie Uhrzeit s
+ teht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite
+  des Hauses.
+END:VEVENT
+END:VCALENDAR

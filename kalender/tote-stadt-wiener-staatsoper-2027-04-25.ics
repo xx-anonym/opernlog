@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tote-stadt-wiener-staatsoper-2027-04-25@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270425
+DTEND;VALUE=DATE:20270426
+SUMMARY:Die tote Stadt – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/die-tote-stadt/
+DESCRIPTION:Erich Wolfgang Korngold: Die tote Stadt\nTermine und Karten: ht
+ tps://www.wiener-staatsoper.at/kalender/detail/die-tote-stadt/\nDie Uhrzei
+ t steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Se
+ ite des Hauses.
+END:VEVENT
+END:VCALENDAR

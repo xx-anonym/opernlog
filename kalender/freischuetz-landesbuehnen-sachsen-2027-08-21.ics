@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:freischuetz-landesbuehnen-sachsen-2027-08-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270821
+DTEND;VALUE=DATE:20270822
+SUMMARY:Der Freischütz – Landesbühnen Sachsen
+LOCATION:Landesbühnen Sachsen\, Radebeul
+GEO:51.105;13.642
+URL:https://www.landesbuehnen-sachsen.de/spielzeit/der-freischuetz/
+DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
+ s://www.landesbuehnen-sachsen.de/spielzeit/der-freischuetz/\nDie Uhrzeit s
+ teht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite
+  des Hauses.
+END:VEVENT
+END:VCALENDAR

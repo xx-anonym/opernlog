@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:lucia-theater-basel-2026-12-12@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Lucia di Lammermoor – Theater Basel
+LOCATION:Theater Basel\, Basel
+GEO:47.554;7.59
+URL:https://www.theater-basel.ch/de/lammermoor
+DESCRIPTION:Gaetano Donizetti: Lucia di Lammermoor\nTermine und Karten: htt
+ ps://www.theater-basel.ch/de/lammermoor\nDie Uhrzeit steht auf der Seite d
+ es Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

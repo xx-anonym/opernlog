@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:dido-aeneas-hamburgische-staatsoper-2026-11-08@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261108T150000
+DTEND;TZID=Europe/Berlin:20261108T180000
+SUMMARY:Dido and Aeneas – Hamburgische Staatsoper
+LOCATION:Hamburgische Staatsoper\, Hamburg
+GEO:53.5566;9.9887
+URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/1935-dido-a
+ nd-aeneas
+DESCRIPTION:Henry Purcell: Dido and Aeneas\nTermine und Karten: https://www
+ .die-hamburgische-staatsoper.de/de/programm/oper/1935-dido-and-aeneas\nDas
+  Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Se
+ ite des Hauses.
+END:VEVENT
+END:VCALENDAR

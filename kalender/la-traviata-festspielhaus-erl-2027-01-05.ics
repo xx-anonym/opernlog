@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:la-traviata-festspielhaus-erl-2027-01-05@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270105
+DTEND;VALUE=DATE:20270106
+SUMMARY:La Traviata – Festspielhaus Erl
+LOCATION:Festspielhaus Erl\, Erl
+GEO:47.6866;12.1812
+URL:https://www.tiroler-festspiele.at/events/26_27_giuseppe-verdila-traviat
+ a
+DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.ti
+ roler-festspiele.at/events/26_27_giuseppe-verdila-traviata\nDie Uhrzeit st
+ eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
+ des Hauses.
+END:VEVENT
+END:VCALENDAR

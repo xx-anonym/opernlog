@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:liebe-drei-orangen-saarlaendisches-staatstheater-2026-10-25@opernlog.ve
+ rcel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261025T143000
+DTEND;TZID=Europe/Berlin:20261025T173000
+SUMMARY:Die Liebe zu den drei Orangen – Saarländisches Staatstheater
+LOCATION:Saarländisches Staatstheater\, Saarbrücken
+GEO:49.233;6.997
+URL:https://www.staatstheater.saarland/detail/die-liebe-zu-den-drei-orangen
+DESCRIPTION:Sergej Prokofjew: Die Liebe zu den drei Orangen\nTermine und Ka
+ rten: https://www.staatstheater.saarland/detail/die-liebe-zu-den-drei-oran
+ gen\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich is
+ t die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

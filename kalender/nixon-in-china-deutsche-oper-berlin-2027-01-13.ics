@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nixon-in-china-deutsche-oper-berlin-2027-01-13@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270113
+DTEND;VALUE=DATE:20270114
+SUMMARY:Nixon in China – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/nixon-in-china.1385484
+DESCRIPTION:John Adams: Nixon in China\nTermine und Karten: https://deutsch
+ eoperberlin.de/de_DE/production/nixon-in-china.1385484\nDie Uhrzeit steht 
+ auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des 
+ Hauses.
+END:VEVENT
+END:VCALENDAR

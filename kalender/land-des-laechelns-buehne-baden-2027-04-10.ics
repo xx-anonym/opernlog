@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:land-des-laechelns-buehne-baden-2027-04-10@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Vienna:20270410T150000
+DTEND;TZID=Europe/Vienna:20270410T180000
+SUMMARY:Das Land des Lächelns – Bühne Baden
+LOCATION:Bühne Baden\, Baden bei Wien
+GEO:48.0073;16.233
+URL:https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382
+DESCRIPTION:Franz Lehár: Das Land des Lächelns\nTermine und Karten: https
+ ://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382\nDas Ende
+  ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite d
+ es Hauses.
+END:VEVENT
+END:VCALENDAR

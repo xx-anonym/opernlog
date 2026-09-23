@@ -11,7 +11,8 @@
 # sie antreten, und kostet bei jedem Abruf Bandbreite.
 #
 # Was die App braucht, steht im APP_SHELL von sw.js: index.html, style.css,
-# manifest.json, src/, fonts/, vendor/ und icons/. Nichts davon steht hier.
+# manifest.json, src/, fonts/, vendor/ und icons/, dazu kalender/ für iPhone
+# und iPad (src/kalender.js). Nichts davon steht hier.
 # tests/checks/vercelignore.test.js hält beide Seiten zusammen.
 
 tests/

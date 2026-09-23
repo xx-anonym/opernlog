@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:haensel-gretel-wuerttembergische-staatstheater-2026-12-29@opernlog.verc
+ el.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261229
+DTEND;VALUE=DATE:20261230
+SUMMARY:Hänsel und Gretel – Staatstheater Wiesbaden
+LOCATION:Staatstheater Wiesbaden\, Wiesbaden
+GEO:50.0857;8.2478
+URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/haensel-und-gretel
+ /
+DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
+ https://www.staatstheater-wiesbaden.de/spielplan/a-z/haensel-und-gretel/\n
+ Die Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich 
+ ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

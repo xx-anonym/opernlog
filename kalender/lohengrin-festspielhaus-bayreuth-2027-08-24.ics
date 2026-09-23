@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:lohengrin-festspielhaus-bayreuth-2027-08-24@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270824
+DTEND;VALUE=DATE:20270825
+SUMMARY:Lohengrin – Bayreuther Festspielhaus
+LOCATION:Bayreuther Festspielhaus\, Bayreuth
+GEO:49.9578;11.5803
+URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/lohengrin/
+DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.bayr
+ euther-festspiele.de/programm/auffuehrungen/lohengrin/\nDie Uhrzeit steht 
+ auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des 
+ Hauses.
+END:VEVENT
+END:VCALENDAR

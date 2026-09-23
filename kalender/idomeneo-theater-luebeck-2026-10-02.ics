@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:idomeneo-theater-luebeck-2026-10-02@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Idomeneo – Theater Lübeck
+LOCATION:Theater Lübeck\, Lübeck
+GEO:53.869;10.683
+URL:https://www.theaterluebeck.de/produktionen/idomeneo_2026-27.html?m=1
+DESCRIPTION:Wolfgang Amadeus Mozart: Idomeneo\nTermine und Karten: https://
+ www.theaterluebeck.de/produktionen/idomeneo_2026-27.html?m=1\nDie Uhrzeit 
+ steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seit
+ e des Hauses.
+END:VEVENT
+END:VCALENDAR

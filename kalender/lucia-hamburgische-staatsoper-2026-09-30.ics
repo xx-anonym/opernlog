@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:lucia-hamburgische-staatsoper-2026-09-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20260930T193000
+DTEND;TZID=Europe/Berlin:20260930T223000
+SUMMARY:Lucia di Lammermoor – Hamburgische Staatsoper
+LOCATION:Hamburgische Staatsoper\, Hamburg
+GEO:53.5566;9.9887
+URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/775-lucia-d
+ i-lammermoor
+DESCRIPTION:Gaetano Donizetti: Lucia di Lammermoor\nTermine und Karten: htt
+ ps://www.die-hamburgische-staatsoper.de/de/programm/oper/775-lucia-di-lamm
+ ermoor\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich
+  ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

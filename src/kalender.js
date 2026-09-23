@@ -142,24 +142,25 @@ export function kalenderDateiname(werk, haus, datum) {
  * Gibt die Datei an den Browser.
  *
  * Chrome, Firefox und der Desktop laden sie herunter; ein Tipp darauf öffnet
- * den Kalender. Auf iPhone und iPad landete ein Download in "Dateien" – aus
- * der installierten App heraus oft gar nicht. Dort wird die Datei deshalb in
- * einem eigenen Fenster geöffnet: Safari erkennt text/calendar und bietet
- * "Hinzufügen" an, und die App bleibt, wo sie war.
+ * den Kalender. Auf iPhone und iPad landet ein Download in "Dateien". Dort
+ * öffnet sich deshalb dieselbe Datei vom Server (kalender/, erzeugt von
+ * tests/werkzeug/kalender-dateien.mjs) in einem eigenen Fenster: Safari
+ * erkennt text/calendar und bietet "Hinzufügen" an. Eine im Browser erzeugte
+ * Datei (blob:) ging dort nur im Safari-Tab – aus der installierten App
+ * heraus blieb das Fenster leer, weil es die Datei nicht sehen kann.
  */
 export function kalenderHerunterladen(text, dateiname, umgebung = globalThis) {
-    const blob = new Blob([text], { type: 'text/calendar;charset=utf-8' });
-    const adresse = URL.createObjectURL(blob);
     if (istAppleMobil(umgebung)) {
-        umgebung.open(adresse, '_blank');
-    } else {
-        const a = document.createElement('a');
-        a.href = adresse;
-        a.download = dateiname;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        umgebung.open(new URL(`/kalender/${encodeURIComponent(dateiname)}`, umgebung.location.href).href, '_blank');
+        return;
     }
+    const adresse = URL.createObjectURL(new Blob([text], { type: 'text/calendar;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = adresse;
+    a.download = dateiname;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
     setTimeout(() => URL.revokeObjectURL(adresse), 60000);
 }
 

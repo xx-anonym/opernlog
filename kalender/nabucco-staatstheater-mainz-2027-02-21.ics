@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nabucco-staatstheater-mainz-2027-02-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270221
+DTEND;VALUE=DATE:20270222
+SUMMARY:Nabucco – Staatstheater Mainz
+LOCATION:Staatstheater Mainz\, Mainz
+GEO:50;8.272
+URL:https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/nabucco
+DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://www.staats
+ theater-mainz.com/veranstaltungen/oper-26-27/nabucco\nDie Uhrzeit steht au
+ f der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Ha
+ uses.
+END:VEVENT
+END:VCALENDAR

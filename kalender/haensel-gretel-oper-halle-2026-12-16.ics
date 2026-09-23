@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:haensel-gretel-oper-halle-2026-12-16@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261216
+DTEND;VALUE=DATE:20261217
+SUMMARY:Hänsel und Gretel – Oper Halle
+LOCATION:Oper Halle\, Halle (Saale)
+GEO:51.483;11.972
+URL:https://www.buehnen-halle.de/de/program/hansel-und-gretel/274395
+DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
+ https://www.buehnen-halle.de/de/program/hansel-und-gretel/274395\nDie Uhrz
+ eit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die 
+ Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

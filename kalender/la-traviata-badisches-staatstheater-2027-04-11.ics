@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:la-traviata-badisches-staatstheater-2027-04-11@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270411
+DTEND;VALUE=DATE:20270412
+SUMMARY:La Traviata – Badisches Staatstheater
+LOCATION:Badisches Staatstheater\, Karlsruhe
+GEO:48.9975;8.4045
+URL:https://staatstheater-karlsruhe.de/programm/info/3564/
+DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://staats
+ theater-karlsruhe.de/programm/info/3564/\nDie Uhrzeit steht auf der Seite 
+ des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

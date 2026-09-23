@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nozze-di-figaro-theater-basel-2026-11-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:Le nozze di Figaro – Theater Basel
+LOCATION:Theater Basel\, Basel
+GEO:47.554;7.59
+URL:https://www.theater-basel.ch/de/figaro
+DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
+ : https://www.theater-basel.ch/de/figaro\nDie Uhrzeit steht auf der Seite 
+ des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

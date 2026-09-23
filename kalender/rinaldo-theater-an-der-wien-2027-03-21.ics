@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:rinaldo-theater-an-der-wien-2027-03-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270321
+DTEND;VALUE=DATE:20270322
+SUMMARY:Rinaldo – Theater an der Wien
+LOCATION:Theater an der Wien\, Wien
+GEO:48.1983;16.363
+URL:https://www.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo
+DESCRIPTION:Georg Friedrich Händel: Rinaldo\nTermine und Karten: https://w
+ ww.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo\nDie Uhrzeit st
+ eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
+ des Hauses.
+END:VEVENT
+END:VCALENDAR

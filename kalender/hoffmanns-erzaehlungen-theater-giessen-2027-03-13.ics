@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:hoffmanns-erzaehlungen-theater-giessen-2027-03-13@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270313
+DTEND;VALUE=DATE:20270314
+SUMMARY:Hoffmanns Erzählungen – Stadttheater Gießen
+LOCATION:Stadttheater Gießen\, Gießen
+GEO:50.586;8.679
+URL:https://stadttheater-giessen.de/de/veranstaltungen/stuecke/hoffmanns-er
+ zahlungen-les-contes-dhoffmann-2026-2027/
+DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 
+ https://stadttheater-giessen.de/de/veranstaltungen/stuecke/hoffmanns-erzah
+ lungen-les-contes-dhoffmann-2026-2027/\nDie Uhrzeit steht auf der Seite de
+ s Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

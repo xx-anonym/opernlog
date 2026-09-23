@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:carmen-theater-wuppertal-2027-07-02@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270702T190000
+DTEND;TZID=Europe/Berlin:20270702T220000
+SUMMARY:Carmen – Oper Wuppertal
+LOCATION:Oper Wuppertal\, Wuppertal
+GEO:51.27;7.198
+URL:https://www.oper-wuppertal.de/programm/detailansicht-produktion/1490-ca
+ rmen
+DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.oper-wup
+ pertal.de/programm/detailansicht-produktion/1490-carmen\nDas Ende ist gesc
+ hätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses
+ .
+END:VEVENT
+END:VCALENDAR

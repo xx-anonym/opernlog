@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:suor-angelica-badisches-staatstheater-2027-07-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270721
+DTEND;VALUE=DATE:20270722
+SUMMARY:Suor Angelica – Badisches Staatstheater
+LOCATION:Badisches Staatstheater\, Karlsruhe
+GEO:48.9975;8.4045
+URL:https://staatstheater-karlsruhe.de/programm/info/3898/
+DESCRIPTION:Giacomo Puccini: Suor Angelica\nTermine und Karten: https://sta
+ atstheater-karlsruhe.de/programm/info/3898/\nDie Uhrzeit steht auf der Sei
+ te des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

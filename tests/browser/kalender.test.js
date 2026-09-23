@@ -2,7 +2,9 @@
 //
 // Der Spielplan ist durch feste Daten ersetzt (wie in werkTermine.test.js).
 // Geprüft wird der ganze Weg: Knopf, Wahl des Abends, heruntergeladene
-// Datei mit Ort, Uhrzeit und Link.
+// Datei mit Ort, Uhrzeit und Link. Auf dem iPhone öffnet sich statt eines
+// Downloads die Datei unter kalender/; die letzte Prüfung nimmt dafür den
+// echten Spielplan und holt die Datei vom Server.
 
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -116,7 +118,9 @@ test('Abbrechen schließt ohne Datei', { skip: fehltPlaywright }, async () => {
     } finally { await ctx.close(); }
 });
 
-test('auf dem iPhone öffnet sich die Datei in einem eigenen Fenster statt eines Downloads', { skip: fehltPlaywright }, async () => {
+test('auf dem iPhone öffnet sich die Datei vom Server in einem eigenen Fenster', { skip: fehltPlaywright }, async () => {
+    // Nicht blob: – das Fenster, das iOS aus der installierten App öffnet,
+    // sieht eine im Browser erzeugte Datei nicht und bleibt leer.
     const { ctx, p } = await werkseite({ userAgent: IPHONE });
     try {
         let geladen = false;
@@ -125,12 +129,36 @@ test('auf dem iPhone öffnet sich die Datei in einem eigenen Fenster statt eines
         await p.locator('.kalender-wahl__tag').first().click();
         await p.waitForTimeout(300);
         const geoeffnet = await p.evaluate(() => window.__geoeffnet);
-        assert.equal(geoeffnet.length, 1);
-        assert.match(geoeffnet[0][0], /^blob:/);
-        assert.equal(geoeffnet[0][1], '_blank');
+        assert.deepEqual(geoeffnet, [[`${server.url}/kalender/tosca-semperoper-${iso(5)}.ics`, '_blank']]);
         assert.equal(geladen, false);
-        // Die Datei hinter der Adresse ist der Kalendereintrag.
-        const inhalt = await p.evaluate(u => fetch(u).then(r => r.text()), geoeffnet[0][0]);
-        assert.match(inhalt, /BEGIN:VEVENT/);
+    } finally { await ctx.close(); }
+});
+
+test('die Datei, die das iPhone öffnet, liegt mit echtem Spielplan auch bereit', { skip: fehltPlaywright }, async () => {
+    const { spielplan } = await import('../../src/data/spielplan.js');
+    const { operas } = await import('../../src/data/operas.js');
+    const heuteIso = iso(0);
+    const eintrag = spielplan.find(e => operas.some(o => o.id === e.werk) && e.termine.some(t => t >= heuteIso));
+    if (!eintrag) return;   // Spielzeit vorbei, nichts mehr anzubieten
+
+    const ctx = await browser.newContext({ viewport: HANDY, userAgent: IPHONE });
+    await ctx.addInitScript(() => { window.__geoeffnet = []; window.open = (u, z) => { window.__geoeffnet.push([u, z]); return null; }; });
+    const p = await ctx.newPage();
+    try {
+        await ersetzeSupabase(p);
+        await p.goto(`${server.url}/index.html#/opera/${eintrag.werk}`);
+        await p.waitForSelector('#termineToggle', { timeout: 15000 });
+        await p.click('#termineToggle');
+        await p.locator(`#operaTermine .spielplan-zeile__kalender[data-haus="${eintrag.haus}"]`).click();
+        await p.locator('.kalender-wahl__tag').first().click();
+        await p.waitForTimeout(300);
+        const [[adresse]] = await p.evaluate(() => window.__geoeffnet);
+
+        const antwort = await fetch(adresse);
+        assert.equal(antwort.status, 200, adresse);
+        assert.match(antwort.headers.get('content-type'), /^text\/calendar/);
+        const ics = await antwort.text();
+        const erster = eintrag.termine.find(t => t >= heuteIso);
+        assert.match(ics, new RegExp(`UID:${eintrag.werk}-${eintrag.haus}-${erster}@`));
     } finally { await ctx.close(); }
 });

@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:verkaufte-braut-wiener-staatsoper-2027-01-11@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270111
+DTEND;VALUE=DATE:20270112
+SUMMARY:Die verkaufte Braut – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/die-verkaufte-braut/
+DESCRIPTION:Bedřich Smetana: Die verkaufte Braut\nTermine und Karten: http
+ s://www.wiener-staatsoper.at/kalender/detail/die-verkaufte-braut/\nDie Uhr
+ zeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die
+  Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tosca-wuerttembergische-staatstheater-2026-12-27@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261227
+DTEND;VALUE=DATE:20261228
+SUMMARY:Tosca – Staatstheater Wiesbaden
+LOCATION:Staatstheater Wiesbaden\, Wiesbaden
+GEO:50.0857;8.2478
+URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/tosca/
+DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.staatst
+ heater-wiesbaden.de/spielplan/a-z/tosca/\nDie Uhrzeit steht auf der Seite 
+ des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

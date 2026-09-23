@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:rigoletto-deutsche-oper-berlin-2027-02-03@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270203
+DTEND;VALUE=DATE:20270204
+SUMMARY:Rigoletto – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/rigoletto.1385794
+DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://deutsche
+ operberlin.de/de_DE/production/rigoletto.1385794\nDie Uhrzeit steht auf de
+ r Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses
+ .
+END:VEVENT
+END:VCALENDAR

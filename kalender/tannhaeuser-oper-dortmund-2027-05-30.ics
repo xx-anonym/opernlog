@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tannhaeuser-oper-dortmund-2027-05-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270530
+DTEND;VALUE=DATE:20270531
+SUMMARY:Tannhäuser – Oper Dortmund
+LOCATION:Oper Dortmund\, Dortmund
+GEO:51.517;7.46
+URL:https://www.theaterdo.de/produktionen/detail/tannhaeuser-und-der-saenge
+ rkrieg-auf-wartburg/
+DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.th
+ eaterdo.de/produktionen/detail/tannhaeuser-und-der-saengerkrieg-auf-wartbu
+ rg/\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeb
+ lich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

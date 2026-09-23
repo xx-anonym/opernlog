@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:zauberflote-deutsche-oper-berlin-2027-01-15@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Die Zauberflöte – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/die-zauberfloete.1385471
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://deutscheoperberlin.de/de_DE/production/die-zauberfloete.1385471\nD
+ ie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich i
+ st die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

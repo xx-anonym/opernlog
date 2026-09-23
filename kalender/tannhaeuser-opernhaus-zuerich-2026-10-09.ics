@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tannhaeuser-opernhaus-zuerich-2026-10-09@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261009
+DTEND;VALUE=DATE:20261010
+SUMMARY:Tannhäuser – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/tannhaeuser-1/
+DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.op
+ ernhaus.ch/spielplan/kalendarium/tannhaeuser-1/\nDie Uhrzeit steht auf der
+  Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

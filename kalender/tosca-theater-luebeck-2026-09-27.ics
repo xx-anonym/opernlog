@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tosca-theater-luebeck-2026-09-27@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20260927
+DTEND;VALUE=DATE:20260928
+SUMMARY:Tosca – Theater Lübeck
+LOCATION:Theater Lübeck\, Lübeck
+GEO:53.869;10.683
+URL:https://www.theaterluebeck.de/produktionen/tosca_2026-27.html?m=1
+DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.theater
+ luebeck.de/produktionen/tosca_2026-27.html?m=1\nDie Uhrzeit steht auf der 
+ Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

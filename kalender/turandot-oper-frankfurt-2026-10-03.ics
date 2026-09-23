@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:turandot-oper-frankfurt-2026-10-03@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Turandot – Oper Frankfurt
+LOCATION:Oper Frankfurt\, Frankfurt am Main
+GEO:50.1078;8.6725
+URL:https://oper-frankfurt.de/de/spielplan/turandot_2/
+DESCRIPTION:Giacomo Puccini: Turandot\nTermine und Karten: https://oper-fra
+ nkfurt.de/de/spielplan/turandot_2/\nDie Uhrzeit steht auf der Seite des Ha
+ uses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

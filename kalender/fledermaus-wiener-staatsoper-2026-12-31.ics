@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fledermaus-wiener-staatsoper-2026-12-31@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Die Fledermaus – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/die-fledermaus/
+DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
+ www.wiener-staatsoper.at/kalender/detail/die-fledermaus/\nDie Uhrzeit steh
+ t auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite de
+ s Hauses.
+END:VEVENT
+END:VCALENDAR

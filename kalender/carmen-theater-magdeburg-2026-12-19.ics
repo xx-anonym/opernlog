@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:carmen-theater-magdeburg-2026-12-19@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:Carmen – Theater Magdeburg
+LOCATION:Theater Magdeburg\, Magdeburg
+GEO:52.133;11.628
+URL:https://www.theater-magdeburg.de/inszenierungen/musiktheater/sz-2024202
+ 5/premiere/carmen/
+DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.theater-
+ magdeburg.de/inszenierungen/musiktheater/sz-20242025/premiere/carmen/\nDie
+  Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist
+  die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:haensel-gretel-deutsche-oper-berlin-2027-01-03@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270103
+DTEND;VALUE=DATE:20270104
+SUMMARY:Hänsel und Gretel – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/haensel-und-gretel.13857
+ 36
+DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
+ https://deutscheoperberlin.de/de_DE/production/haensel-und-gretel.1385736\
+ nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich
+  ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

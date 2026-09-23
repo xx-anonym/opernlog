@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:don-giovanni-staatstheater-mainz-2027-04-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270430
+DTEND;VALUE=DATE:20270501
+SUMMARY:Don Giovanni – Staatstheater Mainz
+LOCATION:Staatstheater Mainz\, Mainz
+GEO:50;8.272
+URL:https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/don-giov
+ anni
+DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
+ s://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/don-giovanni\nD
+ ie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich i
+ st die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

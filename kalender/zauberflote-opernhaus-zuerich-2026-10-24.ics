@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:zauberflote-opernhaus-zuerich-2026-10-24@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:Die Zauberflöte – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/die-zauberfloete-1/
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://www.opernhaus.ch/spielplan/kalendarium/die-zauberfloete-1/\nDie Uh
+ rzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist di
+ e Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

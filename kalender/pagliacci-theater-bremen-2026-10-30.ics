@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:pagliacci-theater-bremen-2026-10-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Pagliacci – Theater Bremen
+LOCATION:Theater Bremen\, Bremen
+GEO:53.074;8.814
+URL:https://theaterbremen.de/de_DE/programm/der-bajazzo-pagliacci.1303382
+DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://the
+ aterbremen.de/de_DE/programm/der-bajazzo-pagliacci.1303382\nDie Uhrzeit st
+ eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
+ des Hauses.
+END:VEVENT
+END:VCALENDAR

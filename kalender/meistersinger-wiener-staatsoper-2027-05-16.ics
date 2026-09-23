@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:meistersinger-wiener-staatsoper-2027-05-16@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270516
+DTEND;VALUE=DATE:20270517
+SUMMARY:Die Meistersinger von Nürnberg – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/die-meistersinger-von-
+ nuernberg/
+DESCRIPTION:Richard Wagner: Die Meistersinger von Nürnberg\nTermine und Ka
+ rten: https://www.wiener-staatsoper.at/kalender/detail/die-meistersinger-v
+ on-nuernberg/\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog 
+ – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

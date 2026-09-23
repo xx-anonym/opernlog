@@ -48,6 +48,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `visitsPruefungen.test.js` | Datenbank und App prüfen Werk- und Hauskennungen gleich |
 | `push.test.js` | Datenbank und Edge Function erlauben dieselben Push-Dienste; jeder Anlass hat einen Auslöser |
 | `spielplan.test.js` | die erzeugte Spielplandatei passt zum Katalog: Werke, Häuser, Daten, Links |
+| `kalenderDateien.test.js` | unter `kalender/` liegt zu jedem Termin im Spielplan genau eine Kalenderdatei, mit dem Inhalt, den die App selbst erzeugen würde |
 
 **`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel
 auftaucht: im Layout, im Verlauf, ohne Netz. Sie starten einen Dateiserver für
@@ -68,7 +69,7 @@ Datenbank.
 | `zurueckGeste.test.js` | Zurück schließt das oberste Fenster; kein toter Schritt, kein Zurückwerfen nach einem Seitenwechsel |
 | `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
 | `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
-| `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster statt Download |
+| `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt

@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:ring-goetterdaemmerung-deutsche-oper-am-rhein-2027-04-04@opernlog.verce
+ l.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270404T170000
+DTEND;TZID=Europe/Berlin:20270404T223000
+SUMMARY:Götterdämmerung – Deutsche Oper am Rhein
+LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
+GEO:51.227;6.776
+URL:https://www.operamrhein.de/spielplan/produktionen/goetterdaemmerung/
+DESCRIPTION:Richard Wagner: Götterdämmerung\nTermine und Karten: https://
+ www.operamrhein.de/spielplan/produktionen/goetterdaemmerung/\nAus OpernLog
+  – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

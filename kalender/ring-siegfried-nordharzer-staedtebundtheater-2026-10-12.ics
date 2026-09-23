@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ring-siegfried-nordharzer-staedtebundtheater-2026-10-12@opernlog.vercel
+ .app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Siegfried – Nordharzer Städtebundtheater
+LOCATION:Nordharzer Städtebundtheater\, Halberstadt / Quedlinburg
+GEO:51.896;11.048
+URL:https://harztheater.de/produktion/siegfried
+DESCRIPTION:Richard Wagner: Siegfried\nTermine und Karten: https://harzthea
+ ter.de/produktion/siegfried\nDie Uhrzeit steht auf der Seite des Hauses.\n
+ Aus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Zurich
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:alcina-theater-st-gallen-2027-05-05@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Zurich:20270505T193000
+DTEND;TZID=Europe/Zurich:20270505T223000
+SUMMARY:Alcina – Theater St. Gallen
+LOCATION:Theater St. Gallen\, St. Gallen
+GEO:47.429;9.381
+URL:https://www.konzertundtheater.ch/programm/kalender/alcina/3758/
+DESCRIPTION:Georg Friedrich Händel: Alcina\nTermine und Karten: https://ww
+ w.konzertundtheater.ch/programm/kalender/alcina/3758/\nDas Ende ist gesch
+ ätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

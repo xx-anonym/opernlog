@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:freischuetz-theater-heidelberg-2027-06-18@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270618
+DTEND;VALUE=DATE:20270619
+SUMMARY:Der Freischütz – Theater Heidelberg
+LOCATION:Theater Heidelberg\, Heidelberg
+GEO:49.411;8.705
+URL:https://www.theaterheidelberg.de/de/programm/22206-der-freischuetz
+DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
+ s://www.theaterheidelberg.de/de/programm/22206-der-freischuetz\nDie Uhrzei
+ t steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Se
+ ite des Hauses.
+END:VEVENT
+END:VCALENDAR

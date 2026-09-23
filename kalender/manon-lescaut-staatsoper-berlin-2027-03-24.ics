@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:manon-lescaut-staatsoper-berlin-2027-03-24@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270324T190000
+DTEND;TZID=Europe/Berlin:20270324T220000
+SUMMARY:Manon Lescaut – Staatsoper Unter den Linden
+LOCATION:Staatsoper Unter den Linden\, Berlin
+GEO:52.517;13.3958
+URL:https://www.staatsoper-berlin.de/de/veranstaltungen/manon-lescaut.27276
+ /
+DESCRIPTION:Giacomo Puccini: Manon Lescaut\nTermine und Karten: https://www
+ .staatsoper-berlin.de/de/veranstaltungen/manon-lescaut.27276/\nDas Ende is
+ t geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des 
+ Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:lustige-witwe-lehar-festival-bad-ischl-2027-08-26@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Vienna:20270826T153000
+DTEND;TZID=Europe/Vienna:20270826T183000
+SUMMARY:Die lustige Witwe – Lehár Festival Bad Ischl
+LOCATION:Lehár Festival Bad Ischl\, Bad Ischl
+GEO:47.7124;13.6232
+URL:https://www.leharfestival.at/stuecke/2027-die-lustige-witwe/
+DESCRIPTION:Franz Lehár: Die lustige Witwe\nTermine und Karten: https://ww
+ w.leharfestival.at/stuecke/2027-die-lustige-witwe/\nDas Ende ist geschätz
+ t (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

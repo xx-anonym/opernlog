@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:la-traviata-oper-halle-2027-04-17@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270417
+DTEND;VALUE=DATE:20270418
+SUMMARY:La Traviata – Oper Halle
+LOCATION:Oper Halle\, Halle (Saale)
+GEO:51.483;11.972
+URL:https://www.buehnen-halle.de/de/program/la-traviata/278613
+DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.bu
+ ehnen-halle.de/de/program/la-traviata/278613\nDie Uhrzeit steht auf der Se
+ ite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

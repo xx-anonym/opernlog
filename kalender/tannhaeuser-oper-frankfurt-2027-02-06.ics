@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tannhaeuser-oper-frankfurt-2027-02-06@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270206
+DTEND;VALUE=DATE:20270207
+SUMMARY:Tannhäuser – Oper Frankfurt
+LOCATION:Oper Frankfurt\, Frankfurt am Main
+GEO:50.1078;8.6725
+URL:https://oper-frankfurt.de/de/spielplan/tannhaeuser-2/
+DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://oper-f
+ rankfurt.de/de/spielplan/tannhaeuser-2/\nDie Uhrzeit steht auf der Seite d
+ es Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR
