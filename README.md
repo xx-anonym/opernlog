@@ -73,7 +73,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
 - **Spielpläne:** Auf der Wunschliste steht bei jedem Werk, an welchen Häusern
   des Katalogs es in dieser Spielzeit noch läuft, mit Link auf die Seite des
   Hauses; auf der Seite eines Werks klappt „Aktuelle Termine“ dasselbe auf.
-  Mit Standort stehen die nächsten Häuser vorn. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
+  Mit Standort stehen die nächsten Häuser vorn. Das Kalender-Symbol neben
+  einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
+  Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
+  Werkzeug mit, wo sie eindeutig neben dem Datum stehen. Die Termine liegen als Datei im Repo (`src/data/spielplan.js`) und
   werden einmal je Spielzeit erneuert – im September, dazu ein kleiner Lauf im
   Januar, weil viele Stadttheater die Frühjahrstermine erst im Winter
   veröffentlichen:

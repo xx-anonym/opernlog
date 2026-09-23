@@ -3350,18 +3350,89 @@ body {
     margin: 0;
 }
 
+/* Eine Zeile: das Haus als Link, daneben der Kalender */
+.spielplan-eintrag {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    border-bottom: 1px dashed var(--border);
+}
+
+.spielplan-eintrag:last-child {
+    border-bottom: none;
+}
+
 .spielplan-zeile {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
     padding: 7px 0;
     text-decoration: none;
     color: var(--text);
-    border-bottom: 1px dashed var(--border);
 }
 
-.spielplan-zeile:last-child {
-    border-bottom: none;
+.spielplan-zeile__kalender {
+    flex: none;
+    margin-top: 2px;
+    padding: 8px;
+    line-height: 0;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.spielplan-zeile__kalender:hover,
+.spielplan-zeile__kalender:focus-visible {
+    color: var(--gold);
+    border-color: var(--border);
+}
+
+.spielplan-zeile__kalender svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* "In den Kalender": die Abende zur Wahl */
+.kalender-wahl__was {
+    margin: 0 0 12px;
+    color: var(--text-muted);
+}
+
+.kalender-wahl__liste {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 50vh;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+
+.kalender-wahl__tag {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.kalender-wahl__tag:hover,
+.kalender-wahl__tag:focus-visible {
+    border-color: var(--gold);
+}
+
+.kalender-wahl__zeit {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
 }
 
 .spielplan-zeile__haus {

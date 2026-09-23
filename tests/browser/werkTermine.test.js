@@ -88,7 +88,7 @@ test('beim Aufklappen wird nach dem Standort gefragt und danach geordnet', { ski
     const { ctx, p } = await werkseite('tosca', { geraet: { latitude: 53.55, longitude: 9.99 } });
     try {
         await p.locator('#termineToggle').click();
-        const erste = p.locator('#operaTermine .spielplan-block > .spielplan-zeile').first();
+        const erste = p.locator('#operaTermine .spielplan-block > .spielplan-eintrag > .spielplan-zeile').first();
         await erste.filter({ hasText: 'Hamburg' }).waitFor({ timeout: 5000 });
         assert.match(await erste.innerText(), /km/);
     } finally { await ctx.close(); }

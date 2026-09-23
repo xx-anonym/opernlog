@@ -13,6 +13,19 @@ export function heuteIso(jetzt = new Date()) {
     return `${jetzt.getFullYear()}-${String(jetzt.getMonth() + 1).padStart(2, '0')}-${String(jetzt.getDate()).padStart(2, '0')}`;
 }
 
+const WOCHENTAGE = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+/** "Sa, 5. Dez" – für die Wahl eines Abends. */
+export function terminMitWochentag(iso, heute = heuteIso()) {
+    const [j, m, t] = iso.split('-').map(Number);
+    return `${WOCHENTAGE[new Date(Date.UTC(j, m - 1, t)).getUTCDay()]}, ${terminKurz(iso, heute)}`;
+}
+
+/** "19:30" oder "19:30–22:30"; null ohne bekannte Zeit. */
+export function zeitText(zeit) {
+    return zeit ? zeit.replace('-', '–') : null;
+}
+
 /** "8. Okt", mit Jahr nur, wenn es nicht das laufende ist. */
 export function terminKurz(iso, heute = heuteIso()) {
     const [j, m, t] = iso.split('-').map(Number);
@@ -31,7 +44,7 @@ export function terminKurz(iso, heute = heuteIso()) {
  * @param {string} [o.heute]      JJJJ-MM-TT
  * @param {{lat: number, lon: number}|null} [o.position]
  * @param {Array}  [o.daten]      nur für Tests; sonst src/data/spielplan.js
- * @returns {Array<{haus: object, url: string, termine: string[], km: number|null}>}
+ * @returns {Array<{haus: object, url: string, termine: string[], zeiten: object, km: number|null}>}
  */
 export function kommendeAuffuehrungen(werkId, { heute = heuteIso(), position = null, daten = spielplan } = {}) {
     const zeilen = daten
@@ -42,7 +55,7 @@ export function kommendeAuffuehrungen(werkId, { heute = heuteIso(), position = n
             const km = haus && position && Number.isFinite(haus.lat)
                 ? Math.round(distanceKm(position.lat, position.lon, haus.lat, haus.lon))
                 : null;
-            return { haus, url: e.url, termine, km };
+            return { haus, url: e.url, termine, zeiten: e.zeiten || {}, km };
         })
         .filter(z => z.haus && z.termine.length);
 

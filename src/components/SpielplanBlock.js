@@ -4,6 +4,8 @@
 // Hauses – dort wird gebucht, und dort stehen die verbindlichen Termine.
 
 import { escapeHTML, requestPosition } from '../utils.js';
+import { icon } from './Icon.js';
+import { kalenderWahl } from './KalenderWahl.js';
 import { distanceKm } from '../data/operaHouses.js';
 import { kommendeAuffuehrungen, terminKurz, heuteIso } from '../data/spielplanAbfrage.js';
 import { SPIELPLAN_STAND } from '../data/spielplan.js';
@@ -29,9 +31,16 @@ export function spielplanBlock(werkId, position = null) {
             <span class="spielplan-zeile__termine">${sichtbar}${mehr}</span>`;
         // Nur https wird ein Link. Die Adressen stammen von fremden Seiten;
         // ein "javascript:" liefe sonst beim Tippen als Code.
-        return /^https:\/\//i.test(z.url)
+        const verweis = /^https:\/\//i.test(z.url)
             ? `<a class="spielplan-zeile" href="${escapeHTML(z.url)}" target="_blank" rel="noopener">${inhalt}</a>`
             : `<div class="spielplan-zeile">${inhalt}</div>`;
+        // Der Kalender neben dem Haus: ein Knopf darf nicht im Link stecken.
+        return `
+          <div class="spielplan-eintrag">
+            ${verweis}
+            <button type="button" class="spielplan-zeile__kalender" data-werk="${escapeHTML(werkId)}" data-haus="${escapeHTML(z.haus.id)}"
+              title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${z.haus.name}`)}">${icon('calendar')}</button>
+          </div>`;
     };
     const rest = zeilen.slice(HAEUSER_SICHTBAR);
     return `
@@ -40,6 +49,15 @@ export function spielplanBlock(werkId, position = null) {
         ${zeilen.slice(0, HAEUSER_SICHTBAR).map(zeile).join('')}
         ${rest.length ? `<details class="spielplan-block__weitere"><summary>${rest.length} ${rest.length === 1 ? 'weiteres Haus' : 'weitere Häuser'}</summary>${rest.map(zeile).join('')}</details>` : ''}
       </div>`;
+}
+
+// Ein Zuhörer für alle Kalender-Knöpfe, auch für die in Blöcken, die
+// nachStandortOrdnen() neu zeichnet.
+if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+        const knopf = e.target.closest?.('.spielplan-zeile__kalender');
+        if (knopf) kalenderWahl(knopf.dataset.werk, knopf.dataset.haus);
+    });
 }
 
 /** Läuft das Werk demnächst irgendwo? Sonst braucht es keinen Knopf dafür. */

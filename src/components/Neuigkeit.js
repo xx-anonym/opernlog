@@ -24,7 +24,7 @@ export function neuigkeitFenster({ gesehen = () => neuigkeitGesehen() } = {}) {
         <ul class="neuigkeit__liste">
           <li><strong>Wunschliste:</strong> Unter jedem Werk steht, wo es demnächst läuft – mit deinem Standort die nächsten Häuser zuerst.</li>
           <li><strong>Jedes Werk:</strong> „Aktuelle Termine“ neben „Schon gesehen“ zeigt alle Häuser und Termine.</li>
-          <li>Ein Tipp auf ein Haus führt zu dessen Spielplan und zu den Karten.</li>
+          <li>Ein Tipp auf ein Haus führt zu dessen Spielplan und zu den Karten; das Kalender-Symbol daneben trägt einen Abend in deinen Kalender ein.</li>
         </ul>
         <p class="form-hint">Stand ${Number(t)}.${Number(m)}.${j}. Maßgeblich ist die Seite des Hauses.</p>
         <div class="form-actions">

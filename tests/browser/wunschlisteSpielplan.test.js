@@ -76,7 +76,7 @@ test('ein Werk auf der Wunschliste zeigt, wo es demnächst läuft', { skip: fehl
         const k = karte(p, 'Tosca');
         assert.match(await k.locator('.spielplan-block__titel').textContent(), /Läuft demnächst/);
         // Ohne Standort nach dem nächsten Termin: Wien (in 2 Tagen) vor Dresden (in 5).
-        const haeuser = await k.locator('.spielplan-block > .spielplan-zeile .spielplan-zeile__haus').allTextContents();
+        const haeuser = await k.locator('.spielplan-block > .spielplan-eintrag .spielplan-zeile__haus').allTextContents();
         assert.match(haeuser[0], /^Wiener Staatsoper/);
         assert.match(haeuser[1], /^Semperoper/);
         assert.equal(haeuser.length, 3, 'mehr als drei Häuser stehen offen da');
@@ -162,7 +162,7 @@ test('die Wunschliste fragt nach dem Standort und ordnet die Häuser danach', { 
     // Nichts gespeichert, das Gerät steht in Hamburg: ohne Nachfrage stünde
     // Wien vorn (nächster Termin), Hamburg (Termin in 50 Tagen) ganz hinten.
     const { ctx, p } = await starte(['tosca'], { geraet: { latitude: 53.55, longitude: 9.99 } });
-    const erste = karte(p, 'Tosca').locator('.spielplan-block > .spielplan-zeile').first();
+    const erste = karte(p, 'Tosca').locator('.spielplan-block > .spielplan-eintrag > .spielplan-zeile').first();
     await erste.filter({ hasText: 'Hamburg' }).waitFor({ timeout: 5000 });
     assert.match(await erste.innerText(), /km/);
     const gespeichert = await p.evaluate(() => JSON.parse(localStorage.getItem('opernlog:position')));
