@@ -64,7 +64,8 @@ Datenbank.
 | `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster und die Frage beim ersten Start neuer Konten |
 | `installHinweis.test.js` | der Hinweis in der Leiste bleibt oben und verdeckt weder Inhalt noch Menü noch Fenster |
 | `zurueckGeste.test.js` | Zurück schließt das oberste Fenster; kein toter Schritt, kein Zurückwerfen nach einem Seitenwechsel |
-| `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML |
+| `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
+| `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt
 der Bibliothek den Ersatz aus `supabaseStub.js` aus – **eine** Stelle dafür,

@@ -3,7 +3,8 @@
 // Je Haus eine Zeile mit den nächsten Terminen, verlinkt auf die Seite des
 // Hauses – dort wird gebucht, und dort stehen die verbindlichen Termine.
 
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, requestPosition } from '../utils.js';
+import { distanceKm } from '../data/operaHouses.js';
 import { kommendeAuffuehrungen, terminKurz, heuteIso } from '../data/spielplanAbfrage.js';
 import { SPIELPLAN_STAND } from '../data/spielplan.js';
 
@@ -39,6 +40,28 @@ export function spielplanBlock(werkId, position = null) {
         ${zeilen.slice(0, HAEUSER_SICHTBAR).map(zeile).join('')}
         ${rest.length ? `<details class="spielplan-block__weitere"><summary>${rest.length} ${rest.length === 1 ? 'weiteres Haus' : 'weitere Häuser'}</summary>${rest.map(zeile).join('')}</details>` : ''}
       </div>`;
+}
+
+/** Läuft das Werk demnächst irgendwo? Sonst braucht es keinen Knopf dafür. */
+export function hatKommendeTermine(werkId) {
+    return kommendeAuffuehrungen(werkId, { heute: heuteIso() }).length > 0;
+}
+
+/**
+ * Fragt nach dem Standort und zeichnet die Blöcke in `bereich` danach neu,
+ * die nächsten Häuser zuerst. requestPosition() fragt nicht, wenn der
+ * Standort verweigert wurde – dann bleibt es bei der Reihenfolge nach Datum.
+ * Kaum bewegt: nichts neu zeichnen, sonst klappte ein geöffnetes "weitere
+ * Häuser" wieder zu.
+ */
+export function nachStandortOrdnen(bereich, bisher = null) {
+    return requestPosition().then(neu => {
+        if (!neu || !bereich.isConnected) return;
+        if (bisher && distanceKm(bisher.lat, bisher.lon, neu.lat, neu.lon) < 1) return;
+        bereich.querySelectorAll('.spielplan-block[data-werk]').forEach(block => {
+            block.outerHTML = spielplanBlock(block.dataset.werk, neu);
+        });
+    });
 }
 
 /** Der Satz unter der Liste: woher die Termine kommen und von wann. */

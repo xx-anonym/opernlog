@@ -3398,6 +3398,20 @@ body {
     padding: 6px 0 2px;
 }
 
+/* "Aktuelle Termine" auf der Werkseite: aufgeklappt unter den Knöpfen */
+.werk-termine {
+    max-width: 640px;
+}
+
+.werk-termine .spielplan-quelle {
+    margin-top: 10px;
+}
+
+.btn--outline[aria-expanded="true"] {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
 .spielplan-quelle {
     margin: 20px 0 0;
     font-size: 0.75rem;

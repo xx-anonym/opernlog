@@ -3,7 +3,8 @@ import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
 import { istAdmin } from '../store/supabase.js';
 import { loeschSchalter } from '../components/KatalogLoeschen.js';
-import { coverBackground, escapeHTML, datumKurz } from '../utils.js';
+import { coverBackground, escapeHTML, datumKurz, getCachedPosition } from '../utils.js';
+import { spielplanBlock, spielplanQuelle, nachStandortOrdnen, hatKommendeTermine } from '../components/SpielplanBlock.js';
 import { werkVerlauf } from '../data/werkVerlauf.js';
 import { composerLink } from './ComposerDetail.js';
 import { runWithFeedback, showError } from '../components/Toast.js';
@@ -146,7 +147,14 @@ export function OperaDetailPage(operaId) {
                 : icon('check') + ' Schon gesehen'}
             </button>
           `}
+          ${hatKommendeTermine(opera.id) ? `
+            <button id="termineToggle" class="btn btn--outline" aria-expanded="false" aria-controls="operaTermine"
+              title="Wo das Werk in dieser Spielzeit an Häusern im Katalog läuft">
+              ${icon('calendar')} Aktuelle Termine
+            </button>
+          ` : ''}
         </div>
+        <div id="operaTermine" class="werk-termine" hidden></div>
       </div>
       
       ${werkVerlaufAbschnitt(operaId)}
@@ -293,6 +301,24 @@ export function OperaDetailPage(operaId) {
       seenBtn.innerHTML = warMarkiert
         ? icon('check') + ' Schon gesehen'
         : icon('checkCircle') + ' Schon gesehen';
+    });
+  }
+
+  // "Aktuelle Termine" – erst auf Klick, damit die Seite beim Werk bleibt.
+  // Beim ersten Öffnen wird der Block gebaut und nach dem Standort gefragt.
+  const termineBtn = page.querySelector('#termineToggle');
+  const termine = page.querySelector('#operaTermine');
+  if (termineBtn && termine) {
+    termineBtn.addEventListener('click', () => {
+      const oeffnen = termine.hidden;
+      if (oeffnen && !termine.childElementCount) {
+        const position = getCachedPosition();
+        termine.innerHTML = spielplanBlock(opera.id, position);
+        termine.appendChild(spielplanQuelle());
+        nachStandortOrdnen(termine, position);
+      }
+      termine.hidden = !oeffnen;
+      termineBtn.setAttribute('aria-expanded', String(oeffnen));
     });
   }
 
