@@ -31,6 +31,7 @@ node --test "tests/**/*.test.js"
 | `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
 | `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
+| `neuigkeiten.test.js` | wann „Neu in OpernLog“ fällig ist: Konten von vorher, einmal je Gerät, ohne Speicher lieber nicht |
 | `spielplanTermine.test.js` | Termine aus Spielplantexten: Schreibweisen, Jahr aus dem Zusammenhang, Kalender über mehrere Zeilen, Uhrzeit, Monatsnavigation; was kein Termin ist (Uraufführung, Spanne, Matinee, Vorverkauf, Gastspiel) |
 | `spielplanAbfrage.test.js` | welche Häuser ein Werk demnächst spielen, nach Nähe oder Datum; Übernahme eines Laufs ohne Daten, die zur Seite gehören statt zum Stück |
 
@@ -65,6 +66,7 @@ Datenbank.
 | `installHinweis.test.js` | der Hinweis in der Leiste bleibt oben und verdeckt weder Inhalt noch Menü noch Fenster |
 | `zurueckGeste.test.js` | Zurück schließt das oberste Fenster; kein toter Schritt, kein Zurückwerfen nach einem Seitenwechsel |
 | `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
+| `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 
 `umgebung.js` startet Server und Browser. `ersetzeSupabase(page)` liefert statt

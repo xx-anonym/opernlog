@@ -121,6 +121,8 @@ const APP_SHELL = [
     './src/components/KontoLoeschen.js',
     './src/components/Passkeys.js',
     './src/components/SpielplanBlock.js',
+    './src/components/Neuigkeit.js',
+    './src/neuigkeiten.js',
     './src/components/Mitteilungen.js',
     './src/components/MitteilungenFrage.js',
     './src/components/InstallHinweis.js',

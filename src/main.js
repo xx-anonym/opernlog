@@ -20,6 +20,8 @@ import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { mitteilungenFrage } from './components/MitteilungenFrage.js';
 import { mitteilungenFrageFaellig } from './push.js';
+import { neuigkeitFenster } from './components/Neuigkeit.js';
+import { neuigkeitFaellig } from './neuigkeiten.js';
 import { zurueckGesteEinrichten } from './zurueckGeste.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
@@ -590,6 +592,7 @@ class App {
 
         this.content.appendChild(page);
         this.vielleichtNachMitteilungenFragen(path);
+        this.vielleichtNeuigkeitZeigen(path);
 
         // Close mobile nav on route change
         const navLinks = document.querySelector('.nav-links');
@@ -618,6 +621,27 @@ class App {
             if (!document.querySelector('.mitteilungen-frage')) mitteilungenFrage();
         } catch (e) {
             console.warn('[Mitteilungen] Frage nicht gestellt', e);
+        }
+    }
+
+    /**
+     * Einmal je Gerät: was das letzte große Update gebracht hat (siehe
+     * neuigkeiten.js). Nicht über der Anmeldung und nicht über einem anderen
+     * Fenster, etwa der Frage nach Mitteilungen – dann beim nächsten Start.
+     * Ist das Profil beim ersten Zeichnen noch nicht da, kommt der Aufruf
+     * wieder, wenn init() nach dem Abgleich neu zeichnet.
+     */
+    vielleichtNeuigkeitZeigen(path) {
+        if (!store.isCloud || ['auth', 'invite'].includes(path)) return;
+        const profil = store._profile;
+        if (!profil?.id || this._neuigkeitGeprueft === profil.id) return;
+        this._neuigkeitGeprueft = profil.id;
+        try {
+            if (!neuigkeitFaellig({ profilErstellt: profil.created_at })) return;
+            if (document.querySelector('.modal.modal--active')) return;
+            neuigkeitFenster();
+        } catch (e) {
+            console.warn('[Neuigkeit] nicht gezeigt', e);
         }
     }
 

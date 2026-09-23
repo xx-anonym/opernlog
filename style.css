@@ -5243,6 +5243,25 @@ body {
 }
 
 /* Die Frage nach Mitteilungen beim ersten Anmelden. */
+/* "Neu in OpernLog" */
+.neuigkeit__marke {
+    margin: 0 0 6px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.neuigkeit__liste {
+    margin: 12px 0;
+    padding-left: 1.2em;
+    line-height: 1.5;
+}
+
+.neuigkeit__liste li + li {
+    margin-top: 6px;
+}
+
 .mitteilungen-frage__liste {
     margin: 8px 0 12px 1.2em;
     padding: 0;

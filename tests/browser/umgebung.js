@@ -20,10 +20,16 @@ export const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)),
  * Ausgenommen sind die Offline-Tests: die brauchen die echte Bibliothek, denn
  * genau deren Fehlen war der Fehler.
  */
-export async function ersetzeSupabase(page) {
+export async function ersetzeSupabase(page, { neuigkeit = false } = {}) {
     const { STUB } = await import('./supabaseStub.js');
     await page.route('**/vendor/supabase-js.js', r =>
         r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+    // Das Testprofil ist von 2024 und bekäme sonst in jedem Test das Fenster
+    // "Neu in OpernLog" vor die Nase. neuigkeit: true lässt es kommen.
+    if (!neuigkeit) {
+        const { NEUIGKEIT, NEUIGKEIT_GESEHEN } = await import('../../src/neuigkeiten.js');
+        await page.addInitScript(([k, id]) => { try { localStorage.setItem(k, id); } catch { /* egal */ } }, [NEUIGKEIT_GESEHEN, NEUIGKEIT.id]);
+    }
 }
 
 const TYPEN = {
