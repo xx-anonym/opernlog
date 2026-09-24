@@ -239,6 +239,28 @@ test('ein Termin im Nebensatz verdrängt nicht die Terminliste aus den Attribute
     assert.equal(seitenTermine(eine, fenster).ohneUhrzeit, false);
 });
 
+test('mit terminSelektor zählt nur die Terminliste, nicht die Begleittermine im Text', () => {
+    const fenster = { von: '2026-09-24', bis: '2027-09-30' };
+    // Erfurt: im Text Premiere, Matinee, "Rang frei!" und Absacker; die
+    // Vorstellungen nur im Reiter "Termine".
+    const erfurt = {
+        text: 'Premiere / Sa, 10.10.2026, 19 Uhr\nMatinee / So, 27.09.2026, 11 Uhr\nRang frei! / Di, 06.10.2026, 18.30 Uhr\nAbsacker / Fr, 12.02.2027, 22.40 Uhr',
+        zusatz: '2026-09-27 2026-10-06 2026-10-10',
+        eintraege: [
+            { datum: '2026-09-20', text: 'So. 20 / Sept. 2026 18:00' },
+            { datum: '2026-10-10', text: 'Sa. 10 / Okt. 2026 Premiere 19:00' },
+            { datum: '2026-10-18', text: 'So. 18 / Okt. 2026 18:00 Tickets' },
+            { datum: '2027-02-12', text: 'Fr. 12 / Feb. 2027 19:30' },
+        ],
+    };
+    const erg = seitenTermine(erfurt, fenster);
+    assert.deepEqual(erg.termine, ['2026-10-10', '2026-10-18', '2027-02-12']);
+    assert.deepEqual(erg.zeiten, { '2026-10-10': '19:00', '2026-10-18': '18:00', '2027-02-12': '19:30' });
+    assert.equal(erg.ohneUhrzeit, false);
+    // Ohne Einträge (Selektor trifft nichts) gilt die bisherige Lesart.
+    assert.ok(seitenTermine({ ...erfurt, eintraege: [] }, fenster).termine.includes('2026-10-06'));
+});
+
 test('Übersichtslinks aus dem zugeklappten Menü zählen, die sichtbaren zuerst', () => {
     const links = [
         { href: 'https://www.opernhaus.ch/spielplan/spielzeit-ueberblick-2026-27/', text: '', menueText: 'Spielzeit 2026/27', verborgen: true },

@@ -42,7 +42,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
 import { werkeAusDatenbank } from './datenbank-werke.mjs';
-import { termineAusText, termineMitZeiten } from './spielplan-termine.mjs';
+import { termineAusText, termineMitZeiten, beginnFinden } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const QUELLEN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-quellen.json'), 'utf8'));
@@ -254,6 +254,21 @@ export function uebersichtsSeiten(links, seitenUrl) {
  * @returns {{termine: string[], zeiten: Object<string, string>, ohneUhrzeit: boolean}}
  */
 export function seitenTermine(d, fenster, q = {}) {
+    // Die Quelle sagt, wo die Terminliste steht: nur die zählt. Erfurt hebt
+    // im Text Premiere, Matinee und "Rang frei!" hervor; die Vorstellungen
+    // stehen nur im Reiter "Termine".
+    if (d.eintraege?.length) {
+        const termine = new Set();
+        const zeiten = {};
+        for (const { datum, text } of d.eintraege) {
+            const tag = /^20\d\d-\d\d-\d\d/.exec(datum)?.[0];
+            if (!tag || tag < fenster.von || tag > fenster.bis) continue;
+            termine.add(tag);
+            const zeit = beginnFinden([text]);
+            if (zeit && !zeiten[tag]) zeiten[tag] = zeit;
+        }
+        return { termine: [...termine].sort(), zeiten, ohneUhrzeit: !Object.keys(zeiten).length };
+    }
     const ort = q.ortJeTermin || undefined;
     const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort });
     // Daten aus Attributen haben keinen Eintrag, in dem ein Ort stehen könnte.
@@ -309,11 +324,22 @@ async function ladePlaywright() {
     return m.chromium ? m : m.default;
 }
 
-async function seite(kontext, url) {
+async function seite(kontext, url, { terminSelektor } = {}) {
     const p = await kontext.newPage();
     try {
         const antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
         await p.waitForLoadState('networkidle', { timeout: 12000 }).catch(() => {});
+        // Eine Cookieleiste ablehnen, wie ein sparsamer Besucher: manche
+        // Seiten beleben ihre Knöpfe erst nach der Entscheidung (Erfurt:
+        // "Weitere Termine laden").
+        const abgelehnt = await p.evaluate(() => {
+            const k = [...document.querySelectorAll('button, a[role="button"]')].find(b => b.offsetParent !== null
+                && /^\s*(alle ablehnen|ablehnen|nur notwendige( cookies)?|reject all)\s*$/i.test(b.textContent || ''));
+            if (!k) return false;
+            k.click();
+            return true;
+        }).catch(() => false);
+        if (abgelehnt) await p.waitForTimeout(500);
         // Nachgeladene Listen: ans Ende rollen und "Mehr laden" drücken, bis
         // nichts mehr dazukommt – höchstens achtmal.
         for (let i = 0; i < 8; i++) {
@@ -325,7 +351,24 @@ async function seite(kontext, url) {
             const nachher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             if (nachher <= vorher) break;
         }
-        const daten = await p.evaluate(() => {
+        // Knöpfe, die Playwright für unsichtbar hält, weil der Browser den
+        // Bereich außerhalb des Bildes nicht zeichnet oder eine Leiste darüber
+        // liegt (Erfurt: "Weitere Termine laden" unter der Cookieleiste):
+        // direkt auslösen. Nur Knöpfe in angezeigten Bereichen – der Reiter
+        // mit den Begleitterminen bleibt zu.
+        for (let i = 0; i < 8; i++) {
+            const geklickt = await p.evaluate(() => {
+                const k = [...document.querySelectorAll('button')].find(b => b.offsetParent !== null && !b.disabled
+                    && /^\s*(mehr|weitere) (termine|vorstellungen)( laden| anzeigen)?\s*$/i.test(b.textContent || ''));
+                if (!k) return false;
+                k.click();
+                return true;
+            }).catch(() => false);
+            if (!geklickt) break;
+            await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+            await p.waitForTimeout(600);
+        }
+        const daten = await p.evaluate((terminSelektor) => {
             const haupt = document.querySelector('main') || document.body;
             const attribute = [...document.querySelectorAll('[datetime],[content],[data-date],[data-datetime],[data-start]')]
                 .map(e => e.getAttribute('datetime') || e.getAttribute('data-date') || e.getAttribute('data-datetime') || e.getAttribute('data-start') || e.getAttribute('content'))
@@ -362,8 +405,14 @@ async function seite(kontext, url) {
                     }
                     return null;
                 }).filter(Boolean),
+                // Mit terminSelektor (spielplan-quellen.json): die Einträge der
+                // Terminliste, je mit dem Text ihres Eintrags für die Uhrzeit.
+                eintraege: terminSelektor ? [...document.querySelectorAll(terminSelektor)].map(e => ({
+                    datum: e.getAttribute('datetime') || e.getAttribute('data-date') || '',
+                    text: (e.closest('li, tr, article, [class*="item"]') || e.parentElement)?.textContent.replace(/\s+/g, ' ').trim().slice(0, 300) || '',
+                })) : null,
             };
-        });
+        }, terminSelektor || null);
         return { status: antwort?.status() ?? 0, endUrl: p.url(), ...daten };
     } finally {
         await p.close();
@@ -451,8 +500,8 @@ export function monatsVorlage(hrefs, fenster) {
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [] }
-        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [] };
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null }
+        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [], terminSelektor: q.terminSelektor || null };
 }
 
 // Adressen mit kaputtem Prozentzeichen ("50%-Rabatt") ließen decodeURIComponent
@@ -560,7 +609,7 @@ async function lesen(kontext, hausId, fenster) {
     const auswahl = seitenAuswahl(kandidaten, gesehen);
     for (const [url, ids] of auswahl) {
         try {
-            const d = await seite(kontext, url);
+            const d = await seite(kontext, url, { terminSelektor: q.terminSelektor });
             const { termine, zeiten, ohneUhrzeit } = seitenTermine(d, fenster, q);
             const ganz = d.ganzerText;
             for (const id of ids) {

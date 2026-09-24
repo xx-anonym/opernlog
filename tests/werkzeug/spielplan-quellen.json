@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
+  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
   "bayerische-staatsoper": [
     "https://www.staatsoper.de/spielplan/{JJJJ}-{MM}",
     "https://www.staatsoper.de/spielzeit-2026-27"
@@ -212,9 +212,12 @@
     "https://www.sh-landestheater.de/premieren/2026-2027.html",
     "https://www.sh-landestheater.de/spielplan/index.html"
   ],
-  "theater-erfurt": [
-    "https://www.theater-erfurt.de/"
-  ],
+  "theater-erfurt": {
+    "start": [
+      "https://www.theater-erfurt.de/"
+    ],
+    "terminSelektor": "#tab-dates time[datetime]"
+  },
   "dnt-weimar": [
     "https://www.dnt-weimar.de/de/programm/repertoire_26-27.php",
     "https://www.dnt-weimar.de/de/programm/premiere_26-27.php",

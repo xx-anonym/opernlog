@@ -21,16 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:eugen-onegin-theater-erfurt-2026-10-06@opernlog.vercel.app
+UID:fledermaus-theater-erfurt-2027-04-18@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20261006T183000
-DTEND;TZID=Europe/Berlin:20261006T213000
-SUMMARY:Eugen Onegin – Theater Erfurt
+DTSTART;TZID=Europe/Berlin:20270418T150000
+DTEND;TZID=Europe/Berlin:20270418T180000
+SUMMARY:Die Fledermaus – Theater Erfurt
 LOCATION:Theater Erfurt\, Erfurt
 GEO:50.98;11.018
-URL:https://www.theater-erfurt.de/stuecke/eugen-onegin
-DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
- https://www.theater-erfurt.de/stuecke/eugen-onegin\nDas Ende ist geschätz
- t (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://www.theater-erfurt.de/stuecke/die-fledermaus
+DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
+ www.theater-erfurt.de/stuecke/die-fledermaus\nDas Ende ist geschätzt (3 S
+ tunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
