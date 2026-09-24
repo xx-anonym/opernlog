@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:pique-dame-deutsche-oper-berlin-2026-11-04@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Pique Dame – Deutsche Oper Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin
+GEO:52.5121;13.3092
+URL:https://deutscheoperberlin.de/de_DE/production/pique-dame.1385561
+DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Pique Dame\nTermine und Karten: ht
+ tps://deutscheoperberlin.de/de_DE/production/pique-dame.1385561\nDie Uhrze
+ it steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die S
+ eite des Hauses.
+END:VEVENT
+END:VCALENDAR

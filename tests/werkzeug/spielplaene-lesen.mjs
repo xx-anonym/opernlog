@@ -145,8 +145,8 @@ const slug = s => norm(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g
 // Ohne sie fiel etwa Pique Dame an der Deutschen Oper Berlin heraus, die
 // "Tschaikowski" schreibt.
 const KOMPONIST_SCHREIBWEISEN = {
-    tschaikowsky: ['tschaikowski', 'tchaikovsky', 'tschaikovsky', 'tchaikowsky'],
-    mussorgsky: ['mussorgski', 'moussorgsky', 'musorgski'],
+    tschaikowsky: ['tschaikowski', 'tschajkowski', 'tschaikowskij', 'tschajkowskij', 'tchaikovsky', 'tschaikovsky', 'tchaikowsky'],
+    mussorgsky: ['mussorgski', 'mussorgskij', 'moussorgsky', 'musorgski'],
     prokofjew: ['prokofiev', 'prokofieff', 'prokofjev', 'prokofjeff'],
     strawinsky: ['stravinsky', 'strawinski'],
     schostakowitsch: ['shostakovich', 'schostakowitch'],

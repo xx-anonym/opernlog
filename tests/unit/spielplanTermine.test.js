@@ -244,6 +244,7 @@ test('der Komponist wird mit ß und ss erkannt', () => {
     assert.ok(komponistMuster('Verdi').test('von Giuseppe Verdi'));
     // Akzente und andere Schreibweisen
     assert.ok(komponistMuster('Tschaikowsky').test('Oper von Pjotr I. Tschaikowski'));
+    assert.ok(komponistMuster('Tschaikowsky').test('Oper in drei Akten von Pjotr Tschajkowski'));
     assert.ok(komponistMuster('Dvořák').test('Musik von Antonin Dvorak'));
     assert.ok(komponistMuster('Händel').test('Georg Friedrich Haendel'));
     assert.ok(komponistMuster('Händel').test('George Frideric Handel'));
