@@ -331,3 +331,32 @@ test('ein volles Datum unter Tag und Wochentag geht dem Monatskopf vor', () => {
     // Ohne volles Datum darunter bleibt es beim Monatskopf (Dortmund).
     assert.deepEqual(termineMitUhrzeit('November 2026\n07\nSamstag\nOpernhaus 19:30 Uhr', F), ['2026-11-07']);
 });
+
+
+test('eine Kachel ohne Jahr übernimmt das Jahr, das gleich darunter steht', () => {
+    const fenster = { von: '2026-09-24', bis: '2027-09-30' };
+    // Leipzig: vergangene Vorstellungen stehen nach dem Nachladen am Ende.
+    const text = 'SA.\n05\nJUNI\nDER FLIEGENDE HOLLÄNDER\nOper Sa. 05.06.2027 | 19:00 | Opernhaus\nBESETZUNG\n'
+        + 'SA.\n12\nSEPT.\nDER FLIEGENDE HOLLÄNDER\nOper Sa. 12.09.2026 | 19:00 | Opernhaus\nBESETZUNG';
+    assert.deepEqual(termineMitZeiten(text, fenster).termine, ['2027-06-05']);
+    assert.deepEqual(termineAusText(text, fenster), ['2027-06-05']);
+});
+
+test('„1 Nov. 26“ ist der 1. November 2026, nicht der 26. November', () => {
+    const fenster = { von: '2026-09-24', bis: '2027-09-30' };
+    // Theater Vorpommern: Tag, Monat mit zweistelligem Jahr, Wochentag, Uhrzeit.
+    assert.deepEqual(termineAusText('1 Nov. 26 So 18:00 Theater Stralsund', fenster), ['2026-11-01']);
+    assert.deepEqual(termineAusText(' 1 Dez. 26 Di 09:00 Kaisersaal', fenster), ['2026-12-01']);
+    // Ohne Tag davor bleibt "Nov. 26" der 26. November.
+    assert.deepEqual(termineAusText('Premiere: Nov. 26, 2026', fenster), ['2026-11-26']);
+});
+
+test('Tag und Monat in getrennten Zeilen, Monat mit zweistelligem Jahr; Abgesagtes zählt nicht', () => {
+    const fenster = { von: '2026-09-24', bis: '2027-09-30' };
+    // Theater Vorpommern, Spielplan
+    const text = '27\nNov. 26\nFr 18:00\nTheater Stralsund\n15\nNov. 26\nSo entfällt 18:00\nKaisersaal Stadthalle Greifswald';
+    assert.deepEqual(termineMitZeiten(text, fenster).termine, ['2026-11-27']);
+    assert.deepEqual(termineAusText(text, fenster), ['2026-11-27']);
+    // vierstelliges Jahr wie bisher
+    assert.deepEqual(termineMitZeiten('6\nDezember 2026\n19:30 Uhr', fenster).termine, ['2026-12-06']);
+});

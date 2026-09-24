@@ -324,7 +324,7 @@ async function ladePlaywright() {
     return m.chromium ? m : m.default;
 }
 
-async function seite(kontext, url, { terminSelektor } = {}) {
+export async function seite(kontext, url, { terminSelektor } = {}) {
     const p = await kontext.newPage();
     try {
         const antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });

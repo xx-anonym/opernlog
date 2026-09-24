@@ -21,17 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:simon-boccanegra-nationaltheater-mannheim-2026-10-20@opernlog.vercel.ap
- p
+UID:nozze-di-figaro-oper-leipzig-2027-01-10@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20261020T183000
-DTEND;TZID=Europe/Berlin:20261020T213000
-SUMMARY:Simon Boccanegra – Nationaltheater Mannheim
-LOCATION:Nationaltheater Mannheim\, Mannheim
-GEO:49.4894;8.4795
-URL:https://www.nationaltheater-mannheim.de/spielplan/a-z/simon-boccanegra/
-DESCRIPTION:Giuseppe Verdi: Simon Boccanegra\nTermine und Karten: https://w
- ww.nationaltheater-mannheim.de/spielplan/a-z/simon-boccanegra/\nDas Ende i
+DTSTART;TZID=Europe/Berlin:20270110T170000
+DTEND;TZID=Europe/Berlin:20270110T200000
+SUMMARY:Le nozze di Figaro – Oper Leipzig
+LOCATION:Oper Leipzig\, Leipzig
+GEO:51.339;12.3805
+URL:https://www.oper-leipzig.de/de/programm/figaros-hochzeit/812
+DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
+ : https://www.oper-leipzig.de/de/programm/figaros-hochzeit/812\nDas Ende i
  st geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des
   Hauses.
 END:VEVENT

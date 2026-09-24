@@ -24,13 +24,13 @@ BEGIN:VEVENT
 UID:la-boheme-niedersaechsische-staatsoper-2027-01-09@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270109T193000
-DTEND;TZID=Europe/Berlin:20270109T223000
+DTEND;TZID=Europe/Berlin:20270109T214500
 SUMMARY:La Bohème – Staatsoper Hannover
 LOCATION:Staatsoper Hannover\, Hannover
 GEO:52.376;9.7405
 URL:https://staatstheater-hannover.de/de_DE/programm/la-boheme.1397722
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://staats
- theater-hannover.de/de_DE/programm/la-boheme.1397722\nDas Ende ist geschä
- tzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ theater-hannover.de/de_DE/programm/la-boheme.1397722\nAus OpernLog – ma
+ ßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

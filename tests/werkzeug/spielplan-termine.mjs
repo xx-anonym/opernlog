@@ -71,7 +71,14 @@ export function termineLesen(text, { von, bis }, kontext = null) {
     const tagMonat = new RegExp(`(?<![\\d])(\\d{1,2})\\.?\\s*(${MONATSMUSTER})\\.?(?:\\s+(1[5-9]\\d\\d|20\\d\\d))?(?![a-zäöüéû])`, 'gi');
     for (const m of s.matchAll(tagMonat)) datum(m.index, m.index + m[0].length, m[3] ? +m[3] : 0, MONATE[m[2].toLowerCase()], +m[1]);
     const monatTag = new RegExp(`(?<![a-zäöüéû])(${MONATSMUSTER})\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?(?:,?\\s+(1[5-9]\\d\\d|20\\d\\d))?(?![\\d])`, 'gi');
-    for (const m of s.matchAll(monatTag)) datum(m.index, m.index + m[0].length, m[3] ? +m[3] : 0, MONATE[m[1].toLowerCase()], +m[2]);
+    // "Nov. 26" nach einem Tag ist das Jahr, nicht der 26. November:
+    // Greifswald schreibt "1 / Nov. 26". Ein Monat, der schon zu einem
+    // Datum davor gehört, beginnt kein neues.
+    const tagDavor = i => funde.some(f => f.art === 'datum' && i > f.index && i < f.ende);
+    for (const m of s.matchAll(monatTag)) {
+        if (tagDavor(m.index)) continue;
+        datum(m.index, m.index + m[0].length, m[3] ? +m[3] : 0, MONATE[m[1].toLowerCase()], +m[2]);
+    }
 
     const inDatum = i => funde.some(f => f.art === 'datum' && i >= f.index && i < f.ende);
     // "2026/27", "2026/2027", "2026–27": eine Spielzeit
@@ -137,7 +144,9 @@ export function termineLesen(text, { von, bis }, kontext = null) {
 const WOCHENTAG = 'montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag|mo|di|mi|do|fr|sa|so|mon|tue|wed|thu|fri|sat|sun|lun|mar|mer|jeu|ven|sam|dim';
 const MONATSNAME = ['', 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 const NUR_TAG = /^(\d{1,2})\.?$/;
-const NUR_MONAT = new RegExp(`^(${MONATSMUSTER})\\.?(\\s+20\\d\\d)?$`, 'i');
+// Auch mit zweistelligem Jahr: Greifswald schreibt "15" / "Nov. 26".
+const NUR_MONAT = new RegExp(`^(${MONATSMUSTER})\\.?(?:\\s+(?:20)?(\\d\\d))?$`, 'i');
+const tagUndMonat = (tag, monat) => { const m = monat.match(NUR_MONAT); return `${tag}. ${m[1]}${m[2] ? ` 20${m[2]}` : ''}`; };
 const NUR_WOCHENTAG = new RegExp(`^(${WOCHENTAG})\\.?,?$`, 'i');
 const WOCHENTAG_TAG = new RegExp(`^(${WOCHENTAG})\\.?,?\\s*(\\d{1,2})\\.?$`, 'i');
 const VOLLES_DATUM = new RegExp(`(?<![\\d.])\\d{1,2}\\.\\s*(?:\\d{1,2}\\.|(?:${MONATSMUSTER})(?![a-zäöüéû]))`, 'i');
@@ -176,8 +185,8 @@ function ordnen(text) {
         const n = roh[i + 1] || '';
         let m;
         if ((m = z.match(MONATSKOPF))) { kopfEnde(); kopf = `${MONATSNAME[MONATE[m[1].toLowerCase()]]} ${m[2]}`; aus.push(z); continue; }
-        if (NUR_TAG.test(z) && NUR_MONAT.test(n)) { aus.push(`${z.match(NUR_TAG)[1]}. ${n}`); i++; continue; }
-        if (NUR_MONAT.test(z) && NUR_TAG.test(n)) { aus.push(`${n.match(NUR_TAG)[1]}. ${z}`); i++; continue; }
+        if (NUR_TAG.test(z) && NUR_MONAT.test(n)) { aus.push(tagUndMonat(z.match(NUR_TAG)[1], n)); i++; continue; }
+        if (NUR_MONAT.test(z) && NUR_TAG.test(n)) { aus.push(tagUndMonat(n.match(NUR_TAG)[1], z)); i++; continue; }
         // Steht das volle Datum gleich darunter, gilt das – der Monatskopf
         // kann dort schon der vorige sein. Semperoper: "Oktober 2026" …
         // "06" / "Fr" / "6. November 2026, 19 Uhr" wurde sonst der 6. Oktober.
@@ -206,6 +215,8 @@ const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführ
 // "Verkaufsstart V-Club" (Volksoper), "MATINEE ZU …" (Essen). Nicht "Vorverkauf über …": das steht in
 // Augsburg unter jeder Vorstellung.
 const ORT_NEBENHER = /treffpunkt|probebühne|probenbesuch|click in|absacker/i;
+// Abgesagt: Greifswald lässt den Termin stehen und schreibt "So entfällt 18:00".
+const ABGESAGT = /\b(entfällt|abgesagt|fällt aus)\b/i;
 const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
 const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
@@ -218,6 +229,23 @@ function eintrag(zeilen, i, fenster, kontext, hoechstens) {
         teile.push(zeilen[j]);
     }
     return teile;
+}
+
+/**
+ * Steht dasselbe Datum im Eintrag gleich darunter mit einem anderen Jahr,
+ * war das geratene Jahr falsch. Leipzig zeigt jede Vorstellung als Kachel
+ * ohne Jahr ("SA. / 12 / SEPT.") und darunter mit Jahr ("Sa. 12.09.2026");
+ * vergangene Vorstellungen hängt es ans Ende der Liste, und die Kachel erbte
+ * das Jahr des Eintrags davor – ein Holländer im September 2027.
+ */
+function jahrWiderspricht(iso, teile) {
+    const [j, m, t] = iso.split('-').map(Number);
+    const rest = teile.slice(1).join('\n');
+    const muster = [
+        new RegExp(`(?<![\\d.])0?${t}\\.\\s?0?${m}\\.\\s?(20\\d\\d)(?!\\d)`, 'g'),
+        new RegExp(`(20\\d\\d)-${zwei(m)}-${zwei(t)}`, 'g'),
+    ];
+    return muster.some(re => [...rest.matchAll(re)].some(x => Number(x[1]) !== j));
 }
 
 function ortPasst(zeilen, i, fenster, kontext, ort) {
@@ -243,7 +271,9 @@ export function termineAusText(text, fenster, { ort } = {}) {
         kontext = erg.kontext;
         if (!erg.termine.length || NEBEN_ZEILE.test(`${z} ${zeilen[i + 1] || ''}`)) return;
         if (!ortPasst(zeilen, i, fenster, vorher, ort)) return;
-        erg.termine.forEach(d => gefunden.add(d));
+        const teile = eintrag(zeilen, i, fenster, vorher, 3);
+        if (ABGESAGT.test(teile.slice(0, 2).join(' '))) return;
+        erg.termine.filter(d => !jahrWiderspricht(d, teile)).forEach(d => gefunden.add(d));
     });
     return [...gefunden].sort();
 }
@@ -320,9 +350,10 @@ export function termineMitZeiten(text, fenster, { ort } = {}) {
         const vorher = kontext;
         const erg = termineLesen(z, fenster, kontext);
         kontext = erg.kontext;
-        const daten = erg.termine;
-        if (!daten.length || NEBEN_ZEILE.test(z)) return;
+        if (!erg.termine.length || NEBEN_ZEILE.test(z)) return;
         const teile = eintrag(zeilen, i, fenster, vorher, 3);
+        const daten = erg.termine.filter(d => !jahrWiderspricht(d, teile));
+        if (!daten.length) return;
         // Der Anlass steht direkt darunter ("Einführung") oder eine Zeile tiefer
         // ("MATINEE ZU …" in Essen); dort zählt "Einführung" nicht, bei manchen
         // Häusern ist das nur ein Hinweis am Ende eines Eintrags. Ein Anlass
@@ -332,7 +363,7 @@ export function termineMitZeiten(text, fenster, { ort } = {}) {
         // Orte, an denen keine Vorstellung stattfindet, gelten im ganzen
         // Eintrag (Ulm: Datum, Wochentag, Uhrzeit, dann "Treffpunkt
         // Bühnenpforte"). "Foyer" nicht – dort steht oft nur die Einführung.
-        if (teile.some(t => ORT_NEBENHER.test(t))) return;
+        if (teile.some(t => ORT_NEBENHER.test(t) || ABGESAGT.test(t))) return;
         const umgebung = teile.join(' ');
         // Die Uhrzeit darf nicht Teil des Datums selbst sein ("19.10." ist kein 19:10).
         const ohneDaten = umgebung.replace(DATUM_KURZ, ' ');

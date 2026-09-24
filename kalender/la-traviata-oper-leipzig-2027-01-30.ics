@@ -21,16 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:fidelio-theater-vorpommern-2027-03-27@opernlog.vercel.app
+UID:la-traviata-oper-leipzig-2027-01-30@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270327T180000
-DTEND;TZID=Europe/Berlin:20270327T210000
-SUMMARY:Fidelio – Theater Vorpommern
-LOCATION:Theater Vorpommern\, Stralsund / Greifswald
-GEO:54.311;13.087
-URL:https://www.theater-vorpommern.de/de/programm/fidelio
-DESCRIPTION:Ludwig van Beethoven: Fidelio\nTermine und Karten: https://www.
- theater-vorpommern.de/de/programm/fidelio\nDas Ende ist geschätzt (3 Stun
+DTSTART;TZID=Europe/Berlin:20270130T190000
+DTEND;TZID=Europe/Berlin:20270130T220000
+SUMMARY:La Traviata – Oper Leipzig
+LOCATION:Oper Leipzig\, Leipzig
+GEO:51.339;12.3805
+URL:https://www.oper-leipzig.de/de/programm/la-traviata/293
+DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.op
+ er-leipzig.de/de/programm/la-traviata/293\nDas Ende ist geschätzt (3 Stun
  den).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
