@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:un-ballo-in-maschera-wiener-staatsoper-2027-02-27@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270227
+DTEND;VALUE=DATE:20270228
+SUMMARY:Un ballo in maschera – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/un-ballo-in-maschera/
+DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https
+ ://www.wiener-staatsoper.at/kalender/detail/un-ballo-in-maschera/\nDie Uhr
+ zeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die
+  Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

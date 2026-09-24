@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:don-carlos-opernhaus-zuerich-2027-07-01@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270701
+DTEND;VALUE=DATE:20270702
+SUMMARY:Don Carlos – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/
+DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://www.ope
+ rnhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/\nDie Uhrzeit steht au
+ f der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Ha
+ uses.
+END:VEVENT
+END:VCALENDAR

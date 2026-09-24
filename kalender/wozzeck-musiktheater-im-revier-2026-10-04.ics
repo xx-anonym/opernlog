@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:wozzeck-musiktheater-im-revier-2026-10-04@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:Wozzeck – Musiktheater im Revier
+LOCATION:Musiktheater im Revier\, Gelsenkirchen
+GEO:51.51;7.098
+URL:https://mirgelsenkirchen.de/produktion/wozzeck-912
+DESCRIPTION:Alban Berg: Wozzeck\nTermine und Karten: https://mirgelsenkirch
+ en.de/produktion/wozzeck-912\nDie Uhrzeit steht auf der Seite des Hauses.\
+ nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

@@ -253,10 +253,24 @@ test('mit --werke nur die gesuchten, aber gegen den ganzen Katalog geprüft', ()
     assert.deepEqual(werkeImLink('Lady Macbeth von Mzensk', 'https://oper.example/lady-macbeth/', new Set(['macbeth'])), []);
 });
 
+test('Adressen mit ausgeschriebenen Umlauten und ohne Apostroph treffen', () => {
+    // Zürich verlinkt seine Produktionen nur mit "mehr" – es zählt die Adresse.
+    assert.deepEqual(werkeImLink('mehr', 'https://www.opernhaus.ch/spielplan/kalendarium/die-walkuere/2026-2027/'), ['ring-walkuere']);
+    assert.deepEqual(werkeImLink('mehr', 'https://www.opernhaus.ch/spielplan/kalendarium/lelisir-damore/2026-2027/'), ['elisir']);
+    assert.deepEqual(werkeImLink('mehr', 'https://oper.example/die-walkure/'), ['ring-walkuere']);
+});
+
 test('ein Werk aus der Datenbank wird gefunden, sobald es dazukommt', () => {
     assert.deepEqual(werkeImLink('Der Zwerg', 'https://oper.example/zwerg-test/'), []);
     werkeErgaenzen([{ id: 'zwerg-test', title: 'Der Zwerg', composer: 'Alexander Zemlinsky' }]);
     assert.deepEqual(werkeImLink('Der Zwerg', 'https://oper.example/zwerg-test/'), ['zwerg-test']);
+});
+
+test('ein Werk aus der Datenbank wird auch unter seinem deutschen Titel gefunden', () => {
+    werkeErgaenzen([{ id: 'la-gazza-ladra', title: 'La gazza ladra', composer: 'Gioachino Rossini' }]);
+    assert.deepEqual(werkeImLink('Die diebische Elster', 'https://oper.example/stueck/123/'), ['la-gazza-ladra']);
+    assert.deepEqual(werkeImLink('mehr', 'https://oper.example/spielplan/die-diebische-elster/'), ['la-gazza-ladra']);
+    assert.deepEqual(werkeImLink('La gazza ladra', 'https://oper.example/stueck/123/'), ['la-gazza-ladra']);
 });
 
 import { termineMitZeiten } from '../werkzeug/spielplan-termine.mjs';

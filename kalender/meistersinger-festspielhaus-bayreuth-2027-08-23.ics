@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:meistersinger-festspielhaus-bayreuth-2027-08-23@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270823
+DTEND;VALUE=DATE:20270824
+SUMMARY:Die Meistersinger von Nürnberg – Bayreuther Festspielhaus
+LOCATION:Bayreuther Festspielhaus\, Bayreuth
+GEO:49.9578;11.5803
+URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/die-meister
+ singer-von-nuernberg/
+DESCRIPTION:Richard Wagner: Die Meistersinger von Nürnberg\nTermine und Ka
+ rten: https://www.bayreuther-festspiele.de/programm/auffuehrungen/die-meis
+ tersinger-von-nuernberg/\nDie Uhrzeit steht auf der Seite des Hauses.\nAus
+  OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

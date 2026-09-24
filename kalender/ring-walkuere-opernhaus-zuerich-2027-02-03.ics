@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ring-walkuere-opernhaus-zuerich-2027-02-03@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270203
+DTEND;VALUE=DATE:20270204
+SUMMARY:Die Walküre – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/die-walkuere/2026-2027/
+DESCRIPTION:Richard Wagner: Die Walküre\nTermine und Karten: https://www.o
+ pernhaus.ch/spielplan/kalendarium/die-walkuere/2026-2027/\nDie Uhrzeit ste
+ ht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite d
+ es Hauses.
+END:VEVENT
+END:VCALENDAR

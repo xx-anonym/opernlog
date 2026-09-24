@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nozze-di-figaro-opernhaus-zuerich-2027-05-06@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270506
+DTEND;VALUE=DATE:20270507
+SUMMARY:Le nozze di Figaro – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/le-nozze-di-figaro/2026-
+ 2027/
+DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
+ : https://www.opernhaus.ch/spielplan/kalendarium/le-nozze-di-figaro/2026-2
+ 027/\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßge
+ blich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

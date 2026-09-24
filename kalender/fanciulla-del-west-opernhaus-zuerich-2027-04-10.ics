@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fanciulla-del-west-opernhaus-zuerich-2027-04-10@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270410
+DTEND;VALUE=DATE:20270411
+SUMMARY:La fanciulla del West – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/la-fanciulla-del-west-1/
+ 2026-2027/
+DESCRIPTION:Giacomo Puccini: La fanciulla del West\nTermine und Karten: htt
+ ps://www.opernhaus.ch/spielplan/kalendarium/la-fanciulla-del-west-1/2026-2
+ 027/\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßge
+ blich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

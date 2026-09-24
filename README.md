@@ -114,7 +114,23 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   ```
 
   `--dazu` ersetzt nur die Einträge der gesuchten Werke und lässt alle
-  anderen stehen. Ändert sich nur das Format der Kalenderdateien
+  anderen stehen. Steht ein Werk an manchen Häusern unter einem anderen
+  Titel („Die diebische Elster“ für „La gazza ladra“), gehört dieser nach
+  `ANDERE_TITEL` in `spielplaene-lesen.mjs` – auch für Werke aus der
+  Datenbank.
+
+  Ebenso für einzelne Häuser, etwa nachdem ihre Einstiegsseiten in
+  `tests/werkzeug/spielplan-quellen.json` geändert wurden:
+
+  ```sh
+  node tests/werkzeug/spielplaene-lesen.mjs haus.json opernhaus-zuerich
+  node tests/werkzeug/spielplan-uebernehmen.mjs haus.json --dazu
+  ```
+
+  Viele Einstiegsseiten tragen die Spielzeit im Namen (Zürich:
+  `/spielplan/oper-2627/`, Semperoper: `spielzeit-2026-27`) und müssen vor
+  dem Septemberlauf auf die neue Spielzeit umgestellt werden – sonst sieht
+  das Werkzeug dort nur die nächsten Wochen. Ändert sich nur das Format der Kalenderdateien
   (`src/kalender.js`), erneuert `node tests/werkzeug/kalender-dateien.mjs`
   den Ordner `kalender/`.
 

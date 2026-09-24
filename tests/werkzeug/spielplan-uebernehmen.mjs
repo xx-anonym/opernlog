@@ -4,8 +4,9 @@
 //   node tests/werkzeug/spielplan-uebernehmen.mjs vorschlag.json
 //   node tests/werkzeug/spielplan-uebernehmen.mjs nachtrag.json --dazu
 //
-// Mit --dazu (nach einem Lauf mit --werke) ändern sich nur die Einträge der
-// gesuchten Werke; alles andere in src/data/spielplan.js bleibt, wie es ist.
+// Mit --dazu (nach einem Lauf mit --werke oder für einzelne Häuser) ändern
+// sich nur die Einträge der gesuchten Werke bzw. dieser Häuser; alles andere
+// in src/data/spielplan.js bleibt, wie es ist.
 //
 // Übernommen wird ein Werk an einem Haus nur, wenn
 //   - auf der Seite der Komponist steht (sonst ist "Faust" Goethe),
@@ -113,13 +114,15 @@ function mitZeiten(zeile, zeiten = {}) {
 const zusatzwerke = zeilen => [...new Set(zeilen.map(z => z.werk).filter(w => !ausRepo.has(w)))].sort();
 
 /**
- * Ein Nachtrag für einzelne Werke (Lauf mit --werke): deren Einträge
- * ersetzen, alle anderen behalten. Der Stand bleibt der ältere – er sagt,
- * wie alt die Daten höchstens sind.
+ * Ein Nachtrag für einzelne Werke (Lauf mit --werke) oder einzelne Häuser:
+ * deren Einträge ersetzen, alle anderen behalten. Der Stand bleibt der
+ * ältere – er sagt, wie alt die Daten höchstens sind.
  */
-export function dazunehmen(bestehend, nachtrag, suche) {
-    const gesucht = new Set(suche);
-    const zeilen = [...bestehend.zeilen.filter(z => !gesucht.has(z.werk)), ...nachtrag.zeilen.filter(z => gesucht.has(z.werk))];
+export function dazunehmen(bestehend, nachtrag, { werke, haeuser } = {}) {
+    const nurWerke = werke?.length ? new Set(werke) : null;
+    const nurHaeuser = haeuser?.length ? new Set(haeuser) : null;
+    const gelesen = z => (!nurWerke || nurWerke.has(z.werk)) && (!nurHaeuser || nurHaeuser.has(z.haus));
+    const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...nachtrag.zeilen.filter(gelesen)];
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
     const stand = [bestehend.stand, nachtrag.stand].filter(Boolean).sort()[0] || '';
     return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen) };
@@ -142,10 +145,11 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
     const vorschlag = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
     let erg = uebernehmen(vorschlag);
     if (process.argv.includes('--dazu')) {
-        if (!vorschlag._suche?.length) { console.error('--dazu braucht einen Lauf mit --werke'); process.exit(1); }
+        const umfang = { werke: vorschlag._suche, haeuser: vorschlag._haeuser };
+        if (!umfang.werke?.length && !umfang.haeuser?.length) { console.error('--dazu braucht einen Lauf mit --werke oder für einzelne Häuser'); process.exit(1); }
         const alt = await import(pathToFileURL(path.join(WURZEL, 'src/data/spielplan.js')).href);
-        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, vorschlag._suche), weggelassen: erg.weggelassen };
-        console.log(`Nachtrag für ${vorschlag._suche.join(', ')}.`);
+        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, umfang), weggelassen: erg.weggelassen };
+        console.log(`Nachtrag für ${[...(umfang.werke || []), ...(umfang.haeuser || [])].join(', ')}.`);
     }
     fs.writeFileSync(path.join(WURZEL, 'src/data/spielplan.js'), alsModul(erg));
     console.log(`${await kalenderOrdnerSchreiben(erg.zeilen, erg.stand)} Kalenderdateien in kalender/.`);

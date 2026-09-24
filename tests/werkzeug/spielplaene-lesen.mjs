@@ -2,6 +2,9 @@
 //
 //   node tests/werkzeug/spielplaene-lesen.mjs [ausgabe.json] [haus-id …] [--werke id,id] [--straenge 4]
 //
+//   haus-id     nur diese Häuser lesen – etwa nach einer Änderung an ihren
+//               Quellen. Übernehmen mit `spielplan-uebernehmen.mjs … --dazu`:
+//               dann ändern sich nur die Einträge dieser Häuser.
 //   --werke     nur nach diesen Werken suchen – für ein Werk, das neu in den
 //               Katalog gekommen ist. Das Ergebnis mit
 //               `spielplan-uebernehmen.mjs ausgabe.json --dazu` übernehmen:
@@ -71,6 +74,8 @@ export const ANDERE_TITEL = {
     'barbiere': ['Der Barbier von Sevilla', 'Il barbiere di Siviglia', 'Barbier von Sevilla'],
     'cenerentola': ['Aschenputtel', 'La Cenerentola'],
     'guglielmo-tell': ['Wilhelm Tell', 'Guglielmo Tell'],
+    // aus der Datenbank; deutsche Häuser spielen sie oft unter deutschem Titel
+    'la-gazza-ladra': ['Die diebische Elster', 'Diebische Elster'],
     'elisir': ["L’elisir d’amore", 'Der Liebestrank', "L'elisir d'amore"],
     'jenufa': ['Jenufa', 'Její pastorkyňa'],
     'katja-kabanova': ['Katja Kabanowa', 'Káťa Kabanová'],
@@ -134,13 +139,17 @@ export function komponistMuster(nachname) {
     return new RegExp(quelle, 'i');
 }
 
+// Adressen schreiben Umlaute oft aus und lassen Apostrophe weg: Zürich hat
+// "die-walkuere" und "lelisir-damore". Beides zählt.
+const adressFormen = t => [slug(t), slug(t.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')), slug(t.replace(/'/g, ''))];
+
 function alsWerk(o) {
     const titel = [...new Set([o.title, ...(ANDERE_TITEL[o.id] || [])].map(norm))];
     const nachname = o.composer.replace(/\s+(II|I|Sohn|der Jüngere)$/i, '').split(' ').pop();
     return {
         id: o.id,
         titel,
-        slugs: [...new Set(titel.map(slug).filter(s => s.length >= 4))],
+        slugs: [...new Set(titel.flatMap(adressFormen).filter(s => s.length >= 4))],
         komponist: komponistMuster(nachname),
         // Nur Titel, die für sich stehen: "Siegfried" soll nicht in
         // "Siegfried Jerusalem" treffen, "Aida" nicht in "Aidan".
@@ -215,6 +224,85 @@ const UEBERSICHT = /spielzeit\s*(20)?2[67]|saison\s*(20)?2[67]|premieren|reperto
 const HINWEISE = [['ballett', /ballett|ballet|tanzstück|choreograf/i], ['schauspiel', /schauspiel(?!haus)|theaterstück|nach william shakespeare|von johann wolfgang|drama von/i],
     ['konzert', /sinfoniekonzert|konzert(?!ant)|liederabend|gala/i], ['kinder', /für kinder|kinderoper|familien|ab \d+ jahren/i], ['konzertant', /konzertant/i]];
 
+// Im zugeklappten Menü zählt nur, was ganz eine Übersicht benennt: Graz hat
+// dort "Musiktheaterclub 1", Hamburg "Premieren-Abo (PrA)".
+const UEBERSICHT_MENUE = /^((spielzeit|saison|season|programm)\s*(20)?2[67]\S*|premieren|repertoire|musiktheater|oper|opera|(alle )?produktionen|(unsere )?stücke|alle vorstellungen)$/i;
+
+/**
+ * Links einer Seite auf Übersichten der Spielzeit, auf demselben Server.
+ * Sichtbare zuerst: das zugeklappte Menü steht oben im Dokument, und seine
+ * Links verdrängten sonst die aus dem Inhalt – es sind höchstens vier.
+ */
+export function uebersichtsSeiten(links, seitenUrl) {
+    const server = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return null; } };
+    const ursprung = server(seitenUrl);
+    const passend = links.filter(l => server(l.href) === ursprung
+        && (l.verborgen ? UEBERSICHT_MENUE.test(l.text || l.menueText || '') : UEBERSICHT.test(l.text)));
+    return [...new Set([...passend.filter(l => !l.verborgen), ...passend.filter(l => l.verborgen)].map(l => l.href))];
+}
+
+/**
+ * Die Termine einer Produktionsseite. Termine mit Uhrzeit im Text gehen vor;
+ * nur ohne sie zählen auch Daten aus Attributen (d.zusatz). Ausnahme: nennt
+ * der Text nur einen Termin, und das in einem Satz ("Mit Audiodeskription am
+ * 11.12.2026, 17.00 Uhr"), während die Attribute ihn und weitere tragen, dann
+ * ist die Terminliste in den Attributen – Gelsenkirchen verlor so bei Tosca
+ * zehn von elf Vorstellungen.
+ *
+ * @param {{text: string, zusatz: string}} d  gelesene Seite
+ * @param {{ortJeTermin?: string}} q  Quelle des Hauses
+ * @returns {{termine: string[], zeiten: Object<string, string>, ohneUhrzeit: boolean}}
+ */
+export function seitenTermine(d, fenster, q = {}) {
+    const ort = q.ortJeTermin || undefined;
+    const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort });
+    // Daten aus Attributen haben keinen Eintrag, in dem ein Ort stehen könnte.
+    if (ort) return mitUhrzeit.length ? { termine: mitUhrzeit, zeiten, ohneUhrzeit: false }
+        : { termine: termineAusText(d.text, fenster, { ort }), zeiten: {}, ohneUhrzeit: true };
+    if (mitUhrzeit.length === 1) {
+        const [einer] = mitUhrzeit;
+        const ausAttributen = termineAusText(d.zusatz || '', fenster);
+        const imSatz = d.text.split('\n').some(z => /\bam\s+\d/i.test(z) && termineAusText(z, fenster).includes(einer));
+        if (imSatz && ausAttributen.length > 1 && ausAttributen.includes(einer)) {
+            return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster), zeiten: {}, ohneUhrzeit: true };
+        }
+    }
+    if (mitUhrzeit.length) return { termine: mitUhrzeit, zeiten, ohneUhrzeit: false };
+    return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster), zeiten, ohneUhrzeit: true };
+}
+
+/**
+ * Welche Kandidaten gelesen werden: je Werk höchstens zwei Seiten, je Haus
+ * höchstens `grenze`. Kalender, die jede Vorstellung einzeln verlinken,
+ * erschöpften sonst das Kontingent mit dem ersten Werk. Seiten ohne Nummer im
+ * Pfad zuerst – das sind meist die Seiten der Produktion mit allen Terminen.
+ * Erst bekommt jedes Werk seine beste Seite, dann die zweite: in Wien und
+ * München reichte die Grenze sonst nur für 30 Werke, und der Rest fiel weg.
+ * Wien hat über 50 Werke im Repertoire, oft mit zwei Seiten ("don-carlo"
+ * ohne Termine, "don-carlos" mit) – daher 100.
+ *
+ * @param {Map<string, Set<string>>} kandidaten  Adresse -> Werke
+ * @param {Set<string>} gesehen  schon gelesene Übersichtsseiten
+ * @returns {Map<string, Set<string>>} Adresse -> Werke, in Lesereihenfolge
+ */
+export function seitenAuswahl(kandidaten, gesehen = new Set(), grenze = 100) {
+    const jeWerk = new Map();
+    for (const [url, ids] of kandidaten) for (const id of ids) {
+        if (gesehen.has(url)) continue;
+        if (!jeWerk.has(id)) jeWerk.set(id, []);
+        jeWerk.get(id).push(url);
+    }
+    for (const urls of jeWerk.values()) urls.sort((a, b) => rang(a) - rang(b) || a.length - b.length);
+    const auswahl = new Map();
+    for (const stufe of [0, 1]) for (const [id, urls] of jeWerk) {
+        const u = urls[stufe];
+        if (!u || (!auswahl.has(u) && auswahl.size >= grenze)) continue;
+        if (!auswahl.has(u)) auswahl.set(u, new Set());
+        auswahl.get(u).add(id);
+    }
+    return auswahl;
+}
+
 async function ladePlaywright() {
     const weg = pathToFileURL(path.join(WURZEL, 'tests/browser/node_modules/playwright/index.js')).href;
     const m = await import(weg);
@@ -249,7 +337,16 @@ async function seite(kontext, url) {
                 text: haupt.innerText,
                 ganzerText: document.body.innerText,
                 zusatz: attribute + ' ' + (ld.match(/20\d\d-\d\d-\d\dT?/g) || []).join(' '),
-                links: [...document.querySelectorAll('a[href]')].map(a => ({ href: a.href, text: (a.innerText || a.getAttribute('aria-label') || a.title || '').trim().slice(0, 200) })),
+                // Links im zugeklappten Menü haben keinen sichtbaren Text. Für
+                // Übersichtsseiten zählt ihr Text trotzdem (menueText): in
+                // Zürich führt nur das Menü zur Spielzeit. Für Werke nicht –
+                // in Graz nennt ein unsichtbarer "Nachklang"-Link die Bohème.
+                links: [...document.querySelectorAll('a[href]')].map(a => {
+                    const sichtbar = (a.innerText || '').trim();
+                    const link = { href: a.href, text: (sichtbar || a.getAttribute('aria-label') || a.title || '').trim().slice(0, 200), verborgen: !sichtbar };
+                    if (!sichtbar) link.menueText = (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 200);
+                    return link;
+                }),
                 // Kalender listen Vorstellungen als Einträge: Datum, Uhrzeit,
                 // Titel, Link. Zu jedem Link der kleinste umgebende Eintrag,
                 // in dem ein Datum steht – so gehört das Datum sicher zu
@@ -422,12 +519,9 @@ async function lesen(kontext, hausId, fenster) {
                     monatsseiten.push(...monatsAdressen(vorlage, fenster).filter(u => !gesehen.has(u)));
                 }
             }
-            const ursprung = new URL(d.endUrl).hostname.replace(/^www\./, '');
-            for (const l of d.links) {
+            for (const u of uebersichtsSeiten(d.links, d.endUrl)) {
                 if (uebersichten.length >= 4) break;
-                let h = '';
-                try { h = new URL(l.href).hostname.replace(/^www\./, ''); } catch { continue; }
-                if (h === ursprung && UEBERSICHT.test(l.text) && !gesehen.has(l.href) && !uebersichten.includes(l.href)) uebersichten.push(l.href);
+                if (!gesehen.has(u) && !uebersichten.includes(u)) uebersichten.push(u);
             }
         } catch (e) {
             erg.fehler.push(`${start}: ${e.message.split('\n')[0]}`);
@@ -461,33 +555,13 @@ async function lesen(kontext, hausId, fenster) {
         ids.forEach(id => kandidaten.get(u).add(id));
     }
 
-    // Je Werk höchstens zwei Seiten, je Haus höchstens 60. Kalender, die
-    // jede Vorstellung einzeln verlinken, erschöpften sonst das Kontingent
-    // mit dem ersten Werk. Seiten ohne Nummer im Pfad zuerst – das sind meist
-    // die Seiten der Produktion mit allen Terminen.
-    const jeWerk = new Map();
-    for (const [url, ids] of kandidaten) for (const id of ids) {
-        if (!jeWerk.has(id)) jeWerk.set(id, []);
-        jeWerk.get(id).push(url);
-    }
-    const auswahl = new Map();
-    for (const [id, alle] of jeWerk) {
-        // Übersichts- und Monatsseiten sind keine Seiten einer Produktion:
-        // dort stehen die Termine aller Stücke.
-        const urls = alle.filter(u => !gesehen.has(u));
-        urls.sort((a, b) => rang(a) - rang(b) || a.length - b.length);
-        for (const u of urls.slice(0, 2)) {
-            if (!auswahl.has(u)) auswahl.set(u, new Set());
-            auswahl.get(u).add(id);
-        }
-    }
-    for (const [url, ids] of [...auswahl].slice(0, 60)) {
+    // Übersichts- und Monatsseiten sind keine Seiten einer Produktion:
+    // dort stehen die Termine aller Stücke.
+    const auswahl = seitenAuswahl(kandidaten, gesehen);
+    for (const [url, ids] of auswahl) {
         try {
             const d = await seite(kontext, url);
-            const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort: q.ortJeTermin });
-            // Daten aus Attributen haben keinen Eintrag, in dem ein Ort stehen könnte.
-            const termine = mitUhrzeit.length ? mitUhrzeit
-                : termineAusText(q.ortJeTermin ? d.text : `${d.text}\n${d.zusatz}`, fenster, { ort: q.ortJeTermin });
+            const { termine, zeiten, ohneUhrzeit } = seitenTermine(d, fenster, q);
             const ganz = d.ganzerText;
             for (const id of ids) {
                 const w = WERKE.find(x => x.id === id);
@@ -514,7 +588,7 @@ async function lesen(kontext, hausId, fenster) {
                     hinweise: HINWEISE.filter(([, m]) => m.test(d.text.slice(0, 4000))).map(([n]) => n),
                     termine,
                     zeiten,
-                    ohneUhrzeit: !mitUhrzeit.length,
+                    ohneUhrzeit,
                 });
             }
         } catch (e) {
@@ -577,6 +651,8 @@ async function main() {
     // Für die Übernahme: welche Werke aus der Datenbank kamen, und wonach gesucht wurde.
     bisher._werke = ausDatenbank.map(({ id, title, composer }) => ({ id, title, composer }));
     if (SUCHE) bisher._suche = [...SUCHE];
+    // Nur einzelne Häuser gelesen: die Übernahme mit --dazu ersetzt nur deren Einträge.
+    if (nur.length) bisher._haeuser = [...new Set([...(bisher._haeuser || []), ...nur])];
     const pw = await ladePlaywright();
     const browser = await pw.chromium.launch();
     const kontext = await browser.newContext({

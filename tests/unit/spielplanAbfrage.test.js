@@ -137,6 +137,7 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
 });
 
 import { dazunehmen } from '../werkzeug/spielplan-uebernehmen.mjs';
+import { uebersichtsSeiten, seitenAuswahl, seitenTermine } from '../werkzeug/spielplaene-lesen.mjs';
 
 test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
     const lauf = { _werke: [{ id: 'neues-werk', title: 'Neues Werk', composer: 'A. Komponist' }], 'semperoper': { stand: '2026-09-22', werke: {
@@ -161,9 +162,94 @@ test('ein Nachtrag ersetzt nur die gesuchten Werke', () => {
         // nicht gesucht – bleibt draußen, auch wenn der Lauf es gefunden hat
         { werk: 'aida', haus: 'oper-frankfurt', url: 'https://f.example/aida', termine: ['2026-12-02'] },
     ] };
-    const erg = dazunehmen(bestehend, nachtrag, ['tosca']);
+    const erg = dazunehmen(bestehend, nachtrag, { werke: ['tosca'] });
     assert.deepEqual(erg.zeilen.map(z => `${z.werk}@${z.haus}`), ['aida@semperoper', 'tosca@oper-frankfurt']);
     assert.equal(erg.stand, '2026-09-23');
+});
+
+test('ein Nachtrag für ein Haus ersetzt nur dessen Einträge', () => {
+    const bestehend = { stand: '2026-09-23', zeilen: [
+        { werk: 'elektra', haus: 'opernhaus-zuerich', url: 'https://z.example/elektra', termine: ['2026-10-01'] },
+        { werk: 'tosca', haus: 'opernhaus-zuerich', url: 'https://z.example/tosca-alt', termine: ['2026-10-03'] },
+        { werk: 'tosca', haus: 'semperoper', url: 'https://t.example/', termine: ['2026-10-02'] },
+    ] };
+    // Der Lauf fand in Zürich mehr – Elektra ist dort vorbei und fehlt.
+    const nachtrag = { stand: '2026-09-24', zeilen: [
+        { werk: 'samson-dalila', haus: 'opernhaus-zuerich', url: 'https://z.example/samson', termine: ['2027-03-01'] },
+        { werk: 'tosca', haus: 'opernhaus-zuerich', url: 'https://z.example/tosca', termine: ['2027-01-10'] },
+        // ein Heft-Nachtrag eines anderen Hauses – bleibt draußen
+        { werk: 'tosca', haus: 'badisches-staatstheater', url: 'https://heft.example/', termine: ['2026-12-01'] },
+    ] };
+    const erg = dazunehmen(bestehend, nachtrag, { haeuser: ['opernhaus-zuerich'] });
+    assert.deepEqual(erg.zeilen.map(z => `${z.werk}@${z.haus} ${z.url}`), [
+        'samson-dalila@opernhaus-zuerich https://z.example/samson',
+        'tosca@opernhaus-zuerich https://z.example/tosca',
+        'tosca@semperoper https://t.example/',
+    ]);
+    assert.equal(erg.stand, '2026-09-23');
+});
+
+test('aus dem Menü zählt nur, was ganz eine Übersicht benennt', () => {
+    const links = [
+        { href: 'https://oper.example/produktion/musiktheaterclub-1/', text: '', menueText: 'Musiktheaterclub 1', verborgen: true },
+        { href: 'https://oper.example/service/abos#premieren', text: '', menueText: 'Premieren-Abo (PrA)', verborgen: true },
+        { href: 'https://oper.example/spielzeit-26-27', text: '', menueText: 'Spielzeit 26.27', verborgen: true },
+        { href: 'https://oper.example/programm/musiktheater', text: '', menueText: 'Musiktheater', verborgen: true },
+        // sichtbar gilt die weite Regel wie bisher
+        { href: 'https://oper.example/musiktheater-premieren', text: 'Alle Premieren im Musiktheater', verborgen: false },
+    ];
+    assert.deepEqual(uebersichtsSeiten(links, 'https://oper.example/spielplan'), [
+        'https://oper.example/musiktheater-premieren',
+        'https://oper.example/spielzeit-26-27',
+        'https://oper.example/programm/musiktheater',
+    ]);
+});
+
+test('große Häuser: erst jedes Werk eine Seite, dann die zweite', () => {
+    // 40 Werke mit je zwei Seiten: früher bekamen die ersten 30 je zwei
+    // Seiten, und zehn Werke fielen weg (Wien, München).
+    const kandidaten = new Map();
+    for (let i = 0; i < 40; i++) {
+        kandidaten.set(`https://oper.example/werk-${i}/`, new Set([`w${i}`]));
+        kandidaten.set(`https://oper.example/werk-${i}/2026-10-0${1 + (i % 9)}/`, new Set([`w${i}`]));
+    }
+    const auswahl = seitenAuswahl(kandidaten, new Set(), 60);
+    assert.equal(auswahl.size, 60);
+    const werke = new Set([...auswahl.values()].flatMap(ids => [...ids]));
+    assert.equal(werke.size, 40, 'Werke ohne Seite');
+    // die erste Seite je Werk ist die der Produktion, nicht die einer Vorstellung
+    assert.ok(auswahl.has('https://oper.example/werk-39/'));
+    // schon gelesene Übersichten zählen nicht
+    const ohne = seitenAuswahl(new Map([['https://oper.example/spielplan', new Set(['w1'])]]), new Set(['https://oper.example/spielplan']));
+    assert.equal(ohne.size, 0);
+});
+
+test('ein Termin im Nebensatz verdrängt nicht die Terminliste aus den Attributen', () => {
+    const fenster = { von: '2026-09-24', bis: '2027-09-30' };
+    // Gelsenkirchen: Termine nur in data-Attributen, im Text ein Hinweis.
+    const mir = {
+        text: 'Der fliegende Holländer\nOper von Richard Wagner\nMit Audiodeskription am 11.12.2026, 17.00 Uhr\nMitwirkende',
+        zusatz: '2026-12-11 19:00 2026-12-18 19:00 2026-12-26 18:00 2027-01-03 18:00',
+    };
+    assert.deepEqual(seitenTermine(mir, fenster).termine, ['2026-12-11', '2026-12-18', '2026-12-26', '2027-01-03']);
+    // Eine Seite mit genau einer Vorstellung im Terminblock bleibt dabei,
+    // auch wenn die Attribute mehr Daten tragen (etwa eine Datumsleiste).
+    const eine = { text: 'Tosca\nSa 17.10.2026\n19:30 Uhr\nGroßes Haus', zusatz: '2026-10-17 2026-10-18 2026-10-19' };
+    assert.deepEqual(seitenTermine(eine, fenster).termine, ['2026-10-17']);
+    assert.equal(seitenTermine(eine, fenster).ohneUhrzeit, false);
+});
+
+test('Übersichtslinks aus dem zugeklappten Menü zählen, die sichtbaren zuerst', () => {
+    const links = [
+        { href: 'https://www.opernhaus.ch/spielplan/spielzeit-ueberblick-2026-27/', text: '', menueText: 'Spielzeit 2026/27', verborgen: true },
+        { href: 'https://www.opernhaus.ch/spielplan/kalendarium/tosca/', text: 'Tosca', verborgen: false },
+        { href: 'https://andere.example/spielzeit-2026-27/', text: 'Spielzeit 2026/27', verborgen: false },
+        { href: 'https://www.opernhaus.ch/premieren/', text: 'Premieren', verborgen: false },
+    ];
+    assert.deepEqual(uebersichtsSeiten(links, 'https://www.opernhaus.ch/spielplan/kalendarium/'), [
+        'https://www.opernhaus.ch/premieren/',
+        'https://www.opernhaus.ch/spielplan/spielzeit-ueberblick-2026-27/',
+    ]);
 });
 
 test('Zeiten kommen mit – nur für Termine, die bleiben, und nur gültige', () => {

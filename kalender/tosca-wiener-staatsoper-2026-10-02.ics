@@ -21,16 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:macbeth-wiener-staatsoper-2026-09-24@opernlog.vercel.app
+UID:tosca-wiener-staatsoper-2026-10-02@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Vienna:20260924T190000
-DTEND;TZID=Europe/Vienna:20260924T220000
-SUMMARY:Macbeth – Wiener Staatsoper
+DTSTART;TZID=Europe/Vienna:20261002T190000
+DTEND;TZID=Europe/Vienna:20261002T220000
+SUMMARY:Tosca – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien
 GEO:48.2029;16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/macbeth/
-DESCRIPTION:Giuseppe Verdi: Macbeth\nTermine und Karten: https://www.wiener
- -staatsoper.at/kalender/detail/macbeth/\nDas Ende ist geschätzt (3 Stunde
- n).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://www.wiener-staatsoper.at/kalender/detail/tosca/
+DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.wiener-
+ staatsoper.at/kalender/detail/tosca/\nDas Ende ist geschätzt (3 Stunden).
+ \nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

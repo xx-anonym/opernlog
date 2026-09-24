@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:clemenza-di-tito-opernhaus-zuerich-2027-03-12@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270312
+DTEND;VALUE=DATE:20270313
+SUMMARY:La clemenza di Tito – Opernhaus Zürich
+LOCATION:Opernhaus Zürich\, Zürich
+GEO:47.365;8.546
+URL:https://www.opernhaus.ch/spielplan/kalendarium/la-clemenza-di-tito-1/20
+ 26-2027/
+DESCRIPTION:Wolfgang Amadeus Mozart: La clemenza di Tito\nTermine und Karte
+ n: https://www.opernhaus.ch/spielplan/kalendarium/la-clemenza-di-tito-1/20
+ 26-2027/\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – ma
+ ßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

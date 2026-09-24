@@ -46,6 +46,47 @@
   ],
   "termineEntfernen": [
     {
+      "haus": "tiroler-landestheater",
+      "werk": "carmen",
+      "termine": [
+        "2027-05-30"
+      ],
+      "grund": "Matinee im Foyer"
+    },
+    {
+      "haus": "tiroler-landestheater",
+      "werk": "don-giovanni",
+      "termine": [
+        "2027-01-31"
+      ],
+      "grund": "Matinee im Foyer"
+    },
+    {
+      "haus": "tiroler-landestheater",
+      "werk": "haensel-gretel",
+      "termine": [
+        "2026-11-22",
+        "2026-12-09"
+      ],
+      "grund": "Matinee im Foyer und Schulvorstellung"
+    },
+    {
+      "haus": "tiroler-landestheater",
+      "werk": "lohengrin",
+      "termine": [
+        "2027-04-04"
+      ],
+      "grund": "Matinee im Foyer"
+    },
+    {
+      "haus": "opernhaus-zuerich",
+      "werk": "zauberflote",
+      "termine": [
+        "2027-09-25"
+      ],
+      "grund": "Jahr falsch gelesen: „20, 25 Sept.“ in der Besetzung ist 2026; die Termindaten der Seite enden am 23.04.2027"
+    },
+    {
       "haus": "theater-bonn",
       "werk": "madama-butterfly",
       "termine": [

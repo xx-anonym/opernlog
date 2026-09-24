@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tannhaeuser-festspielhaus-bayreuth-2027-08-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270821
+DTEND;VALUE=DATE:20270822
+SUMMARY:Tannhäuser – Bayreuther Festspielhaus
+LOCATION:Bayreuther Festspielhaus\, Bayreuth
+GEO:49.9578;11.5803
+URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/tannhaeuser
+ /
+DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.ba
+ yreuther-festspiele.de/programm/auffuehrungen/tannhaeuser/\nDie Uhrzeit st
+ eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
+ des Hauses.
+END:VEVENT
+END:VCALENDAR

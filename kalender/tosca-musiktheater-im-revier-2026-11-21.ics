@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:tosca-musiktheater-im-revier-2026-11-21@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:Tosca – Musiktheater im Revier
+LOCATION:Musiktheater im Revier\, Gelsenkirchen
+GEO:51.51;7.098
+URL:https://mirgelsenkirchen.de/produktion/tosca-835
+DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://mirgelsenki
+ rchen.de/produktion/tosca-835\nDie Uhrzeit steht auf der Seite des Hauses.
+ \nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR
