@@ -28,9 +28,10 @@ DTEND;TZID=Europe/Berlin:20270306T213000
 SUMMARY:Manon Lescaut – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/manon-lescaut/
+URL:https://www.operamrhein.de/spielplan/produktionen/manon-lescaut/?a=term
+ ine
 DESCRIPTION:Giacomo Puccini: Manon Lescaut\nTermine und Karten: https://www
- .operamrhein.de/spielplan/produktionen/manon-lescaut/\nAus OpernLog – ma
- ßgeblich ist die Seite des Hauses.
+ .operamrhein.de/spielplan/produktionen/manon-lescaut/?a=termine\nAus Opern
+ Log – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

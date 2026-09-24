@@ -28,9 +28,9 @@ DTEND;TZID=Europe/Berlin:20270228T210000
 SUMMARY:Siegfried – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/siegfried/
+URL:https://www.operamrhein.de/spielplan/produktionen/siegfried/?a=termine
 DESCRIPTION:Richard Wagner: Siegfried\nTermine und Karten: https://www.oper
- amrhein.de/spielplan/produktionen/siegfried/\nAus OpernLog – maßgeblich
-  ist die Seite des Hauses.
+ amrhein.de/spielplan/produktionen/siegfried/?a=termine\nAus OpernLog – m
+ aßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

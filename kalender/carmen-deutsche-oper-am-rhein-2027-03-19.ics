@@ -28,9 +28,9 @@ DTEND;TZID=Europe/Berlin:20270319T223000
 SUMMARY:Carmen – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/carmen/
+URL:https://www.operamrhein.de/spielplan/produktionen/carmen/?a=termine
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.operamrh
- ein.de/spielplan/produktionen/carmen/\nAus OpernLog – maßgeblich ist di
- e Seite des Hauses.
+ ein.de/spielplan/produktionen/carmen/?a=termine\nAus OpernLog – maßgebl
+ ich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

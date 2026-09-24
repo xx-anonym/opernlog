@@ -28,9 +28,10 @@ DTEND;TZID=Europe/Berlin:20261210T211500
 SUMMARY:Hänsel und Gretel – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/haensel-und-gretel/
+URL:https://www.operamrhein.de/spielplan/produktionen/haensel-und-gretel/?a
+ =termine
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
- https://www.operamrhein.de/spielplan/produktionen/haensel-und-gretel/\nAus
-  OpernLog – maßgeblich ist die Seite des Hauses.
+ https://www.operamrhein.de/spielplan/produktionen/haensel-und-gretel/?a=te
+ rmine\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

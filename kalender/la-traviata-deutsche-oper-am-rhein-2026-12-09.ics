@@ -28,9 +28,10 @@ DTEND;TZID=Europe/Berlin:20261209T220000
 SUMMARY:La Traviata – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/la-traviata/
+URL:https://www.operamrhein.de/spielplan/produktionen/la-traviata/?a=termin
+ e
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.op
- eramrhein.de/spielplan/produktionen/la-traviata/\nAus OpernLog – maßgeb
- lich ist die Seite des Hauses.
+ eramrhein.de/spielplan/produktionen/la-traviata/?a=termine\nAus OpernLog 
+ – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

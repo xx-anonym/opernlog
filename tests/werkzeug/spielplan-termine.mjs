@@ -214,7 +214,8 @@ const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführ
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),
 // "Verkaufsstart V-Club" (Volksoper), "MATINEE ZU …" (Essen). Nicht "Vorverkauf über …": das steht in
 // Augsburg unter jeder Vorstellung.
-const ORT_NEBENHER = /treffpunkt|probebühne|probenbesuch|click in|absacker/i;
+// Deutsche Oper am Rhein: "Opernwerkstatt Oper" drei Zeilen unter dem Datum.
+const ORT_NEBENHER = /treffpunkt|probebühne|probenbesuch|click in|absacker|opernwerkstatt/i;
 // Abgesagt: Greifswald lässt den Termin stehen und schreibt "So entfällt 18:00".
 const ABGESAGT = /\b(entfällt|abgesagt|fällt aus)\b/i;
 const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
@@ -327,8 +328,11 @@ export function beginnFinden(teile) {
             const nachmittag = /^\s*p\.?\s?m\b/i.test(danach) && Number(m[1]) < 12;
             const hh = String(Number(m[1]) + (nachmittag ? 12 : 0)).padStart(2, '0');
             const beginn = `${hh}:${m[2] || '00'}`;
-            const ende = danach.match(/^\s*(?:uhr)?\s*(?:[-–—]|bis(?:\s+ca\.)?)\s*([01]?\d|2[0-3])[:.]([0-5]\d)/i);
-            return ende ? `${beginn}-${ende[1].padStart(2, '0')}:${ende[2]}` : beginn;
+            const ende = danach.match(/^\s*(?:uhr)?\s*(?:[-–—]|bis(?:\s+ca\.)?)\s*([01]?\d|2[0-3])[:.]([0-5]\d)(\s*(?:uhr)?\s*\S*)/i);
+            const bis = ende && `${ende[1].padStart(2, '0')}:${ende[2]}`;
+            // Ein Ende liegt nach dem Beginn und ist keine Einführung: Gießen
+            // schreibt "19:30 Uhr - 19:00 EINFÜHRUNG".
+            return bis && bis > beginn && !EINFUEHRUNG.test(ende[3]) ? `${beginn}-${bis}` : beginn;
         }
     }
     return null;

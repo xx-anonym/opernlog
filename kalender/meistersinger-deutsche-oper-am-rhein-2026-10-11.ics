@@ -29,9 +29,10 @@ SUMMARY:Die Meistersinger von Nürnberg – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/die-meistersinger-von
- -nuernberg/
+ -nuernberg/?a=termine
 DESCRIPTION:Richard Wagner: Die Meistersinger von Nürnberg\nTermine und Ka
  rten: https://www.operamrhein.de/spielplan/produktionen/die-meistersinger-
- von-nuernberg/\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ von-nuernberg/?a=termine\nAus OpernLog – maßgeblich ist die Seite des H
+ auses.
 END:VEVENT
 END:VCALENDAR

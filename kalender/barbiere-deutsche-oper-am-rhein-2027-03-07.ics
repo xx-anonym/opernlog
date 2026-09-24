@@ -29,9 +29,9 @@ SUMMARY:Il barbiere di Siviglia – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/il-barbiere-di-sivigl
- ia/
+ ia/?a=termine
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
   https://www.operamrhein.de/spielplan/produktionen/il-barbiere-di-siviglia
- /\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ /?a=termine\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

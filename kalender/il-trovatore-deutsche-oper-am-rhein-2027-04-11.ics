@@ -28,9 +28,10 @@ DTEND;TZID=Europe/Berlin:20270411T210000
 SUMMARY:Il Trovatore – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/il-trovatore/
+URL:https://www.operamrhein.de/spielplan/produktionen/il-trovatore/?a=termi
+ ne
 DESCRIPTION:Giuseppe Verdi: Il Trovatore\nTermine und Karten: https://www.o
- peramrhein.de/spielplan/produktionen/il-trovatore/\nAus OpernLog – maßg
- eblich ist die Seite des Hauses.
+ peramrhein.de/spielplan/produktionen/il-trovatore/?a=termine\nAus OpernLog
+  – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

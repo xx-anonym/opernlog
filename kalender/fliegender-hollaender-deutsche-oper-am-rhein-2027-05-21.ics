@@ -30,9 +30,9 @@ SUMMARY:Der fliegende Holländer – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/der-fliegende-hollaen
- der/
+ der/?a=termine
 DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h
  ttps://www.operamrhein.de/spielplan/produktionen/der-fliegende-hollaender/
- \nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ ?a=termine\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

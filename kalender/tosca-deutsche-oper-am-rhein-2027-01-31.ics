@@ -28,9 +28,9 @@ DTEND;TZID=Europe/Berlin:20270131T173000
 SUMMARY:Tosca – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/tosca/
+URL:https://www.operamrhein.de/spielplan/produktionen/tosca/?a=termine
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.operamr
- hein.de/spielplan/produktionen/tosca/\nAus OpernLog – maßgeblich ist di
- e Seite des Hauses.
+ hein.de/spielplan/produktionen/tosca/?a=termine\nAus OpernLog – maßgebl
+ ich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

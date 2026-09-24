@@ -29,9 +29,10 @@ DTEND;TZID=Europe/Berlin:20270404T223000
 SUMMARY:Götterdämmerung – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/goetterdaemmerung/
+URL:https://www.operamrhein.de/spielplan/produktionen/goetterdaemmerung/?a=
+ termine
 DESCRIPTION:Richard Wagner: Götterdämmerung\nTermine und Karten: https://
- www.operamrhein.de/spielplan/produktionen/goetterdaemmerung/\nAus OpernLog
-  – maßgeblich ist die Seite des Hauses.
+ www.operamrhein.de/spielplan/produktionen/goetterdaemmerung/?a=termine\nAu
+ s OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

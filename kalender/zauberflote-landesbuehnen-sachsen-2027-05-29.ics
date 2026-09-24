@@ -21,10 +21,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:zauberflote-landesbuehnen-sachsen-2027-05-27@opernlog.vercel.app
+UID:zauberflote-landesbuehnen-sachsen-2027-05-29@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270527T193000
-DTEND;TZID=Europe/Berlin:20270527T223000
+DTSTART;TZID=Europe/Berlin:20270529T193000
+DTEND;TZID=Europe/Berlin:20270529T223000
 SUMMARY:Die Zauberflöte – Landesbühnen Sachsen
 LOCATION:Landesbühnen Sachsen\, Radebeul
 GEO:51.105;13.642

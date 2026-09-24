@@ -273,7 +273,7 @@ test('ein Werk aus der Datenbank wird auch unter seinem deutschen Titel gefunden
     assert.deepEqual(werkeImLink('La gazza ladra', 'https://oper.example/stueck/123/'), ['la-gazza-ladra']);
 });
 
-import { termineMitZeiten } from '../werkzeug/spielplan-termine.mjs';
+import { termineMitZeiten, beginnFinden } from '../werkzeug/spielplan-termine.mjs';
 
 const zeiten = t => termineMitZeiten(t, F).zeiten;
 
@@ -359,4 +359,19 @@ test('Tag und Monat in getrennten Zeilen, Monat mit zweistelligem Jahr; Abgesagt
     assert.deepEqual(termineAusText(text, fenster), ['2026-11-27']);
     // vierstelliges Jahr wie bisher
     assert.deepEqual(termineMitZeiten('6\nDezember 2026\n19:30 Uhr', fenster).termine, ['2026-12-06']);
+});
+
+test('eine Einführung nach dem Bindestrich ist kein Ende', () => {
+    // Stadttheater Gießen
+    assert.equal(beginnFinden(['Sa. 10.10.2026', '19:30 Uhr - 19:00 EINFÜHRUNG']), '19:30');
+    assert.equal(beginnFinden(['19:30 – 22:30']), '19:30-22:30');
+    assert.equal(beginnFinden(['Mi, 02.12.2026 / 19:30–21:45 Uhr']), '19:30-21:45');
+});
+
+test('eine Opernwerkstatt ist keine Vorstellung, auch wenn sie erst drei Zeilen tiefer so heißt', () => {
+    const fenster = { von: '2026-09-24', bis: '2027-09-30' };
+    // Deutsche Oper am Rhein, Reiter "Termine"
+    const text = 'Di 04.05.2027\nOpernhaus Düsseldorf – Foyer\n18:00 - 19:00\nOpernwerkstatt Oper\nProbenbesuch & Podiumsgespräch\n'
+        + 'Do 27.05.2027\nOpernhaus Düsseldorf\n18:30 - 21:15\nPreise\nKarten';
+    assert.deepEqual(termineMitZeiten(text, fenster).termine, ['2027-05-27']);
 });

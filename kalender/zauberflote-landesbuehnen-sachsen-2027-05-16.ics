@@ -21,16 +21,17 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:fledermaus-landesbuehnen-sachsen-2027-02-27@opernlog.vercel.app
+UID:zauberflote-landesbuehnen-sachsen-2027-05-16@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270227T193000
-DTEND;TZID=Europe/Berlin:20270227T223000
-SUMMARY:Die Fledermaus – Landesbühnen Sachsen
+DTSTART;TZID=Europe/Berlin:20270516T193000
+DTEND;TZID=Europe/Berlin:20270516T223000
+SUMMARY:Die Zauberflöte – Landesbühnen Sachsen
 LOCATION:Landesbühnen Sachsen\, Radebeul
 GEO:51.105;13.642
-URL:https://www.landesbuehnen-sachsen.de/spielzeit/die-fledermaus/
-DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
- www.landesbuehnen-sachsen.de/spielzeit/die-fledermaus/\nDas Ende ist gesch
- ätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://www.landesbuehnen-sachsen.de/spielzeit/die-zauberfloete/
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://www.landesbuehnen-sachsen.de/spielzeit/die-zauberfloete/\nDas Ende
+  ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite d
+ es Hauses.
 END:VEVENT
 END:VCALENDAR

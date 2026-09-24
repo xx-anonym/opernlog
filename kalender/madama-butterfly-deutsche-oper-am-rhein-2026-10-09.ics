@@ -28,9 +28,10 @@ DTEND;TZID=Europe/Berlin:20261009T223000
 SUMMARY:Madama Butterfly – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
-URL:https://www.operamrhein.de/spielplan/produktionen/madama-butterfly/
+URL:https://www.operamrhein.de/spielplan/produktionen/madama-butterfly/?a=t
+ ermine
 DESCRIPTION:Giacomo Puccini: Madama Butterfly\nTermine und Karten: https://
- www.operamrhein.de/spielplan/produktionen/madama-butterfly/\nAus OpernLog 
- – maßgeblich ist die Seite des Hauses.
+ www.operamrhein.de/spielplan/produktionen/madama-butterfly/?a=termine\nAus
+  OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
