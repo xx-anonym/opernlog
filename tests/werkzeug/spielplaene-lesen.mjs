@@ -64,7 +64,7 @@ export const ANDERE_TITEL = {
     'la-boheme': ['La bohème', 'La Boheme'],
     'fanciulla-del-west': ['Das Mädchen aus dem goldenen Westen', 'La fanciulla del West'],
     'gianni-schicchi': ['Il trittico', 'Das Triptychon'],
-    'suor-angelica': ['Il trittico', 'Das Triptychon'],
+    'suor-angelica': ['Il trittico', 'Das Triptychon', 'Schwester Angelica'],
     'il-tabarro': ['Il trittico', 'Das Triptychon', 'Der Mantel'],
     'rosenkavalier': ['Rosenkavalier'],
     'frau-ohne-schatten': ['Frau ohne Schatten'],
@@ -74,6 +74,18 @@ export const ANDERE_TITEL = {
     'barbiere': ['Der Barbier von Sevilla', 'Il barbiere di Siviglia', 'Barbier von Sevilla'],
     'cenerentola': ['Aschenputtel', 'La Cenerentola'],
     'guglielmo-tell': ['Wilhelm Tell', 'Guglielmo Tell'],
+    'ring-rheingold': ['Rheingold'],
+    'ring-walkuere': ['Walküre'],
+    'tristan': ['Tristan & Isolde'],
+    'madama-butterfly': ['Madame Butterfly'],
+    'i-puritani': ['Die Puritaner'],
+    'la-sonnambula': ['Die Nachtwandlerin'],
+    // Gounods Faust hieß auf deutschen Bühnen lange "Margarethe".
+    'faust': ['Margarethe'],
+    'otello': ['Othello'],
+    'wildschuetz': ['Wildschütz'],
+    'dido-aeneas': ['Dido und Aeneas'],
+    'akhnaten': ['Echnaton'],
     // aus der Datenbank; deutsche Häuser spielen sie oft unter deutschem Titel
     'la-gazza-ladra': ['Die diebische Elster', 'Diebische Elster'],
     'elisir': ["L’elisir d’amore", 'Der Liebestrank', "L'elisir d'amore"],
@@ -129,19 +141,42 @@ const norm = s => String(s || '').toLowerCase().normalize('NFC').replace(/[\u00a
 const KINDERFASSUNG = /für kinder|kinderfassung|kinderoper|kinderkonzert|familienkonzert|für kids|gekürzte fassung|kurzfassung/i;
 const slug = s => norm(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+// Wie Häuser dieselben Komponisten sonst schreiben (Schlüssel ohne Akzente).
+// Ohne sie fiel etwa Pique Dame an der Deutschen Oper Berlin heraus, die
+// "Tschaikowski" schreibt.
+const KOMPONIST_SCHREIBWEISEN = {
+    tschaikowsky: ['tschaikowski', 'tchaikovsky', 'tschaikovsky', 'tchaikowsky'],
+    mussorgsky: ['mussorgski', 'moussorgsky', 'musorgski'],
+    prokofjew: ['prokofiev', 'prokofieff', 'prokofjev', 'prokofjeff'],
+    strawinsky: ['stravinsky', 'strawinski'],
+    schostakowitsch: ['shostakovich', 'schostakowitch'],
+    handel: ['haendel'],
+};
+
 /**
  * Der Nachname des Komponisten als Muster. ß und ss gelten gleich: der
  * Katalog schreibt "Strauss", die Volksoper und Karlsruhe "Strauß" – sonst
- * fiel dort die Fledermaus als "Komponist nicht genannt" heraus.
+ * fiel dort die Fledermaus als "Komponist nicht genannt" heraus. Akzente
+ * zählen nicht ("Dvorak", "Janacek", "Lehar"), und bekannte andere
+ * Schreibweisen gelten mit.
+ * @returns {{test: (text: string) => boolean}}
  */
 export function komponistMuster(nachname) {
-    const quelle = nachname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ss|ß/g, '(?:ss|ß)');
-    return new RegExp(quelle, 'i');
+    const basis = ohneAkzente(nachname);
+    const formen = [basis, ...(KOMPONIST_SCHREIBWEISEN[basis] || [])];
+    const re = new RegExp(formen.map(f => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ss|ß/g, '(?:ss|ß)')).join('|'), 'i');
+    return { test: text => re.test(ohneAkzente(text)) };
 }
 
 // Adressen schreiben Umlaute oft aus und lassen Apostrophe weg: Zürich hat
 // "die-walkuere" und "lelisir-damore". Beides zählt.
 const adressFormen = t => [slug(t), slug(t.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')), slug(t.replace(/'/g, ''))];
+
+// Titel im Text ohne Akzente vergleichen: Häuser schreiben "Andrea Chenier",
+// "Aïda", "Katja Kabanova", "Les Pecheurs de perles". Umlaute zählen dabei
+// wie ihr Grundbuchstabe – "Hänsel" trifft "Hänsel" wie bisher.
+const ohneAkzente = s => norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const trifft = (w, text) => { const t = ohneAkzente(text); return w.muster.some(m => m.test(t)); };
 
 function alsWerk(o) {
     const titel = [...new Set([o.title, ...(ANDERE_TITEL[o.id] || [])].map(norm))];
@@ -153,7 +188,7 @@ function alsWerk(o) {
         komponist: komponistMuster(nachname),
         // Nur Titel, die für sich stehen: "Siegfried" soll nicht in
         // "Siegfried Jerusalem" treffen, "Aida" nicht in "Aidan".
-        muster: titel.map(t => new RegExp(`(^|[^a-zäöüß0-9])${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^a-zäöüß0-9])`, 'i')),
+        muster: titel.map(t => new RegExp(`(^|[^a-z0-9ß])${ohneAkzente(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^a-z0-9ß])`, 'i')),
     };
 }
 
@@ -168,7 +203,7 @@ werkeErgaenzen(operas);
 
 function werkeImText(text) {
     const t = norm(text);
-    return WERKE.filter(w => w.muster.some(m => m.test(t)));
+    return WERKE.filter(w => trifft(w, t));
 }
 
 function seitenPfad(href) {
@@ -218,7 +253,8 @@ function rang(url) {
 }
 
 // Nebenveranstaltungen zu einem Werk sind keine Vorstellungen.
-const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture/i;
+// "Hör’n Sie mal!" ist in Hannover eine Einführung zum Hören.
+const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal/i;
 
 const UEBERSICHT = /spielzeit\s*(20)?2[67]|saison\s*(20)?2[67]|premieren|repertoire|musiktheater|^oper$|^opera$|produktionen|stücke|programm 20?2[67]|season 20?2[67]|alle vorstellungen|festspiele 2027|programm 2027/i;
 const HINWEISE = [['ballett', /ballett|ballet|tanzstück|choreograf/i], ['schauspiel', /schauspiel(?!haus)|theaterstück|nach william shakespeare|von johann wolfgang|drama von/i],
@@ -651,8 +687,8 @@ async function lesen(kontext, hausId, fenster) {
                 // (Schwerin, Braunschweig).
                 const kopf = norm(`${d.titel} ${d.h1}`);
                 const pfad = seitenPfad(d.endUrl);
-                const titelOben = ((w.muster.some(m => m.test(kopf)) || w.slugs.some(sl => slug(kopf).includes(sl) || pfad.includes(sl)))
-                    || (zugeordnet.get(url) === id && w.muster.some(m => m.test(norm(d.text)))))
+                const titelOben = ((trifft(w, kopf) || w.slugs.some(sl => slug(kopf).includes(sl) || pfad.includes(sl)))
+                    || (zugeordnet.get(url) === id && trifft(w, d.text)))
                     && !KINDERFASSUNG.test(kopf) && !KINDERFASSUNG.test(pfad.replace(/-/g, ' '));
                 erg.treffer.push({
                     titelOben,

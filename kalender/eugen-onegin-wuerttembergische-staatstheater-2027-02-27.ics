@@ -21,18 +21,18 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:eugen-onegin-hamburgische-staatsoper-2027-03-16@opernlog.vercel.app
+UID:eugen-onegin-wuerttembergische-staatstheater-2027-02-27@opernlog.vercel
+ .app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270316T193000
-DTEND;TZID=Europe/Berlin:20270316T223000
-SUMMARY:Eugen Onegin – Hamburgische Staatsoper
-LOCATION:Hamburgische Staatsoper\, Hamburg
-GEO:53.5566;9.9887
-URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/1944-eugen-
- onegin#tickets
+DTSTART;TZID=Europe/Berlin:20270227T193000
+DTEND;TZID=Europe/Berlin:20270227T223000
+SUMMARY:Eugen Onegin – Staatstheater Wiesbaden
+LOCATION:Staatstheater Wiesbaden\, Wiesbaden
+GEO:50.0857;8.2478
+URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/onegin-26-27/
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
- https://www.die-hamburgische-staatsoper.de/de/programm/oper/1944-eugen-one
- gin#tickets\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßge
- blich ist die Seite des Hauses.
+ https://www.staatstheater-wiesbaden.de/spielplan/a-z/onegin-26-27/\nDas En
+ de ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite
+  des Hauses.
 END:VEVENT
 END:VCALENDAR

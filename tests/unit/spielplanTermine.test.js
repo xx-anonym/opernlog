@@ -242,6 +242,13 @@ test('der Komponist wird mit ß und ss erkannt', () => {
     assert.ok(komponistMuster('Strauß').test('Richard Strauss'));
     assert.ok(!komponistMuster('Strauss').test('Straube'));
     assert.ok(komponistMuster('Verdi').test('von Giuseppe Verdi'));
+    // Akzente und andere Schreibweisen
+    assert.ok(komponistMuster('Tschaikowsky').test('Oper von Pjotr I. Tschaikowski'));
+    assert.ok(komponistMuster('Dvořák').test('Musik von Antonin Dvorak'));
+    assert.ok(komponistMuster('Händel').test('Georg Friedrich Haendel'));
+    assert.ok(komponistMuster('Händel').test('George Frideric Handel'));
+    assert.ok(komponistMuster('Prokofjew').test('Sergei Prokofiev'));
+    assert.ok(!komponistMuster('Tschaikowsky').test('Oper von Giuseppe Verdi'));
 });
 
 import { werkeImLink, werkeErgaenzen } from '../werkzeug/spielplaene-lesen.mjs';
@@ -258,6 +265,23 @@ test('Adressen mit ausgeschriebenen Umlauten und ohne Apostroph treffen', () => 
     assert.deepEqual(werkeImLink('mehr', 'https://www.opernhaus.ch/spielplan/kalendarium/die-walkuere/2026-2027/'), ['ring-walkuere']);
     assert.deepEqual(werkeImLink('mehr', 'https://www.opernhaus.ch/spielplan/kalendarium/lelisir-damore/2026-2027/'), ['elisir']);
     assert.deepEqual(werkeImLink('mehr', 'https://oper.example/die-walkure/'), ['ring-walkuere']);
+});
+
+test('Titel treffen auch ohne Akzente und unter ihren deutschen Namen', () => {
+    const x = 'https://oper.example/stueck/1/';
+    assert.deepEqual(werkeImLink('Andrea Chenier', x), ['andrea-chenier']);
+    assert.deepEqual(werkeImLink('Aïda', x), ['aida']);
+    assert.deepEqual(werkeImLink('Katja Kabanova', x), ['katja-kabanova']);
+    assert.deepEqual(werkeImLink('Les Pecheurs de perles', x), ['perlenfischer']);
+    assert.deepEqual(werkeImLink('Madame Butterfly', x), ['madama-butterfly']);
+    assert.deepEqual(werkeImLink('Die Puritaner', x), ['i-puritani']);
+    assert.deepEqual(werkeImLink('Die Nachtwandlerin', x), ['la-sonnambula']);
+    assert.deepEqual(werkeImLink('Margarethe (Faust)', x), ['faust']);
+    assert.deepEqual(werkeImLink('Der Ring des Nibelungen: Walküre', x), ['ring-walkuere']);
+    assert.deepEqual(werkeImLink('Rheingold', x), ['ring-rheingold']);
+    // wie bisher
+    assert.deepEqual(werkeImLink('Hänsel und Gretel', x), ['haensel-gretel']);
+    assert.deepEqual(werkeImLink('Oper im Steinbruch St. Margarethen', x), []);
 });
 
 test('ein Werk aus der Datenbank wird gefunden, sobald es dazukommt', () => {
