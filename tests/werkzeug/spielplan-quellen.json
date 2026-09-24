@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
+  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Mit \"hauptteil\": \"…\" gilt dieser CSS-Selektor statt <main> als Inhalt der Seite (Burg Gars nutzt <main> für den Kontaktkasten). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. Ein Eintrag dort darf auch {\"url\": \"…\", \"werk\": \"…\"} sein: eine Seite, die das Werk weder in der Adresse noch im Titel nennt (St. Margarethen: /spielplan zeigt das Stück des Sommers). Sie zählt nur, solange der Werktitel auf ihr steht – jeden Sommer das Werk prüfen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
   "bayerische-staatsoper": [
     "https://www.staatsoper.de/spielplan/{JJJJ}-{MM}",
     "https://www.staatsoper.de/spielzeit-2026-27"
@@ -288,9 +288,12 @@
   "oper-klosterneuburg": [
     "https://www.operklosterneuburg.at/"
   ],
-  "oper-burg-gars": [
-    "https://www.operburggars.at/"
-  ],
+  "oper-burg-gars": {
+    "start": [
+      "https://www.operburggars.at/"
+    ],
+    "hauptteil": "#main"
+  },
   "musiktheater-linz": [
     "https://www.landestheater-linz.at/stuecke?haus=musiktheater",
     "https://www.landestheater-linz.at/termine"
@@ -365,8 +368,13 @@
   "seefestspiele-moerbisch": [
     "https://www.seefestspiele-moerbisch.at/"
   ],
-  "oper-im-steinbruch-st-margarethen": [
-    "https://www.operimsteinbruch.at/"
-  ],
+  "oper-im-steinbruch-st-margarethen": {
+    "start": [
+      "https://www.operimsteinbruch.at/"
+    ],
+    "stuecke": [
+      { "url": "https://www.operimsteinbruch.at/spielplan", "werk": "rigoletto" }
+    ]
+  },
   "_gesperrt": "theater-basel antwortet Programmen mit 403 – das wird respektiert; die Termine kommen aus dem Spielzeitheft (ergaenzen in spielplan-korrekturen.json). Karlsruhe sperrt nur die alte Adresse staatstheater.karlsruhe.de, nicht staatstheater-karlsruhe.de. salzburger-landestheater antwortet dem Browser des Werkzeugs nicht (curl geht); Termine ebenfalls über ergaenzen."
 }

@@ -236,7 +236,10 @@ const UEBERSICHT_MENUE = /^((spielzeit|saison|season|programm)\s*(20)?2[67]\S*|p
 export function uebersichtsSeiten(links, seitenUrl) {
     const server = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return null; } };
     const ursprung = server(seitenUrl);
-    const passend = links.filter(l => server(l.href) === ursprung
+    // Nennt die Adresse schon ein Werk, ist es dessen Seite, keine Übersicht:
+    // Burg Gars verlinkt unter "Oper" direkt die Bohème – als Übersicht
+    // gelesen, fiel sie als Produktionsseite weg.
+    const passend = links.filter(l => server(l.href) === ursprung && !werkeImLink('', l.href, null).length
         && (l.verborgen ? UEBERSICHT_MENUE.test(l.text || l.menueText || '') : UEBERSICHT.test(l.text)));
     return [...new Set([...passend.filter(l => !l.verborgen), ...passend.filter(l => l.verborgen)].map(l => l.href))];
 }
@@ -324,7 +327,7 @@ async function ladePlaywright() {
     return m.chromium ? m : m.default;
 }
 
-export async function seite(kontext, url, { terminSelektor } = {}) {
+export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
     const p = await kontext.newPage();
     try {
         const antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -340,6 +343,22 @@ export async function seite(kontext, url, { terminSelektor } = {}) {
             return true;
         }).catch(() => false);
         if (abgelehnt) await p.waitForTimeout(500);
+        // Zugeklappte Abschnitte "Termine" öffnen: zugeklappter Text fehlt in
+        // innerText, und Oper Burg Gars führt die Vorstellungen nur dort.
+        const aufgeklappt = await p.evaluate(() => {
+            const titel = /^\s*(alle\s+)?(spiel)?termine(\s*(und|&)\s*(karten|tickets))?\s*$|^\s*(vorstellungen|dates|performances)\s*$/i;
+            let n = 0;
+            for (const d of document.querySelectorAll('details:not([open])')) {
+                if (titel.test(d.querySelector('summary')?.textContent || '')) { d.open = true; n++; }
+            }
+            for (const k of document.querySelectorAll('button, [role="button"], [role="tab"], [aria-controls], .toggler')) {
+                if (k.getAttribute('aria-expanded') === 'true' || !titel.test(k.textContent || '')) continue;
+                k.click();
+                n++;
+            }
+            return n;
+        }).catch(() => 0);
+        if (aufgeklappt) await p.waitForTimeout(600);
         // Nachgeladene Listen: ans Ende rollen und "Mehr laden" drücken, bis
         // nichts mehr dazukommt – höchstens achtmal.
         for (let i = 0; i < 8; i++) {
@@ -368,8 +387,10 @@ export async function seite(kontext, url, { terminSelektor } = {}) {
             await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
             await p.waitForTimeout(600);
         }
-        const daten = await p.evaluate((terminSelektor) => {
-            const haupt = document.querySelector('main') || document.body;
+        const daten = await p.evaluate(({ terminSelektor, hauptteil }) => {
+            // hauptteil (spielplan-quellen.json): wo der Inhalt steht, wenn
+            // <main> etwas anderes ist – bei Burg Gars der Kontaktkasten.
+            const haupt = (hauptteil && document.querySelector(hauptteil)) || document.querySelector('main') || document.body;
             const attribute = [...document.querySelectorAll('[datetime],[content],[data-date],[data-datetime],[data-start]')]
                 .map(e => e.getAttribute('datetime') || e.getAttribute('data-date') || e.getAttribute('data-datetime') || e.getAttribute('data-start') || e.getAttribute('content'))
                 .filter(v => /20\d\d-\d\d-\d\d/.test(v || '')).join(' ');
@@ -412,7 +433,7 @@ export async function seite(kontext, url, { terminSelektor } = {}) {
                     text: (e.closest('li, tr, article, [class*="item"]') || e.parentElement)?.textContent.replace(/\s+/g, ' ').trim().slice(0, 300) || '',
                 })) : null,
             };
-        }, terminSelektor || null);
+        }, { terminSelektor: terminSelektor || null, hauptteil: hauptteil || null });
         return { status: antwort?.status() ?? 0, endUrl: p.url(), ...daten };
     } finally {
         await p.close();
@@ -500,8 +521,9 @@ export function monatsVorlage(hrefs, fenster) {
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null }
-        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [], terminSelektor: q.terminSelektor || null };
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null }
+        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
+            terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null };
 }
 
 // Adressen mit kaputtem Prozentzeichen ("50%-Rabatt") ließen decodeURIComponent
@@ -597,11 +619,18 @@ async function lesen(kontext, hausId, fenster) {
         }
     }
 
+    // Ein Eintrag {url, werk}: die Seite eines Werks, das weder Adresse noch
+    // Titel nennen (St. Margarethen: "Termine" mit allen Vorstellungen des
+    // Sommers). Sie zählt nur, solange der Werktitel auf ihr steht – im
+    // nächsten Jahr spielt der Steinbruch ein anderes Stück.
+    const zugeordnet = new Map(); // url -> werk
     for (const u of q.stuecke) {
-        const ids = werkeImLink('', u);
-        if (!ids.length) { erg.fehler.push(`${u}: kein Werk aus dem Katalog in der Adresse`); continue; }
-        if (!kandidaten.has(u)) kandidaten.set(u, new Set());
-        ids.forEach(id => kandidaten.get(u).add(id));
+        const url = typeof u === 'string' ? u : u.url;
+        const ids = typeof u === 'string' ? werkeImLink('', u) : [u.werk].filter(id => WERKE.some(w => w.id === id));
+        if (!ids.length) { erg.fehler.push(`${url}: kein Werk aus dem Katalog in der Adresse`); continue; }
+        if (typeof u !== 'string') zugeordnet.set(url, u.werk);
+        if (!kandidaten.has(url)) kandidaten.set(url, new Set());
+        ids.forEach(id => kandidaten.get(url).add(id));
     }
 
     // Übersichts- und Monatsseiten sind keine Seiten einer Produktion:
@@ -609,7 +638,7 @@ async function lesen(kontext, hausId, fenster) {
     const auswahl = seitenAuswahl(kandidaten, gesehen);
     for (const [url, ids] of auswahl) {
         try {
-            const d = await seite(kontext, url, { terminSelektor: q.terminSelektor });
+            const d = await seite(kontext, url, { terminSelektor: q.terminSelektor, hauptteil: q.hauptteil });
             const { termine, zeiten, ohneUhrzeit } = seitenTermine(d, fenster, q);
             const ganz = d.ganzerText;
             for (const id of ids) {
@@ -622,7 +651,8 @@ async function lesen(kontext, hausId, fenster) {
                 // (Schwerin, Braunschweig).
                 const kopf = norm(`${d.titel} ${d.h1}`);
                 const pfad = seitenPfad(d.endUrl);
-                const titelOben = (w.muster.some(m => m.test(kopf)) || w.slugs.some(sl => slug(kopf).includes(sl) || pfad.includes(sl)))
+                const titelOben = ((w.muster.some(m => m.test(kopf)) || w.slugs.some(sl => slug(kopf).includes(sl) || pfad.includes(sl)))
+                    || (zugeordnet.get(url) === id && w.muster.some(m => m.test(norm(d.text)))))
                     && !KINDERFASSUNG.test(kopf) && !KINDERFASSUNG.test(pfad.replace(/-/g, ' '));
                 erg.treffer.push({
                     titelOben,

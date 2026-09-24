@@ -205,6 +205,15 @@ test('aus dem Menü zählt nur, was ganz eine Übersicht benennt', () => {
     ]);
 });
 
+test('ein Menülink auf die Seite eines Werks ist keine Übersicht', () => {
+    // Burg Gars: "Oper" im Menü führt direkt zur Bohème.
+    const links = [
+        { href: 'https://operburggars.at/portfolio-item/la-boheme/', text: '', menueText: 'Oper', verborgen: true },
+        { href: 'https://operburggars.at/saison-2026/', text: '', menueText: 'Saison 2026/27', verborgen: true },
+    ];
+    assert.deepEqual(uebersichtsSeiten(links, 'https://operburggars.at/'), ['https://operburggars.at/saison-2026/']);
+});
+
 test('große Häuser: erst jedes Werk eine Seite, dann die zweite', () => {
     // 40 Werke mit je zwei Seiten: früher bekamen die ersten 30 je zwei
     // Seiten, und zehn Werke fielen weg (Wien, München).

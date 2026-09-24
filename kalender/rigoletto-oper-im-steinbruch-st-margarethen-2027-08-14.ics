@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:rigoletto-oper-im-steinbruch-st-margarethen-2027-08-14@opernlog.vercel.
+ app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Vienna:20270814T200000
+DTEND;TZID=Europe/Vienna:20270814T230000
+SUMMARY:Rigoletto – Oper im Steinbruch St. Margarethen
+LOCATION:Oper im Steinbruch St. Margarethen\, St. Margarethen im Burgenland
+GEO:47.7767;16.6197
+URL:https://www.operimsteinbruch.at/spielplan
+DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.oper
+ imsteinbruch.at/spielplan\nDas Ende ist geschätzt (3 Stunden).\nAus Opern
+ Log – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

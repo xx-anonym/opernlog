@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:la-boheme-oper-burg-gars-2027-07-27@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270727
+DTEND;VALUE=DATE:20270728
+SUMMARY:La Bohème – Oper Burg Gars
+LOCATION:Oper Burg Gars\, Gars am Kamp
+GEO:48.5985;15.654
+URL:https://operburggars.at/portfolio-item/la-boheme/#toggle-id-1
+DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://operbu
+ rggars.at/portfolio-item/la-boheme/#toggle-id-1\nDie Uhrzeit steht auf der
+  Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

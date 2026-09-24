@@ -39,6 +39,11 @@
   ],
   "aufnehmen": [
     {
+      "haus": "oper-im-steinbruch-st-margarethen",
+      "werk": "rigoletto",
+      "grund": "Die Spielplanseite nennt nur „RIGOLETTO 2027“, nicht Verdi; das Stück des Sommers 2027"
+    },
+    {
       "haus": "bayerische-staatsoper",
       "werk": "ring-walkuere",
       "grund": "Ring-Zyklus der Opernfestspiele 2027; der Komponist wurde auf der Seite nicht jedes Mal erkannt"
