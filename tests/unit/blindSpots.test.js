@@ -101,3 +101,53 @@ test('unbekannte Ids werden übergangen', () => {
     assert.deepEqual(r.gruppen, []);
     assert.equal(r.allesGesehen, false);
 });
+
+import { blindeFlecken } from '../../src/data/blindSpots.js';
+
+// Ein kleiner Spielplan zum Rechnen, unabhängig vom echten.
+const HEUTE = '2026-10-01';
+const plan = (werk, haus, ...termine) => ({ werk, haus, url: 'https://oper.example/', termine });
+
+test('Gelegenheiten sind nur fehlende Werke mit kommenden Terminen', () => {
+    const [erster, zweiter, dritter] = VERDI;
+    const daten = [
+        plan(zweiter.id, 'semperoper', '2026-11-01'),
+        plan(dritter.id, 'semperoper', '2026-09-01'),      // vorbei
+        plan(erster.id, 'semperoper', '2026-12-01'),       // schon gesehen
+    ];
+    const r = blindeFlecken([besuch(erster.id)], [], { heute: HEUTE, daten });
+    assert.deepEqual(r.gelegenheiten.map(g => g.opera.id), [zweiter.id]);
+    assert.equal(r.gelegenheiten[0].composer, 'Giuseppe Verdi');
+    assert.equal(r.gelegenheiten[0].auffuehrungen[0].haus.id, 'semperoper');
+    // In der Sammlung steht das Werk mit seinen Aufführungen, das vergangene ohne.
+    const verdi = r.komponisten.find(k => k.composer === 'Giuseppe Verdi');
+    assert.equal(verdi.fehlend.find(f => f.opera.id === zweiter.id).auffuehrungen.length, 1);
+    assert.equal(verdi.fehlend.find(f => f.opera.id === dritter.id).auffuehrungen.length, 0);
+});
+
+test('Gelegenheiten wechseln sich über die Komponisten ab', () => {
+    // Verdi öfter gesehen als Mozart: Verdi zuerst, dann Mozart, dann wieder Verdi.
+    const daten = [...VERDI.slice(1, 4), ...MOZART.slice(1, 3)].map(o => plan(o.id, 'semperoper', '2026-11-01'));
+    const r = blindeFlecken([besuch(VERDI[0].id), besuch(VERDI[0].id), besuch(MOZART[0].id)], [], { heute: HEUTE, daten });
+    assert.deepEqual(r.gelegenheiten.map(g => g.composer),
+        ['Giuseppe Verdi', 'Wolfgang Amadeus Mozart', 'Giuseppe Verdi']);
+    assert.deepEqual(r.gelegenheiten.map(g => g.opera.id), [VERDI[1].id, MOZART[1].id, VERDI[2].id]);
+});
+
+test('mit Standort kommt das nächste Haus zuerst', () => {
+    const werk = VERDI[1];
+    const daten = [plan(werk.id, 'wiener-staatsoper', '2026-10-05'), plan(werk.id, 'semperoper', '2026-12-01')];
+    const dresden = { lat: 51.05, lon: 13.74 };
+    const r = blindeFlecken([besuch(VERDI[0].id)], [], { heute: HEUTE, daten, position: dresden });
+    assert.equal(r.gelegenheiten[0].auffuehrungen[0].haus.id, 'semperoper');
+    // ohne Standort der frühere Termin
+    const o = blindeFlecken([besuch(VERDI[0].id)], [], { heute: HEUTE, daten });
+    assert.equal(o.gelegenheiten[0].auffuehrungen[0].haus.id, 'wiener-staatsoper');
+});
+
+test('läuft nichts, gibt es keine Gelegenheiten, aber die Sammlung', () => {
+    const r = blindeFlecken([besuch(VERDI[0].id)], [], { heute: HEUTE, daten: [] });
+    assert.deepEqual(r.gelegenheiten, []);
+    assert.equal(r.komponisten[0].composer, 'Giuseppe Verdi');
+    assert.equal(r.komponisten[0].fehlend.length, VERDI.length - 1);
+});

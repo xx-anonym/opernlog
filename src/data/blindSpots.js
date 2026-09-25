@@ -7,6 +7,7 @@
 // keinen Algorithmus, nur den Abgleich.
 
 import { operas } from './operas.js';
+import { kommendeAuffuehrungen } from './spielplanAbfrage.js';
 
 /**
  * Innerhalb eines Komponisten wird in Katalogreihenfolge vorgeschlagen. Der
@@ -115,4 +116,54 @@ export function blindSpots(visits, seenIds = [], { maxKomponisten = 3, maxWerke 
         .map(g => ({ ...g, fehlend: g.fehlend.slice(0, maxWerke) }));
 
     return { gruppen, allesGesehen: false };
+}
+
+/**
+ * Die blinden Flecken zusammen mit dem Spielplan: was davon demnächst läuft.
+ *
+ * Eine Liste fehlender Werke allein führt zu nichts – "Don Carlos fehlt dir"
+ * ist eine Feststellung. "Don Carlos läuft ab 1. Juli in Zürich" ist eine
+ * Gelegenheit. Deshalb zwei Teile:
+ *
+ *   gelegenheiten  fehlende Werke mit kommenden Terminen, reihum über die
+ *                  eigenen Komponisten – der liebste zuerst, aber nicht
+ *                  dreimal Verdi, wenn auch Mozart und Puccini Lücken haben.
+ *   komponisten    je Komponist der Stand (gesehen von gesamt) und alle
+ *                  fehlenden Werke, jedes mit seinen Aufführungen.
+ *
+ * @param {Array}  visits
+ * @param {Array}  [seenIds]
+ * @param {object} [o]
+ * @param {string} [o.heute]
+ * @param {{lat: number, lon: number}|null} [o.position]  ordnet die Häuser
+ *                 eines Werks nach Entfernung
+ * @param {Array}  [o.daten]   nur für Tests; sonst src/data/spielplan.js
+ * @param {number} [o.maxGelegenheiten]
+ * @param {number} [o.maxKomponisten]
+ */
+export function blindeFlecken(visits, seenIds = [], { heute, position = null, daten, maxGelegenheiten = 3, maxKomponisten = 5 } = {}) {
+    const { gruppen, allesGesehen } = blindSpots(visits, seenIds, { maxKomponisten: Infinity, maxWerke: Infinity });
+    const abfrage = { position, ...(heute ? { heute } : {}), ...(daten ? { daten } : {}) };
+
+    const komponisten = gruppen.map(g => ({
+        ...g,
+        fehlend: g.fehlend.map(opera => ({ opera, auffuehrungen: kommendeAuffuehrungen(opera.id, abfrage) })),
+    }));
+
+    // Reihum: in jeder Runde von jedem Komponisten das nächste laufende Werk.
+    const laufendJe = komponisten.map(k => k.fehlend.filter(f => f.auffuehrungen.length));
+    const gelegenheiten = [];
+    for (let runde = 0; gelegenheiten.length < maxGelegenheiten; runde++) {
+        let weitere = false;
+        for (let i = 0; i < komponisten.length && gelegenheiten.length < maxGelegenheiten; i++) {
+            const f = laufendJe[i][runde];
+            if (!f) continue;
+            weitere = true;
+            const k = komponisten[i];
+            gelegenheiten.push({ ...f, composer: k.composer, gesehen: k.gesehen, gesamt: k.gesamt });
+        }
+        if (!weitere) break;
+    }
+
+    return { gelegenheiten, komponisten: komponisten.slice(0, maxKomponisten), allesGesehen };
 }

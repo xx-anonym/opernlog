@@ -13,6 +13,7 @@ const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar
   bio: '', profile_complete: true, created_at: '2024-01-01T00:00:00Z' };
 
 window.__seen = [];     // opera_id-Liste in der "Datenbank"
+window.__lists = [];    // Listen (Wunschliste u. a.), die die App anlegt oder ändert
 window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
 window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
 // Neue Besuche: jeder Versuch landet in __besuchVersuche. __besuchFehler ist
@@ -78,6 +79,18 @@ function builder(table) {
         }
         if (op === 'delete') window.__seen = window.__seen.filter(id => id !== filter.opera_id);
         return Promise.resolve({ data: [{ user_id: UID, opera_id: nutzlast?.opera_id }], error: null }).then(res, rej);
+      }
+      if (table === 'lists' && (op === 'insert' || op === 'update')) {
+        let zeile;
+        if (op === 'insert') {
+          zeile = { id: 'liste-' + (window.__lists.length + 1), created_at: new Date().toISOString(), ...nutzlast };
+          window.__lists.push(zeile);
+        } else {
+          zeile = window.__lists.find(l => l.id === filter.id) || { id: filter.id, user_id: UID };
+          Object.assign(zeile, nutzlast);
+          if (!window.__lists.includes(zeile)) window.__lists.push(zeile);
+        }
+        return Promise.resolve({ data: single ? zeile : [zeile], error: null }).then(res, rej);
       }
       if (table === 'admins') {
         // Die Regel in der Datenbank zeigt jedem nur die eigene Zeile.

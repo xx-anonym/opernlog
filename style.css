@@ -4543,39 +4543,243 @@ body {
     margin-bottom: 20px;
 }
 
-.blindspots__lead {
-    font-size: 0.84rem;
-    color: var(--text-muted);
-    margin: 0 0 14px;
-}
-
-.blindspot {
-    margin-bottom: 14px;
-}
-
-.blindspot__head {
+/* Zwei Teile: Karten "Läuft demnächst", darunter die Sammlung je Komponist. */
+.luecken {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
     gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 7px;
 }
 
-.blindspot__composer {
+.luecken__kopf {
+    margin: 6px 0 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.luecken__kopf:first-child {
+    margin-top: 0;
+}
+
+.gelegenheiten {
+    display: grid;
+    gap: 10px;
+}
+
+@media (min-width: 720px) {
+    .gelegenheiten {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+.gelegenheit {
+    display: flex;
+    min-height: 136px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.gelegenheit__bild {
+    flex: 0 0 92px;
+    background-color: var(--bg-tertiary);
+}
+
+.gelegenheit__inhalt {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 12px 14px;
+}
+
+.gelegenheit__titel {
     font-family: var(--font-display);
-    font-size: 1.02rem;
+    font-size: 1.12rem;
+    line-height: 1.2;
     color: var(--text);
+    text-decoration: none;
 }
 
-.blindspot__meta {
+.gelegenheit__titel:hover {
+    color: var(--gold-light);
+}
+
+.gelegenheit__komponist {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.gelegenheit__termin {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 6px 0 0;
+    font-size: 0.84rem;
+    line-height: 1.35;
+    color: var(--text-secondary);
+}
+
+.gelegenheit__termin .icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--gold);
+}
+
+.gelegenheit__termin strong {
+    font-weight: 600;
+    color: var(--gold);
+}
+
+.gelegenheit__ort {
+    display: block;
     font-size: 0.76rem;
     color: var(--text-muted);
 }
 
-.blindspot__works {
+.gelegenheit__weitere {
+    margin: 0 0 0 22px;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+.gelegenheit__aktionen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.gelegenheit__aktionen .btn {
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.gelegenheit__aktionen .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.sammlung {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.sammlung__zeile + .sammlung__zeile {
+    border-top: 1px solid var(--border);
+}
+
+.sammlung__kopf {
+    display: grid;
+    grid-template-columns: 1fr auto 12px;
+    grid-template-areas: "name zahl pfeil" "balken balken balken";
+    align-items: center;
+    gap: 7px 10px;
+    padding: 12px 14px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.sammlung__kopf::-webkit-details-marker { display: none; }
+
+.sammlung__name {
+    grid-area: name;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.sammlung__zahl {
+    grid-area: zahl;
+    font-size: 0.86rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--gold);
+}
+
+.sammlung__zahl span {
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.sammlung__pfeil {
+    grid-area: pfeil;
+    justify-self: center;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    margin-top: -3px;
+    transform: rotate(45deg);
+    transition: transform 0.18s ease, margin-top 0.18s ease;
+}
+
+.sammlung__zeile[open] .sammlung__pfeil {
+    margin-top: 3px;
+    transform: rotate(-135deg);
+}
+
+.sammlung__balken {
+    grid-area: balken;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--bg-tertiary);
+    overflow: hidden;
+}
+
+.sammlung__balken i {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+}
+
+.sammlung__werke {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    padding: 0 14px 14px;
+}
+
+.sammlung__hinweis {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+.blindspot__punkt,
+.blindspot__work--laeuft::before {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+}
+
+.blindspot__work--laeuft::before {
+    content: '';
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+.blindspot__work--laeuft {
+    border-color: rgba(201, 168, 76, 0.35);
+    color: var(--text);
 }
 
 .blindspot__work {
