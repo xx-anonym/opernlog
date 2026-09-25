@@ -400,3 +400,37 @@ test('eine Opernwerkstatt ist keine Vorstellung, auch wenn sie erst drei Zeilen 
         + 'Do 27.05.2027\nOpernhaus Düsseldorf\n18:30 - 21:15\nPreise\nKarten';
     assert.deepEqual(termineMitZeiten(text, fenster).termine, ['2027-05-27']);
 });
+
+import { saisonAusAdresse } from '../werkzeug/spielplan-termine.mjs';
+
+test('eine Spielzeit in der Adresse gilt für Tage ohne Jahr', () => {
+    assert.equal(saisonAusAdresse('https://staatstheater.de/programm/musiktheater/spielzeit-2627/fidelio'), 2026);
+    assert.equal(saisonAusAdresse('https://stadttheater-giessen.de/de/veranstaltungen/stuecke/la-traviata-2026-2027/'), 2026);
+    assert.equal(saisonAusAdresse('https://www.gtg.ch/saison-26-27/?filter=opera'), 2026);
+    assert.equal(saisonAusAdresse('https://staatstheater.de/programm/musiktheater/spielzeit-25/26/wozzeck'), 2025);
+    // keine Spielzeit: Nummern und einzelne Jahre
+    assert.equal(saisonAusAdresse('https://oper.example/produktion/tosca-835/72499'), null);
+    assert.equal(saisonAusAdresse('https://oper.example/stuecke/tosca/2027-07-03-1900-16332'), null);
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    // Oldenburg Ende September: der 12. Juni ist der nächste, nicht der vergangene
+    const text = 'TERMINE\nSA 12.6. 19:30 UHR\nKARTEN\nDO 17.6. 19:30 UHR\nKARTEN';
+    assert.deepEqual(termineMitZeiten(text, fenster, { saison: 2026 }).termine, ['2027-06-12', '2027-06-17']);
+    assert.deepEqual(termineMitZeiten(text, fenster).termine, []);
+});
+
+test('Füllzeilen zählen nicht bis zur Uhrzeit', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    // Oper Köln, eine ausverkaufte Vorstellung ohne Ticketzeile
+    const text = 'SUNDAY, 13 DECEMBER 2026\nSO\n/\n13\nDIE ZAUBERFLÖTE\nWolfgang Amadeus Mozart\n19:00 bis\n22:00 Uhr\nOpernhaus\nAUSVERKAUFT';
+    const erg = termineMitZeiten(text, fenster);
+    assert.deepEqual(erg.termine, ['2026-12-13']);
+    assert.equal(erg.zeiten['2026-12-13'], '19:00');
+});
+
+test('Daten aus einer Chronik sind keine Termine', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    // Hamburgische Staatsoper, Lucia di Lammermoor
+    const text = '1835\n26. September, Uraufführung am Teatro San Carlo in Neapel\n2021\n19. Oktober, Premiere dieser Inszenierung an der Hamburgischen Staatsoper\n19:30 Uhr';
+    assert.deepEqual(termineMitZeiten(text, fenster).termine, []);
+    assert.deepEqual(termineAusText(text, fenster), []);
+});

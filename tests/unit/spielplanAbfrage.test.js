@@ -270,6 +270,15 @@ test('mit terminSelektor zählt nur die Terminliste, nicht die Begleittermine im
     assert.ok(seitenTermine({ ...erfurt, eintraege: [] }, fenster).termine.includes('2026-10-06'));
 });
 
+test('eine vergangene Spielzeit in der Adresse bestimmt das Jahr nicht', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    // Oldenburg: Wiederaufnahme unter der Adresse der Premierenspielzeit
+    const alt = { endUrl: 'https://staatstheater.de/programm/musiktheater/spielzeit-25/26/il-barbiere-di-siviglia', text: 'SA 17.10. 19:30 UHR\nKARTEN', zusatz: '' };
+    assert.deepEqual(seitenTermine(alt, fenster).termine, ['2026-10-17']);
+    const neu = { endUrl: 'https://staatstheater.de/programm/musiktheater/spielzeit-2627/fidelio', text: 'SA 12.6. 19:30 UHR\nKARTEN', zusatz: '' };
+    assert.deepEqual(seitenTermine(neu, fenster).termine, ['2027-06-12']);
+});
+
 test('Übersichtslinks aus dem zugeklappten Menü zählen, die sichtbaren zuerst', () => {
     const links = [
         { href: 'https://www.opernhaus.ch/spielplan/spielzeit-ueberblick-2026-27/', text: '', menueText: 'Spielzeit 2026/27', verborgen: true },

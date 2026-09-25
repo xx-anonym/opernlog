@@ -28,9 +28,11 @@ DTEND;TZID=Europe/Berlin:20270305T220000
 SUMMARY:Carmen – Hamburgische Staatsoper
 LOCATION:Hamburgische Staatsoper\, Hamburg
 GEO:53.5566;9.9887
-URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/796-carmen
+URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/796-carmen#
+ tickets
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.die-hamb
- urgische-staatsoper.de/de/programm/oper/796-carmen\nDas Ende ist geschätz
- t (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ urgische-staatsoper.de/de/programm/oper/796-carmen#tickets\nDas Ende ist g
+ eschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hau
+ ses.
 END:VEVENT
 END:VCALENDAR

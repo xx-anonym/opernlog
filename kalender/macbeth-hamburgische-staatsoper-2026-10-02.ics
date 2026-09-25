@@ -29,9 +29,10 @@ SUMMARY:Macbeth – Hamburgische Staatsoper
 LOCATION:Hamburgische Staatsoper\, Hamburg
 GEO:53.5566;9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/1936-macbet
- h
+ h#tickets
 DESCRIPTION:Giuseppe Verdi: Macbeth\nTermine und Karten: https://www.die-ha
- mburgische-staatsoper.de/de/programm/oper/1936-macbeth\nDas Ende ist gesch
- ätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ mburgische-staatsoper.de/de/programm/oper/1936-macbeth#tickets\nDas Ende i
+ st geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des
+  Hauses.
 END:VEVENT
 END:VCALENDAR

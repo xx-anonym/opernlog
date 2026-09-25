@@ -29,10 +29,10 @@ SUMMARY:La Traviata – Hamburgische Staatsoper
 LOCATION:Hamburgische Staatsoper\, Hamburg
 GEO:53.5566;9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/144-la-trav
- iata
+ iata#tickets
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.di
- e-hamburgische-staatsoper.de/de/programm/oper/144-la-traviata\nDas Ende is
- t geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des 
- Hauses.
+ e-hamburgische-staatsoper.de/de/programm/oper/144-la-traviata#tickets\nDas
+  Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Se
+ ite des Hauses.
 END:VEVENT
 END:VCALENDAR

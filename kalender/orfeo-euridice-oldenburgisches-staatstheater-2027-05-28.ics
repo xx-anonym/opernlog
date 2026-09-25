@@ -1,0 +1,39 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:orfeo-euridice-oldenburgisches-staatstheater-2027-05-28@opernlog.vercel
+ .app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270528T193000
+DTEND;TZID=Europe/Berlin:20270528T223000
+SUMMARY:Orfeo ed Euridice – Oldenburgisches Staatstheater
+LOCATION:Oldenburgisches Staatstheater\, Oldenburg
+GEO:53.14;8.213
+URL:https://staatstheater.de/programm/musiktheater/spielzeit-2627/orfeo-ed-
+ euridice
+DESCRIPTION:Christoph Willibald Gluck: Orfeo ed Euridice\nTermine und Karte
+ n: https://staatstheater.de/programm/musiktheater/spielzeit-2627/orfeo-ed-
+ euridice\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgebli
+ ch ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

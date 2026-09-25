@@ -208,7 +208,9 @@ const nurDaten = z => z.replace(OHNE_DATEN, '').length === 0;
 // Führung, Rabattaktion, die Uraufführung vor 150 Jahren.
 // Foyer, Probebühne und Treffpunkt als Ort: Führung, Workshop, Probenbesuch
 // (Hamburg: "10. Dezember 2026, 9:15 – 11:45 · Eingangsfoyer").
-const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
+// "Uraufführung am …" und "Premiere dieser Inszenierung" stehen in Chroniken
+// (Hamburg), ihr Jahr in einer eigenen Zeile davor – zu alt, um zu zählen.
+const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|uraufführung am|premiere dieser inszenierung|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
 
 // Eine Zeile, die nur sagt, was für ein Anlass es ist: "Einführung",
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),
@@ -223,11 +225,18 @@ const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|fü
 const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
 // Die Zeilen eines Eintrags: ab dem Datum bis vor das nächste Datum.
+// Zeilen ohne eigenen Inhalt: nur ein Wochentag, eine Tageszahl oder ein
+// Trennzeichen. Köln schreibt unter jedes Datum "SO" / "/" / "13"; zählten
+// sie mit, lag die Uhrzeit außer Reichweite.
+const FUELLZEILE = new RegExp(`^([/|·–—-]|\\d{1,2}\\.?|(${WOCHENTAG})\\.?)$`, 'i');
+
 function eintrag(zeilen, i, fenster, kontext, hoechstens) {
     const teile = [zeilen[i]];
-    for (let j = i + 1; j < zeilen.length && teile.length <= hoechstens; j++) {
+    let gezaehlt = 0;
+    for (let j = i + 1; j < zeilen.length && gezaehlt < hoechstens; j++) {
         if (termineLesen(zeilen[j], fenster, kontext).termine.length) break;
         teile.push(zeilen[j]);
+        if (!FUELLZEILE.test(zeilen[j])) gezaehlt++;
     }
     return teile;
 }
@@ -262,10 +271,26 @@ function ortPasst(zeilen, i, fenster, kontext, ort) {
  *   dieser Ort steht (Häuser mit vielen Gastspielen, etwa Detmold)
  * @returns {string[]} sortierte ISO-Daten ohne Doppelte
  */
-export function termineAusText(text, fenster, { ort } = {}) {
+/**
+ * Die Spielzeit, die eine Adresse nennt: ".../spielzeit-2627/fidelio",
+ * ".../la-traviata-2026-2027/", "saison-26-27". Tage ohne Jahr gehören dann
+ * in diese Spielzeit – August bis Dezember ins erste Jahr, der Rest ins
+ * zweite. Ohne sie galt "SA 12.6." in Oldenburg Ende September als vorbei.
+ * @returns {number|null} das erste Jahr der Spielzeit
+ */
+export function saisonAusAdresse(url) {
+    const pfad = String(url || '').split(/[?#]/)[0];
+    const lang = pfad.match(/(?<!\d)(20\d\d)[-_/](20\d\d)(?!\d)/);
+    if (lang && +lang[2] === +lang[1] + 1) return +lang[1];
+    const kurz = pfad.match(/(?:spielzeit|saison|season)[-_/]?(?:20)?(\d\d)[-_/]?(?:20)?(\d\d)(?!\d)/i);
+    if (kurz && +kurz[2] === +kurz[1] + 1) return 2000 + +kurz[1];
+    return null;
+}
+
+export function termineAusText(text, fenster, { ort, saison } = {}) {
     const zeilen = zeilenOrdnen(text);
     const gefunden = new Set();
-    let kontext = null;
+    let kontext = saison ? { saison } : null;
     zeilen.forEach((z, i) => {
         const vorher = kontext;
         const erg = termineLesen(z, fenster, kontext);
@@ -344,12 +369,12 @@ export function beginnFinden(teile) {
  * keine Zeiten.
  * @returns {{termine: string[], zeiten: Object<string, string>}}
  */
-export function termineMitZeiten(text, fenster, { ort } = {}) {
+export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
     const { zeilen, kalender } = ordnen(text);
     const gefunden = new Set();
     const zeiten = {};
     // Das Jahr aus den Zeilen davor gilt weiter – siehe termineLesen().
-    let kontext = null;
+    let kontext = saison ? { saison } : null;
     zeilen.forEach((z, i) => {
         const vorher = kontext;
         const erg = termineLesen(z, fenster, kontext);

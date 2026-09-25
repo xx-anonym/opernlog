@@ -42,7 +42,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
 import { werkeAusDatenbank } from './datenbank-werke.mjs';
-import { termineAusText, termineMitZeiten, beginnFinden } from './spielplan-termine.mjs';
+import { termineAusText, termineMitZeiten, beginnFinden, saisonAusAdresse } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const QUELLEN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-quellen.json'), 'utf8'));
@@ -309,20 +309,25 @@ export function seitenTermine(d, fenster, q = {}) {
         return { termine: [...termine].sort(), zeiten, ohneUhrzeit: !Object.keys(zeiten).length };
     }
     const ort = q.ortJeTermin || undefined;
-    const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort });
+    // Nur die laufende oder eine spätere Spielzeit: Oldenburg führt die
+    // Wiederaufnahme des Barbiers unter ".../spielzeit-25/26/...".
+    const ausAdresse = saisonAusAdresse(d.endUrl);
+    const laufend = Number(fenster.von.slice(0, 4)) - (Number(fenster.von.slice(5, 7)) >= 8 ? 0 : 1);
+    const saison = ausAdresse && ausAdresse >= laufend ? ausAdresse : undefined;
+    const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort, saison });
     // Daten aus Attributen haben keinen Eintrag, in dem ein Ort stehen könnte.
     if (ort) return mitUhrzeit.length ? { termine: mitUhrzeit, zeiten, ohneUhrzeit: false }
-        : { termine: termineAusText(d.text, fenster, { ort }), zeiten: {}, ohneUhrzeit: true };
+        : { termine: termineAusText(d.text, fenster, { ort, saison }), zeiten: {}, ohneUhrzeit: true };
     if (mitUhrzeit.length === 1) {
         const [einer] = mitUhrzeit;
         const ausAttributen = termineAusText(d.zusatz || '', fenster);
         const imSatz = d.text.split('\n').some(z => /\bam\s+\d/i.test(z) && termineAusText(z, fenster).includes(einer));
         if (imSatz && ausAttributen.length > 1 && ausAttributen.includes(einer)) {
-            return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster), zeiten: {}, ohneUhrzeit: true };
+            return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster, { saison }), zeiten: {}, ohneUhrzeit: true };
         }
     }
     if (mitUhrzeit.length) return { termine: mitUhrzeit, zeiten, ohneUhrzeit: false };
-    return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster), zeiten, ohneUhrzeit: true };
+    return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster, { saison }), zeiten, ohneUhrzeit: true };
 }
 
 /**
