@@ -4505,6 +4505,12 @@ body {
     }
 }
 
+/* "Weitere Abende anzeigen" unter dem Feed */
+.feed-mehr {
+    width: 100%;
+    margin-top: 12px;
+}
+
 /* ── Blinde Flecken ─────────────────────────────────────────────────── */
 
 /* Die Grundform kommt von .form-collapse (siehe Mitwirkende im Log-Formular),

@@ -83,6 +83,22 @@ test('der Feed zeigt die Abende der Freunde', { skip: fehltPlaywright }, async (
     } finally { await ctx.close(); }
 });
 
+test('der Feed zeigt erst fünf Abende, den Rest auf Knopfdruck', { skip: fehltPlaywright }, async () => {
+    // Bis zu 50 volle Karten schoben "Was dir noch fehlt" außer Sicht.
+    const zwoelf = Array.from({ length: 12 }, (_, i) =>
+        besuch('f' + i, FREUND, 'la-traviata', `2026-05-${String(i + 1).padStart(2, '0')}`, 4));
+    const { ctx, p, fehler } = await oeffneFeed({ folgt: [{ follower_id: ICH, following_id: FREUND }], besuche: zwoelf });
+    try {
+        const karten = p.locator('.feed-list .review-card');
+        assert.equal(await karten.count(), 5);
+        assert.match(await p.innerText('.feed-mehr'), /Weitere Abende anzeigen \(7\)/);
+        await p.click('.feed-mehr');
+        assert.equal(await karten.count(), 12);
+        assert.equal(await p.locator('.feed-mehr').count(), 0, 'der Knopf bleibt, obwohl alles da ist');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
 test('ohne Freunde stehen die letzten Abende der anderen darunter', { skip: fehltPlaywright }, async () => {
     // Vorher stand hier eine leere Kiste mit dem Rat, doch Opernfreunde zu
     // suchen – eine Startseite, auf der nichts steht.

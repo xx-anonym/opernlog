@@ -192,10 +192,7 @@ function feedAbschnitt() {
     el.innerHTML = `<h2 class="section__title">${icon('feed')}Von deinen Freunden</h2>`;
 
     if (feed.length) {
-      const liste = document.createElement('div');
-      liste.className = 'feed-list';
-      feed.forEach(v => liste.appendChild(ReviewCard(v)));
-      el.appendChild(liste);
+      abendListe(el, feed);
       return;
     }
 
@@ -247,11 +244,37 @@ async function gemeinschaft(el) {
     <h3 class="feed-sonst__titel">${icon('globe', { className: 'icon--meta' })}Zuletzt in OpernLog</h3>
     <p class="feed-sonst__zeile">Abende von Leuten, denen du nicht folgst.</p>`;
 
+  abendListe(unter, besuche);
+  el.appendChild(unter);
+}
+
+// Wie viele Abende sofort dastehen; der Rest auf Knopfdruck, je zehn. Der
+// Feed lädt bis zu 50 – als volle Karten schoben sie "Was dir noch fehlt"
+// so weit nach unten, dass es niemand mehr sah.
+const ABENDE_SICHTBAR = 5;
+const ABENDE_NACHLADEN = 10;
+
+/** Die Karten in `ziel`, erst ABENDE_SICHTBAR, dann auf Knopfdruck mehr. */
+function abendListe(ziel, besuche) {
   const liste = document.createElement('div');
   liste.className = 'feed-list';
-  besuche.forEach(v => liste.appendChild(ReviewCard(v)));
-  unter.appendChild(liste);
-  el.appendChild(unter);
+  const mehr = document.createElement('button');
+  mehr.type = 'button';
+  mehr.className = 'btn btn--outline feed-mehr';
+
+  let gezeigt = 0;
+  const zeige = (n) => {
+    besuche.slice(gezeigt, gezeigt + n).forEach(v => liste.appendChild(ReviewCard(v)));
+    gezeigt = Math.min(besuche.length, gezeigt + n);
+    const rest = besuche.length - gezeigt;
+    if (rest > 0) mehr.textContent = `Weitere Abende anzeigen (${rest})`;
+    else mehr.remove();
+  };
+  mehr.addEventListener('click', () => zeige(ABENDE_NACHLADEN));
+
+  ziel.appendChild(liste);
+  ziel.appendChild(mehr);
+  zeige(ABENDE_SICHTBAR);
 }
 
 /**
