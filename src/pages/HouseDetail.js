@@ -3,14 +3,104 @@ import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { istAdmin } from '../store/supabase.js';
 import { loeschSchalter } from '../components/KatalogLoeschen.js';
-import { coverBackground } from '../utils.js';
-import { showError } from '../components/Toast.js';
+import { coverBackground, escapeHTML } from '../utils.js';
+import { showError, showToast } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
+import { abendeImHaus, terminMitWochentag, zeitText, heuteIso } from '../data/spielplanAbfrage.js';
+import { spielplanQuelle } from '../components/SpielplanBlock.js';
+import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+
+// Wie viele Abende sofort dastehen; der Rest auf Knopfdruck.
+const ABENDE_SICHTBAR = 6;
+
+/**
+ * "Demnächst hier": was das Haus in dieser Spielzeit spielt, aus dem
+ * Spielplan (src/data/spielplan.js). Vorher stand auf der Seite eines Hauses
+ * nur, was Nutzer dort geloggt hatten – obwohl die Termine vorlagen.
+ */
+function demnaechstHier(bereich, house) {
+  const heute = heuteIso();
+  // Nur Werke, die der Katalog gerade kennt – die aus der Datenbank kommen
+  // erst mit ihr; sonst stimmte die Zahl oben nicht mit den Zeilen überein.
+  const abende = abendeImHaus(house.id, { heute }).filter(a => operas.some(o => o.id === a.werk));
+  const titel = `<h2 class="section__title">${icon('calendar')}Demnächst hier</h2>`;
+  if (!abende.length) {
+    bereich.innerHTML = `${titel}
+      <p class="haus-spielplan__leer">Für dieses Haus liegen gerade keine Termine vor – etwa weil das Programm
+        noch nicht veröffentlicht ist. Maßgeblich ist die Seite des Hauses.</p>`;
+    return;
+  }
+
+  const merkliste = new Set(store.getWishlist()?.items || []);
+  const werke = new Set(abende.map(a => a.werk)).size;
+  let alle = false;
+
+  const zeile = (a) => {
+    const werk = operas.find(o => o.id === a.werk);
+    const zeit = zeitText(a.zeit);
+    const nachname = werk.composer.split(' ').pop();
+    // Nur https wird ein Link: die Adressen stammen von fremden Seiten.
+    const beimHaus = /^https:\/\//i.test(a.url)
+      ? ` · <a class="naehe-abend__haus" href="${escapeHTML(a.url)}" target="_blank" rel="noopener">zur Produktion</a>` : '';
+    return `
+      <div class="naehe-abend">
+        <span class="naehe-abend__zeit">${zeit ? escapeHTML(zeit.slice(0, 5)) : '–'}</span>
+        <div class="naehe-abend__was">
+          <a class="naehe-abend__werk" href="#/opera/${escapeHTML(werk.id)}">${merkliste.has(werk.id)
+            ? `<span class="naehe-abend__stern" title="Auf deiner Wunschliste">${icon('star', { filled: true })}</span>` : ''}${escapeHTML(werk.title)}</a>
+          <span class="naehe-abend__wo">${escapeHTML(nachname)}${beimHaus}</span>
+        </div>
+        <button type="button" class="naehe-abend__kalender" data-werk="${escapeHTML(werk.id)}" data-datum="${a.datum}"
+          title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${werk.title}, ${a.datum}`)}">${icon('calendar')}</button>
+      </div>`;
+  };
+
+  const zeichnen = () => {
+    const gezeigt = alle ? abende : abende.slice(0, ABENDE_SICHTBAR);
+    const tage = new Map();
+    for (const a of gezeigt) {
+      if (!tage.has(a.datum)) tage.set(a.datum, []);
+      tage.get(a.datum).push(a);
+    }
+    bereich.innerHTML = `${titel}
+      <p class="haus-spielplan__anzahl">${abende.length} ${abende.length === 1 ? 'Abend' : 'Abende'}
+        · ${werke} ${werke === 1 ? 'Werk' : 'Werke'} aus dem Katalog</p>
+      ${[...tage].map(([datum, zeilen]) => `
+        <section class="naehe-tag">
+          <h3 class="naehe-tag__datum">${terminMitWochentag(datum, heute)}</h3>
+          ${zeilen.map(zeile).join('')}
+        </section>`).join('')}
+      ${gezeigt.length < abende.length ? `
+        <button type="button" class="btn btn--outline naehe-mehr" data-aktion="alle">
+          Alle ${abende.length} Abende zeigen
+        </button>` : ''}`;
+    bereich.appendChild(spielplanQuelle());
+  };
+
+  bereich.addEventListener('click', (e) => {
+    if (e.target.closest('[data-aktion="alle"]')) {
+      alle = true;
+      zeichnen();
+      return;
+    }
+    const knopf = e.target.closest('.naehe-abend__kalender');
+    if (!knopf) return;
+    const abend = abende.find(a => a.werk === knopf.dataset.werk && a.datum === knopf.dataset.datum);
+    const werk = operas.find(o => o.id === knopf.dataset.werk);
+    if (!abend || !werk) return;
+    kalenderHerunterladen(
+      kalenderEintrag({ werk, haus: house, datum: abend.datum, zeit: abend.zeit, url: abend.url }),
+      kalenderDateiname(werk, house, abend.datum));
+    showToast('Kalendereintrag erstellt');
+  });
+
+  zeichnen();
+}
 
 export function HouseDetailPage(houseId) {
   const house = operaHouses.find(h => h.id === houseId);
@@ -53,8 +143,10 @@ export function HouseDetailPage(houseId) {
         <a href="#/log?house=${house.id}" class="btn btn--primary">+ Besuch hier loggen</a>
       </div>
       
+      <div class="detail-section haus-spielplan" id="hausSpielplan"></div>
+
       <div class="detail-section" id="performedOperasSection" style="display:none">
-        <h2 class="section__title">${icon('music')}Aufgeführte Werke</h2>
+        <h2 class="section__title">${icon('music')}Hier geloggt</h2>
         <div class="tag-list" id="performedOperas"></div>
       </div>
       
@@ -110,7 +202,7 @@ export function HouseDetailPage(houseId) {
       }
     }
 
-    // Update "Aufgeführte Werke" section
+    // "Hier geloggt": die Werke der Abende, die Nutzer hier eingetragen haben
     const operaIds = [...new Set(allVisits.map(v => v.operaId))];
     const performedOperas = operaIds.map(id => operas.find(o => o.id === id)).filter(Boolean);
     const performedSection = page.querySelector('#performedOperasSection');
@@ -144,6 +236,7 @@ export function HouseDetailPage(houseId) {
       });
     }
   }
+  demnaechstHier(page.querySelector('#hausSpielplan'), house);
   loadVisits();
 
   // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet

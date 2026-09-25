@@ -305,3 +305,18 @@ test('Zeiten kommen mit – nur für Termine, die bleiben, und nur gültige', ()
     // überschreibt aber nicht, was die Seite sagt.
     assert.deepEqual(zeilen[0].zeiten, { '2026-10-08': '19:30-22:15', '2026-10-11': '18:00' });
 });
+
+import { abendeImHaus } from '../../src/data/spielplanAbfrage.js';
+
+test('die Abende eines Hauses: nur dieses, nur kommende, nach Datum und Uhrzeit', () => {
+    const daten = [
+        { werk: 'tosca', haus: 'semperoper', url: 'https://s.example/tosca', termine: ['2026-09-01', '2026-10-05', '2026-10-03'], zeiten: { '2026-10-05': '19:00' } },
+        { werk: 'aida', haus: 'semperoper', url: 'https://s.example/aida', termine: ['2026-10-05'], zeiten: { '2026-10-05': '18:00' } },
+        { werk: 'carmen', haus: 'oper-frankfurt', url: 'https://f.example/', termine: ['2026-10-04'] },
+    ];
+    const abende = abendeImHaus('semperoper', { heute: '2026-10-01', daten });
+    assert.deepEqual(abende.map(a => `${a.datum} ${a.zeit || '–'} ${a.werk}`),
+        ['2026-10-03 – tosca', '2026-10-05 18:00 aida', '2026-10-05 19:00 tosca']);
+    assert.equal(abende[0].haus.id, 'semperoper');
+    assert.deepEqual(abendeImHaus('haus-fuer-mozart', { heute: '2026-10-01', daten }), []);
+});

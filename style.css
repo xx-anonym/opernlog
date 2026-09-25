@@ -5779,6 +5779,19 @@ body {
     height: 16px;
 }
 
+/* "Demnächst hier" auf der Seite eines Hauses – dieselben Zeilen wie in
+   "In der Nähe", ohne den Namen des Hauses. */
+.haus-spielplan__anzahl,
+.haus-spielplan__leer {
+    margin: -4px 0 12px;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.haus-spielplan .naehe-tag__datum {
+    font-size: 1rem;
+}
+
 .naehe-mehr {
     display: block;
     margin: 8px auto 16px;

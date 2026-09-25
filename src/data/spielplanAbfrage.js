@@ -104,6 +104,19 @@ export function abendeInDerNaehe({ heute = heuteIso(), bis = null, position = nu
         || a.haus.name.localeCompare(b.haus.name, 'de'));
 }
 
+/**
+ * Was an einem Haus demnächst läuft – für die Seite des Hauses. Dieselben
+ * Abende wie in abendeInDerNaehe(), nur die dieses Hauses.
+ *
+ * @param {string} hausId
+ * @param {object} [o]
+ * @param {string} [o.heute]
+ * @param {Array}  [o.daten]   nur für Tests
+ */
+export function abendeImHaus(hausId, { heute = heuteIso(), daten = spielplan } = {}) {
+    return abendeInDerNaehe({ heute, daten: daten.filter(e => e.haus === hausId) });
+}
+
 // ── Umkreis für "In der Nähe" ──────────────────────────────────────────
 //
 // Die Stufen des Schiebers: fein, wo es auf wenige Kilometer ankommt, grob
