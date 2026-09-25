@@ -15,8 +15,9 @@ import { abendeImHaus, terminMitWochentag, zeitText, heuteIso } from '../data/sp
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
 
-// Wie viele Abende sofort dastehen; der Rest auf Knopfdruck.
-const ABENDE_SICHTBAR = 6;
+// Die nächsten zwei Abende stehen da, der Rest klappt auf (Jonas'
+// Vorgabe: die Seite soll das Haus zeigen, nicht einen ganzen Spielplan).
+const ABENDE_SICHTBAR = 2;
 
 /**
  * "Demnächst hier": was das Haus in dieser Spielzeit spielt, aus dem
@@ -75,17 +76,18 @@ function demnaechstHier(bereich, house) {
           <h3 class="naehe-tag__datum">${terminMitWochentag(datum, heute)}</h3>
           ${zeilen.map(zeile).join('')}
         </section>`).join('')}
-      ${gezeigt.length < abende.length ? `
-        <button type="button" class="btn btn--outline naehe-mehr" data-aktion="alle">
-          Alle ${abende.length} Abende zeigen
+      ${abende.length > ABENDE_SICHTBAR ? `
+        <button type="button" class="btn btn--outline naehe-mehr" data-aktion="alle" aria-expanded="${alle}">
+          ${alle ? 'Weniger zeigen' : `Alle ${abende.length} Abende zeigen`}
         </button>` : ''}`;
     bereich.appendChild(spielplanQuelle());
   };
 
   bereich.addEventListener('click', (e) => {
     if (e.target.closest('[data-aktion="alle"]')) {
-      alle = true;
+      alle = !alle;
       zeichnen();
+      if (!alle) bereich.scrollIntoView({ block: 'start', behavior: 'smooth' });
       return;
     }
     const knopf = e.target.closest('.naehe-abend__kalender');

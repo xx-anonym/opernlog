@@ -52,17 +52,21 @@ test('die Seite eines Hauses zeigt, was dort demnächst läuft', { skip: fehltPl
         // Im Browser gerechnet: dort kennt der Katalog nur, was geladen ist.
         const erwartet = await p.evaluate(h => Promise.all([import('/src/data/spielplanAbfrage.js'), import('/src/data/operas.js')])
             .then(([s, o]) => s.abendeImHaus('semperoper', { heute: h }).filter(a => o.operas.some(w => w.id === a.werk))), HEUTE);
-        assert.ok(erwartet.length > 6, 'Testvoraussetzung: die Semperoper hat mehr als sechs Abende');
+        assert.ok(erwartet.length > 2, 'Testvoraussetzung: die Semperoper hat mehr als zwei Abende');
         assert.ok(erwartet.some(a => a.werk === gemerkt), 'Testvoraussetzung: Tosca läuft an der Semperoper');
         assert.match(await p.innerText('#hausSpielplan'), new RegExp(`${erwartet.length} Abende`));
-        // Erst sechs, in der Reihenfolge der Termine, dann auf Knopfdruck alle.
-        assert.equal(await p.locator('#hausSpielplan .naehe-abend').count(), 6);
+        // Erst die nächsten zwei, in der Reihenfolge der Termine, dann auf Knopfdruck alle.
+        assert.equal(await p.locator('#hausSpielplan .naehe-abend').count(), 2);
         const erste = await p.$eval('#hausSpielplan .naehe-abend__werk', a => a.getAttribute('href'));
         assert.equal(erste, `#/opera/${erwartet[0].werk}`);
         await p.click('#hausSpielplan [data-aktion="alle"]');
         assert.equal(await p.locator('#hausSpielplan .naehe-abend').count(), erwartet.length);
-        // Ein Werk der Wunschliste trägt den Stern.
+        assert.match(await p.innerText('#hausSpielplan [data-aktion="alle"]'), /Weniger zeigen/);
+        // Ein Werk der Wunschliste trägt den Stern (aufgeklappt, damit es sicher dasteht).
         assert.ok(await p.$(`#hausSpielplan a.naehe-abend__werk[href="#/opera/${gemerkt}"] .naehe-abend__stern`), 'kein Stern am gemerkten Werk');
+        // Wieder zuklappen: zurück auf zwei.
+        await p.click('#hausSpielplan [data-aktion="alle"]');
+        assert.equal(await p.locator('#hausSpielplan .naehe-abend').count(), 2);
         // "Hier geloggt" statt "Aufgeführte Werke"
         assert.doesNotMatch(await p.innerText('body'), /Aufgeführte Werke/);
         assert.deepEqual(fehler, []);
