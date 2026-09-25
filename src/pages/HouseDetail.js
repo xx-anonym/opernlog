@@ -6,6 +6,7 @@ import { loeschSchalter } from '../components/KatalogLoeschen.js';
 import { coverBackground, escapeHTML } from '../utils.js';
 import { showError, showToast } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
+import { kurzname } from '../data/composers.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { StarRating } from '../components/StarRating.js';
@@ -44,7 +45,7 @@ function demnaechstHier(bereich, house) {
   const zeile = (a) => {
     const werk = operas.find(o => o.id === a.werk);
     const zeit = zeitText(a.zeit);
-    const nachname = werk.composer.split(' ').pop();
+
     // Nur https wird ein Link: die Adressen stammen von fremden Seiten.
     const beimHaus = /^https:\/\//i.test(a.url)
       ? ` · <a class="naehe-abend__haus" href="${escapeHTML(a.url)}" target="_blank" rel="noopener">zur Produktion</a>` : '';
@@ -54,7 +55,7 @@ function demnaechstHier(bereich, house) {
         <div class="naehe-abend__was">
           <a class="naehe-abend__werk" href="#/opera/${escapeHTML(werk.id)}">${merkliste.has(werk.id)
             ? `<span class="naehe-abend__stern" title="Auf deiner Wunschliste">${icon('star', { filled: true })}</span>` : ''}${escapeHTML(werk.title)}</a>
-          <span class="naehe-abend__wo">${escapeHTML(nachname)}${beimHaus}</span>
+          <span class="naehe-abend__wo">${escapeHTML(kurzname(werk.composer))}${beimHaus}</span>
         </div>
         <button type="button" class="naehe-abend__kalender" data-werk="${escapeHTML(werk.id)}" data-datum="${a.datum}"
           title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${werk.title}, ${a.datum}`)}">${icon('calendar')}</button>

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { operas } from '../../src/data/operas.js';
-import { composers, composerByName } from '../../src/data/composers.js';
+import { composers, composerByName, kurzname } from '../../src/data/composers.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -237,4 +237,14 @@ test('die Gattung ist deutsch oder die Originalbezeichnung, nicht englisch', () 
     // 19 Werke hießen "Opera", 30 "Oper" – im Filter der Opern-Seite standen
     // dadurch zwei Gattungen für dasselbe.
     assert.deepEqual(operas.filter(o => o.genre === 'Opera').map(o => o.id), []);
+});
+
+test('der Kurzname eines Komponisten ist ein Name, kein Namenszusatz', () => {
+    // Die Seite eines Hauses schrieb "II" für Johann Strauss II.
+    assert.equal(kurzname('Giuseppe Verdi'), 'Verdi');
+    assert.equal(kurzname('Camille Saint-Saëns'), 'Saint-Saëns');
+    assert.equal(kurzname('Johann Strauss II'), 'Johann Strauss');
+    assert.equal(kurzname('Richard Strauss'), 'Strauss');
+    const falsch = [...new Set(operas.map(o => o.composer))].filter(c => kurzname(c).length < 3 || /^(I|II|III)$/.test(kurzname(c)));
+    assert.deepEqual(falsch, []);
 });

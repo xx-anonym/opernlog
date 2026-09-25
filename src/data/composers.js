@@ -73,6 +73,18 @@ export const composers = [
     { "id":"wolfgang-amadeus-mozart","name":"Wolfgang Amadeus Mozart","kurz":"Musiker und Komponist der Wiener Klassik","bio":"Wolfgang Amadeus Mozart, der selbst zumeist den Namen Wolfgang Amadé Mozart führte, war ein Komponist der Wiener Klassik. Er schuf eine Vielzahl von Meisterwerken in so gut wie allen musikalischen Gattungen seiner Zeit und gilt als einer der berühmtesten Komponisten der Musikgeschichte.","bild":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/The_Mozart_Family_-_Wolfgang_Amadeus_Mozart_headshot.jpg/500px-The_Mozart_Family_-_Wolfgang_Amadeus_Mozart_headshot.jpg","bildLizenz":"Public domain","bildUrheber":"Johann Nepomuk della Croce","wikipedia":"https://de.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart" },
 ];
 
+/**
+ * Der Name, den man in einer Zeile sagt: der Nachname – "Verdi",
+ * "Saint-Saëns", "Weber". Mit Namenszusatz der ganze Name ohne ihn: aus
+ * "Johann Strauss II" wurde sonst "II" (Seite eines Hauses), und "Strauss"
+ * allein hält jeder für Richard.
+ */
+export function kurzname(composer) {
+    const name = String(composer || '').trim();
+    const ohneZusatz = name.replace(/\s+(II|III|I|Sohn|Vater|der Jüngere|der Ältere|Jr\.?|Sr\.?)$/i, '');
+    return ohneZusatz !== name ? ohneZusatz : name.split(/\s+/).pop();
+}
+
 /** Der Komponist zu einem Namen aus dem Werkkatalog, oder null. */
 export function composerByName(name) {
     return composers.find(c => c.name === name) || null;

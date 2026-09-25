@@ -14,6 +14,7 @@
 
 import { blindeFlecken } from '../data/blindSpots.js';
 import { composerVerlauf } from '../data/composerFarben.js';
+import { kurzname } from '../data/composers.js';
 import { terminKurz, heuteIso, tagePlus } from '../data/spielplanAbfrage.js';
 import { store } from '../store/store.js';
 import { escapeHTML, coverBackground, getCachedPosition } from '../utils.js';
@@ -37,7 +38,6 @@ function merkeOffen(offen) {
     } catch (e) { /* siehe oben */ }
 }
 
-const nachname = composer => composer.replace(/\s+(II|I|Sohn|der Jüngere)$/i, '').split(' ').pop();
 
 // Kurz beschriftet, damit beide Knöpfe auch auf dem Handy nebeneinander passen.
 function wunschKnopf(id) {
@@ -71,7 +71,7 @@ function gelegenheit(g, heute) {
           style="${coverBackground(o.image, composerVerlauf(o.composer), 'rgba(0,0,0,0), rgba(20,24,28,0.35)')}"></a>
         <div class="gelegenheit__inhalt">
           <a class="gelegenheit__titel" href="#/opera/${encodeURIComponent(o.id)}">${escapeHTML(o.title)}</a>
-          <p class="gelegenheit__komponist">${escapeHTML(nachname(g.composer))} · du kennst ${g.gesehen} von ${g.gesamt}</p>
+          <p class="gelegenheit__komponist">${escapeHTML(kurzname(g.composer))} · du kennst ${g.gesehen} von ${g.gesamt}</p>
           <p class="gelegenheit__termin">
             ${icon('calendar', { className: 'icon--meta' })}
             <span><strong>${mehrereTermine ? 'ab ' : ''}${wann(erste.termine[0], heute)}</strong>

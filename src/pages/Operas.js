@@ -1,5 +1,6 @@
 // Operas Browse Page
 import { operas } from '../data/operas.js';
+import { kurzname } from '../data/composers.js';
 import { icon } from '../components/Icon.js';
 import { coverBackground, einblendVerzoegerung, passtZurSuche } from '../utils.js';
 import { store } from '../store/store.js';
@@ -97,7 +98,7 @@ export function OperasPage() {
   topComposers.forEach(composer => {
     const chip = document.createElement('button');
     chip.className = `chip${activeComposer === composer ? ' chip--active' : ''}`;
-    chip.textContent = composer.split(' ').pop(); // Last name only
+    chip.textContent = kurzname(composer);
     chip.title = composer;
     chip.addEventListener('click', () => {
       activeComposer = composer;
