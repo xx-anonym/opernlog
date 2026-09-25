@@ -3,17 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:ring-walkuere-oper-frankfurt-2027-04-18@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270418
-DTEND;VALUE=DATE:20270419
+DTSTART;TZID=Europe/Berlin:20270418T153000
+DTEND;TZID=Europe/Berlin:20270418T183000
 SUMMARY:Die Walküre – Oper Frankfurt
 LOCATION:Oper Frankfurt\, Frankfurt am Main
 GEO:50.1078;8.6725
 URL:https://oper-frankfurt.de/de/spielplan/die-walkuere_3/
 DESCRIPTION:Richard Wagner: Die Walküre\nTermine und Karten: https://oper-
- frankfurt.de/de/spielplan/die-walkuere_3/\nDie Uhrzeit steht auf der Seite
-  des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ frankfurt.de/de/spielplan/die-walkuere_3/\nDas Ende ist geschätzt (3 Stun
+ den).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

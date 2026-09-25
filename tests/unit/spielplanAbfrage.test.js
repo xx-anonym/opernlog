@@ -379,3 +379,33 @@ test('Knöpfe zum Nachladen: auch "weitere Spieltage anzeigen" (Deutsche Oper Be
     for (const t of ['Mehr anzeigen', 'Mehr laden']) assert.ok(!NACHLADEN_DIREKT.test(t), t);
     for (const t of ['Weitere Informationen', 'mehr erfahren', 'Tickets']) assert.ok(!NACHLADEN.test(t) && !NACHLADEN_DIREKT.test(t), t);
 });
+
+test('Ansichten einzelner Termine: nur Links auf dieselbe Produktion (Frankfurt)', async () => {
+    const { terminAnsichten } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const seiteUrl = 'https://oper-frankfurt.de/de/spielplan/aida_3/';
+    const links = [
+        { href: 'https://oper-frankfurt.de/de/spielplan/aida_3/?id_datum=4971#date' },
+        { href: 'https://oper-frankfurt.de/de/spielplan/aida_3/?id_datum=4972#date' },
+        { href: 'https://oper-frankfurt.de/de/spielplan/aida_3/?id_datum=4972#besetzung' },   // derselbe Termin
+        { href: 'https://oper-frankfurt.de/de/spielplan/salome_5/?id_datum=5010#date' },     // andere Produktion
+        { href: 'https://oper-frankfurt.de/media/image/produktionen/galerie/aida_org_4387.jpg' },
+        { href: 'mailto:info@oper-frankfurt.de' },
+    ];
+    assert.deepEqual(terminAnsichten(links, seiteUrl, 'id_datum='), [
+        'https://oper-frankfurt.de/de/spielplan/aida_3/?id_datum=4971',
+        'https://oper-frankfurt.de/de/spielplan/aida_3/?id_datum=4972',
+    ]);
+});
+
+test('Seitenauswahl: die Seite, deren Adresse das Werk nennt, vor Nebenveranstaltungen (Frankfurt)', () => {
+    const b = 'https://oper-frankfurt.de/de/spielplan/';
+    const kandidaten = new Map([
+        [`${b}kinderbetreuung/`, new Set(['haensel-gretel'])],
+        [`${b}opera-next-level/`, new Set(['haensel-gretel'])],
+        [`${b}haensel-und-gretel_3/`, new Set(['haensel-gretel'])],
+        [`${b}haensel-und-gretel_3/?id_datum=4801`, new Set(['haensel-gretel'])],
+    ]);
+    const auswahl = [...seitenAuswahl(kandidaten).keys()];
+    assert.equal(auswahl[0], `${b}haensel-und-gretel_3/`);
+    assert.equal(auswahl.length, 2);
+});

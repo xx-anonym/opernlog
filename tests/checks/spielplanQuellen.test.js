@@ -41,7 +41,7 @@ test('ein Stück mit eigenem Werk nennt ein Werk aus dem Katalog', () => {
 test('Selektoren sind Text', () => {
     for (const [id, q] of haeuser) {
         if (Array.isArray(q)) continue;
-        for (const feld of ['terminSelektor', 'hauptteil', 'ort', 'ortJeTermin']) {
+        for (const feld of ['terminSelektor', 'hauptteil', 'ort', 'ortJeTermin', 'terminLinks']) {
             if (feld in q) assert.equal(typeof q[feld], 'string', `${id}.${feld}`);
         }
     }

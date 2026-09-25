@@ -359,10 +359,29 @@ function termineDerSeite(d, fenster, q) {
 }
 
 /**
+ * Die Ansichten der einzelnen Termine einer Produktionsseite. Die Oper
+ * Frankfurt nennt auf der Seite alle Daten, den Beginn aber nur für den
+ * gewählten; jeder Termin hat einen eigenen Link ("?id_datum=4972#date").
+ * Nur Links auf dieselbe Seite, jeder einmal.
+ *
+ * @param {{href: string}[]} links
+ * @param {string} seitenUrl
+ * @param {string} muster  Stück der Adresse, etwa "id_datum="
+ * @returns {string[]}
+ */
+export function terminAnsichten(links, seitenUrl, muster) {
+    const pfad = u => { try { const x = new URL(u); return x.origin + x.pathname; } catch { return null; } };
+    const hier = pfad(seitenUrl);
+    return [...new Set(links.map(l => l.href.split('#')[0])
+        .filter(h => h.includes(muster) && pfad(h) === hier && h !== seitenUrl.split('#')[0]))];
+}
+
+/**
  * Welche Kandidaten gelesen werden: je Werk höchstens zwei Seiten, je Haus
  * höchstens `grenze`. Kalender, die jede Vorstellung einzeln verlinken,
  * erschöpften sonst das Kontingent mit dem ersten Werk. Seiten ohne Nummer im
- * Pfad zuerst – das sind meist die Seiten der Produktion mit allen Terminen.
+ * Pfad zuerst – das sind meist die Seiten der Produktion mit allen Terminen –,
+ * unter ihnen die, deren Adresse das Werk nennt.
  * Erst bekommt jedes Werk seine beste Seite, dann die zweite: in Wien und
  * München reichte die Grenze sonst nur für 30 Werke, und der Rest fiel weg.
  * Wien hat über 50 Werke im Repertoire, oft mit zwei Seiten ("don-carlo"
@@ -379,7 +398,11 @@ export function seitenAuswahl(kandidaten, gesehen = new Set(), grenze = 100) {
         if (!jeWerk.has(id)) jeWerk.set(id, []);
         jeWerk.get(id).push(url);
     }
-    for (const urls of jeWerk.values()) urls.sort((a, b) => rang(a) - rang(b) || a.length - b.length);
+    // Nennt die Adresse das Werk, ist es eher die Produktion als eine
+    // Nebenveranstaltung dazu: in Frankfurt verdrängten "kinderbetreuung/"
+    // und "opera-next-level/" die Seite von Hänsel und Gretel.
+    const nennt = (url, id) => (WERKE.find(w => w.id === id)?.slugs || []).some(sl => seitenPfad(url).includes(sl)) ? 0 : 1;
+    for (const [id, urls] of jeWerk) urls.sort((a, b) => rang(a) - rang(b) || nennt(a, id) - nennt(b, id) || a.length - b.length);
     const auswahl = new Map();
     for (const stufe of [0, 1]) for (const [id, urls] of jeWerk) {
         const u = urls[stufe];
@@ -604,12 +627,15 @@ export function monatsVorlage(hrefs, fenster) {
  * das Spielzeitheft.
  * Mit kalenderZeiten kommen die Uhrzeiten aus den Kalenderseiten unter start
  * (siehe zeitenAusKalender) – nur für Häuser, deren Kalender dafür geprüft ist.
+ * terminLinks ist ein Stück der Adresse, an dem die Links einer Produktionsseite
+ * auf ihre einzelnen Termine zu erkennen sind (siehe terminAnsichten).
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false }
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false, terminLinks: null }
         : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
-            terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null, kalenderZeiten: q.kalenderZeiten === true };
+            terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null, kalenderZeiten: q.kalenderZeiten === true,
+            terminLinks: q.terminLinks || null };
 }
 
 // Adressen mit kaputtem Prozentzeichen ("50%-Rabatt") ließen decodeURIComponent
@@ -741,6 +767,20 @@ async function lesen(kontext, hausId, fenster) {
         try {
             const d = await seite(kontext, url, { terminSelektor: q.terminSelektor, hauptteil: q.hauptteil });
             const { termine, zeiten, ohneUhrzeit } = seitenTermine(d, fenster, q);
+            // Der Beginn steht nur in der Ansicht des einzelnen Termins (Frankfurt).
+            if (q.terminLinks) {
+                for (const u of terminAnsichten(d.links, d.endUrl, q.terminLinks).slice(0, 40)) {
+                    if (termine.every(t => zeiten[t])) break;
+                    try {
+                        const e = await seite(kontext, u, { terminSelektor: q.terminSelektor, hauptteil: q.hauptteil });
+                        for (const [t, z] of Object.entries(seitenTermine(e, fenster, q).zeiten)) {
+                            if (termine.includes(t) && !zeiten[t]) zeiten[t] = z;
+                        }
+                    } catch (e) {
+                        erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
+                    }
+                }
+            }
             const ganz = d.ganzerText;
             for (const id of ids) {
                 const w = WERKE.find(x => x.id === id);

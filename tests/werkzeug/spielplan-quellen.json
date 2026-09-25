@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Mit \"kalenderZeiten\": true kommen Uhrzeiten, die auf den Seiten der Produktionen fehlen, aus den Kalenderseiten unter start (Tageskopf, darunter Uhrzeit und Titel) – nur einschalten, wenn der Kalender des Hauses dafür geprüft ist. Mit \"hauptteil\": \"…\" gilt dieser CSS-Selektor statt <main> als Inhalt der Seite (Burg Gars nutzt <main> für den Kontaktkasten). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. Ein Eintrag dort darf auch {\"url\": \"…\", \"werk\": \"…\"} sein: eine Seite, die das Werk weder in der Adresse noch im Titel nennt (St. Margarethen: /spielplan zeigt das Stück des Sommers). Sie zählt nur, solange der Werktitel auf ihr steht – jeden Sommer das Werk prüfen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
+  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Mit \"kalenderZeiten\": true kommen Uhrzeiten, die auf den Seiten der Produktionen fehlen, aus den Kalenderseiten unter start (Tageskopf, darunter Uhrzeit und Titel) – nur einschalten, wenn der Kalender des Hauses dafür geprüft ist. Mit \"terminLinks\": \"…\" besucht das Werkzeug auf einer Produktionsseite die Links, deren Adresse diesen Text enthält, als Ansichten einzelner Termine und holt dort fehlende Uhrzeiten (Frankfurt: \"id_datum=\"). Mit \"hauptteil\": \"…\" gilt dieser CSS-Selektor statt <main> als Inhalt der Seite (Burg Gars nutzt <main> für den Kontaktkasten). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. Ein Eintrag dort darf auch {\"url\": \"…\", \"werk\": \"…\"} sein: eine Seite, die das Werk weder in der Adresse noch im Titel nennt (St. Margarethen: /spielplan zeigt das Stück des Sommers). Sie zählt nur, solange der Werktitel auf ihr steht – jeden Sommer das Werk prüfen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
   "bayerische-staatsoper": [
     "https://www.staatsoper.de/spielplan/{JJJJ}-{MM}",
     "https://www.staatsoper.de/spielzeit-2026-27"
@@ -78,9 +78,12 @@
     "https://www.die-hamburgische-staatsoper.de/de/programm/repertoire",
     "https://www.die-hamburgische-staatsoper.de/de/kalender/oper"
   ],
-  "oper-frankfurt": [
-    "https://oper-frankfurt.de/de/spielplan/"
-  ],
+  "oper-frankfurt": {
+    "terminLinks": "id_datum=",
+    "start": [
+      "https://oper-frankfurt.de/de/spielplan/"
+    ]
+  },
   "wuerttembergische-staatstheater": [
     "https://www.staatstheater-wiesbaden.de/spielplan/"
   ],

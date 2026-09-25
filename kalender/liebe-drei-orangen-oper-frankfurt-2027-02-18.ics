@@ -21,16 +21,17 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:aida-oper-frankfurt-2027-06-14@opernlog.vercel.app
+UID:liebe-drei-orangen-oper-frankfurt-2027-02-18@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270614T190000
-DTEND;TZID=Europe/Berlin:20270614T220000
-SUMMARY:Aida – Oper Frankfurt
+DTSTART;TZID=Europe/Berlin:20270218T193000
+DTEND;TZID=Europe/Berlin:20270218T223000
+SUMMARY:Die Liebe zu den drei Orangen – Oper Frankfurt
 LOCATION:Oper Frankfurt\, Frankfurt am Main
 GEO:50.1078;8.6725
-URL:https://oper-frankfurt.de/de/spielplan/aida_3/
-DESCRIPTION:Giuseppe Verdi: Aida\nTermine und Karten: https://oper-frankfur
- t.de/de/spielplan/aida_3/\nDas Ende ist geschätzt (3 Stunden).\nAus Opern
- Log – maßgeblich ist die Seite des Hauses.
+URL:https://oper-frankfurt.de/de/spielplan/die-liebe-zu-den-drei-orangen/
+DESCRIPTION:Sergej Prokofjew: Die Liebe zu den drei Orangen\nTermine und Ka
+ rten: https://oper-frankfurt.de/de/spielplan/die-liebe-zu-den-drei-orangen
+ /\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist 
+ die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
