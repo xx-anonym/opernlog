@@ -21,16 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:nixon-in-china-deutsche-oper-berlin-2027-01-23@opernlog.vercel.app
+UID:la-boheme-deutsche-oper-berlin-2027-05-20@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270123T193000
-DTEND;TZID=Europe/Berlin:20270123T223000
-SUMMARY:Nixon in China – Deutsche Oper Berlin
+DTSTART;TZID=Europe/Berlin:20270520T190000
+DTEND;TZID=Europe/Berlin:20270520T220000
+SUMMARY:La Bohème – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
-URL:https://deutscheoperberlin.de/de_DE/production/nixon-in-china.1385484
-DESCRIPTION:John Adams: Nixon in China\nTermine und Karten: https://deutsch
- eoperberlin.de/de_DE/production/nixon-in-china.1385484\nDas Ende ist gesch
- ätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://deutscheoperberlin.de/de_DE/production/la-boheme.1385732
+DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://deutsc
+ heoperberlin.de/de_DE/production/la-boheme.1385732\nDas Ende ist geschätz
+ t (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -256,6 +256,16 @@ function rang(url) {
 // "Hör’n Sie mal!" ist in Hannover eine Einführung zum Hören.
 const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal/i;
 
+// Knöpfe, die weitere Termine nachladen. Die Deutsche Oper Berlin zeigt im
+// Monatskalender erst die halbe Liste; der Rest kommt mit "weitere
+// Spieltage anzeigen" – ohne den Klick fehlten dort die Uhrzeiten der
+// zweiten Monatshälfte.
+export const NACHLADEN = /^\s*(mehr (laden|anzeigen)|(mehr|weitere) (termine|vorstellungen|spieltage)( laden| anzeigen)?|weitere laden|alle termine|load more|show more)\s*$/i;
+// Knöpfe, die das Werkzeug direkt auslöst, auch wenn Playwright sie für
+// verdeckt hält: nur solche, die ausdrücklich Termine nachladen – ein
+// allgemeines "Mehr anzeigen" klappt oft nur einen Text auf.
+export const NACHLADEN_DIREKT = /^\s*(mehr|weitere) (termine|vorstellungen|spieltage)( laden| anzeigen)?\s*$/i;
+
 const UEBERSICHT = /spielzeit\s*(20)?2[67]|saison\s*(20)?2[67]|premieren|repertoire|musiktheater|^oper$|^opera$|produktionen|stücke|programm 20?2[67]|season 20?2[67]|alle vorstellungen|festspiele 2027|programm 2027/i;
 const HINWEISE = [['ballett', /ballett|ballet|tanzstück|choreograf/i], ['schauspiel', /schauspiel(?!haus)|theaterstück|nach william shakespeare|von johann wolfgang|drama von/i],
     ['konzert', /sinfoniekonzert|konzert(?!ant)|liederabend|gala/i], ['kinder', /für kinder|kinderoper|familien|ab \d+ jahren/i], ['konzertant', /konzertant/i]];
@@ -423,7 +433,7 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         for (let i = 0; i < 8; i++) {
             const vorher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)).catch(() => {});
-            const knopf = p.locator('button, a[role="button"]').filter({ hasText: /^\s*(mehr (laden|anzeigen|termine|vorstellungen)|weitere (laden|termine|vorstellungen)|alle termine|load more|show more)\s*$/i }).first();
+            const knopf = p.locator('button, a[role="button"]').filter({ hasText: NACHLADEN }).first();
             if (await knopf.isVisible().catch(() => false)) await knopf.click({ timeout: 3000 }).catch(() => {});
             await p.waitForTimeout(900);
             const nachher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
@@ -435,13 +445,14 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         // direkt auslösen. Nur Knöpfe in angezeigten Bereichen – der Reiter
         // mit den Begleitterminen bleibt zu.
         for (let i = 0; i < 8; i++) {
-            const geklickt = await p.evaluate(() => {
+            const geklickt = await p.evaluate(({ quelle, flags }) => {
+                const muster = new RegExp(quelle, flags);
                 const k = [...document.querySelectorAll('button')].find(b => b.offsetParent !== null && !b.disabled
-                    && /^\s*(mehr|weitere) (termine|vorstellungen)( laden| anzeigen)?\s*$/i.test(b.textContent || ''));
+                    && muster.test(b.textContent || ''));
                 if (!k) return false;
                 k.click();
                 return true;
-            }).catch(() => false);
+            }, { quelle: NACHLADEN_DIREKT.source, flags: NACHLADEN_DIREKT.flags }).catch(() => false);
             if (!geklickt) break;
             await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
             await p.waitForTimeout(600);

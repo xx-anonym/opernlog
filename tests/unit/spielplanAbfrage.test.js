@@ -368,3 +368,14 @@ test('alle Vorstellungen abgesagt: keine Termine, auch nicht aus den Attributen'
     const einer = { ...krefeld, text: krefeld.text.replace('Theaterbar\nEntfällt', 'Theaterbar') };
     assert.deepEqual(seitenTermine(einer, fenster).termine, ['2027-04-29']);
 });
+
+test('Knöpfe zum Nachladen: auch "weitere Spieltage anzeigen" (Deutsche Oper Berlin)', async () => {
+    const { NACHLADEN, NACHLADEN_DIREKT } = await import('../werkzeug/spielplaene-lesen.mjs');
+    for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr laden', 'Mehr anzeigen', 'mehr Vorstellungen', 'Alle Termine', 'Load more']) {
+        assert.ok(NACHLADEN.test(t), t);
+    }
+    for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr Vorstellungen anzeigen']) assert.ok(NACHLADEN_DIREKT.test(t), t);
+    // Ein allgemeines "Mehr anzeigen" klappt oft nur Text auf: nicht direkt auslösen.
+    for (const t of ['Mehr anzeigen', 'Mehr laden']) assert.ok(!NACHLADEN_DIREKT.test(t), t);
+    for (const t of ['Weitere Informationen', 'mehr erfahren', 'Tickets']) assert.ok(!NACHLADEN.test(t) && !NACHLADEN_DIREKT.test(t), t);
+});

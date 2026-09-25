@@ -21,16 +21,17 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:nixon-in-china-deutsche-oper-berlin-2027-01-23@opernlog.vercel.app
+UID:don-giovanni-deutsche-oper-berlin-2027-03-21@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270123T193000
-DTEND;TZID=Europe/Berlin:20270123T223000
-SUMMARY:Nixon in China – Deutsche Oper Berlin
+DTSTART;TZID=Europe/Berlin:20270321T160000
+DTEND;TZID=Europe/Berlin:20270321T190000
+SUMMARY:Don Giovanni – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
-URL:https://deutscheoperberlin.de/de_DE/production/nixon-in-china.1385484
-DESCRIPTION:John Adams: Nixon in China\nTermine und Karten: https://deutsch
- eoperberlin.de/de_DE/production/nixon-in-china.1385484\nDas Ende ist gesch
- ätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://deutscheoperberlin.de/de_DE/production/don-giovanni.1385522
+DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
+ s://deutscheoperberlin.de/de_DE/production/don-giovanni.1385522\nDas Ende 
+ ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite de
+ s Hauses.
 END:VEVENT
 END:VCALENDAR
