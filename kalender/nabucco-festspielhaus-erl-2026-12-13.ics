@@ -3,18 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:nabucco-festspielhaus-erl-2026-12-13@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20261213
-DTEND;VALUE=DATE:20261214
+DTSTART;TZID=Europe/Vienna:20261213T180000
+DTEND;TZID=Europe/Vienna:20261213T210000
 SUMMARY:Nabucco – Festspielhaus Erl
 LOCATION:Festspielhaus Erl\, Erl
 GEO:47.6866;12.1812
 URL:https://www.tiroler-festspiele.at/events/26_27_giuseppe-verdi-nabucco
 DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://www.tirole
- r-festspiele.at/events/26_27_giuseppe-verdi-nabucco\nDie Uhrzeit steht auf
-  der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hau
- ses.
+ r-festspiele.at/events/26_27_giuseppe-verdi-nabucco\nAus OpernLog – maß
+ geblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

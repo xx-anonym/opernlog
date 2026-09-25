@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:cavalleria-rusticana-oper-dortmund-2026-11-15@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261115T180000
-DTEND;TZID=Europe/Berlin:20261115T210000
+DTEND;TZID=Europe/Berlin:20261115T204000
 SUMMARY:Cavalleria rusticana – Oper Dortmund
 LOCATION:Oper Dortmund\, Dortmund
 GEO:51.517;7.46
@@ -32,7 +32,6 @@ URL:https://www.theaterdo.de/produktionen/detail/cavalleria-rusticana-giann
  i-schicchi/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http
  s://www.theaterdo.de/produktionen/detail/cavalleria-rusticana-gianni-schic
- chi/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich i
- st die Seite des Hauses.
+ chi/\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

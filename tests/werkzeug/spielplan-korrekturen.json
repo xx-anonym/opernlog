@@ -51,6 +51,15 @@
   ],
   "termineEntfernen": [
     {
+      "haus": "theater-osnabrueck",
+      "werk": "csardasfuerstin",
+      "termine": [
+        "2026-11-07",
+        "2026-11-12"
+      ],
+      "grund": "Öffentliche Probe und Benefiz-Generalprobe; der Anlass steht über dem Datum"
+    },
+    {
       "haus": "tiroler-landestheater",
       "werk": "carmen",
       "termine": [

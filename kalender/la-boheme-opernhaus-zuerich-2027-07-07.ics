@@ -3,18 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Zurich
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:la-boheme-opernhaus-zuerich-2027-07-07@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270707
-DTEND;VALUE=DATE:20270708
+DTSTART;TZID=Europe/Zurich:20270707T190000
+DTEND;TZID=Europe/Zurich:20270707T213000
 SUMMARY:La Bohème – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/la_boheme/2026-2027/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.op
- ernhaus.ch/spielplan/kalendarium/la_boheme/2026-2027/\nDie Uhrzeit steht a
- uf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des H
- auses.
+ ernhaus.ch/spielplan/kalendarium/la_boheme/2026-2027/\nAus OpernLog – ma
+ ßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

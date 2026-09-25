@@ -24,15 +24,14 @@ BEGIN:VEVENT
 UID:la-traviata-theater-giessen-2026-11-12@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261112T193000
-DTEND;TZID=Europe/Berlin:20261112T223000
+DTEND;TZID=Europe/Berlin:20261112T220000
 SUMMARY:La Traviata – Stadttheater Gießen
 LOCATION:Stadttheater Gießen\, Gießen
 GEO:50.586;8.679
 URL:https://stadttheater-giessen.de/de/veranstaltungen/stuecke/la-traviata-
  2026-2027/
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://stadtt
- heater-giessen.de/de/veranstaltungen/stuecke/la-traviata-2026-2027/\nDas E
- nde ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seit
- e des Hauses.
+ heater-giessen.de/de/veranstaltungen/stuecke/la-traviata-2026-2027/\nAus O
+ pernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

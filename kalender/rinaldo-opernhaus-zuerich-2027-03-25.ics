@@ -3,18 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Zurich
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:rinaldo-opernhaus-zuerich-2027-03-25@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270325
-DTEND;VALUE=DATE:20270326
+DTSTART;TZID=Europe/Zurich:20270325T190000
+DTEND;TZID=Europe/Zurich:20270325T221500
 SUMMARY:Rinaldo – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/rinaldo-1/2026-2027/
 DESCRIPTION:Georg Friedrich Händel: Rinaldo\nTermine und Karten: https://w
- ww.opernhaus.ch/spielplan/kalendarium/rinaldo-1/2026-2027/\nDie Uhrzeit st
- eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
- des Hauses.
+ ww.opernhaus.ch/spielplan/kalendarium/rinaldo-1/2026-2027/\nAus OpernLog 
+ – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

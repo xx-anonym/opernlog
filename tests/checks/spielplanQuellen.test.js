@@ -46,3 +46,11 @@ test('Selektoren sind Text', () => {
         }
     }
 });
+
+test('kalenderZeiten ist ein Schalter', () => {
+    // "true" in Anführungszeichen schaltete nichts ein – das Werkzeug fragt
+    // auf === true.
+    for (const [id, q] of haeuser) {
+        if (!Array.isArray(q) && 'kalenderZeiten' in q) assert.equal(q.kalenderZeiten, true, `${id}.kalenderZeiten`);
+    }
+});

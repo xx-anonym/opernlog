@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Mit \"hauptteil\": \"…\" gilt dieser CSS-Selektor statt <main> als Inhalt der Seite (Burg Gars nutzt <main> für den Kontaktkasten). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. Ein Eintrag dort darf auch {\"url\": \"…\", \"werk\": \"…\"} sein: eine Seite, die das Werk weder in der Adresse noch im Titel nennt (St. Margarethen: /spielplan zeigt das Stück des Sommers). Sie zählt nur, solange der Werktitel auf ihr steht – jeden Sommer das Werk prüfen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
+  "_hinweis": "Einstiegsseiten der Spielpläne je Haus, für tests/werkzeug/spielplaene-lesen.mjs. Wo ein Haus eine Übersicht der Spielzeit hat, steht sie vorn – dort stehen alle Produktionen, im Monatskalender nur die des Monats. Statt einer Liste geht auch {start: [...], ort: \"…\"}: dann zählen nur Stücke, auf deren Seite diese Spielstätte steht (Festspiele mit mehreren Bühnen). Mit \"ortJeTermin\": \"…\" zählt jeder Termin nur, wenn der Ort in seinem Eintrag steht – für Häuser mit vielen Gastspielen. Mit \"terminSelektor\": \"…\" zählen auf einer Produktionsseite nur die Daten der Elemente, die der CSS-Selektor trifft (datetime- oder data-date-Attribut) – für Häuser, die im Text Begleittermine hervorheben und die Vorstellungen nur in einer Liste führen (Erfurt). Mit \"kalenderZeiten\": true kommen Uhrzeiten, die auf den Seiten der Produktionen fehlen, aus den Kalenderseiten unter start (Tageskopf, darunter Uhrzeit und Titel) – nur einschalten, wenn der Kalender des Hauses dafür geprüft ist. Mit \"hauptteil\": \"…\" gilt dieser CSS-Selektor statt <main> als Inhalt der Seite (Burg Gars nutzt <main> für den Kontaktkasten). Unter \"stuecke\": [...] stehen Produktionsseiten, die das Haus nirgends verlinkt, wo das Werkzeug hinkommt; welche es gibt, sagt das Spielzeitheft. Ein Eintrag dort darf auch {\"url\": \"…\", \"werk\": \"…\"} sein: eine Seite, die das Werk weder in der Adresse noch im Titel nennt (St. Margarethen: /spielplan zeigt das Stück des Sommers). Sie zählt nur, solange der Werktitel auf ihr steht – jeden Sommer das Werk prüfen. {JJJJ} und {MM} in einer Adresse werden für jeden Monat der Spielzeit eingesetzt.",
   "bayerische-staatsoper": [
     "https://www.staatsoper.de/spielplan/{JJJJ}-{MM}",
     "https://www.staatsoper.de/spielzeit-2026-27"
@@ -32,9 +32,15 @@
   "staatsoper-berlin": [
     "https://www.staatsoper-berlin.de/de/spielplan/01-{MM}-{JJJJ}/"
   ],
-  "deutsche-oper-berlin": [
-    "https://deutscheoperberlin.de/de_DE/calendar?p=&date_from={JJJJ}-{MM}-01&location=alle&category=alle&status=alle&q="
-  ],
+  "deutsche-oper-berlin": {
+    "kalenderZeiten": true,
+    "start": [
+      "https://deutscheoperberlin.de/de_DE/calendar?p=&date_from={JJJJ}-{MM}-01&location=alle&category=alle&status=alle&q="
+    ],
+    "stuecke": [
+      "https://deutscheoperberlin.de/de_DE/production/nixon-in-china.1385484"
+    ]
+  },
   "komische-oper-berlin": [
     "https://www.komische-oper-berlin.de/spielplan/"
   ],
@@ -163,10 +169,22 @@
       "https://pfalztheater.de/unsere-stuecke/aida/"
     ]
   },
-  "staatstheater-mainz": [
-    "https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27",
-    "https://www.staatstheater-mainz.com/uebersicht/september"
-  ],
+  "staatstheater-mainz": {
+    "kalenderZeiten": true,
+    "start": [
+  "https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27",
+      "https://www.staatstheater-mainz.com/uebersicht/september",
+      "https://www.staatstheater-mainz.com/uebersicht/oktober",
+      "https://www.staatstheater-mainz.com/uebersicht/november",
+      "https://www.staatstheater-mainz.com/uebersicht/dezember",
+      "https://www.staatstheater-mainz.com/uebersicht/januar",
+      "https://www.staatstheater-mainz.com/uebersicht/februar",
+      "https://www.staatstheater-mainz.com/uebersicht/maerz",
+      "https://www.staatstheater-mainz.com/uebersicht/april",
+      "https://www.staatstheater-mainz.com/uebersicht/mai",
+      "https://www.staatstheater-mainz.com/uebersicht/juni"
+    ]
+  },
   "theater-trier": [
     "https://www.theater-trier.de/programm/index-2026-27.html",
     "https://www.theater-trier.de/spielplan/index.html"
@@ -182,9 +200,14 @@
   "oper-leipzig": [
     "https://www.oper-leipzig.de/de/programm"
   ],
-  "oper-chemnitz": [
-    "https://www.theater-chemnitz.de/spielplan"
-  ],
+  "oper-chemnitz": {
+    "start": [
+      "https://www.theater-chemnitz.de/spielplan"
+    ],
+    "stuecke": [
+      "https://www.theater-chemnitz.de/spielplan/detailseite/don-giovanni/11429"
+    ]
+  },
   "landesbuehnen-sachsen": [
     "https://www.landesbuehnen-sachsen.de/spielplan/"
   ],

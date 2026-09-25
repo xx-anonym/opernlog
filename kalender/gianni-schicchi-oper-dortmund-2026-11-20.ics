@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:gianni-schicchi-oper-dortmund-2026-11-20@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261120T193000
-DTEND;TZID=Europe/Berlin:20261120T223000
+DTEND;TZID=Europe/Berlin:20261120T221000
 SUMMARY:Gianni Schicchi – Oper Dortmund
 LOCATION:Oper Dortmund\, Dortmund
 GEO:51.517;7.46
@@ -32,7 +32,6 @@ URL:https://www.theaterdo.de/produktionen/detail/cavalleria-rusticana-giann
  i-schicchi/
 DESCRIPTION:Giacomo Puccini: Gianni Schicchi\nTermine und Karten: https://w
  ww.theaterdo.de/produktionen/detail/cavalleria-rusticana-gianni-schicchi/\
- nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist di
- e Seite des Hauses.
+ nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

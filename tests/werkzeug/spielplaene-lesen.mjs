@@ -42,7 +42,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
 import { werkeAusDatenbank } from './datenbank-werke.mjs';
-import { termineAusText, termineMitZeiten, beginnFinden, saisonAusAdresse } from './spielplan-termine.mjs';
+import { termineAusText, termineMitZeiten, beginnFinden, saisonAusAdresse, zeitenAusKalender, monatAusAdresse, zeitenAusLd } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const QUELLEN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-quellen.json'), 'utf8'));
@@ -288,11 +288,23 @@ export function uebersichtsSeiten(links, seitenUrl) {
  * ist die Terminliste in den Attributen – Gelsenkirchen verlor so bei Tosca
  * zehn von elf Vorstellungen.
  *
- * @param {{text: string, zusatz: string}} d  gelesene Seite
+ * Fehlt im Text die Uhrzeit, kommt sie aus schema.org-Events der Seite
+ * (d.ereignisse), soweit eindeutig.
+ *
+ * @param {{text: string, zusatz: string, ereignisse?: {start: string, ende?: string}[]}} d  gelesene Seite
  * @param {{ortJeTermin?: string}} q  Quelle des Hauses
  * @returns {{termine: string[], zeiten: Object<string, string>, ohneUhrzeit: boolean}}
  */
 export function seitenTermine(d, fenster, q = {}) {
+    const erg = termineDerSeite(d, fenster, q);
+    // Die Uhrzeit aus den strukturierten Daten, wo der Text keine nennt –
+    // nur für Termine, die die Seite ohnehin hat.
+    const ausLd = zeitenAusLd(d.ereignisse, fenster);
+    for (const t of erg.termine) if (!erg.zeiten[t] && ausLd[t]) erg.zeiten[t] = ausLd[t];
+    return erg;
+}
+
+function termineDerSeite(d, fenster, q) {
     // Die Quelle sagt, wo die Terminliste steht: nur die zählt. Erfurt hebt
     // im Text Premiere, Matinee und "Rang frei!" hervor; die Vorstellungen
     // stehen nur im Reiter "Termine".
@@ -314,16 +326,22 @@ export function seitenTermine(d, fenster, q = {}) {
     const ausAdresse = saisonAusAdresse(d.endUrl);
     const laufend = Number(fenster.von.slice(0, 4)) - (Number(fenster.von.slice(5, 7)) >= 8 ? 0 : 1);
     const saison = ausAdresse && ausAdresse >= laufend ? ausAdresse : undefined;
-    const { termine: mitUhrzeit, zeiten } = termineMitZeiten(d.text, fenster, { ort, saison });
+    const { termine: mitUhrzeit, zeiten, abgesagt } = termineMitZeiten(d.text, fenster, { ort, saison });
+    // Nennt der Text Vorstellungen, aber alle abgesagt, gibt es keine – in
+    // den Attributen stehen dieselben Daten noch einmal (Krefeld verschob
+    // Blaubart in die nächste Spielzeit und ließ jeden Termin mit "Entfällt"
+    // stehen).
+    if (!mitUhrzeit.length && abgesagt.length) return { termine: [], zeiten: {}, ohneUhrzeit: true };
+    const ohneAbgesagte = termine => termine.filter(t => !abgesagt.includes(t));
     // Daten aus Attributen haben keinen Eintrag, in dem ein Ort stehen könnte.
     if (ort) return mitUhrzeit.length ? { termine: mitUhrzeit, zeiten, ohneUhrzeit: false }
-        : { termine: termineAusText(d.text, fenster, { ort, saison }), zeiten: {}, ohneUhrzeit: true };
+        : { termine: ohneAbgesagte(termineAusText(d.text, fenster, { ort, saison })), zeiten: {}, ohneUhrzeit: true };
     if (mitUhrzeit.length === 1) {
         const [einer] = mitUhrzeit;
         const ausAttributen = termineAusText(d.zusatz || '', fenster);
         const imSatz = d.text.split('\n').some(z => /\bam\s+\d/i.test(z) && termineAusText(z, fenster).includes(einer));
         if (imSatz && ausAttributen.length > 1 && ausAttributen.includes(einer)) {
-            return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster, { saison }), zeiten: {}, ohneUhrzeit: true };
+            return { termine: ohneAbgesagte(termineAusText(`${d.text}\n${d.zusatz}`, fenster, { saison })), zeiten: {}, ohneUhrzeit: true };
         }
     }
     if (mitUhrzeit.length) return { termine: mitUhrzeit, zeiten, ohneUhrzeit: false };
@@ -436,12 +454,26 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 .map(e => e.getAttribute('datetime') || e.getAttribute('data-date') || e.getAttribute('data-datetime') || e.getAttribute('data-start') || e.getAttribute('content'))
                 .filter(v => /20\d\d-\d\d-\d\d/.test(v || '')).join(' ');
             const ld = [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent).join(' ');
+            // Vorstellungen als schema.org Event, mit Uhrzeit (Zürich)
+            const ereignisse = [];
+            const sammleLd = (o) => {
+                if (!o || typeof o !== 'object') return;
+                if (Array.isArray(o)) { o.forEach(sammleLd); return; }
+                if (/Event$/.test([].concat(o['@type'] || []).join(' ')) && typeof o.startDate === 'string') {
+                    ereignisse.push({ start: o.startDate, ende: typeof o.endDate === 'string' ? o.endDate : '' });
+                }
+                Object.values(o).forEach(sammleLd);
+            };
+            for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
+                try { sammleLd(JSON.parse(s.textContent)); } catch { /* kaputtes JSON: dann eben nicht */ }
+            }
             return {
                 titel: document.title,
                 h1: [...document.querySelectorAll('h1, h2')].slice(0, 3).map(h => h.innerText).join(' | '),
                 text: haupt.innerText,
                 ganzerText: document.body.innerText,
                 zusatz: attribute + ' ' + (ld.match(/20\d\d-\d\d-\d\dT?/g) || []).join(' '),
+                ereignisse,
                 // Links im zugeklappten Menü haben keinen sichtbaren Text. Für
                 // Übersichtsseiten zählt ihr Text trotzdem (menueText): in
                 // Zürich führt nur das Menü zur Spielzeit. Für Werke nicht –
@@ -559,12 +591,14 @@ export function monatsVorlage(hrefs, fenster) {
  * Unter stuecke stehen Seiten einzelner Produktionen, die das Haus nirgends
  * verlinkt, wo das Werkzeug hinkommt (Pfalztheater); welche es gibt, sagt
  * das Spielzeitheft.
+ * Mit kalenderZeiten kommen die Uhrzeiten aus den Kalenderseiten unter start
+ * (siehe zeitenAusKalender) – nur für Häuser, deren Kalender dafür geprüft ist.
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null }
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false }
         : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
-            terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null };
+            terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null, kalenderZeiten: q.kalenderZeiten === true };
 }
 
 // Adressen mit kaputtem Prozentzeichen ("50%-Rabatt") ließen decodeURIComponent
@@ -598,6 +632,18 @@ async function lesen(kontext, hausId, fenster) {
             }
         }
     };
+    // Uhrzeiten aus Kalenderseiten: die Seiten der Produktionen nennen oft nur
+    // Daten (Mainz, Deutsche Oper Berlin), der Kalender die Uhrzeit dazu. Nur
+    // wo eingeschaltet: im Kalender des Musiktheaters im Revier erkennt das
+    // Werkzeug die Tage ("So.27.09.") nicht, und ein altes Datum bliebe an
+    // allen folgenden Titeln hängen.
+    const sammleZeiten = (daten, adresse) => {
+        if (!q.kalenderZeiten) return;
+        const kopf = monatAusAdresse(adresse, fenster);
+        for (const [id, z] of zeitenAusKalender(daten.text, fenster, t => werkeImLink(t, ''), { monatskopf: kopf })) {
+            listenZeiten.set(id, { ...z, ...(listenZeiten.get(id) || {}) });
+        }
+    };
     const sammle = (daten) => {
         sammleBloecke(daten);
         for (const l of daten.links) {
@@ -623,6 +669,7 @@ async function lesen(kontext, hausId, fenster) {
             gesehen.add(start);
             erg.besucht.push({ url: start, status: d.status, endUrl: d.endUrl, links: d.links.length });
             sammle(d);
+            sammleZeiten(d, start);
             // Eine erkannte Monatsnavigation einmal je Haus durchgehen.
             if (!erg.monatsVorlage && !/\{JJJJ\}/.test(q.start.join(' '))) {
                 const vorlage = monatsVorlage(d.links.map(l => l.href), fenster);
@@ -645,6 +692,7 @@ async function lesen(kontext, hausId, fenster) {
             gesehen.add(u);
             erg.besucht.push({ url: u, status: d.status, links: d.links.length });
             sammle(d);
+            sammleZeiten(d, u);
         } catch (e) {
             erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
         }
@@ -655,6 +703,7 @@ async function lesen(kontext, hausId, fenster) {
             gesehen.add(u);
             erg.besucht.push({ url: u, status: d.status, links: d.links.length });
             sammle(d);
+            sammleZeiten(d, u);
         } catch (e) {
             erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
         }

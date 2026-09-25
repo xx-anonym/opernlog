@@ -24,14 +24,13 @@ BEGIN:VEVENT
 UID:rinaldo-theater-an-der-wien-2027-04-14@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270414T190000
-DTEND;TZID=Europe/Vienna:20270414T220000
+DTEND;TZID=Europe/Vienna:20270414T223000
 SUMMARY:Rinaldo – Theater an der Wien
 LOCATION:Theater an der Wien\, Wien
 GEO:48.1983;16.363
 URL:https://www.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo
 DESCRIPTION:Georg Friedrich Händel: Rinaldo\nTermine und Karten: https://w
- ww.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo\nDas Ende ist g
- eschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hau
- ses.
+ ww.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo\nAus OpernLog 
+ – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

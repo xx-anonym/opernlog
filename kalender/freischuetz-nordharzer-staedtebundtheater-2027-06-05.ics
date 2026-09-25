@@ -3,18 +3,35 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:freischuetz-nordharzer-staedtebundtheater-2027-06-05@opernlog.vercel.ap
  p
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270605
-DTEND;VALUE=DATE:20270606
+DTSTART;TZID=Europe/Berlin:20270605T193000
+DTEND;TZID=Europe/Berlin:20270605T223000
 SUMMARY:Der Freischütz – Nordharzer Städtebundtheater
 LOCATION:Nordharzer Städtebundtheater\, Halberstadt / Quedlinburg
 GEO:51.896;11.048
 URL:https://harztheater.de/produktion/der-freischuetz
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
- s://harztheater.de/produktion/der-freischuetz\nDie Uhrzeit steht auf der S
- eite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ s://harztheater.de/produktion/der-freischuetz\nDas Ende ist geschätzt (3 
+ Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

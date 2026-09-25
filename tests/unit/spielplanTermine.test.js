@@ -434,3 +434,44 @@ test('Daten aus einer Chronik sind keine Termine', () => {
     assert.deepEqual(termineMitZeiten(text, fenster).termine, []);
     assert.deepEqual(termineAusText(text, fenster), []);
 });
+
+import { zeitenAusKalender, monatAusAdresse } from '../werkzeug/spielplan-termine.mjs';
+
+const findeWerk = z => /carmen/i.test(z) ? ['carmen'] : /falstaff/i.test(z) ? ['falstaff'] : [];
+
+test('Uhrzeiten aus einem Kalender: Tageskopf, Uhrzeit, Titel (Deutsche Oper Berlin)', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    const text = 'So\n4.10.\nOper\nGroßes Haus\n16:00\nCarmen\nOper von Georges Bizet\nTickets\n22:30\nGlam Night: nach Carmen\n'
+        + 'Fr\n9.10.\nOper\nGroßes Haus\n19:30\nCarmen\nOper von Georges Bizet';
+    const z = zeitenAusKalender(text, fenster, findeWerk);
+    // Die Glam Night um 22:30 überschreibt den Abend nicht.
+    assert.deepEqual(z.get('carmen'), { '2026-10-04': '16:00', '2026-10-09': '19:30' });
+});
+
+test('Uhrzeiten aus einer Monatsseite mit Tagen ohne Monat, Einführung übersprungen (Mainz)', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    assert.equal(monatAusAdresse('https://www.staatstheater-mainz.com/uebersicht/oktober', fenster), 'Oktober 2026');
+    assert.equal(monatAusAdresse('https://www.staatstheater-mainz.com/uebersicht/januar', fenster), 'Januar 2027');
+    assert.equal(monatAusAdresse('https://oper.example/spielplan/tosca', fenster), null);
+    const text = '11 So\n14:15 Einführung\n15:00-17:30 → Oper\nWiederaufnahme\nFALSTAFF\nGiuseppe Verdi (1893)\nKarten kaufen';
+    const z = zeitenAusKalender(text, fenster, findeWerk, { monatskopf: 'Oktober 2026' });
+    assert.deepEqual(z.get('falstaff'), { '2026-10-11': '15:00-17:30' });
+    // ohne den Monat der Seite kein Tag, also keine Uhrzeit
+    assert.equal(zeitenAusKalender(text, fenster, findeWerk).get('falstaff'), undefined);
+});
+
+test('Uhrzeiten aus einem Kalender: andere Einträge des Tages davor zählen nicht', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    // Deutsche Oper Berlin, 6. März: zwei Führungen vor Carmen – vorher
+    // bekam Carmen 13:00.
+    const text = 'Sa\n6.3.\nFührung\nGroßes Haus\n13:00\nFührung\nTickets\nFührung\nGroßes Haus\n14:30\nFamilien-Führung\nTickets\n'
+        + 'Oper\nGroßes Haus\n19:30\nCarmen\nOper von Georges Bizet\nTickets\nUnlimited\nOper\nTischlerei\n20:00\nMusic of Changes';
+    assert.deepEqual(zeitenAusKalender(text, fenster, findeWerk).get('carmen'), { '2027-03-06': '19:30' });
+});
+
+test('eine Viertelstunde im Foyer ist die Einführung, nicht die Vorstellung', () => {
+    // Deutsche Oper am Rhein, La traviata
+    const text = 'So 27.09.2026\nOpernhaus Düsseldorf – Foyer\n18:00 - 18:15\nOper\nSo 27.09.2026\nOpernhaus Düsseldorf\n18:30 - 21:00\nOper\nKarten';
+    assert.deepEqual(termineMitZeiten(text, F).zeiten, { '2026-09-27': '18:30-21:00' });
+    assert.equal(beginnFinden(['19:30 – 22:30']), '19:30-22:30');
+});

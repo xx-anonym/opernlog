@@ -25,7 +25,7 @@ UID:fliegender-hollaender-theater-an-der-wien-2026-10-25@opernlog.vercel.ap
  p
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261025T190000
-DTEND;TZID=Europe/Vienna:20261025T220000
+DTEND;TZID=Europe/Vienna:20261025T223000
 SUMMARY:Der fliegende Holländer – Theater an der Wien
 LOCATION:Theater an der Wien\, Wien
 GEO:48.1983;16.363
@@ -33,7 +33,6 @@ URL:https://www.theater-wien.at/de/spielplan/saison2026-27/1617/Der-fliegen
  de-Hollaender
 DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h
  ttps://www.theater-wien.at/de/spielplan/saison2026-27/1617/Der-fliegende-H
- ollaender\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgebl
- ich ist die Seite des Hauses.
+ ollaender\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

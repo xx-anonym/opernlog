@@ -3,17 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:turandot-deutsche-oper-berlin-2027-05-09@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270509
-DTEND;VALUE=DATE:20270510
+DTSTART;TZID=Europe/Berlin:20270509T160000
+DTEND;TZID=Europe/Berlin:20270509T190000
 SUMMARY:Turandot – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/turandot.1385817
 DESCRIPTION:Giacomo Puccini: Turandot\nTermine und Karten: https://deutsche
- operberlin.de/de_DE/production/turandot.1385817\nDie Uhrzeit steht auf der
-  Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ operberlin.de/de_DE/production/turandot.1385817\nDas Ende ist geschätzt (
+ 3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

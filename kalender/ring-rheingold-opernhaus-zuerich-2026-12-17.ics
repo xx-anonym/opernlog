@@ -24,13 +24,13 @@ BEGIN:VEVENT
 UID:ring-rheingold-opernhaus-zuerich-2026-12-17@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20261217T190000
-DTEND;TZID=Europe/Zurich:20261217T220000
+DTEND;TZID=Europe/Zurich:20261217T213000
 SUMMARY:Das Rheingold – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/das-rheingold/
 DESCRIPTION:Richard Wagner: Das Rheingold\nTermine und Karten: https://www.
- opernhaus.ch/spielplan/kalendarium/das-rheingold/\nDas Ende ist geschätzt
-  (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ opernhaus.ch/spielplan/kalendarium/das-rheingold/\nAus OpernLog – maßge
+ blich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

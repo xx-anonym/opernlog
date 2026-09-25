@@ -151,6 +151,8 @@ const NUR_WOCHENTAG = new RegExp(`^(${WOCHENTAG})\\.?,?$`, 'i');
 const WOCHENTAG_TAG = new RegExp(`^(${WOCHENTAG})\\.?,?\\s*(\\d{1,2})\\.?$`, 'i');
 const VOLLES_DATUM = new RegExp(`(?<![\\d.])\\d{1,2}\\.\\s*(?:\\d{1,2}\\.|(?:${MONATSMUSTER})(?![a-zäöüéû]))`, 'i');
 const MONATSKOPF = new RegExp(`^(${MONATSMUSTER})\\.?\\s*(20\\d\\d)$`, 'i');
+// "8 Fr" – Tag vor Wochentag in einer Zeile (Mainz, unter dem Monat der Seite)
+const TAG_WOCHENTAG = new RegExp(`^(\\d{1,2})\\.?\\s+(${WOCHENTAG})\\.?,?$`, 'i');
 
 /**
  * Zerlegt den Text in Zeilen und setzt Kalenderdaten zusammen, die über
@@ -192,6 +194,7 @@ function ordnen(text) {
         // "06" / "Fr" / "6. November 2026, 19 Uhr" wurde sonst der 6. Oktober.
         if (kopf && NUR_TAG.test(z) && NUR_WOCHENTAG.test(n) && !VOLLES_DATUM.test(roh[i + 2] || '')) { ausKopf(`${z.match(NUR_TAG)[1]}. ${kopf}`); continue; }
         if (kopf && (m = z.match(WOCHENTAG_TAG)) && !VOLLES_DATUM.test(n)) { ausKopf(`${m[1]} ${m[2]}. ${kopf}`); continue; }
+        if (kopf && (m = z.match(TAG_WOCHENTAG)) && !VOLLES_DATUM.test(n)) { ausKopf(`${m[2]} ${m[1]}. ${kopf}`); continue; }
         if (kopf && NUR_WOCHENTAG.test(z) && NUR_TAG.test(n) && !VOLLES_DATUM.test(roh[i + 2] || '')) { ausKopf(`${z} ${n.match(NUR_TAG)[1]}. ${kopf}`); i++; continue; }
         aus.push(z);
     }
@@ -342,23 +345,38 @@ const EINFUEHRUNG = /einführung|einlass/i;
  */
 export function beginnFinden(teile) {
     for (let i = 0; i < teile.length; i++) {
-        const zeile = teile[i].replace(DATUM_KURZ, m => ' '.repeat(m.length));
-        for (const m of zeile.matchAll(ZEIT_ALLE)) {
-            const davor = zeile.slice(Math.max(0, m.index - 20), m.index);
-            const danach = zeile.slice(m.index + m[0].length);
-            const allein = !zeile.replace(m[0], '').trim();
-            if (/(einführung|einlass)\W{0,3}$/i.test(davor) || /^\W{0,4}\S*(einführung|einlass)/i.test(danach)
-                || (allein && EINFUEHRUNG.test((teile[i + 1] || '').split(/\s+/)[0] || ''))) continue;
-            // "9.15 p.m." (Bregenz, englische Seite)
-            const nachmittag = /^\s*p\.?\s?m\b/i.test(danach) && Number(m[1]) < 12;
-            const hh = String(Number(m[1]) + (nachmittag ? 12 : 0)).padStart(2, '0');
-            const beginn = `${hh}:${m[2] || '00'}`;
-            const ende = danach.match(/^\s*(?:uhr)?\s*(?:[-–—]|bis(?:\s+ca\.)?)\s*([01]?\d|2[0-3])[:.]([0-5]\d)(\s*(?:uhr)?\s*\S*)/i);
-            const bis = ende && `${ende[1].padStart(2, '0')}:${ende[2]}`;
-            // Ein Ende liegt nach dem Beginn und ist keine Einführung: Gießen
-            // schreibt "19:30 Uhr - 19:00 EINFÜHRUNG".
-            return bis && bis > beginn && !EINFUEHRUNG.test(ende[3]) ? `${beginn}-${bis}` : beginn;
-        }
+        const zeit = zeitInZeile(teile, i);
+        if (zeit) return zeit;
+    }
+    return null;
+}
+
+const minuten = hhmm => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3, 5));
+
+/** Wie beginnFinden(), aber nur in Zeile i – die folgende zählt nur als Hinweis auf eine Einführung. */
+function zeitInZeile(teile, i) {
+    const zeile = teile[i].replace(DATUM_KURZ, m => ' '.repeat(m.length));
+    let weiterAb = 0;
+    for (const m of zeile.matchAll(ZEIT_ALLE)) {
+        if (m.index < weiterAb) continue;
+        const davor = zeile.slice(Math.max(0, m.index - 20), m.index);
+        const danach = zeile.slice(m.index + m[0].length);
+        const allein = !zeile.replace(m[0], '').trim();
+        if (/(einführung|einlass)\W{0,3}$/i.test(davor) || /^\W{0,4}\S*(einführung|einlass)/i.test(danach)
+            || (allein && EINFUEHRUNG.test((teile[i + 1] || '').split(/\s+/)[0] || ''))) continue;
+        // "9.15 p.m." (Bregenz, englische Seite)
+        const nachmittag = /^\s*p\.?\s?m\b/i.test(danach) && Number(m[1]) < 12;
+        const hh = String(Number(m[1]) + (nachmittag ? 12 : 0)).padStart(2, '0');
+        const beginn = `${hh}:${m[2] || '00'}`;
+        const ende = danach.match(/^\s*(?:uhr)?\s*(?:[-–—]|bis(?:\s+ca\.)?)\s*([01]?\d|2[0-3])[:.]([0-5]\d)(\s*(?:uhr)?\s*\S*)/i);
+        const bis = ende && `${ende[1].padStart(2, '0')}:${ende[2]}`;
+        // Ein Ende liegt nach dem Beginn und ist keine Einführung: Gießen
+        // schreibt "19:30 Uhr - 19:00 EINFÜHRUNG".
+        if (!bis || bis <= beginn || EINFUEHRUNG.test(ende[3])) return beginn;
+        // Eine Viertelstunde ist keine Vorstellung, sondern die Einführung
+        // davor: Deutsche Oper am Rhein, "Foyer 18:00 - 18:15" über "18:30 - 21:00".
+        if (minuten(bis) - minuten(beginn) <= 30) { weiterAb = m.index + m[0].length + ende[0].length; continue; }
+        return `${beginn}-${bis}`;
     }
     return null;
 }
@@ -366,12 +384,13 @@ export function beginnFinden(teile) {
 /**
  * Wie termineMitUhrzeit(), dazu je Termin die Zeit, wo sie eindeutig ist –
  * nur bei einem Datum je Zeile. Eine Leiste ("So 4.10.26 Fr 9.10.26") hat
- * keine Zeiten.
- * @returns {{termine: string[], zeiten: Object<string, string>}}
+ * keine Zeiten. Dazu die Daten, deren Einträge abgesagt sind ("Entfällt").
+ * @returns {{termine: string[], zeiten: Object<string, string>, abgesagt: string[]}}
  */
 export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
     const { zeilen, kalender } = ordnen(text);
     const gefunden = new Set();
+    const abgesagt = new Set();
     const zeiten = {};
     // Das Jahr aus den Zeilen davor gilt weiter – siehe termineLesen().
     let kontext = saison ? { saison } : null;
@@ -392,7 +411,8 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
         // Orte, an denen keine Vorstellung stattfindet, gelten im ganzen
         // Eintrag (Ulm: Datum, Wochentag, Uhrzeit, dann "Treffpunkt
         // Bühnenpforte"). "Foyer" nicht – dort steht oft nur die Einführung.
-        if (teile.some(t => ORT_NEBENHER.test(t) || ABGESAGT.test(t))) return;
+        if (teile.some(t => ABGESAGT.test(t))) { daten.forEach(d => abgesagt.add(d)); return; }
+        if (teile.some(t => ORT_NEBENHER.test(t))) return;
         const umgebung = teile.join(' ');
         // Die Uhrzeit darf nicht Teil des Datums selbst sein ("19.10." ist kein 19:10).
         const ohneDaten = umgebung.replace(DATUM_KURZ, ' ');
@@ -405,5 +425,117 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
             }
         }
     });
-    return { termine: [...gefunden].sort(), zeiten };
+    return { termine: [...gefunden].sort(), zeiten, abgesagt: [...abgesagt].filter(d => !gefunden.has(d)).sort() };
+}
+
+const MONAT_IN_ADRESSE = /\/(januar|februar|maerz|märz|april|mai|juni|juli|august|september|oktober|november|dezember)\/?$/i;
+
+/**
+ * Der Monat, den eine Adresse nennt, als Kopfzeile für zeitenAusKalender():
+ * Mainz hat Monatsseiten ".../uebersicht/januar" mit Tagen ohne Monat
+ * ("8 Fr"). Das Jahr ergibt sich aus der Spielzeit des Fensters.
+ * @returns {string|null} etwa "Januar 2027"
+ */
+export function monatAusAdresse(url, { von }) {
+    const m = String(url || '').split(/[?#]/)[0].match(MONAT_IN_ADRESSE);
+    if (!m) return null;
+    const monat = MONATE[m[1].toLowerCase()];
+    const beginn = Number(von.slice(0, 4)) - (Number(von.slice(5, 7)) >= 8 ? 0 : 1);
+    return `${MONATSNAME[monat]} ${monat >= 8 ? beginn : beginn + 1}`;
+}
+
+const LD_ZEIT = /^(20\d\d-\d\d-\d\d)T([01]\d|2[0-3]):([0-5]\d)(?::\d\d(?:\.\d+)?)?([+-]\d\d:?\d\d)?$/;
+
+/**
+ * Uhrzeiten aus den strukturierten Termindaten einer Seite (schema.org Event
+ * in ld+json). Zürich: "startDate": "2027-03-07T20:00", "endDate":
+ * "2027-03-07T22:35" – im Text der Seite steht nur das Datum.
+ *
+ * Nur Ortszeit: eine Angabe in UTC ("…Z") müsste erst umgerechnet werden.
+ * Mitternacht heißt meist "Uhrzeit unbekannt". Zwei verschiedene Anfänge am
+ * selben Tag (Vorstellung und Matinee) lassen offen, welcher gilt – dann
+ * keiner.
+ *
+ * @param {{start: string, ende?: string}[]} ereignisse
+ * @param {{von: string, bis: string}} fenster
+ * @returns {Object<string, string>} Datum -> "HH:MM" oder "HH:MM-HH:MM"
+ */
+export function zeitenAusLd(ereignisse, { von, bis }) {
+    const je = new Map(); // Datum -> Set(Zeit)
+    for (const { start, ende } of ereignisse || []) {
+        const m = LD_ZEIT.exec(String(start || '').trim());
+        if (!m || m[1] < von || m[1] > bis || (m[2] === '00' && m[3] === '00')) continue;
+        const beginn = `${m[2]}:${m[3]}`;
+        const e = LD_ZEIT.exec(String(ende || '').trim());
+        const schluss = e && e[1] === m[1] && `${e[2]}:${e[3]}` > beginn ? `${e[2]}:${e[3]}` : null;
+        if (!je.has(m[1])) je.set(m[1], new Map());
+        const tag = je.get(m[1]);
+        if (!tag.has(beginn) || (!tag.get(beginn) && schluss)) tag.set(beginn, schluss);
+    }
+    const aus = {};
+    for (const [datum, tag] of je) {
+        if (tag.size !== 1) continue;
+        const [[beginn, schluss]] = tag;
+        aus[datum] = schluss ? `${beginn}-${schluss}` : beginn;
+    }
+    return aus;
+}
+
+/**
+ * Uhrzeiten aus einer Kalenderseite: Tageskopf, darunter Einträge mit
+ * Uhrzeit und Titel. Deutsche Oper Berlin: "4.10." / "Oper" / "16:00" /
+ * "Carmen"; Mainz: "11 So" / "14:15 Einführung" / "15:00-17:30 → Oper" /
+ * "FALSTAFF". Die Seiten der Produktionen nennen dort nur die Daten.
+ *
+ * Liefert nur Uhrzeiten – welche Termine gelten, bestimmt weiter die Seite
+ * der Produktion. Je Werk und Tag zählt der erste Eintrag: ein späteres
+ * "Glam Night: nach Carmen" um 22:30 ändert nichts mehr.
+ *
+ * @param {string} text
+ * @param {{von: string, bis: string}} fenster
+ * @param {(zeile: string) => string[]} finde  Werk-Ids, die eine Zeile nennt
+ * @param {{monatskopf?: string|null}} [o]  Monat der Seite, wo die Tage ihn nicht nennen
+ * @returns {Map<string, Object<string, string>>} Werk -> {Datum: Uhrzeit}
+ */
+export function zeitenAusKalender(text, fenster, finde, { monatskopf = null } = {}) {
+    const { zeilen } = ordnen(monatskopf ? `${monatskopf}\n${text}` : text);
+    const aus = new Map();
+    let kontext = null;
+    let datum = null;
+    let abschnitt = [];
+    for (let i = 0; i < zeilen.length; i++) {
+        const z = zeilen[i];
+        const erg = termineLesen(z, fenster, kontext);
+        kontext = erg.kontext;
+        const ids = finde(z);
+        if (erg.termine.length > 1) { datum = null; abschnitt = []; continue; }   // eine Leiste, kein Kalender
+        if (erg.termine.length === 1) {
+            datum = erg.termine[0];
+            abschnitt = [];
+            if (!ids.length) continue;
+        }
+        if (!datum || !ids.length || NEBEN_ZEILE.test(z) || /einführung/i.test(z)) { abschnitt.push(z); continue; }
+        // Die Uhrzeit, die dem Titel am nächsten steht: davor stehen oft
+        // andere Einträge des Tages ("13:00 Führung", "14:00 Hamed & Sherifa").
+        const teile = [...abschnitt, z];
+        let zeit = null;
+        for (let k = teile.length - 1; k >= 0 && !zeit; k--) zeit = zeitInZeile(teile, k);
+        if (!zeit) {
+            // Die Uhrzeit hinter dem Titel, bis zum nächsten Tag
+            const danach = [];
+            for (let j = i + 1; j < zeilen.length && danach.length < 2; j++) {
+                if (termineLesen(zeilen[j], fenster, kontext).termine.length) break;
+                danach.push(zeilen[j]);
+            }
+            zeit = beginnFinden(danach);
+        }
+        if (zeit && /^([01]\d|2[0-3]):[0-5]\d(-([01]\d|2[0-3]):[0-5]\d)?$/.test(zeit)) {
+            for (const id of ids) {
+                if (!aus.has(id)) aus.set(id, {});
+                if (!aus.get(id)[datum]) aus.get(id)[datum] = zeit;
+            }
+        }
+        abschnitt = [];
+    }
+    return aus;
 }

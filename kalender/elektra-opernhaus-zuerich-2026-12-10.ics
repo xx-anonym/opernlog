@@ -24,13 +24,13 @@ BEGIN:VEVENT
 UID:elektra-opernhaus-zuerich-2026-12-10@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20261210T200000
-DTEND;TZID=Europe/Zurich:20261210T230000
+DTEND;TZID=Europe/Zurich:20261210T215000
 SUMMARY:Elektra – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/elektra-1/
 DESCRIPTION:Richard Strauss: Elektra\nTermine und Karten: https://www.opern
- haus.ch/spielplan/kalendarium/elektra-1/\nDas Ende ist geschätzt (3 Stund
- en).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ haus.ch/spielplan/kalendarium/elektra-1/\nAus OpernLog – maßgeblich ist
+  die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

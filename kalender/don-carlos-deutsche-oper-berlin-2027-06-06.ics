@@ -3,18 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:don-carlos-deutsche-oper-berlin-2027-06-06@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270606
-DTEND;VALUE=DATE:20270607
+DTSTART;TZID=Europe/Berlin:20270606T170000
+DTEND;TZID=Europe/Berlin:20270606T200000
 SUMMARY:Don Carlos – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/don-carlo.1385834
 DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://deutsch
- eoperberlin.de/de_DE/production/don-carlo.1385834\nDie Uhrzeit steht auf d
- er Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hause
- s.
+ eoperberlin.de/de_DE/production/don-carlo.1385834\nDas Ende ist geschätzt
+  (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

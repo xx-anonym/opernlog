@@ -138,6 +138,7 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
 
 import { dazunehmen } from '../werkzeug/spielplan-uebernehmen.mjs';
 import { uebersichtsSeiten, seitenAuswahl, seitenTermine } from '../werkzeug/spielplaene-lesen.mjs';
+import { zeitenAusLd } from '../werkzeug/spielplan-termine.mjs';
 
 test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
     const lauf = { _werke: [{ id: 'neues-werk', title: 'Neues Werk', composer: 'A. Komponist' }], 'semperoper': { stand: '2026-09-22', werke: {
@@ -319,4 +320,51 @@ test('die Abende eines Hauses: nur dieses, nur kommende, nach Datum und Uhrzeit'
         ['2026-10-03 – tosca', '2026-10-05 18:00 aida', '2026-10-05 19:00 tosca']);
     assert.equal(abende[0].haus.id, 'semperoper');
     assert.deepEqual(abendeImHaus('haus-fuer-mozart', { heute: '2026-10-01', daten }), []);
+});
+
+test('Uhrzeiten aus schema.org-Events, wo der Text nur Daten nennt (Zürich)', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    const zuerich = {
+        text: 'La clemenza di Tito\nWolfgang Amadeus Mozart\nSo 07 Mär 2027\nMi 10 Mär 2027',
+        zusatz: '2027-03-07T 2027-03-10T',
+        ereignisse: [
+            { start: '2027-03-07T20:00', ende: '2027-03-07T22:35' },
+            { start: '2027-03-07T20:00', ende: '2027-03-07T22:35' },   // Zürich nennt jeden Abend zweimal
+            { start: '2027-03-10T19:00', ende: '2027-03-10T21:35' },
+            { start: '2027-04-01T19:00' },                              // nicht auf der Seite: bleibt draußen
+        ],
+    };
+    const erg = seitenTermine(zuerich, fenster);
+    assert.deepEqual(erg.termine, ['2027-03-07', '2027-03-10']);
+    assert.deepEqual(erg.zeiten, { '2027-03-07': '20:00-22:35', '2027-03-10': '19:00-21:35' });
+    // Eine Uhrzeit im Text geht vor.
+    const mitText = { ...zuerich, text: 'Tosca\nSo 07.03.2027, 19:30 Uhr' };
+    assert.deepEqual(seitenTermine(mitText, fenster).zeiten, { '2027-03-07': '19:30' });
+});
+
+test('schema.org-Events: nur eindeutige Ortszeiten', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    assert.deepEqual(zeitenAusLd([
+        { start: '2026-10-04T18:00:00+02:00', ende: '2026-10-04T21:00:00+02:00' },
+        { start: '2026-10-05T17:00:00Z' },                       // UTC: müsste umgerechnet werden
+        { start: '2026-10-06T00:00' },                           // Mitternacht: Uhrzeit unbekannt
+        { start: '2026-10-07T11:00' }, { start: '2026-10-07T19:30' },   // Matinee und Vorstellung
+        { start: '2026-10-08T19:30', ende: '2026-10-09T00:15' },  // Ende nach Mitternacht: nur Beginn
+        { start: '2026-08-01T19:30' },                           // vor dem Fenster
+    ], fenster), { '2026-10-04': '18:00-21:00', '2026-10-08': '19:30' });
+    assert.deepEqual(zeitenAusLd(undefined, fenster), {});
+});
+
+test('alle Vorstellungen abgesagt: keine Termine, auch nicht aus den Attributen', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    // Krefeld: Blaubart auf 2027/28 verschoben, jeder Termin mit "Entfällt"
+    const krefeld = {
+        text: 'Vorstellungen\n29\nApr. 2027\nDO\n18:45\nTheater MG – Theaterbar\nEntfällt\n02\nMai 2027\nSO\n18:00\nTheater MG – GB on stage\nEntfällt\n'
+            + 'Hinweis: Die Produktion wird aus dispositorischen Gründen auf die Spielzeit 2027/2028 verschoben.',
+        zusatz: '2026-09-25 2027-04-29 2027-05-02',
+    };
+    assert.deepEqual(seitenTermine(krefeld, fenster).termine, []);
+    // Nur einer abgesagt: der andere bleibt.
+    const einer = { ...krefeld, text: krefeld.text.replace('Theaterbar\nEntfällt', 'Theaterbar') };
+    assert.deepEqual(seitenTermine(einer, fenster).termine, ['2027-04-29']);
 });

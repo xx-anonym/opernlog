@@ -24,13 +24,13 @@ BEGIN:VEVENT
 UID:manon-lescaut-opernhaus-zuerich-2026-12-22@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20261222T190000
-DTEND;TZID=Europe/Zurich:20261222T220000
+DTEND;TZID=Europe/Zurich:20261222T213000
 SUMMARY:Manon Lescaut – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
-URL:https://www.opernhaus.ch/spielplan/kalendarium/manon-lescaut/
+URL:https://www.opernhaus.ch/spielplan/kalendarium/manon-lescaut/2026-2027/
 DESCRIPTION:Giacomo Puccini: Manon Lescaut\nTermine und Karten: https://www
- .opernhaus.ch/spielplan/kalendarium/manon-lescaut/\nDas Ende ist geschätz
- t (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ .opernhaus.ch/spielplan/kalendarium/manon-lescaut/2026-2027/\nAus OpernLog
+  – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

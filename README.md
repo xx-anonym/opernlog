@@ -90,7 +90,10 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Mit Standort stehen die nächsten Häuser vorn. Das Kalender-Symbol neben
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
-  Werkzeug mit, wo sie eindeutig neben dem Datum stehen. iPhone und iPad
+  Werkzeug mit, wo sie eindeutig neben dem Datum stehen. Nennt die Seite
+  einer Produktion nur Daten, kommen sie aus dem Monatskalender des Hauses
+  (Mainz, Deutsche Oper Berlin) oder aus den schema.org-Events der Seite
+  (Zürich). iPhone und iPad
   öffnen dieselbe Datei vom Server; dafür liegt jeder Abend einzeln unter
   `kalender/`. Aus der installierten App heraus geht die Adresse an das
   echte Safari (`x-safari-https:`), denn das Fenster, das iOS dort öffnet,
