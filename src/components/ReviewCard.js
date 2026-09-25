@@ -86,8 +86,10 @@ export function ReviewCard(visit, options = {}) {
     ${ausstehendMarke(visit)}
     ${showOpera && opera ? `
       <div class="review-card__opera" data-action="opera" data-opera-id="${opera.id}">
-        <span class="review-card__opera-title">${opera.title}</span>
-        <span class="review-card__opera-composer">${opera.composer}</span>
+        <span class="review-card__opera-info">
+          <span class="review-card__opera-title">${opera.title}</span>
+          <span class="review-card__opera-composer">${opera.composer}</span>
+        </span>
         ${standalone ? `<div class="btn btn--sm btn--outline" style="margin-left: auto;">Zur Oper ›</div>` : ''}
       </div>
     ` : ''}

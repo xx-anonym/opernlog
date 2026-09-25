@@ -232,3 +232,9 @@ test('jedes Haus hat eine Farbe als Rückfallebene für fehlende Bilder', () => 
         assert.match(h.color || '', /^#[0-9a-fA-F]{6}$/, `${h.id}: keine Farbe`);
     }
 });
+
+test('die Gattung ist deutsch oder die Originalbezeichnung, nicht englisch', () => {
+    // 19 Werke hießen "Opera", 30 "Oper" – im Filter der Opern-Seite standen
+    // dadurch zwei Gattungen für dasselbe.
+    assert.deepEqual(operas.filter(o => o.genre === 'Opera').map(o => o.id), []);
+});

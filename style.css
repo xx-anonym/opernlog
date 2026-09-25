@@ -4253,7 +4253,9 @@ body {
     font-size: 1.6rem;
     line-height: 1.15;
     color: var(--text);
-    overflow-wrap: anywhere;
+    /* Silbentrennung statt Bruch an beliebiger Stelle: "Semperope / r" */
+    hyphens: auto;
+    overflow-wrap: break-word;
 }
 
 .season-card--gross .season-card__value {

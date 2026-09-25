@@ -271,3 +271,22 @@ test('auch am Store vorbei lässt sich abgemeldet keine Liste anlegen', { skip: 
         assert.deepEqual(fehler, ['OHNE_KONTO', 'OHNE_KONTO', 'OHNE_KONTO']);
     } finally { await ctx.close(); }
 });
+
+// ── Seite eines Abends ──────────────────────────────────────────────────
+
+test('auf der Seite eines Abends steht der Komponist unter dem Titel', { skip: fehltPlaywright }, async () => {
+    // Vorher klebten beide in einer Zeile aneinander: "La TraviataGiuseppe Verdi".
+    const { ctx, p, fehler } = await oeffne();
+    try {
+        await p.evaluate(({ freund }) => {
+            window.__visits = [{ id: 'f9', user_id: freund, opera_id: 'la-traviata', house_id: 'semperoper', date: '2026-05-01', rating: 5,
+                profiles: { id: freund, username: 'Freundin', avatar_initials: 'FR', avatar_icon: null } }];
+            location.hash = '#/visit/f9';
+        }, { freund: FREUND });
+        await p.waitForSelector('.review-card__opera-composer');
+        const titel = await p.locator('.review-card__opera-title').boundingBox();
+        const komponist = await p.locator('.review-card__opera-composer').boundingBox();
+        assert.ok(komponist.y >= titel.y + titel.height - 2, `Komponist nicht unter dem Titel: ${JSON.stringify({ titel, komponist })}`);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});

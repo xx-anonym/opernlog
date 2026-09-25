@@ -148,8 +148,13 @@ function builder(table) {
           : { ...PROFILE, created_at: window.__profilErstellt || PROFILE.created_at }];
       }
       if (table === 'seen_operas') rows = window.__seen.map(id => ({ opera_id: id }));
+      // Angelegte Listen kommen beim nächsten Abgleich wieder – sonst leerte
+      // ein Abgleich im falschen Moment die gerade gesetzte Wunschliste.
+      if (table === 'lists') rows = window.__lists.filter(l => !filter.user_id || l.user_id === filter.user_id);
       if (table === 'visits') {
-        rows = window.__visits.filter(v => !filter.user_id || v.user_id === filter.user_id);
+        // Alle eq()-Filter, die eine Spalte der Besuche betreffen – sonst
+        // stünden auf der Seite eines Werks die Abende aller Werke.
+        rows = window.__visits.filter(v => Object.entries(filter).every(([spalte, wert]) => !(spalte in v) || v[spalte] === wert));
         // neq schliesst aus – der Community-Block laesst so die eigenen Abende weg.
         for (const [spalte, wert] of Object.entries(nicht)) {
           rows = rows.filter(v => v[spalte] !== wert);
