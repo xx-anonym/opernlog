@@ -574,3 +574,23 @@ test('eine Kostprobe ist keine Vorstellung (Bremerhaven)', () => {
     const t = '09.02.2027 um 18:30 Uhr\nKostprobe (Eintritt frei)\n13.02.2027 um 19:30 Uhr\nVorverkauf ab: 03.11.2026, 12:00 Uhr';
     assert.deepEqual(termineMitZeiten(t, fenster).termine, ['2027-02-13']);
 });
+
+test('Liste mit und ohne Uhrzeit: auch die Termine ohne zählen (Wiener Staatsoper)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const wien = '6 Termine\nSonntag\n11. Oktober\n2026\n19:00\nMittwoch\n14. Oktober\n2026\n19:00\n'
+        + 'Freitag\n30. April\n2027\nDienstag\n04. Mai\n2027\nÜber das Werk';
+    const { termine, zeiten } = termineMitZeiten(wien, fenster);
+    assert.deepEqual(termine, ['2026-10-11', '2026-10-14', '2027-04-30', '2027-05-04']);
+    assert.deepEqual(zeiten, { '2026-10-11': '19:00', '2026-10-14': '19:00' });
+    // Ohne einen Eintrag mit Uhrzeit bleibt es wie bisher: dann entscheiden Attribute und Text ohne Zeiten.
+    assert.deepEqual(termineMitZeiten('Freitag\n30. April\n2027\nDienstag\n04. Mai\n2027', fenster).termine, []);
+});
+
+test('Jahr in eigener Zeile: der Anlass darunter zählt weiter (Bonn, Einführungsmatinee)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const bonn = 'TERMINE UND KARTEN\nSO\n22. NOV\n2026\nEINFÜHRUNGSMATINEE Oper Oper Foyerbühne 11:00\nLA BOHÈME\n'
+        + 'SO\n06. DEZ\n2026\nPREMIERE Oper Opernhaus Bühne 18:00\nLA BOHÈME\nSA\n16. JAN\n2027\nOper Opernhaus Bühne 18:00\nLA BOHÈME';
+    assert.deepEqual(termineMitZeiten(bonn, fenster), {
+        termine: ['2026-12-06', '2027-01-16'], zeiten: { '2026-12-06': '18:00', '2027-01-16': '18:00' }, abgesagt: [],
+    });
+});

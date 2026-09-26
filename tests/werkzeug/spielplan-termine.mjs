@@ -260,9 +260,9 @@ const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführ
 const ORT_NEBENHER = /treffpunkt|probebühne|probenbesuch|click in|absacker|opernwerkstatt/i;
 // Abgesagt: Greifswald lässt den Termin stehen und schreibt "So entfällt 18:00".
 const ABGESAGT = /\b(entfällt|abgesagt|fällt aus)\b/i;
-const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(kostprobe|matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(kostprobe|\S*matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
-const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(kostprobe|matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(kostprobe|\S*matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
 // "Verkaufsstart:" über einem Datum: das ist der Beginn des Vorverkaufs,
 // keine Vorstellung (Volksoper Wien: "Do / 12. November 2026 /
@@ -437,14 +437,25 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
     const gefunden = new Set();
     const abgesagt = new Set();
     const zeiten = {};
+    // Einträge in Listenform (Wochentag, Datum) ohne Uhrzeit: sie zählen, wenn
+    // dieselbe Liste Einträge mit Uhrzeit hat. Die Wiener Staatsoper nennt die
+    // Uhrzeit erst mit Beginn des Verkaufs – Carmen hat sechs Termine, drei
+    // davon mit Uhrzeit.
+    const ohneZeit = new Set();
+    let listeMitZeit = false;
     // Das Jahr aus den Zeilen davor gilt weiter – siehe termineLesen().
     let kontext = saison ? { saison } : null;
     zeilen.forEach((z, i) => {
         const vorher = kontext;
-        const erg = termineLesen(z, fenster, kontext);
+        // Das Jahr in der Zeile darunter gehört zum Datum: Wien schreibt
+        // "30. April" / "2027" – sonst bekäme der Tag das Jahr davor.
+        const mitJahr = /^20\d\d$/.test(zeilen[i + 1] || '') && !/20\d\d/.test(z) ? `${z} ${zeilen[i + 1]}` : z;
+        const erg = termineLesen(mitJahr, fenster, kontext);
         kontext = erg.kontext;
         if (!erg.termine.length || NEBEN_ZEILE.test(z) || VERKAUF_DAVOR.test(zeilen[i - 1] || '')) return;
         const teile = eintrag(zeilen, i, fenster, vorher, 3);
+        // Die Jahreszeile gehört zum Datum, nicht zum Eintrag darunter.
+        if (mitJahr !== z) teile.splice(1, 1);
         const daten = erg.termine.filter(d => !jahrWiderspricht(d, teile));
         if (!daten.length) return;
         // Der Anlass steht direkt darunter ("Einführung") oder eine Zeile tiefer
@@ -462,7 +473,13 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
         // Die Uhrzeit darf nicht Teil des Datums selbst sein ("19.10." ist kein 19:10).
         const ohneDaten = umgebung.replace(DATUM_KURZ, ' ');
         const leiste = kalender.has(i) || (daten.length >= 2 && nurDaten(z));
-        if ((leiste || UHRZEIT.test(ohneDaten)) && ortPasst(zeilen, i, fenster, vorher, ort)) {
+        const listenform = daten.length === 1 && NUR_WOCHENTAG.test(zeilen[i - 1] || '');
+        if (!leiste && !UHRZEIT.test(ohneDaten)) {
+            if (listenform && ortPasst(zeilen, i, fenster, vorher, ort)) ohneZeit.add(daten[0]);
+            return;
+        }
+        if (ortPasst(zeilen, i, fenster, vorher, ort)) {
+            if (listenform) listeMitZeit = true;
             daten.forEach(d => gefunden.add(d));
             if (daten.length === 1 && !(daten[0] in zeiten)) {
                 const zeit = beginnFinden(teile);
@@ -474,6 +491,7 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
             }
         }
     });
+    if (listeMitZeit) ohneZeit.forEach(d => gefunden.add(d));
     return { termine: [...gefunden].sort(), zeiten, abgesagt: [...abgesagt].filter(d => !gefunden.has(d)).sort() };
 }
 

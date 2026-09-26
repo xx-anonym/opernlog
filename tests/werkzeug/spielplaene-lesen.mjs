@@ -256,7 +256,8 @@ function rang(url) {
 
 // Nebenveranstaltungen zu einem Werk sind keine Vorstellungen.
 // "Hör’n Sie mal!" ist in Hannover eine Einführung zum Hören.
-const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal/i;
+// "Preview «Elektra»" (Zürich): eine Einführung um halb zwölf, kein Abend.
+export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview/i;
 
 // Artikel über ein Stück sind keine Seiten der Produktion: Bonn erzählt im
 // Magazin von Galas vergangener Spielzeiten ("Am 11. Mai erlebte das

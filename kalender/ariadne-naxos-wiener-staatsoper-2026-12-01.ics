@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ariadne-naxos-wiener-staatsoper-2026-12-01@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:Ariadne auf Naxos – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien
+GEO:48.2029;16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/ariadne-auf-naxos/
+DESCRIPTION:Richard Strauss: Ariadne auf Naxos\nTermine und Karten: https:/
+ /www.wiener-staatsoper.at/kalender/detail/ariadne-auf-naxos/\nDie Uhrzeit 
+ steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seit
+ e des Hauses.
+END:VEVENT
+END:VCALENDAR

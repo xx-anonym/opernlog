@@ -502,3 +502,17 @@ test('bekannte Kinderfassungen sind nicht das Werk (Halle, Salzburg)', async () 
     assert.ok(KINDERFASSUNG.test('Die kleine Zauberflöte'));
     assert.ok(!KINDERFASSUNG.test('Die Zauberflöte'));
 });
+
+test('eine "Preview" ist eine Nebenveranstaltung (Zürich)', async () => {
+    const { NEBENHER } = await import('../werkzeug/spielplaene-lesen.mjs');
+    assert.ok(NEBENHER.test('Sa 14 Nov\n\n11.30\n\nBernhard Theater\nPreview «Elektra»\nTICKETS'));
+    assert.ok(NEBENHER.test('https://www.opernhaus.ch/spielplan/kalendarium/preview-elektra/'));
+    assert.ok(!NEBENHER.test('So 22 Nov\n18.00\nOpernhaus\nElektra\nTICKETS'));
+});
+
+test('ausschliessen mit url trifft nur diese Produktion (Volksoper, Killing Carmen)', () => {
+    const k = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'andere-tosca', grund: 'Bearbeitung' }] };
+    assert.equal(uebernehmen(LAUF, k).zeilen.length, 1, 'die echte Tosca bleibt');
+    const k2 = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'semperoper.example/tosca', grund: 'Bearbeitung' }] };
+    assert.equal(uebernehmen(LAUF, k2).zeilen.length, 0);
+});

@@ -67,7 +67,8 @@ export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
         for (const [werk, w0] of Object.entries(erg.werke || {})) {
             const w = { ...w0, termine: w0.termine.filter(t => t > (erg.stand || '') && (!rahmen.has(t) || w0.ausListe?.includes(t))) };
             const grund = !werkIds.has(werk) ? 'nicht im Katalog'
-                : (korrekturen.ausschliessen || []).find(k => passt(k, haus, werk))?.grund
+                // Mit url nur diese Produktion: "Killing Carmen" ist nicht jede Carmen der Volksoper.
+                : (korrekturen.ausschliessen || []).find(k => passt(k, haus, werk) && (!k.url || (w0.url || '').includes(k.url)))?.grund
                 ?? (!w.komponistGenannt && !(korrekturen.aufnehmen || []).some(k => passt(k, haus, werk)) ? 'Komponist nicht genannt'
                     : !w.termine.length ? 'keine Termine' : null);
             if (grund) { weggelassen.push({ haus, werk, grund }); continue; }

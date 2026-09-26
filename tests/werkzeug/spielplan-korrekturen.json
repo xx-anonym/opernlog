@@ -2,6 +2,12 @@
   "_hinweis": "Ergebnis der Durchsicht von Hand. ausschliessen: Treffer, die kein Opernabend sind (Schauspiel, Ballett, Konzert, Kinderfassung …). aufnehmen: Treffer, bei denen der Komponist auf der Seite fehlt, die aber sicher stimmen. termineEntfernen: einzelne falsch gelesene Daten. adressen: bessere Links. werk '*' gilt für alle Werke eines Hauses. ergaenzen: Termine (und, wo bekannt, zeiten) aus Quellen, die das Werkzeug nicht lesen kann (Spielzeithefte von Häusern, die Programme aussperren), mit Quelle; sie kommen zu den gelesenen hinzu und zählen nur, solange sie nach dem Stand liegen.",
   "ausschliessen": [
     {
+      "haus": "volksoper-wien",
+      "werk": "carmen",
+      "url": "killing-carmen",
+      "grund": "Killing Carmen – neues Musiktheater von Strunk, Schrenk und Cazes nach Bizet, nicht die Oper"
+    },
+    {
       "haus": "deutsche-oper-berlin",
       "werk": "rosenkavalier",
       "grund": "Sinfoniekonzert Rosenkavalier / Enigma – die Suite, nicht die Oper"
