@@ -7,9 +7,13 @@
   "gaertnerplatztheater": [
     "https://www.gaertnerplatztheater.de/de/spielplan/index.html"
   ],
-  "festspielhaus-bayreuth": [
-    "https://www.bayreuther-festspiele.de/programm/"
-  ],
+  "festspielhaus-bayreuth": {
+    "kalenderZeiten": true,
+    "start": [
+      "https://www.bayreuther-festspiele.de/programm/",
+      "https://www.bayreuther-festspiele.de/programm/spielplan/"
+    ]
+  },
   "staatstheater-nuernberg": [
     "https://www.staatstheater-nuernberg.de/spielplan"
   ],

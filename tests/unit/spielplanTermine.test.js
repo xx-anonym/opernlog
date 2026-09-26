@@ -594,3 +594,13 @@ test('Jahr in eigener Zeile: der Anlass darunter zählt weiter (Bonn, Einführun
         termine: ['2026-12-06', '2027-01-16'], zeiten: { '2026-12-06': '18:00', '2027-01-16': '18:00' }, abgesagt: [],
     });
 });
+
+test('Kalender mit der Uhrzeit in der Datumszeile (Bayreuth)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const finde = z => /^lohengrin$/i.test(z) ? ['lohengrin'] : /^parsifal$/i.test(z) ? ['parsifal'] : [];
+    const text = 'Spielplan 2027\n24.7.\nSamstag, 24. Juli 2027, 20:00 Uhr\nFestspiel Open Air\n25.7.\nSonntag, 25. Juli 2027, 16:00 Uhr\nLohengrin\n'
+        + '26.7.\nMontag, 26. Juli 2027, 16:00 Uhr\nParsifal';
+    const z = zeitenAusKalender(text, fenster, finde);
+    assert.deepEqual(z.get('lohengrin'), { '2027-07-25': '16:00' });
+    assert.deepEqual(z.get('parsifal'), { '2027-07-26': '16:00' });
+});

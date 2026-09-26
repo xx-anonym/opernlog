@@ -585,7 +585,9 @@ export function zeitenAusKalender(text, fenster, finde, { monatskopf = null } = 
         if (!erg.termine.length && VOLLES_DATUM.test(z) && !ids.length) { datum = null; abschnitt = []; continue; }
         if (erg.termine.length === 1) {
             datum = erg.termine[0];
-            abschnitt = [];
+            // Die Uhrzeit kann in der Datumszeile selbst stehen (Bayreuth:
+            // "Sonntag, 25. Juli 2027, 16:00 Uhr", darunter "Lohengrin").
+            abschnitt = [z];
             if (!ids.length) continue;
         }
         // "Werkstatt: Der fliegende Holländer", "Roundtable: …": ein Anlass
