@@ -417,6 +417,18 @@
         "2026-12-30": "19:30",
         "2027-01-22": "19:30"
       }
+    },
+    {
+      "haus": "staatstheater-kassel",
+      "werk": "elisir",
+      "url": "https://www.staatstheater-kassel.de/play/lelisirdamore-3322",
+      "termine": [
+        "2027-02-13"
+      ],
+      "quelle": "Seite der Produktion, von Jonas am 27.9.2026 gemeldet; die Seiten in Kassel laden für das Werkzeug seit dem 26.9. nicht",
+      "zeiten": {
+        "2027-02-13": "19:00-22:00"
+      }
     }
   ]
 }
