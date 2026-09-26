@@ -21,16 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:arabella-badisches-staatstheater-2027-07-06@opernlog.vercel.app
+UID:rigoletto-badisches-staatstheater-2026-12-17@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270706T193000
-DTEND;TZID=Europe/Berlin:20270706T223000
-SUMMARY:Arabella – Badisches Staatstheater
+DTSTART;TZID=Europe/Berlin:20261217T193000
+DTEND;TZID=Europe/Berlin:20261217T221500
+SUMMARY:Rigoletto – Badisches Staatstheater
 LOCATION:Badisches Staatstheater\, Karlsruhe
 GEO:48.9975;8.4045
-URL:https://staatstheater-karlsruhe.de/programm/info/3896/
-DESCRIPTION:Richard Strauss: Arabella\nTermine und Karten: https://staatsth
- eater-karlsruhe.de/programm/info/3896/\nDas Ende ist geschätzt (3 Stunden
- ).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://staatstheater-karlsruhe.de/programm/info/3780/
+DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://staatsth
+ eater-karlsruhe.de/programm/info/3780/\nAus OpernLog – maßgeblich ist d
+ ie Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

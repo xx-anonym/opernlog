@@ -145,6 +145,27 @@ test('Nachlade-Knopf in einem <div> mit demselben Text: der Knopf wird geklickt 
     } finally { await ctx.close(); }
 });
 
+test('"Weitere Termine" als Schalter wird nur einmal aufgeklappt (Karlsruhe)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const SEITE = '<!doctype html><html><body><main><h1>Il Trittico</h1>'
+        + '<div>Samstag, 3.7.2027, 18:00</div>'
+        + '<p><b><a href="#liste" class="schalter" aria-expanded="false">Weitere Termine</a></b></p>'
+        + '<div id="liste" style="display: none">Mittwoch, 21.7.2027, 19:00</div></main><script>'
+        + 'document.querySelector(".schalter").addEventListener("click", (e) => {'
+        + '  e.preventDefault();'
+        + '  const liste = document.getElementById("liste");'
+        + '  const zu = liste.style.display === "none";'
+        + '  liste.style.display = zu ? "block" : "none";'
+        + '  e.currentTarget.setAttribute("aria-expanded", zu ? "true" : "false");'
+        + '});'
+        + '</script></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/trittico', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        const d = await seite(ctx, 'https://theater.example/trittico');
+        assert.match(d.text, /21\.7\.2027/);
+    } finally { await ctx.close(); }
+});
+
 test('"Alle Termine anzeigen" als Link auf eine andere Seite wird nicht geklickt (Staatsoper Berlin)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const SEITE = '<!doctype html><html><body><main><h1>Spielplan Dezember</h1><ul><li>Fr, 04.12.2026, 19:00 Uhr – La Bohème</li></ul>'
         + '<a href="/andere-seite">Alle Termine anzeigen</a></main></body></html>';

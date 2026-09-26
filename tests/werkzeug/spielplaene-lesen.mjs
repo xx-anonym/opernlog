@@ -581,8 +581,12 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 // erreicht ihn nicht. Umgekehrt steigt der Klick nach oben.
                 // Kein Link mit Ziel: die Staatsoper Berlin führt mit "Alle
                 // Termine anzeigen" auf eine andere Seite (?showAll=1).
+                // Kein Schalter, der schon offen ist: in Karlsruhe klappt
+                // "Weitere Termine" eine Liste auf und beim nächsten Klick
+                // wieder zu – nach acht Klicks wäre sie zu.
                 const wegLink = b => b.closest('a[href]') && !/^(#|javascript:)/i.test(b.closest('a[href]').getAttribute('href') || '#');
-                const passt = b => b.offsetParent !== null && !b.disabled && !wegLink(b) && muster.test((b.textContent || '').trim());
+                const offen = b => b.getAttribute('aria-expanded') === 'true' || !!b.querySelector('[aria-expanded="true"]');
+                const passt = b => b.offsetParent !== null && !b.disabled && !wegLink(b) && !offen(b) && muster.test((b.textContent || '').trim());
                 const k = [...document.querySelectorAll('button, [role="button"], a, li, span, b, div')]
                     .find(b => passt(b) && ![...b.querySelectorAll('*')].some(passt));
                 if (!k) return false;
