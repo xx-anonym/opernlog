@@ -66,6 +66,8 @@ export const ANDERE_TITEL = {
     'gianni-schicchi': ['Il trittico', 'Das Triptychon'],
     'suor-angelica': ['Il trittico', 'Das Triptychon', 'Schwester Angelica'],
     'il-tabarro': ['Il trittico', 'Das Triptychon', 'Der Mantel'],
+    // aus der Datenbank: der ganze Abend; die drei Teile oben bekommen ihn auch
+    'il-trittico': ['Trittico', 'Das Triptychon'],
     'rosenkavalier': ['Rosenkavalier'],
     'frau-ohne-schatten': ['Frau ohne Schatten'],
     'freischuetz': ['Freischütz'],

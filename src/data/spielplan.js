@@ -11,7 +11,7 @@
 export const SPIELPLAN_STAND = '2026-09-23';
 
 // Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.
-export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi'];
+export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-trittico', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi'];
 
 // Häuser aus der Datenbank, die nicht in operaHouses.js stehen.
 export const SPIELPLAN_ZUSATZHAEUSER = ['luzerner-theater', 'staatstheater-meiningen', 'theater-bielefeld', 'theater-koblenz'];
@@ -720,6 +720,12 @@ export const spielplan = [
       termine: ['2027-07-03', '2027-07-09', '2027-07-18', '2027-07-21', '2027-07-23'],
       zeiten: { '2027-07-03': '18:00', '2027-07-09': '19:00', '2027-07-18': '16:00' } },
     { werk: 'il-tabarro', haus: 'oper-leipzig', url: "https://www.oper-leipzig.de/de/programm/il-trittico/908",
+      termine: ['2027-04-17', '2027-04-23', '2027-05-07', '2027-06-13', '2027-06-19'],
+      zeiten: { '2027-04-17': '19:00', '2027-04-23': '19:30', '2027-05-07': '19:30', '2027-06-13': '17:00', '2027-06-19': '19:00' } },
+    { werk: 'il-trittico', haus: 'badisches-staatstheater', url: "https://staatstheater-karlsruhe.de/programm/info/3898/",
+      termine: ['2027-07-03', '2027-07-09', '2027-07-18', '2027-07-21', '2027-07-23'],
+      zeiten: { '2027-07-03': '18:00', '2027-07-09': '19:00', '2027-07-18': '16:00' } },
+    { werk: 'il-trittico', haus: 'oper-leipzig', url: "https://www.oper-leipzig.de/de/programm/il-trittico/908",
       termine: ['2027-04-17', '2027-04-23', '2027-05-07', '2027-06-13', '2027-06-19'],
       zeiten: { '2027-04-17': '19:00', '2027-04-23': '19:30', '2027-05-07': '19:30', '2027-06-13': '17:00', '2027-06-19': '19:00' } },
     { werk: 'il-trovatore', haus: 'deutsche-oper-am-rhein', url: "https://www.operamrhein.de/spielplan/produktionen/il-trovatore/?a=termine",
