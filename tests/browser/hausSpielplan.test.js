@@ -74,8 +74,11 @@ test('die Seite eines Hauses zeigt, was dort demnächst läuft', { skip: fehltPl
 });
 
 test('ohne Termine sagt die Seite, warum nichts dasteht', { skip: fehltPlaywright }, async () => {
-    assert.equal(abendeImHaus('haus-fuer-mozart', { heute: HEUTE }).length, 0, 'Testvoraussetzung');
-    const { ctx, p, fehler } = await hausSeite('haus-fuer-mozart');
+    // Eine Sommerbühne, deren Termine im Herbst noch nicht stehen. Das Haus
+    // für Mozart taugte dafür nicht mehr, seit die Mozartwoche mitgelesen
+    // wird; bekommt Erl Termine, hier ein anderes Haus ohne nehmen.
+    assert.equal(abendeImHaus('passionsspielhaus-erl', { heute: HEUTE }).length, 0, 'Testvoraussetzung');
+    const { ctx, p, fehler } = await hausSeite('passionsspielhaus-erl');
     try {
         assert.match(await p.innerText('#hausSpielplan'), /keine Termine vor/);
         assert.equal(await p.locator('#hausSpielplan .naehe-abend').count(), 0);

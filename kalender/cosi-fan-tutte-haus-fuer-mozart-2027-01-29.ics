@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:cosi-fan-tutte-haus-fuer-mozart-2027-01-29@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Vienna:20270129T190000
+DTEND;TZID=Europe/Vienna:20270129T220000
+SUMMARY:Così fan tutte – Haus für Mozart
+LOCATION:Haus für Mozart\, Salzburg
+GEO:47.8;13.0435
+URL:https://mozarteum.at/events/mozarts-cosi-fan-tutte
+DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
+ ttps://mozarteum.at/events/mozarts-cosi-fan-tutte\nDas Ende ist geschätzt
+  (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

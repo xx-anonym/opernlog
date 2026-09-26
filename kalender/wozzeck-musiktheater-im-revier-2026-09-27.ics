@@ -3,17 +3,34 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:wozzeck-musiktheater-im-revier-2026-09-27@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20260927
-DTEND;VALUE=DATE:20260928
+DTSTART;TZID=Europe/Berlin:20260927T180000
+DTEND;TZID=Europe/Berlin:20260927T210000
 SUMMARY:Wozzeck – Musiktheater im Revier
 LOCATION:Musiktheater im Revier\, Gelsenkirchen
 GEO:51.51;7.098
 URL:https://mirgelsenkirchen.de/produktion/wozzeck-912
 DESCRIPTION:Alban Berg: Wozzeck\nTermine und Karten: https://mirgelsenkirch
- en.de/produktion/wozzeck-912\nDie Uhrzeit steht auf der Seite des Hauses.\
- nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ en.de/produktion/wozzeck-912\nDas Ende ist geschätzt (3 Stunden).\nAus Op
+ ernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

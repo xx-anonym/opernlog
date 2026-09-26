@@ -475,3 +475,102 @@ test('eine Viertelstunde im Foyer ist die Einführung, nicht die Vorstellung', (
     assert.deepEqual(termineMitZeiten(text, F).zeiten, { '2026-09-27': '18:30-21:00' });
     assert.equal(beginnFinden(['19:30 – 22:30']), '19:30-22:30');
 });
+
+test('"Werkstatt: Der fliegende Holländer" am Vormittag ist nicht die Vorstellung am Abend', () => {
+    const fenster = { von: '2026-09-25', bis: '2027-09-30' };
+    const findeHollaender = z => /holländer/i.test(z) ? ['fliegender-hollaender'] : [];
+    const text = 'Sa\n17.10.\nUnlimited\nOper\nFoyer\n11:00\nWerkstatt: Der fliegende Holländer\nTickets\n'
+        + 'Unlimited\nFoyer\n14:30\nRoundtable: Der fliegende Holländer\nErlösung für Wagner, Erlösung für Deutschland?\nTickets\n'
+        + 'Oper\nGroßes Haus\n19:30\nDer fliegende Holländer\nRomantische Oper von Richard Wagner\nTickets';
+    assert.deepEqual(zeitenAusKalender(text, fenster, findeHollaender).get('fliegender-hollaender'), { '2026-10-17': '19:30' });
+    // Ein Titel mit Uhrzeit davor bleibt ein Titel.
+    assert.deepEqual(zeitenAusKalender('Sa\n17.10.\n19:30 Der fliegende Holländer', fenster, findeHollaender).get('fliegender-hollaender'), { '2026-10-17': '19:30' });
+});
+
+test('französisch: "MAR. 15 DÉC." ist Dienstag, der 15. Dezember (Genf)', () => {
+    const genf = 'Les Noces de Figaro\nTARIFS:\nDès CHF 20.-\nDIM. 13 DÉC. – 17:00\nMAR. 15 DÉC. – 19:00\nDIM. 20 DÉC. – 15:00\nMAR. 29 DÉC. – 19:00';
+    const { termine, zeiten } = termineMitZeiten(genf, F);
+    assert.deepEqual(termine, ['2026-12-13', '2026-12-15', '2026-12-20', '2026-12-29']);
+    assert.deepEqual(zeiten, { '2026-12-13': '17:00', '2026-12-15': '19:00', '2026-12-20': '15:00', '2026-12-29': '19:00' });
+    assert.deepEqual(termineAusText('VEN. 8 JANV. · SAM. 12 FÉVR. · SAM. 3 AVR. · JEU. 1 JUIL. 2027', F), ['2027-01-08', '2027-02-12', '2027-04-03', '2027-07-01']);
+    // Englisch bleibt: "Mar 15, 2027" ist der 15. März.
+    assert.deepEqual(termineAusText('Mar 15, 2027', F), ['2027-03-15']);
+});
+
+test('Aufzählung vor dem Monat: jeder Tag zählt, mit der Uhrzeit der Zeile (Bregenz, Genf)', () => {
+    const bregenz = 'La traviata 2027\nDates\nThu 22, Fr 23, Sat 24. Sun 25., Tue 27, Wed 28, Thu 29, Fr 30 and Sat 31 July – 9.15 p.m.\n'
+        + 'Sun 1, Thu 3 and Wed 4 August – 9.00 p.m.';
+    const { termine, zeiten } = termineMitZeiten(bregenz, F);
+    assert.deepEqual(termine, ['2027-07-22', '2027-07-23', '2027-07-24', '2027-07-25', '2027-07-27', '2027-07-28', '2027-07-29', '2027-07-30', '2027-07-31',
+        '2027-08-01', '2027-08-03', '2027-08-04']);
+    assert.equal(zeiten['2027-07-23'], '21:15');
+    assert.equal(zeiten['2027-08-03'], '21:00');
+    assert.deepEqual(termineAusText('15, 17, 18, 22, 26, 28, 29 et 31 décembre 2026 à 19h', F),
+        ['2026-12-15', '2026-12-17', '2026-12-18', '2026-12-22', '2026-12-26', '2026-12-28', '2026-12-29', '2026-12-31']);
+    assert.deepEqual(termineAusText('am 3., 10. und 17. Mai 2027', F), ['2027-05-03', '2027-05-10', '2027-05-17']);
+    // Nicht aufsteigend: keine Aufzählung.
+    assert.deepEqual(termineAusText('am 20. und 18. Mai 2027', F), ['2027-05-18']);
+    // Zwei Daten mit zwei Uhrzeiten: keine gemeinsame Uhrzeit.
+    assert.deepEqual(termineMitZeiten('Premiere 2027\nSa 3 und So 4 April – 18:00 und 19:30', F).zeiten, {});
+});
+
+test('Kalender über den Jahreswechsel: "1.1." nach "Dezember 2026" ist 2027 (Deutsche Oper Berlin)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const finde = z => /traviata/i.test(z) ? ['la-traviata'] : /hänsel/i.test(z) ? ['haensel-gretel'] : [];
+    const text = 'Dezember 2026\nDo\n31.12.\nOper\n18:00\nLa traviata\nTickets\nFr\n1.1.\nJazz\n19:30\nSwingin 27\n'
+        + 'Sa\n2.1.\nOper\n19:30\nLa traviata\nSo\n3.1.\nOper\n16:00\nHänsel und Gretel';
+    const z = zeitenAusKalender(text, fenster, finde);
+    assert.deepEqual(z.get('la-traviata'), { '2026-12-31': '18:00', '2027-01-02': '19:30' });
+    assert.deepEqual(z.get('haensel-gretel'), { '2027-01-03': '16:00' });
+    // Ein Tag, der sich nicht einordnen lässt (vorbei), übernimmt nicht das Datum davor.
+    const vorbei = zeitenAusKalender('Do\n31.12.2026\n18:00\nLa traviata\nSa\n15.8.\n16:00\nHänsel und Gretel', fenster, finde);
+    assert.equal(vorbei.get('haensel-gretel'), undefined);
+});
+
+test('"im November 2026 bekannt gegeben" nach "22. Juli 2027" setzt das Jahr nicht zurück (Bregenz)', () => {
+    const bregenz = '21. Juli — 22. August 2027\n22. Juli 2027 – 21.15 Uhr\nDie Besetzung wird im November 2026 bekannt gegeben.\nTermine\n'
+        + 'Do 22., Fr 23. und Sa 24. Juli – 21.15 Uhr\nSo 1. und Di 3. August – 21.00 Uhr';
+    const { termine, zeiten } = termineMitZeiten(bregenz, F);
+    assert.deepEqual(termine, ['2027-07-22', '2027-07-23', '2027-07-24', '2027-08-01', '2027-08-03']);
+    assert.equal(zeiten['2027-08-03'], '21:00');
+    // Ein Monatskopf gibt Jahr und Monat: "1.1." danach ist im neuen Jahr.
+    assert.deepEqual(termineAusText('Dezember 2026\n31.12.\n1.1.', F), ['2026-12-31', '2027-01-01']);
+});
+
+test('TT/MM/JJ mit zweistelligem Jahr (Lübeck)', () => {
+    const luebeck = 'Premiere 02/10/26 · Großes Haus\nTermine\nFr 02/10/26 · 19.30 Uhr\nGroßes Haus\nEinführung 19.00 Uhr · Mittelrangfoyer\n'
+        + 'So 04/10/26 · 18.00 Uhr\nGroßes Haus\nEinführung 17.30 Uhr · Mittelrangfoyer';
+    assert.deepEqual(termineMitZeiten(luebeck, F), { termine: ['2026-10-02', '2026-10-04'], zeiten: { '2026-10-02': '19:30', '2026-10-04': '18:00' }, abgesagt: [] });
+    // Spielzeit und Bruch bleiben, was sie sind.
+    assert.deepEqual(termineAusText('Spielzeit 2026/27 · 1/2 Stunde · 3/4-Takt', F), []);
+});
+
+test('"Verkaufsstart:" mit Datum darunter ist keine Vorstellung und trennt den Eintrag nicht (Volksoper)', () => {
+    const volksoper = 'Weitere Termine und Besetzung\nDo\n12\nNovember 2026\nVerkaufsstart:\n01.10.2026 10:00\nkeine Pause\n19:00 - 20:45\nPreise D\n'
+        + 'Mo\n16\nNovember 2026\nVerkaufsstart:\n01.10.2026 10:00\nkeine Pause\n19:00 - 20:45';
+    assert.deepEqual(termineMitZeiten(volksoper, F), {
+        termine: ['2026-11-12', '2026-11-16'], zeiten: { '2026-11-12': '19:00-20:45', '2026-11-16': '19:00-20:45' }, abgesagt: [],
+    });
+});
+
+test('nach "Von 20. September 2026 bis 23. April 2027" geht es vom Anfang aus weiter (Zürich)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    assert.deepEqual(termineAusText('Von 20. September 2026 bis 23. April 2027\n20, 25 Sept. / 06, 18, 30 Okt. / 02, 23 Apr.', fenster),
+        ['2026-10-06', '2026-10-18', '2026-10-30', '2027-04-02', '2027-04-23']);
+    // Ohne Jahr am Anfang gibt das Ende das Jahr.
+    assert.deepEqual(termineAusText('19.02.–24.03.2027\n5. April', fenster), ['2027-04-05']);
+});
+
+test('französischer Monatskopf mit ausgeschriebenem Wochentag (Lausanne)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const lausanne = 'CHOISISSEZ VOS PLACES\nAVR 2027\nDIMANCHE\n25\n17:00\nVENDREDI\n30\n20:00\nMAI 2027\nDIMANCHE\n02\n15:00';
+    assert.deepEqual(termineMitZeiten(lausanne, fenster), {
+        termine: ['2027-04-25', '2027-04-30', '2027-05-02'], zeiten: { '2027-04-25': '17:00', '2027-04-30': '20:00', '2027-05-02': '15:00' }, abgesagt: [],
+    });
+});
+
+test('eine Kostprobe ist keine Vorstellung (Bremerhaven)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const t = '09.02.2027 um 18:30 Uhr\nKostprobe (Eintritt frei)\n13.02.2027 um 19:30 Uhr\nVorverkauf ab: 03.11.2026, 12:00 Uhr';
+    assert.deepEqual(termineMitZeiten(t, fenster).termine, ['2027-02-13']);
+});

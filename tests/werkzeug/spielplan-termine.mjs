@@ -9,18 +9,18 @@
 // Sommerfestspiele).
 
 const MONATE = {
-    jan: 1, januar: 1, jänner: 1, jän: 1, january: 1, janvier: 1, gennaio: 1,
-    feb: 2, februar: 2, feber: 2, february: 2, février: 2, fevrier: 2, febbraio: 2,
+    jan: 1, januar: 1, jänner: 1, jän: 1, january: 1, janvier: 1, janv: 1, gennaio: 1,
+    feb: 2, februar: 2, feber: 2, february: 2, février: 2, fevrier: 2, févr: 2, fevr: 2, fév: 2, febbraio: 2,
     mär: 3, mrz: 3, märz: 3, maerz: 3, mar: 3, march: 3, mars: 3, marzo: 3,
-    apr: 4, april: 4, avril: 4, aprile: 4,
+    apr: 4, april: 4, avril: 4, avr: 4, aprile: 4,
     mai: 5, may: 5, maggio: 5,
     jun: 6, juni: 6, june: 6, juin: 6, giugno: 6,
-    jul: 7, juli: 7, july: 7, juillet: 7, luglio: 7,
+    jul: 7, juli: 7, july: 7, juillet: 7, juil: 7, luglio: 7,
     aug: 8, august: 8, août: 8, aout: 8, agosto: 8,
     sep: 9, sept: 9, september: 9, septembre: 9, settembre: 9,
     okt: 10, oct: 10, oktober: 10, october: 10, octobre: 10, ottobre: 10,
     nov: 11, november: 11, novembre: 11,
-    dez: 12, dec: 12, dezember: 12, december: 12, décembre: 12, decembre: 12, dicembre: 12,
+    dez: 12, dec: 12, déc: 12, dezember: 12, december: 12, décembre: 12, decembre: 12, dicembre: 12,
 };
 const MONATSMUSTER = Object.keys(MONATE).sort((a, b) => b.length - a.length).join('|');
 
@@ -50,9 +50,10 @@ function vorKurzem(j, m, t, von) {
  * @param {string} text
  * @param {{von: string, bis: string}} fenster  ISO-Daten, einschließlich
  * @param {object|null} kontext  Jahr aus vorangehendem Text: {jahr} oder {saison}
+ * @param {{nurMitJahr?: boolean}} [o]  nur Daten, die ihr Jahr selbst nennen
  * @returns {{termine: string[], kontext: object|null}}
  */
-export function termineLesen(text, { von, bis }, kontext = null) {
+export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = false } = {}) {
     const jahrVon = Number(von.slice(0, 4));
     const jahrBis = Number(bis.slice(0, 4));
     const s = String(text || '');
@@ -65,18 +66,35 @@ export function termineLesen(text, { von, bis }, kontext = null) {
     for (const m of s.matchAll(/(?<![\d.])(\d{1,2})\.\s?(\d{1,2})\.(?:\s?(20\d\d|\d\d)(?![\d]|[.:]\d))?(?![\d])/g)) {
         datum(m.index, m.index + m[0].length, m[3] ? +m[3] : 0, +m[2], +m[1]);
     }
-    for (const m of s.matchAll(/(?<![\d/])(\d{1,2})\/(\d{1,2})\/(20\d\d)(?![\d])/g)) datum(m.index, m.index + m[0].length, +m[3], +m[2], +m[1]);
+    // 02/10/2026 und 02/10/26 (Lübeck: "Fr 02/10/26 · 19.30 Uhr")
+    for (const m of s.matchAll(/(?<![\d/])(\d{1,2})\/(\d{1,2})\/(20\d\d|\d\d)(?![\d/])/g)) datum(m.index, m.index + m[0].length, +m[3], +m[2], +m[1]);
     // Das Jahr auch vor 2000: "am 14. Januar 1900 uraufgeführt" ist kein
     // 14. Januar ohne Jahr – sonst stünde die Uraufführung im Spielplan.
     const tagMonat = new RegExp(`(?<![\\d])(\\d{1,2})\\.?\\s*(${MONATSMUSTER})\\.?(?:\\s+(1[5-9]\\d\\d|20\\d\\d))?(?![a-zäöüéû])`, 'gi');
     for (const m of s.matchAll(tagMonat)) datum(m.index, m.index + m[0].length, m[3] ? +m[3] : 0, MONATE[m[2].toLowerCase()], +m[1]);
+    // Eine Aufzählung vor dem Monat: "Thu 22, Fr 23, Sat 24. Sun 25., …
+    // and Sat 31 July" (Bregenz), "15, 17, 18 et 31 décembre 2026" (Genf).
+    // Jeder Tag davor gehört in denselben Monat – aber nur, wenn die Tage
+    // aufsteigen; sonst ist es keine Aufzählung.
+    const kette = new RegExp(`(?<![\\d.:])(?:(?:(?:${WOCHENTAG})\\.?,?\\s*)?\\d{1,2}\\.?\\s*(?:,|\\.|and|und|et|&)\\s*)+(?:(?:${WOCHENTAG})\\.?,?\\s*)?$`, 'i');
+    for (const m of s.matchAll(tagMonat)) {
+        const k = s.slice(Math.max(0, m.index - 300), m.index).match(kette);
+        if (!k) continue;
+        const start = m.index - k[0].length;
+        const tage = [...k[0].matchAll(/(?<!\d)(\d{1,2})(?!\d)/g)].map(x => ({ t: +x[1], i: start + x.index }));
+        if (!tage.length || tage.some((x, i) => x.t >= (tage[i + 1]?.t ?? +m[1]))) continue;
+        for (const x of tage) datum(x.i, x.i + String(x.t).length, m[3] ? +m[3] : 0, MONATE[m[2].toLowerCase()], x.t);
+    }
     const monatTag = new RegExp(`(?<![a-zäöüéû])(${MONATSMUSTER})\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?(?:,?\\s+(1[5-9]\\d\\d|20\\d\\d))?(?![\\d])`, 'gi');
     // "Nov. 26" nach einem Tag ist das Jahr, nicht der 26. November:
     // Greifswald schreibt "1 / Nov. 26". Ein Monat, der schon zu einem
     // Datum davor gehört, beginnt kein neues.
     const tagDavor = i => funde.some(f => f.art === 'datum' && i > f.index && i < f.ende);
+    // Folgt auf den Tag ein Monat, war das Wort davor ein Wochentag: Genf
+    // schreibt "MAR. 15 DÉC." – mardi, nicht der 15. März.
+    const monatDanach = new RegExp(`^\\.?\\s*(${MONATSMUSTER})(?![a-zäöüéû])`, 'i');
     for (const m of s.matchAll(monatTag)) {
-        if (tagDavor(m.index)) continue;
+        if (tagDavor(m.index) || (!m[3] && monatDanach.test(s.slice(m.index + m[0].length)))) continue;
         datum(m.index, m.index + m[0].length, m[3] ? +m[3] : 0, MONATE[m[1].toLowerCase()], +m[2]);
     }
 
@@ -86,11 +104,14 @@ export function termineLesen(text, { von, bis }, kontext = null) {
         if (!inDatum(m.index)) funde.push({ index: m.index, ende: m.index + m[0].length, art: 'saison', saison: +m[1] });
     }
     // ein Jahr für sich
+    const monatVorJahr = new RegExp(`(?<![a-zäöüéû])(${MONATSMUSTER})\\.?\\s*$`, 'i');
     for (const m of s.matchAll(/(?<![\d./-])(20\d\d)(?![\d./:-])/g)) {
         const j = +m[1];
         if (j < jahrVon - 1 || j > jahrBis + 1 || inDatum(m.index)) continue;
         if (funde.some(f => f.art === 'saison' && m.index >= f.index && m.index < f.ende)) continue;
-        funde.push({ index: m.index, ende: m.index + m[0].length, art: 'jahr', jahr: j });
+        // "November 2026": ein Monat ohne Tag
+        const monat = s.slice(Math.max(0, m.index - 14), m.index).match(monatVorJahr);
+        funde.push({ index: m.index, ende: m.index + m[0].length, art: 'jahr', jahr: j, monat: monat ? MONATE[monat[1].toLowerCase()] : undefined });
     }
 
     funde.sort((a, b) => a.index - b.index || (a.art === 'datum' ? 1 : -1));
@@ -102,16 +123,31 @@ export function termineLesen(text, { von, bis }, kontext = null) {
     const daten = funde.filter(f => f.art === 'datum');
     daten.forEach((a, i) => {
         const b = daten[i + 1];
-        if (b && b.index >= a.ende && /^\s*(?:[-–—]|bis)\s*(?:[a-zäöü]{2,10}\.?,?\s*)?$/i.test(s.slice(a.ende, b.index))) a.spanne = b.spanne = true;
+        if (b && b.index >= a.ende && /^\s*(?:[-–—]|bis)\s*(?:[a-zäöü]{2,10}\.?,?\s*)?$/i.test(s.slice(a.ende, b.index))) {
+            a.spanne = b.spanne = true;
+            // Nennt der Anfang sein Jahr, geht es danach von dort aus weiter:
+            // Zürich schreibt "Von 20. September 2026 bis 23. April 2027",
+            // darunter "20, 25 Sept. / 06, 18 … Okt." – nicht im Jahr 2027.
+            if (a.j) b.ohneKontext = true;
+        }
         if (/(?<![\d.])\d{1,2}\.\s*[-–—]\s*$/.test(s.slice(Math.max(0, a.index - 8), a.index))) a.spanne = true;
     });
     const gefunden = new Set();
     const gesehen = new Set();
     for (const f of funde) {
         if (f.art === 'saison') { kontext = { saison: f.saison }; continue; }
-        if (f.art === 'jahr') { kontext = { jahr: f.jahr }; continue; }
+        if (f.art === 'jahr') {
+            // Ein Monat vor dem, der gerade gilt, ist ein Hinweis, kein neuer
+            // Abschnitt: Bregenz schreibt nach "22. Juli 2027" "Die Besetzung
+            // wird im November 2026 bekannt gegeben" – danach fielen die
+            // Julitermine ins Jahr 2026. Als Kopf ("Dezember 2026") gibt er
+            // Jahr und Monat, damit "1.1." danach ins neue Jahr fällt.
+            const frueher = f.monat && kontext?.jahr && kontext.monat && f.jahr * 12 + f.monat < kontext.jahr * 12 + kontext.monat;
+            if (!frueher) kontext = f.monat ? { jahr: f.jahr, monat: f.monat } : { jahr: f.jahr };
+            continue;
+        }
         const schluessel = `${f.index}:${f.j}:${f.m}:${f.t}`;
-        if (gesehen.has(schluessel) || !(f.m >= 1 && f.m <= 12 && f.t >= 1 && f.t <= 31)) continue;
+        if (gesehen.has(schluessel) || !(f.m >= 1 && f.m <= 12 && f.t >= 1 && f.t <= 31) || (nurMitJahr && !f.j)) continue;
         gesehen.add(schluessel);
         let jahre;
         // Ein Tag ohne Jahr, der in diesem Jahr erst kurz zurückliegt, ist
@@ -135,13 +171,14 @@ export function termineLesen(text, { von, bis }, kontext = null) {
         }
         // Ein Jahr weit außerhalb (die Uraufführung 1900) gibt keinen Kontext.
         const jahr = f.j < 100 ? 2000 + f.j : f.j;
+        if (f.ohneKontext) continue;
         if (f.j && jahr >= jahrVon - 1 && jahr <= jahrBis + 1) kontext = { jahr, monat: f.m };
         else if (!f.j && jahre.length && kontext?.jahr && kontext.monat) kontext = { jahr: jahre[0], monat: f.m };
     }
     return { termine: [...gefunden].sort(), kontext };
 }
 
-const WOCHENTAG = 'montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag|mo|di|mi|do|fr|sa|so|mon|tue|wed|thu|fri|sat|sun|lun|mar|mer|jeu|ven|sam|dim';
+const WOCHENTAG = 'montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|mo|di|mi|do|fr|sa|so|mon|tue|wed|thu|fri|sat|sun|lun|mar|mer|jeu|ven|sam|dim';
 const MONATSNAME = ['', 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 const NUR_TAG = /^(\d{1,2})\.?$/;
 // Auch mit zweistelligem Jahr: Greifswald schreibt "15" / "Nov. 26".
@@ -223,11 +260,17 @@ const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführ
 const ORT_NEBENHER = /treffpunkt|probebühne|probenbesuch|click in|absacker|opernwerkstatt/i;
 // Abgesagt: Greifswald lässt den Termin stehen und schreibt "So entfällt 18:00".
 const ABGESAGT = /\b(entfällt|abgesagt|fällt aus)\b/i;
-const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(kostprobe|matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
-const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(kostprobe|matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
-// Die Zeilen eines Eintrags: ab dem Datum bis vor das nächste Datum.
+// "Verkaufsstart:" über einem Datum: das ist der Beginn des Vorverkaufs,
+// keine Vorstellung (Volksoper Wien: "Do / 12. November 2026 /
+// Verkaufsstart: / 01.10.2026 10:00 / 19:00 - 20:45").
+const VERKAUF_DAVOR = /^(verkaufsstart|vorverkaufs?(start|beginn)?|vorverkauf ab|kartenverkauf|buchbar ab)\s*:?\s*$/i;
+
+// Die Zeilen eines Eintrags: ab dem Datum bis vor das nächste Datum. Ein
+// Verkaufsstart darin zählt nicht – weder als Anlass noch als Datum.
 // Zeilen ohne eigenen Inhalt: nur ein Wochentag, eine Tageszahl oder ein
 // Trennzeichen. Köln schreibt unter jedes Datum "SO" / "/" / "13"; zählten
 // sie mit, lag die Uhrzeit außer Reichweite.
@@ -237,6 +280,7 @@ function eintrag(zeilen, i, fenster, kontext, hoechstens) {
     const teile = [zeilen[i]];
     let gezaehlt = 0;
     for (let j = i + 1; j < zeilen.length && gezaehlt < hoechstens; j++) {
+        if (VERKAUF_DAVOR.test(zeilen[j])) { j++; continue; }
         if (termineLesen(zeilen[j], fenster, kontext).termine.length) break;
         teile.push(zeilen[j]);
         if (!FUELLZEILE.test(zeilen[j])) gezaehlt++;
@@ -334,6 +378,7 @@ export function termineMitUhrzeit(text, fenster, optionen = {}) {
 const DATUM_KURZ = /(?<![\d.])\d{1,2}\.\s?\d{1,2}\.(?:\s?(20\d\d|\d\d)(?![\d]|[.:]\d))?/g;
 const ZEIT_ALLE = /(?<![\d.:])([01]?\d|2[0-3])(?:[:.h]([0-5]\d)(?![\d.])(?:\s*uhr)?|\s*uhr\b)/gi;
 const EINFUEHRUNG = /einführung|einlass/i;
+const AUFZAEHLUNG = /(?<![\d.:])\d{1,2}\.?\s*(?:,|and|und|et|&)\s*(?:[a-zé]{2,9}\.?,?\s*)?\d{1,2}(?![\d.:]\d)/i;
 
 /**
  * Beginn (und, wo angegeben, Ende) einer Vorstellung aus den Zeilen ihres
@@ -398,7 +443,7 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
         const vorher = kontext;
         const erg = termineLesen(z, fenster, kontext);
         kontext = erg.kontext;
-        if (!erg.termine.length || NEBEN_ZEILE.test(z)) return;
+        if (!erg.termine.length || NEBEN_ZEILE.test(z) || VERKAUF_DAVOR.test(zeilen[i - 1] || '')) return;
         const teile = eintrag(zeilen, i, fenster, vorher, 3);
         const daten = erg.termine.filter(d => !jahrWiderspricht(d, teile));
         if (!daten.length) return;
@@ -422,6 +467,10 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
             if (daten.length === 1 && !(daten[0] in zeiten)) {
                 const zeit = beginnFinden(teile);
                 if (zeit) zeiten[daten[0]] = zeit;
+            } else if (daten.length > 1 && AUFZAEHLUNG.test(z) && [...z.replace(DATUM_KURZ, ' ').matchAll(ZEIT_ALLE)].length === 1) {
+                // "… and Sat 31 July – 9.15 p.m.": eine Uhrzeit für die ganze Aufzählung
+                const zeit = beginnFinden([z]);
+                if (zeit) daten.forEach(d => { if (!(d in zeiten)) zeiten[d] = zeit; });
             }
         }
     });
@@ -505,16 +554,26 @@ export function zeitenAusKalender(text, fenster, finde, { monatskopf = null } = 
     let abschnitt = [];
     for (let i = 0; i < zeilen.length; i++) {
         const z = zeilen[i];
+        // "Dezember 2026": Jahr und Monat, damit "1.1." danach ins neue Jahr
+        // fällt – mit dem Jahr allein wurde es der vergangene 1.1.2026.
+        const kopf = z.match(MONATSKOPF);
+        if (kopf) { kontext = { jahr: Number(kopf[2]), monat: MONATE[kopf[1].toLowerCase()] }; datum = null; abschnitt = []; continue; }
         const erg = termineLesen(z, fenster, kontext);
         kontext = erg.kontext;
         const ids = finde(z);
         if (erg.termine.length > 1) { datum = null; abschnitt = []; continue; }   // eine Leiste, kein Kalender
+        // Ein Tag, der sich nicht einordnen lässt, beendet den vorigen: sonst
+        // hinge dessen Datum an allen folgenden Titeln.
+        if (!erg.termine.length && VOLLES_DATUM.test(z) && !ids.length) { datum = null; abschnitt = []; continue; }
         if (erg.termine.length === 1) {
             datum = erg.termine[0];
             abschnitt = [];
             if (!ids.length) continue;
         }
-        if (!datum || !ids.length || NEBEN_ZEILE.test(z) || /einführung/i.test(z)) { abschnitt.push(z); continue; }
+        // "Werkstatt: Der fliegende Holländer", "Roundtable: …": ein Anlass
+        // zum Werk, keine Vorstellung (Deutsche Oper Berlin, vormittags).
+        const anlass = z.match(/^(.*?[a-zäöüß)]):\s/i);
+        if (!datum || !ids.length || NEBEN_ZEILE.test(z) || /einführung/i.test(z) || (anlass && !finde(anlass[1]).length)) { abschnitt.push(z); continue; }
         // Die Uhrzeit, die dem Titel am nächsten steht: davor stehen oft
         // andere Einträge des Tages ("13:00 Führung", "14:00 Hamed & Sherifa").
         const teile = [...abschnitt, z];

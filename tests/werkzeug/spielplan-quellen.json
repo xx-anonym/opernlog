@@ -339,7 +339,11 @@
     "start": [
       "https://www.salzburgerfestspiele.at/programm",
       "https://osterfestspiele.at/",
-      "https://osterfestspiele.at/programm/2027-2/"
+      "https://osterfestspiele.at/programm/2027-2/",
+      "https://mozarteum.at/mozartwoche"
+    ],
+    "stuecke": [
+      "https://mozarteum.at/events/mozarts-cosi-fan-tutte"
     ],
     "ort": "Haus für Mozart"
   },

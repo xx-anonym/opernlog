@@ -42,7 +42,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
 import { werkeAusDatenbank } from './datenbank-werke.mjs';
-import { termineAusText, termineMitZeiten, beginnFinden, saisonAusAdresse, zeitenAusKalender, monatAusAdresse, zeitenAusLd } from './spielplan-termine.mjs';
+import { termineAusText, termineMitZeiten, termineLesen, beginnFinden, saisonAusAdresse, zeitenAusKalender, monatAusAdresse, zeitenAusLd } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const QUELLEN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-quellen.json'), 'utf8'));
@@ -256,6 +256,12 @@ function rang(url) {
 // "Hör’n Sie mal!" ist in Hannover eine Einführung zum Hören.
 const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal/i;
 
+// Artikel über ein Stück sind keine Seiten der Produktion: Bonn erzählt im
+// Magazin von Galas vergangener Spielzeiten ("Am 11. Mai erlebte das
+// Publikum …", ohne Jahr), und die Seite der Produktion kam dahinter nicht
+// mehr dran. Cottbus nennt seine Produktionsseiten "artikel-…" – die zählen.
+export const ARTIKEL = /\/magazin(\/|\.|$)|_magazin\b|\/blog\b|blind[_-]date/i;
+
 // Knöpfe, die weitere Termine nachladen. Die Deutsche Oper Berlin zeigt im
 // Monatskalender erst die halbe Liste; der Rest kommt mit "weitere
 // Spieltage anzeigen" – ohne den Klick fehlten dort die Uhrzeiten der
@@ -298,8 +304,8 @@ export function uebersichtsSeiten(links, seitenUrl) {
  * ist die Terminliste in den Attributen – Gelsenkirchen verlor so bei Tosca
  * zehn von elf Vorstellungen.
  *
- * Fehlt im Text die Uhrzeit, kommt sie aus schema.org-Events der Seite
- * (d.ereignisse), soweit eindeutig.
+ * Fehlt im Text die Uhrzeit, kommt sie aus schema.org-Events oder
+ * <time datetime>-Angaben der Seite (d.ereignisse), soweit eindeutig.
  *
  * @param {{text: string, zusatz: string, ereignisse?: {start: string, ende?: string}[]}} d  gelesene Seite
  * @param {{ortJeTermin?: string}} q  Quelle des Hauses
@@ -311,6 +317,20 @@ export function seitenTermine(d, fenster, q = {}) {
     // nur für Termine, die die Seite ohnehin hat.
     const ausLd = zeitenAusLd(d.ereignisse, fenster);
     for (const t of erg.termine) if (!erg.zeiten[t] && ausLd[t]) erg.zeiten[t] = ausLd[t];
+    // Nennt die Seite ihre Vorstellungen strukturiert, ist ein Datum ohne
+    // Uhrzeit, das dort fehlt, falsch gelesen: Zürich führt Besetzungen mit
+    // Daten ohne Jahr ("20, 25 Sept. / 06, 18 … Okt."), und nach "23 Apr."
+    // landete der September im Jahr 2027.
+    const strukturiert = new Set((d.ereignisse || []).map(e => /^20\d\d-\d\d-\d\d/.exec(e.start || '')?.[0])
+        .filter(t => t && t >= fenster.von && t <= fenster.bis));
+    if (strukturiert.size >= 3) erg.termine = erg.termine.filter(t => erg.zeiten[t] || strukturiert.has(t));
+    // Ein Tag ohne Jahr und ohne Uhrzeit, den die Seite anderswo mit einem
+    // vergangenen Jahr nennt, ist jener Tag: Bonn titelt "PREMIERE AM
+    // 3. OKTOBER IM OPERNHAUS" über "Premiere 3. Oktober 2024".
+    const tagDavor = new Date(Date.parse(`${fenster.von}T00:00:00Z`) - 864e5).toISOString().slice(0, 10);
+    const vorbei = new Set(termineLesen(d.text || '', { von: '1900-01-01', bis: tagDavor }, null, { nurMitJahr: true }).termine.map(t => t.slice(5)));
+    const genannt = new Set(termineLesen(d.text || '', fenster, null, { nurMitJahr: true }).termine);
+    erg.termine = erg.termine.filter(t => erg.zeiten[t] || genannt.has(t) || !vorbei.has(t.slice(5)));
     return erg;
 }
 
@@ -453,11 +473,15 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         if (aufgeklappt) await p.waitForTimeout(600);
         // Nachgeladene Listen: ans Ende rollen und "Mehr laden" drücken, bis
         // nichts mehr dazukommt – höchstens achtmal.
+        let nachgeladen = false;
         for (let i = 0; i < 8; i++) {
             const vorher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)).catch(() => {});
             const knopf = p.locator('button, a[role="button"]').filter({ hasText: NACHLADEN }).first();
-            if (await knopf.isVisible().catch(() => false)) await knopf.click({ timeout: 3000 }).catch(() => {});
+            if (await knopf.isVisible().catch(() => false)) {
+                await knopf.click({ timeout: 3000 }).catch(() => {});
+                nachgeladen = true;
+            }
             await p.waitForTimeout(900);
             const nachher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             if (nachher <= vorher) break;
@@ -477,8 +501,25 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 return true;
             }, { quelle: NACHLADEN_DIREKT.source, flags: NACHLADEN_DIREKT.flags }).catch(() => false);
             if (!geklickt) break;
+            nachgeladen = true;
             await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
             await p.waitForTimeout(600);
+        }
+        // Nach dem Klick laden manche Listen beim Rollen weiter. Der Kalender
+        // der Deutschen Oper Berlin endet nach "weitere Spieltage anzeigen"
+        // mitten im letzten Tag; der Rest kommt erst, wenn man ans Ende
+        // rollt (dort fehlte der Holländer am 31.10.). Die Schleife oben
+        // gibt auf, wenn die Antwort auf den Klick länger braucht.
+        if (nachgeladen) {
+            for (let i = 0; i < 3; i++) {
+                const vorher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
+                await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)).catch(() => {});
+                await p.mouse.wheel(0, 2000).catch(() => {});
+                await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+                await p.waitForTimeout(900);
+                const nachher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
+                if (nachher <= vorher) break;
+            }
         }
         const daten = await p.evaluate(({ terminSelektor, hauptteil }) => {
             // hauptteil (spielplan-quellen.json): wo der Inhalt steht, wenn
@@ -488,7 +529,7 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 .map(e => e.getAttribute('datetime') || e.getAttribute('data-date') || e.getAttribute('data-datetime') || e.getAttribute('data-start') || e.getAttribute('content'))
                 .filter(v => /20\d\d-\d\d-\d\d/.test(v || '')).join(' ');
             const ld = [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent).join(' ');
-            // Vorstellungen als schema.org Event, mit Uhrzeit (Zürich)
+            // Vorstellungen als schema.org Event, mit Uhrzeit (Zürich, Wiesbaden, Gelsenkirchen)
             const ereignisse = [];
             const sammleLd = (o) => {
                 if (!o || typeof o !== 'object') return;
@@ -500,6 +541,16 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
             };
             for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
                 try { sammleLd(JSON.parse(s.textContent)); } catch { /* kaputtes JSON: dann eben nicht */ }
+            }
+            // Dasselbe als Mikrodaten: <meta itemprop="startDate" content="2026-11-01T18:00:00"> (Wiesbaden)
+            const wert = e => (e && (e.getAttribute('content') || e.getAttribute('datetime'))) || '';
+            for (const e of document.querySelectorAll('[itemprop="startDate"]')) {
+                ereignisse.push({ start: wert(e), ende: wert(e.closest('[itemscope]')?.querySelector('[itemprop="endDate"]')) });
+            }
+            // ... und als <time datetime="2026-09-27 18:00"> (Gelsenkirchen): nur mit Uhrzeit
+            for (const e of document.querySelectorAll('time[datetime]')) {
+                const v = e.getAttribute('datetime').trim();
+                if (/^20\d\d-\d\d-\d\d[T ]\d/.test(v)) ereignisse.push({ start: v.replace(' ', 'T'), ende: '' });
             }
             return {
                 titel: document.title,
@@ -685,7 +736,7 @@ async function lesen(kontext, hausId, fenster) {
         sammleBloecke(daten);
         for (const l of daten.links) {
             if (!/^https?:/.test(l.href) || /\.(ics|pdf|jpg|png|mp3|mp4)(\?|$)/i.test(l.href)) continue;
-            if (NEBENHER.test(l.text) || NEBENHER.test(entschluesselt(l.href))) continue;
+            if (NEBENHER.test(l.text) || NEBENHER.test(entschluesselt(l.href)) || ARTIKEL.test(l.href)) continue;
             const ids = werkeImLink(l.text, l.href);
             if (!ids.length) continue;
             const url = l.href.split('#')[0];

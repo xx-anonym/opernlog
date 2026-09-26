@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:ariadne-naxos-theater-luebeck-2027-06-17@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20270617T193000
+DTEND;TZID=Europe/Berlin:20270617T223000
+SUMMARY:Ariadne auf Naxos – Theater Lübeck
+LOCATION:Theater Lübeck\, Lübeck
+GEO:53.869;10.683
+URL:https://www.theaterluebeck.de/produktionen/ariadne-auf-naxos_2026-27.ht
+ ml?m=1
+DESCRIPTION:Richard Strauss: Ariadne auf Naxos\nTermine und Karten: https:/
+ /www.theaterluebeck.de/produktionen/ariadne-auf-naxos_2026-27.html?m=1\nDa
+ s Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die S
+ eite des Hauses.
+END:VEVENT
+END:VCALENDAR

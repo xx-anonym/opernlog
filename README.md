@@ -93,7 +93,8 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Werkzeug mit, wo sie eindeutig neben dem Datum stehen. Nennt die Seite
   einer Produktion nur Daten, kommen sie aus dem Monatskalender des Hauses
   (Mainz, Deutsche Oper Berlin), aus den schema.org-Events der Seite
-  (Zürich) oder aus der Ansicht jedes einzelnen Termins (Frankfurt).
+  (ld+json in Zürich, Mikrodaten in Wiesbaden) oder aus der Ansicht jedes
+  einzelnen Termins (Frankfurt).
   iPhone und iPad
   öffnen dieselbe Datei vom Server; dafür liegt jeder Abend einzeln unter
   `kalender/`. Aus der installierten App heraus geht die Adresse an das

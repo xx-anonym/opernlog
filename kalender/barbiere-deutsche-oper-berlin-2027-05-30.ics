@@ -3,11 +3,28 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:barbiere-deutsche-oper-berlin-2027-05-30@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20270530
-DTEND;VALUE=DATE:20270531
+DTSTART;TZID=Europe/Berlin:20270530T160000
+DTEND;TZID=Europe/Berlin:20270530T190000
 SUMMARY:Il barbiere di Siviglia – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
@@ -15,7 +32,7 @@ URL:https://deutscheoperberlin.de/de_DE/production/il-barbiere-di-siviglia.
  1385828
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
   https://deutscheoperberlin.de/de_DE/production/il-barbiere-di-siviglia.13
- 85828\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßg
- eblich ist die Seite des Hauses.
+ 85828\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich 
+ ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

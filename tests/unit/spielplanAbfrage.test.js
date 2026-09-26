@@ -409,3 +409,39 @@ test('Seitenauswahl: die Seite, deren Adresse das Werk nennt, vor Nebenveranstal
     assert.equal(auswahl[0], `${b}haensel-und-gretel_3/`);
     assert.equal(auswahl.length, 2);
 });
+
+test('ein Tag ohne Jahr, den die Seite mit einem vergangenen Jahr nennt, ist vorbei (Bonn)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const bonn = { text: 'PREMIERE AM 3. OKTOBER IM OPERNHAUS\nText von Polina Sandler.\nDIE MEISTERSINGER VON NÜRNBERG\nPremiere 3. Oktober 2024', zusatz: '' };
+    assert.deepEqual(seitenTermine(bonn, fenster).termine, []);
+    // Mit Uhrzeit ist es eine Vorstellung dieser Spielzeit.
+    const wieder = { text: 'Premiere 3. Oktober 2024\nWiederaufnahme\nSa 3.10. 19:30 Uhr\nSo 11.10. 18:00 Uhr', zusatz: '' };
+    assert.deepEqual(seitenTermine(wieder, fenster).termine, ['2026-10-03', '2026-10-11']);
+});
+
+test('strukturierte Termine gehen vor: ein Datum ohne Uhrzeit, das dort fehlt, zählt nicht (Zürich)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const zuerich = {
+        text: 'Von 20. September 2026 bis 23. April 2027\nTamino\n20, 25 Sept. / 06, 18 Okt.\nTamino\n02, 08 Apr.\nSarastro\n20, 25 Sept. / 06 Okt.',
+        zusatz: '',
+        ereignisse: ['2026-10-06T19:00', '2026-10-18T13:00', '2027-04-02T19:00', '2027-04-08T19:30'].map(start => ({ start })),
+    };
+    const erg = seitenTermine(zuerich, fenster);
+    assert.deepEqual(erg.termine, ['2026-10-06', '2026-10-18', '2027-04-02', '2027-04-08']);
+    // Mit Uhrzeit im Text bleibt ein Termin, auch wenn die Daten ihn nicht kennen.
+    const mitZeit = { ...zuerich, text: 'So 30.05.2027, 19:00 Uhr\n' + zuerich.text };
+    assert.ok(seitenTermine(mitZeit, fenster).termine.includes('2027-05-30'));
+});
+
+test('Artikel über ein Stück sind keine Produktionsseiten (Bonn, Schwerin, Bremen)', async () => {
+    const { ARTIKEL } = await import('../werkzeug/spielplaene-lesen.mjs');
+    for (const u of ['https://www.theater-bonn.de/de/magazin/freddie_de_tommaso', 'https://www.theater-bonn.de/de/meistersinger_magazin/',
+        'https://www.theater-bonn.de/de/eugen_onegin/magazin/', 'https://www.theater-bonn.de/de/blind_date/madama_butterfly/',
+        'https://www.mecklenburgisches-staatstheater.de/magazin/zwischen-maerchen-posse-und-traktat.html', 'https://theaterbremen.de/de_DE/blog?p=1&tag=3168']) {
+        assert.ok(ARTIKEL.test(u), u);
+    }
+    for (const u of ['https://www.theater-bonn.de/de/programm/nabucco/238124', 'https://www.staatstheater-cottbus.de/de/programm/repertoire/artikel-nabucco.html',
+        'https://www.oper-leipzig.de/de/programm/salome/224']) {
+        assert.ok(!ARTIKEL.test(u), u);
+    }
+});
