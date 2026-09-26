@@ -34,6 +34,12 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Entfernen lässt sich nur, was in den Tabellen steht – eine Datei im Repo
   ändert man mit einem Commit. Vorher zählt die Datenbank, was an dem Eintrag
   hängt; hängt etwas dran, wird nicht gelöscht.
+
+  Welcher Teil eines Werk- oder Hausbilds zu sehen ist, wählt der Admin über
+  das Kamerasymbol oben rechts im Kopf der Seite: Bild ziehen, speichern. Der
+  Ausschnitt steht in `bild_ausschnitte` (Prozentwerte für
+  `background-position`) und gilt für beide Quellen und überall, wo das Bild
+  erscheint – Kopf, Karten, Listen.
 - **Passkeys** melden mit Face ID, Fingerabdruck oder Geräte-PIN an. Anlegen
   kann einen nur, wer schon angemeldet ist – im Fenster „Profil bearbeiten“;
   registriert wird weiter per E-Mail oder Google. Supabase führt die Funktion

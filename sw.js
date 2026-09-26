@@ -120,6 +120,7 @@ const APP_SHELL = [
     './src/data/katalogZusatz.js',
     './src/components/KatalogFormular.js',
     './src/components/KatalogLoeschen.js',
+    './src/components/BildAusschnitt.js',
     './src/components/KontoLoeschen.js',
     './src/components/Passkeys.js',
     './src/components/SpielplanBlock.js',

@@ -1300,22 +1300,55 @@ export async function istAdmin() {
     return !!data;
 }
 
-/** Alle drei Zusatztabellen auf einmal. */
+/** Alle drei Zusatztabellen auf einmal, dazu die Bildausschnitte. */
 export async function getKatalogZusatzCloud() {
     const sb = getSupabase();
     if (!sb) return { werke: [], haeuser: [], komponisten: [] };
 
-    const [werke, haeuser, komponisten] = await Promise.all([
+    const [werke, haeuser, komponisten, ausschnitte] = await Promise.all([
         sb.from('catalog_operas').select('*'),
         sb.from('catalog_houses').select('*'),
         sb.from('catalog_composers').select('*'),
+        sb.from('bild_ausschnitte').select('art, id, x, y'),
     ]);
 
     return {
         werke: unwrap(werke, 'Werke aus dem Katalog holen') ?? [],
         haeuser: unwrap(haeuser, 'Häuser aus dem Katalog holen') ?? [],
         komponisten: unwrap(komponisten, 'Komponisten aus dem Katalog holen') ?? [],
+        // Ohne Ausschnitte ist der Katalog trotzdem vollständig. Ein Fehler
+        // hier soll ihn nicht mitreißen; dann gilt der Stand von zuletzt.
+        ausschnitte: ausschnitte.error
+            ? (console.error('[Supabase] Bildausschnitte holen', ausschnitte.error), undefined)
+            : ausschnitte.data ?? [],
     };
+}
+
+/**
+ * Den Ausschnitt eines Katalogbilds speichern (nur Admins, siehe
+ * supabase/migrations/bild_ausschnitte_migration.sql). Ohne Adminrecht
+ * verwirft die Regel die Zeile, und unwrapWritten meldet das als Fehler.
+ */
+export async function setBildAusschnitt(art, id, { x, y }) {
+    const session = await getSession();
+    if (!session) throw new Error('Dafür musst du angemeldet sein.');
+    const sb = getSupabase();
+    return unwrapWritten(
+        await sb.from('bild_ausschnitte')
+            .upsert({ art, id, x, y, geaendert_von: session.user.id, geaendert: new Date().toISOString() }, { onConflict: 'art,id' })
+            .select(),
+        'Bildausschnitt speichern');
+}
+
+/**
+ * Zurück auf die Mitte: die Zeile fällt weg. Hatte der Eintrag gar keinen
+ * Ausschnitt, ist nichts zu löschen – dann ist auch keine Zeile kein Fehler.
+ */
+export async function deleteBildAusschnitt(art, id, { hatteEinen = true } = {}) {
+    const sb = getSupabase();
+    if (!sb) throw new Error('Keine Verbindung.');
+    const antwort = await sb.from('bild_ausschnitte').delete().eq('art', art).eq('id', id).select();
+    return hatteEinen ? unwrapWritten(antwort, 'Bildausschnitt zurücksetzen') : unwrap(antwort, 'Bildausschnitt zurücksetzen');
 }
 
 /**

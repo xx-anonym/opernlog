@@ -181,7 +181,7 @@ export function OperasPage() {
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
       card.innerHTML = `
-        <div class="opera-card__color" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`)}">
+        <div class="opera-card__color" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, undefined, opera.bildAusschnitt)}">
           <span class="opera-card__year">${opera.yearComposed}</span>
         </div>
         <div class="opera-card__content">

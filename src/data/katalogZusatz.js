@@ -62,13 +62,59 @@ function mischen(ziel, neue) {
     return dazu;
 }
 
-/** Alle drei Listen auf einmal einmischen. */
-export function uebernehmen({ werke = [], haeuser = [], komponisten = [] } = {}) {
-    return {
+/** Alle drei Listen auf einmal einmischen, dazu die Bildausschnitte. */
+export function uebernehmen({ werke = [], haeuser = [], komponisten = [], ausschnitte } = {}) {
+    const dazu = {
         werke: mischen(operas, werke.map(alsKatalogEintrag)),
         haeuser: mischen(operaHouses, haeuser.map(alsKatalogEintrag)),
         komponisten: mischen(composers, komponisten.map(alsKatalogEintrag)),
     };
+    // Nach dem Mischen: ein Eintrag aus der Datenbank ist dabei durch ein
+    // neues Objekt ersetzt worden und hätte seinen Ausschnitt sonst verloren.
+    // Ein Stand von vor den Ausschnitten (im localStorage) bringt keine mit –
+    // dann bleibt, was da ist, statt dass alles auf die Mitte springt.
+    if (Array.isArray(ausschnitte)) ausschnitteAnwenden(ausschnitte);
+    return dazu;
+}
+
+// ── Bildausschnitte ───────────────────────────────────────────────────────
+//
+// Welcher Teil eines Bildes zu sehen ist, legt ein Admin fest (Tabelle
+// bild_ausschnitte). Er gilt für Werke und Häuser aus beiden Quellen, also
+// auch für die Dateien im Repo – deshalb hängt er als Feld bildAusschnitt
+// am Katalogeintrag, nicht an der Zeile in catalog_operas.
+
+const KATALOG_JE_ART = { werk: operas, haus: operaHouses };
+
+/**
+ * Die Ausschnitte an die Einträge hängen. Wer keinen (mehr) hat, verliert
+ * ihn: so wirkt auch das Zurücksetzen auf die Mitte auf anderen Geräten.
+ */
+function ausschnitteAnwenden(ausschnitte) {
+    const je = new Map(ausschnitte.map(a => [`${a.art}:${a.id}`, a]));
+    for (const [art, katalog] of Object.entries(KATALOG_JE_ART)) {
+        for (const eintrag of katalog) {
+            const a = je.get(`${art}:${eintrag.id}`);
+            if (a) eintrag.bildAusschnitt = { x: Number(a.x), y: Number(a.y) };
+            else delete eintrag.bildAusschnitt;
+        }
+    }
+}
+
+/**
+ * Einen Ausschnitt sofort übernehmen, nachdem er gespeichert ist – im
+ * Katalog und im Zwischenspeicher. null setzt auf die Mitte zurück.
+ */
+export function ausschnittSetzen(art, id, ausschnitt) {
+    const eintrag = KATALOG_JE_ART[art]?.find(e => e.id === id);
+    if (!eintrag) throw new Error(`Unbekannter Eintrag: ${art} ${id}`);
+    if (ausschnitt) eintrag.bildAusschnitt = { x: Number(ausschnitt.x), y: Number(ausschnitt.y) };
+    else delete eintrag.bildAusschnitt;
+
+    const stand = ausSpeicher() ?? {};
+    const andere = (stand.ausschnitte ?? []).filter(a => !(a.art === art && a.id === id));
+    stand.ausschnitte = ausschnitt ? [...andere, { art, id, x: ausschnitt.x, y: ausschnitt.y }] : andere;
+    inSpeicher(stand);
 }
 
 /**
@@ -113,13 +159,15 @@ function inSpeicher(stand) {
 /**
  * Den frischen Stand holen und einmischen.
  *
- * @param holen  liefert { werke, haeuser, komponisten } – in der App ist das
+ * @param holen  liefert { werke, haeuser, komponisten, ausschnitte } – in der App ist das
  *               getKatalogZusatzCloud() aus dem Supabase-Modul, in den Tests
  *               eine Attrappe.
  * @returns wie viele Einträge neu dazugekommen sind
  */
 export async function ladeKatalogZusatz(holen) {
     const stand = await holen();
+    // Kamen die Ausschnitte nicht (Fehler beim Holen), gelten die von zuletzt.
+    if (!Array.isArray(stand.ausschnitte)) stand.ausschnitte = ausSpeicher()?.ausschnitte;
     inSpeicher(stand);
     return uebernehmen(stand);
 }

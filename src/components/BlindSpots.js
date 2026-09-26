@@ -68,7 +68,7 @@ function gelegenheit(g, heute) {
     return `
       <article class="gelegenheit" data-werk="${escapeHTML(o.id)}">
         <a class="gelegenheit__bild" href="#/opera/${encodeURIComponent(o.id)}" tabindex="-1" aria-hidden="true"
-          style="${coverBackground(o.image, composerVerlauf(o.composer), 'rgba(0,0,0,0), rgba(20,24,28,0.35)')}"></a>
+          style="${coverBackground(o.image, composerVerlauf(o.composer), 'rgba(0,0,0,0), rgba(20,24,28,0.35)', o.bildAusschnitt)}"></a>
         <div class="gelegenheit__inhalt">
           <a class="gelegenheit__titel" href="#/opera/${encodeURIComponent(o.id)}">${escapeHTML(o.title)}</a>
           <p class="gelegenheit__komponist">${escapeHTML(kurzname(g.composer))} · du kennst ${g.gesehen} von ${g.gesamt}</p>

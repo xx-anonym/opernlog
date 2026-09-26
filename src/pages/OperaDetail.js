@@ -3,6 +3,7 @@ import { operas } from '../data/operas.js';
 import { icon } from '../components/Icon.js';
 import { istAdmin } from '../store/supabase.js';
 import { loeschSchalter } from '../components/KatalogLoeschen.js';
+import { bildAusschnittKnopf } from '../components/BildAusschnitt.js';
 import { coverBackground, escapeHTML, datumKurz, getCachedPosition } from '../utils.js';
 import { spielplanBlock, spielplanQuelle, nachStandortOrdnen, hatKommendeTermine } from '../components/SpielplanBlock.js';
 import { werkVerlauf } from '../data/werkVerlauf.js';
@@ -121,7 +122,7 @@ export function OperaDetailPage(operaId) {
   const color = composerFarbe(opera.composer);
 
   page.innerHTML = `
-    <div class="detail-hero" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.25), rgba(20,24,28,0.95)')}">
+    <div class="detail-hero" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.25), rgba(20,24,28,0.95)', opera.bildAusschnitt)}">
       <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${opera.title}</h1>
@@ -348,11 +349,14 @@ export function OperaDetailPage(operaId) {
   // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet
   // ist – und nur bei Einträgen, die in der Datenbank stehen. Was als Datei im
   // Repo liegt, kann die App nicht löschen.
+  // Ebenso der Knopf für den Bildausschnitt oben rechts im Kopf – den gibt es
+  // für jeden Eintrag, auch für die aus dem Repo.
   istAdmin().then(ja => {
     const schalter = loeschSchalter('werk', opera, ja, () => {
       window.location.hash = '#/operas';
     });
     if (schalter) page.appendChild(schalter);
+    if (ja) bildAusschnittKnopf(page.querySelector('.detail-hero'), 'werk', opera, opera.image);
   }).catch(() => {});
 
   return page;

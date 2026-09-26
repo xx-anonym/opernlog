@@ -44,7 +44,10 @@ const schema = sqlOhneKommentare('supabase/schema.sql');
 // Abende aller, und die Community-Statistik lebt davon. Diese Tabellen sind
 // deshalb absichtlich für jeden lesbar. Kommt eine weitere hinzu, soll dieser
 // Test fehlschlagen – damit das eine Entscheidung bleibt und keine Nebenwirkung.
-const OEFFENTLICH_LESBAR = ['comments', 'follows', 'likes', 'profiles', 'visits'];
+// bild_ausschnitte gehört zum Katalog (der Teil eines Bildes, der zu sehen
+// ist) und enthält nichts über Personen; die Katalogtabellen selbst legen
+// ihre Regeln in einer Schleife an und stehen deshalb nicht hier.
+const OEFFENTLICH_LESBAR = ['bild_ausschnitte', 'comments', 'follows', 'likes', 'profiles', 'visits'];
 
 function oeffentlichLesbareTabellen(sql) {
     return [...sql.matchAll(/CREATE POLICY\s+"[^"]*"\s+ON\s+(\w+)\s+FOR SELECT\s+USING\s*\(\s*true\s*\)/gi)]

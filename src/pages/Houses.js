@@ -157,7 +157,8 @@ export function HousesPage() {
       const bannerStyle = coverBackground(
         house.imageUrl,
         `linear-gradient(135deg, ${house.color}, #14181c)`,
-        'rgba(20, 24, 28, 0.4), #14181c'
+        'rgba(20, 24, 28, 0.4), #14181c',
+        house.bildAusschnitt
       );
 
       const card = document.createElement('a');

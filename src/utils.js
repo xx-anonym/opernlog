@@ -14,13 +14,33 @@
  * @param {string} url         Bild-URL (darf leer sein)
  * @param {string} fallback    CSS-Verlauf, z.B. linear-gradient(...)
  * @param {string} scrim       Farbstopps der Abdunklung über dem Bild
+ * @param {{x: number, y: number}} [ausschnitt]  welcher Teil des Bildes zu
+ *                             sehen ist, in Prozent (siehe bildPosition)
  */
-export function coverBackground(url, fallback, scrim = 'rgba(0,0,0,0.15), rgba(20,24,28,0.85)') {
+export function coverBackground(url, fallback, scrim = 'rgba(0,0,0,0.15), rgba(20,24,28,0.85)', ausschnitt) {
     const layers = [];
     if (scrim) layers.push(`linear-gradient(to bottom, ${scrim})`);
     if (url) layers.push(`url('${cssUrl(url)}')`);
     layers.push(fallback);
-    return `background-image: ${layers.join(', ')}; background-size: cover; background-position: center;`;
+    return `background-image: ${layers.join(', ')}; background-size: cover; background-position: ${bildPosition(ausschnitt)};`;
+}
+
+/**
+ * Der Bildausschnitt als Wert für background-position.
+ *
+ * Ein Admin legt ihn fest (bild_ausschnitte in der Datenbank); fehlt er, ist
+ * es die Mitte. Die Zahlen kommen aus der Datenbank und landen in einem
+ * style-Attribut – deshalb hier als Zahlen gelesen und auf 0 bis 100
+ * begrenzt, nie als Text durchgereicht. Die Verläufe darüber und darunter
+ * füllen die Fläche ganz aus; für sie spielt die Position keine Rolle.
+ */
+export function bildPosition(ausschnitt) {
+    const prozent = (w) => {
+        const n = Number(w);
+        return Number.isFinite(n) ? Math.round(Math.min(100, Math.max(0, n)) * 10) / 10 : 50;
+    };
+    if (!ausschnitt) return 'center';
+    return `${prozent(ausschnitt.x)}% ${prozent(ausschnitt.y)}%`;
 }
 
 // Nur die Zeichen maskieren, die url('...') aufbrechen könnten. Bewusst kein

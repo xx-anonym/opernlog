@@ -41,6 +41,11 @@ window.__verweise = { besuche: 0, markierungen: 0, listen: 0 };  // was am Eintr
 window.__verweiseFehler = null; // gesetzt: die Zaehlung scheitert
 window.__geloescht = [];        // { tabelle, id } je DELETE
 window.__deleteFehler = null;   // gesetzt: jedes DELETE scheitert damit
+// Bildausschnitte. __ausschnitteVorgabe per addInitScript setzen, wenn sie
+// schon beim Start der App in der "Datenbank" stehen sollen.
+window.__ausschnitte = window.__ausschnitteVorgabe || [];   // { art, id, x, y }
+window.__ausschnittSchreiben = [];  // { op, art, id, x, y } je upsert/delete
+window.__ausschnittFehler = null;   // gesetzt: jedes Schreiben scheitert damit
 window.__kontoGeloescht = 0;    // wie oft konto_loeschen() gerufen wurde
 window.__kontoFehler = null;    // gesetzt: Loeschen scheitert damit
 window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
@@ -96,6 +101,27 @@ function builder(table) {
         // Die Regel in der Datenbank zeigt jedem nur die eigene Zeile.
         const rows = window.__istAdmin ? [{ user_id: UID }] : [];
         return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
+      }
+      if (table === 'bild_ausschnitte') {
+        if (op && window.__ausschnittFehler) {
+          return Promise.resolve({ data: null, error: { message: window.__ausschnittFehler } }).then(res, rej);
+        }
+        // Wie die echte Regel: nur Admins schreiben, sonst keine Zeile.
+        if (op && !window.__istAdmin) return Promise.resolve({ data: [], error: null }).then(res, rej);
+        const gleich = (a) => a.art === (nutzlast?.art ?? filter.art) && a.id === (nutzlast?.id ?? filter.id);
+        if (op === 'upsert') {
+          window.__ausschnittSchreiben.push({ op, art: nutzlast.art, id: nutzlast.id, x: nutzlast.x, y: nutzlast.y });
+          const zeile = { art: nutzlast.art, id: nutzlast.id, x: nutzlast.x, y: nutzlast.y };
+          window.__ausschnitte = [...window.__ausschnitte.filter(a => !gleich(a)), zeile];
+          return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
+        }
+        if (op === 'delete') {
+          window.__ausschnittSchreiben.push({ op, art: filter.art, id: filter.id });
+          const weg = window.__ausschnitte.filter(gleich);
+          window.__ausschnitte = window.__ausschnitte.filter(a => !gleich(a));
+          return Promise.resolve({ data: weg, error: null }).then(res, rej);
+        }
+        return Promise.resolve({ data: window.__ausschnitte, error: null }).then(res, rej);
       }
       if (window.__katalog[table]) {
         if (op === 'delete') {

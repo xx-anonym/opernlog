@@ -3,6 +3,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { istAdmin } from '../store/supabase.js';
 import { loeschSchalter } from '../components/KatalogLoeschen.js';
+import { bildAusschnittKnopf } from '../components/BildAusschnitt.js';
 import { coverBackground, escapeHTML } from '../utils.js';
 import { showError, showToast } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
@@ -120,7 +121,8 @@ export function HouseDetailPage(houseId) {
   const heroStyle = coverBackground(
     house.imageUrl,
     `linear-gradient(135deg, ${house.color}, #14181c)`,
-    'rgba(20, 24, 28, 0.3), #14181c'
+    'rgba(20, 24, 28, 0.3), #14181c',
+    house.bildAusschnitt
   );
 
   page.innerHTML = `
@@ -245,11 +247,14 @@ export function HouseDetailPage(houseId) {
   // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet
   // ist – und nur bei Einträgen, die in der Datenbank stehen. Was als Datei im
   // Repo liegt, kann die App nicht löschen.
+  // Ebenso der Knopf für den Bildausschnitt oben rechts im Kopf – den gibt es
+  // für jeden Eintrag, auch für die aus dem Repo.
   istAdmin().then(ja => {
     const schalter = loeschSchalter('haus', house, ja, () => {
       window.location.hash = '#/houses';
     });
     if (schalter) page.appendChild(schalter);
+    if (ja) bildAusschnittKnopf(page.querySelector('.detail-hero'), 'haus', house, house.imageUrl);
   }).catch(() => {});
 
   return page;

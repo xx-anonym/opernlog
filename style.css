@@ -665,6 +665,99 @@ h3 {
     }
 }
 
+/* Bildausschnitt wählen (nur Admins, src/components/BildAusschnitt.js):
+   ein runder Knopf oben rechts im Kopf, wie der Zurück-Knopf gestaltet;
+   beim Wählen ein Rahmen, die Leiste mit den Knöpfen und gedämpfter Text. */
+.bild-ausschnitt__knopf {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.bild-ausschnitt__knopf svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* display oben würde hidden sonst überstimmen */
+.bild-ausschnitt__knopf[hidden] {
+    display: none;
+}
+
+@media (hover: hover) {
+    .bild-ausschnitt__knopf:hover {
+        color: var(--gold);
+        background: rgba(0, 0, 0, 0.6);
+        border-color: rgba(201, 168, 76, 0.3);
+    }
+}
+
+.detail-hero--ausschnitt {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    outline: 2px dashed var(--gold);
+    outline-offset: -2px;
+}
+
+.detail-hero--ziehen {
+    cursor: grabbing;
+}
+
+.detail-hero--ausschnitt .detail-hero__content,
+.detail-hero--ausschnitt .back-link {
+    pointer-events: none;
+    opacity: 0.35;
+}
+
+/* Eine dunkle Tafel: die Knöpfe müssen auch auf einem hellen Bild lesbar sein. */
+.bild-ausschnitt__leiste {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    max-width: calc(100% - 24px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: rgba(20, 24, 28, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: default;
+}
+
+.bild-ausschnitt__hinweis {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 0 4px;
+}
+
+/* Auf dem Handy passen die drei Knöpfe sonst nicht in eine Zeile, und die
+   Tafel deckte ein Drittel des Bildes zu. Der gestrichelte Rahmen sagt dort
+   genug. */
+@media (max-width: 480px) {
+    .bild-ausschnitt__hinweis {
+        display: none;
+    }
+}
+
 .detail-hero__title {
     font-size: 36px;
     margin-bottom: 16px;
