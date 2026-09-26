@@ -11,7 +11,7 @@
 export const SPIELPLAN_STAND = '2026-09-23';
 
 // Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.
-export const SPIELPLAN_ZUSATZWERKE = ['candide', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi'];
+export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi'];
 
 // Häuser aus der Datenbank, die nicht in operaHouses.js stehen.
 export const SPIELPLAN_ZUSATZHAEUSER = ['luzerner-theater', 'staatstheater-meiningen', 'theater-bielefeld', 'theater-koblenz'];
@@ -64,8 +64,8 @@ export const spielplan = [
       termine: ['2026-10-12', '2026-10-16', '2026-10-19', '2026-10-23'],
       zeiten: { '2026-10-12': '19:00', '2026-10-16': '19:00', '2026-10-19': '19:30', '2026-10-23': '19:00' } },
     { werk: 'ariadne-naxos', haus: 'gaertnerplatztheater', url: "https://www.gaertnerplatztheater.de/de/produktionen/ariadne-auf-naxos.html",
-      termine: ['2027-06-02', '2027-06-18', '2027-06-25', '2027-07-01', '2027-07-04', '2027-07-11', '2027-07-14'],
-      zeiten: { '2027-06-02': '18:00', '2027-06-18': '19:30', '2027-06-25': '19:30', '2027-07-01': '19:30', '2027-07-04': '18:00', '2027-07-11': '18:00', '2027-07-14': '19:30' } },
+      termine: ['2027-06-18', '2027-06-25', '2027-07-01', '2027-07-04', '2027-07-11', '2027-07-14'],
+      zeiten: { '2027-06-18': '19:30', '2027-06-25': '19:30', '2027-07-01': '19:30', '2027-07-04': '18:00', '2027-07-11': '18:00', '2027-07-14': '19:30' } },
     { werk: 'ariadne-naxos', haus: 'staatsoper-berlin', url: "https://www.staatsoper-berlin.de/de/veranstaltungen/ariadne-auf-naxos.21/",
       termine: ['2027-04-08', '2027-04-17', '2027-04-22', '2027-04-25'],
       zeiten: { '2027-04-08': '19:30', '2027-04-17': '19:30', '2027-04-22': '19:30', '2027-04-25': '18:00' } },
@@ -734,6 +734,15 @@ export const spielplan = [
     { werk: 'il-trovatore', haus: 'theater-bielefeld', url: "https://www.buo-bielefeld.de/theater/veranstaltung/der-troubadour-il-trovatore",
       termine: ['2026-10-31', '2026-11-07', '2026-12-15', '2026-12-29', '2027-01-08'],
       zeiten: { '2026-10-31': '19:30', '2026-11-07': '19:30', '2026-12-15': '19:30', '2026-12-29': '19:30', '2027-01-08': '19:30' } },
+    { werk: 'il-viaggio-a-reims', haus: 'gaertnerplatztheater', url: "https://www.gaertnerplatztheater.de/de/produktionen/die-reise-nach-reims.html",
+      termine: ['2026-10-16', '2026-10-18', '2026-10-24', '2026-10-29', '2026-10-31', '2026-11-05', '2026-12-04', '2026-12-18', '2026-12-21', '2026-12-28'],
+      zeiten: { '2026-10-16': '19:30', '2026-10-18': '18:00', '2026-10-24': '19:30', '2026-10-29': '19:30', '2026-10-31': '19:30', '2026-11-05': '19:30', '2026-12-04': '19:30', '2026-12-18': '19:30', '2026-12-21': '19:30', '2026-12-28': '19:30' } },
+    { werk: 'il-viaggio-a-reims', haus: 'grand-theatre-geneve', url: "https://www.gtg.ch/saison-26-27/le-voyage-a-reims/",
+      termine: ['2027-02-06', '2027-02-08', '2027-02-10', '2027-02-12', '2027-02-14'],
+      zeiten: { '2027-02-06': '19:30', '2027-02-08': '19:30', '2027-02-10': '19:30', '2027-02-12': '19:30', '2027-02-14': '15:00' } },
+    { werk: 'il-viaggio-a-reims', haus: 'oper-leipzig', url: "https://www.oper-leipzig.de/de/programm/die-reise-nach-reims/741",
+      termine: ['2027-03-28', '2027-04-04', '2027-04-30'],
+      zeiten: { '2027-03-28': '17:00', '2027-04-04': '15:00', '2027-04-30': '19:30' } },
     { werk: 'iphigenie-tauride', haus: 'theater-bonn', url: "https://www.theater-bonn.de/de/programm/iphigenie-auf-tauris/234685",
       termine: ['2027-03-21', '2027-04-10', '2027-04-23', '2027-04-25', '2027-05-02', '2027-05-16'],
       zeiten: { '2027-03-21': '18:00', '2027-04-10': '19:30', '2027-04-23': '19:30', '2027-04-25': '18:00', '2027-05-02': '18:00', '2027-05-16': '18:00' } },
@@ -841,8 +850,8 @@ export const spielplan = [
       termine: ['2026-12-27', '2026-12-30', '2027-01-03', '2027-01-05'],
       zeiten: { '2026-12-27': '18:00-21:00', '2026-12-30': '18:00-21:00', '2027-01-03': '18:00-21:00', '2027-01-05': '18:00-21:00' } },
     { werk: 'la-traviata', haus: 'gaertnerplatztheater', url: "https://www.gaertnerplatztheater.de/de/produktionen/la-traviata.html",
-      termine: ['2026-09-27', '2026-10-02', '2027-01-14', '2027-01-16', '2027-01-22', '2027-01-24'],
-      zeiten: { '2026-09-27': '18:00', '2026-10-02': '19:30', '2027-01-14': '19:30', '2027-01-16': '19:30', '2027-01-22': '19:30', '2027-01-24': '18:00' } },
+      termine: ['2026-10-02', '2027-01-14', '2027-01-16', '2027-01-22', '2027-01-24'],
+      zeiten: { '2026-10-02': '19:30', '2027-01-14': '19:30', '2027-01-16': '19:30', '2027-01-22': '19:30', '2027-01-24': '18:00' } },
     { werk: 'la-traviata', haus: 'hamburgische-staatsoper', url: "https://www.die-hamburgische-staatsoper.de/de/programm/oper/144-la-traviata#tickets",
       termine: ['2027-01-03', '2027-01-05', '2027-01-07', '2027-01-14', '2027-01-16', '2027-01-29'],
       zeiten: { '2027-01-03': '17:00', '2027-01-05': '19:30', '2027-01-07': '19:30', '2027-01-14': '19:30', '2027-01-16': '19:30', '2027-01-29': '19:30' } },

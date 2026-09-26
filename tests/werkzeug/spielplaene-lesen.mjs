@@ -89,6 +89,7 @@ export const ANDERE_TITEL = {
     // aus der Datenbank; deutsche Häuser spielen sie oft unter deutschem Titel
     'la-gazza-ladra': ['Die diebische Elster', 'Diebische Elster'],
     'l-italiana-in-algeri': ['Die Italienerin in Algier', 'Italienerin in Algier', "L'Italiana in Algeri"],
+    'il-viaggio-a-reims': ['Die Reise nach Reims', 'Reise nach Reims', 'Le Voyage à Reims', 'Le voyage a Reims', 'The Journey to Reims'],
     'orpheus-in-der-unterwelt': ['Orphée aux enfers', 'Orphee aux enfers', 'Orpheus in the Underworld', 'Orfeo all\'inferno'],
     'elisir': ["L’elisir d’amore", 'Der Liebestrank', "L'elisir d'amore"],
     'jenufa': ['Jenufa', 'Její pastorkyňa'],
@@ -261,7 +262,8 @@ function rang(url) {
 // "Hör’n Sie mal!" ist in Hannover eine Einführung zum Hören.
 // "Preview «Elektra»" (Zürich): eine Einführung um halb zwölf, kein Abend.
 // "Vor der Premiere", "Drumherum", "Musiktheaterclub" (Graz): Begleitprogramm.
-export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview|vor der premiere|drumherum|musiktheaterclub|operaktiv/i;
+// "Premierenfieber" (Gärtnerplatz): eine Stunde Einblick vor der Premiere.
+export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview|vor der premiere|premierenfieber|drumherum|musiktheaterclub|operaktiv/i;
 
 // Artikel über ein Stück sind keine Seiten der Produktion: Bonn erzählt im
 // Magazin von Galas vergangener Spielzeiten ("Am 11. Mai erlebte das

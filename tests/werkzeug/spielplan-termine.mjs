@@ -252,12 +252,13 @@ const OHNE_DATEN = new RegExp(`\\b(${MONATSMUSTER}|${WOCHENTAG})\\b|[\\d\\s.,·|
 const nurDaten = z => z.replace(OHNE_DATEN, '').length === 0;
 
 // Zeilen mit einem Datum, das kein Opernabend ist: Matinee, Vorverkauf,
-// Führung, Rabattaktion, die Uraufführung vor 150 Jahren.
+// Führung, Rabattaktion, die Uraufführung vor 150 Jahren, "Premierenfieber"
+// (Gärtnerplatz: Einblick in die Proben vor der Premiere).
 // Foyer, Probebühne und Treffpunkt als Ort: Führung, Workshop, Probenbesuch
 // (Hamburg: "10. Dezember 2026, 9:15 – 11:45 · Eingangsfoyer").
 // "Uraufführung am …" und "Premiere dieser Inszenierung" stehen in Chroniken
 // (Hamburg), ihr Jahr in einer eigenen Zeile davor – zu alt, um zu zählen.
-const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|uraufführung am|premiere dieser inszenierung|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
+const NEBEN_ZEILE = /foyer|probebühne|premierenfieber|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|uraufführung am|premiere dieser inszenierung|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
 
 // Eine Zeile, die nur sagt, was für ein Anlass es ist: "Einführung",
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),

@@ -510,6 +510,12 @@ test('eine "Preview" ist eine Nebenveranstaltung (Zürich)', async () => {
     assert.ok(!NEBENHER.test('So 22 Nov\n18.00\nOpernhaus\nElektra\nTICKETS'));
 });
 
+test('"Premierenfieber" in der Spielplanliste ist eine Nebenveranstaltung (Gärtnerplatz)', async () => {
+    const { NEBENHER } = await import('../werkzeug/spielplaene-lesen.mjs');
+    assert.ok(NEBENHER.test('Mi, 30.09.26\n18.00–19.00 Uhr\nPremierenfieber\nPREMIERENFIEBER\n»DIE REISE NACH REIMS«\nTickets'));
+    assert.ok(!NEBENHER.test('Fr, 16.10.26\n19.30 Uhr\nPremiere\n»DIE REISE NACH REIMS«\nTickets'));
+});
+
 test('ausschliessen mit url trifft nur diese Produktion (Volksoper, Killing Carmen)', () => {
     const k = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'andere-tosca', grund: 'Bearbeitung' }] };
     assert.equal(uebernehmen(LAUF, k).zeilen.length, 1, 'die echte Tosca bleibt');

@@ -611,6 +611,14 @@ test('nach "Zusatzangebote" kommt Begleitprogramm, keine Vorstellung (Hagen)', (
     assert.deepEqual(termineMitZeiten(hagen, fenster).termine, ['2026-12-05']);
 });
 
+test('"Premierenfieber" vor der Premiere ist keine Vorstellung (Gärtnerplatz)', () => {
+    const fenster = { von: '2026-09-27', bis: '2027-09-30' };
+    const text = 'TERMINE\nMi\t30.09.26\t18.00 Uhr\tPremierenfieber\nFr\t16.10.26\t19.30 Uhr\tPremiere\nSo\t18.10.26\t18.00 Uhr';
+    const { termine, zeiten } = termineMitZeiten(text, fenster);
+    assert.deepEqual(termine, ['2026-10-16', '2026-10-18']);
+    assert.equal(zeiten['2026-10-16'], '19:30');
+});
+
 test('nach "Außerdem" kommen Kostprobe und Archivführung, keine Vorstellung (Semperoper)', () => {
     const fenster = { von: '2026-09-26', bis: '2027-09-30' };
     const semper = 'Premiere\n26\nSa\n26. Juni 2027, 18 Uhr\nJuni 2027\n18 Uhr\nPremiere\nDetails\n24 – 125 €\nTickets\n'
