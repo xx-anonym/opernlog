@@ -20,24 +20,26 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname } from '../../src/kalender.js';
-import { zusatzWerkeFuer } from './datenbank-werke.mjs';
+import { zusatzWerkeFuer, zusatzHaeuserFuer } from './datenbank-werke.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const KALENDER_ORDNER = path.join(WURZEL, 'kalender');
 
 /**
  * Dateiname → Inhalt, für jeden Termin, den "In den Kalender" anbieten kann.
- * Werke, die nur in der Datenbank stehen (zusatz), mischt die App unter
- * operas.js; ohne sie fehlten deren Dateien. Der Zeitstempel ist der Stand
+ * Werke und Häuser, die nur in der Datenbank stehen (zusatz,
+ * zusatzHaeuser), mischt die App unter operas.js und operaHouses.js; ohne
+ * sie fehlten deren Dateien. Der Zeitstempel ist der Stand
  * des Spielplans, damit dieselben Daten dieselben Dateien ergeben.
  */
-export function kalenderDateien(zeilen, stand, zusatz = []) {
+export function kalenderDateien(zeilen, stand, zusatz = [], zusatzHaeuser = []) {
     const jetzt = new Date(`${stand}T00:00:00Z`);
     const werke = [...operas, ...zusatz];
+    const haeuser = [...operaHouses, ...zusatzHaeuser];
     const dateien = new Map();
     for (const e of zeilen) {
         const werk = werke.find(o => o.id === e.werk);
-        const haus = operaHouses.find(h => h.id === e.haus);
+        const haus = haeuser.find(h => h.id === e.haus);
         if (!werk || !haus) continue;
         for (const datum of e.termine) {
             dateien.set(kalenderDateiname(werk, haus, datum),
@@ -52,7 +54,7 @@ export function kalenderDateien(zeilen, stand, zusatz = []) {
  * Titel und Komponist der Werke aus der Datenbank holt es selbst.
  */
 export async function kalenderOrdnerSchreiben(zeilen, stand) {
-    const dateien = kalenderDateien(zeilen, stand, await zusatzWerkeFuer(zeilen));
+    const dateien = kalenderDateien(zeilen, stand, await zusatzWerkeFuer(zeilen), await zusatzHaeuserFuer(zeilen));
     fs.mkdirSync(KALENDER_ORDNER, { recursive: true });
     for (const alt of fs.readdirSync(KALENDER_ORDNER)) {
         if (alt.endsWith('.ics') && !dateien.has(alt)) fs.rmSync(path.join(KALENDER_ORDNER, alt));

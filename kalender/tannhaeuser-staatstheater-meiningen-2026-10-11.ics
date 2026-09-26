@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:tannhaeuser-staatstheater-meiningen-2026-10-11@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261011T183000
+DTEND;TZID=Europe/Berlin:20261011T223000
+SUMMARY:Tannhäuser – Staatstheater Meiningen
+LOCATION:Staatstheater Meiningen\, Meiningen
+GEO:50.573333;10.416111
+URL:https://www.staatstheater-meiningen.de/produktionen/tannhaeuser-und-der
+ -saengerkrieg-auf-wartburg.html
+DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.st
+ aatstheater-meiningen.de/produktionen/tannhaeuser-und-der-saengerkrieg-auf
+ -wartburg.html\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

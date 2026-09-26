@@ -17,18 +17,19 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
-import { zusatzWerkeFuer } from './datenbank-werke.mjs';
+import { zusatzWerkeFuer, zusatzHaeuserFuer } from './datenbank-werke.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const DATEN_DATEI = path.join(WURZEL, 'daten/spielplan.json');
 
 /** Der Inhalt der Datei. Werke, deren Titel niemand kennt, fehlen. */
-export function spielplanDaten(zeilen, stand, zusatz = []) {
+export function spielplanDaten(zeilen, stand, zusatz = [], zusatzHaeuser = []) {
     const werke = [...operas, ...zusatz];
+    const haeuser = [...operaHouses, ...zusatzHaeuser];
     const eintraege = [];
     for (const z of zeilen) {
         const werk = werke.find(o => o.id === z.werk);
-        const haus = operaHouses.find(h => h.id === z.haus);
+        const haus = haeuser.find(h => h.id === z.haus);
         if (!werk || !haus) continue;
         eintraege.push({ werk: z.werk, titel: werk.title, haus: z.haus, hausName: haus.name, stadt: haus.city, termine: z.termine });
     }
@@ -43,7 +44,7 @@ export function alsText(daten) {
 }
 
 export async function spielplanDatenSchreiben(zeilen, stand) {
-    const daten = spielplanDaten(zeilen, stand, await zusatzWerkeFuer(zeilen));
+    const daten = spielplanDaten(zeilen, stand, await zusatzWerkeFuer(zeilen), await zusatzHaeuserFuer(zeilen));
     fs.mkdirSync(path.dirname(DATEN_DATEI), { recursive: true });
     fs.writeFileSync(DATEN_DATEI, alsText(daten));
     return daten.eintraege.length;

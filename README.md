@@ -132,6 +132,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   node tests/werkzeug/spielplan-uebernehmen.mjs haus.json --dazu
   ```
 
+  Ein Haus, das über das Admin-Formular angelegt wird (`catalog_houses`),
+  liest das Werkzeug mit, sobald es in `spielplan-quellen.json` Einstiegsseiten
+  hat. Dort trägt es `"ausDatenbank": true`, damit die Prüfung ohne Netz es
+  kennt; `src/data/spielplan.js` vermerkt es unter `SPIELPLAN_ZUSATZHAEUSER`.
+
   Viele Einstiegsseiten tragen die Spielzeit im Namen (Zürich:
   `/spielplan/oper-2627/`, Semperoper: `spielzeit-2026-27`) und müssen vor
   dem Septemberlauf auf die neue Spielzeit umgestellt werden – sonst sieht

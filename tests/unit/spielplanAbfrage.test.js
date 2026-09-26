@@ -374,7 +374,7 @@ test('Knöpfe zum Nachladen: auch "weitere Spieltage anzeigen" (Deutsche Oper Be
     for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr laden', 'Mehr anzeigen', 'mehr Vorstellungen', 'Alle Termine', 'Load more']) {
         assert.ok(NACHLADEN.test(t), t);
     }
-    for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr Vorstellungen anzeigen']) assert.ok(NACHLADEN_DIREKT.test(t), t);
+    for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr Vorstellungen anzeigen', 'ALLE TERMINE ANZEIGEN']) assert.ok(NACHLADEN_DIREKT.test(t), t);
     // Ein allgemeines "Mehr anzeigen" klappt oft nur Text auf: nicht direkt auslösen.
     for (const t of ['Mehr anzeigen', 'Mehr laden']) assert.ok(!NACHLADEN_DIREKT.test(t), t);
     for (const t of ['Weitere Informationen', 'mehr erfahren', 'Tickets']) assert.ok(!NACHLADEN.test(t) && !NACHLADEN_DIREKT.test(t), t);
@@ -515,4 +515,21 @@ test('ausschliessen mit url trifft nur diese Produktion (Volksoper, Killing Carm
     assert.equal(uebernehmen(LAUF, k).zeilen.length, 1, 'die echte Tosca bleibt');
     const k2 = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'semperoper.example/tosca', grund: 'Bearbeitung' }] };
     assert.equal(uebernehmen(LAUF, k2).zeilen.length, 0);
+});
+
+test('der Komponist darf im Link stehen (Kassel)', async () => {
+    const { komponistImLink } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const ids = komponistImLink([
+        { href: 'https://www.staatstheater-kassel.de/play/lelisirdamore-3322', text: 'L’elisir d’amore Oper von Gaetano Donizetti' },
+        { href: 'https://www.staatstheater-kassel.de/play/diefledermaus-3262', text: 'Die Fledermaus' },
+    ]);
+    assert.deepEqual([...ids], ['elisir']);
+});
+
+test('Leoncavallos "La Bohème" ist nicht Puccinis (Graz)', async () => {
+    const { fremderKomponist, NEBENHER } = await import('../werkzeug/spielplaene-lesen.mjs');
+    assert.equal(fremderKomponist('OPER ZUM LETZTEN MAL\nLa Bohème\n\nRuggero Leoncavallo\n\nMi. 04.11.2026\n19:30', 'la-boheme'), true);
+    assert.equal(fremderKomponist('La Bohème\nGiacomo Puccini\nSa. 28.11.2026\n19:30', 'la-boheme'), false);
+    assert.equal(fremderKomponist('La Bohème\nSa. 28.11.2026\n19:30', 'la-boheme'), false);
+    for (const t of ['DRUMHERUM Vor der Premiere »La Bohème«', 'OPERAKTIV! Musiktheaterclub 1']) assert.ok(NEBENHER.test(t), t);
 });

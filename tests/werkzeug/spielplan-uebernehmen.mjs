@@ -36,7 +36,7 @@ const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..
 const KORREKTUREN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-korrekturen.json'), 'utf8'));
 
 const ausRepo = new Set(operas.map(o => o.id));
-const hausIds = new Set(operaHouses.map(h => h.id));
+const hausImRepo = new Set(operaHouses.map(h => h.id));
 const passt = (k, haus, werk) => k.haus === haus && (k.werk === werk || k.werk === '*');
 
 /**
@@ -57,6 +57,8 @@ export function seitenrahmen(werke) {
 export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
     // Katalog: operas.js und die Werke aus der Datenbank, die der Lauf kannte.
     const werkIds = new Set([...ausRepo, ...(vorschlag._werke || []).map(w => w.id)]);
+    // Ebenso die Häuser: operaHouses.js und die aus der Datenbank.
+    const hausIds = new Set([...hausImRepo, ...(vorschlag._haeuserKatalog || []).map(h => h.id)]);
     const zeilen = [];
     const weggelassen = [];
     let stand = '';
@@ -98,7 +100,7 @@ export function uebernehmen(vorschlag, korrekturen = KORREKTUREN) {
         }
     }
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
-    return { zeilen, weggelassen, stand, zusatzwerke: zusatzwerke(zeilen) };
+    return { zeilen, weggelassen, stand, zusatzwerke: zusatzwerke(zeilen), zusatzhaeuser: zusatzhaeuser(zeilen) };
 }
 
 // Die Zeile mit den Zeiten ihrer Termine, soweit gültig – ohne leeres Feld.
@@ -113,6 +115,7 @@ function mitZeiten(zeile, zeiten = {}) {
 // Werke aus der Datenbank, die in den Zeilen vorkommen – damit die Prüfung
 // ohne Netz weiß, dass es sie gibt.
 const zusatzwerke = zeilen => [...new Set(zeilen.map(z => z.werk).filter(w => !ausRepo.has(w)))].sort();
+const zusatzhaeuser = zeilen => [...new Set(zeilen.map(z => z.haus).filter(h => !hausImRepo.has(h)))].sort();
 
 /**
  * Ein Nachtrag für einzelne Werke (Lauf mit --werke) oder einzelne Häuser:
@@ -126,10 +129,10 @@ export function dazunehmen(bestehend, nachtrag, { werke, haeuser } = {}) {
     const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...nachtrag.zeilen.filter(gelesen)];
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
     const stand = [bestehend.stand, nachtrag.stand].filter(Boolean).sort()[0] || '';
-    return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen) };
+    return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen), zusatzhaeuser: zusatzhaeuser(zeilen) };
 }
 
-export function alsModul({ zeilen, stand, zusatzwerke = [] }) {
+export function alsModul({ zeilen, stand, zusatzwerke = [], zusatzhaeuser = [] }) {
     const kopf = fs.readFileSync(path.join(WURZEL, 'src/data/spielplan.js'), 'utf8').split('export const SPIELPLAN_STAND')[0];
     const zeitenText = z => {
         const paare = Object.entries(z.zeiten || {});
@@ -139,6 +142,8 @@ export function alsModul({ zeilen, stand, zusatzwerke = [] }) {
     return `${kopf}export const SPIELPLAN_STAND = '${stand}';\n\n`
         + `// Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.\n`
         + `export const SPIELPLAN_ZUSATZWERKE = [${zusatzwerke.map(w => `'${w}'`).join(', ')}];\n\n`
+        + `// Häuser aus der Datenbank, die nicht in operaHouses.js stehen.\n`
+        + `export const SPIELPLAN_ZUSATZHAEUSER = [${zusatzhaeuser.map(h => `'${h}'`).join(', ')}];\n\n`
         + `export const spielplan = [\n${eintraege}\n];\n`;
 }
 

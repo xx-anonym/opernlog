@@ -6,7 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { spielplan, SPIELPLAN_STAND, SPIELPLAN_ZUSATZWERKE } from '../../src/data/spielplan.js';
+import { spielplan, SPIELPLAN_STAND, SPIELPLAN_ZUSATZWERKE, SPIELPLAN_ZUSATZHAEUSER } from '../../src/data/spielplan.js';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { ID_MUSTER } from '../../src/data/katalogRegeln.js';
@@ -14,7 +14,7 @@ import { ID_MUSTER } from '../../src/data/katalogRegeln.js';
 // Werke aus der Datenbank kennt die Prüfung nicht – sie stehen deshalb in
 // der Datei selbst (SPIELPLAN_ZUSATZWERKE).
 const werke = new Set([...operas.map(o => o.id), ...SPIELPLAN_ZUSATZWERKE]);
-const haeuser = new Set(operaHouses.map(h => h.id));
+const haeuser = new Set([...operaHouses.map(h => h.id), ...SPIELPLAN_ZUSATZHAEUSER]);
 
 test('Stand ist ein Datum', () => {
     assert.match(SPIELPLAN_STAND, /^20\d\d-\d\d-\d\d$/);
@@ -33,6 +33,15 @@ test('Zusatzwerke sind Kennungen, die operas.js nicht kennt, und kommen vor', ()
         assert.match(w, ID_MUSTER, w);
         assert.ok(!imRepo.has(w), `${w} steht schon in operas.js`);
         assert.ok(spielplan.some(e => e.werk === w), `${w} kommt im Spielplan nicht vor`);
+    }
+});
+
+test('Zusatzhäuser sind Kennungen, die operaHouses.js nicht kennt, und kommen vor', () => {
+    const imRepo = new Set(operaHouses.map(h => h.id));
+    for (const h of SPIELPLAN_ZUSATZHAEUSER) {
+        assert.match(h, ID_MUSTER, h);
+        assert.ok(!imRepo.has(h), `${h} steht schon in operaHouses.js`);
+        assert.ok(spielplan.some(e => e.haus === h), `${h} kommt im Spielplan nicht vor`);
     }
 });
 

@@ -9,7 +9,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-import { spielplan, SPIELPLAN_STAND, SPIELPLAN_ZUSATZWERKE } from '../../src/data/spielplan.js';
+import { spielplan, SPIELPLAN_STAND, SPIELPLAN_ZUSATZWERKE, SPIELPLAN_ZUSATZHAEUSER } from '../../src/data/spielplan.js';
 import { spielplanDaten, alsText, DATEN_DATEI } from '../werkzeug/spielplan-daten.mjs';
 
 const NEU = 'Neu erzeugen: node tests/werkzeug/spielplan-daten.mjs';
@@ -34,6 +34,16 @@ test('Werke aus der Datenbank stehen mit Titel und denselben Terminen drin', () 
         const e = inDatei.get(schluessel(z));
         assert.ok(e, `${schluessel(z)} fehlt. ${NEU}`);
         assert.ok(e.titel?.trim(), `${schluessel(z)} ohne Titel`);
+        assert.deepEqual(e.termine, z.termine);
+    }
+});
+
+test('Häuser aus der Datenbank stehen mit Name und Stadt drin', () => {
+    const inDatei = new Map(datei.eintraege.map(e => [schluessel(e), e]));
+    for (const z of spielplan.filter(z => SPIELPLAN_ZUSATZHAEUSER.includes(z.haus))) {
+        const e = inDatei.get(schluessel(z));
+        assert.ok(e, `${schluessel(z)} fehlt. ${NEU}`);
+        assert.ok(e.hausName?.trim() && e.stadt?.trim(), `${schluessel(z)} ohne Name oder Stadt`);
         assert.deepEqual(e.termine, z.termine);
     }
 });

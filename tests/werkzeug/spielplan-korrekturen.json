@@ -46,6 +46,11 @@
       "haus": "salzburger-landestheater",
       "werk": "zauberflote",
       "grund": "„Die kleine Zauberflöte“, Kinderfassung von Marco Dott"
+    },
+    {
+      "haus": "musiktheater-im-revier",
+      "werk": "candide",
+      "grund": "„Candide oder der Optimismus“, musikalische Lesung nach Voltaire (Gastspiel), nicht Bernsteins Candide"
     }
   ],
   "aufnehmen": [
@@ -61,6 +66,30 @@
     }
   ],
   "termineEntfernen": [
+    {
+      "haus": "theater-koblenz",
+      "werk": "macbeth",
+      "termine": [
+        "2027-06-20"
+      ],
+      "grund": "Matinee im Oberen Foyer; der Anlass steht unter dem Titel, nicht am Datum"
+    },
+    {
+      "haus": "theater-koblenz",
+      "werk": "pelleas",
+      "termine": [
+        "2027-04-04"
+      ],
+      "grund": "Matinee im Oberen Foyer; der Anlass steht unter dem Titel, nicht am Datum"
+    },
+    {
+      "haus": "theater-koblenz",
+      "werk": "rosenkavalier",
+      "termine": [
+        "2027-05-02"
+      ],
+      "grund": "Matinee im Oberen Foyer; der Anlass steht unter dem Titel, nicht am Datum"
+    },
     {
       "haus": "theater-osnabrueck",
       "werk": "csardasfuerstin",

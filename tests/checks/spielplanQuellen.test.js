@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { SPIELPLAN_ZUSATZWERKE } from '../../src/data/spielplan.js';
+import { ID_MUSTER } from '../../src/data/katalogRegeln.js';
 
 const QUELLEN = JSON.parse(fs.readFileSync(new URL('../werkzeug/spielplan-quellen.json', import.meta.url), 'utf8'));
 const haeuser = Object.entries(QUELLEN).filter(([k]) => !k.startsWith('_'));
@@ -18,7 +19,11 @@ const werkIds = new Set([...operas.map(o => o.id), ...SPIELPLAN_ZUSATZWERKE]);
 const adresse = u => { try { return new URL(u).protocol === 'https:'; } catch { return false; } };
 
 test('jede Quelle gehört zu einem Haus im Katalog', () => {
-    assert.deepEqual(haeuser.map(([id]) => id).filter(id => !hausIds.has(id)), []);
+    // Häuser, die der Admin in der App angelegt hat, kennt die Prüfung ohne
+    // Netz nicht – ihre Quelle sagt es ("ausDatenbank": true).
+    const unbekannt = haeuser.filter(([id, q]) => !hausIds.has(id) && !(q && q.ausDatenbank === true)).map(([id]) => id);
+    assert.deepEqual(unbekannt, []);
+    for (const [id, q] of haeuser) if (q?.ausDatenbank) assert.match(id, ID_MUSTER, id);
 });
 
 test('Einstiegsseiten und Stücke sind https-Adressen', () => {

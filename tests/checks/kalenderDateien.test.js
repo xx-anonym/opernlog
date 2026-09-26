@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { spielplan, SPIELPLAN_STAND, SPIELPLAN_ZUSATZWERKE } from '../../src/data/spielplan.js';
+import { spielplan, SPIELPLAN_STAND, SPIELPLAN_ZUSATZWERKE, SPIELPLAN_ZUSATZHAEUSER } from '../../src/data/spielplan.js';
 import { kalenderDateiname } from '../../src/kalender.js';
 import { kalenderDateien, KALENDER_ORDNER } from '../werkzeug/kalender-dateien.mjs';
 
@@ -18,9 +18,9 @@ const NEU_ERZEUGEN = 'Neu erzeugen: node tests/werkzeug/kalender-dateien.mjs';
 
 // Werke aus operas.js: der ganze Inhalt steht fest.
 const erwartet = kalenderDateien(spielplan, SPIELPLAN_STAND);
-// Werke aus der Datenbank: Titel und Komponist kennt die Prüfung ohne Netz
-// nicht, wohl aber, welche Dateien es geben muss.
-const ausDatenbank = new Map(spielplan.filter(e => SPIELPLAN_ZUSATZWERKE.includes(e.werk))
+// Werke und Häuser aus der Datenbank: Titel, Komponist und Ort kennt die
+// Prüfung ohne Netz nicht, wohl aber, welche Dateien es geben muss.
+const ausDatenbank = new Map(spielplan.filter(e => SPIELPLAN_ZUSATZWERKE.includes(e.werk) || SPIELPLAN_ZUSATZHAEUSER.includes(e.haus))
     .flatMap(e => e.termine.map(t => [kalenderDateiname({ id: e.werk }, { id: e.haus }, t), t])));
 const vorhanden = fs.readdirSync(KALENDER_ORDNER).filter(n => n.endsWith('.ics'));
 
