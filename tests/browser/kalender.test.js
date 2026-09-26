@@ -158,18 +158,23 @@ test('die Datei, die das iPhone öffnet, liegt mit echtem Spielplan auch bereit'
     const { spielplan } = await import('../../src/data/spielplan.js');
     const { operas } = await import('../../src/data/operas.js');
     const heuteIso = iso(0);
-    const eintrag = spielplan.find(e => operas.some(o => o.id === e.werk) && e.termine.some(t => t >= heuteIso));
-    if (!eintrag) return;   // Spielzeit vorbei, nichts mehr anzubieten
+    const werk = spielplan.find(e => operas.some(o => o.id === e.werk) && e.termine.some(t => t >= heuteIso))?.werk;
+    if (!werk) return;   // Spielzeit vorbei, nichts mehr anzubieten
 
     const ctx = await browser.newContext({ viewport: HANDY, userAgent: IPHONE });
     await ctx.addInitScript(() => { window.__geoeffnet = []; window.open = (u, z) => { window.__geoeffnet.push([u, z]); return null; }; });
     const p = await ctx.newPage();
     try {
         await ersetzeSupabase(p);
-        await p.goto(`${server.url}/index.html#/opera/${eintrag.werk}`);
+        await p.goto(`${server.url}/index.html#/opera/${werk}`);
         await p.waitForSelector('#termineToggle', { timeout: 15000 });
         await p.click('#termineToggle');
-        await p.locator(`#operaTermine .spielplan-zeile__kalender[data-haus="${eintrag.haus}"]`).click();
+        // Das erste Haus, das die Seite zeigt – sichtbar sind nur drei, und
+        // welche das sind, hängt vom Spielplan ab.
+        const knopf = p.locator('#operaTermine .spielplan-zeile__kalender').first();
+        const haus = await knopf.getAttribute('data-haus');
+        const eintrag = spielplan.find(e => e.werk === werk && e.haus === haus);
+        await knopf.click();
         await p.locator('.kalender-wahl__tag').first().click();
         await p.waitForTimeout(300);
         const [[adresse]] = await p.evaluate(() => window.__geoeffnet);

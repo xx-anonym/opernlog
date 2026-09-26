@@ -138,7 +138,9 @@ const norm = s => String(s || '').toLowerCase().normalize('NFC').replace(/[\u00a
 
 // Kinderfassungen sind nicht das Werk – wer "Die Zauberflöte" sehen will,
 // meint nicht die Stunde für Grundschüler.
-const KINDERFASSUNG = /für kinder|kinderfassung|kinderoper|kinderkonzert|familienkonzert|für kids|gekürzte fassung|kurzfassung/i;
+// Dazu die bekannten Bearbeitungen: "Papageno spielt auf der Zauberflöte"
+// (Halle), "Die kleine Zauberflöte" (Salzburg).
+export const KINDERFASSUNG = /für kinder|kinderfassung|kinderoper|kinderkonzert|familienkonzert|für kids|gekürzte fassung|kurzfassung|papageno spielt|kleine zauberfl/i;
 const slug = s => norm(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // Wie Häuser dieselben Komponisten sonst schreiben (Schlüssel ohne Akzente).
@@ -397,6 +399,37 @@ export function terminAnsichten(links, seitenUrl, muster) {
 }
 
 /**
+ * Das Verzeichnis der Produktionsseiten: das mit den meisten Werken (ab
+ * fünf), in dem ein Werk kaum mehr als eine Seite hat. Die Staatsoper Berlin
+ * verlinkt je Vorstellung eine Ticketseite ("spielplan/ticket/tosca.153990")
+ * – das sind die meisten Adressen, aber nicht die Seiten der Produktionen.
+ *
+ * @param {Map<string, Set<string>>} kandidaten  Adresse -> Werke
+ * @returns {string|null}
+ */
+export function hauptVerzeichnis(kandidaten) {
+    const je = new Map(); // Verzeichnis -> {seiten, werke}
+    for (const [u, ids] of kandidaten) {
+        const v = verzeichnis(u);
+        if (!je.has(v)) je.set(v, { seiten: 0, werke: new Set() });
+        je.get(v).seiten++;
+        ids.forEach(id => je.get(v).werke.add(id));
+    }
+    const [haupt] = [...je].filter(([, x]) => x.werke.size >= 5 && x.seiten <= 1.5 * x.werke.size)
+        .sort((a, b) => b[1].werke.size - a[1].werke.size)[0] || [];
+    return haupt ?? null;
+}
+
+/** Das Verzeichnis einer Adresse ohne den letzten Teil und ohne Nummer: "/de/programm/aida/234684" -> "de/programm". */
+export function verzeichnis(url) {
+    try {
+        const teile = new URL(url).pathname.split('/').filter(Boolean);
+        if (teile.length && /^\d+$/.test(teile.at(-1))) teile.pop();
+        return teile.slice(0, -1).join('/');
+    } catch { return ''; }
+}
+
+/**
  * Welche Kandidaten gelesen werden: je Werk höchstens zwei Seiten, je Haus
  * höchstens `grenze`. Kalender, die jede Vorstellung einzeln verlinken,
  * erschöpften sonst das Kontingent mit dem ersten Werk. Seiten ohne Nummer im
@@ -422,7 +455,12 @@ export function seitenAuswahl(kandidaten, gesehen = new Set(), grenze = 100) {
     // Nebenveranstaltung dazu: in Frankfurt verdrängten "kinderbetreuung/"
     // und "opera-next-level/" die Seite von Hänsel und Gretel.
     const nennt = (url, id) => (WERKE.find(w => w.id === id)?.slugs || []).some(sl => seitenPfad(url).includes(sl)) ? 0 : 1;
-    for (const [id, urls] of jeWerk) urls.sort((a, b) => rang(a) - rang(b) || nennt(a, id) - nennt(b, id) || a.length - b.length);
+    // Die Seiten der Produktionen liegen meist in einem Verzeichnis
+    // ("/de/programm/"), Sonderseiten daneben: in Bonn verdrängten
+    // "barbier-party" und "zusatzvorstellung/…" die Seite des Barbiers.
+    const haupt = hauptVerzeichnis(kandidaten);
+    const abseits = url => haupt !== null && verzeichnis(url) !== haupt ? 1 : 0;
+    for (const [id, urls] of jeWerk) urls.sort((a, b) => abseits(a) - abseits(b) || rang(a) - rang(b) || nennt(a, id) - nennt(b, id) || a.length - b.length);
     const auswahl = new Map();
     for (const stufe of [0, 1]) for (const [id, urls] of jeWerk) {
         const u = urls[stufe];
@@ -430,7 +468,30 @@ export function seitenAuswahl(kandidaten, gesehen = new Set(), grenze = 100) {
         if (!auswahl.has(u)) auswahl.set(u, new Set());
         auswahl.get(u).add(id);
     }
+    // Seiten einer Zusatzvorstellung dazu – ihre Termine stehen nirgends sonst.
+    for (const [id, urls] of jeWerk) for (const u of urls.filter(x => /zusatzvorstellung/i.test(x))) {
+        if (!auswahl.has(u) && auswahl.size >= grenze) continue;
+        if (!auswahl.has(u)) auswahl.set(u, new Set());
+        auswahl.get(u).add(id);
+    }
     return auswahl;
+}
+
+/**
+ * Die Seite einer Produktion, deren Termine gelten: Seiten der Produktion
+ * vor Seiten einer einzelnen Vorstellung (Wien: dort stehen andere Daten,
+ * "Vorverkauf ab"), und unter den Seiten der Produktion eine mit Terminen
+ * vor einer ohne, und eine im Verzeichnis der Produktionen (haupt) vor
+ * einer daneben. In Bonn verdrängte sonst "/de/TOSCA", ein Artikel ohne
+ * Termine, die Seite "/programm/tosca/237695" mit allen fünf.
+ *
+ * @param {{url: string, termine: string[]}[]} seiten
+ * @returns {object|undefined}
+ */
+export function besteSeite(seiten, haupt = null) {
+    const stufe = t => rang(t.url) === 2 ? 2 : t.termine.length ? 0 : 1;
+    const abseits = t => haupt !== null && verzeichnis(t.url) !== haupt ? 1 : 0;
+    return [...seiten].sort((a, b) => stufe(a) - stufe(b) || abseits(a) - abseits(b) || rang(a.url) - rang(b.url) || b.termine.length - a.termine.length)[0];
 }
 
 async function ladePlaywright() {
@@ -814,6 +875,7 @@ async function lesen(kontext, hausId, fenster) {
     // Übersichts- und Monatsseiten sind keine Seiten einer Produktion:
     // dort stehen die Termine aller Stücke.
     const auswahl = seitenAuswahl(kandidaten, gesehen);
+    const haupt = hauptVerzeichnis(kandidaten);
     for (const [url, ids] of auswahl) {
         try {
             const d = await seite(kontext, url, { terminSelektor: q.terminSelektor, hauptteil: q.hauptteil });
@@ -873,19 +935,21 @@ async function lesen(kontext, hausId, fenster) {
     erg.werke = {};
     const alleIds = new Set([...erg.treffer.map(t => t.werk), ...ausListen.keys()]);
     for (const id of alleIds) {
-        const seiten = erg.treffer.filter(t => t.werk === id && t.titelOben && t.ortGenannt)
-            .sort((a, b) => rang(a.url) - rang(b.url) || b.termine.length - a.termine.length);
-        const beste = seiten[0];
+        const gueltig = erg.treffer.filter(t => t.werk === id && t.titelOben && t.ortGenannt);
+        const beste = besteSeite(gueltig, haupt);
+        // Eine Zusatzvorstellung hat oft eine eigene Seite (Bonn: der Barbier
+        // am 23. Mai) – ihre Termine kommen dazu.
+        const zusatz = gueltig.filter(t => t !== beste && /zusatzvorstellung/i.test(t.url));
         const liste = [...(ausListen.get(id) || [])];
         erg.werke[id] = {
             url: beste?.url || erg.treffer.find(t => t.werk === id)?.url || null,
             komponistGenannt: erg.treffer.some(t => t.werk === id && t.komponistGenannt),
-            ausSeite: beste?.termine || [],
+            ausSeite: [...new Set([...(beste?.termine || []), ...zusatz.flatMap(t => t.termine)])].sort(),
             ohneUhrzeit: beste ? beste.ohneUhrzeit : false,
             ausListe: liste.sort(),
-            termine: [...new Set([...(beste?.termine || []), ...liste])].sort(),
+            termine: [...new Set([...(beste?.termine || []), ...zusatz.flatMap(t => t.termine), ...liste])].sort(),
             // Beginn (und Ende) je Termin, soweit eindeutig gelesen
-            zeiten: { ...(listenZeiten.get(id) || {}), ...(beste?.zeiten || {}) },
+            zeiten: Object.assign({}, listenZeiten.get(id) || {}, ...zusatz.map(t => t.zeiten), beste?.zeiten || {}),
         };
     }
     return erg;

@@ -21,17 +21,16 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:barbiere-theater-bonn-2027-05-23@opernlog.vercel.app
+UID:tosca-theater-bonn-2027-07-09@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270523T193000
-DTEND;TZID=Europe/Berlin:20270523T223000
-SUMMARY:Il barbiere di Siviglia – Theater Bonn
+DTSTART;TZID=Europe/Berlin:20270709T193000
+DTEND;TZID=Europe/Berlin:20270709T223000
+SUMMARY:Tosca – Theater Bonn
 LOCATION:Theater Bonn\, Bonn
 GEO:50.741;7.103
-URL:https://www.theater-bonn.de/de/programm/der-barbier-von-sevilla/238228
-DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
-  https://www.theater-bonn.de/de/programm/der-barbier-von-sevilla/238228\nD
- as Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die 
- Seite des Hauses.
+URL:https://www.theater-bonn.de/de/programm/tosca/237695
+DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.theater
+ -bonn.de/de/programm/tosca/237695\nDas Ende ist geschätzt (3 Stunden).\nA
+ us OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

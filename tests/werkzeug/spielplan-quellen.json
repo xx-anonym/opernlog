@@ -132,7 +132,7 @@
     "https://www.theaterdo.de/oper/startseite/"
   ],
   "theater-bonn": [
-    "https://www.theater-bonn.de/de/?mode=repertoire&is_premiere=false&category=Oper",
+    "https://www.theater-bonn.de/de/?mode=repertoire&is_premiere=false&category=Oper&showItems=500",
     "https://www.theater-bonn.de/de/?mode=kalender&is_premiere=false&category=Oper"
   ],
   "theater-essen": [

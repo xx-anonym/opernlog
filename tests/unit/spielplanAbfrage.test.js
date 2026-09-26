@@ -445,3 +445,60 @@ test('Artikel über ein Stück sind keine Produktionsseiten (Bonn, Schwerin, Bre
         assert.ok(!ARTIKEL.test(u), u);
     }
 });
+
+test('beste Seite: eine Produktionsseite mit Terminen vor einer ohne, Einzelvorstellungen zuletzt (Bonn, Wien)', async () => {
+    const { besteSeite } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const bonn = [
+        { url: 'https://www.theater-bonn.de/de/TOSCA', termine: [] },
+        { url: 'https://www.theater-bonn.de/de/programm/tosca/237695', termine: ['2027-06-17', '2027-06-20'] },
+    ];
+    assert.equal(besteSeite(bonn).url, 'https://www.theater-bonn.de/de/programm/tosca/237695');
+    const wien = [
+        { url: 'https://www.wiener-staatsoper.at/kalender/detail/tosca/', termine: ['2026-10-02'] },
+        { url: 'https://www.wiener-staatsoper.at/kalender/detail/tosca/2026-11-20/', termine: ['2026-11-01', '2026-11-20', '2026-12-01'] },
+    ];
+    assert.equal(besteSeite(wien).url, 'https://www.wiener-staatsoper.at/kalender/detail/tosca/');
+    // Auch leer geht die Seite der Produktion der einzelnen Vorstellung vor.
+    assert.equal(besteSeite([{ ...wien[0], termine: [] }, wien[1]]).url, wien[0].url);
+});
+
+test('Seitenauswahl: das Verzeichnis der Produktionen vor Sonderseiten, Zusatzvorstellungen dazu (Bonn)', () => {
+    const b = 'https://www.theater-bonn.de/de/';
+    const k = new Map([
+        [`${b}barbier-party`, new Set(['barbiere'])],
+        [`${b}zusatzvorstellung/der-barbier-von-sevilla`, new Set(['barbiere'])],
+        [`${b}programm/der-barbier-von-sevilla/238228`, new Set(['barbiere'])],
+        [`${b}programm/der-barbier-von-sevilla/227939`, new Set(['barbiere'])],
+        [`${b}programm/aida/234684`, new Set(['aida'])],
+        [`${b}programm/tosca/237695`, new Set(['tosca'])],
+        [`${b}programm/nabucco/238124`, new Set(['nabucco'])],
+        [`${b}programm/la-boheme/234668`, new Set(['la-boheme'])],
+        [`${b}TOSCA`, new Set(['tosca'])],
+    ]);
+    const auswahl = [...seitenAuswahl(k).keys()];
+    assert.ok(auswahl.includes(`${b}programm/der-barbier-von-sevilla/238228`), 'Produktionsseite fehlt');
+    assert.ok(auswahl.includes(`${b}zusatzvorstellung/der-barbier-von-sevilla`), 'Zusatzvorstellung fehlt');
+    assert.ok(!auswahl.includes(`${b}barbier-party`), 'Sonderseite gelesen');
+});
+
+test('Hauptverzeichnis: nicht das der Ticketseiten je Vorstellung (Staatsoper Berlin)', async () => {
+    const { hauptVerzeichnis } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const s = 'https://www.staatsoper-berlin.de/de/';
+    const k = new Map();
+    for (const [w, n] of [['tosca', 23], ['salome', 96], ['norma', 15538], ['rigoletto', 2774], ['nabucco', 15505]]) {
+        k.set(`${s}veranstaltungen/${w}.${n}/`, new Set([w]));
+        for (let i = 0; i < 4; i++) k.set(`${s}spielplan/ticket/${w}.1539${n % 10}${i}`, new Set([w]));
+    }
+    // Ein Werk nur mit Ticketseiten: das Ticketverzeichnis hat mehr Werke.
+    for (let i = 0; i < 4; i++) k.set(`${s}spielplan/ticket/carmen.1541${i}`, new Set(['carmen']));
+    assert.equal(hauptVerzeichnis(k), 'de/veranstaltungen');
+    const auswahl = [...seitenAuswahl(k).keys()];
+    assert.ok(auswahl.includes(`${s}veranstaltungen/tosca.23/`), 'Produktionsseite fehlt');
+});
+
+test('bekannte Kinderfassungen sind nicht das Werk (Halle, Salzburg)', async () => {
+    const { KINDERFASSUNG } = await import('../werkzeug/spielplaene-lesen.mjs');
+    assert.ok(KINDERFASSUNG.test('papageno spielt auf der zauberflote'));
+    assert.ok(KINDERFASSUNG.test('Die kleine Zauberflöte'));
+    assert.ok(!KINDERFASSUNG.test('Die Zauberflöte'));
+});
