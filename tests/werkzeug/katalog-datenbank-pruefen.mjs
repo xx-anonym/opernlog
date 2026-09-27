@@ -117,18 +117,45 @@ function vermerken(art, id, name, mangel) {
     else funde.push({ art, id, name, maengel: [mangel] });
 }
 
+// Wikimedia bremst Abrufe ohne eigene Kennung aus Rechenzentren schnell mit
+// HTTP 429 ("zu viele Anfragen") – am 27.9.2026 meldete dieser Lauf so neun
+// einwandfreie Bilder als Fehler. Deshalb: eine Kennung, wie Wikimedia sie
+// verlangt, eine Pause zwischen den Abrufen und bei 429 oder 503 ein paar
+// neue Versuche. Bleibt es dabei, sagt das nichts über das Bild – dann gilt
+// es heute als nicht prüfbar, mit einer Warnung, ohne Issue.
+const UA = 'OpernLog-Katalogpruefung/1.0 (https://opernlog.vercel.app; https://github.com/xx-anonym/opernlog)';
+const PAUSE_MS = 400;
+const WARTEN_MS = [2000, 5000, 15000];
+const warte = ms => new Promise(r => setTimeout(r, ms));
+
+async function bildAbrufen(url) {
+    for (let versuch = 0; ; versuch++) {
+        const r = await fetch(url, { method: 'HEAD', headers: { 'User-Agent': UA } });
+        if (![429, 503].includes(r.status) || versuch >= WARTEN_MS.length) return r;
+        const angesagt = Number(r.headers.get('retry-after')) * 1000;
+        await warte(Number.isFinite(angesagt) && angesagt > 0 ? Math.min(angesagt, 30000) : WARTEN_MS[versuch]);
+    }
+}
+
+const nichtPruefbar = [];
 for (const b of bilder) {
     try {
-        const r = await fetch(b.url, { method: 'HEAD' });
-        if (!r.ok) vermerken(b.art, b.id, b.name, `Das Bild antwortet mit HTTP ${r.status}.`);
+        const r = await bildAbrufen(b.url);
+        if ([429, 503].includes(r.status)) nichtPruefbar.push(`${b.art} ${b.id} (HTTP ${r.status})`);
+        else if (!r.ok) vermerken(b.art, b.id, b.name, `Das Bild antwortet mit HTTP ${r.status}.`);
     } catch (e) {
         vermerken(b.art, b.id, b.name, `Das Bild ist nicht abrufbar: ${e.message}`);
     }
+    await warte(PAUSE_MS);
+}
+if (nichtPruefbar.length) {
+    console.log(`::warning::${nichtPruefbar.length} Bilder heute nicht prüfbar, Wikimedia bremst: ${nichtPruefbar.join(', ')}`);
 }
 
 if (!funde.length) {
     console.log(`Alle ${werkeDb.length + haeuserDb.length + komponistenDb.length} Einträge `
-        + `genügen den Katalogregeln, und alle ${bilder.length} Bilder sind abrufbar.`);
+        + `genügen den Katalogregeln, und ${bilder.length - nichtPruefbar.length} von ${bilder.length} Bildern sind abrufbar`
+        + (nichtPruefbar.length ? ` (die übrigen heute nicht prüfbar).` : '.'));
     process.exit(0);
 }
 
