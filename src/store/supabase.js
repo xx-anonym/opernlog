@@ -1243,7 +1243,7 @@ export async function meineDatenCloud() {
     const lesen = (tabelle, abfrage) => retryRead(() => abfrage(sb.from(tabelle)), `Datenexport: ${tabelle}`);
 
     const [profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
-        einladungen, vorschlaege, pushAbos, admin, werke, haeuser, komponisten, bildausschnitte] = await Promise.all([
+        einladungen, vorschlaege, pushAbos, admin, werke, haeuser, komponisten, bildausschnitte, geplant] = await Promise.all([
         lesen('profiles', q => q.select('*').eq('id', ich).maybeSingle()),
         lesen('visits', q => q.select('*').eq('user_id', ich).order('date')),
         lesen('lists', q => q.select('*').eq('user_id', ich).order('created_at')),
@@ -1262,6 +1262,7 @@ export async function meineDatenCloud() {
         lesen('catalog_houses', q => q.select('*').eq('created_by', ich)),
         lesen('catalog_composers', q => q.select('*').eq('created_by', ich)),
         lesen('bild_ausschnitte', q => q.select('*').eq('geaendert_von', ich)),
+        lesen('geplante_besuche', q => q.select('*').eq('user_id', ich).order('datum')),
     ]);
 
     // Namen der anderen Seite von Freundschaften und Anfragen. profiles ist
@@ -1291,9 +1292,44 @@ export async function meineDatenCloud() {
             admin: !!admin,
         },
         profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
-        einladungen, vorschlaege, pushAbos, passkeys, personen,
+        einladungen, vorschlaege, pushAbos, passkeys, personen, geplant,
         katalog: { werke, haeuser, komponisten, bildausschnitte },
     };
+}
+
+// ── Geplante Besuche ─────────────────────────────────────
+// Privat: nur die eigenen Zeilen (supabase/migrations/geplante_besuche_migration.sql).
+const alsPlan = z => ({ id: z.id, operaId: z.opera_id, houseId: z.house_id, datum: z.datum, zeit: z.zeit || null });
+
+export async function getGeplanteBesucheCloud() {
+    const session = await getSession();
+    if (!session) return [];
+    const sb = getSupabase();
+    const data = await retryRead(
+        () => sb.from('geplante_besuche').select('id, opera_id, house_id, datum, zeit').eq('user_id', session.user.id).order('datum'),
+        'Geplante Besuche laden'
+    );
+    return (data || []).map(alsPlan);
+}
+
+/** Legt einen Plan an; die Kennung vergibt der Browser, wie bei Besuchen. */
+export async function addGeplantCloud(plan) {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Vormerken', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const result = await sb.from('geplante_besuche').insert({
+        id: plan.id, user_id: session.user.id, opera_id: plan.operaId, house_id: plan.houseId, datum: plan.datum, zeit: plan.zeit || null,
+    }).select('id, opera_id, house_id, datum, zeit');
+    return alsPlan(unwrapWritten(result, 'Vormerken'));
+}
+
+export async function deleteGeplantCloud(id) {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Vormerkung entfernen', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const { error } = await sb.from('geplante_besuche').delete().eq('id', id).eq('user_id', session.user.id);
+    if (error) throw new SupabaseError('Vormerkung entfernen', error);
+    return true;
 }
 
 // ── Bereits gesehen (ohne Besuchseintrag) ────────────────

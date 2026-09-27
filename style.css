@@ -3530,6 +3530,178 @@ body {
     height: 18px;
 }
 
+/* Termine eines Werks an einem Haus: Zeile = Kalendereintrag, daneben
+ * "Vormerken" (geplante Besuche). */
+.kalender-wahl__zeile {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+}
+
+.kalender-wahl__zeile .kalender-wahl__tag {
+    flex: 1;
+    min-width: 0;
+    /* Wird es eng, rutscht die Uhrzeit als Ganzes in die nächste Zeile. */
+    flex-wrap: wrap;
+    row-gap: 2px;
+    column-gap: 8px;
+    padding: 10px;
+}
+
+.kalender-wahl__zeile .kalender-wahl__tag span {
+    white-space: nowrap;
+}
+
+.kalender-wahl__zeile .kalender-wahl__zeit {
+    font-size: 0.88em;
+    align-self: center;
+}
+
+/* Reicht die Breite nicht für Datum und Uhrzeit nebeneinander (schmale
+ * Handys), steht die Uhrzeit in allen Zeilen darunter – nicht nur in denen
+ * mit breiterem Datum. */
+.kalender-wahl__liste {
+    container-type: inline-size;
+}
+
+@container (max-width: 312px) {
+    .kalender-wahl__zeile .kalender-wahl__tag {
+        flex-direction: column;
+    }
+    .kalender-wahl__zeile .kalender-wahl__zeit {
+        align-self: flex-start;
+    }
+}
+
+.kalender-wahl__vormerken {
+    flex-shrink: 0;
+    /* Gleich breit, ob vorgemerkt oder nicht – sonst stehen die Zeilen versetzt. */
+    min-width: 8.2em;
+    padding: 0 8px;
+    white-space: nowrap;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+
+.kalender-wahl__vormerken:hover,
+.kalender-wahl__vormerken:focus-visible {
+    border-color: var(--gold);
+    color: var(--text-primary);
+}
+
+.kalender-wahl__vormerken--an {
+    color: var(--gold);
+    border-color: rgba(201, 168, 76, 0.45);
+    background: rgba(201, 168, 76, 0.08);
+}
+
+/* Startseite: die Frage nach einem vorgemerkten Abend, der vorbei ist, und
+ * knapp die kommenden. */
+.plan-frage {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 12px;
+    background: rgba(201, 168, 76, 0.05);
+}
+
+.plan-frage__text {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.plan-frage__text strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+}
+
+.plan-frage__ort {
+    margin: 2px 0 10px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.plan-frage__knoepfe {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.demnaechst {
+    margin: 0 0 20px;
+}
+
+.demnaechst__titel {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 6px;
+}
+
+.demnaechst__liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+
+.demnaechst__zeile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.demnaechst__link {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 1px;
+    padding: 9px 2px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.demnaechst__link:hover {
+    color: var(--text);
+}
+
+.demnaechst__wann {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.demnaechst__was {
+    font-size: 0.92rem;
+}
+
+.demnaechst__was strong {
+    font-weight: 600;
+}
+
+.demnaechst__weg {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+
+.demnaechst__weg:hover {
+    color: var(--text-primary);
+}
+
 /* "In den Kalender": die Abende zur Wahl */
 .kalender-wahl__was {
     margin: 0 0 12px;

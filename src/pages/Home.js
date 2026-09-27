@@ -20,10 +20,14 @@
 import { escapeHTML } from '../utils.js';
 import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
-import { showError } from '../components/Toast.js';
+import { showError, showToast, runWithFeedback } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { store } from '../store/store.js';
+import { operas } from '../data/operas.js';
+import { operaHouses } from '../data/operaHouses.js';
+import { kommendePlaene, offenePlaene, wannText } from '../data/geplant.js';
+import { heuteIso, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
 import {
@@ -47,6 +51,7 @@ export function HomePage() {
   const eigene = store.getVisitsByUser('user-me') || [];
 
   page.appendChild(kopf(eigene));
+  geplanteAbende(page, eigene);
   saisonBanner(page, eigene);
   freundschaftsanfragen(page);
   page.appendChild(feedAbschnitt());
@@ -124,6 +129,72 @@ function kopf(eigene) {
       ${zahl(z.schnitt === null ? '–' : note(z.schnitt), 'Schnitt', '#/diary')}
     </div>`;
   return el;
+}
+
+/**
+ * Vorgemerkte Abende (src/data/geplant.js): erst die Frage nach dem, was
+ * vorbei ist ("Wie war Tosca gestern?"), dann knapp die kommenden. Beides
+ * nur, wenn es etwas gibt – und nur für einen selbst, Pläne sind privat.
+ */
+function geplanteAbende(page, eigene) {
+  const plaene = store.getGeplant();
+  if (!plaene.length) return;
+  const heute = heuteIso();
+  const werk = id => operas.find(o => o.id === id);
+  const haus = id => operaHouses.find(h => h.id === id);
+
+  // Höchstens zwei Fragen; wer länger nicht hier war, soll nicht von einem
+  // Stapel empfangen werden. Die übrigen kommen, wenn diese beantwortet sind.
+  offenePlaene(plaene, eigene, heute).slice(0, 2).forEach((plan) => {
+    const w = werk(plan.operaId), h = haus(plan.houseId);
+    if (!w || !h) return;
+    const el = document.createElement('section');
+    el.className = 'plan-frage fade-in';
+    el.innerHTML = `
+      <p class="plan-frage__text">Wie war <strong>${escapeHTML(w.title)}</strong> ${wannText(plan.datum, heute)}?</p>
+      <p class="plan-frage__ort">${escapeHTML(h.name)}</p>
+      <div class="plan-frage__knoepfe">
+        <a class="btn btn--primary btn--sm" href="#/log?house=${encodeURIComponent(h.id)}&opera=${encodeURIComponent(w.id)}&datum=${plan.datum}">Loggen</a>
+        <button type="button" class="btn btn--ghost btn--sm plan-frage__nein">Nicht hingegangen</button>
+      </div>`;
+    el.querySelector('.plan-frage__nein').addEventListener('click', async () => {
+      if (await runWithFeedback(() => store.planEntfernen(plan.id), { failure: 'Vormerkung ließ sich nicht entfernen' })) el.remove();
+    });
+    page.appendChild(el);
+  });
+
+  const kommend = kommendePlaene(plaene, heute);
+  if (!kommend.length) return;
+  const liste = document.createElement('section');
+  liste.className = 'demnaechst fade-in';
+  liste.innerHTML = `
+    <h2 class="demnaechst__titel">Demnächst</h2>
+    <ul class="demnaechst__liste">
+      ${kommend.map((plan) => {
+        const w = werk(plan.operaId), h = haus(plan.houseId);
+        if (!w || !h) return '';
+        const zeit = zeitText(plan.zeit);
+        return `
+      <li class="demnaechst__zeile" data-plan="${escapeHTML(plan.id)}">
+        <a class="demnaechst__link" href="#/opera/${encodeURIComponent(w.id)}">
+          <span class="demnaechst__wann">${escapeHTML(terminMitWochentag(plan.datum, heute))}${zeit ? ` · ${escapeHTML(zeit)}` : ''}</span>
+          <span class="demnaechst__was"><strong>${escapeHTML(w.title)}</strong> · ${escapeHTML(h.name)}</span>
+        </a>
+        <button type="button" class="demnaechst__weg" aria-label="${escapeHTML(`Vormerkung entfernen: ${w.title}`)}" title="Vormerkung entfernen">✕</button>
+      </li>`;
+      }).join('')}
+    </ul>`;
+  liste.addEventListener('click', async (e) => {
+    const knopf = e.target.closest('.demnaechst__weg');
+    if (!knopf) return;
+    const zeile = knopf.closest('.demnaechst__zeile');
+    if (await runWithFeedback(() => store.planEntfernen(zeile.dataset.plan), { failure: 'Vormerkung ließ sich nicht entfernen' })) {
+      zeile.remove();
+      if (!liste.querySelector('.demnaechst__zeile')) liste.remove();
+      showToast('Vormerkung entfernt');
+    }
+  });
+  page.appendChild(liste);
 }
 
 /**

@@ -14,7 +14,7 @@
 import { escapeHTML } from '../utils.js';
 
 export const KONTAKT = 'uwematthias@icloud.com';
-export const STAND = '27. September 2026';
+export const STAND = '28. September 2026';
 
 export function DatenschutzPage() {
     const page = document.createElement('div');
@@ -40,8 +40,8 @@ export function DatenschutzPage() {
         <li><strong>Profil:</strong> Benutzername, Kürzel, Profilbild-Symbol, Beschreibung und wer dir
           Freundschaftsanfragen schicken darf.</li>
         <li><strong>Inhalte:</strong> deine Abende (Werk, Haus, Datum, Bewertung, Review, Dirigent, Regie,
-          Besetzung), Listen und Wunschliste, Markierungen „schon gesehen“, Kommentare, Likes, Freundschaften
-          und Anfragen, Einladungslinks und Vorschläge für den Katalog.</li>
+          Besetzung), vorgemerkte Abende, Listen und Wunschliste, Markierungen „schon gesehen“, Kommentare,
+          Likes, Freundschaften und Anfragen, Einladungslinks und Vorschläge für den Katalog.</li>
         <li><strong>Mitteilungen:</strong> wenn du sie einschaltest, die Push-Adresse deines Geräts und wann
           welche Mitteilung verschickt wurde.</li>
       </ul>
@@ -51,7 +51,7 @@ export function DatenschutzPage() {
       <h2>Wer was sehen kann</h2>
       <p>OpernLog ist ein offenes Tagebuch: dein Profil, deine Abende mit Bewertungen und Reviews,
       Kommentare, Likes, Freundschaften und öffentliche Listen kann jeder sehen, auch ohne Konto.
-      Nicht öffentlich sind deine E-Mail-Adresse, Markierungen „schon gesehen“, private Listen,
+      Nicht öffentlich sind deine E-Mail-Adresse, vorgemerkte Abende, Markierungen „schon gesehen“, private Listen,
       Einladungslinks, Vorschläge und Mitteilungseinstellungen.</p>
 
       <h2>Auf deinem Gerät</h2>

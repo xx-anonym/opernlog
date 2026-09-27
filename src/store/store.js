@@ -1,5 +1,6 @@
 // Store – Hybrid: Supabase (Cloud) + localStorage (Offline-Fallback)
 import { seenOperaList } from '../data/seenOperas.js';
+import { planZuBesuch } from '../data/geplant.js';
 import { topComposer, topHouse } from '../data/favorites.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from './supabase.js';
@@ -53,6 +54,8 @@ function getDefaultData() {
         // Werke, die man vor OpernLog gesehen hat – nur die Kennung, ohne
         // Datum, Haus oder Bewertung. Bewusst getrennt von myVisits.
         seenOperas: [],
+        // Vorgemerkte Abende aus dem Spielplan (src/data/geplant.js), privat.
+        geplant: [],
     };
 }
 
@@ -273,6 +276,10 @@ class Store {
                         console.error('[Store] Abgleich der gesehenen Werke fehlgeschlagen', e);
                         return 'Gesehene Werke';
                     }),
+                    sb.getGeplanteBesucheCloud().then((plaene) => { this.data.geplant = plaene; return null; }, (e) => {
+                        console.error('[Store] Abgleich der geplanten Besuche fehlgeschlagen', e);
+                        return 'Geplante Besuche';
+                    }),
                     Promise.all([sb.hasPendingSuggestionCloud('opera'), sb.hasPendingSuggestionCloud('house')])
                         .then(([opera, house]) => { this.pendingSuggestions.opera = opera; this.pendingSuggestions.house = house; return null; }, (e) => {
                             console.error('[Store] Vorschlags-Abgleich fehlgeschlagen', e);
@@ -324,9 +331,10 @@ class Store {
             // Nie angemeldet gewesen: was hier an Listen und Markierungen
             // liegt, stammt aus der Zeit, als das abgemeldet noch ging, und
             // gehört zu keinem Konto.
-            if (this.data.currentUser?.id === 'user-me' && (this.data.myLists?.length || this.data.seenOperas?.length)) {
+            if (this.data.currentUser?.id === 'user-me' && (this.data.myLists?.length || this.data.seenOperas?.length || this.data.geplant?.length)) {
                 this.data.myLists = [];
                 this.data.seenOperas = [];
+                this.data.geplant = [];
                 this.save();
             }
         }
@@ -513,6 +521,18 @@ class Store {
             }
         } else if (this.kannSpaeterUebertragen) {
             return this._alsAusstehend(newVisit);
+        }
+
+        // Ein vorgemerkter Abend ist mit dem Loggen erledigt. Scheitert das
+        // Entfernen, bleibt die Frage "Wie war …?" – sie verschwindet trotzdem,
+        // weil der Abend jetzt geloggt ist (offenePlaene()).
+        const plan = planZuBesuch(this.getGeplant(), newVisit);
+        if (plan) {
+            try {
+                await this.planEntfernen(plan.id);
+            } catch (e) {
+                console.warn('[Store] Vormerkung nach dem Loggen entfernen', e);
+            }
         }
 
         // Erst nach erfolgreichem Speichern von der Wunschliste nehmen. Scheitert
@@ -967,6 +987,50 @@ class Store {
                 await sb.removeSeenOperaCloud(operaId);
             } catch (e) {
                 this.data.seenOperas = vorher;
+                this.save();
+                throw e;
+            }
+        }
+    }
+
+    // ── Geplante Besuche ─────────────────────────────────
+    // Privat und nur mit Konto, wie die Markierungen "schon gesehen".
+    getGeplant() {
+        if (!this.hatKonto) return [];
+        return this.data.geplant || [];
+    }
+
+    planFuer(operaId, houseId, datum) {
+        return this.getGeplant().find(p => p.operaId === operaId && p.houseId === houseId && p.datum === datum) || null;
+    }
+
+    async vormerken({ operaId, houseId, datum, zeit = null }) {
+        this._kontoNoetig();
+        if (this.planFuer(operaId, houseId, datum)) return;
+        const plan = { id: neueKennung(), operaId, houseId, datum, zeit: zeit || null };
+        this.data.geplant = [...this.getGeplant(), plan];
+        this.save();
+        if (this.isCloud) {
+            try {
+                await sb.addGeplantCloud(plan);
+            } catch (e) {
+                this.data.geplant = this.getGeplant().filter(p => p.id !== plan.id);
+                this.save();
+                throw e;
+            }
+        }
+    }
+
+    async planEntfernen(id) {
+        const vorher = this.getGeplant();
+        if (!vorher.some(p => p.id === id)) return;
+        this.data.geplant = vorher.filter(p => p.id !== id);
+        this.save();
+        if (this.isCloud) {
+            try {
+                await sb.deleteGeplantCloud(id);
+            } catch (e) {
+                this.data.geplant = vorher;
                 this.save();
                 throw e;
             }

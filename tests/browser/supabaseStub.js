@@ -80,6 +80,10 @@ window.__unterwegs = 0;
 window.__hoechstensUnterwegs = 0;
 window.__adminAbfragen = 0;
 window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
+// Geplante Besuche: Zeilen wie in der Datenbank. __geplantVorgabe per
+// addInitScript setzen, wenn beim Start schon welche da sein sollen.
+window.__geplant = window.__geplantVorgabe || [];
+window.__geplantFehler = null;   // gesetzt: jedes Anlegen scheitert damit
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -157,6 +161,19 @@ function builder(table) {
           return Promise.resolve({ data: [nutzlast], error: null }).then(res, rej);
         }
         return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
+      }
+      if (table === 'geplante_besuche') {
+        if (op === 'insert') {
+          if (window.__geplantFehler) return Promise.resolve({ data: null, error: { message: window.__geplantFehler } }).then(res, rej);
+          const zeile = { ...nutzlast };
+          window.__geplant.push(zeile);
+          return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
+        }
+        if (op === 'delete') {
+          window.__geplant = window.__geplant.filter(z => z.id !== filter.id);
+          return Promise.resolve({ data: null, error: null }).then(res, rej);
+        }
+        return Promise.resolve({ data: window.__geplant.filter(z => !filter.user_id || z.user_id === filter.user_id), error: null }).then(res, rej);
       }
       if (table === 'fehlerprotokoll' && op === 'insert') {
         window.__fehlerMeldungen.push(nutzlast);

@@ -54,6 +54,7 @@ export function datenExport(roh, { werke = [], haeuser = [], version = '', jetzt
             eintraege: (l.items ?? []).map(id => ({ id, name: werkTitel(id) ?? hausName(id) })),
         })),
         schon_gesehen: (roh.gesehen ?? []).map(g => ({ ...g, werk: werkTitel(g.opera_id) })),
+        geplante_besuche: (roh.geplant ?? []).map(g => ({ ...g, werk: werkTitel(g.opera_id), haus: hausName(g.house_id) })),
         kommentare: roh.kommentare ?? [],
         gefaellt_mir: roh.likes ?? [],
         freunde: {

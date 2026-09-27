@@ -29,6 +29,9 @@ export function LogVisitPage(params = {}) {
   // 2 Uhr (im Winter 1 Uhr) der Vortag im Feld, und der heutige Tag galt
   // beim Speichern als "in der Zukunft".
   const heute = heuteIso();
+  // Aus "Wie war …?" auf der Startseite: das Datum des vorgemerkten Abends.
+  // Nur ein gültiges und keins in der Zukunft – das Formular verweigert die.
+  const vorDatum = /^\d{4}-\d{2}-\d{2}$/.test(params.datum || '') && params.datum <= heute ? params.datum : null;
 
   page.innerHTML = `
     <div class="page-header">
@@ -61,7 +64,7 @@ export function LogVisitPage(params = {}) {
       
       <div class="form-group">
         <label class="form-label">${icon('calendar', { className: 'icon--meta' })}Datum</label>
-        <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : heute}" max="${heute}" />
+        <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : (vorDatum || heute)}" max="${heute}" />
       </div>
       
       <details class="form-collapse"${credits.any ? ' open' : ''}>
