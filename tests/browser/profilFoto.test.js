@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase } from './umgebung.js';
 
 const FOTO = 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Maria_Callas.jpg';
-const VORSCHAU = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Maria_Callas.jpg/240px-Maria_Callas.jpg';
+const VORSCHAU = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Maria_Callas.jpg/250px-Maria_Callas.jpg';
 
 const pw = await ladePlaywright();
 const fehltPlaywright = pw ? false : 'Playwright ist nicht installiert';

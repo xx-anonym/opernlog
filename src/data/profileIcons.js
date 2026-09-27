@@ -158,7 +158,13 @@ export function renderAvatarHTML(initials, iconKey) {
 // das eigene Profil beschreiben – ein beliebiger Host hieße, dass jeder, der
 // ein Profil ansieht, einen fremden Server anfragt, der mitzählen kann.
 // Geladen wird eine kleine Vorschaufassung statt des oft riesigen Originals.
-const FOTO_BREITE = 240;
+//
+// Wikimedia erzeugt Vorschaubilder nur noch in festen Breiten (20, 40, 60,
+// 120, 250, 330, 500, 960, …); jede andere beantwortet es mit HTTP 400. 240
+// sah naheliegend aus – 80px Kreis mal dreifache Pixeldichte – und ergab in
+// Safari nur eine Kachel mit Fragezeichen. 250 ist die nächste gültige.
+export const FOTO_BREITE = 250;
+export const WIKIMEDIA_BREITEN = [20, 40, 60, 120, 250, 330, 500, 960, 1280, 1920, 3840];
 
 /** Die Vorschauadresse, wenn der Wert ein Wikimedia-Bild ist – sonst null. */
 export function profilFoto(wert) {
@@ -170,5 +176,7 @@ export function profilFoto(wert) {
     return null;
   }
   if (url.protocol !== 'https:' || !BILD_HOSTS.includes(url.hostname)) return null;
+  // Was Commons beim Kopieren anhängt (?utm_source=…), braucht das Bild nicht.
+  url.search = '';
   return thumbAdresse(url.toString(), FOTO_BREITE);
 }
