@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261021T213000
 SUMMARY:Tosca – Staatsoper Stuttgart
 LOCATION:Staatsoper Stuttgart\, Stuttgart\, Deutschland
 GEO:48.7808;9.1837
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
-  Stuttgart, Stuttgart, Deutschland:geo:48.7808,9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Stuttgart, Stuttgart, Deutschland":geo:48.7808,9
+ .1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/tosca/9745/
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.staatso
  per-stuttgart.de/spielplan/kalender/tosca/9745/\nAus OpernLog – maßgebl

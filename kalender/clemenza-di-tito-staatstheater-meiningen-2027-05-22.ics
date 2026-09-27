@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270522T223000
 SUMMARY:La clemenza di Tito – Staatstheater Meiningen
 LOCATION:Staatstheater Meiningen\, Meiningen\, Deutschland
 GEO:50.573333;10.416111
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
- ter Meiningen, Meiningen, Deutschland:geo:50.573333,10.416111
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Meiningen, Meiningen, Deutschland":geo:50.573
+ 333,10.416111
 URL:https://www.staatstheater-meiningen.de/produktionen/la-clemenza-di-tito
  .html?m=615
 DESCRIPTION:Wolfgang Amadeus Mozart: La clemenza di Tito\nTermine und Karte

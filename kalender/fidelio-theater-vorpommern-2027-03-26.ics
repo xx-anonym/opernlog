@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270326T210000
 SUMMARY:Fidelio – Theater Vorpommern
 LOCATION:Theater Vorpommern\, Stralsund / Greifswald\, Deutschland
 GEO:54.311;13.087
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Vo
- rpommern, Stralsund / Greifswald, Deutschland:geo:54.311,13.087
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Vorpommern, Stralsund / Greifswald, Deutschland":ge
+ o:54.311,13.087
 URL:https://www.theater-vorpommern.de/de/programm/fidelio
 DESCRIPTION:Ludwig van Beethoven: Fidelio\nTermine und Karten: https://www.
  theater-vorpommern.de/de/programm/fidelio\nDas Ende ist geschätzt (3 Stun

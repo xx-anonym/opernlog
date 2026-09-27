@@ -29,8 +29,9 @@ DTEND;TZID=Europe/Berlin:20261031T220000
 SUMMARY:Un ballo in maschera – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
-  Staatsoper, München, Deutschland:geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/un-ballo-in-maschera/2026-10-31-1900-
  16125
 DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https

@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261218T223000
 SUMMARY:La Bohème – Deutsches Nationaltheater Weimar
 LOCATION:Deutsches Nationaltheater Weimar\, Weimar\, Deutschland
 GEO:50.98;11.327
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsches 
- Nationaltheater Weimar, Weimar, Deutschland:geo:50.98,11.327
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsches Nationaltheater Weimar, Weimar, Deutschland":geo:
+ 50.98,11.327
 URL:https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3885
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.dn
  t-weimar.de/de/programm/stueck-detail.php?SID=3885\nDas Ende ist geschätz

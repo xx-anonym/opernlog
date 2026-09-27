@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270205T223000
 SUMMARY:Tosca – Staatsoper Unter den Linden
 LOCATION:Staatsoper Unter den Linden\, Berlin\, Deutschland
 GEO:52.517;13.3958
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
-  Unter den Linden, Berlin, Deutschland:geo:52.517,13.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Unter den Linden, Berlin, Deutschland":geo:52.51
+ 7,13.3958
 URL:https://www.staatsoper-berlin.de/de/veranstaltungen/tosca.23/
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.staatso
  per-berlin.de/de/veranstaltungen/tosca.23/\nDas Ende ist geschätzt (3 Stu

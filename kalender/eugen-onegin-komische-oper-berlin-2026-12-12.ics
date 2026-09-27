@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261212T223000
 SUMMARY:Eugen Onegin – Komische Oper Berlin
 LOCATION:Komische Oper Berlin\, Berlin\, Deutschland
 GEO:52.5158;13.3865
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Komische O
- per Berlin, Berlin, Deutschland:geo:52.5158,13.3865
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Komische Oper Berlin, Berlin, Deutschland":geo:52.5158,13.3
+ 865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/jewgeni-onegin/
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
  https://www.komische-oper-berlin.de/spielplan/a-z/jewgeni-onegin/\nDas End

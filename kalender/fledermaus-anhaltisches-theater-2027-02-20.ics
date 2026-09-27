@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270220T200000
 SUMMARY:Die Fledermaus – Anhaltisches Theater
 LOCATION:Anhaltisches Theater\, Dessau\, Deutschland
 GEO:51.836;12.235
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Anhaltisch
- es Theater, Dessau, Deutschland:geo:51.836,12.235
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Anhaltisches Theater, Dessau, Deutschland":geo:51.836,12.23
+ 5
 URL:https://anhaltisches-theater.de/die_fledermaus
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  anhaltisches-theater.de/die_fledermaus\nDas Ende ist geschätzt (3 Stunden

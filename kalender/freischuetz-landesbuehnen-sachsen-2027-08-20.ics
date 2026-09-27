@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270820T223000
 SUMMARY:Der Freischütz – Landesbühnen Sachsen
 LOCATION:Landesbühnen Sachsen\, Radebeul\, Deutschland
 GEO:51.105;13.642
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Landesbüh
- nen Sachsen, Radebeul, Deutschland:geo:51.105,13.642
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Landesbühnen Sachsen, Radebeul, Deutschland":geo:51.105,13
+ .642
 URL:https://www.landesbuehnen-sachsen.de/spielzeit/der-freischuetz/
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
  s://www.landesbuehnen-sachsen.de/spielzeit/der-freischuetz/\nDas Ende ist 

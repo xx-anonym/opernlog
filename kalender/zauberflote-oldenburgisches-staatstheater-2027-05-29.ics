@@ -29,8 +29,9 @@ DTEND;TZID=Europe/Berlin:20270529T223000
 SUMMARY:Die Zauberflöte – Oldenburgisches Staatstheater
 LOCATION:Oldenburgisches Staatstheater\, Oldenburg\, Deutschland
 GEO:53.14;8.213
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oldenburgi
- sches Staatstheater, Oldenburg, Deutschland:geo:53.14,8.213
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oldenburgisches Staatstheater, Oldenburg, Deutschland":geo:
+ 53.14,8.213
 URL:https://staatstheater.de/programm/musiktheater/spielzeit-2627/die-zaube
  rfloete
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 

@@ -11,8 +11,9 @@ DTEND;VALUE=DATE:20270619
 SUMMARY:Der Freischütz – Theater Heidelberg
 LOCATION:Theater Heidelberg\, Heidelberg\, Deutschland
 GEO:49.411;8.705
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater He
- idelberg, Heidelberg, Deutschland:geo:49.411,8.705
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Heidelberg, Heidelberg, Deutschland":geo:49.411,8.7
+ 05
 URL:https://www.theaterheidelberg.de/de/programm/22206-der-freischuetz
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
  s://www.theaterheidelberg.de/de/programm/22206-der-freischuetz\nDie Uhrzei

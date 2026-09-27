@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270416T223000
 SUMMARY:The Rake's Progress – Theater Heidelberg
 LOCATION:Theater Heidelberg\, Heidelberg\, Deutschland
 GEO:49.411;8.705
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater He
- idelberg, Heidelberg, Deutschland:geo:49.411,8.705
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Heidelberg, Heidelberg, Deutschland":geo:49.411,8.7
+ 05
 URL:https://www.theaterheidelberg.de/de/programm/22194-the-rake-s-progress
 DESCRIPTION:Igor Strawinsky: The Rake's Progress\nTermine und Karten: https
  ://www.theaterheidelberg.de/de/programm/22194-the-rake-s-progress\nDas End

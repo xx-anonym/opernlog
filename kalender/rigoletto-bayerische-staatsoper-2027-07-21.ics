@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270721T220000
 SUMMARY:Rigoletto – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
-  Staatsoper, München, Deutschland:geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/rigoletto/2027-03-14-1900-16236
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.staa
  tsoper.de/stuecke/rigoletto/2027-03-14-1900-16236\nDas Ende ist geschätzt

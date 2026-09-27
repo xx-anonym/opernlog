@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261119T220500
 SUMMARY:Alcina – Landestheater Detmold
 LOCATION:Landestheater Detmold\, Detmold\, Deutschland
 GEO:51.937;8.879
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Landesthea
- ter Detmold, Detmold, Deutschland:geo:51.937,8.879
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Landestheater Detmold, Detmold, Deutschland":geo:51.937,8.8
+ 79
 URL:https://www.landestheater-detmold.de/de/programm/alcina/41671325
 DESCRIPTION:Georg Friedrich Händel: Alcina\nTermine und Karten: https://ww
  w.landestheater-detmold.de/de/programm/alcina/41671325\nAus OpernLog – m

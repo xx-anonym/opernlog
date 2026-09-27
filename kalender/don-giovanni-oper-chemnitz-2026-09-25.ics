@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20260925T223000
 SUMMARY:Don Giovanni – Oper Chemnitz
 LOCATION:Oper Chemnitz\, Chemnitz\, Deutschland
 GEO:50.836;12.928
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Chemn
- itz, Chemnitz, Deutschland:geo:50.836,12.928
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Chemnitz, Chemnitz, Deutschland":geo:50.836,12.928
 URL:https://www.theater-chemnitz.de/spielplan/detailseite/don-giovanni/1142
  9
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http

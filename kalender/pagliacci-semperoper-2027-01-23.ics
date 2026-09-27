@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20270123T220000
 SUMMARY:Pagliacci – Semperoper
 LOCATION:Semperoper\, Dresden\, Deutschland
 GEO:51.0543;13.7351
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Semperoper
- , Dresden, Deutschland:geo:51.0543,13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Semperoper, Dresden, Deutschland":geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/cavalleria/60542.html
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www
  .semperoper.de/spielplan/stuecke/stid/cavalleria/60542.html\nDas Ende ist 

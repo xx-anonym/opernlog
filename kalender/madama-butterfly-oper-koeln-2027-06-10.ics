@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20270610T223000
 SUMMARY:Madama Butterfly – Oper Köln
 LOCATION:Oper Köln\, Köln\, Deutschland
 GEO:50.9384;6.9497
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Köln
- , Köln, Deutschland:geo:50.9384,6.9497
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Köln, Köln, Deutschland":geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/madama-butterfly
 DESCRIPTION:Giacomo Puccini: Madama Butterfly\nTermine und Karten: https://
  www.oper.koeln/produktion/madama-butterfly\nDas Ende ist geschätzt (3 Stu

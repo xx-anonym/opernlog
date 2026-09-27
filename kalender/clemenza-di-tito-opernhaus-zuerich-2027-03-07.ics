@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Zurich:20270307T223500
 SUMMARY:La clemenza di Tito – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich\, Schweiz
 GEO:47.365;8.546
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Opernhaus 
- Zürich, Zürich, Schweiz:geo:47.365,8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Opernhaus Zürich, Zürich, Schweiz":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/la-clemenza-di-tito-1/20
  26-2027/
 DESCRIPTION:Wolfgang Amadeus Mozart: La clemenza di Tito\nTermine und Karte

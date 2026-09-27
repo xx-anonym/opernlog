@@ -17,14 +17,14 @@ const GESCHAETZT_STUNDEN = 3;
 const zwei = n => String(n).padStart(2, '0');
 
 /**
- * Wert eines Parameters (nicht eines Feldes). Apple schreibt Kommas darin
- * ohne Anführungszeichen, und so liest es sie auch; nur Semikolon und
- * Doppelpunkt brauchen welche. Anführungszeichen selbst sind in Parametern
- * gar nicht erlaubt, auch nicht maskiert.
+ * Wert eines Parameters (nicht eines Feldes): immer in Anführungszeichen.
+ * Ohne sie liest Apple Kommas als Trennzeichen einer Liste – aus
+ * "Oper Leipzig, Leipzig, Deutschland" wurde "Oper Leipzig", und der Ort
+ * blieb ohne Karte. Anführungszeichen selbst sind in Parametern gar nicht
+ * erlaubt, auch nicht maskiert.
  */
 function parameter(text) {
-    const wert = String(text ?? '').replace(/"/g, "'").replace(/\r?\n/g, ' ');
-    return /[;:]/.test(wert) ? `"${wert}"` : wert;
+    return `"${String(text ?? '').replace(/"/g, "'").replace(/\r?\n/g, ' ')}"`;
 }
 
 const landFuer = haus => (haus?.state === 'Österreich' || haus?.state === 'Schweiz') ? haus.state : 'Deutschland';
@@ -40,13 +40,17 @@ const ortText = haus => [haus.name, haus.city, landFuer(haus)].filter(Boolean).j
  * Apple übernimmt den Ort nur, wenn X-TITLE genau dem Text in LOCATION
  * entspricht. Eine Straßenadresse führt der Katalog nicht; dann gehört auch
  * kein X-ADDRESS hinein – mit einer bloßen Stadt darin zeigte Apple keine
- * Karte. So schreibt Apple selbst einen Ort ohne Straße
- * (ical-generator, Issue 236). Die Koordinaten reichen: die Karte zeigt den
- * Punkt, die Navigation führt hin.
+ * Karte. Die Koordinaten reichen: die Karte zeigt den Punkt, die Navigation
+ * führt hin.
+ *
+ * Ausprobiert am 27.9.2026 in Apple Kalender auf dem Mac, vier Fassungen
+ * nebeneinander: mit Karte kamen nur Apples eigenes Exportformat (mit
+ * Straße) und genau diese hier – Titel in Anführungszeichen, Radius 70,
+ * X-APPLE-REFERENCEFRAME=1.
  */
 function appleOrt(haus) {
     if (!Number.isFinite(haus.lat) || !Number.isFinite(haus.lon)) return [];
-    return [`X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=${parameter(ortText(haus))}:geo:${haus.lat},${haus.lon}`];
+    return [`X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFRAME=1;X-TITLE=${parameter(ortText(haus))}:geo:${haus.lat},${haus.lon}`];
 }
 
 /** Text für ein Feld: Backslash, Semikolon, Komma und Zeilenumbruch maskiert. */

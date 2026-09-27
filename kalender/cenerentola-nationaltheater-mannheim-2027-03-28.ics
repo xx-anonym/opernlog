@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270328T220000
 SUMMARY:La Cenerentola – Nationaltheater Mannheim
 LOCATION:Nationaltheater Mannheim\, Mannheim\, Deutschland
 GEO:49.4894;8.4795
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Nationalth
- eater Mannheim, Mannheim, Deutschland:geo:49.4894,8.4795
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Nationaltheater Mannheim, Mannheim, Deutschland":geo:49.489
+ 4,8.4795
 URL:https://www.nationaltheater-mannheim.de/spielplan/aschenputtel/4520/
 DESCRIPTION:Gioachino Rossini: La Cenerentola\nTermine und Karten: https://
  www.nationaltheater-mannheim.de/spielplan/aschenputtel/4520/\nDas Ende ist

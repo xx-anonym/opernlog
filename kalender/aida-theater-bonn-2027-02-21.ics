@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20270221T210000
 SUMMARY:Aida – Theater Bonn
 LOCATION:Theater Bonn\, Bonn\, Deutschland
 GEO:50.741;7.103
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Bo
- nn, Bonn, Deutschland:geo:50.741,7.103
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Bonn, Bonn, Deutschland":geo:50.741,7.103
 URL:https://www.theater-bonn.de/de/programm/aida/234684
 DESCRIPTION:Giuseppe Verdi: Aida\nTermine und Karten: https://www.theater-b
  onn.de/de/programm/aida/234684\nDas Ende ist geschätzt (3 Stunden).\nAus 

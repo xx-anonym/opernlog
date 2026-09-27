@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270718T190000
 SUMMARY:Suor Angelica – Badisches Staatstheater
 LOCATION:Badisches Staatstheater\, Karlsruhe\, Deutschland
 GEO:48.9975;8.4045
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Badisches 
- Staatstheater, Karlsruhe, Deutschland:geo:48.9975,8.4045
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Badisches Staatstheater, Karlsruhe, Deutschland":geo:48.997
+ 5,8.4045
 URL:https://staatstheater-karlsruhe.de/programm/info/3898/
 DESCRIPTION:Giacomo Puccini: Suor Angelica\nTermine und Karten: https://sta
  atstheater-karlsruhe.de/programm/info/3898/\nDas Ende ist geschätzt (3 St

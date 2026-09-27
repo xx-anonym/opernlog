@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261205T220000
 SUMMARY:La Traviata – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
-  Staatsoper, München, Deutschland:geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/la-traviata/2026-12-05-1900-16156
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.st
  aatsoper.de/stuecke/la-traviata/2026-12-05-1900-16156\nDas Ende ist gesch

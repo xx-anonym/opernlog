@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20270227T220000
 SUMMARY:Idomeneo – Theater Kiel
 LOCATION:Theater Kiel\, Kiel\, Deutschland
 GEO:54.322;10.135
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ki
- el, Kiel, Deutschland:geo:54.322,10.135
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Kiel, Kiel, Deutschland":geo:54.322,10.135
 URL:https://theater-kiel.de/produktionen/idomeneo.html?m=40
 DESCRIPTION:Wolfgang Amadeus Mozart: Idomeneo\nTermine und Karten: https://
  theater-kiel.de/produktionen/idomeneo.html?m=40\nDas Ende ist geschätzt (

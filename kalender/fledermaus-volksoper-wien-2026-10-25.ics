@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Vienna:20261025T221500
 SUMMARY:Die Fledermaus – Volksoper Wien
 LOCATION:Volksoper Wien\, Wien\, Österreich
 GEO:48.2258;16.3494
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Volksoper 
- Wien, Wien, Österreich:geo:48.2258,16.3494
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Volksoper Wien, Wien, Österreich":geo:48.2258,16.3494
 URL:https://www.volksoper.at/produktion/die-fledermaus-1990.de.html
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.volksoper.at/produktion/die-fledermaus-1990.de.html\nAus OpernLog – 

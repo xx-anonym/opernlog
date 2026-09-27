@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270624T230000
 SUMMARY:Der Freischütz – Landestheater Niederbayern
 LOCATION:Landestheater Niederbayern\, Passau / Landshut\, Deutschland
 GEO:48.5745;13.4655
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Landesthea
- ter Niederbayern, Passau / Landshut, Deutschland:geo:48.5745,13.4655
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Landestheater Niederbayern, Passau / Landshut, Deutschland"
+ :geo:48.5745,13.4655
 URL:https://www.landestheater-niederbayern.de/event/der-freischuetz/
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
  s://www.landestheater-niederbayern.de/event/der-freischuetz/\nDas Ende ist

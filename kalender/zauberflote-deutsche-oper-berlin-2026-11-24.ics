@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261124T223000
 SUMMARY:Die Zauberflöte – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin\, Deutschland
 GEO:52.5121;13.3092
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
- per Berlin, Berlin, Deutschland:geo:52.5121,13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsche Oper Berlin, Berlin, Deutschland":geo:52.5121,13.3
+ 092
 URL:https://deutscheoperberlin.de/de_DE/production/die-zauberfloete.1385471
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
  https://deutscheoperberlin.de/de_DE/production/die-zauberfloete.1385471\nD

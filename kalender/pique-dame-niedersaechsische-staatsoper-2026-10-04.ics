@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261004T214500
 SUMMARY:Pique Dame – Staatsoper Hannover
 LOCATION:Staatsoper Hannover\, Hannover\, Deutschland
 GEO:52.376;9.7405
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
-  Hannover, Hannover, Deutschland:geo:52.376,9.7405
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Hannover, Hannover, Deutschland":geo:52.376,9.74
+ 05
 URL:https://staatstheater-hannover.de/de_DE/programm/pique-dame.1399071
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Pique Dame\nTermine und Karten: ht
  tps://staatstheater-hannover.de/de_DE/programm/pique-dame.1399071\nAus Ope

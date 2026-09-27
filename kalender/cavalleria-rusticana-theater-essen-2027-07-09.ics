@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20270709T223000
 SUMMARY:Cavalleria rusticana – Aalto-Theater
 LOCATION:Aalto-Theater\, Essen\, Deutschland
 GEO:51.452;7.009
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Aalto-Thea
- ter, Essen, Deutschland:geo:51.452,7.009
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Aalto-Theater, Essen, Deutschland":geo:51.452,7.009
 URL:https://www.theater-essen.de/programm/spielzeit-26-27/cavalleria-paglia
  cci/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http

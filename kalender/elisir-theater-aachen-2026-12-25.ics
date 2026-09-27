@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20261225T200000
 SUMMARY:L'elisir d'amore – Theater Aachen
 LOCATION:Theater Aachen\, Aachen\, Deutschland
 GEO:50.774;6.09
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Aa
- chen, Aachen, Deutschland:geo:50.774,6.09
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Aachen, Aachen, Deutschland":geo:50.774,6.09
 URL:https://www.theateraachen.de/de/produktionen/lelisir-damore-der-liebest
  rank.html
 DESCRIPTION:Gaetano Donizetti: L'elisir d'amore\nTermine und Karten: https:

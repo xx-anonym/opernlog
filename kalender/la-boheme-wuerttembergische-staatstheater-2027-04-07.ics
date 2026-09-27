@@ -29,8 +29,9 @@ DTEND;TZID=Europe/Berlin:20270407T223000
 SUMMARY:La Bohème – Staatstheater Wiesbaden
 LOCATION:Staatstheater Wiesbaden\, Wiesbaden\, Deutschland
 GEO:50.0857;8.2478
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
- ter Wiesbaden, Wiesbaden, Deutschland:geo:50.0857,8.2478
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Wiesbaden, Wiesbaden, Deutschland":geo:50.085
+ 7,8.2478
 URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/boheme-26-27/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.st
  aatstheater-wiesbaden.de/spielplan/a-z/boheme-26-27/\nDas Ende ist geschä

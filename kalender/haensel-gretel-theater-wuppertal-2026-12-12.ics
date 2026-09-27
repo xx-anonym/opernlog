@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20261212T210000
 SUMMARY:Hänsel und Gretel – Oper Wuppertal
 LOCATION:Oper Wuppertal\, Wuppertal\, Deutschland
 GEO:51.27;7.198
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Wuppe
- rtal, Wuppertal, Deutschland:geo:51.27,7.198
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Wuppertal, Wuppertal, Deutschland":geo:51.27,7.198
 URL:https://www.oper-wuppertal.de/programm/detailansicht-produktion/hansel-
  und-gretel
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 

@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Zurich:20261202T205000
 SUMMARY:Elektra – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich\, Schweiz
 GEO:47.365;8.546
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Opernhaus 
- Zürich, Zürich, Schweiz:geo:47.365,8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Opernhaus Zürich, Zürich, Schweiz":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/elektra-1/
 DESCRIPTION:Richard Strauss: Elektra\nTermine und Karten: https://www.opern
  haus.ch/spielplan/kalendarium/elektra-1/\nAus OpernLog – maßgeblich ist

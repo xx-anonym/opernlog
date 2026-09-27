@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20261115T204000
 SUMMARY:Cavalleria rusticana – Oper Dortmund
 LOCATION:Oper Dortmund\, Dortmund\, Deutschland
 GEO:51.517;7.46
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Dortm
- und, Dortmund, Deutschland:geo:51.517,7.46
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Dortmund, Dortmund, Deutschland":geo:51.517,7.46
 URL:https://www.theaterdo.de/produktionen/detail/cavalleria-rusticana-giann
  i-schicchi/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http

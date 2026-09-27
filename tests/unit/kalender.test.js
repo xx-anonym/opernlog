@@ -24,10 +24,11 @@ test('mit Beginn und Ende: Ortszeit samt Zeitzone, Ort, Link', () => {
     assert.equal(wert(ics, 'LOCATION:'), 'Semperoper\\, Dresden\\, Deutschland');
     assert.equal(wert(ics, 'GEO:'), '51.0543;13.7351');
     // Apple Kalender zeigt Karte und Route nur mit diesem Feld.
-    // Apple übernimmt ihn nur, wenn X-TITLE dem Text in LOCATION entspricht,
-    // und ohne Straße gehört kein X-ADDRESS hinein.
+    // Apple übernimmt ihn nur, wenn X-TITLE dem Text in LOCATION entspricht –
+    // in Anführungszeichen, sonst liest es die Kommas als Liste –, und ohne
+    // Straße gehört kein X-ADDRESS hinein. So zeigte Apple Kalender die Karte.
     assert.equal(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'),
-        'VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Semperoper, Dresden, Deutschland:geo:51.0543,13.7351');
+        'VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFRAME=1;X-TITLE="Semperoper, Dresden, Deutschland":geo:51.0543,13.7351');
     assert.equal(wert(ics, 'LOCATION:').replace(/\\,/g, ','), 'Semperoper, Dresden, Deutschland');
     assert.equal(wert(ics, 'URL:'), URL);
     assert.equal(wert(ics, 'UID:'), 'tosca-semperoper-2026-12-05@opernlog.vercel.app');
@@ -60,7 +61,7 @@ test('ohne Uhrzeit ganztägig, mit Hinweis', () => {
 test('ein Haus in Österreich bekommt die Wiener Zeitzone', () => {
     const ics = kalenderEintrag({ werk: TOSCA, haus: WIEN, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
     assert.equal(wert(ics, 'DTSTART;TZID=Europe/Vienna:'), '20261205T190000');
-    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE=Wiener Staatsoper, Wien, Österreich:geo:/);
+    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:/);
 });
 
 test('Sonderzeichen werden maskiert, lange Zeilen gefaltet, Zeilen enden mit CRLF', () => {

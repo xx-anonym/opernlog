@@ -29,8 +29,8 @@ DTEND;TZID=Europe/Vienna:20261004T120000
 SUMMARY:Der fliegende Holländer – Theater an der Wien
 LOCATION:Theater an der Wien\, Wien\, Österreich
 GEO:48.1983;16.363
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater an
-  der Wien, Wien, Österreich:geo:48.1983,16.363
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater an der Wien, Wien, Österreich":geo:48.1983,16.363
 URL:https://www.theater-wien.at/de/spielplan/saison2026-27/1617/Der-fliegen
  de-Hollaender
 DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h

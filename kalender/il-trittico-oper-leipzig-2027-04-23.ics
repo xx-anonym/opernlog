@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20270423T223000
 SUMMARY:Il trittico – Oper Leipzig
 LOCATION:Oper Leipzig\, Leipzig\, Deutschland
 GEO:51.339;12.3805
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Leipz
- ig, Leipzig, Deutschland:geo:51.339,12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Leipzig, Leipzig, Deutschland":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/il-trittico/908
 DESCRIPTION:Giacomo Puccini: Il trittico\nTermine und Karten: https://www.o
  per-leipzig.de/de/programm/il-trittico/908\nDas Ende ist geschätzt (3 Stu

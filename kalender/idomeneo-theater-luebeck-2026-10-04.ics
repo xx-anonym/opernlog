@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20261004T210000
 SUMMARY:Idomeneo – Theater Lübeck
 LOCATION:Theater Lübeck\, Lübeck\, Deutschland
 GEO:53.869;10.683
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater L
- übeck, Lübeck, Deutschland:geo:53.869,10.683
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Lübeck, Lübeck, Deutschland":geo:53.869,10.683
 URL:https://www.theaterluebeck.de/produktionen/idomeneo_2026-27.html?m=1
 DESCRIPTION:Wolfgang Amadeus Mozart: Idomeneo\nTermine und Karten: https://
  www.theaterluebeck.de/produktionen/idomeneo_2026-27.html?m=1\nDas Ende ist

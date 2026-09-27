@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270704T210000
 SUMMARY:Il barbiere di Siviglia – Staatstheater Nürnberg
 LOCATION:Staatstheater Nürnberg\, Nürnberg\, Deutschland
 GEO:49.4472;11.0797
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
- ter Nürnberg, Nürnberg, Deutschland:geo:49.4472,11.0797
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Nürnberg, Nürnberg, Deutschland":geo:49.447
+ 2,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/der-barbier-von-sevi
  lla
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

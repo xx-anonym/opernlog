@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20261106T220000
 SUMMARY:Tosca – Semperoper
 LOCATION:Semperoper\, Dresden\, Deutschland
 GEO:51.0543;13.7351
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Semperoper
- , Dresden, Deutschland:geo:51.0543,13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Semperoper, Dresden, Deutschland":geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/tosca/53655.html
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.sempero
  per.de/spielplan/stuecke/stid/tosca/53655.html\nDas Ende ist geschätzt (3

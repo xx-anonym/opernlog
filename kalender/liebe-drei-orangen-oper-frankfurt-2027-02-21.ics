@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270221T210000
 SUMMARY:Die Liebe zu den drei Orangen – Oper Frankfurt
 LOCATION:Oper Frankfurt\, Frankfurt am Main\, Deutschland
 GEO:50.1078;8.6725
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Frank
- furt, Frankfurt am Main, Deutschland:geo:50.1078,8.6725
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Frankfurt, Frankfurt am Main, Deutschland":geo:50.1078
+ ,8.6725
 URL:https://oper-frankfurt.de/de/spielplan/die-liebe-zu-den-drei-orangen/
 DESCRIPTION:Sergej Prokofjew: Die Liebe zu den drei Orangen\nTermine und Ka
  rten: https://oper-frankfurt.de/de/spielplan/die-liebe-zu-den-drei-orangen

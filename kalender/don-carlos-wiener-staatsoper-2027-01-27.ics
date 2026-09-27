@@ -11,8 +11,8 @@ DTEND;VALUE=DATE:20270128
 SUMMARY:Don Carlos – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Wiener Sta
- atsoper, Wien, Österreich:geo:48.2029,16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/don-carlos/
 DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://www.wie
  ner-staatsoper.at/kalender/detail/don-carlos/\nDie Uhrzeit steht auf der S

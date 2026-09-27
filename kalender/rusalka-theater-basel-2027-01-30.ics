@@ -11,8 +11,8 @@ DTEND;VALUE=DATE:20270131
 SUMMARY:Rusalka – Theater Basel
 LOCATION:Theater Basel\, Basel\, Schweiz
 GEO:47.554;7.59
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ba
- sel, Basel, Schweiz:geo:47.554,7.59
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Basel, Basel, Schweiz":geo:47.554,7.59
 URL:https://www.theater-basel.ch/de/rusalka
 DESCRIPTION:Antonín Dvořák: Rusalka\nTermine und Karten: https://www.the
  ater-basel.ch/de/rusalka\nDie Uhrzeit steht auf der Seite des Hauses.\nAus

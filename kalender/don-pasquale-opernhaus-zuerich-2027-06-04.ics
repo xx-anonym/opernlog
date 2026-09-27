@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Zurich:20270604T202500
 SUMMARY:Don Pasquale – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich\, Schweiz
 GEO:47.365;8.546
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Opernhaus 
- Zürich, Zürich, Schweiz:geo:47.365,8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Opernhaus Zürich, Zürich, Schweiz":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/don-pasquale/2026-2027/
 DESCRIPTION:Gaetano Donizetti: Don Pasquale\nTermine und Karten: https://ww
  w.opernhaus.ch/spielplan/kalendarium/don-pasquale/2026-2027/\nAus OpernLog

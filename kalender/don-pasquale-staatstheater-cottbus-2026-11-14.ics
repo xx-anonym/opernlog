@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261114T212000
 SUMMARY:Don Pasquale – Staatstheater Cottbus
 LOCATION:Staatstheater Cottbus\, Cottbus\, Deutschland
 GEO:51.7565;14.3268
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
- ter Cottbus, Cottbus, Deutschland:geo:51.7565,14.3268
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Cottbus, Cottbus, Deutschland":geo:51.7565,14
+ .3268
 URL:https://www.staatstheater-cottbus.de/de/programm/repertoire/artikel-don
  _pasquale.html
 DESCRIPTION:Gaetano Donizetti: Don Pasquale\nTermine und Karten: https://ww

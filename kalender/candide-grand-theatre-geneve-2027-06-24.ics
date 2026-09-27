@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Zurich:20270624T223000
 SUMMARY:Candide – Grand Théâtre de Genève
 LOCATION:Grand Théâtre de Genève\, Genf\, Schweiz
 GEO:46.201;6.143
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Grand Thé
- âtre de Genève, Genf, Schweiz:geo:46.201,6.143
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Grand Théâtre de Genève, Genf, Schweiz":geo:46.201,6.143
 URL:https://www.gtg.ch/saison-26-27/candide/
 DESCRIPTION:Leonard Bernstein: Candide\nTermine und Karten: https://www.gtg
  .ch/saison-26-27/candide/\nDas Ende ist geschätzt (3 Stunden).\nAus Opern

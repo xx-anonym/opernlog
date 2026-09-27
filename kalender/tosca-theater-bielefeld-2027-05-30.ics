@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270530T223000
 SUMMARY:Tosca – Theater Bielefeld
 LOCATION:Theater Bielefeld\, Bielefeld\, Deutschland
 GEO:52.02074;8.53496
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Bi
- elefeld, Bielefeld, Deutschland:geo:52.02074,8.53496
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Bielefeld, Bielefeld, Deutschland":geo:52.02074,8.5
+ 3496
 URL:https://www.buo-bielefeld.de/theater/veranstaltung/tosca
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.buo-bie
  lefeld.de/theater/veranstaltung/tosca\nDas Ende ist geschätzt (3 Stunden)

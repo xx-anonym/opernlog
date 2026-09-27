@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261113T230000
 SUMMARY:Dido and Aeneas – Hamburgische Staatsoper
 LOCATION:Hamburgische Staatsoper\, Hamburg\, Deutschland
 GEO:53.5566;9.9887
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Hamburgisc
- he Staatsoper, Hamburg, Deutschland:geo:53.5566,9.9887
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Hamburgische Staatsoper, Hamburg, Deutschland":geo:53.5566,
+ 9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/1935-dido-a
  nd-aeneas#tickets
 DESCRIPTION:Henry Purcell: Dido and Aeneas\nTermine und Karten: https://www

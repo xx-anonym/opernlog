@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20261108T212000
 SUMMARY:Nabucco – Staatstheater Cottbus
 LOCATION:Staatstheater Cottbus\, Cottbus\, Deutschland
 GEO:51.7565;14.3268
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
- ter Cottbus, Cottbus, Deutschland:geo:51.7565,14.3268
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Cottbus, Cottbus, Deutschland":geo:51.7565,14
+ .3268
 URL:https://www.staatstheater-cottbus.de/de/programm/repertoire/artikel-nab
  ucco.html
 DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://www.staats

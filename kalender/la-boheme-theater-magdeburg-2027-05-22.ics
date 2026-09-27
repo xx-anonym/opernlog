@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270522T223000
 SUMMARY:La Bohème – Theater Magdeburg
 LOCATION:Theater Magdeburg\, Magdeburg\, Deutschland
 GEO:52.133;11.628
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ma
- gdeburg, Magdeburg, Deutschland:geo:52.133,11.628
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Magdeburg, Magdeburg, Deutschland":geo:52.133,11.62
+ 8
 URL:https://www.theater-magdeburg.de/inszenierungen/musiktheater/sz-2026202
  7/premieren-2627/la-boheme/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.th

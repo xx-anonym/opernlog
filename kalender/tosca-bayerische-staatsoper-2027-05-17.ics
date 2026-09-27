@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270517T210000
 SUMMARY:Tosca – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
-  Staatsoper, München, Deutschland:geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/tosca/2027-05-17-1800-16536
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.staatso
  per.de/stuecke/tosca/2027-05-17-1800-16536\nDas Ende ist geschätzt (3 Stu

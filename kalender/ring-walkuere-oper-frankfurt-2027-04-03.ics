@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270403T200000
 SUMMARY:Die Walküre – Oper Frankfurt
 LOCATION:Oper Frankfurt\, Frankfurt am Main\, Deutschland
 GEO:50.1078;8.6725
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Frank
- furt, Frankfurt am Main, Deutschland:geo:50.1078,8.6725
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Frankfurt, Frankfurt am Main, Deutschland":geo:50.1078
+ ,8.6725
 URL:https://oper-frankfurt.de/de/spielplan/die-walkuere_3/
 DESCRIPTION:Richard Wagner: Die Walküre\nTermine und Karten: https://oper-
  frankfurt.de/de/spielplan/die-walkuere_3/\nDas Ende ist geschätzt (3 Stun

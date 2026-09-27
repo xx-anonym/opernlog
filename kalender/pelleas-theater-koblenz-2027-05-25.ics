@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270525T220000
 SUMMARY:Pelléas et Mélisande – Theater Koblenz
 LOCATION:Theater Koblenz\, Koblenz\, Deutschland
 GEO:50.358167;7.599444
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ko
- blenz, Koblenz, Deutschland:geo:50.358167,7.599444
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Koblenz, Koblenz, Deutschland":geo:50.358167,7.5994
+ 44
 URL:https://theater-koblenz.de/pelleas-et-melisande/
 DESCRIPTION:Claude Debussy: Pelléas et Mélisande\nTermine und Karten: htt
  ps://theater-koblenz.de/pelleas-et-melisande/\nDas Ende ist geschätzt (3 

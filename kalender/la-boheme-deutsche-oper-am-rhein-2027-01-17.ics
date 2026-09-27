@@ -28,8 +28,9 @@ DTEND;TZID=Europe/Berlin:20270117T210000
 SUMMARY:La Bohème – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg\, Deutschland
 GEO:51.227;6.776
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
- per am Rhein, Düsseldorf / Duisburg, Deutschland:geo:51.227,6.776
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsche Oper am Rhein, Düsseldorf / Duisburg, Deutschland
+ ":geo:51.227,6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/la-boheme/?a=termine
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.op
  eramrhein.de/spielplan/produktionen/la-boheme/?a=termine\nAus OpernLog –

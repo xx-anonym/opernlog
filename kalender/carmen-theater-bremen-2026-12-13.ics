@@ -28,8 +28,8 @@ DTEND;TZID=Europe/Berlin:20261213T210000
 SUMMARY:Carmen – Theater Bremen
 LOCATION:Theater Bremen\, Bremen\, Deutschland
 GEO:53.074;8.814
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Br
- emen, Bremen, Deutschland:geo:53.074,8.814
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Bremen, Bremen, Deutschland":geo:53.074,8.814
 URL:https://theaterbremen.de/de_DE/programm/carmen.1398907
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://theaterbreme
  n.de/de_DE/programm/carmen.1398907\nDas Ende ist geschätzt (3 Stunden).\n

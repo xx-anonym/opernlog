@@ -29,8 +29,9 @@ DTEND;TZID=Europe/Berlin:20270430T223000
 SUMMARY:Cavalleria rusticana – Theater Altenburg Gera
 LOCATION:Theater Altenburg Gera\, Gera / Altenburg\, Deutschland
 GEO:50.879;12.08
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Al
- tenburg Gera, Gera / Altenburg, Deutschland:geo:50.879,12.08
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Altenburg Gera, Gera / Altenburg, Deutschland":geo:
+ 50.879,12.08
 URL:https://theater-altenburg-gera.de/stuecke-konzerte/cavalleria-rusticana
  -pagliacci-2196/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http
