@@ -7,10 +7,11 @@ name: Spielplan monatlich lesen
 # legt die Unterschiede zur App als Issue an
 # (tests/werkzeug/spielplan-vergleich.mjs).
 #
-# Er übernimmt nichts. Ein Treffer kann eine Lesung, ein Liederabend oder ein
-# Ladefehler sein; die Daten gehen erst nach der Durchsicht von Hand in die
-# App, wie nach jedem Lauf. Dafür hebt er den Lauf als Artefakt auf – wie
-# man ihn übernimmt, steht im Issue.
+# Er meldet nur. Auf GitHub liest er unzuverlässiger als am eigenen Rechner
+# – beim ersten Lauf fehlten in Leipzig Termine, die auf den Seiten standen,
+# und die Bayerische Staatsoper lieferte leere Seiten. Übernommen wird erst
+# nach lokalem Neulesen der gemeldeten Häuser; den Befehl nennt das Issue.
+# Den Lauf selbst hebt er zum Nachsehen als Artefakt auf.
 #
 # Wie bei den anderen Prüfläufen: immer höchstens ein offenes Issue. Ein
 # neuer Lauf ersetzt seinen Text; ohne Unterschiede schließt es sich.
@@ -38,6 +39,8 @@ jobs:
     env:
       LABEL: spielplan
       GH_TOKEN: ${{ github.token }}
+      # "Heute" ist für die Termine der Tag in Deutschland, nicht in UTC.
+      TZ: Europe/Berlin
 
     steps:
       - uses: actions/checkout@v5
@@ -67,7 +70,7 @@ jobs:
 
       - name: Mit der App vergleichen
         id: vergleich
-        run: node tests/werkzeug/spielplan-vergleich.mjs lauf.json bericht.md uebernahme.json
+        run: node tests/werkzeug/spielplan-vergleich.mjs lauf.json bericht.md
 
       - name: Lauf aufheben
         uses: actions/upload-artifact@v4
@@ -76,7 +79,6 @@ jobs:
           path: |
             lauf.json
             bericht.md
-            uebernahme.json
           retention-days: 40
 
       - name: Issue anlegen, anpassen oder schließen

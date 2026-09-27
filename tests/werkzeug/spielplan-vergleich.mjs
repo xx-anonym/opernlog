@@ -1,32 +1,30 @@
 // Vergleicht einen Lauf von spielplaene-lesen.mjs mit dem, was in der App
 // steht (src/data/spielplan.js), und schreibt auf, was sich geändert hat.
 //
-//   node tests/werkzeug/spielplan-vergleich.mjs lauf.json [bericht.md] [uebernahme.json]
+//   node tests/werkzeug/spielplan-vergleich.mjs lauf.json [bericht.md]
 //
 // Gedacht für den monatlichen Lauf (.github/workflows/spielplan-monatlich.yml):
 // zwischen dem großen Lauf im September und dem im Januar veralten die
 // Termine – Zusatzvorstellungen, Umbesetzungen, verschobene Premieren. Der
 // Lauf liest alle Häuser, dieses Werkzeug macht daraus einen Bericht fürs
-// Issue. Übernommen wird nichts von selbst: jede Änderung geht vorher durch
-// die Durchsicht von Hand, wie bei jedem Lauf.
+// Issue.
 //
-// Verglichen wird mit dem, was die App nach der Übernahme zeigte: der Lauf
+// Der Bericht meldet, er liefert nicht. Auf GitHub liest der Lauf
+// unzuverlässiger als am eigenen Rechner: beim ersten Mal (27.09.2026)
+// fehlten in Leipzig Termine, die auf den Seiten standen und lokal gefunden
+// wurden, und die Bayerische Staatsoper lieferte Seiten ohne ein einziges
+// Werk. Übernommen wird deshalb erst nach lokalem Neulesen der gemeldeten
+// Häuser; den Befehl dafür nennt der Bericht.
+//
+// Verglichen wird mit dem, was die App nach einer Übernahme zeigte: der Lauf
 // durch uebernehmen() (mit den Korrekturen) und dazunehmen() für die
 // gelesenen Häuser – so bleiben etwa Uhrzeiten, die der Lauf nur verpasst
 // hat. Vergangene Termine zählen nicht: dass der Oktober im November fehlt,
 // ist keine Änderung.
 //
-// Ein Haus, dessen Seiten sich gar nicht laden ließen (gesperrt, Ausfall),
-// gilt als nicht gelesen. Seine Einträge bleiben, wie sie sind, und es steht
-// nicht in uebernahme.json – sonst verschwände es beim Übernehmen.
-//
-// uebernahme.json ist der Lauf, beschränkt auf die gelesenen Häuser mit
-// Änderungen. Ausgenommen sind Häuser, bei denen Seiten nicht luden und
-// Einträge oder Termine wegfielen: dort ist "weg" eher ein Ladefehler als
-// ein Befund (Theater Kiel, September 2026). Die stehen im Bericht zum
-// erneuten Lesen. Übernehmen mit
-//   node tests/werkzeug/spielplan-uebernehmen.mjs uebernahme.json --dazu
-// ersetzt dann genau deren Einträge.
+// Als nicht gelesen gilt ein Haus, von dem keine Seite lud, und eines, das
+// Einträge in der App hat, bei dem der Lauf aber kein einziges Werk fand –
+// dann sperrt es eher, als dass es nichts mehr spielt.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -126,7 +124,8 @@ export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelese
     }
     if (nichtGelesen.length) {
         teile.push('', '### Nicht gelesen', '',
-            `Von diesen Häusern ließ sich keine Seite laden. Ihre Einträge bleiben, wie sie sind: ${nichtGelesen.map(namen.haus).join(', ')}.`);
+            `Von diesen Häusern lud keine Seite, oder der Lauf fand dort kein einziges Werk – eher eine Sperre als ein leerer Spielplan. `
+                + `Ihre Einträge bleiben, wie sie sind: ${nichtGelesen.map(namen.haus).join(', ')}.`);
     }
     let text = teile.join('\n');
     if (text.length > HOECHSTLAENGE) {
@@ -150,21 +149,20 @@ export function geaenderteHaeuser(v) {
     return [...new Set([...v.neu, ...v.weg, ...v.geaendert, ...v.uhrzeiten].map(z => z.haus))].sort();
 }
 
-/** Häuser mit Ladefehlern, bei denen etwas wegfiele – nicht übernehmen, neu lesen. */
-export function unsichereHaeuser(v, fehlerJeHaus) {
-    const verlieren = [...v.weg, ...v.geaendert.filter(z => z.entfallen.length)].map(z => z.haus);
-    return [...new Set(verlieren)].filter(h => fehlerJeHaus[h]).sort();
-}
-
-/** Der Lauf, beschränkt auf diese Häuser, bereit für uebernehmen … --dazu. */
-export function uebernahmeLauf(lauf, haeuser) {
-    const nur = Object.fromEntries(haeuser.filter(h => lauf[h]).map(h => [h, lauf[h]]));
-    return { _werke: lauf._werke || [], _haeuserKatalog: lauf._haeuserKatalog || [], _haeuser: haeuser, ...nur };
+/**
+ * Häuser, die in der App künftige Termine haben, für die der Lauf aber gar
+ * nichts fand – kein Werk, kein Termin. So sieht eine Sperrseite aus, kein
+ * leerer Spielplan.
+ */
+export function leerGelesen(alt, neu, heute) {
+    const kuenftig = zeilen => new Set(zeilen.filter(z => z.termine.some(t => t > heute)).map(z => z.haus));
+    const gefunden = kuenftig(neu);
+    return [...kuenftig(alt)].filter(h => !gefunden.has(h)).sort();
 }
 
 async function main() {
-    const [laufDatei, berichtDatei = 'bericht.md', uebernahmeDatei = 'uebernahme.json'] = process.argv.slice(2);
-    if (!laufDatei) { console.error('Aufruf: spielplan-vergleich.mjs lauf.json [bericht.md] [uebernahme.json]'); process.exit(1); }
+    const [laufDatei, berichtDatei = 'bericht.md'] = process.argv.slice(2);
+    if (!laufDatei) { console.error('Aufruf: spielplan-vergleich.mjs lauf.json [bericht.md]'); process.exit(1); }
     const lauf = JSON.parse(fs.readFileSync(laufDatei, 'utf8'));
     const live = await import(pathToFileURL(path.join(WURZEL, 'src/data/spielplan.js')).href);
 
@@ -172,6 +170,7 @@ async function main() {
     const lesbar = new Set(haeuser.filter(h => gelesen(lauf[h])));
     const heute = haeuser.map(h => lauf[h].stand).filter(Boolean).sort().at(-1) || new Date().toISOString().slice(0, 10);
     const nachtrag = uebernehmen(lauf);
+    for (const h of leerGelesen(live.spielplan, nachtrag.zeilen, heute)) lesbar.delete(h);
     const nachher = dazunehmen({ zeilen: live.spielplan, stand: live.SPIELPLAN_STAND }, nachtrag, { haeuser: [...lesbar] });
     const v = vergleichen(live.spielplan, nachher.zeilen, { heute });
     const nichtGelesen = [...new Set(live.spielplan.filter(z => !lesbar.has(z.haus) && z.termine.some(t => t > heute)).map(z => z.haus))].sort();
@@ -181,36 +180,26 @@ async function main() {
     const namen = { werk: id => werkNamen.get(id) || id, haus: id => hausNamen.get(id) || id };
     const fehlerJeHaus = Object.fromEntries(haeuser.filter(h => lauf[h].fehler?.length).map(h => [h, lauf[h].fehler.length]));
 
-    const unsicher = unsichereHaeuser(v, fehlerJeHaus);
-    const aenderungen = geaenderteHaeuser(v).filter(h => !unsicher.includes(h));
+    const aenderungen = geaenderteHaeuser(v);
     const lauflink = process.env.GITHUB_RUN_ID
         ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : null;
-    const uebernahme = aenderungen.length ? [
-        'Vor dem Übernehmen jede Zeile gegen ihre Seite prüfen – der Lauf schlägt vor, er entscheidet nicht. '
-            + 'Was nicht stimmt, gehört in `tests/werkzeug/spielplan-korrekturen.json`. '
-            + `Dann das Artefakt „spielplan-lauf“ ${lauflink ? `von der [Seite des Laufs](${lauflink}) ` : ''}laden, nach \`lauf/\` entpacken und:`,
-        '```',
-        'node tests/werkzeug/spielplan-uebernehmen.mjs lauf/uebernahme.json --dazu',
-        '```',
-        `Das ersetzt nur die Einträge ${aenderungen.length === 1 ? 'dieses einen Hauses' : `dieser ${aenderungen.length} Häuser`}; alle anderen bleiben unberührt.`,
-    ] : [];
-    const neuLesen = unsicher.length ? [
-        `Nicht in der Übernahme, weil Seiten nicht luden und dabei etwas wegfiele: ${unsicher.map(namen.haus).join(', ')}. `
-            + 'Einzeln neu lesen und das Ergebnis prüfen:',
-        '```',
-        `node tests/werkzeug/spielplaene-lesen.mjs nachlese.json ${unsicher.join(' ')}`,
-        'node tests/werkzeug/spielplan-uebernehmen.mjs nachlese.json --dazu',
-        '```',
-    ] : [];
     const fuss = [
-        ...(uebernahme.length || neuLesen.length ? ['---'] : []),
-        uebernahme.join('\n'),
-        neuLesen.join('\n'),
+        ...(aenderungen.length ? [
+            '---',
+            [
+                'Nicht diesen Lauf übernehmen – auf GitHub fehlen manchmal Termine, die auf den Seiten stehen. '
+                    + `${aenderungen.length === 1 ? 'Das gemeldete Haus' : `Die ${aenderungen.length} gemeldeten Häuser`} lokal neu lesen, `
+                    + 'jede Zeile gegen ihre Seite prüfen (Fehler gehören in `tests/werkzeug/spielplan-korrekturen.json`) und dann übernehmen:',
+                '```',
+                `node tests/werkzeug/spielplaene-lesen.mjs nachlese.json ${aenderungen.join(' ')}`,
+                'node tests/werkzeug/spielplan-uebernehmen.mjs nachlese.json --dazu',
+                '```',
+            ].join('\n'),
+        ] : []),
         lauflink ? `<sub>Automatisch erstellt von \`.github/workflows/spielplan-monatlich.yml\` – [Lauf](${lauflink}).</sub>` : '',
     ].filter(Boolean).join('\n\n');
 
     fs.writeFileSync(berichtDatei, bericht(v, { heute, stand: live.SPIELPLAN_STAND, namen, fehlerJeHaus, nichtGelesen, fuss }));
-    fs.writeFileSync(uebernahmeDatei, JSON.stringify(uebernahmeLauf(lauf, aenderungen), null, 1));
 
     const anzahl = v.neu.length + v.weg.length + v.geaendert.length + v.uhrzeiten.length;
     console.log(`${zusammenfassung(v)}. ${lesbar.size} von ${haeuser.length} Häusern gelesen.`);

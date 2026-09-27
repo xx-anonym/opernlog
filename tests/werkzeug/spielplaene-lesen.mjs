@@ -1090,6 +1090,10 @@ async function main() {
     const kontext = await browser.newContext({
         userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15 OpernLog-Spielplanlauf',
         locale: 'de-DE',
+        // Manche Seiten schreiben die Uhrzeit per Skript in der Zeitzone des
+        // Browsers (Theater Ulm). Auf GitHub ist das UTC, und aus 19:00 wurde
+        // 20:00. Alle Häuser liegen in derselben Zone.
+        timezoneId: 'Europe/Berlin',
         viewport: { width: 1280, height: 1600 },
     });
     await sparsam(kontext);

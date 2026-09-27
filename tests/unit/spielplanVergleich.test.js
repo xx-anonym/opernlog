@@ -4,7 +4,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { vergleichen, bericht, gelesen, unsichereHaeuser, geaenderteHaeuser, uebernahmeLauf, zusammenfassung } from '../werkzeug/spielplan-vergleich.mjs';
+import { vergleichen, bericht, gelesen, leerGelesen, geaenderteHaeuser, zusammenfassung } from '../werkzeug/spielplan-vergleich.mjs';
 
 const HEUTE = '2026-10-03';
 const zeile = (werk, haus, termine, zeiten) => ({ werk, haus, url: `https://${haus}.example/${werk}`, termine, ...(zeiten ? { zeiten } : {}) });
@@ -47,31 +47,33 @@ test('ein Haus gilt als gelesen, sobald eine seiner Seiten lud', () => {
     assert.equal(gelesen(undefined), false);
 });
 
-test('Häuser mit Ladefehlern, bei denen etwas wegfiele, kommen nicht in die Übernahme', () => {
+test('ein Haus, bei dem der Lauf kein einziges Werk fand, gilt als nicht gelesen', () => {
+    // Die Bayerische Staatsoper auf GitHub, 27.09.2026: Seiten luden, aber
+    // ohne ein Werk – eher eine Sperrseite als ein leerer Spielplan.
     const alt = [
-        zeile('tannhaeuser', 'theater-kiel', ['2026-11-08']),
+        zeile('tosca', 'bayerische-staatsoper', ['2027-05-17']),
+        zeile('aida', 'bayerische-staatsoper', ['2027-01-10']),
+        zeile('carmen', 'oper-leipzig', ['2027-05-09']),
+        // nur Vergangenes – kein Grund zum Verdacht
+        zeile('norma', 'theater-kiel', ['2026-09-01']),
+    ];
+    const neu = [zeile('carmen', 'oper-leipzig', ['2027-05-10'])];
+    assert.deepEqual(leerGelesen(alt, neu, HEUTE), ['bayerische-staatsoper']);
+});
+
+test('gemeldet werden alle Häuser mit Änderungen, auch solche mit nur anderen Uhrzeiten', () => {
+    const alt = [
         zeile('aida', 'semperoper', ['2026-11-01']),
         zeile('tosca', 'oper-leipzig', ['2026-11-01']),
+        zeile('carmen', 'theater-ulm', ['2026-12-13'], { '2026-12-13': '11:00' }),
+        zeile('norma', 'oper-graz', ['2026-11-01']),
     ];
     const neu = [
         zeile('aida', 'semperoper', ['2026-11-01', '2026-11-02']),
-        zeile('tosca', 'oper-leipzig', ['2026-11-02']),
+        zeile('carmen', 'theater-ulm', ['2026-12-13'], { '2026-12-13': '12:00' }),
+        zeile('norma', 'oper-graz', ['2026-11-01']),
     ];
-    const v = vergleichen(alt, neu, { heute: HEUTE });
-    // Kiel verliert einen Eintrag und hatte Ladefehler; die Semperoper hatte
-    // auch welche, verliert aber nichts; Leipzig verliert einen Termin, lud
-    // aber alles.
-    const fehler = { 'theater-kiel': 8, 'semperoper': 1 };
-    assert.deepEqual(unsichereHaeuser(v, fehler), ['theater-kiel']);
-    assert.deepEqual(geaenderteHaeuser(v), ['oper-leipzig', 'semperoper', 'theater-kiel']);
-});
-
-test('der Übernahmelauf enthält nur die genannten Häuser und sagt es für --dazu', () => {
-    const lauf = { _werke: [{ id: 'rienzi' }], _haeuserKatalog: [], semperoper: { werke: {} }, 'theater-kiel': { werke: {} } };
-    const u = uebernahmeLauf(lauf, ['semperoper']);
-    assert.deepEqual(Object.keys(u).filter(k => !k.startsWith('_')), ['semperoper']);
-    assert.deepEqual(u._haeuser, ['semperoper']);
-    assert.deepEqual(u._werke, [{ id: 'rienzi' }]);
+    assert.deepEqual(geaenderteHaeuser(vergleichen(alt, neu, { heute: HEUTE })), ['oper-leipzig', 'semperoper', 'theater-ulm']);
 });
 
 test('der Bericht nennt Werk und Haus beim Namen und markiert Ladefehler', () => {
