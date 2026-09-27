@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270409T220000
 SUMMARY:Così fan tutte – Oper Leipzig
 LOCATION:Oper Leipzig\, Leipzig
 GEO:51.339;12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Leipzig, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Oper Leipzig":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/cosi-fan-tutte/793
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://www.oper-leipzig.de/de/programm/cosi-fan-tutte/793\nDas Ende ist ge

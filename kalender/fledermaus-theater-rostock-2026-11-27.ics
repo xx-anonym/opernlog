@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261127T223000
 SUMMARY:Die Fledermaus – Volkstheater Rostock
 LOCATION:Volkstheater Rostock\, Rostock
 GEO:54.089;12.123
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Rostock, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Volkstheater Rostock":geo:54.089,12.123
 URL:https://www.volkstheater-rostock.de/spielplan/premieren/die-fledermaus/
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.volkstheater-rostock.de/spielplan/premieren/die-fledermaus/\nDas Ende 

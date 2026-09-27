@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270625T223000
 SUMMARY:Le nozze di Figaro – Oper Chemnitz
 LOCATION:Oper Chemnitz\, Chemnitz
 GEO:50.836;12.928
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Chemnitz, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Oper Chemnitz":geo:50.836,12.928
 URL:https://www.theater-chemnitz.de/spielplan/detailseite/le-nozze-di-figar
  o
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten

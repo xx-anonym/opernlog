@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270314T223000
 SUMMARY:Don Pasquale – Landestheater Detmold
 LOCATION:Landestheater Detmold\, Detmold
 GEO:51.937;8.879
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Detmold, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Landestheater Detmold":geo:51.937,8.879
 URL:https://www.landestheater-detmold.de/de/programm/don-pasquale/41607666
 DESCRIPTION:Gaetano Donizetti: Don Pasquale\nTermine und Karten: https://ww
  w.landestheater-detmold.de/de/programm/don-pasquale/41607666\nDas Ende ist

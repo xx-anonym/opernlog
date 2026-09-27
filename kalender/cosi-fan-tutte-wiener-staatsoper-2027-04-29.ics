@@ -11,6 +11,8 @@ DTEND;VALUE=DATE:20270430
 SUMMARY:Così fan tutte – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Wiener Staatsoper":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/cosi-fan-tutte/
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://www.wiener-staatsoper.at/kalender/detail/cosi-fan-tutte/\nDie Uhrze

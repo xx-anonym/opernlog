@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261108T220000
 SUMMARY:Tosca – Theater Heidelberg
 LOCATION:Theater Heidelberg\, Heidelberg
 GEO:49.411;8.705
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Heidelberg, Deutschland";X
+ -APPLE-RADIUS=100;X-TITLE="Theater Heidelberg":geo:49.411,8.705
 URL:https://www.theaterheidelberg.de/de/programm/22129-tosca
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.theater
  heidelberg.de/de/programm/22129-tosca\nDas Ende ist geschätzt (3 Stunden)

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261029T223000
 SUMMARY:Rigoletto – Oper Köln
 LOCATION:Oper Köln\, Köln
 GEO:50.9384;6.9497
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Köln, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Oper Köln":geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/rigoletto
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.oper
  .koeln/produktion/rigoletto\nDas Ende ist geschätzt (3 Stunden).\nAus Ope

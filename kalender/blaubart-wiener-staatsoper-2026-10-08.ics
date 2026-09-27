@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20261008T220000
 SUMMARY:Herzog Blaubarts Burg – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Wiener Staatsoper":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/eine-florentinische-tr
  agoedie-herzog-blaubarts-burg/
 DESCRIPTION:Béla Bartók: Herzog Blaubarts Burg\nTermine und Karten: https

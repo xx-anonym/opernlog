@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261012T220000
 SUMMARY:Ariadne auf Naxos – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/ariadne-auf-naxos/2026-10-12-1900-161
  10
 DESCRIPTION:Richard Strauss: Ariadne auf Naxos\nTermine und Karten: https:/

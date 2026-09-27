@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270417T223000
 SUMMARY:Ariadne auf Naxos – Staatsoper Unter den Linden
 LOCATION:Staatsoper Unter den Linden\, Berlin
 GEO:52.517;13.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Staatsoper Unter den Linden":geo:52.517,13.3958
 URL:https://www.staatsoper-berlin.de/de/veranstaltungen/ariadne-auf-naxos.2
  1/
 DESCRIPTION:Richard Strauss: Ariadne auf Naxos\nTermine und Karten: https:/

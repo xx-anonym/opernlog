@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20270325T190000
 SUMMARY:Die Walküre – Felsenreitschule
 LOCATION:Felsenreitschule\, Salzburg
 GEO:47.8006;13.0424
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Salzburg, Österreich";X-A
+ PPLE-RADIUS=100;X-TITLE="Felsenreitschule":geo:47.8006,13.0424
 URL:https://osterfestspiele.at/programm/2027-2/die-walkuere
 DESCRIPTION:Richard Wagner: Die Walküre\nTermine und Karten: https://oster
  festspiele.at/programm/2027-2/die-walkuere\nDas Ende ist geschätzt (3 Stu

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261023T220000
 SUMMARY:Lucia di Lammermoor – Staatsoper Stuttgart
 LOCATION:Staatsoper Stuttgart\, Stuttgart
 GEO:48.7808;9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stuttgart, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatsoper Stuttgart":geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/lucia-di-lammerm
  oor/9508/
 DESCRIPTION:Gaetano Donizetti: Lucia di Lammermoor\nTermine und Karten: htt

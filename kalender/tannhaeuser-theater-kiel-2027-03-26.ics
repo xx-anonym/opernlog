@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270326T200000
 SUMMARY:Tannhäuser – Theater Kiel
 LOCATION:Theater Kiel\, Kiel
 GEO:54.322;10.135
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Kiel, Deutschland";X-APPLE
+ -RADIUS=100;X-TITLE="Theater Kiel":geo:54.322,10.135
 URL:https://theater-kiel.de/produktionen/tannhaeuser.html?m=40
 DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://theate
  r-kiel.de/produktionen/tannhaeuser.html?m=40\nDas Ende ist geschätzt (3 S

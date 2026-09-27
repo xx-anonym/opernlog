@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270702T220000
 SUMMARY:Macbeth – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/macbeth/2027-06-28-1900-16326
 DESCRIPTION:Giuseppe Verdi: Macbeth\nTermine und Karten: https://www.staats
  oper.de/stuecke/macbeth/2027-06-28-1900-16326\nDas Ende ist geschätzt (3 

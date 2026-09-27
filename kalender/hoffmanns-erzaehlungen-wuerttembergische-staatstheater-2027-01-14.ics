@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20270114T223000
 SUMMARY:Hoffmanns Erzählungen – Staatstheater Wiesbaden
 LOCATION:Staatstheater Wiesbaden\, Wiesbaden
 GEO:50.0857;8.2478
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wiesbaden, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Wiesbaden":geo:50.0857,8.2478
 URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/hoffmanns-erzaehlu
  ngen-26-27/
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 

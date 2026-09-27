@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20270502T220000
 SUMMARY:Hoffmanns Erzählungen – Volksoper Wien
 LOCATION:Volksoper Wien\, Wien
 GEO:48.2258;16.3494
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Volksoper Wien":geo:48.2258,16.3494
 URL:https://www.volksoper.at/produktion/les-contes-dhoffmann-2026.de.html
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 
  https://www.volksoper.at/produktion/les-contes-dhoffmann-2026.de.html\nAus

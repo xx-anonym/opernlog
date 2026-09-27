@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270204T213000
 SUMMARY:La Bohème – Staatsoper Stuttgart
 LOCATION:Staatsoper Stuttgart\, Stuttgart
 GEO:48.7808;9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stuttgart, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatsoper Stuttgart":geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/la-boheme/9558/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.st
  aatsoper-stuttgart.de/spielplan/kalender/la-boheme/9558/\nAus OpernLog –

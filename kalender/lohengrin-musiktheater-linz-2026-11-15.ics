@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20261115T213000
 SUMMARY:Lohengrin – Musiktheater Linz
 LOCATION:Musiktheater Linz\, Linz
 GEO:48.2965;14.2931
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Linz, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Musiktheater Linz":geo:48.2965,14.2931
 URL:https://www.landestheater-linz.at/stuecke/detail?ref=202620271997&spiel
  zeit=2026/27
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.land

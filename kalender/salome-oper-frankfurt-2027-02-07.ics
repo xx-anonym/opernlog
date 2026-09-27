@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270207T210000
 SUMMARY:Salome – Oper Frankfurt
 LOCATION:Oper Frankfurt\, Frankfurt am Main
 GEO:50.1078;8.6725
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Frankfurt am Main, Deutsch
+ land";X-APPLE-RADIUS=100;X-TITLE="Oper Frankfurt":geo:50.1078,8.6725
 URL:https://oper-frankfurt.de/de/spielplan/salome_5/
 DESCRIPTION:Richard Strauss: Salome\nTermine und Karten: https://oper-frank
  furt.de/de/spielplan/salome_5/\nDas Ende ist geschätzt (3 Stunden).\nAus 

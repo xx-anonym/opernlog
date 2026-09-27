@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270227T220000
 SUMMARY:Die Entführung aus dem Serail – Staatstheater Nürnberg
 LOCATION:Staatstheater Nürnberg\, Nürnberg
 GEO:49.4472;11.0797
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Nürnberg, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Nürnberg":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/die-entfuehrung-aus-
  dem-serail/27-02-2027/1900
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Entführung aus dem Serail\nTermin

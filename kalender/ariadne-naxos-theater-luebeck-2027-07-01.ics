@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270701T223000
 SUMMARY:Ariadne auf Naxos – Theater Lübeck
 LOCATION:Theater Lübeck\, Lübeck
 GEO:53.869;10.683
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Lübeck, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Theater Lübeck":geo:53.869,10.683
 URL:https://www.theaterluebeck.de/produktionen/ariadne-auf-naxos_2026-27.ht
  ml?m=1
 DESCRIPTION:Richard Strauss: Ariadne auf Naxos\nTermine und Karten: https:/

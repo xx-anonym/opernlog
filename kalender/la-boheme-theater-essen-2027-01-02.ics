@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270102T213000
 SUMMARY:La Bohème – Aalto-Theater
 LOCATION:Aalto-Theater\, Essen
 GEO:51.452;7.009
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Essen, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Aalto-Theater":geo:51.452,7.009
 URL:https://www.theater-essen.de/programm/spielzeit-26-27/la-boheme/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.th
  eater-essen.de/programm/spielzeit-26-27/la-boheme/\nAus OpernLog – maßg

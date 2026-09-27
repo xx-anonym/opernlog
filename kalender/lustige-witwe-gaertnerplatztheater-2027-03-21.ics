@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270321T210000
 SUMMARY:Die lustige Witwe – Staatstheater am Gärtnerplatz
 LOCATION:Staatstheater am Gärtnerplatz\, München
 GEO:48.13;11.5751
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Staatstheater am Gärtnerplatz":geo:48.13,11.5751
 URL:https://www.gaertnerplatztheater.de/de/produktionen/lustige-witwe.html
 DESCRIPTION:Franz Lehár: Die lustige Witwe\nTermine und Karten: https://ww
  w.gaertnerplatztheater.de/de/produktionen/lustige-witwe.html\nDas Ende ist

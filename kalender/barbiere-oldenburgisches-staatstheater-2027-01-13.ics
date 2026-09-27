@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270113T223000
 SUMMARY:Il barbiere di Siviglia – Oldenburgisches Staatstheater
 LOCATION:Oldenburgisches Staatstheater\, Oldenburg
 GEO:53.14;8.213
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Oldenburg, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Oldenburgisches Staatstheater":geo:53.14,8.213
 URL:https://staatstheater.de/programm/musiktheater/spielzeit-25/26/il-barbi
  ere-di-siviglia
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

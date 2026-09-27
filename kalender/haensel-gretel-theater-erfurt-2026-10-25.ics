@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261025T190000
 SUMMARY:Hänsel und Gretel – Theater Erfurt
 LOCATION:Theater Erfurt\, Erfurt
 GEO:50.98;11.018
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Erfurt, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Theater Erfurt":geo:50.98,11.018
 URL:https://www.theater-erfurt.de/stuecke/haensel-und-gretel
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.theater-erfurt.de/stuecke/haensel-und-gretel\nDas Ende ist ges

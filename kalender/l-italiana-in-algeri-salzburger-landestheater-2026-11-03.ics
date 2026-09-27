@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Vienna:20261103T223000
 SUMMARY:L'italiana in Algeri – Salzburger Landestheater
 LOCATION:Salzburger Landestheater\, Salzburg
 GEO:47.8046;13.0448
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Salzburg, Österreich";X-A
+ PPLE-RADIUS=100;X-TITLE="Salzburger Landestheater":geo:47.8046,13.0448
 URL:https://www.salzburger-landestheater.at/de/produktionen/litaliana-in-al
  geri.html
 DESCRIPTION:Gioachino Rossini: L'italiana in Algeri\nTermine und Karten: ht

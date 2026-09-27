@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Zurich:20270706T223000
 SUMMARY:Don Carlos – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Zürich, Schweiz";X-APPLE-
+ RADIUS=100;X-TITLE="Opernhaus Zürich":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/
 DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://www.ope
  rnhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/\nAus OpernLog – ma

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Zurich:20261228T220000
 SUMMARY:Le nozze di Figaro – Grand Théâtre de Genève
 LOCATION:Grand Théâtre de Genève\, Genf
 GEO:46.201;6.143
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Genf, Schweiz";X-APPLE-RAD
+ IUS=100;X-TITLE="Grand Théâtre de Genève":geo:46.201,6.143
 URL:https://www.gtg.ch/saison-26-27/les-noces-de-figaro/
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
  : https://www.gtg.ch/saison-26-27/les-noces-de-figaro/\nDas Ende ist gesch

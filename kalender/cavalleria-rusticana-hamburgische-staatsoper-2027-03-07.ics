@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20270307T200000
 SUMMARY:Cavalleria rusticana – Hamburgische Staatsoper
 LOCATION:Hamburgische Staatsoper\, Hamburg
 GEO:53.5566;9.9887
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hamburg, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Hamburgische Staatsoper":geo:53.5566,9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/130-cavalle
  ria-rusticana-pagliacci#tickets
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http

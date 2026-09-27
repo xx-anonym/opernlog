@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Zurich:20270506T162500
 SUMMARY:Le nozze di Figaro – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Zürich, Schweiz";X-APPLE-
+ RADIUS=100;X-TITLE="Opernhaus Zürich":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/le-nozze-di-figaro/2026-
  2027/
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten

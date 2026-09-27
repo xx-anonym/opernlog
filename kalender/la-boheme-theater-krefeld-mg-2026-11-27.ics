@@ -28,6 +28,9 @@ DTEND;TZID=Europe/Berlin:20261127T223000
 SUMMARY:La Bohème – Theater Krefeld und Mönchengladbach
 LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach
 GEO:51.335;6.567
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Krefeld / Mönchengladbach
+ , Deutschland";X-APPLE-RADIUS=100;X-TITLE="Theater Krefeld und Mönchengla
+ dbach":geo:51.335,6.567
 URL:https://theater-kr-mg.de/spielplan/la-boheme/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://theate
  r-kr-mg.de/spielplan/la-boheme/\nDas Ende ist geschätzt (3 Stunden).\nAus

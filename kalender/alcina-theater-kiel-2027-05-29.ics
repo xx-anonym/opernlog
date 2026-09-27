@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270529T220000
 SUMMARY:Alcina – Theater Kiel
 LOCATION:Theater Kiel\, Kiel
 GEO:54.322;10.135
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Kiel, Deutschland";X-APPLE
+ -RADIUS=100;X-TITLE="Theater Kiel":geo:54.322,10.135
 URL:https://theater-kiel.de/produktionen/alcina.html?m=11
 DESCRIPTION:Georg Friedrich Händel: Alcina\nTermine und Karten: https://th
  eater-kiel.de/produktionen/alcina.html?m=11\nDas Ende ist geschätzt (3 St

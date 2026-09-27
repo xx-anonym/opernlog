@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261205T223000
 SUMMARY:Hänsel und Gretel – Theater Trier
 LOCATION:Theater Trier\, Trier
 GEO:49.756;6.642
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Trier, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Theater Trier":geo:49.756,6.642
 URL:https://www.theater-trier.de/produktionen/haensel-und-gretel.html
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.theater-trier.de/produktionen/haensel-und-gretel.html\nDas End

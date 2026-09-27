@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270202T220000
 SUMMARY:Katja Kabanová – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/katja-kabanova/2027-01-27-1900-16198
 DESCRIPTION:Leoš Janáček: Katja Kabanová\nTermine und Karten: https://w
  ww.staatsoper.de/stuecke/katja-kabanova/2027-01-27-1900-16198\nDas Ende is

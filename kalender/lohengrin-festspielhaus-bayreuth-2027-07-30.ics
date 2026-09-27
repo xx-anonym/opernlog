@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270730T190000
 SUMMARY:Lohengrin – Bayreuther Festspielhaus
 LOCATION:Bayreuther Festspielhaus\, Bayreuth
 GEO:49.9578;11.5803
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bayreuth, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayreuther Festspielhaus":geo:49.9578,11.5803
 URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/lohengrin/
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.bayr
  euther-festspiele.de/programm/auffuehrungen/lohengrin/\nDas Ende ist gesch

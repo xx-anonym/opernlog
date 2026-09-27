@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20261016T223000
 SUMMARY:Cavalleria rusticana – Staatstheater Darmstadt
 LOCATION:Staatstheater Darmstadt\, Darmstadt
 GEO:49.8697;8.6435
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Darmstadt, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Darmstadt":geo:49.8697,8.6435
 URL:https://www.staatstheater-darmstadt.de/veranstaltungen/cavalleria-rusti
  cana-pagliacci.2257/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http

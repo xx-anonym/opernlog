@@ -1,7 +1,8 @@
 // Ein Termin aus dem Spielplan als Kalenderdatei (iCalendar, RFC 5545).
 //
 // Die Datei entsteht im Browser, ohne Server: Werk, Haus mit Ort und
-// Koordinaten, Beginn, Ende und der Link auf die Seite des Hauses. Ohne
+// Koordinaten (auch so, dass Apple Kalender eine Karte zeigt), Beginn, Ende
+// und der Link auf die Seite des Hauses. Ohne
 // bekannte Uhrzeit wird es ein ganztägiger Eintrag; ohne bekanntes Ende
 // ein dreistündiger, und die Beschreibung sagt das.
 
@@ -14,6 +15,29 @@ const zoneFuer = haus => ZONE[haus?.state] || 'Europe/Berlin';
 const GESCHAETZT_STUNDEN = 3;
 
 const zwei = n => String(n).padStart(2, '0');
+
+/**
+ * Wert eines Parameters (nicht eines Feldes): in Anführungszeichen, damit
+ * Komma, Semikolon und Doppelpunkt darin stehen dürfen. Anführungszeichen
+ * selbst sind in Parametern gar nicht erlaubt, auch nicht maskiert.
+ */
+function parameter(text) {
+    return `"${String(text ?? '').replace(/"/g, "'").replace(/\r?\n/g, ' ')}"`;
+}
+
+const landFuer = haus => (haus?.state === 'Österreich' || haus?.state === 'Schweiz') ? haus.state : 'Deutschland';
+
+/**
+ * Der Ort, wie Apple Kalender ihn braucht, um eine Karte, die Wegzeit und
+ * "Route" anzuzeigen. GEO allein liest er nicht, und LOCATION ist für ihn
+ * nur Text. Eine Straßenadresse führt der Katalog nicht – die Koordinaten
+ * reichen: die Karte zeigt den Punkt, die Navigation führt hin.
+ */
+function appleOrt(haus) {
+    if (!Number.isFinite(haus.lat) || !Number.isFinite(haus.lon)) return [];
+    const adresse = [haus.city, landFuer(haus)].filter(Boolean).join(', ');
+    return [`X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=${parameter(adresse)};X-APPLE-RADIUS=100;X-TITLE=${parameter(haus.name)}:geo:${haus.lat},${haus.lon}`];
+}
 
 /** Text für ein Feld: Backslash, Semikolon, Komma und Zeilenumbruch maskiert. */
 function feld(text) {
@@ -125,6 +149,7 @@ export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', jetz
         `SUMMARY:${feld(`${werk.title} – ${haus.name}`)}`,
         `LOCATION:${feld([haus.name, haus.city].filter(Boolean).join(', '))}`,
         ...(Number.isFinite(haus.lat) && Number.isFinite(haus.lon) ? [`GEO:${haus.lat};${haus.lon}`] : []),
+        ...appleOrt(haus),
         ...(url ? [`URL:${url}`] : []),
         `DESCRIPTION:${feld(beschreibung)}`,
         'END:VEVENT',

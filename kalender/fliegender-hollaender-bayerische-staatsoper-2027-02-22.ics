@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20270222T220000
 SUMMARY:Der fliegende Holländer – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/der-fliegende-hollaender/2027-02-22-1
  900-16220
 DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h

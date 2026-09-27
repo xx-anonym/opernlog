@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20261130T223000
 SUMMARY:Die Csárdásfürstin – Musiktheater Linz
 LOCATION:Musiktheater Linz\, Linz
 GEO:48.2965;14.2931
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Linz, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Musiktheater Linz":geo:48.2965,14.2931
 URL:https://www.landestheater-linz.at/stuecke/detail?ref=202620271998&spiel
  zeit=2026/27
 DESCRIPTION:Emmerich Kálmán: Die Csárdásfürstin\nTermine und Karten: h

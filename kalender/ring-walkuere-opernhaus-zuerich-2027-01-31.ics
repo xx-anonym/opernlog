@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Zurich:20270131T190000
 SUMMARY:Die Walküre – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Zürich, Schweiz";X-APPLE-
+ RADIUS=100;X-TITLE="Opernhaus Zürich":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/die-walkuere/2026-2027/
 DESCRIPTION:Richard Wagner: Die Walküre\nTermine und Karten: https://www.o
  pernhaus.ch/spielplan/kalendarium/die-walkuere/2026-2027/\nAus OpernLog 

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270321T190000
 SUMMARY:Jenůfa – Anhaltisches Theater
 LOCATION:Anhaltisches Theater\, Dessau
 GEO:51.836;12.235
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dessau, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Anhaltisches Theater":geo:51.836,12.235
 URL:https://anhaltisches-theater.de/jenufa
 DESCRIPTION:Leoš Janáček: Jenůfa\nTermine und Karten: https://anhaltisc
  hes-theater.de/jenufa\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog 

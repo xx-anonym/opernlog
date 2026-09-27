@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261016T223000
 SUMMARY:La Traviata – Theater Altenburg Gera
 LOCATION:Theater Altenburg Gera\, Gera / Altenburg
 GEO:50.879;12.08
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Gera / Altenburg, Deutschl
+ and";X-APPLE-RADIUS=100;X-TITLE="Theater Altenburg Gera":geo:50.879,12.08
 URL:https://theater-altenburg-gera.de/stuecke-konzerte/la-traviata-2156/
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://theate
  r-altenburg-gera.de/stuecke-konzerte/la-traviata-2156/\nDas Ende ist gesch

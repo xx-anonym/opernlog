@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270813T190000
 SUMMARY:Die Meistersinger von Nürnberg – Bayreuther Festspielhaus
 LOCATION:Bayreuther Festspielhaus\, Bayreuth
 GEO:49.9578;11.5803
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bayreuth, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayreuther Festspielhaus":geo:49.9578,11.5803
 URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/die-meister
  singer-von-nuernberg/
 DESCRIPTION:Richard Wagner: Die Meistersinger von Nürnberg\nTermine und Ka

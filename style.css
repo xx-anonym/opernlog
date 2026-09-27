@@ -3442,14 +3442,16 @@ body {
 }
 
 /* Wishlist active button */
+/* Gold, wie der Stern. Vorher stand hier die Akzentfarbe – dunkelrote
+   Schrift auf dunklem Grund, kaum zu lesen. */
 .btn--wishlist-active {
-    background: rgba(201, 168, 76, 0.15);
-    color: var(--accent);
-    border: 1px solid var(--accent-dim);
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.45);
 }
 
 .btn--wishlist-active:hover {
-    background: rgba(201, 168, 76, 0.25);
+    background: rgba(201, 168, 76, 0.2);
 }
 
 /* "Läuft demnächst" in der Karte der Wunschliste. */

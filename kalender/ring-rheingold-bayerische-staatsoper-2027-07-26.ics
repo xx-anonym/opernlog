@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270726T220000
 SUMMARY:Das Rheingold – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/das-rheingold/2027-07-17-1900-16349
 DESCRIPTION:Richard Wagner: Das Rheingold\nTermine und Karten: https://www.
  staatsoper.de/stuecke/das-rheingold/2027-07-17-1900-16349\nDas Ende ist ge

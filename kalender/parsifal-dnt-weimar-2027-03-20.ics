@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270320T190000
 SUMMARY:Parsifal – Deutsches Nationaltheater Weimar
 LOCATION:Deutsches Nationaltheater Weimar\, Weimar
 GEO:50.98;11.327
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Weimar, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Deutsches Nationaltheater Weimar":geo:50.98,11.327
 URL:https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3915
 DESCRIPTION:Richard Wagner: Parsifal\nTermine und Karten: https://www.dnt-w
  eimar.de/de/programm/stueck-detail.php?SID=3915\nDas Ende ist geschätzt (

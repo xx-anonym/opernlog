@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270504T220000
 SUMMARY:Salome – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/salome.1383424
 DESCRIPTION:Richard Strauss: Salome\nTermine und Karten: https://deutscheop
  erberlin.de/de_DE/production/salome.1383424\nDas Ende ist geschätzt (3 St

@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20270718T190000
 SUMMARY:Die Liebe zu den drei Orangen – Musiktheater im Revier
 LOCATION:Musiktheater im Revier\, Gelsenkirchen
 GEO:51.51;7.098
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Gelsenkirchen, Deutschland
+ ";X-APPLE-RADIUS=100;X-TITLE="Musiktheater im Revier":geo:51.51,7.098
 URL:https://mirgelsenkirchen.de/produktion/die-liebe-zu-den-drei-orangen-84
  4
 DESCRIPTION:Sergej Prokofjew: Die Liebe zu den drei Orangen\nTermine und Ka

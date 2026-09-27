@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261010T220000
 SUMMARY:Tannhäuser – Staatstheater Nürnberg
 LOCATION:Staatstheater Nürnberg\, Nürnberg
 GEO:49.4472;11.0797
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Nürnberg, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Nürnberg":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/tannhaeuser-und-der-
  saengerkrieg-auf-wartburg/10-10-2026/1800
 DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://staats

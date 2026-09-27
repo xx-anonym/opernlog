@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261227T200000
 SUMMARY:Le nozze di Figaro – Anhaltisches Theater
 LOCATION:Anhaltisches Theater\, Dessau
 GEO:51.836;12.235
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dessau, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Anhaltisches Theater":geo:51.836,12.235
 URL:https://anhaltisches-theater.de/figaros_hochzeit
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
  : https://anhaltisches-theater.de/figaros_hochzeit\nDas Ende ist geschätz

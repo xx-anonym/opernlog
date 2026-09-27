@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261016T223000
 SUMMARY:Carmen – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/carmen.1385520
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://deutscheoper
  berlin.de/de_DE/production/carmen.1385520\nDas Ende ist geschätzt (3 Stun

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261231T174500
 SUMMARY:Die Fledermaus – Staatstheater Kassel
 LOCATION:Staatstheater Kassel\, Kassel
 GEO:51.3123;9.4948
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Kassel, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Staatstheater Kassel":geo:51.3123,9.4948
 URL:https://www.staatstheater-kassel.de/play/diefledermaus-3262
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.staatstheater-kassel.de/play/diefledermaus-3262\nAus OpernLog – maß

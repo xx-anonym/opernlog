@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270314T210000
 SUMMARY:Hoffmanns Erzählungen – Staatsoper Unter den Linden
 LOCATION:Staatsoper Unter den Linden\, Berlin
 GEO:52.517;13.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Staatsoper Unter den Linden":geo:52.517,13.3958
 URL:https://www.staatsoper-berlin.de/de/veranstaltungen/les-contes-d-hoffma
  nn.21881/
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 

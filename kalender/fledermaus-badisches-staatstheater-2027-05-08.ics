@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270508T220000
 SUMMARY:Die Fledermaus – Badisches Staatstheater
 LOCATION:Badisches Staatstheater\, Karlsruhe
 GEO:48.9975;8.4045
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Karlsruhe, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Badisches Staatstheater":geo:48.9975,8.4045
 URL:https://staatstheater-karlsruhe.de/programm/info/3647/
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  staatstheater-karlsruhe.de/programm/info/3647/\nDas Ende ist geschätzt (3

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261010T215500
 SUMMARY:La Traviata – Landestheater Detmold
 LOCATION:Landestheater Detmold\, Detmold
 GEO:51.937;8.879
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Detmold, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Landestheater Detmold":geo:51.937,8.879
 URL:https://www.landestheater-detmold.de/de/programm/la-traviata/41728561
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.la
  ndestheater-detmold.de/de/programm/la-traviata/41728561\nAus OpernLog – 

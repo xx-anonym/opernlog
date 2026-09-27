@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Zurich:20270508T223000
 SUMMARY:Carmen – Bühnen Bern
 LOCATION:Bühnen Bern\, Bern
 GEO:46.949;7.447
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bern, Schweiz";X-APPLE-RAD
+ IUS=100;X-TITLE="Bühnen Bern":geo:46.949,7.447
 URL:https://buehnenbern.ch/spielplan/programm/carmen/
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://buehnenbern.
  ch/spielplan/programm/carmen/\nDas Ende ist geschätzt (3 Stunden).\nAus O

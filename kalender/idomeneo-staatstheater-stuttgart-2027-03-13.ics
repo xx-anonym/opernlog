@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270313T221500
 SUMMARY:Idomeneo – Staatsoper Stuttgart
 LOCATION:Staatsoper Stuttgart\, Stuttgart
 GEO:48.7808;9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stuttgart, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatsoper Stuttgart":geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/idomeneo/9643/
 DESCRIPTION:Wolfgang Amadeus Mozart: Idomeneo\nTermine und Karten: https://
  www.staatsoper-stuttgart.de/spielplan/kalender/idomeneo/9643/\nAus OpernLo

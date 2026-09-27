@@ -29,6 +29,9 @@ DTEND;TZID=Europe/Berlin:20270710T223000
 SUMMARY:Hoffmanns Erzählungen – Theater Vorpommern
 LOCATION:Theater Vorpommern\, Stralsund / Greifswald
 GEO:54.311;13.087
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stralsund / Greifswald, De
+ utschland";X-APPLE-RADIUS=100;X-TITLE="Theater Vorpommern":geo:54.311,13.0
+ 87
 URL:https://www.theater-vorpommern.de/de/programm/hoffmanns-erzaehlungen
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 
  https://www.theater-vorpommern.de/de/programm/hoffmanns-erzaehlungen\nDas 

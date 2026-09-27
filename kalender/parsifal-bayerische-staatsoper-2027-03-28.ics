@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270328T190000
 SUMMARY:Parsifal – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/parsifal/2027-03-25-1700-16245
 DESCRIPTION:Richard Wagner: Parsifal\nTermine und Karten: https://www.staat
  soper.de/stuecke/parsifal/2027-03-25-1700-16245\nDas Ende ist geschätzt (

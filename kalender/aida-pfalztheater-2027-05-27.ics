@@ -28,6 +28,9 @@ DTEND;TZID=Europe/Berlin:20270527T210000
 SUMMARY:Aida – Pfalztheater Kaiserslautern
 LOCATION:Pfalztheater Kaiserslautern\, Kaiserslautern
 GEO:49.443;7.769
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Kaiserslautern, Deutschlan
+ d";X-APPLE-RADIUS=100;X-TITLE="Pfalztheater Kaiserslautern":geo:49.443,7.7
+ 69
 URL:https://pfalztheater.de/unsere-stuecke/aida/
 DESCRIPTION:Giuseppe Verdi: Aida\nTermine und Karten: https://pfalztheater.
  de/unsere-stuecke/aida/\nAus OpernLog – maßgeblich ist die Seite des Ha

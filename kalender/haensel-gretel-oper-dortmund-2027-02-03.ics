@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270203T220000
 SUMMARY:Hänsel und Gretel – Oper Dortmund
 LOCATION:Oper Dortmund\, Dortmund
 GEO:51.517;7.46
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dortmund, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Oper Dortmund":geo:51.517,7.46
 URL:https://www.theaterdo.de/produktionen/detail/haensel-und-gretel/
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.theaterdo.de/produktionen/detail/haensel-und-gretel/\nAus Oper

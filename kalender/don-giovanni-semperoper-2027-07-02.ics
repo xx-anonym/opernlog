@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270702T220000
 SUMMARY:Don Giovanni – Semperoper
 LOCATION:Semperoper\, Dresden
 GEO:51.0543;13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dresden, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Semperoper":geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/dongiovanni/60546.html
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
  s://www.semperoper.de/spielplan/stuecke/stid/dongiovanni/60546.html\nDas E

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261002T223000
 SUMMARY:Macbeth – Hamburgische Staatsoper
 LOCATION:Hamburgische Staatsoper\, Hamburg
 GEO:53.5566;9.9887
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hamburg, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Hamburgische Staatsoper":geo:53.5566,9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/1936-macbet
  h#tickets
 DESCRIPTION:Giuseppe Verdi: Macbeth\nTermine und Karten: https://www.die-ha

@@ -28,6 +28,9 @@ DTEND;TZID=Europe/Berlin:20270303T223000
 SUMMARY:La Bohème – Schleswig-Holsteinisches Landestheater
 LOCATION:Schleswig-Holsteinisches Landestheater\, Flensburg / Rendsburg
 GEO:54.783;9.434
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Flensburg / Rendsburg, Deu
+ tschland";X-APPLE-RADIUS=100;X-TITLE="Schleswig-Holsteinisches Landestheat
+ er":geo:54.783,9.434
 URL:https://www.sh-landestheater.de/produktionen/la-bohme.html
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.sh
  -landestheater.de/produktionen/la-bohme.html\nDas Ende ist geschätzt (3 S

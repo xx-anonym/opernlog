@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20270424T223000
 SUMMARY:Aufstieg und Fall der Stadt Mahagonny – Staatstheater Wiesbaden
 LOCATION:Staatstheater Wiesbaden\, Wiesbaden
 GEO:50.0857;8.2478
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wiesbaden, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Wiesbaden":geo:50.0857,8.2478
 URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/aufstieg-und-fall-
  der-stadt-mahagonny-26-27/
 DESCRIPTION:Kurt Weill: Aufstieg und Fall der Stadt Mahagonny\nTermine und 

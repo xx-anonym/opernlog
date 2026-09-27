@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20270417T223000
 SUMMARY:Das Land des Lächelns – Bühne Baden
 LOCATION:Bühne Baden\, Baden bei Wien
 GEO:48.0073;16.233
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Baden bei Wien, Österreic
+ h";X-APPLE-RADIUS=100;X-TITLE="Bühne Baden":geo:48.0073,16.233
 URL:https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382
 DESCRIPTION:Franz Lehár: Das Land des Lächelns\nTermine und Karten: https
  ://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382\nDas Ende

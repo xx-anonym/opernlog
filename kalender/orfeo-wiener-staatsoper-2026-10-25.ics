@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20261025T220000
 SUMMARY:L'Orfeo – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Wiener Staatsoper":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/lorfeo/
 DESCRIPTION:Claudio Monteverdi: L'Orfeo\nTermine und Karten: https://www.wi
  ener-staatsoper.at/kalender/detail/lorfeo/\nDas Ende ist geschätzt (3 Stu

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270211T220000
 SUMMARY:La Bohème – Semperoper
 LOCATION:Semperoper\, Dresden
 GEO:51.0543;13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dresden, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Semperoper":geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/boheme/147.html
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.se
  mperoper.de/spielplan/stuecke/stid/boheme/147.html\nDas Ende ist geschätz

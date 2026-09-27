@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270522T200000
 SUMMARY:Tristan und Isolde – Oper Leipzig
 LOCATION:Oper Leipzig\, Leipzig
 GEO:51.339;12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Leipzig, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Oper Leipzig":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/tristan-und-isolde/294
 DESCRIPTION:Richard Wagner: Tristan und Isolde\nTermine und Karten: https:/
  /www.oper-leipzig.de/de/programm/tristan-und-isolde/294\nDas Ende ist gesc

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270228T223000
 SUMMARY:Peter Grimes – Landestheater Detmold
 LOCATION:Landestheater Detmold\, Detmold
 GEO:51.937;8.879
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Detmold, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Landestheater Detmold":geo:51.937,8.879
 URL:https://www.landestheater-detmold.de/de/programm/peter-grimes/41806320
 DESCRIPTION:Benjamin Britten: Peter Grimes\nTermine und Karten: https://www
  .landestheater-detmold.de/de/programm/peter-grimes/41806320\nDas Ende ist 

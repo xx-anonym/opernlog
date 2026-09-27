@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261003T223000
 SUMMARY:Pagliacci – Theater Hagen
 LOCATION:Theater Hagen\, Hagen
 GEO:51.36;7.47
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hagen, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Theater Hagen":geo:51.36,7.47
 URL:https://www.theaterhagen.de/veranstaltung/cavalleria-rusticana-i-paglia
  cci-2030/0/show/Play/
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www

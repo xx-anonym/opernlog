@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270417T220000
 SUMMARY:La Bohème – Nationaltheater Mannheim
 LOCATION:Nationaltheater Mannheim\, Mannheim
 GEO:49.4894;8.4795
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Mannheim, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Nationaltheater Mannheim":geo:49.4894,8.4795
 URL:https://www.nationaltheater-mannheim.de/spielplan/la-bohme-6929/4519/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.na
  tionaltheater-mannheim.de/spielplan/la-bohme-6929/4519/\nDas Ende ist gesc

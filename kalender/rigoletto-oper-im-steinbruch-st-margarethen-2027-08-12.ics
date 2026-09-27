@@ -29,6 +29,9 @@ DTEND;TZID=Europe/Vienna:20270812T230000
 SUMMARY:Rigoletto – Oper im Steinbruch St. Margarethen
 LOCATION:Oper im Steinbruch St. Margarethen\, St. Margarethen im Burgenland
 GEO:47.7767;16.6197
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="St. Margarethen im Burgenl
+ and, Österreich";X-APPLE-RADIUS=100;X-TITLE="Oper im Steinbruch St. Marga
+ rethen":geo:47.7767,16.6197
 URL:https://www.operimsteinbruch.at/spielplan
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.oper
  imsteinbruch.at/spielplan\nDas Ende ist geschätzt (3 Stunden).\nAus Opern

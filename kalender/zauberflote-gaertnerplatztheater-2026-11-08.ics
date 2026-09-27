@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261108T210000
 SUMMARY:Die Zauberflöte – Staatstheater am Gärtnerplatz
 LOCATION:Staatstheater am Gärtnerplatz\, München
 GEO:48.13;11.5751
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Staatstheater am Gärtnerplatz":geo:48.13,11.5751
 URL:https://www.gaertnerplatztheater.de/de/produktionen/die-zauberfloete.ht
  ml
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270313T220500
 SUMMARY:La Cenerentola – Staatstheater Nürnberg
 LOCATION:Staatstheater Nürnberg\, Nürnberg
 GEO:49.4472;11.0797
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Nürnberg, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Nürnberg":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/la-cenerentola-das-a
  schenputtel
 DESCRIPTION:Gioachino Rossini: La Cenerentola\nTermine und Karten: https://

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261003T180000
 SUMMARY:La clemenza di Tito – Oper Halle
 LOCATION:Oper Halle\, Halle (Saale)
 GEO:51.483;11.972
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Halle (Saale), Deutschland
+ ";X-APPLE-RADIUS=100;X-TITLE="Oper Halle":geo:51.483,11.972
 URL:https://www.buehnen-halle.de/de/program/titus/266464
 DESCRIPTION:Wolfgang Amadeus Mozart: La clemenza di Tito\nTermine und Karte
  n: https://www.buehnen-halle.de/de/program/titus/266464\nDas Ende ist gesc

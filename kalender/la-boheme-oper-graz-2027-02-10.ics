@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20270210T214500
 SUMMARY:La Bohème – Oper Graz
 LOCATION:Oper Graz\, Graz
 GEO:47.0716;15.4445
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Graz, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Oper Graz":geo:47.0716,15.4445
 URL:https://oper-graz.buehnen-graz.com/produktion/la-boheme-2026-05-07t0412
  38/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://oper-g

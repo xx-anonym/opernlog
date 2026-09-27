@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270327T220000
 SUMMARY:Die lustige Witwe – Oper Leipzig
 LOCATION:Oper Leipzig\, Leipzig
 GEO:51.339;12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Leipzig, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Oper Leipzig":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/die-lustige-witwe/888
 DESCRIPTION:Franz Lehár: Die lustige Witwe\nTermine und Karten: https://ww
  w.oper-leipzig.de/de/programm/die-lustige-witwe/888\nDas Ende ist geschät

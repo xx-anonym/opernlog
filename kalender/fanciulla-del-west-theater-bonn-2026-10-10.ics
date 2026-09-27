@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261010T223000
 SUMMARY:La fanciulla del West – Theater Bonn
 LOCATION:Theater Bonn\, Bonn
 GEO:50.741;7.103
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bonn, Deutschland";X-APPLE
+ -RADIUS=100;X-TITLE="Theater Bonn":geo:50.741,7.103
 URL:https://www.theater-bonn.de/de/programm/das-madchen-aus-dem-goldenen-we
  sten/234664
 DESCRIPTION:Giacomo Puccini: La fanciulla del West\nTermine und Karten: htt

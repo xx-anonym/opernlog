@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20270423T223000
 SUMMARY:Rinaldo – Theater an der Wien
 LOCATION:Theater an der Wien\, Wien
 GEO:48.1983;16.363
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Theater an der Wien":geo:48.1983,16.363
 URL:https://www.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo
 DESCRIPTION:Georg Friedrich Händel: Rinaldo\nTermine und Karten: https://w
  ww.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo\nAus OpernLog 

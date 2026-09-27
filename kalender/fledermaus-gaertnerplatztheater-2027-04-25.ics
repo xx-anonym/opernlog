@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270425T210000
 SUMMARY:Die Fledermaus – Staatstheater am Gärtnerplatz
 LOCATION:Staatstheater am Gärtnerplatz\, München
 GEO:48.13;11.5751
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Staatstheater am Gärtnerplatz":geo:48.13,11.5751
 URL:https://www.gaertnerplatztheater.de/de/produktionen/die-fledermaus.html
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.gaertnerplatztheater.de/de/produktionen/die-fledermaus.html\nDas Ende 

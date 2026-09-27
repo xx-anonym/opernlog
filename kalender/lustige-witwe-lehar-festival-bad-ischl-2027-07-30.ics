@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20270730T223000
 SUMMARY:Die lustige Witwe – Lehár Festival Bad Ischl
 LOCATION:Lehár Festival Bad Ischl\, Bad Ischl
 GEO:47.7124;13.6232
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bad Ischl, Österreich";X-
+ APPLE-RADIUS=100;X-TITLE="Lehár Festival Bad Ischl":geo:47.7124,13.6232
 URL:https://www.leharfestival.at/stuecke/2027-die-lustige-witwe/
 DESCRIPTION:Franz Lehár: Die lustige Witwe\nTermine und Karten: https://ww
  w.leharfestival.at/stuecke/2027-die-lustige-witwe/\nDas Ende ist geschätz

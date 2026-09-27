@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270314T175000
 SUMMARY:Otello – Staatstheater Meiningen
 LOCATION:Staatstheater Meiningen\, Meiningen
 GEO:50.573333;10.416111
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Meiningen, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Staatstheater Meiningen":geo:50.573333,10.416111
 URL:https://www.staatstheater-meiningen.de/produktionen/otello.html?m=615
 DESCRIPTION:Giuseppe Verdi: Otello\nTermine und Karten: https://www.staatst
  heater-meiningen.de/produktionen/otello.html?m=615\nAus OpernLog – maßg

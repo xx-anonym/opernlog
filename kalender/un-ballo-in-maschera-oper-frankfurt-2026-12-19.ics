@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261219T220000
 SUMMARY:Un ballo in maschera – Oper Frankfurt
 LOCATION:Oper Frankfurt\, Frankfurt am Main
 GEO:50.1078;8.6725
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Frankfurt am Main, Deutsch
+ land";X-APPLE-RADIUS=100;X-TITLE="Oper Frankfurt":geo:50.1078,8.6725
 URL:https://oper-frankfurt.de/de/spielplan/un-ballo-in-maschera/
 DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https
  ://oper-frankfurt.de/de/spielplan/un-ballo-in-maschera/\nDas Ende ist gesc

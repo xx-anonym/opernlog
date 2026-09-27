@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20261115T180000
 SUMMARY:Hänsel und Gretel – Salzburger Landestheater
 LOCATION:Salzburger Landestheater\, Salzburg
 GEO:47.8046;13.0448
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Salzburg, Österreich";X-A
+ PPLE-RADIUS=100;X-TITLE="Salzburger Landestheater":geo:47.8046,13.0448
 URL:https://www.salzburger-landestheater.at/de/produktionen/haensel-und-gre
  tel-2.html?m=663
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 

@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261226T200000
 SUMMARY:Eugen Onegin – Oper Leipzig
 LOCATION:Oper Leipzig\, Leipzig
 GEO:51.339;12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Leipzig, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Oper Leipzig":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/eugen-onegin/810
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
  https://www.oper-leipzig.de/de/programm/eugen-onegin/810\nDas Ende ist ges

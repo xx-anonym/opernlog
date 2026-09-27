@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270702T220000
 SUMMARY:Carmen – Oper Wuppertal
 LOCATION:Oper Wuppertal\, Wuppertal
 GEO:51.27;7.198
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wuppertal, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Oper Wuppertal":geo:51.27,7.198
 URL:https://www.oper-wuppertal.de/programm/detailansicht-produktion/1490-ca
  rmen
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.oper-wup

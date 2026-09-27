@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270618T220000
 SUMMARY:La Cenerentola – Bayerische Staatsoper
 LOCATION:Bayerische Staatsoper\, München
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/la-cenerentola/2027-06-13-1800-16320
 DESCRIPTION:Gioachino Rossini: La Cenerentola\nTermine und Karten: https://
  www.staatsoper.de/stuecke/la-cenerentola/2027-06-13-1800-16320\nDas Ende i

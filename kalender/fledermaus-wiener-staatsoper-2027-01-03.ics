@@ -11,6 +11,8 @@ DTEND;VALUE=DATE:20270104
 SUMMARY:Die Fledermaus – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
+ -RADIUS=100;X-TITLE="Wiener Staatsoper":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/die-fledermaus/
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.wiener-staatsoper.at/kalender/detail/die-fledermaus/\nDie Uhrzeit steh

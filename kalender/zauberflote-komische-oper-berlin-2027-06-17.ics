@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270617T220000
 SUMMARY:Die Zauberflöte – Komische Oper Berlin
 LOCATION:Komische Oper Berlin\, Berlin
 GEO:52.5158;13.3865
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Komische Oper Berlin":geo:52.5158,13.3865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/die-zauberfloete/
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
  https://www.komische-oper-berlin.de/spielplan/a-z/die-zauberfloete/\nDas E

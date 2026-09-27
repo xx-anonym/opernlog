@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20270123T223000
 SUMMARY:Orfeo ed Euridice – Oldenburgisches Staatstheater
 LOCATION:Oldenburgisches Staatstheater\, Oldenburg
 GEO:53.14;8.213
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Oldenburg, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Oldenburgisches Staatstheater":geo:53.14,8.213
 URL:https://staatstheater.de/programm/musiktheater/spielzeit-2627/orfeo-ed-
  euridice
 DESCRIPTION:Christoph Willibald Gluck: Orfeo ed Euridice\nTermine und Karte

@@ -28,6 +28,9 @@ DTEND;TZID=Europe/Berlin:20261016T221500
 SUMMARY:Die Zauberflöte – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
 GEO:51.227;6.776
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Düsseldorf / Duisburg, De
+ utschland";X-APPLE-RADIUS=100;X-TITLE="Deutsche Oper am Rhein":geo:51.227,
+ 6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/die-zauberfloete/?a=t
  ermine
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 

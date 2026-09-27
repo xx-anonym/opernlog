@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261205T210000
 SUMMARY:Hänsel und Gretel – Theater Lübeck
 LOCATION:Theater Lübeck\, Lübeck
 GEO:53.869;10.683
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Lübeck, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Theater Lübeck":geo:53.869,10.683
 URL:https://www.theaterluebeck.de/produktionen/haensel-und-gretel_2026-27.h
  tml?m=1
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 

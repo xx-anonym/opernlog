@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270611T223000
 SUMMARY:Pagliacci – Aalto-Theater
 LOCATION:Aalto-Theater\, Essen
 GEO:51.452;7.009
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Essen, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Aalto-Theater":geo:51.452,7.009
 URL:https://www.theater-essen.de/programm/spielzeit-26-27/cavalleria-paglia
  cci/
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www

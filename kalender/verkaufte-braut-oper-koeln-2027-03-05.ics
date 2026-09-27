@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270305T223000
 SUMMARY:Die verkaufte Braut – Oper Köln
 LOCATION:Oper Köln\, Köln
 GEO:50.9384;6.9497
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Köln, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Oper Köln":geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/die-verkaufte-braut
 DESCRIPTION:Bedřich Smetana: Die verkaufte Braut\nTermine und Karten: http
  s://www.oper.koeln/produktion/die-verkaufte-braut\nDas Ende ist geschätzt

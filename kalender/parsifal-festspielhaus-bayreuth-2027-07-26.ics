@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270726T190000
 SUMMARY:Parsifal – Bayreuther Festspielhaus
 LOCATION:Bayreuther Festspielhaus\, Bayreuth
 GEO:49.9578;11.5803
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bayreuth, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Bayreuther Festspielhaus":geo:49.9578,11.5803
 URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/parsifal/
 DESCRIPTION:Richard Wagner: Parsifal\nTermine und Karten: https://www.bayre
  uther-festspiele.de/programm/auffuehrungen/parsifal/\nDas Ende ist geschä

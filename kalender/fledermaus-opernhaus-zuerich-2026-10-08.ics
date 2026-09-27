@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Zurich:20261008T223000
 SUMMARY:Die Fledermaus – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Zürich
 GEO:47.365;8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Zürich, Schweiz";X-APPLE-
+ RADIUS=100;X-TITLE="Opernhaus Zürich":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/die-fledermaus-1/
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.opernhaus.ch/spielplan/kalendarium/die-fledermaus-1/\nAus OpernLog –

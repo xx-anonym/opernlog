@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20261126T223000
 SUMMARY:Simon Boccanegra – Nationaltheater Mannheim
 LOCATION:Nationaltheater Mannheim\, Mannheim
 GEO:49.4894;8.4795
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Mannheim, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Nationaltheater Mannheim":geo:49.4894,8.4795
 URL:https://www.nationaltheater-mannheim.de/spielplan/a-z/simon-boccanegra/
 DESCRIPTION:Giuseppe Verdi: Simon Boccanegra\nTermine und Karten: https://w
  ww.nationaltheater-mannheim.de/spielplan/a-z/simon-boccanegra/\nDas Ende i

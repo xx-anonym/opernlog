@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270314T190000
 SUMMARY:Don Giovanni – Deutsche Oper Berlin
 LOCATION:Deutsche Oper Berlin\, Berlin
 GEO:52.5121;13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/don-giovanni.1385522
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
  s://deutscheoperberlin.de/de_DE/production/don-giovanni.1385522\nDas Ende 

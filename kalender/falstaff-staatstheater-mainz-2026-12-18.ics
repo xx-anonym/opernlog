@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261218T223000
 SUMMARY:Falstaff – Staatstheater Mainz
 LOCATION:Staatstheater Mainz\, Mainz
 GEO:50;8.272
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Mainz, Deutschland";X-APPL
+ E-RADIUS=100;X-TITLE="Staatstheater Mainz":geo:50,8.272
 URL:https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/falstaff
 DESCRIPTION:Giuseppe Verdi: Falstaff\nTermine und Karten: https://www.staat
  stheater-mainz.com/veranstaltungen/oper-26-27/falstaff\nDas Ende ist gesch

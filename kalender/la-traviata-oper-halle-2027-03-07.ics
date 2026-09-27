@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270307T210000
 SUMMARY:La Traviata – Oper Halle
 LOCATION:Oper Halle\, Halle (Saale)
 GEO:51.483;11.972
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Halle (Saale), Deutschland
+ ";X-APPLE-RADIUS=100;X-TITLE="Oper Halle":geo:51.483,11.972
 URL:https://www.buehnen-halle.de/de/program/la-traviata/278613
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.bu
  ehnen-halle.de/de/program/la-traviata/278613\nDas Ende ist geschätzt (3 S

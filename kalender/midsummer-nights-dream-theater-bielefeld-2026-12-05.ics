@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20261205T223000
 SUMMARY:A Midsummer Night's Dream – Theater Bielefeld
 LOCATION:Theater Bielefeld\, Bielefeld
 GEO:52.02074;8.53496
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bielefeld, Deutschland";X-
+ APPLE-RADIUS=100;X-TITLE="Theater Bielefeld":geo:52.02074,8.53496
 URL:https://www.buo-bielefeld.de/theater/veranstaltung/ein-sommernachtstrau
  m-a-midsummer-nights-dream
 DESCRIPTION:Benjamin Britten: A Midsummer Night's Dream\nTermine und Karten

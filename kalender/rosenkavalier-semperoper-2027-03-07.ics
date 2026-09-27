@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270307T190000
 SUMMARY:Der Rosenkavalier – Semperoper
 LOCATION:Semperoper\, Dresden
 GEO:51.0543;13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dresden, Deutschland";X-AP
+ PLE-RADIUS=100;X-TITLE="Semperoper":geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/rosenkavalier/156.html
 DESCRIPTION:Richard Strauss: Der Rosenkavalier\nTermine und Karten: https:/
  /www.semperoper.de/spielplan/stuecke/stid/rosenkavalier/156.html\nDas Ende

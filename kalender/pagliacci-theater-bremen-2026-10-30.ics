@@ -11,6 +11,8 @@ DTEND;VALUE=DATE:20261031
 SUMMARY:Pagliacci – Theater Bremen
 LOCATION:Theater Bremen\, Bremen
 GEO:53.074;8.814
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bremen, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Theater Bremen":geo:53.074,8.814
 URL:https://theaterbremen.de/de_DE/programm/der-bajazzo-pagliacci.1303382
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://the
  aterbremen.de/de_DE/programm/der-bajazzo-pagliacci.1303382\nDie Uhrzeit st

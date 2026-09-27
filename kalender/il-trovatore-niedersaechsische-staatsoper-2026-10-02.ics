@@ -29,6 +29,8 @@ DTEND;TZID=Europe/Berlin:20261002T223000
 SUMMARY:Il Trovatore – Staatsoper Hannover
 LOCATION:Staatsoper Hannover\, Hannover
 GEO:52.376;9.7405
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hannover, Deutschland";X-A
+ PPLE-RADIUS=100;X-TITLE="Staatsoper Hannover":geo:52.376,9.7405
 URL:https://staatstheater-hannover.de/de_DE/programm/der-troubadour.1397721
 DESCRIPTION:Giuseppe Verdi: Il Trovatore\nTermine und Karten: https://staat
  stheater-hannover.de/de_DE/programm/der-troubadour.1397721\nAus OpernLog 

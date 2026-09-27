@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Vienna:20261114T223000
 SUMMARY:Aida – Stadttheater Klagenfurt
 LOCATION:Stadttheater Klagenfurt\, Klagenfurt
 GEO:46.6262;14.3115
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Klagenfurt, Österreich";X
+ -APPLE-RADIUS=100;X-TITLE="Stadttheater Klagenfurt":geo:46.6262,14.3115
 URL:https://www.stadttheater-klagenfurt.at/produktionen/aida/
 DESCRIPTION:Giuseppe Verdi: Aida\nTermine und Karten: https://www.stadtthea
  ter-klagenfurt.at/produktionen/aida/\nDas Ende ist geschätzt (3 Stunden).

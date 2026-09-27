@@ -28,6 +28,8 @@ DTEND;TZID=Europe/Berlin:20270626T220000
 SUMMARY:Candide – Theater Aachen
 LOCATION:Theater Aachen\, Aachen
 GEO:50.774;6.09
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Aachen, Deutschland";X-APP
+ LE-RADIUS=100;X-TITLE="Theater Aachen":geo:50.774,6.09
 URL:https://www.theateraachen.de/de/produktionen/candide.html
 DESCRIPTION:Leonard Bernstein: Candide\nTermine und Karten: https://www.the
  ateraachen.de/de/produktionen/candide.html\nDas Ende ist geschätzt (3 Stu
