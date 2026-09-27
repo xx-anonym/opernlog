@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270119T193000
 DTEND;TZID=Europe/Zurich:20270119T223000
 SUMMARY:La Traviata – Bühnen Bern
-LOCATION:Bühnen Bern\, Bern\, Schweiz
+LOCATION:Bühnen Bern\, Schweiz
 GEO:46.949;7.447
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Bühnen Bern, Bern, Schweiz":geo:46.949,7.447
+ AME=1;X-TITLE="Bühnen Bern, Schweiz":geo:46.949,7.447
 URL:https://buehnenbern.ch/spielplan/programm/la-traviata/
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://buehne
  nbern.ch/spielplan/programm/la-traviata/\nDas Ende ist geschätzt (3 Stund

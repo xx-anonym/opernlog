@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261030T190000
 DTEND;TZID=Europe/Berlin:20261030T220000
 SUMMARY:Don Carlos – Theater Aachen
-LOCATION:Theater Aachen\, Aachen\, Deutschland
+LOCATION:Theater Aachen\, Deutschland
 GEO:50.774;6.09
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Aachen, Aachen, Deutschland":geo:50.774,6.09
+ AME=1;X-TITLE="Theater Aachen, Deutschland":geo:50.774,6.09
 URL:https://www.theateraachen.de/de/produktionen/don-carlo.html
 DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://www.the
  ateraachen.de/de/produktionen/don-carlo.html\nDas Ende ist geschätzt (3 S

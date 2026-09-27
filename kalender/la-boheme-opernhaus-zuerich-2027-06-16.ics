@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270616T190000
 DTEND;TZID=Europe/Zurich:20270616T213000
 SUMMARY:La Bohème – Opernhaus Zürich
-LOCATION:Opernhaus Zürich\, Zürich\, Schweiz
+LOCATION:Opernhaus Zürich\, Schweiz
 GEO:47.365;8.546
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Opernhaus Zürich, Zürich, Schweiz":geo:47.365,8.546
+ AME=1;X-TITLE="Opernhaus Zürich, Schweiz":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/la_boheme/2026-2027/
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.op
  ernhaus.ch/spielplan/kalendarium/la_boheme/2026-2027/\nAus OpernLog – ma

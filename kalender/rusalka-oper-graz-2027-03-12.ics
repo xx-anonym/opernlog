@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270312T193000
 DTEND;TZID=Europe/Vienna:20270312T224500
 SUMMARY:Rusalka – Oper Graz
-LOCATION:Oper Graz\, Graz\, Österreich
+LOCATION:Oper Graz\, Österreich
 GEO:47.0716;15.4445
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Oper Graz, Graz, Österreich":geo:47.0716,15.4445
+ AME=1;X-TITLE="Oper Graz, Österreich":geo:47.0716,15.4445
 URL:https://oper-graz.buehnen-graz.com/produktion/rusalka/
 DESCRIPTION:Antonín Dvořák: Rusalka\nTermine und Karten: https://oper-gr
  az.buehnen-graz.com/produktion/rusalka/\nAus OpernLog – maßgeblich ist 

@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261004T180000
 DTEND;TZID=Europe/Berlin:20261004T210000
 SUMMARY:Hoffmanns Erzählungen – Theater Koblenz
-LOCATION:Theater Koblenz\, Koblenz\, Deutschland
+LOCATION:Theater Koblenz\, Deutschland
 GEO:50.358167;7.599444
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Koblenz, Koblenz, Deutschland":geo:50.358167,7.5994
- 44
+ AME=1;X-TITLE="Theater Koblenz, Deutschland":geo:50.358167,7.599444
 URL:https://theater-koblenz.de/hoffmanns-erzaehlungen/
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 
  https://theater-koblenz.de/hoffmanns-erzaehlungen/\nDas Ende ist geschätz

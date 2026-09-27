@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270513T190000
 DTEND;TZID=Europe/Zurich:20270513T213500
 SUMMARY:Tosca – Opernhaus Zürich
-LOCATION:Opernhaus Zürich\, Zürich\, Schweiz
+LOCATION:Opernhaus Zürich\, Schweiz
 GEO:47.365;8.546
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Opernhaus Zürich, Zürich, Schweiz":geo:47.365,8.546
+ AME=1;X-TITLE="Opernhaus Zürich, Schweiz":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/tosca/2026-2027/
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.opernha
  us.ch/spielplan/kalendarium/tosca/2026-2027/\nAus OpernLog – maßgeblich

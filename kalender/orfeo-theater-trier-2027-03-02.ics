@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270302T193000
 DTEND;TZID=Europe/Berlin:20270302T223000
 SUMMARY:L'Orfeo – Theater Trier
-LOCATION:Theater Trier\, Trier\, Deutschland
+LOCATION:Theater Trier\, Deutschland
 GEO:49.756;6.642
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Trier, Trier, Deutschland":geo:49.756,6.642
+ AME=1;X-TITLE="Theater Trier, Deutschland":geo:49.756,6.642
 URL:https://www.theater-trier.de/produktionen/lorfeo.html
 DESCRIPTION:Claudio Monteverdi: L'Orfeo\nTermine und Karten: https://www.th
  eater-trier.de/produktionen/lorfeo.html\nDas Ende ist geschätzt (3 Stunde

@@ -26,12 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270530T160000
 DTEND;TZID=Europe/Berlin:20270530T190000
 SUMMARY:Die verkaufte Braut – Theater Krefeld und Mönchengladbach
-LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach\
- , Deutschland
+LOCATION:Theater Krefeld und Mönchengladbach\, Deutschland
 GEO:51.335;6.567
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Krefeld und Mönchengladbach, Krefeld / Mönchengla
- dbach, Deutschland":geo:51.335,6.567
+ AME=1;X-TITLE="Theater Krefeld und Mönchengladbach, Deutschland":geo:51.3
+ 35,6.567
 URL:https://theater-kr-mg.de/spielplan/die-verkaufte-braut/
 DESCRIPTION:Bedřich Smetana: Die verkaufte Braut\nTermine und Karten: http
  s://theater-kr-mg.de/spielplan/die-verkaufte-braut/\nDas Ende ist geschät

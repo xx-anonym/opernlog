@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261223T180000
 DTEND;TZID=Europe/Berlin:20261223T210000
 SUMMARY:Die Zauberflöte – Oper Köln
-LOCATION:Oper Köln\, Köln\, Deutschland
+LOCATION:Oper Köln\, Deutschland
 GEO:50.9384;6.9497
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Oper Köln, Köln, Deutschland":geo:50.9384,6.9497
+ AME=1;X-TITLE="Oper Köln, Deutschland":geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/die-zauberfloete
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
  https://www.oper.koeln/produktion/die-zauberfloete\nDas Ende ist geschätz

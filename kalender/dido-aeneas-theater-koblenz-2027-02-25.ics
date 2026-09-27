@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270225T190000
 DTEND;TZID=Europe/Berlin:20270225T220000
 SUMMARY:Dido and Aeneas – Theater Koblenz
-LOCATION:Theater Koblenz\, Koblenz\, Deutschland
+LOCATION:Theater Koblenz\, Deutschland
 GEO:50.358167;7.599444
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Koblenz, Koblenz, Deutschland":geo:50.358167,7.5994
- 44
+ AME=1;X-TITLE="Theater Koblenz, Deutschland":geo:50.358167,7.599444
 URL:https://theater-koblenz.de/dido-and-aeneas-waiting-for-you/
 DESCRIPTION:Henry Purcell: Dido and Aeneas\nTermine und Karten: https://the
  ater-koblenz.de/dido-and-aeneas-waiting-for-you/\nDas Ende ist geschätzt 

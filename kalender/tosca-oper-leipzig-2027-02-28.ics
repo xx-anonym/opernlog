@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270228T170000
 DTEND;TZID=Europe/Berlin:20270228T200000
 SUMMARY:Tosca – Oper Leipzig
-LOCATION:Oper Leipzig\, Leipzig\, Deutschland
+LOCATION:Oper Leipzig\, Deutschland
 GEO:51.339;12.3805
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Oper Leipzig, Leipzig, Deutschland":geo:51.339,12.3805
+ AME=1;X-TITLE="Oper Leipzig, Deutschland":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/tosca/292
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.oper-le
  ipzig.de/de/programm/tosca/292\nDas Ende ist geschätzt (3 Stunden).\nAus 

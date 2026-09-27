@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270122T193000
 DTEND;TZID=Europe/Berlin:20270122T223000
 SUMMARY:Die Zauberflöte – Staatstheater Braunschweig
-LOCATION:Staatstheater Braunschweig\, Braunschweig\, Deutschland
+LOCATION:Staatstheater Braunschweig\, Deutschland
 GEO:52.264;10.531
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Braunschweig, Braunschweig, Deutschland":geo:
- 52.264,10.531
+ AME=1;X-TITLE="Staatstheater Braunschweig, Deutschland":geo:52.264,10.531
 URL:https://staatstheater-braunschweig.de/produktion/die-zauberfloete-the-o
  pera-but-not-the-opera
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 

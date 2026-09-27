@@ -29,8 +29,26 @@ function parameter(text) {
 
 const landFuer = haus => (haus?.state === 'Österreich' || haus?.state === 'Schweiz') ? haus.state : 'Deutschland';
 
-/** "Oper Leipzig, Leipzig, Deutschland" – derselbe Text in LOCATION und X-TITLE. */
-const ortText = haus => [haus.name, haus.city, landFuer(haus)].filter(Boolean).join(', ');
+/**
+ * Steht die Stadt schon im Namen des Hauses? "Oper Leipzig" nennt Leipzig,
+ * "Oper Frankfurt" Frankfurt am Main, "Theater Krefeld und Mönchengladbach"
+ * beide Städte. "Wiener Staatsoper" nennt Wien nicht – dort ist es ein
+ * Adjektiv, und "Wiener Staatsoper, Wien" liest sich nicht doppelt.
+ */
+function stadtImNamen(haus) {
+    if (!haus.city || !haus.name) return false;
+    const alsWort = wort => new RegExp(`(^|[^\\p{L}])${wort.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^\\p{L}])`, 'iu').test(haus.name);
+    return haus.city.split(/\s*\/\s*/).every(teil => {
+        const kern = teil.replace(/\s*\(.*\)$/, '').replace(/\s+(am|an der|im|in der|bei|ob der)\s.*$/i, '');
+        return alsWort(teil) || alsWort(kern);
+    });
+}
+
+/**
+ * "Semperoper, Dresden, Deutschland", aber "Oper Leipzig, Deutschland" –
+ * derselbe Text in LOCATION und X-TITLE.
+ */
+const ortText = haus => [haus.name, stadtImNamen(haus) ? null : haus.city, landFuer(haus)].filter(Boolean).join(', ');
 
 /**
  * Der Ort, wie Apple Kalender ihn braucht, um eine Karte, die Wegzeit und

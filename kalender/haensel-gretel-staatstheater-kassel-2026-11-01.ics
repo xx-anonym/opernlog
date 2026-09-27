@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261101T170000
 DTEND;TZID=Europe/Berlin:20261101T190000
 SUMMARY:Hänsel und Gretel – Staatstheater Kassel
-LOCATION:Staatstheater Kassel\, Kassel\, Deutschland
+LOCATION:Staatstheater Kassel\, Deutschland
 GEO:51.3123;9.4948
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Kassel, Kassel, Deutschland":geo:51.3123,9.49
- 48
+ AME=1;X-TITLE="Staatstheater Kassel, Deutschland":geo:51.3123,9.4948
 URL:https://www.staatstheater-kassel.de/play/haenselundgretel-3260
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.staatstheater-kassel.de/play/haenselundgretel-3260\nAus OpernL

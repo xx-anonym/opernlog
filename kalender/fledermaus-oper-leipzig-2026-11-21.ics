@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261121T190000
 DTEND;TZID=Europe/Berlin:20261121T220000
 SUMMARY:Die Fledermaus – Oper Leipzig
-LOCATION:Oper Leipzig\, Leipzig\, Deutschland
+LOCATION:Oper Leipzig\, Deutschland
 GEO:51.339;12.3805
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Oper Leipzig, Leipzig, Deutschland":geo:51.339,12.3805
+ AME=1;X-TITLE="Oper Leipzig, Deutschland":geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/die-fledermaus/657
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.oper-leipzig.de/de/programm/die-fledermaus/657\nDas Ende ist geschätz

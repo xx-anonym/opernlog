@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261101T160000
 DTEND;TZID=Europe/Berlin:20261101T190000
 SUMMARY:Die Zauberflöte – Staatstheater Darmstadt
-LOCATION:Staatstheater Darmstadt\, Darmstadt\, Deutschland
+LOCATION:Staatstheater Darmstadt\, Deutschland
 GEO:49.8697;8.6435
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Darmstadt, Darmstadt, Deutschland":geo:49.869
- 7,8.6435
+ AME=1;X-TITLE="Staatstheater Darmstadt, Deutschland":geo:49.8697,8.6435
 URL:https://www.staatstheater-darmstadt.de/veranstaltungen/die-zauberfloete
  .2202/
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 

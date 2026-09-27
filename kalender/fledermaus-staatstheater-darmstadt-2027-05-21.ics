@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270521T193000
 DTEND;TZID=Europe/Berlin:20270521T223000
 SUMMARY:Die Fledermaus – Staatstheater Darmstadt
-LOCATION:Staatstheater Darmstadt\, Darmstadt\, Deutschland
+LOCATION:Staatstheater Darmstadt\, Deutschland
 GEO:49.8697;8.6435
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Darmstadt, Darmstadt, Deutschland":geo:49.869
- 7,8.6435
+ AME=1;X-TITLE="Staatstheater Darmstadt, Deutschland":geo:49.8697,8.6435
 URL:https://www.staatstheater-darmstadt.de/veranstaltungen/die-fledermaus.2
  376/
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://

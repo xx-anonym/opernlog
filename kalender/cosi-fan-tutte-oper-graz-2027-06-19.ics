@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270619T190000
 DTEND;TZID=Europe/Vienna:20270619T221500
 SUMMARY:Così fan tutte – Oper Graz
-LOCATION:Oper Graz\, Graz\, Österreich
+LOCATION:Oper Graz\, Österreich
 GEO:47.0716;15.4445
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Oper Graz, Graz, Österreich":geo:47.0716,15.4445
+ AME=1;X-TITLE="Oper Graz, Österreich":geo:47.0716,15.4445
 URL:https://oper-graz.buehnen-graz.com/produktion/cosi-fan-tutte/
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://oper-graz.buehnen-graz.com/produktion/cosi-fan-tutte/\nAus OpernLog

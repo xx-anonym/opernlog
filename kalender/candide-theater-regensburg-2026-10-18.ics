@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261018T180000
 DTEND;TZID=Europe/Berlin:20261018T203000
 SUMMARY:Candide – Theater Regensburg
-LOCATION:Theater Regensburg\, Regensburg\, Deutschland
+LOCATION:Theater Regensburg\, Deutschland
 GEO:49.0195;12.0917
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Regensburg, Regensburg, Deutschland":geo:49.0195,12
- .0917
+ AME=1;X-TITLE="Theater Regensburg, Deutschland":geo:49.0195,12.0917
 URL:https://www.staatstheater-regensburg.de/produktionen/candide-4.html
 DESCRIPTION:Leonard Bernstein: Candide\nTermine und Karten: https://www.sta
  atstheater-regensburg.de/produktionen/candide-4.html\nAus OpernLog – ma

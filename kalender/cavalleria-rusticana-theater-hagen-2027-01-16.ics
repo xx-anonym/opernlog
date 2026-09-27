@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270116T193000
 DTEND;TZID=Europe/Berlin:20270116T223000
 SUMMARY:Cavalleria rusticana – Theater Hagen
-LOCATION:Theater Hagen\, Hagen\, Deutschland
+LOCATION:Theater Hagen\, Deutschland
 GEO:51.36;7.47
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Hagen, Hagen, Deutschland":geo:51.36,7.47
+ AME=1;X-TITLE="Theater Hagen, Deutschland":geo:51.36,7.47
 URL:https://www.theaterhagen.de/veranstaltung/cavalleria-rusticana-i-paglia
  cci-2030/0/show/Play/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http

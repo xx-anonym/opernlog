@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270221T180000
 DTEND;TZID=Europe/Berlin:20270221T210000
 SUMMARY:Il barbiere di Siviglia – Staatstheater Wiesbaden
-LOCATION:Staatstheater Wiesbaden\, Wiesbaden\, Deutschland
+LOCATION:Staatstheater Wiesbaden\, Deutschland
 GEO:50.0857;8.2478
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Wiesbaden, Wiesbaden, Deutschland":geo:50.085
- 7,8.2478
+ AME=1;X-TITLE="Staatstheater Wiesbaden, Deutschland":geo:50.0857,8.2478
 URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/der-barbier-von-se
  villa/
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

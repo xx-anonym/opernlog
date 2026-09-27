@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20260927T180000
 DTEND;TZID=Europe/Berlin:20260927T210000
 SUMMARY:Pagliacci – Staatstheater Darmstadt
-LOCATION:Staatstheater Darmstadt\, Darmstadt\, Deutschland
+LOCATION:Staatstheater Darmstadt\, Deutschland
 GEO:49.8697;8.6435
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Darmstadt, Darmstadt, Deutschland":geo:49.869
- 7,8.6435
+ AME=1;X-TITLE="Staatstheater Darmstadt, Deutschland":geo:49.8697,8.6435
 URL:https://www.staatstheater-darmstadt.de/veranstaltungen/cavalleria-rusti
  cana-pagliacci.2257/
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www

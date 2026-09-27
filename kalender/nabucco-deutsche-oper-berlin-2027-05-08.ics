@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270508T190000
 DTEND;TZID=Europe/Berlin:20270508T220000
 SUMMARY:Nabucco – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin\, Deutschland
+LOCATION:Deutsche Oper Berlin\, Deutschland
 GEO:52.5121;13.3092
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Deutsche Oper Berlin, Berlin, Deutschland":geo:52.5121,13.3
- 092
+ AME=1;X-TITLE="Deutsche Oper Berlin, Deutschland":geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/nabucco.1385815
 DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://deutscheop
  erberlin.de/de_DE/production/nabucco.1385815\nDas Ende ist geschätzt (3 S

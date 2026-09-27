@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270430T193000
 DTEND;TZID=Europe/Berlin:20270430T223000
 SUMMARY:L'incoronazione di Poppea – Oper Halle
-LOCATION:Oper Halle\, Halle (Saale)\, Deutschland
+LOCATION:Oper Halle\, Deutschland
 GEO:51.483;11.972
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Oper Halle, Halle (Saale), Deutschland":geo:51.483,11.972
+ AME=1;X-TITLE="Oper Halle, Deutschland":geo:51.483,11.972
 URL:https://www.buehnen-halle.de/de/program/die-kronung-der-poppea/278614
 DESCRIPTION:Claudio Monteverdi: L'incoronazione di Poppea\nTermine und Kart
  en: https://www.buehnen-halle.de/de/program/die-kronung-der-poppea/278614\

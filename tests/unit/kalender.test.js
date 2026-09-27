@@ -124,3 +124,18 @@ test('Anführungszeichen im Hausnamen brechen den Parameter nicht auf; ohne Koor
     assert.equal(wert(ohne, 'X-APPLE-STRUCTURED-LOCATION;'), undefined);
     assert.equal(wert(ohne, 'GEO:'), undefined);
 });
+
+test('steht die Stadt schon im Hausnamen, fällt sie im Ort weg – in LOCATION wie im Kartenort', () => {
+    const ort = (haus) => {
+        const ics = kalenderEintrag({ werk: TOSCA, haus, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
+        return { location: wert(ics, 'LOCATION:').replace(/\\,/g, ','), titel: /X-TITLE="([^"]*)"/.exec(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'))[1] };
+    };
+    const leipzig = ort({ id: 'oper-leipzig', name: 'Oper Leipzig', city: 'Leipzig', state: 'Sachsen', lat: 51.339, lon: 12.3805 });
+    assert.deepEqual(leipzig, { location: 'Oper Leipzig, Deutschland', titel: 'Oper Leipzig, Deutschland' });
+    assert.equal(ort({ id: 'f', name: 'Oper Frankfurt', city: 'Frankfurt am Main', state: 'Hessen', lat: 50.1, lon: 8.7 }).location, 'Oper Frankfurt, Deutschland');
+    assert.equal(ort({ id: 'k', name: 'Theater Krefeld und Mönchengladbach', city: 'Krefeld / Mönchengladbach', state: 'Nordrhein-Westfalen', lat: 51.3, lon: 6.6 }).location,
+        'Theater Krefeld und Mönchengladbach, Deutschland');
+    // Nur ein Adjektiv im Namen: die Stadt bleibt.
+    assert.equal(ort(WIEN).location, 'Wiener Staatsoper, Wien, Österreich');
+    assert.equal(ort(SEMPER).location, 'Semperoper, Dresden, Deutschland');
+});

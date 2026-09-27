@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261205T193000
 DTEND;TZID=Europe/Berlin:20261205T223000
 SUMMARY:Madama Butterfly – Komische Oper Berlin
-LOCATION:Komische Oper Berlin\, Berlin\, Deutschland
+LOCATION:Komische Oper Berlin\, Deutschland
 GEO:52.5158;13.3865
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Komische Oper Berlin, Berlin, Deutschland":geo:52.5158,13.3
- 865
+ AME=1;X-TITLE="Komische Oper Berlin, Deutschland":geo:52.5158,13.3865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/madama-butterfly/
 DESCRIPTION:Giacomo Puccini: Madama Butterfly\nTermine und Karten: https://
  www.komische-oper-berlin.de/spielplan/a-z/madama-butterfly/\nDas Ende ist 

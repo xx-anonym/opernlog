@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270409T193000
 DTEND;TZID=Europe/Berlin:20270409T223000
 SUMMARY:La Traviata – Theater Freiburg
-LOCATION:Theater Freiburg\, Freiburg\, Deutschland
+LOCATION:Theater Freiburg\, Deutschland
 GEO:47.997;7.848
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Freiburg, Freiburg, Deutschland":geo:47.997,7.848
+ AME=1;X-TITLE="Theater Freiburg, Deutschland":geo:47.997,7.848
 URL:https://theater.freiburg.de/de_DE/programm/la-traviata.1398891
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://theate
  r.freiburg.de/de_DE/programm/la-traviata.1398891\nDas Ende ist geschätzt 

@@ -9,10 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
 SUMMARY:Le nozze di Figaro – Theater Basel
-LOCATION:Theater Basel\, Basel\, Schweiz
+LOCATION:Theater Basel\, Schweiz
 GEO:47.554;7.59
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Basel, Basel, Schweiz":geo:47.554,7.59
+ AME=1;X-TITLE="Theater Basel, Schweiz":geo:47.554,7.59
 URL:https://www.theater-basel.ch/de/figaro
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
  : https://www.theater-basel.ch/de/figaro\nDie Uhrzeit steht auf der Seite 

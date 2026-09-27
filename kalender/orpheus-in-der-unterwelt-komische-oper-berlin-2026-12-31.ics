@@ -27,11 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261231T180000
 DTEND;TZID=Europe/Berlin:20261231T210000
 SUMMARY:Orpheus in der Unterwelt – Komische Oper Berlin
-LOCATION:Komische Oper Berlin\, Berlin\, Deutschland
+LOCATION:Komische Oper Berlin\, Deutschland
 GEO:52.5158;13.3865
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Komische Oper Berlin, Berlin, Deutschland":geo:52.5158,13.3
- 865
+ AME=1;X-TITLE="Komische Oper Berlin, Deutschland":geo:52.5158,13.3865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterw
  elt/
 DESCRIPTION:Jacques Offenbach: Orpheus in der Unterwelt\nTermine und Karten

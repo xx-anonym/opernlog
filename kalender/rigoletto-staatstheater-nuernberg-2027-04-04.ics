@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270404T180000
 DTEND;TZID=Europe/Berlin:20270404T204000
 SUMMARY:Rigoletto – Staatstheater Nürnberg
-LOCATION:Staatstheater Nürnberg\, Nürnberg\, Deutschland
+LOCATION:Staatstheater Nürnberg\, Deutschland
 GEO:49.4472;11.0797
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Nürnberg, Nürnberg, Deutschland":geo:49.447
- 2,11.0797
+ AME=1;X-TITLE="Staatstheater Nürnberg, Deutschland":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/rigoletto
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://staatsth
  eater-nuernberg.de/spielplan-26-27/rigoletto\nAus OpernLog – maßgeblich

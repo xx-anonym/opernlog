@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270411T193000
 DTEND;TZID=Europe/Berlin:20270411T223000
 SUMMARY:Andrea Chénier – Theater Osnabrück
-LOCATION:Theater Osnabrück\, Osnabrück\, Deutschland
+LOCATION:Theater Osnabrück\, Deutschland
 GEO:52.279;8.043
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Osnabrück, Osnabrück, Deutschland":geo:52.279,8.0
- 43
+ AME=1;X-TITLE="Theater Osnabrück, Deutschland":geo:52.279,8.043
 URL:https://www.theater-osnabrueck.de/spielplan-detail/?stid=948
 DESCRIPTION:Umberto Giordano: Andrea Chénier\nTermine und Karten: https://
  www.theater-osnabrueck.de/spielplan-detail/?stid=948\nDas Ende ist geschä

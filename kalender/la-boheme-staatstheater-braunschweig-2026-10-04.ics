@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261004T180000
 DTEND;TZID=Europe/Berlin:20261004T210000
 SUMMARY:La Bohème – Staatstheater Braunschweig
-LOCATION:Staatstheater Braunschweig\, Braunschweig\, Deutschland
+LOCATION:Staatstheater Braunschweig\, Deutschland
 GEO:52.264;10.531
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Staatstheater Braunschweig, Braunschweig, Deutschland":geo:
- 52.264,10.531
+ AME=1;X-TITLE="Staatstheater Braunschweig, Deutschland":geo:52.264,10.531
 URL:https://staatstheater-braunschweig.de/produktion/la-boheme
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://staats
  theater-braunschweig.de/produktion/la-boheme\nDas Ende ist geschätzt (3 S

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270224T200000
 DTEND;TZID=Europe/Berlin:20270224T230000
 SUMMARY:Eugen Onegin – Theater Ulm
-LOCATION:Theater Ulm\, Ulm\, Deutschland
+LOCATION:Theater Ulm\, Deutschland
 GEO:48.3966;9.9925
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Ulm, Ulm, Deutschland":geo:48.3966,9.9925
+ AME=1;X-TITLE="Theater Ulm, Deutschland":geo:48.3966,9.9925
 URL:https://www.theater-ulm.de/spielplan/stuecke/eugen-onegin
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
  https://www.theater-ulm.de/spielplan/stuecke/eugen-onegin\nDas Ende ist ge

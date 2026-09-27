@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270313T193000
 DTEND;TZID=Europe/Berlin:20270313T223000
 SUMMARY:Hoffmanns Erzählungen – Stadttheater Gießen
-LOCATION:Stadttheater Gießen\, Gießen\, Deutschland
+LOCATION:Stadttheater Gießen\, Deutschland
 GEO:50.586;8.679
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Stadttheater Gießen, Gießen, Deutschland":geo:50.586,8.67
- 9
+ AME=1;X-TITLE="Stadttheater Gießen, Deutschland":geo:50.586,8.679
 URL:https://stadttheater-giessen.de/de/veranstaltungen/stuecke/hoffmanns-er
  zahlungen-les-contes-dhoffmann-2026-2027/
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 

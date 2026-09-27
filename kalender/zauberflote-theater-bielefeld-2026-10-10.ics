@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261010T193000
 DTEND;TZID=Europe/Berlin:20261010T223000
 SUMMARY:Die Zauberflöte – Theater Bielefeld
-LOCATION:Theater Bielefeld\, Bielefeld\, Deutschland
+LOCATION:Theater Bielefeld\, Deutschland
 GEO:52.02074;8.53496
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Bielefeld, Bielefeld, Deutschland":geo:52.02074,8.5
- 3496
+ AME=1;X-TITLE="Theater Bielefeld, Deutschland":geo:52.02074,8.53496
 URL:https://www.buo-bielefeld.de/theater/veranstaltung/die-zauberfloete
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
  https://www.buo-bielefeld.de/theater/veranstaltung/die-zauberfloete\nDas E
