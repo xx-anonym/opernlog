@@ -8,7 +8,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase } from './umgebung.js';
+import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase, vorhangAuf } from './umgebung.js';
 
 const HANDY = { width: 390, height: 900 };
 
@@ -53,6 +53,7 @@ async function starte({ ohneWebAuthn = false, passkeys = [], vermerkt = false } 
         if (vermerkt) localStorage.setItem(schluessel, JSON.stringify([ich]));
         else localStorage.removeItem(schluessel);
     }, { liste: passkeys, vermerkt, ich: ICH, schluessel: VERMERK });
+    await vorhangAuf(p);
     return { ctx, p, fehler };
 }
 

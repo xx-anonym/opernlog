@@ -32,6 +32,19 @@ export async function ersetzeSupabase(page, { neuigkeit = false } = {}) {
     }
 }
 
+/**
+ * Wartet, bis der Vorhang des Ladebildschirms aufgeht. Bis dahin fängt er
+ * jeden Klick ab, auch wenn die Seite dahinter schon steht. Playwright
+ * wiederholt den Klick dann und scrollt den Knopf dabei jedes Mal etwas
+ * anders ins Bild. Weil die Seite weich scrollt (scroll-behavior: smooth),
+ * misst es unter Last mitten in der Bewegung und klickt daneben – im
+ * Passkeys-Test 19 Pixel über "Profil bearbeiten", das Fenster ging nie auf.
+ * Mit gehobenem Vorhang sitzt schon der erste Klick, gescrollt wird nicht.
+ */
+export async function vorhangAuf(page) {
+    await page.waitForFunction(() => !document.querySelector('#splash:not(.splash--hidden)'));
+}
+
 const TYPEN = {
     '.html': 'text/html; charset=utf-8',
     '.js': 'text/javascript; charset=utf-8',   // ohne das lädt der Browser keine Module
