@@ -573,6 +573,59 @@
         }
     </style>
     <link rel="stylesheet" href="style.css" />
+    <!-- Fehler vor dem Start. src/fehlerprotokoll.js meldet Fehler erst, wenn
+         main.js läuft. Scheitert schon das Laden der App – eine Datei fehlt,
+         oder nach einem Update passt eine alte aus dem Zwischenspeicher nicht
+         zur neuen –, läuft es nie. Dieses Stück merkt sich solche Fehler von
+         Anfang an: startet die App, übernimmt fehlerprotokoll.js sie; startet
+         sie nicht, schickt es sie vier Sekunden nach dem Laden selbst.
+         Adresse und Schlüssel wie in src/config.js (geprüft in
+         tests/checks/fruehfehler.test.js). Bilder, die nicht laden, zählen
+         nicht. -->
+    <script>
+        (function () {
+            var frueh = window.__fruehFehler = [];
+            function merken(meldung, stelle) {
+                if (window.__fehlerprotokollAktiv || frueh.length >= 5) return;
+                frueh.push({ meldung: String(meldung || '').slice(0, 500), stelle: String(stelle || '').replace(location.origin, '').slice(0, 300) });
+            }
+            // Mit capture: ein Skript, das nicht lädt, meldet das nur an sich
+            // selbst, nicht am Fenster.
+            window.addEventListener('error', function (e) {
+                var ziel = e.target;
+                if (ziel && ziel !== window) {
+                    if (ziel.tagName === 'SCRIPT') merken('Skript ließ sich nicht laden', ziel.src);
+                    return;
+                }
+                merken(e.message, e.filename ? e.filename + ':' + e.lineno + ':' + e.colno : '');
+            }, true);
+            window.addEventListener('unhandledrejection', function (e) {
+                merken(e.reason && e.reason.message ? e.reason.message : String(e.reason), '');
+            });
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    if (window.__fehlerprotokollAktiv) return;
+                    if (!frueh.length) merken('App nicht gestartet', '');
+                    // Welche Fassung im Zwischenspeicher liegt, sagt der Name des Caches.
+                    var fassung = window.caches ? caches.keys().catch(function () { return []; }) : Promise.resolve([]);
+                    fassung.then(function (namen) {
+                        var v = namen.filter(function (n) { return /^opernlog-/.test(n); }).sort().pop();
+                        var seite = (location.hash || '#/').replace(/^#\/?/, '').split(/[/?]/)[0] || 'home';
+                        var zeilen = frueh.map(function (f) {
+                            return { version: (v ? v.replace('opernlog-', '') : 'vor Start').slice(0, 20), seite: seite.slice(0, 40),
+                                meldung: f.meldung || '?', stelle: f.stelle, geraet: navigator.userAgent.slice(0, 300), angemeldet: false };
+                        });
+                        var schluessel = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdxZGJscXltdGVjbG1kbHVzaG94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODI3NzQsImV4cCI6MjA4Nzg1ODc3NH0.VVl4bhy0A5N65uuW1T22jwd8LG4St68l6qd7UO5yn8Q';
+                        return fetch('https://gqdblqymteclmdlushox.supabase.co/rest/v1/fehlerprotokoll', {
+                            method: 'POST', keepalive: true, body: JSON.stringify(zeilen),
+                            headers: { apikey: schluessel, Authorization: 'Bearer ' + schluessel,
+                                'Content-Type': 'application/json', Prefer: 'return=minimal' },
+                        });
+                    }).catch(function () {});
+                }, 4000);
+            });
+        })();
+    </script>
     <!-- Aus dem Projekt, nicht vom CDN: der Service Worker überspringt fremde
          Hosts, die Bibliothek lag also in keinem Cache. Ohne Netz war
          window.supabase undefined und die App startete gar nicht.

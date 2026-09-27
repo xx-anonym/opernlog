@@ -91,4 +91,9 @@ export function fehlerprotokollEinrichten({ senden, angemeldet = () => false, um
         const stelle = (zeile.match(/([^\s()@]+\.js):(\d+):(\d+)/) || []).slice(1);
         melden(meldung, stelle.length ? stelleAus(stelle[0], stelle[1], stelle[2], herkunft) : '');
     });
+
+    // Was das Stück in index.html vor dem Start gemerkt hat, geht jetzt den
+    // üblichen Weg; von hier an meldet es selbst nichts mehr.
+    umgebung.__fehlerprotokollAktiv = true;
+    for (const f of umgebung.__fruehFehler || []) melden(f.meldung, f.stelle);
 }
