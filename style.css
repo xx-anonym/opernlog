@@ -772,10 +772,19 @@ h3 {
     margin-bottom: 20px;
 }
 
+/* Feste Höhe, so hoch wie die Sterne: vorher stand hier zuerst ein Ladekreisel
+   mit 40px Innenabstand (104px), dann die Sterne (48px) oder "Noch keine
+   Bewertungen" (26px). Der Kopf schrumpfte um bis zu 80px, und das Bild, das
+   ihn ausfüllt, sprang dabei auf eine neue Größe. */
 .detail-hero__rating {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-height: 48px;
+}
+
+.detail-hero__rating .loading-spinner {
+    padding: 0;
 }
 
 .detail-hero__rating-count {
