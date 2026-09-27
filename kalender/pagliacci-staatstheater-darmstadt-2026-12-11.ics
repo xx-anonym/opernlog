@@ -31,10 +31,10 @@ GEO:49.8697;8.6435
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Darmstadt, Deutschland":geo:49.8697,8.6435
 URL:https://www.staatstheater-darmstadt.de/veranstaltungen/cavalleria-rusti
- cana-pagliacci.2257/
+ cana-pagliacci.2257/?spielzeit=2026-2027
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www
  .staatstheater-darmstadt.de/veranstaltungen/cavalleria-rusticana-pagliacci
- .2257/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich
-  ist die Seite des Hauses.
+ .2257/?spielzeit=2026-2027\nDas Ende ist geschätzt (3 Stunden).\nAus Oper
+ nLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

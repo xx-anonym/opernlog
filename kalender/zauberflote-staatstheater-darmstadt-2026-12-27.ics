@@ -21,20 +21,20 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:pagliacci-staatstheater-darmstadt-2026-09-27@opernlog.vercel.app
+UID:zauberflote-staatstheater-darmstadt-2026-12-27@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20260927T180000
-DTEND;TZID=Europe/Berlin:20260927T210000
-SUMMARY:Pagliacci – Staatstheater Darmstadt
+DTSTART;TZID=Europe/Berlin:20261227T160000
+DTEND;TZID=Europe/Berlin:20261227T190000
+SUMMARY:Die Zauberflöte – Staatstheater Darmstadt
 LOCATION:Staatstheater Darmstadt\, Deutschland
 GEO:49.8697;8.6435
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Darmstadt, Deutschland":geo:49.8697,8.6435
-URL:https://www.staatstheater-darmstadt.de/veranstaltungen/cavalleria-rusti
- cana-pagliacci.2257/
-DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www
- .staatstheater-darmstadt.de/veranstaltungen/cavalleria-rusticana-pagliacci
- .2257/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich
-  ist die Seite des Hauses.
+URL:https://www.staatstheater-darmstadt.de/veranstaltungen/die-zauberfloete
+ .2202/
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://www.staatstheater-darmstadt.de/veranstaltungen/die-zauberfloete.22
+ 02/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich is
+ t die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
