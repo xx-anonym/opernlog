@@ -190,6 +190,22 @@ test('ein Nachtrag für ein Haus ersetzt nur dessen Einträge', () => {
     assert.equal(erg.stand, '2026-09-23');
 });
 
+test('ein Nachtrag behält Uhrzeiten, die er selbst nicht gelesen hat', () => {
+    const bestehend = { stand: '2026-09-23', zeilen: [
+        { werk: 'nixon-in-china', haus: 'deutsche-oper-berlin', url: 'https://d.example/nixon',
+          termine: ['2027-01-13', '2027-01-16'], zeiten: { '2027-01-13': '19:30', '2027-01-16': '19:30' } },
+    ] };
+    // Der Kalender lud nur halb: der 13. ohne Zeit. Dazu ein neuer Termin,
+    // und für den 16. eine neue Zeit – die neue gilt.
+    const nachtrag = { stand: '2026-10-03', zeilen: [
+        { werk: 'nixon-in-china', haus: 'deutsche-oper-berlin', url: 'https://d.example/nixon',
+          termine: ['2027-01-13', '2027-01-16', '2027-01-20'], zeiten: { '2027-01-16': '18:00' } },
+    ] };
+    const [zeile] = dazunehmen(bestehend, nachtrag, { haeuser: ['deutsche-oper-berlin'] }).zeilen;
+    assert.deepEqual(zeile.termine, ['2027-01-13', '2027-01-16', '2027-01-20']);
+    assert.deepEqual(zeile.zeiten, { '2027-01-13': '19:30', '2027-01-16': '18:00' });
+});
+
 test('aus dem Menü zählt nur, was ganz eine Übersicht benennt', () => {
     const links = [
         { href: 'https://oper.example/produktion/musiktheaterclub-1/', text: '', menueText: 'Musiktheaterclub 1', verborgen: true },

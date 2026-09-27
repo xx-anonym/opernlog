@@ -121,12 +121,22 @@ const zusatzhaeuser = zeilen => [...new Set(zeilen.map(z => z.haus).filter(h => 
  * Ein Nachtrag für einzelne Werke (Lauf mit --werke) oder einzelne Häuser:
  * deren Einträge ersetzen, alle anderen behalten. Der Stand bleibt der
  * ältere – er sagt, wie alt die Daten höchstens sind.
+ *
+ * Eine Uhrzeit verschwindet nicht von selbst: Häuser nennen sie, sobald der
+ * Vorverkauf beginnt, und nehmen sie danach nicht wieder weg. Fehlt sie im
+ * Nachtrag für einen Termin, der schon eine hatte, lag es am Lesen – der
+ * Kalender der Deutschen Oper lädt mal nur halb –, und die alte bleibt.
  */
 export function dazunehmen(bestehend, nachtrag, { werke, haeuser } = {}) {
     const nurWerke = werke?.length ? new Set(werke) : null;
     const nurHaeuser = haeuser?.length ? new Set(haeuser) : null;
     const gelesen = z => (!nurWerke || nurWerke.has(z.werk)) && (!nurHaeuser || nurHaeuser.has(z.haus));
-    const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...nachtrag.zeilen.filter(gelesen)];
+    const alteZeiten = new Map(bestehend.zeilen.map(z => [`${z.werk}|${z.haus}`, z.zeiten || {}]));
+    const zeitenBehalten = (z) => {
+        const alt = alteZeiten.get(`${z.werk}|${z.haus}`) || {};
+        return mitZeiten(z, { ...alt, ...(z.zeiten || {}) });
+    };
+    const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...nachtrag.zeilen.filter(gelesen).map(zeitenBehalten)];
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
     const stand = [bestehend.stand, nachtrag.stand].filter(Boolean).sort()[0] || '';
     return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen), zusatzhaeuser: zusatzhaeuser(zeilen) };
