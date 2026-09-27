@@ -75,8 +75,12 @@
     <style>
         html {
             /* Canvas colour from the very first frame – body's near-black would
-               otherwise propagate here and read as a black flash. */
-            background: #3d0a15;
+               otherwise propagate here and read as a black flash.
+               The colour is the curtain's average near the bottom edge, as the
+               iPhone draws it: in the first frame after the startup image the
+               splash does not yet reach into the home-indicator area, and the
+               old, darker #3d0a15 showed there as a dark stripe. */
+            background: #541b20;
         }
 
         /* ============================================
