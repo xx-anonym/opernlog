@@ -78,6 +78,7 @@ const APP_SHELL = [
     './src/pages/OperaDetail.js',
     './src/pages/ComposerDetail.js',
     './src/pages/PersonDetail.js',
+    './src/pages/Datenschutz.js',
     './src/pages/Operas.js',
     './src/pages/Profile.js',
     './src/pages/ProfileSetup.js',

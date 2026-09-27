@@ -5720,6 +5720,66 @@ body {
     padding: 4px;
 }
 
+/* Datenschutz (src/pages/Datenschutz.js): Fließtext in Lesebreite, und der
+ * Link dorthin so unauffällig wie möglich – klein, grau, ohne Kasten. */
+.rechtstext {
+    max-width: 680px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.rechtstext h1 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--text);
+    margin: 16px 0 2px;
+}
+
+.rechtstext h2 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 26px 0 6px;
+}
+
+.rechtstext p,
+.rechtstext ul {
+    margin: 0 0 10px;
+    font-size: 0.92rem;
+}
+
+.rechtstext ul {
+    padding-left: 1.2em;
+}
+
+.rechtstext li {
+    margin-bottom: 6px;
+}
+
+.rechtstext strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.rechtstext__stand {
+    font-size: 0.8rem !important;
+    color: var(--text-muted);
+}
+
+.rechtstext-link {
+    display: block;
+    width: fit-content;
+    margin: 18px auto 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.rechtstext-link:hover {
+    color: var(--text-secondary);
+}
+
 /* Meine Daten herunterladen – ein schlichter Knopf direkt über "Konto
  * löschen", wie dieser mittig und ohne Kasten. */
 .daten-export {

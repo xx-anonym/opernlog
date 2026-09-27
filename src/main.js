@@ -8,6 +8,7 @@ import { OperasPage } from './pages/Operas.js';
 import { OperaDetailPage } from './pages/OperaDetail.js';
 import { ComposerDetailPage } from './pages/ComposerDetail.js';
 import { PersonDetailPage } from './pages/PersonDetail.js';
+import { DatenschutzPage } from './pages/Datenschutz.js';
 import { LogVisitPage } from './pages/LogVisit.js';
 import { DiaryPage } from './pages/Diary.js';
 import { VisitDetailPage } from './pages/VisitDetail.js';
@@ -605,6 +606,9 @@ class App {
                 break;
             case 'person':
                 page = PersonDetailPage(param);
+                break;
+            case 'datenschutz':
+                page = DatenschutzPage();
                 break;
             case 'log':
                 page = LogVisitPage(params);
