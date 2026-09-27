@@ -6199,7 +6199,8 @@ body {
     color: var(--text-secondary);
 }
 
-.naehe-abend__kalender {
+.naehe-abend__kalender,
+.naehe-abend__vormerken {
     flex: 0 0 auto;
     padding: 6px;
     border: 1px solid var(--border);
@@ -6209,9 +6210,21 @@ body {
     cursor: pointer;
 }
 
-.naehe-abend__kalender .icon {
+.naehe-abend__kalender .icon,
+.naehe-abend__vormerken .icon {
     width: 16px;
     height: 16px;
+}
+
+/* Lesezeichen und Kalender stehen als Paar enger beisammen. */
+.naehe-abend__vormerken + .naehe-abend__kalender {
+    margin-left: -6px;
+}
+
+.naehe-abend__vormerken--an {
+    color: var(--gold);
+    border-color: rgba(201, 168, 76, 0.45);
+    background: rgba(201, 168, 76, 0.08);
 }
 
 /* "Demnächst hier" auf der Seite eines Hauses – dieselben Zeilen wie in

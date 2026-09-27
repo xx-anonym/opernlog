@@ -59,6 +59,9 @@ test('im Termin-Fenster vormerken, auf der Startseite sehen, wieder entfernen', 
         assert.equal((await knopf.textContent()).trim(), 'Vormerken');
         await knopf.click();
         await p.waitForFunction(() => window.__geplant.length === 1);
+        // Die Zeile ist schon in der Datenbank, bevor der Knopf umschaltet –
+        // auf den Knopf warten, nicht gleich lesen.
+        await p.waitForSelector('.kalender-wahl__vormerken--an');
         assert.equal((await knopf.textContent()).trim(), '✓ Vorgemerkt');
         const [zeile] = await p.evaluate(() => window.__geplant);
         assert.deepEqual({ werk: zeile.opera_id, haus: zeile.house_id, datum: zeile.datum, zeit: zeile.zeit },
@@ -76,7 +79,7 @@ test('im Termin-Fenster vormerken, auf der Startseite sehen, wieder entfernen', 
 
         await p.click('.demnaechst__weg');
         await p.waitForFunction(() => window.__geplant.length === 0);
-        assert.equal(await p.locator('.demnaechst').count(), 0);
+        await p.waitForSelector('.demnaechst', { state: 'detached' });
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
@@ -91,7 +94,46 @@ test('ein zweiter Klick nimmt die Vormerkung zurück', { skip: fehltPlaywright, 
         await p.waitForFunction(() => window.__geplant.length === 1);
         await knopf.click();
         await p.waitForFunction(() => window.__geplant.length === 0);
+        await p.waitForSelector('.kalender-wahl__vormerken--an', { state: 'detached' });
         assert.equal((await knopf.textContent()).trim(), 'Vormerken');
+    } finally { await ctx.close(); }
+});
+
+// "In der Nähe" und "Demnächst hier" zeigen jeden Abend einzeln, ohne das
+// Termin-Fenster – dort steht das Lesezeichen in der Zeile.
+for (const [wo, hash] of [['In der Nähe', '#/naehe'], ['Demnächst hier', '#/house/semperoper']]) {
+    test(`${wo}: das Lesezeichen merkt den Abend mit Uhrzeit vor und nimmt ihn zurück`, { skip: fehltPlaywright, timeout: 60000 }, async () => {
+        const { ctx, p, fehler } = await oeffne(hash);
+        try {
+            const knopf = p.locator(`.naehe-abend__vormerken[data-werk="tosca"][data-datum="${iso(5)}"]`);
+            await knopf.waitFor();
+            assert.equal(await knopf.getAttribute('aria-pressed'), 'false');
+            await knopf.click();
+            await p.waitForFunction(() => window.__geplant.length === 1);
+            const [zeile] = await p.evaluate(() => window.__geplant);
+            assert.deepEqual({ werk: zeile.opera_id, haus: zeile.house_id, datum: zeile.datum, zeit: zeile.zeit },
+                { werk: 'tosca', haus: 'semperoper', datum: iso(5), zeit: '19:00-22:30' });
+            await p.waitForSelector('.naehe-abend__vormerken--an');
+            assert.equal(await knopf.getAttribute('aria-pressed'), 'true');
+            // Das Zeichen ist gefüllt, solange der Abend vorgemerkt ist.
+            assert.equal(await knopf.locator('svg').getAttribute('fill'), 'currentColor');
+
+            await knopf.click();
+            await p.waitForFunction(() => window.__geplant.length === 0);
+            await p.waitForSelector('.naehe-abend__vormerken--an', { state: 'detached' });
+            assert.equal(await knopf.getAttribute('aria-pressed'), 'false');
+            assert.deepEqual(fehler, []);
+        } finally { await ctx.close(); }
+    });
+}
+
+test('ein vorgemerkter Abend steht in "In der Nähe" schon als vorgemerkt da', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const plan = { id: 'aaaaaaaa-0000-4000-8000-000000000003', user_id: UID, opera_id: 'tosca', house_id: 'semperoper', datum: iso(9), zeit: null };
+    const { ctx, p } = await oeffne('#/naehe', { plaene: [plan] });
+    try {
+        await p.waitForSelector('.naehe-abend__vormerken--an');
+        const an = await p.$$eval('.naehe-abend__vormerken--an', ks => ks.map(k => k.dataset.datum));
+        assert.deepEqual(an, [iso(9)]);
     } finally { await ctx.close(); }
 });
 
@@ -125,7 +167,7 @@ test('"Nicht hingegangen" entfernt den Plan, die Frage verschwindet', { skip: fe
         await p.waitForSelector('.plan-frage');
         await p.click('.plan-frage__nein');
         await p.waitForFunction(() => window.__geplant.length === 0);
-        assert.equal(await p.locator('.plan-frage').count(), 0);
+        await p.waitForSelector('.plan-frage', { state: 'detached' });
     } finally { await ctx.close(); }
 });
 

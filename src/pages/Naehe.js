@@ -18,6 +18,7 @@ import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
 
 export { UMKREIS_STUFEN };
 const ZEITRAEUME = [
@@ -248,13 +249,17 @@ export function NaehePage() {
         page.querySelector('#naeheKarteInhalt').replaceChildren(karte);
     }
 
-    // Ein Zuhörer für alle Kalenderknöpfe der Liste.
+    // Ein Zuhörer für alle Kalender- und Vormerk-Knöpfe der Liste.
     page.querySelector('#naeheListe').addEventListener('click', (e) => {
-        const knopf = e.target.closest('.naehe-abend__kalender');
+        const knopf = e.target.closest('.naehe-abend__kalender, .naehe-abend__vormerken');
         if (!knopf) return;
         const { werk: werkId, haus: hausId, datum } = knopf.dataset;
         const abend = abendeInDerNaehe({ heute: datum, bis: datum })
             .find(a => a.werk === werkId && a.haus.id === hausId);
+        if (knopf.classList.contains('naehe-abend__vormerken')) {
+            vormerkZeichenUmschalten(knopf, abend?.zeit);
+            return;
+        }
         const werk = operas.find(o => o.id === werkId);
         if (!abend || !werk) return;
         kalenderHerunterladen(
@@ -427,7 +432,7 @@ export function NaehePage() {
     return page;
 }
 
-/** Eine Zeile: Uhrzeit, Werk, Haus, Entfernung, Kalender. */
+/** Eine Zeile: Uhrzeit, Werk, Haus, Entfernung, Vormerken, Kalender. */
 function abendZeile(a, aufWunschliste) {
     const werk = operas.find(o => o.id === a.werk);
     const zeit = zeitText(a.zeit);
@@ -443,6 +448,7 @@ function abendZeile(a, aufWunschliste) {
             ? `<span class="naehe-abend__stern" title="Auf deiner Wunschliste">${icon('star', { filled: true })}</span>` : ''}${escapeHTML(werk.title)}</a>
           <span class="naehe-abend__wo">${haus} · ${escapeHTML(a.haus.city || '')}${a.km !== null ? ` · ${a.km} km` : ''}</span>
         </div>
+        ${vormerkZeichen(werk, a.haus, a.datum)}
         <button type="button" class="naehe-abend__kalender" data-werk="${escapeHTML(a.werk)}" data-haus="${escapeHTML(a.haus.id)}" data-datum="${a.datum}"
           title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${werk.title}, ${a.haus.name}`)}">${icon('calendar')}</button>
       </div>`;

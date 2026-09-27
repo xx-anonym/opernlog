@@ -16,6 +16,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { abendeImHaus, terminMitWochentag, zeitText, heuteIso } from '../data/spielplanAbfrage.js';
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
 
 // Die nächsten zwei Abende stehen da, der Rest klappt auf (Jonas'
 // Vorgabe: die Seite soll das Haus zeigen, nicht einen ganzen Spielplan).
@@ -63,6 +64,7 @@ function demnaechstHier(bereich, house) {
             ? `<span class="naehe-abend__stern" title="Auf deiner Wunschliste">${icon('star', { filled: true })}</span>` : ''}${escapeHTML(werk.title)}</a>
           <span class="naehe-abend__wo">${escapeHTML(kurzname(werk.composer))}${beimHaus}</span>
         </div>
+        ${vormerkZeichen(werk, house, a.datum)}
         <button type="button" class="naehe-abend__kalender" data-werk="${escapeHTML(werk.id)}" data-datum="${a.datum}"
           title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${werk.title}, ${a.datum}`)}">${icon('calendar')}</button>
       </div>`;
@@ -99,9 +101,13 @@ function demnaechstHier(bereich, house) {
       if (!alle) bereich.scrollIntoView({ block: 'start', behavior: 'smooth' });
       return;
     }
-    const knopf = e.target.closest('.naehe-abend__kalender');
+    const knopf = e.target.closest('.naehe-abend__kalender, .naehe-abend__vormerken');
     if (!knopf) return;
     const abend = abende.find(a => a.werk === knopf.dataset.werk && a.datum === knopf.dataset.datum);
+    if (knopf.classList.contains('naehe-abend__vormerken')) {
+      vormerkZeichenUmschalten(knopf, abend?.zeit);
+      return;
+    }
     const werk = operas.find(o => o.id === knopf.dataset.werk);
     if (!abend || !werk) return;
     kalenderHerunterladen(
