@@ -53,6 +53,10 @@ test('eine Wikimedia-Adresse in avatar_icon erscheint als Foto im Profilkreis', 
     try {
         await p.waitForSelector('.profile-hero__avatar img.avatar-foto');
         assert.equal(await p.getAttribute('.profile-hero__avatar img.avatar-foto', 'src'), VORSCHAU);
+        // Das Foto liegt über dem Monogramm, nicht darunter.
+        const foto = await p.$eval('.profile-hero__avatar .avatar-foto', e => Number(getComputedStyle(e).zIndex) || 0);
+        const monogramm = await p.$eval('.profile-hero__avatar .avatar-initials', e => Number(getComputedStyle(e).zIndex) || 0);
+        assert.ok(foto > monogramm, `Foto ${foto}, Monogramm ${monogramm}`);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
