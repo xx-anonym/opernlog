@@ -52,6 +52,15 @@ async function loggen(p) {
     return p.locator('.toast').last().innerText();
 }
 
+/**
+ * Nach dem Speichern springt das Formular von selbst ins Tagebuch, 800 ms
+ * später (LogVisit.js). Wer danach eine andere Seite prüft, wartet diesen
+ * Sprung erst ab. Sonst kann er unter Last mitten in die Prüfung fallen: die
+ * Seite ist weg, und der nächste Klick wartet 30 Sekunden auf einen Knopf,
+ * den es nicht mehr gibt.
+ */
+const imTagebuch = (p) => p.waitForFunction(() => location.hash === '#/diary');
+
 const eigene = (p) => p.evaluate(() => import('/src/store/store.js').then(m =>
     m.store.data.myVisits.map(v => ({ id: v.id, ausstehend: !!v.ausstehend, fehler: v.uebertragungsfehler || null }))));
 
@@ -156,6 +165,7 @@ test('einen schon übertragenen Besuch ändern braucht Netz', { skip: fehltPlayw
         await loggen(p);
         const [besuch] = await eigene(p);
         assert.equal(besuch.ausstehend, false);
+        await imTagebuch(p);
         await ctx.setOffline(true);
         await p.evaluate(id => { location.hash = `#/log?edit=${id}`; }, besuch.id);
         await p.waitForSelector('.offline-hinweis');
@@ -168,18 +178,31 @@ test('Abmelden mit wartenden Besuchen fragt nach', { skip: fehltPlaywright }, as
     try {
         await ctx.setOffline(true);
         await loggen(p);
+        await imTagebuch(p);
         // Hochladen scheitert weiter – der Besuch bleibt wartend. Vor dem
         // Wiederverbinden gesetzt: das online-Ereignis schickt sofort los.
+        // Weiter erst, wenn dieser Versuch gescheitert ist.
         await p.evaluate(() => { window.__besuchFehler = Array(5).fill({ message: 'Failed to fetch' }); });
         await ctx.setOffline(false);
-        await p.waitForTimeout(500);
+        await p.waitForFunction(() => window.__besuchVersuche.length === 1);
         await p.evaluate(() => { location.hash = '#/profile/user-me'; });
         await p.waitForSelector('#logoutBtn');
-        let frage = null;
-        p.on('dialog', d => { frage = d.message(); d.dismiss(); });
+        // Mitzählen, ob abgemeldet wird. Der Zähler für signOut() im Stub
+        // allein reicht nicht: vor signOut() fragt die Push-Abmeldung den
+        // Service Worker, und das kann unter Last dauern (bis zu zwei
+        // Sekunden). store.logout() dagegen folgte unmittelbar auf die
+        // Antwort, ganz ohne Wartezeit.
+        await p.evaluate(() => import('/src/store/store.js').then(({ store }) => {
+            window.__logout = 0;
+            const echt = store.logout.bind(store);
+            store.logout = () => { window.__logout++; return echt(); };
+        }));
+        // Gleich beim Erscheinen mit Nein beantworten: solange die Frage
+        // offen ist, kehrt der Klick nicht zurück.
+        const frage = p.waitForEvent('dialog').then(async d => { await d.dismiss(); return d.message(); });
         await p.click('#logoutBtn');
-        await p.waitForTimeout(500);
-        assert.match(frage || '', /noch nicht übertragen/);
+        assert.match(await frage, /noch nicht übertragen/);
+        assert.equal(await p.evaluate(() => window.__logout), 0, 'trotz Nein abgemeldet');
         assert.equal(await p.evaluate(() => window.__abgemeldet), 0, 'trotz Nein abgemeldet');
     } finally { await ctx.close(); }
 });
