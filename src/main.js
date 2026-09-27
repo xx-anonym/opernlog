@@ -7,6 +7,7 @@ import { HouseDetailPage } from './pages/HouseDetail.js';
 import { OperasPage } from './pages/Operas.js';
 import { OperaDetailPage } from './pages/OperaDetail.js';
 import { ComposerDetailPage } from './pages/ComposerDetail.js';
+import { PersonDetailPage } from './pages/PersonDetail.js';
 import { LogVisitPage } from './pages/LogVisit.js';
 import { DiaryPage } from './pages/Diary.js';
 import { VisitDetailPage } from './pages/VisitDetail.js';
@@ -601,6 +602,9 @@ class App {
                 break;
             case 'composer':
                 page = ComposerDetailPage(param);
+                break;
+            case 'person':
+                page = PersonDetailPage(param);
                 break;
             case 'log':
                 page = LogVisitPage(params);

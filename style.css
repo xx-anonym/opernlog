@@ -5187,15 +5187,84 @@ body {
     color: var(--text-muted);
 }
 
-.composer-link {
+.composer-link,
+.person-link {
     color: inherit;
     text-decoration: none;
     border-bottom: 1px dotted var(--text-muted);
 }
 
-.composer-link:hover {
+.composer-link:hover,
+.person-link:hover {
     color: var(--gold);
     border-bottom-color: var(--gold);
+}
+
+/* Personenseite (src/pages/PersonDetail.js): die eigenen Abende mit einer
+ * Person, gebaut wie die Werkliste der Komponistenseite – Datum, Werk und
+ * Haus, rechts was sie an dem Abend war. */
+.person-abende {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+
+.person-abende__eintrag {
+    border-bottom: 1px solid var(--border);
+}
+
+.person-abende__zeile {
+    display: grid;
+    grid-template-columns: 6.6em 1fr auto;
+    align-items: baseline;
+    gap: 10px;
+    padding: 11px 4px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background var(--transition);
+}
+
+.person-abende__zeile:hover {
+    background: var(--bg-tertiary);
+    color: var(--text);
+}
+
+.person-abende__datum {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.person-abende__text {
+    display: grid;
+    min-width: 0;
+}
+
+.person-abende__werk {
+    font-weight: 500;
+}
+
+.person-abende__haus,
+.person-abende__als {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.person-abende__als {
+    text-align: right;
+    color: var(--gold);
+}
+
+@media (max-width: 420px) {
+    .person-abende__zeile {
+        grid-template-columns: 5.6em 1fr;
+    }
+
+    .person-abende__als {
+        grid-column: 2;
+        text-align: left;
+    }
 }
 
 .composer-werke {
