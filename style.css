@@ -5556,108 +5556,99 @@ body {
     border-top: 1px solid var(--border);
 }
 
-/* Mitteilungen – über den Passkeys, gleich aufgebaut. */
-.mitteilungen {
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+/* Mitteilungen und Passkeys: schlichte Zeilen, keine Kästen – Titel
+ * links, Knöpfe rechts, darunter klein der Stand oder die Liste. Getrennt
+ * durch dieselbe feine Linie wie der ganze Bereich von den Feldern darüber. */
+.konto-abschnitt {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
 }
 
-.mitteilungen__titel {
+.konto-abschnitt:first-child {
+    padding-top: 0;
+}
+
+.konto-abschnitt__kopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 12px;
+    flex-wrap: wrap;
+}
+
+.konto-abschnitt__titel {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.05rem;
-    margin: 0 0 4px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
 }
 
-.mitteilungen__erklaerung {
-    margin: 0 0 12px;
+.konto-abschnitt__stand {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 2px 0 0;
 }
 
-.mitteilungen__stand {
-    font-size: 0.88rem;
-    margin: 0 0 12px;
-}
-
-.mitteilungen__fehler {
-    margin: 0 0 12px;
-}
-
-.mitteilungen__fehler[hidden] {
+.konto-abschnitt__stand:empty {
     display: none;
 }
 
 .mitteilungen__knoepfe {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
 }
 
-.passkeys {
-    padding: 16px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+.mitteilungen__fehler,
+.passkeys__fehler {
+    margin: 6px 0 0;
 }
 
-.passkeys__titel {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.05rem;
-    margin: 0 0 4px;
-}
-
-.passkeys__erklaerung {
-    margin: 0 0 14px;
+.mitteilungen__fehler[hidden],
+.passkeys__fehler[hidden] {
+    display: none;
 }
 
 .passkeys__liste {
     list-style: none;
-    margin: 0 0 14px;
+    margin: 2px 0 0;
     padding: 0;
     display: grid;
-    gap: 8px;
+    gap: 2px;
 }
 
 .passkeys__zeile {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    gap: 8px;
 }
 
 .passkeys__text {
-    display: grid;
-    gap: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
     min-width: 0;
     flex: 1;
 }
 
 .passkeys__name {
-    font-weight: 600;
+    font-size: 0.85rem;
     overflow-wrap: anywhere;
 }
 
 .passkeys__unterzeile,
 .passkeys__leer {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
 }
 
 .passkeys__loeschen {
     flex-shrink: 0;
-}
-
-.passkeys__fehler {
-    margin: 0 0 14px;
-}
-
-.passkeys__fehler[hidden] {
-    display: none;
+    padding: 4px;
 }
 
 /* Meine Daten herunterladen – ein schlichter Knopf direkt über "Konto

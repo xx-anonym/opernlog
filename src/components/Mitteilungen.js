@@ -27,14 +27,18 @@ export function mitteilungenBereich(dienste = {}) {
     const zustand = d.zustand();
     if (zustand === 'unmoeglich') return null;
 
+    // Eine schlichte Zeile wie die übrigen im Fenster: Titel links, Knöpfe
+    // rechts, darunter klein der Stand. Welche Anlässe es gibt, stand hier
+    // früher als Absatz – zu viel für einen Schalter (Jonas, 27.09.2026).
     const bereich = document.createElement('section');
-    bereich.className = 'mitteilungen';
+    bereich.className = 'mitteilungen konto-abschnitt';
     bereich.innerHTML = `
-      <h3 class="mitteilungen__titel">${icon('bell')}Mitteilungen</h3>
-      <p class="form-hint mitteilungen__erklaerung">Bei neuen Freundschaftsanfragen, angenommenen Einladungen, Likes und Kommentaren zu deinen Reviews, wenn ein Werk deiner Wunschliste neu im Spielplan steht – und am 31. Juli zu deinem Saisonrückblick.</p>
-      <p class="mitteilungen__stand" aria-live="polite"></p>
-      <p class="auth-error mitteilungen__fehler" hidden></p>
-      <div class="mitteilungen__knoepfe"></div>`;
+      <div class="konto-abschnitt__kopf">
+        <h3 class="konto-abschnitt__titel">${icon('bell')}Mitteilungen</h3>
+        <div class="mitteilungen__knoepfe"></div>
+      </div>
+      <p class="mitteilungen__stand konto-abschnitt__stand" aria-live="polite"></p>
+      <p class="auth-error mitteilungen__fehler" hidden></p>`;
 
     const stand = bereich.querySelector('.mitteilungen__stand');
     const fehlerEl = bereich.querySelector('.mitteilungen__fehler');
@@ -47,7 +51,7 @@ export function mitteilungenBereich(dienste = {}) {
         return bereich;
     }
     if (zustand === 'verweigert') {
-        stand.textContent = 'Mitteilungen sind für OpernLog in den Einstellungen dieses Geräts ausgeschaltet. Dort lassen sie sich wieder erlauben.';
+        stand.textContent = 'In den Einstellungen dieses Geräts gesperrt.';
         return bereich;
     }
 
@@ -58,7 +62,7 @@ export function mitteilungenBereich(dienste = {}) {
 
     function zeigeAus() {
         stand.textContent = 'Auf diesem Gerät ausgeschaltet.';
-        knoepfe.innerHTML = `<button type="button" class="btn btn--outline btn--sm" id="mitteilungenAnBtn">Mitteilungen einschalten</button>`;
+        knoepfe.innerHTML = `<button type="button" class="btn btn--ghost btn--sm" id="mitteilungenAnBtn">Einschalten</button>`;
         const an = knoepfe.querySelector('#mitteilungenAnBtn');
         an.addEventListener('click', async () => {
             zeigeFehler('');
@@ -67,7 +71,7 @@ export function mitteilungenBereich(dienste = {}) {
                 const ergebnis = await d.einschalten(schluessel);
                 if (ergebnis === 'an') zeigeAn();
                 else if (ergebnis === 'verweigert') {
-                    stand.textContent = 'Mitteilungen sind für OpernLog in den Einstellungen dieses Geräts ausgeschaltet. Dort lassen sie sich wieder erlauben.';
+                    stand.textContent = 'In den Einstellungen dieses Geräts gesperrt.';
                     knoepfe.innerHTML = '';
                 } else an.disabled = false;
             } catch (err) {
@@ -81,7 +85,7 @@ export function mitteilungenBereich(dienste = {}) {
     function zeigeAn() {
         stand.textContent = 'Auf diesem Gerät eingeschaltet.';
         knoepfe.innerHTML = `
-          <button type="button" class="btn btn--outline btn--sm" id="mitteilungenProbeBtn">Probe schicken</button>
+          <button type="button" class="btn btn--ghost btn--sm" id="mitteilungenProbeBtn">Probe schicken</button>
           <button type="button" class="btn btn--ghost btn--sm" id="mitteilungenAusBtn">Ausschalten</button>`;
         const probe = knoepfe.querySelector('#mitteilungenProbeBtn');
         const aus = knoepfe.querySelector('#mitteilungenAusBtn');

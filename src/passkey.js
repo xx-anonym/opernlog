@@ -137,15 +137,17 @@ function datum(wert) {
  * Supabase leitet den Namen aus dem Authenticator ab ("iCloud-Schlüsselbund",
  * "Google Password Manager"). Fehlt er, bleibt "Passkey" – eine leere Zeile
  * mit Löschknopf ließe offen, was man da löscht.
+ *
+ * Sichtbar steht nur die letzte Benutzung; wann er angelegt wurde, zeigt
+ * die Zeile beim Darüberfahren (angelegt). Beides nebeneinander brach auf
+ * dem Handy auf drei Zeilen um.
  */
 export function passkeyZeile(passkey = {}) {
     const angelegt = datum(passkey.created_at);
     const benutzt = passkey.last_used_at ? datum(passkey.last_used_at) : '';
     return {
         name: String(passkey.friendly_name || '').trim() || 'Passkey',
-        unterzeile: [
-            angelegt && `angelegt am ${angelegt}`,
-            benutzt ? `zuletzt benutzt am ${benutzt}` : 'noch nie benutzt',
-        ].filter(Boolean).join(' · '),
+        unterzeile: benutzt ? `zuletzt benutzt am ${benutzt}` : 'noch nie benutzt',
+        angelegt: angelegt ? `angelegt am ${angelegt}` : '',
     };
 }

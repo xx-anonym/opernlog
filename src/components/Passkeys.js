@@ -25,14 +25,19 @@ const STANDARD = {
 export function passkeyBereich(nutzerId, dienste = {}) {
     const d = { ...STANDARD, ...dienste };
 
+    // Eine schlichte Zeile wie Mitteilungen darüber: Titel links, Anlegen
+    // rechts, darunter die Passkeys klein. Ohne Kasten und ohne Erklärung –
+    // der Bereich war größer als alles andere im Fenster (Jonas, 27.09.2026).
     const bereich = document.createElement('section');
-    bereich.className = 'passkeys';
+    bereich.className = 'passkeys konto-abschnitt';
     bereich.innerHTML = `
-      <h3 class="passkeys__titel">${icon('key')}Passkeys</h3>
-      <p class="form-hint passkeys__erklaerung">Anmelden mit Face ID, Fingerabdruck oder Geräte-PIN – ohne Passwort. Ein Passkey gilt für das Gerät oder den Passwortmanager, auf dem du ihn anlegst.</p>
+      <div class="konto-abschnitt__kopf">
+        <h3 class="konto-abschnitt__titel">${icon('key')}Passkeys</h3>
+        <button type="button" class="btn btn--ghost btn--sm" id="passkeyAnlegenBtn"
+          aria-label="Passkey hinzufügen">${icon('plus')}Hinzufügen</button>
+      </div>
       <ul class="passkeys__liste" aria-live="polite"></ul>
-      <p class="auth-error passkeys__fehler" hidden></p>
-      <button type="button" class="btn btn--outline btn--sm" id="passkeyAnlegenBtn">${icon('plus')}Passkey hinzufügen</button>`;
+      <p class="auth-error passkeys__fehler" hidden></p>`;
 
     const liste = bereich.querySelector('.passkeys__liste');
     const fehlerEl = bereich.querySelector('.passkeys__fehler');
@@ -66,7 +71,7 @@ export function passkeyBereich(nutzerId, dienste = {}) {
         liste.innerHTML = passkeys.map(p => {
             const z = passkeyZeile(p);
             return `
-              <li class="passkeys__zeile">
+              <li class="passkeys__zeile" title="${escapeHTML(z.angelegt)}">
                 <span class="passkeys__text">
                   <span class="passkeys__name">${escapeHTML(z.name)}</span>
                   <span class="passkeys__unterzeile">${escapeHTML(z.unterzeile)}</span>
