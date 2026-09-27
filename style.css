@@ -5660,6 +5660,25 @@ body {
     display: none;
 }
 
+/* Meine Daten herunterladen – ein schlichter Knopf direkt über "Konto
+ * löschen", wie dieser mittig und ohne Kasten. */
+.daten-export {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.daten-export + .konto-loeschen {
+    margin-top: 4px;
+}
+
+.daten-export__fehler {
+    margin: 4px 0 0;
+}
+
+.daten-export__fehler[hidden] {
+    display: none;
+}
+
 /* Der Schlüssel im Anmeldeknopf steht wie das Google-Logo vor dem Text. */
 #passkeySignInBtn .icon {
     margin-right: 8px;

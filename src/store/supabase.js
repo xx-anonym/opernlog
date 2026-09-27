@@ -1205,6 +1205,78 @@ export async function searchUsers(query) {
     return data || [];
 }
 
+// ── Datenexport ──────────────────────────────────────────
+/**
+ * Alles, was die Datenbank zum angemeldeten Konto hält, Zeile für Zeile –
+ * für "Meine Daten herunterladen" (src/datenExport.js macht daraus die
+ * Datei). Jede Abfrage filtert selbst auf die eigene Id: visits, comments,
+ * likes und follows sind öffentlich lesbar, RLS allein ließe also auch
+ * Fremdes durch.
+ *
+ * Nicht dabei ist push_protokoll (wann welche Mitteilung ging): die Tabelle
+ * ist für die App gar nicht lesbar.
+ */
+export async function meineDatenCloud() {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Daten zusammenstellen', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const ich = session.user.id;
+    const lesen = (tabelle, abfrage) => retryRead(() => abfrage(sb.from(tabelle)), `Datenexport: ${tabelle}`);
+
+    const [profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
+        einladungen, vorschlaege, pushAbos, admin, werke, haeuser, komponisten, bildausschnitte] = await Promise.all([
+        lesen('profiles', q => q.select('*').eq('id', ich).maybeSingle()),
+        lesen('visits', q => q.select('*').eq('user_id', ich).order('date')),
+        lesen('lists', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('seen_operas', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('comments', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('likes', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('follows', q => q.select('*').eq('follower_id', ich)),
+        lesen('follows', q => q.select('*').eq('following_id', ich)),
+        lesen('friend_requests', q => q.select('*').or(`sender_id.eq.${ich},receiver_id.eq.${ich}`).order('created_at')),
+        lesen('invites', q => q.select('*').eq('created_by', ich).order('created_at')),
+        lesen('suggestions', q => q.select('*').eq('user_id', ich).order('created_at')),
+        // Ohne p256dh und auth – siehe src/datenExport.js.
+        lesen('push_abos', q => q.select('id, endpoint, created_at, zuletzt_benutzt').eq('user_id', ich)),
+        lesen('admins', q => q.select('*').eq('user_id', ich).maybeSingle()),
+        lesen('catalog_operas', q => q.select('*').eq('created_by', ich)),
+        lesen('catalog_houses', q => q.select('*').eq('created_by', ich)),
+        lesen('catalog_composers', q => q.select('*').eq('created_by', ich)),
+        lesen('bild_ausschnitte', q => q.select('*').eq('geaendert_von', ich)),
+    ]);
+
+    // Namen der anderen Seite von Freundschaften und Anfragen. profiles ist
+    // öffentlich lesbar; es geht nur um den Benutzernamen.
+    const andere = [...new Set([
+        ...(ichFolge || []).map(f => f.following_id),
+        ...(folgenMir || []).map(f => f.follower_id),
+        ...(anfragen || []).flatMap(a => [a.sender_id, a.receiver_id]),
+    ])].filter(id => id && id !== ich);
+    const personen = andere.length
+        ? await lesen('profiles', q => q.select('id, username').in('id', andere))
+        : [];
+
+    // Passkeys verwaltet Supabase Auth, nicht die Datenbank. Geht die Liste
+    // nicht (Browser ohne WebAuthn, Dienst gestört), fehlt nur dieser Teil.
+    let passkeys = null;
+    try { passkeys = await listPasskeys(); } catch (e) { console.warn('[Supabase] Datenexport: Passkeys', e); }
+
+    const u = session.user;
+    return {
+        konto: {
+            id: u.id,
+            email: u.email ?? null,
+            angelegt: u.created_at ?? null,
+            letzte_anmeldung: u.last_sign_in_at ?? null,
+            anmeldung_ueber: u.app_metadata?.providers ?? (u.app_metadata?.provider ? [u.app_metadata.provider] : []),
+            admin: !!admin,
+        },
+        profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
+        einladungen, vorschlaege, pushAbos, passkeys, personen,
+        katalog: { werke, haeuser, komponisten, bildausschnitte },
+    };
+}
+
 // ── Bereits gesehen (ohne Besuchseintrag) ────────────────
 export async function getSeenOperasCloud() {
     const session = await getSession();

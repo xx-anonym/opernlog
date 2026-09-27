@@ -72,6 +72,7 @@ window.__passkeyFehler = null;  // gesetzt: signInWithPasskey/registerPasskey li
 window.__passkeyListeFehler = null;
 window.__passkeyAnmeldungen = 0;
 window.__passkeyGeloescht = [];
+window.__lesefehler = {};       // { tabelle: meldung } – jedes Lesen dieser Tabelle scheitert
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -80,6 +81,9 @@ function builder(table) {
   const drin = {};     // aus in()
   const api = {
     then(res, rej) {
+      if (!op && window.__lesefehler[table]) {
+        return Promise.resolve({ data: null, error: { message: window.__lesefehler[table] } }).then(res, rej);
+      }
       if (table === 'seen_operas' && op) {
         if (op === 'upsert' && nutzlast && !window.__seen.includes(nutzlast.opera_id)) {
           window.__seen.push(nutzlast.opera_id);
@@ -200,7 +204,7 @@ function builder(table) {
     single() { single = true; return api; },
     maybeSingle() { single = true; return api; },
   };
-  for (const m of ['select', 'order', 'limit', 'ilike', 'gte', 'lte']) api[m] = () => api;
+  for (const m of ['select', 'order', 'limit', 'ilike', 'gte', 'lte', 'or']) api[m] = () => api;
   api.eq = (spalte, wert) => { filter[spalte] = wert; return api; };
   api.neq = (spalte, wert) => { nicht[spalte] = wert; return api; };
   api.in = (spalte, werte) => { drin[spalte] = werte || []; return api; };

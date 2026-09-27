@@ -17,6 +17,7 @@ import { composerByName } from '../data/composers.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 import { kontoLoeschModal } from '../components/KontoLoeschen.js';
 import { passkeyBereich } from '../components/Passkeys.js';
+import { datenExportBereich } from '../components/DatenExport.js';
 import { mitteilungenBereich } from '../components/Mitteilungen.js';
 import { passkeysMoeglich } from '../passkey.js';
 
@@ -856,6 +857,10 @@ function renderLocalProfile(page, userId, isMe) {
     if (passkeysMoeglich()) {
       ziel.appendChild(passkeyBereich(user.id));
     }
+
+    // Die eigenen Daten als Datei, direkt über dem Löschen: wer geht, will
+    // sie oft vorher mitnehmen.
+    ziel.appendChild(datenExportBereich());
 
     // Konto löschen: zuunterst, abgesetzt von allem anderen. Das eigentliche
     // Löschen verlangt im nächsten Fenster noch den abgetippten Namen.
