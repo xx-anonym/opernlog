@@ -73,6 +73,13 @@ window.__passkeyListeFehler = null;
 window.__passkeyAnmeldungen = 0;
 window.__passkeyGeloescht = [];
 window.__lesefehler = {};       // { tabelle: meldung } – jedes Lesen dieser Tabelle scheitert
+// Für den Abgleich: jede Antwort um so viele ms verzögern, und mitzählen,
+// wie viele Abfragen gleichzeitig unterwegs waren – und wie oft admins.
+window.__verzoegerung = 0;
+window.__unterwegs = 0;
+window.__hoechstensUnterwegs = 0;
+window.__adminAbfragen = 0;
+window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -151,6 +158,10 @@ function builder(table) {
         }
         return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
       }
+      if (table === 'fehlerprotokoll' && op === 'insert') {
+        window.__fehlerMeldungen.push(nutzlast);
+        return Promise.resolve({ data: null, error: null }).then(res, rej);
+      }
       if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
       if (table === 'profiles' && op === 'update') window.__profilUpdate.push(nutzlast);
       if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
@@ -210,6 +221,18 @@ function builder(table) {
   api.in = (spalte, werte) => { drin[spalte] = werte || []; return api; };
   for (const m of ['insert', 'update', 'upsert']) api[m] = (n) => { op = m; nutzlast = n; return api; };
   api.delete = () => { op = 'delete'; return api; };
+  // Mitzählen und, wenn gewünscht, verzögern – um die eigentliche Antwort herum.
+  const antworten = api.then;
+  api.then = (res, rej) => {
+    if (table === 'admins') window.__adminAbfragen++;
+    window.__unterwegs++;
+    window.__hoechstensUnterwegs = Math.max(window.__hoechstensUnterwegs, window.__unterwegs);
+    const warten = window.__verzoegerung ? new Promise(r => setTimeout(r, window.__verzoegerung)) : Promise.resolve();
+    return warten
+      .then(() => new Promise((ok, fehl) => antworten.call(api, ok, fehl)))
+      .finally(() => { window.__unterwegs--; })
+      .then(res, rej);
+  };
   return api;
 }
 

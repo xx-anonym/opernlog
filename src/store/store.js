@@ -167,6 +167,55 @@ class Store {
     // aktuell auszugeben.
     syncError = null;
 
+    /** Eigene Listen aus der Cloud; doppelte Wunschlisten werden dabei aufgeräumt. */
+    async _listenAbgleichen() {
+        const cloudLists = await sb.getMyListsCloud();
+
+        // Auto-deduplicate wishlists
+        const wishlists = cloudLists.filter(l => l.type === 'wishlist');
+        if (wishlists.length > 1) {
+            for (let i = 1; i < wishlists.length; i++) {
+                const dupe = wishlists[i];
+                try {
+                    await sb.deleteListCloud(dupe.id);
+                    const index = cloudLists.findIndex(l => l.id === dupe.id);
+                    if (index !== -1) cloudLists.splice(index, 1);
+                } catch (e) {
+                    // Nicht kritisch: das Duplikat bleibt bestehen
+                    console.error('[Store] Doppelte Wunschliste löschen', e);
+                }
+            }
+        }
+
+        this.data.myLists = cloudLists.map(l => ({
+            id: l.id,
+            userId: 'user-me',
+            name: l.name,
+            description: l.description || '',
+            type: l.type || 'operas',
+            items: l.items || [],
+            isPublic: l.is_public !== false,
+            likes: l.likes || 0,
+            comments: l.comments || [],
+        }));
+    }
+
+    /** Eigene Abende aus der Cloud, dazu was nur auf diesem Gerät wartet. */
+    async _besucheAbgleichen() {
+        const cloudVisits = await sb.getMyVisitsCloud();
+        // Was noch auf dem Gerät wartet, bleibt stehen – außer es
+        // ist inzwischen doch angekommen (ein Versuch, dessen
+        // Antwort im Funkloch verloren ging).
+        const angekommen = new Set(cloudVisits.map(v => String(v.id)));
+        const ausstehend = this.getAusstehendeBesuche().filter(v => !angekommen.has(String(v.id)));
+        this.data.myVisits = [...ausstehend, ...cloudVisits.map(v => ({
+            ...sb.mapCloudVisit(v),
+            // Eigene Besuche laufen in der Oberfläche unter 'user-me'
+            userId: 'user-me',
+            createdAt: v.created_at?.split('T')[0] || v.date,
+        }))];
+    }
+
     async refreshSession() {
         if (!isSupabaseConfigured()) return;
         // Welche Teilbereiche sich nicht abgleichen ließen. Der Abgleich bricht
@@ -205,77 +254,32 @@ class Store {
                     joined: this._profile.created_at?.split('T')[0] || this.data.currentUser.joined,
                 };
 
-                // Sync lists from cloud to avoid cross-account bleed
-                try {
-                    const cloudLists = await sb.getMyListsCloud();
-
-                    // Auto-deduplicate wishlists
-                    const wishlists = cloudLists.filter(l => l.type === 'wishlist');
-                    if (wishlists.length > 1) {
-                        for (let i = 1; i < wishlists.length; i++) {
-                            const dupe = wishlists[i];
-                            try {
-                                await sb.deleteListCloud(dupe.id);
-                                const index = cloudLists.findIndex(l => l.id === dupe.id);
-                                if (index !== -1) cloudLists.splice(index, 1);
-                            } catch (e) {
-                                // Nicht kritisch: das Duplikat bleibt bestehen
-                                console.error('[Store] Doppelte Wunschliste löschen', e);
-                            }
-                        }
-                    }
-
-                    this.data.myLists = cloudLists.map(l => ({
-                        id: l.id,
-                        userId: 'user-me',
-                        name: l.name,
-                        description: l.description || '',
-                        type: l.type || 'operas',
-                        items: l.items || [],
-                        isPublic: l.is_public !== false,
-                        likes: l.likes || 0,
-                        comments: l.comments || [],
-                    }));
-                } catch (e) {
-                    console.error('[Store] Listen-Abgleich fehlgeschlagen', e);
-                    failures.push('Listen');
-                }
-
-                // Sync visits from cloud to avoid cross-account bleed
-                try {
-                    const cloudVisits = await sb.getMyVisitsCloud();
-                    // Was noch auf dem Gerät wartet, bleibt stehen – außer es
-                    // ist inzwischen doch angekommen (ein Versuch, dessen
-                    // Antwort im Funkloch verloren ging).
-                    const angekommen = new Set(cloudVisits.map(v => String(v.id)));
-                    const ausstehend = this.getAusstehendeBesuche().filter(v => !angekommen.has(String(v.id)));
-                    this.data.myVisits = [...ausstehend, ...cloudVisits.map(v => ({
-                        ...sb.mapCloudVisit(v),
-                        // Eigene Besuche laufen in der Oberfläche unter 'user-me'
-                        userId: 'user-me',
-                        createdAt: v.created_at?.split('T')[0] || v.date,
-                    }))];
-                } catch (e) {
-                    console.error('[Store] Besuche-Abgleich fehlgeschlagen', e);
-                    failures.push('Besuche');
-                }
-
-                // Sync "bereits gesehen"
-                try {
-                    this.data.seenOperas = await sb.getSeenOperasCloud();
-                } catch (e) {
-                    console.error('[Store] Abgleich der gesehenen Werke fehlgeschlagen', e);
-                    failures.push('Gesehene Werke');
-                }
-
-                // Sync suggestions state
-                try {
-                    this.pendingSuggestions.opera = await sb.hasPendingSuggestionCloud('opera');
-                    this.pendingSuggestions.house = await sb.hasPendingSuggestionCloud('house');
-                } catch (e) {
-                    console.error('[Store] Vorschlags-Abgleich fehlgeschlagen', e);
-                    failures.push('Vorschläge');
-                }
+                // Listen, Abende, Markierungen und Vorschläge hängen nicht
+                // voneinander ab und kommen deshalb gleichzeitig. Nacheinander
+                // addierten sich bei jeder Rückkehr in die App ein Dutzend
+                // Wartezeiten. Jeder Bereich scheitert für sich; die Liste der
+                // Fehlschläge bleibt in fester Reihenfolge, damit die Meldung
+                // nicht springt.
+                const bereiche = await Promise.all([
+                    this._listenAbgleichen().then(() => null, (e) => {
+                        console.error('[Store] Listen-Abgleich fehlgeschlagen', e);
+                        return 'Listen';
+                    }),
+                    this._besucheAbgleichen().then(() => null, (e) => {
+                        console.error('[Store] Besuche-Abgleich fehlgeschlagen', e);
+                        return 'Besuche';
+                    }),
+                    sb.getSeenOperasCloud().then((gesehen) => { this.data.seenOperas = gesehen; return null; }, (e) => {
+                        console.error('[Store] Abgleich der gesehenen Werke fehlgeschlagen', e);
+                        return 'Gesehene Werke';
+                    }),
+                    Promise.all([sb.hasPendingSuggestionCloud('opera'), sb.hasPendingSuggestionCloud('house')])
+                        .then(([opera, house]) => { this.pendingSuggestions.opera = opera; this.pendingSuggestions.house = house; return null; }, (e) => {
+                            console.error('[Store] Vorschlags-Abgleich fehlgeschlagen', e);
+                            return 'Vorschläge';
+                        }),
+                ]);
+                failures.push(...bereiche.filter(Boolean));
 
                 this.save();
             } else {

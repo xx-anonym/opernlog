@@ -796,9 +796,12 @@ export async function deleteVisitCloud(visitId) {
 async function enrichVisitsWithSocial(visits) {
     if (!visits || visits.length === 0) return [];
     const visitIds = visits.map(v => v.id);
-    const likeCounts = await getLikesForItems('visit', visitIds);
-    const myLikes = await getMyLikesForItems('visit', visitIds);
-    const commentsByVisit = await getCommentsForItems(visitIds);
+    // Gleichzeitig: die drei Abfragen hängen nicht voneinander ab.
+    const [likeCounts, myLikes, commentsByVisit] = await Promise.all([
+        getLikesForItems('visit', visitIds),
+        getMyLikesForItems('visit', visitIds),
+        getCommentsForItems(visitIds),
+    ]);
 
     return visits.map(v => ({
         ...v,
@@ -994,9 +997,12 @@ export async function getUserStatsCloud(userId) {
 async function enrichListsWithSocial(lists) {
     if (!lists || lists.length === 0) return [];
     const listIds = lists.map(l => l.id);
-    const likeCounts = await getLikesForItems('list', listIds);
-    const myLikes = await getMyLikesForItems('list', listIds);
-    const commentsByList = await getCommentsForItems(listIds);
+    // Gleichzeitig: die drei Abfragen hängen nicht voneinander ab.
+    const [likeCounts, myLikes, commentsByList] = await Promise.all([
+        getLikesForItems('list', listIds),
+        getMyLikesForItems('list', listIds),
+        getCommentsForItems(listIds),
+    ]);
 
     return lists.map(l => ({
         ...l,
@@ -1205,6 +1211,19 @@ export async function searchUsers(query) {
     return data || [];
 }
 
+// ── Fehlerprotokoll ──────────────────────────────────────
+/**
+ * Eine Zeile ins Fehlerprotokoll (src/fehlerprotokoll.js). Ohne .select():
+ * lesen dürfen die Tabelle nur Admins, die Antwort bliebe leer. Kein
+ * console.error bei einem Fehlschlag – der Aufrufer schweigt ohnehin.
+ */
+export async function fehlerMelden(eintrag) {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { error } = await sb.from('fehlerprotokoll').insert(eintrag);
+    if (error) throw error;
+}
+
 // ── Datenexport ──────────────────────────────────────────
 /**
  * Alles, was die Datenbank zum angemeldeten Konto hält, Zeile für Zeile –
@@ -1356,20 +1375,33 @@ export async function hasPendingSuggestionCloud(type) {
 // Schaltflächen aus, die ohnehin nichts bewirkt hätten.
 
 /** Steht das angemeldete Konto in der Admin-Tabelle? */
+// Ob jemand Admin ist, ändert sich nicht mitten in der Sitzung. Gefragt
+// wurde trotzdem bei jedem Seitenwechsel – am 26.09.2026 über 700-mal an
+// einem Tag. Die Antwort gilt jetzt je Konto, bis die Seite neu lädt; ein
+// Fehlschlag wird nicht gemerkt, beim nächsten Mal wird wieder gefragt.
+let adminAntwort = null; // { nutzer, antwort: Promise<boolean> }
+
 export async function istAdmin() {
     const session = await getSession();
     if (!session) return false;
     const sb = getSupabase();
     if (!sb) return false;
+    if (adminAntwort?.nutzer === session.user.id) return adminAntwort.antwort;
     // Die Regel auf admins zeigt jedem nur die eigene Zeile. Kommt eine
     // zurück, ist man Admin; kommt keine, nicht. Wer sonst Admin ist, erfährt
     // man auf diesem Weg nicht.
-    const { data, error } = await sb.from('admins').select('user_id').maybeSingle();
-    if (error) {
-        console.error('[Supabase] Adminrecht prüfen', error);
-        return false;
-    }
-    return !!data;
+    const eintrag = { nutzer: session.user.id };
+    eintrag.antwort = (async () => {
+        const { data, error } = await sb.from('admins').select('user_id').maybeSingle();
+        if (error) {
+            console.error('[Supabase] Adminrecht prüfen', error);
+            if (adminAntwort === eintrag) adminAntwort = null;
+            return false;
+        }
+        return !!data;
+    })();
+    adminAntwort = eintrag;
+    return eintrag.antwort;
 }
 
 /** Alle drei Zusatztabellen auf einmal, dazu die Bildausschnitte. */
