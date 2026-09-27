@@ -510,6 +510,34 @@ async function ladePlaywright() {
     return m.chromium ? m : m.default;
 }
 
+// Was eine Seite nachlädt, ohne dass es für die Termine zählt: Bilder,
+// Videos, Schriften und Zähldienste. Ohne sie wird eine Seite schneller
+// "still" (networkidle), und genau darauf wartet seite() bis zu 12 Sekunden.
+// Gemessen am 27.09.2026 an 36 Produktionsseiten, je Haus eine: dieselben
+// Termine und Uhrzeiten auf jeder, zusammen 197 s statt 149 s; Freiburg
+// 34 s statt 7 s je Seite, die Deutsche Oper 15 s statt 4 s.
+//
+// Skripte bleiben erlaubt, auch fremde – Termine kommen oft aus einem
+// Kartendienst eines anderen Anbieters. Cookieleisten ebenso: Erfurt belebt
+// "Weitere Termine laden" erst nach der Entscheidung darüber.
+const UNNOETIGE_ARTEN = new Set(['image', 'media', 'font']);
+const ZAEHLDIENSTE = /(^|\.)(google-analytics\.com|googletagmanager\.com|doubleclick\.net|googlesyndication\.com|googleadservices\.com|facebook\.net|facebook\.com|hotjar\.com|clarity\.ms|etracker\.(com|de)|youtube\.com|youtube-nocookie\.com|ytimg\.com|vimeo\.com|vimeocdn\.com|linkedin\.com|tiktok\.com|pinterest\.com|twitter\.com|criteo\.(com|net))$/i;
+
+/** Braucht der Lauf diese Anfrage nicht? */
+export function unnoetig(art, adresse) {
+    if (UNNOETIGE_ARTEN.has(art)) return true;
+    try { return ZAEHLDIENSTE.test(new URL(adresse).hostname); } catch { return false; }
+}
+
+/** Lässt im Kontext alles weg, was unnoetig() nennt. */
+export async function sparsam(kontext) {
+    await kontext.route('**/*', (r) => {
+        const anfrage = r.request();
+        return unnoetig(anfrage.resourceType(), anfrage.url()) ? r.abort() : r.continue();
+    });
+    return kontext;
+}
+
 export const FEHLERSEITE = /^\s*(network error|too many requests|service unavailable|429\b|503\b)/i;
 
 export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
@@ -1064,6 +1092,7 @@ async function main() {
         locale: 'de-DE',
         viewport: { width: 1280, height: 1600 },
     });
+    await sparsam(kontext);
     // Mehrere Häuser gleichzeitig, je Haus eine Seite nach der anderen.
     const warteschlange = [...haeuser];
     const strang = async () => {

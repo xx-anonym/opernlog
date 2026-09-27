@@ -137,7 +137,7 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
 });
 
 import { dazunehmen } from '../werkzeug/spielplan-uebernehmen.mjs';
-import { uebersichtsSeiten, seitenAuswahl, seitenTermine } from '../werkzeug/spielplaene-lesen.mjs';
+import { uebersichtsSeiten, seitenAuswahl, seitenTermine, unnoetig } from '../werkzeug/spielplaene-lesen.mjs';
 import { zeitenAusLd } from '../werkzeug/spielplan-termine.mjs';
 
 test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
@@ -188,6 +188,21 @@ test('ein Nachtrag für ein Haus ersetzt nur dessen Einträge', () => {
         'tosca@semperoper https://t.example/',
     ]);
     assert.equal(erg.stand, '2026-09-23');
+});
+
+test('der Lauf lässt Bilder, Schriften und Zähldienste weg, aber keine Skripte der Seite', () => {
+    for (const art of ['image', 'media', 'font']) assert.equal(unnoetig(art, 'https://www.oper-leipzig.de/x'), true, art);
+    for (const art of ['document', 'script', 'xhr', 'fetch', 'stylesheet']) {
+        assert.equal(unnoetig(art, 'https://www.oper-leipzig.de/x'), false, art);
+    }
+    // Zähldienste samt Unterdomänen – aber keine Adresse, die nur so endet.
+    assert.equal(unnoetig('script', 'https://www.googletagmanager.com/gtm.js?id=1'), true);
+    assert.equal(unnoetig('document', 'https://www.youtube-nocookie.com/embed/abc'), true);
+    assert.equal(unnoetig('script', 'https://nichtgoogle-analytics.com/a.js'), false);
+    // Kartendienste liefern oft die Termine selbst.
+    assert.equal(unnoetig('script', 'https://www.eventim-light.com/de/widget.js'), false);
+    assert.equal(unnoetig('xhr', 'https://api.reservix.de/termine'), false);
+    assert.equal(unnoetig('script', 'kaputt'), false);
 });
 
 test('ein Nachtrag behält Uhrzeiten, die er selbst nicht gelesen hat', () => {

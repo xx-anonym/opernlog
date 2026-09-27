@@ -57,10 +57,13 @@ jobs:
       # Bricht der Lauf mittendrin ab, stehen die bis dahin gelesenen Häuser
       # in lauf.json; die übrigen gelten als nicht gelesen und bleiben in der
       # App, wie sie sind. Deshalb weiter zum Vergleich.
+      #
+      # Acht Häuser gleichzeitig; je Haus bleibt es bei einer Seite nach der
+      # anderen, für die Theater ändert sich also nichts.
       - name: Spielpläne lesen
         continue-on-error: true
         timeout-minutes: 200
-        run: node tests/werkzeug/spielplaene-lesen.mjs lauf.json --straenge 6
+        run: node tests/werkzeug/spielplaene-lesen.mjs lauf.json --straenge 8
 
       - name: Mit der App vergleichen
         id: vergleich
