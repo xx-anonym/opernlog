@@ -8,7 +8,7 @@ import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
-import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
+import { profileIcons, renderAvatarHTML, profilFoto } from '../data/profileIcons.js';
 import { openListModal } from '../components/ListModal.js';
 import { seenOperaList } from '../data/seenOperas.js';
 import { visitedHouseList } from '../data/visitedHouses.js';
@@ -612,6 +612,10 @@ function renderLocalProfile(page, userId, isMe) {
           <label class="form-label">Profilbild</label>
           <div class="icon-picker" id="iconPicker">
             <button type="button" class="icon-picker__option icon-picker__option--none${!user.avatarIcon ? ' icon-picker__option--active' : ''}" data-icon="" title="Kein Icon">✕</button>
+            ${profilFoto(user.avatarIcon) ? `
+              <button type="button" class="icon-picker__option icon-picker__option--active" data-icon="${escapeHTML(user.avatarIcon)}" title="Profilfoto">
+                <img src="${escapeHTML(profilFoto(user.avatarIcon))}" alt="">
+              </button>` : ''}
             ${Object.entries(profileIcons).map(([key, icon]) => `
               <button type="button" class="icon-picker__option${user.avatarIcon === key ? ' icon-picker__option--active' : ''}" data-icon="${key}" title="${icon.label}">
                 ${icon.svg}

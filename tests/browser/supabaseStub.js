@@ -9,7 +9,8 @@
 export const STUB = `
 const UID = '11111111-1111-1111-1111-111111111111';
 const SESSION = { user: { id: UID, email: 'test@opernlog.test', user_metadata: { username: 'Testnutzer' } } };
-const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar_icon: null,
+// __avatarIconVorgabe per addInitScript: ein Instrument oder eine Bildadresse.
+const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar_icon: window.__avatarIconVorgabe ?? null,
   bio: '', profile_complete: true, created_at: '2024-01-01T00:00:00Z' };
 
 window.__seen = [];     // opera_id-Liste in der "Datenbank"
@@ -54,6 +55,7 @@ window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
 window.__signUpMitSitzung = false;
 window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
 window.__profilUpsert = [];     // jedes upsert auf profiles
+window.__profilUpdate = [];     // jedes update auf profiles (Profil bearbeiten)
 // Passkeys. Die WebAuthn-Zeremonie selbst laeuft im Test nicht – der Stub
 // antwortet an ihrer Stelle, so wie supabase-js es nach der Zeremonie taete.
 window.__pushAbos = [];         // was push_abo_speichern bekommen hat
@@ -146,6 +148,7 @@ function builder(table) {
         return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
       }
       if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
+      if (table === 'profiles' && op === 'update') window.__profilUpdate.push(nutzlast);
       if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
         return Promise.resolve({ data: null, error: { message: window.__profilSchreibfehler, code: '42501' } }).then(res, rej);
       }
