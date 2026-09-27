@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270108T193000
 DTEND;TZID=Europe/Berlin:20270108T223000
 SUMMARY:Il Trovatore – Theater Bielefeld
-LOCATION:Theater Bielefeld\, Bielefeld
+LOCATION:Theater Bielefeld\, Bielefeld\, Deutschland
 GEO:52.02074;8.53496
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bielefeld, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Theater Bielefeld":geo:52.02074,8.53496
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Bi
+ elefeld, Bielefeld, Deutschland:geo:52.02074,8.53496
 URL:https://www.buo-bielefeld.de/theater/veranstaltung/der-troubadour-il-tr
  ovatore
 DESCRIPTION:Giuseppe Verdi: Il Trovatore\nTermine und Karten: https://www.b

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270206T193000
 DTEND;TZID=Europe/Berlin:20270206T223000
 SUMMARY:Un ballo in maschera – Theater Lübeck
-LOCATION:Theater Lübeck\, Lübeck
+LOCATION:Theater Lübeck\, Lübeck\, Deutschland
 GEO:53.869;10.683
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Lübeck, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Theater Lübeck":geo:53.869,10.683
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater L
+ übeck, Lübeck, Deutschland:geo:53.869,10.683
 URL:https://www.theaterluebeck.de/produktionen/ein-maskenball_2026-27.html?
  m=1
 DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https

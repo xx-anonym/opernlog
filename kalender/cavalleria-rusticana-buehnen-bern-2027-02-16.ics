@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270216T193000
 DTEND;TZID=Europe/Zurich:20270216T223000
 SUMMARY:Cavalleria rusticana – Bühnen Bern
-LOCATION:Bühnen Bern\, Bern
+LOCATION:Bühnen Bern\, Bern\, Schweiz
 GEO:46.949;7.447
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bern, Schweiz";X-APPLE-RAD
- IUS=100;X-TITLE="Bühnen Bern":geo:46.949,7.447
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bühnen Be
+ rn, Bern, Schweiz:geo:46.949,7.447
 URL:https://buehnenbern.ch/spielplan/programm/cavalleria-rusticana-pagliacc
  i/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http

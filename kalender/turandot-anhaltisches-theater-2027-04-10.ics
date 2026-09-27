@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270410T190000
 DTEND;TZID=Europe/Berlin:20270410T220000
 SUMMARY:Turandot – Anhaltisches Theater
-LOCATION:Anhaltisches Theater\, Dessau
+LOCATION:Anhaltisches Theater\, Dessau\, Deutschland
 GEO:51.836;12.235
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dessau, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Anhaltisches Theater":geo:51.836,12.235
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Anhaltisch
+ es Theater, Dessau, Deutschland:geo:51.836,12.235
 URL:https://anhaltisches-theater.de/turandot
 DESCRIPTION:Giacomo Puccini: Turandot\nTermine und Karten: https://anhaltis
  ches-theater.de/turandot\nDas Ende ist geschätzt (3 Stunden).\nAus OpernL

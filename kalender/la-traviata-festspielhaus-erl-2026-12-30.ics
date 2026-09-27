@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261230T180000
 DTEND;TZID=Europe/Vienna:20261230T210000
 SUMMARY:La Traviata – Festspielhaus Erl
-LOCATION:Festspielhaus Erl\, Erl
+LOCATION:Festspielhaus Erl\, Erl\, Österreich
 GEO:47.6866;12.1812
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Erl, Österreich";X-APPLE-
- RADIUS=100;X-TITLE="Festspielhaus Erl":geo:47.6866,12.1812
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Festspielh
+ aus Erl, Erl, Österreich:geo:47.6866,12.1812
 URL:https://www.tiroler-festspiele.at/events/26_27_giuseppe-verdila-traviat
  a
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.ti

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261106T193000
 DTEND;TZID=Europe/Berlin:20261106T223000
 SUMMARY:Elektra – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin\, Deutschland
 GEO:52.5121;13.3092
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
+ per Berlin, Berlin, Deutschland:geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/elektra.1385724
 DESCRIPTION:Richard Strauss: Elektra\nTermine und Karten: https://deutscheo
  perberlin.de/de_DE/production/elektra.1385724\nDas Ende ist geschätzt (3 

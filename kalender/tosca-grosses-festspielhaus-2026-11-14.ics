@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261114T150000
 DTEND;TZID=Europe/Vienna:20261114T180000
 SUMMARY:Tosca – Großes Festspielhaus
-LOCATION:Großes Festspielhaus\, Salzburg
+LOCATION:Großes Festspielhaus\, Salzburg\, Österreich
 GEO:47.8003;13.0429
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Salzburg, Österreich";X-A
- PPLE-RADIUS=100;X-TITLE="Großes Festspielhaus":geo:47.8003,13.0429
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Großes Fe
+ stspielhaus, Salzburg, Österreich:geo:47.8003,13.0429
 URL:https://www.salzburger-landestheater.at/de/produktionen/tosca-2.html
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.salzbur
  ger-landestheater.at/de/produktionen/tosca-2.html\nDas Ende ist geschätzt

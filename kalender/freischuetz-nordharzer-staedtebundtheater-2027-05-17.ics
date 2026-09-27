@@ -27,11 +27,12 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270517T180000
 DTEND;TZID=Europe/Berlin:20270517T210000
 SUMMARY:Der Freischütz – Nordharzer Städtebundtheater
-LOCATION:Nordharzer Städtebundtheater\, Halberstadt / Quedlinburg
+LOCATION:Nordharzer Städtebundtheater\, Halberstadt / Quedlinburg\, Deutsc
+ hland
 GEO:51.896;11.048
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Halberstadt / Quedlinburg,
-  Deutschland";X-APPLE-RADIUS=100;X-TITLE="Nordharzer Städtebundtheater":g
- eo:51.896,11.048
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Nordharzer
+  Städtebundtheater, Halberstadt / Quedlinburg, Deutschland:geo:51.896,11.
+ 048
 URL:https://harztheater.de/produktion/der-freischuetz
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
  s://harztheater.de/produktion/der-freischuetz\nDas Ende ist geschätzt (3 

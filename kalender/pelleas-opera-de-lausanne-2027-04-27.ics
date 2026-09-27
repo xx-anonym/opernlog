@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270427T190000
 DTEND;TZID=Europe/Zurich:20270427T220000
 SUMMARY:Pelléas et Mélisande – Opéra de Lausanne
-LOCATION:Opéra de Lausanne\, Lausanne
+LOCATION:Opéra de Lausanne\, Lausanne\, Schweiz
 GEO:46.521;6.634
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Lausanne, Schweiz";X-APPLE
- -RADIUS=100;X-TITLE="Opéra de Lausanne":geo:46.521,6.634
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Opéra de 
+ Lausanne, Lausanne, Schweiz:geo:46.521,6.634
 URL:https://www.opera-lausanne.ch/show/pelleas-et-melisande/
 DESCRIPTION:Claude Debussy: Pelléas et Mélisande\nTermine und Karten: htt
  ps://www.opera-lausanne.ch/show/pelleas-et-melisande/\nDas Ende ist gesch

@@ -17,26 +17,36 @@ const GESCHAETZT_STUNDEN = 3;
 const zwei = n => String(n).padStart(2, '0');
 
 /**
- * Wert eines Parameters (nicht eines Feldes): in Anführungszeichen, damit
- * Komma, Semikolon und Doppelpunkt darin stehen dürfen. Anführungszeichen
- * selbst sind in Parametern gar nicht erlaubt, auch nicht maskiert.
+ * Wert eines Parameters (nicht eines Feldes). Apple schreibt Kommas darin
+ * ohne Anführungszeichen, und so liest es sie auch; nur Semikolon und
+ * Doppelpunkt brauchen welche. Anführungszeichen selbst sind in Parametern
+ * gar nicht erlaubt, auch nicht maskiert.
  */
 function parameter(text) {
-    return `"${String(text ?? '').replace(/"/g, "'").replace(/\r?\n/g, ' ')}"`;
+    const wert = String(text ?? '').replace(/"/g, "'").replace(/\r?\n/g, ' ');
+    return /[;:]/.test(wert) ? `"${wert}"` : wert;
 }
 
 const landFuer = haus => (haus?.state === 'Österreich' || haus?.state === 'Schweiz') ? haus.state : 'Deutschland';
 
+/** "Oper Leipzig, Leipzig, Deutschland" – derselbe Text in LOCATION und X-TITLE. */
+const ortText = haus => [haus.name, haus.city, landFuer(haus)].filter(Boolean).join(', ');
+
 /**
  * Der Ort, wie Apple Kalender ihn braucht, um eine Karte, die Wegzeit und
  * "Route" anzuzeigen. GEO allein liest er nicht, und LOCATION ist für ihn
- * nur Text. Eine Straßenadresse führt der Katalog nicht – die Koordinaten
- * reichen: die Karte zeigt den Punkt, die Navigation führt hin.
+ * nur Text.
+ *
+ * Apple übernimmt den Ort nur, wenn X-TITLE genau dem Text in LOCATION
+ * entspricht. Eine Straßenadresse führt der Katalog nicht; dann gehört auch
+ * kein X-ADDRESS hinein – mit einer bloßen Stadt darin zeigte Apple keine
+ * Karte. So schreibt Apple selbst einen Ort ohne Straße
+ * (ical-generator, Issue 236). Die Koordinaten reichen: die Karte zeigt den
+ * Punkt, die Navigation führt hin.
  */
 function appleOrt(haus) {
     if (!Number.isFinite(haus.lat) || !Number.isFinite(haus.lon)) return [];
-    const adresse = [haus.city, landFuer(haus)].filter(Boolean).join(', ');
-    return [`X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=${parameter(adresse)};X-APPLE-RADIUS=100;X-TITLE=${parameter(haus.name)}:geo:${haus.lat},${haus.lon}`];
+    return [`X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=${parameter(ortText(haus))}:geo:${haus.lat},${haus.lon}`];
 }
 
 /** Text für ein Feld: Backslash, Semikolon, Komma und Zeilenumbruch maskiert. */
@@ -147,7 +157,7 @@ export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', jetz
         `DTSTAMP:${utcStempel(jetzt)}`,
         ...zeitZeilen,
         `SUMMARY:${feld(`${werk.title} – ${haus.name}`)}`,
-        `LOCATION:${feld([haus.name, haus.city].filter(Boolean).join(', '))}`,
+        `LOCATION:${feld(ortText(haus))}`,
         ...(Number.isFinite(haus.lat) && Number.isFinite(haus.lon) ? [`GEO:${haus.lat};${haus.lon}`] : []),
         ...appleOrt(haus),
         ...(url ? [`URL:${url}`] : []),

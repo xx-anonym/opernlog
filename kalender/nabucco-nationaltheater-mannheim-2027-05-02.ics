@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270502T180000
 DTEND;TZID=Europe/Berlin:20270502T210000
 SUMMARY:Nabucco – Nationaltheater Mannheim
-LOCATION:Nationaltheater Mannheim\, Mannheim
+LOCATION:Nationaltheater Mannheim\, Mannheim\, Deutschland
 GEO:49.4894;8.4795
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Mannheim, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Nationaltheater Mannheim":geo:49.4894,8.4795
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Nationalth
+ eater Mannheim, Mannheim, Deutschland:geo:49.4894,8.4795
 URL:https://www.nationaltheater-mannheim.de/spielplan/a-z/nabucco/
 DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://www.nation
  altheater-mannheim.de/spielplan/a-z/nabucco/\nDas Ende ist geschätzt (3 S

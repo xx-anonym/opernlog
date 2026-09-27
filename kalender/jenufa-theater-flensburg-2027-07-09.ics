@@ -26,11 +26,12 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270709T193000
 DTEND;TZID=Europe/Berlin:20270709T223000
 SUMMARY:Jenůfa – Schleswig-Holsteinisches Landestheater
-LOCATION:Schleswig-Holsteinisches Landestheater\, Flensburg / Rendsburg
+LOCATION:Schleswig-Holsteinisches Landestheater\, Flensburg / Rendsburg\, D
+ eutschland
 GEO:54.783;9.434
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Flensburg / Rendsburg, Deu
- tschland";X-APPLE-RADIUS=100;X-TITLE="Schleswig-Holsteinisches Landestheat
- er":geo:54.783,9.434
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Schleswig-
+ Holsteinisches Landestheater, Flensburg / Rendsburg, Deutschland:geo:54.78
+ 3,9.434
 URL:https://www.sh-landestheater.de/produktionen/jenfa.html
 DESCRIPTION:Leoš Janáček: Jenůfa\nTermine und Karten: https://www.sh-la
  ndestheater.de/produktionen/jenfa.html\nDas Ende ist geschätzt (3 Stunden

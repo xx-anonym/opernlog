@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261007T190000
 DTEND;TZID=Europe/Berlin:20261007T220000
 SUMMARY:Don Giovanni – Hamburgische Staatsoper
-LOCATION:Hamburgische Staatsoper\, Hamburg
+LOCATION:Hamburgische Staatsoper\, Hamburg\, Deutschland
 GEO:53.5566;9.9887
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hamburg, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Hamburgische Staatsoper":geo:53.5566,9.9887
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Hamburgisc
+ he Staatsoper, Hamburg, Deutschland:geo:53.5566,9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/752-don-gio
  vanni#tickets
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http

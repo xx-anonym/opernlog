@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270404T160000
 DTEND;TZID=Europe/Berlin:20270404T190000
 SUMMARY:Rinaldo – Oper Halle
-LOCATION:Oper Halle\, Halle (Saale)
+LOCATION:Oper Halle\, Halle (Saale)\, Deutschland
 GEO:51.483;11.972
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Halle (Saale), Deutschland
- ";X-APPLE-RADIUS=100;X-TITLE="Oper Halle":geo:51.483,11.972
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Halle
+ , Halle (Saale), Deutschland:geo:51.483,11.972
 URL:https://www.buehnen-halle.de/de/program/rinaldo/274614
 DESCRIPTION:Georg Friedrich Händel: Rinaldo\nTermine und Karten: https://w
  ww.buehnen-halle.de/de/program/rinaldo/274614\nDas Ende ist geschätzt (3 

@@ -9,10 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20270727
 DTEND;VALUE=DATE:20270728
 SUMMARY:La Bohème – Oper Burg Gars
-LOCATION:Oper Burg Gars\, Gars am Kamp
+LOCATION:Oper Burg Gars\, Gars am Kamp\, Österreich
 GEO:48.5985;15.654
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Gars am Kamp, Österreich"
- ;X-APPLE-RADIUS=100;X-TITLE="Oper Burg Gars":geo:48.5985,15.654
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Burg 
+ Gars, Gars am Kamp, Österreich:geo:48.5985,15.654
 URL:https://operburggars.at/portfolio-item/la-boheme/#toggle-id-1
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://operbu
  rggars.at/portfolio-item/la-boheme/#toggle-id-1\nDie Uhrzeit steht auf der

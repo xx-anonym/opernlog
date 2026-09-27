@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270214T170000
 DTEND;TZID=Europe/Berlin:20270214T200000
 SUMMARY:Lohengrin – Badisches Staatstheater
-LOCATION:Badisches Staatstheater\, Karlsruhe
+LOCATION:Badisches Staatstheater\, Karlsruhe\, Deutschland
 GEO:48.9975;8.4045
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Karlsruhe, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Badisches Staatstheater":geo:48.9975,8.4045
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Badisches 
+ Staatstheater, Karlsruhe, Deutschland:geo:48.9975,8.4045
 URL:https://staatstheater-karlsruhe.de/programm/info/3775/
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://staatsth
  eater-karlsruhe.de/programm/info/3775/\nDas Ende ist geschätzt (3 Stunden

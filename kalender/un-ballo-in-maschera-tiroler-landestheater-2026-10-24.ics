@@ -27,10 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261024T190000
 DTEND;TZID=Europe/Vienna:20261024T214500
 SUMMARY:Un ballo in maschera – Tiroler Landestheater
-LOCATION:Tiroler Landestheater\, Innsbruck
+LOCATION:Tiroler Landestheater\, Innsbruck\, Österreich
 GEO:47.2703;11.3958
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Innsbruck, Österreich";X-
- APPLE-RADIUS=100;X-TITLE="Tiroler Landestheater":geo:47.2703,11.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Tiroler La
+ ndestheater, Innsbruck, Österreich:geo:47.2703,11.3958
 URL:https://www.landestheater.at/produktionen/un-ballo-in-maschera
 DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https
  ://www.landestheater.at/produktionen/un-ballo-in-maschera\nAus OpernLog 

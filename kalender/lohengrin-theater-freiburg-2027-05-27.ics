@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270527T170000
 DTEND;TZID=Europe/Berlin:20270527T200000
 SUMMARY:Lohengrin – Theater Freiburg
-LOCATION:Theater Freiburg\, Freiburg
+LOCATION:Theater Freiburg\, Freiburg\, Deutschland
 GEO:47.997;7.848
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Freiburg, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Theater Freiburg":geo:47.997,7.848
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Fr
+ eiburg, Freiburg, Deutschland:geo:47.997,7.848
 URL:https://theater.freiburg.de/de_DE/programm/lohengrin.1398876
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://theater.
  freiburg.de/de_DE/programm/lohengrin.1398876\nDas Ende ist geschätzt (3 S

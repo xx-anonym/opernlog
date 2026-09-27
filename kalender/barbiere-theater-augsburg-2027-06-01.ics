@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270601T193000
 DTEND;TZID=Europe/Berlin:20270601T223000
 SUMMARY:Il barbiere di Siviglia – Staatstheater Augsburg
-LOCATION:Staatstheater Augsburg\, Augsburg
+LOCATION:Staatstheater Augsburg\, Augsburg\, Deutschland
 GEO:48.3707;10.8983
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Augsburg, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Staatstheater Augsburg":geo:48.3707,10.8983
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
+ ter Augsburg, Augsburg, Deutschland:geo:48.3707,10.8983
 URL:https://staatstheater-augsburg.de/il_barbiere_di_siviglia_der_barbier_v
  on_sevilla
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

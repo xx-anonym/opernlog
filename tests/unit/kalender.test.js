@@ -21,11 +21,14 @@ test('mit Beginn und Ende: Ortszeit samt Zeitzone, Ort, Link', () => {
     assert.equal(wert(ics, 'DTEND;TZID=Europe/Berlin:'), '20261205T223000');
     assert.ok(zeilen(ics).includes('TZID:Europe/Berlin'), 'die Zeitzone ist beschrieben');
     assert.equal(wert(ics, 'SUMMARY:'), 'Tosca – Semperoper');
-    assert.equal(wert(ics, 'LOCATION:'), 'Semperoper\\, Dresden');
+    assert.equal(wert(ics, 'LOCATION:'), 'Semperoper\\, Dresden\\, Deutschland');
     assert.equal(wert(ics, 'GEO:'), '51.0543;13.7351');
     // Apple Kalender zeigt Karte und Route nur mit diesem Feld.
+    // Apple übernimmt ihn nur, wenn X-TITLE dem Text in LOCATION entspricht,
+    // und ohne Straße gehört kein X-ADDRESS hinein.
     assert.equal(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'),
-        'VALUE=URI;X-ADDRESS="Dresden, Deutschland";X-APPLE-RADIUS=100;X-TITLE="Semperoper":geo:51.0543,13.7351');
+        'VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Semperoper, Dresden, Deutschland:geo:51.0543,13.7351');
+    assert.equal(wert(ics, 'LOCATION:').replace(/\\,/g, ','), 'Semperoper, Dresden, Deutschland');
     assert.equal(wert(ics, 'URL:'), URL);
     assert.equal(wert(ics, 'UID:'), 'tosca-semperoper-2026-12-05@opernlog.vercel.app');
     assert.equal(wert(ics, 'DTSTAMP:'), '20260923T120000Z');
@@ -57,7 +60,7 @@ test('ohne Uhrzeit ganztägig, mit Hinweis', () => {
 test('ein Haus in Österreich bekommt die Wiener Zeitzone', () => {
     const ics = kalenderEintrag({ werk: TOSCA, haus: WIEN, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
     assert.equal(wert(ics, 'DTSTART;TZID=Europe/Vienna:'), '20261205T190000');
-    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-ADDRESS="Wien, Österreich"/);
+    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE=Wiener Staatsoper, Wien, Österreich:geo:/);
 });
 
 test('Sonderzeichen werden maskiert, lange Zeilen gefaltet, Zeilen enden mit CRLF', () => {
@@ -115,7 +118,7 @@ test('installiert erkannt auch am Anzeigemodus, und das iPad zählt mit', () => 
 test('Anführungszeichen im Hausnamen brechen den Parameter nicht auf; ohne Koordinaten kein Kartenort', () => {
     const haus = { ...SEMPER, name: 'Theater "Am Markt"; Saal 2' };
     const ics = kalenderEintrag({ werk: TOSCA, haus, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
-    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE="Theater 'Am Markt'; Saal 2":geo:/);
+    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE="Theater 'Am Markt'; Saal 2, Dresden, Deutschland":geo:/);
     const ohne = kalenderEintrag({ werk: TOSCA, haus: { id: 'x', name: 'Ohne Ort', city: 'Irgendwo' }, datum: '2026-12-05', jetzt: JETZT });
     assert.equal(wert(ohne, 'X-APPLE-STRUCTURED-LOCATION;'), undefined);
     assert.equal(wert(ohne, 'GEO:'), undefined);

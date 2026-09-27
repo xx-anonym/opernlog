@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261126T193000
 DTEND;TZID=Europe/Vienna:20261126T223000
 SUMMARY:Così fan tutte – Stadttheater Klagenfurt
-LOCATION:Stadttheater Klagenfurt\, Klagenfurt
+LOCATION:Stadttheater Klagenfurt\, Klagenfurt\, Österreich
 GEO:46.6262;14.3115
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Klagenfurt, Österreich";X
- -APPLE-RADIUS=100;X-TITLE="Stadttheater Klagenfurt":geo:46.6262,14.3115
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Stadttheat
+ er Klagenfurt, Klagenfurt, Österreich:geo:46.6262,14.3115
 URL:https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/\nDas En

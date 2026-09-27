@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261105T193000
 DTEND;TZID=Europe/Berlin:20261105T223000
 SUMMARY:Il viaggio a Reims – Staatstheater am Gärtnerplatz
-LOCATION:Staatstheater am Gärtnerplatz\, München
+LOCATION:Staatstheater am Gärtnerplatz\, München\, Deutschland
 GEO:48.13;11.5751
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Staatstheater am Gärtnerplatz":geo:48.13,11.5751
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
+ ter am Gärtnerplatz, München, Deutschland:geo:48.13,11.5751
 URL:https://www.gaertnerplatztheater.de/de/produktionen/die-reise-nach-reim
  s.html
 DESCRIPTION:Gioachino Rossini: Il viaggio a Reims\nTermine und Karten: http

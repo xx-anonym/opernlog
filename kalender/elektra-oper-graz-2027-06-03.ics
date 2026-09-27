@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270603T193000
 DTEND;TZID=Europe/Vienna:20270603T211500
 SUMMARY:Elektra – Oper Graz
-LOCATION:Oper Graz\, Graz
+LOCATION:Oper Graz\, Graz\, Österreich
 GEO:47.0716;15.4445
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Graz, Österreich";X-APPLE
- -RADIUS=100;X-TITLE="Oper Graz":geo:47.0716,15.4445
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Graz,
+  Graz, Österreich:geo:47.0716,15.4445
 URL:https://oper-graz.buehnen-graz.com/produktion/elektra/
 DESCRIPTION:Richard Strauss: Elektra\nTermine und Karten: https://oper-graz
  .buehnen-graz.com/produktion/elektra/\nAus OpernLog – maßgeblich ist di

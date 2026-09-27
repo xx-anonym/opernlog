@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270819T210000
 DTEND;TZID=Europe/Vienna:20270820T000000
 SUMMARY:La Traviata – Seebühne Bregenz
-LOCATION:Seebühne Bregenz\, Bregenz
+LOCATION:Seebühne Bregenz\, Bregenz\, Österreich
 GEO:47.507;9.7444
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bregenz, Österreich";X-AP
- PLE-RADIUS=100;X-TITLE="Seebühne Bregenz":geo:47.507,9.7444
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Seebühne 
+ Bregenz, Bregenz, Österreich:geo:47.507,9.7444
 URL:https://bregenzerfestspiele.com/de/oper-und-musiktheater/la-traviata
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://bregen
  zerfestspiele.com/de/oper-und-musiktheater/la-traviata\nDas Ende ist gesch

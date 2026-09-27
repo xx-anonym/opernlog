@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261101T150000
 DTEND;TZID=Europe/Berlin:20261101T180000
 SUMMARY:Der Wildschütz – Semperoper
-LOCATION:Semperoper\, Dresden
+LOCATION:Semperoper\, Dresden\, Deutschland
 GEO:51.0543;13.7351
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dresden, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Semperoper":geo:51.0543,13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Semperoper
+ , Dresden, Deutschland:geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/wildschuetz/60553.html
 DESCRIPTION:Albert Lortzing: Der Wildschütz\nTermine und Karten: https://w
  ww.semperoper.de/spielplan/stuecke/stid/wildschuetz/60553.html\nDas Ende i

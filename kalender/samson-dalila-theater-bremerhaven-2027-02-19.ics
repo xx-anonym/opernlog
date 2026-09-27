@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270219T193000
 DTEND;TZID=Europe/Berlin:20270219T223000
 SUMMARY:Samson et Dalila – Stadttheater Bremerhaven
-LOCATION:Stadttheater Bremerhaven\, Bremerhaven
+LOCATION:Stadttheater Bremerhaven\, Bremerhaven\, Deutschland
 GEO:53.544;8.582
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bremerhaven, Deutschland";
- X-APPLE-RADIUS=100;X-TITLE="Stadttheater Bremerhaven":geo:53.544,8.582
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Stadttheat
+ er Bremerhaven, Bremerhaven, Deutschland:geo:53.544,8.582
 URL:https://stadttheaterbremerhaven.de/samson-et-dalila/
 DESCRIPTION:Camille Saint-Saëns: Samson et Dalila\nTermine und Karten: htt
  ps://stadttheaterbremerhaven.de/samson-et-dalila/\nDas Ende ist geschätzt

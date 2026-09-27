@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270214T180000
 DTEND;TZID=Europe/Berlin:20270214T210000
 SUMMARY:Der Freischütz – Theater Bremen
-LOCATION:Theater Bremen\, Bremen
+LOCATION:Theater Bremen\, Bremen\, Deutschland
 GEO:53.074;8.814
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bremen, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Theater Bremen":geo:53.074,8.814
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Br
+ emen, Bremen, Deutschland:geo:53.074,8.814
 URL:https://theaterbremen.de/de_DE/programm/der-freischuetz.1398908
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
  s://theaterbremen.de/de_DE/programm/der-freischuetz.1398908\nDas Ende ist 

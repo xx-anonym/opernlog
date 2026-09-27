@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261010T190000
 DTEND;TZID=Europe/Berlin:20261010T220000
 SUMMARY:Eugen Onegin – Theater Erfurt
-LOCATION:Theater Erfurt\, Erfurt
+LOCATION:Theater Erfurt\, Erfurt\, Deutschland
 GEO:50.98;11.018
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Erfurt, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Theater Erfurt":geo:50.98,11.018
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Er
+ furt, Erfurt, Deutschland:geo:50.98,11.018
 URL:https://www.theater-erfurt.de/stuecke/eugen-onegin
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
  https://www.theater-erfurt.de/stuecke/eugen-onegin\nDas Ende ist geschätz

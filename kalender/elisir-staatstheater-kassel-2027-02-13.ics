@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270213T190000
 DTEND;TZID=Europe/Berlin:20270213T220000
 SUMMARY:L'elisir d'amore – Staatstheater Kassel
-LOCATION:Staatstheater Kassel\, Kassel
+LOCATION:Staatstheater Kassel\, Kassel\, Deutschland
 GEO:51.3123;9.4948
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Kassel, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Staatstheater Kassel":geo:51.3123,9.4948
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
+ ter Kassel, Kassel, Deutschland:geo:51.3123,9.4948
 URL:https://www.staatstheater-kassel.de/play/lelisirdamore-3322
 DESCRIPTION:Gaetano Donizetti: L'elisir d'amore\nTermine und Karten: https:
  //www.staatstheater-kassel.de/play/lelisirdamore-3322\nAus OpernLog – ma

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261121T180000
 DTEND;TZID=Europe/Berlin:20261121T210000
 SUMMARY:Lohengrin – Staatstheater Mainz
-LOCATION:Staatstheater Mainz\, Mainz
+LOCATION:Staatstheater Mainz\, Mainz\, Deutschland
 GEO:50;8.272
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Mainz, Deutschland";X-APPL
- E-RADIUS=100;X-TITLE="Staatstheater Mainz":geo:50,8.272
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
+ ter Mainz, Mainz, Deutschland:geo:50,8.272
 URL:https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/lohengri
  n
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.staa

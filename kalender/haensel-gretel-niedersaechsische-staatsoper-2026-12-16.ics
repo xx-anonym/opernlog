@@ -27,10 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261216T100000
 DTEND;TZID=Europe/Berlin:20261216T120500
 SUMMARY:Hänsel und Gretel – Staatsoper Hannover
-LOCATION:Staatsoper Hannover\, Hannover
+LOCATION:Staatsoper Hannover\, Hannover\, Deutschland
 GEO:52.376;9.7405
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hannover, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Staatsoper Hannover":geo:52.376,9.7405
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
+  Hannover, Hannover, Deutschland:geo:52.376,9.7405
 URL:https://staatstheater-hannover.de/de_DE/programm/haensel-und-gretel.139
  7723
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 

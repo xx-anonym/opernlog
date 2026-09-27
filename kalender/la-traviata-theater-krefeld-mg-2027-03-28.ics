@@ -26,11 +26,12 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270328T160000
 DTEND;TZID=Europe/Berlin:20270328T190000
 SUMMARY:La Traviata – Theater Krefeld und Mönchengladbach
-LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach
+LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach\
+ , Deutschland
 GEO:51.335;6.567
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Krefeld / Mönchengladbach
- , Deutschland";X-APPLE-RADIUS=100;X-TITLE="Theater Krefeld und Mönchengla
- dbach":geo:51.335,6.567
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Kr
+ efeld und Mönchengladbach, Krefeld / Mönchengladbach, Deutschland:geo:51
+ .335,6.567
 URL:https://theater-kr-mg.de/spielplan/la-traviata/
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://theate
  r-kr-mg.de/spielplan/la-traviata/\nDas Ende ist geschätzt (3 Stunden).\nA

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270329T170000
 DTEND;TZID=Europe/Berlin:20270329T200000
 SUMMARY:Parsifal – Nationaltheater Mannheim
-LOCATION:Nationaltheater Mannheim\, Mannheim
+LOCATION:Nationaltheater Mannheim\, Mannheim\, Deutschland
 GEO:49.4894;8.4795
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Mannheim, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Nationaltheater Mannheim":geo:49.4894,8.4795
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Nationalth
+ eater Mannheim, Mannheim, Deutschland:geo:49.4894,8.4795
 URL:https://www.nationaltheater-mannheim.de/spielplan/parsifal/4531/
 DESCRIPTION:Richard Wagner: Parsifal\nTermine und Karten: https://www.natio
  naltheater-mannheim.de/spielplan/parsifal/4531/\nDas Ende ist geschätzt (

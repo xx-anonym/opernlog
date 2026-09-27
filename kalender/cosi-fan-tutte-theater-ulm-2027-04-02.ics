@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270402T200000
 DTEND;TZID=Europe/Berlin:20270402T230000
 SUMMARY:Così fan tutte – Theater Ulm
-LOCATION:Theater Ulm\, Ulm
+LOCATION:Theater Ulm\, Ulm\, Deutschland
 GEO:48.3966;9.9925
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Ulm, Deutschland";X-APPLE-
- RADIUS=100;X-TITLE="Theater Ulm":geo:48.3966,9.9925
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ul
+ m, Ulm, Deutschland:geo:48.3966,9.9925
 URL:https://www.theater-ulm.de/spielplan/stuecke/cosi-fan-tutte
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://www.theater-ulm.de/spielplan/stuecke/cosi-fan-tutte\nDas Ende ist g

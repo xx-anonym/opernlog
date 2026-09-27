@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270711T180000
 DTEND;TZID=Europe/Berlin:20270711T210000
 SUMMARY:L'incoronazione di Poppea – Oper Köln
-LOCATION:Oper Köln\, Köln
+LOCATION:Oper Köln\, Köln\, Deutschland
 GEO:50.9384;6.9497
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Köln, Deutschland";X-APPL
- E-RADIUS=100;X-TITLE="Oper Köln":geo:50.9384,6.9497
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Köln
+ , Köln, Deutschland:geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/die-kroenung-der-poppea
 DESCRIPTION:Claudio Monteverdi: L'incoronazione di Poppea\nTermine und Kart
  en: https://www.oper.koeln/produktion/die-kroenung-der-poppea\nDas Ende is

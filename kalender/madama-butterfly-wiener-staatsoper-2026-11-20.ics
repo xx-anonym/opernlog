@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261120T190000
 DTEND;TZID=Europe/Vienna:20261120T220000
 SUMMARY:Madama Butterfly – Wiener Staatsoper
-LOCATION:Wiener Staatsoper\, Wien
+LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
- -RADIUS=100;X-TITLE="Wiener Staatsoper":geo:48.2029,16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Wiener Sta
+ atsoper, Wien, Österreich:geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/madama-butterfly/
 DESCRIPTION:Giacomo Puccini: Madama Butterfly\nTermine und Karten: https://
  www.wiener-staatsoper.at/kalender/detail/madama-butterfly/\nDas Ende ist g

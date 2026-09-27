@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270502T170000
 DTEND;TZID=Europe/Berlin:20270502T200000
 SUMMARY:Tannhäuser – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
+  Staatsoper, München, Deutschland:geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/tannhaeuser/2027-04-25-1700-16271
 DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.st
  aatsoper.de/stuecke/tannhaeuser/2027-04-25-1700-16271\nDas Ende ist gesch

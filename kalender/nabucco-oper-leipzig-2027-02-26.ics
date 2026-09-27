@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270226T193000
 DTEND;TZID=Europe/Berlin:20270226T223000
 SUMMARY:Nabucco – Oper Leipzig
-LOCATION:Oper Leipzig\, Leipzig
+LOCATION:Oper Leipzig\, Leipzig\, Deutschland
 GEO:51.339;12.3805
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Leipzig, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Oper Leipzig":geo:51.339,12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Leipz
+ ig, Leipzig, Deutschland:geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/nabucco/171
 DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://www.oper-l
  eipzig.de/de/programm/nabucco/171\nDas Ende ist geschätzt (3 Stunden).\nA

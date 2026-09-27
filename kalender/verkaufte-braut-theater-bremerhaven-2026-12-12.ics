@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261212T193000
 DTEND;TZID=Europe/Berlin:20261212T223000
 SUMMARY:Die verkaufte Braut – Stadttheater Bremerhaven
-LOCATION:Stadttheater Bremerhaven\, Bremerhaven
+LOCATION:Stadttheater Bremerhaven\, Bremerhaven\, Deutschland
 GEO:53.544;8.582
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Bremerhaven, Deutschland";
- X-APPLE-RADIUS=100;X-TITLE="Stadttheater Bremerhaven":geo:53.544,8.582
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Stadttheat
+ er Bremerhaven, Bremerhaven, Deutschland:geo:53.544,8.582
 URL:https://stadttheaterbremerhaven.de/die-verkaufte-braut/
 DESCRIPTION:Bedřich Smetana: Die verkaufte Braut\nTermine und Karten: http
  s://stadttheaterbremerhaven.de/die-verkaufte-braut/\nDas Ende ist geschät

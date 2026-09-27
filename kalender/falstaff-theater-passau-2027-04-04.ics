@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270404T171500
 DTEND;TZID=Europe/Berlin:20270404T201500
 SUMMARY:Falstaff – Landestheater Niederbayern
-LOCATION:Landestheater Niederbayern\, Passau / Landshut
+LOCATION:Landestheater Niederbayern\, Passau / Landshut\, Deutschland
 GEO:48.5745;13.4655
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Passau / Landshut, Deutsch
- land";X-APPLE-RADIUS=100;X-TITLE="Landestheater Niederbayern":geo:48.5745,
- 13.4655
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Landesthea
+ ter Niederbayern, Passau / Landshut, Deutschland:geo:48.5745,13.4655
 URL:https://www.landestheater-niederbayern.de/event/falstaff/
 DESCRIPTION:Giuseppe Verdi: Falstaff\nTermine und Karten: https://www.lande
  stheater-niederbayern.de/event/falstaff/\nDas Ende ist geschätzt (3 Stund

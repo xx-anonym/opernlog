@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270214T150000
 DTEND;TZID=Europe/Zurich:20270214T180000
 SUMMARY:Il viaggio a Reims – Grand Théâtre de Genève
-LOCATION:Grand Théâtre de Genève\, Genf
+LOCATION:Grand Théâtre de Genève\, Genf\, Schweiz
 GEO:46.201;6.143
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Genf, Schweiz";X-APPLE-RAD
- IUS=100;X-TITLE="Grand Théâtre de Genève":geo:46.201,6.143
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Grand Thé
+ âtre de Genève, Genf, Schweiz:geo:46.201,6.143
 URL:https://www.gtg.ch/saison-26-27/le-voyage-a-reims/
 DESCRIPTION:Gioachino Rossini: Il viaggio a Reims\nTermine und Karten: http
  s://www.gtg.ch/saison-26-27/le-voyage-a-reims/\nDas Ende ist geschätzt (3

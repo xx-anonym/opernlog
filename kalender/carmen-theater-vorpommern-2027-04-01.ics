@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270401T180000
 DTEND;TZID=Europe/Berlin:20270401T210000
 SUMMARY:Carmen – Theater Vorpommern
-LOCATION:Theater Vorpommern\, Stralsund / Greifswald
+LOCATION:Theater Vorpommern\, Stralsund / Greifswald\, Deutschland
 GEO:54.311;13.087
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stralsund / Greifswald, De
- utschland";X-APPLE-RADIUS=100;X-TITLE="Theater Vorpommern":geo:54.311,13.0
- 87
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Vo
+ rpommern, Stralsund / Greifswald, Deutschland:geo:54.311,13.087
 URL:https://www.theater-vorpommern.de/de/programm/carmen
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.theater-
  vorpommern.de/de/programm/carmen\nDas Ende ist geschätzt (3 Stunden).\nAu

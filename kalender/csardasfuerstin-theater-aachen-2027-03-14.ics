@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270314T190000
 DTEND;TZID=Europe/Berlin:20270314T220000
 SUMMARY:Die Csárdásfürstin – Theater Aachen
-LOCATION:Theater Aachen\, Aachen
+LOCATION:Theater Aachen\, Aachen\, Deutschland
 GEO:50.774;6.09
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Aachen, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Theater Aachen":geo:50.774,6.09
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Aa
+ chen, Aachen, Deutschland:geo:50.774,6.09
 URL:https://www.theateraachen.de/de/produktionen/die-csrdsfuerstin.html
 DESCRIPTION:Emmerich Kálmán: Die Csárdásfürstin\nTermine und Karten: h
  ttps://www.theateraachen.de/de/produktionen/die-csrdsfuerstin.html\nDas En

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270606T180000
 DTEND;TZID=Europe/Berlin:20270606T210000
 SUMMARY:Manon Lescaut – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
+  Staatsoper, München, Deutschland:geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/manon-lescaut/2027-06-03-1900-16309
 DESCRIPTION:Giacomo Puccini: Manon Lescaut\nTermine und Karten: https://www
  .staatsoper.de/stuecke/manon-lescaut/2027-06-03-1900-16309\nDas Ende ist g

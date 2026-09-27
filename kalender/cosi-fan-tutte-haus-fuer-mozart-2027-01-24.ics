@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270124T150000
 DTEND;TZID=Europe/Vienna:20270124T180000
 SUMMARY:Così fan tutte – Haus für Mozart
-LOCATION:Haus für Mozart\, Salzburg
+LOCATION:Haus für Mozart\, Salzburg\, Österreich
 GEO:47.8;13.0435
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Salzburg, Österreich";X-A
- PPLE-RADIUS=100;X-TITLE="Haus für Mozart":geo:47.8,13.0435
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Haus für 
+ Mozart, Salzburg, Österreich:geo:47.8,13.0435
 URL:https://mozarteum.at/events/mozarts-cosi-fan-tutte
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://mozarteum.at/events/mozarts-cosi-fan-tutte\nDas Ende ist geschätzt

@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270703T193000
 DTEND;TZID=Europe/Berlin:20270703T223000
 SUMMARY:Mefistofele – Deutsche Oper am Rhein
-LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
+LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg\, Deutschland
 GEO:51.227;6.776
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Düsseldorf / Duisburg, De
- utschland";X-APPLE-RADIUS=100;X-TITLE="Deutsche Oper am Rhein":geo:51.227,
- 6.776
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
+ per am Rhein, Düsseldorf / Duisburg, Deutschland:geo:51.227,6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/mefistofele/?a=termin
  e
 DESCRIPTION:Arrigo Boito: Mefistofele\nTermine und Karten: https://www.oper

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270708T200000
 DTEND;TZID=Europe/Berlin:20270708T230000
 SUMMARY:Macbeth – Theater Koblenz
-LOCATION:Theater Koblenz\, Koblenz
+LOCATION:Theater Koblenz\, Koblenz\, Deutschland
 GEO:50.358167;7.599444
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Koblenz, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Theater Koblenz":geo:50.358167,7.599444
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ko
+ blenz, Koblenz, Deutschland:geo:50.358167,7.599444
 URL:https://theater-koblenz.de/macbeth/
 DESCRIPTION:Giuseppe Verdi: Macbeth\nTermine und Karten: https://theater-ko
  blenz.de/macbeth/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – 

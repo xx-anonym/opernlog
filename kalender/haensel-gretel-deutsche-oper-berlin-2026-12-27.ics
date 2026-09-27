@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261227T140000
 DTEND;TZID=Europe/Berlin:20261227T170000
 SUMMARY:Hänsel und Gretel – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin\, Deutschland
 GEO:52.5121;13.3092
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
+ per Berlin, Berlin, Deutschland:geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/haensel-und-gretel.13857
  36
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 

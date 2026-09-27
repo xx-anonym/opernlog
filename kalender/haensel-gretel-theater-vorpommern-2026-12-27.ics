@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261227T180000
 DTEND;TZID=Europe/Berlin:20261227T210000
 SUMMARY:Hänsel und Gretel – Theater Vorpommern
-LOCATION:Theater Vorpommern\, Stralsund / Greifswald
+LOCATION:Theater Vorpommern\, Stralsund / Greifswald\, Deutschland
 GEO:54.311;13.087
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stralsund / Greifswald, De
- utschland";X-APPLE-RADIUS=100;X-TITLE="Theater Vorpommern":geo:54.311,13.0
- 87
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Vo
+ rpommern, Stralsund / Greifswald, Deutschland:geo:54.311,13.087
 URL:https://www.theater-vorpommern.de/de/programm/haensel-und-gretel_26_27T
  VP
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 

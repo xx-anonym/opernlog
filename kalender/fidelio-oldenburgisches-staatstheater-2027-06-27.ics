@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270627T180000
 DTEND;TZID=Europe/Berlin:20270627T210000
 SUMMARY:Fidelio – Oldenburgisches Staatstheater
-LOCATION:Oldenburgisches Staatstheater\, Oldenburg
+LOCATION:Oldenburgisches Staatstheater\, Oldenburg\, Deutschland
 GEO:53.14;8.213
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Oldenburg, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Oldenburgisches Staatstheater":geo:53.14,8.213
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oldenburgi
+ sches Staatstheater, Oldenburg, Deutschland:geo:53.14,8.213
 URL:https://staatstheater.de/programm/musiktheater/spielzeit-2627/fidelio
 DESCRIPTION:Ludwig van Beethoven: Fidelio\nTermine und Karten: https://staa
  tstheater.de/programm/musiktheater/spielzeit-2627/fidelio\nDas Ende ist ge

@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261204T100000
 DTEND;TZID=Europe/Berlin:20261204T130000
 SUMMARY:Hänsel und Gretel – Landesbühnen Sachsen
-LOCATION:Landesbühnen Sachsen\, Radebeul
+LOCATION:Landesbühnen Sachsen\, Radebeul\, Deutschland
 GEO:51.105;13.642
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Radebeul, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Landesbühnen Sachsen":geo:51.105,13.642
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Landesbüh
+ nen Sachsen, Radebeul, Deutschland:geo:51.105,13.642
 URL:https://www.landesbuehnen-sachsen.de/spielzeit/haensel-und-gretel/
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.landesbuehnen-sachsen.de/spielzeit/haensel-und-gretel/\nDas En

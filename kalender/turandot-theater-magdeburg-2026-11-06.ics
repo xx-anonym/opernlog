@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261106T193000
 DTEND;TZID=Europe/Berlin:20261106T220000
 SUMMARY:Turandot – Theater Magdeburg
-LOCATION:Theater Magdeburg\, Magdeburg
+LOCATION:Theater Magdeburg\, Magdeburg\, Deutschland
 GEO:52.133;11.628
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Magdeburg, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Theater Magdeburg":geo:52.133,11.628
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ma
+ gdeburg, Magdeburg, Deutschland:geo:52.133,11.628
 URL:https://www.theater-magdeburg.de/inszenierungen/musiktheater/sz-2024202
  5/wiederaufnahme/turandot/
 DESCRIPTION:Giacomo Puccini: Turandot\nTermine und Karten: https://www.thea

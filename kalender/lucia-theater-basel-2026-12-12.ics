@@ -9,10 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
 SUMMARY:Lucia di Lammermoor – Theater Basel
-LOCATION:Theater Basel\, Basel
+LOCATION:Theater Basel\, Basel\, Schweiz
 GEO:47.554;7.59
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Basel, Schweiz";X-APPLE-RA
- DIUS=100;X-TITLE="Theater Basel":geo:47.554,7.59
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ba
+ sel, Basel, Schweiz:geo:47.554,7.59
 URL:https://www.theater-basel.ch/de/lammermoor
 DESCRIPTION:Gaetano Donizetti: Lucia di Lammermoor\nTermine und Karten: htt
  ps://www.theater-basel.ch/de/lammermoor\nDie Uhrzeit steht auf der Seite d

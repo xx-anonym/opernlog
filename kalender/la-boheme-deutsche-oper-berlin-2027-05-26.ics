@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270526T193000
 DTEND;TZID=Europe/Berlin:20270526T223000
 SUMMARY:La Bohème – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin\, Deutschland
 GEO:52.5121;13.3092
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
+ per Berlin, Berlin, Deutschland:geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/la-boheme.1385732
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://deutsc
  heoperberlin.de/de_DE/production/la-boheme.1385732\nDas Ende ist geschätz

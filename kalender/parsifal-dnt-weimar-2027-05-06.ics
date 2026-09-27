@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270506T160000
 DTEND;TZID=Europe/Berlin:20270506T190000
 SUMMARY:Parsifal – Deutsches Nationaltheater Weimar
-LOCATION:Deutsches Nationaltheater Weimar\, Weimar
+LOCATION:Deutsches Nationaltheater Weimar\, Weimar\, Deutschland
 GEO:50.98;11.327
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Weimar, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Deutsches Nationaltheater Weimar":geo:50.98,11.327
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsches 
+ Nationaltheater Weimar, Weimar, Deutschland:geo:50.98,11.327
 URL:https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3915
 DESCRIPTION:Richard Wagner: Parsifal\nTermine und Karten: https://www.dnt-w
  eimar.de/de/programm/stueck-detail.php?SID=3915\nDas Ende ist geschätzt (

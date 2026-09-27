@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270115T193000
 DTEND;TZID=Europe/Berlin:20270115T223000
 SUMMARY:Die Entführung aus dem Serail – Hamburgische Staatsoper
-LOCATION:Hamburgische Staatsoper\, Hamburg
+LOCATION:Hamburgische Staatsoper\, Hamburg\, Deutschland
 GEO:53.5566;9.9887
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hamburg, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Hamburgische Staatsoper":geo:53.5566,9.9887
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Hamburgisc
+ he Staatsoper, Hamburg, Deutschland:geo:53.5566,9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/783-die-ent
  fuehrung-aus-dem-serail#tickets
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Entführung aus dem Serail\nTermin

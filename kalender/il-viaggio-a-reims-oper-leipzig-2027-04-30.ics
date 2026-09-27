@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270430T193000
 DTEND;TZID=Europe/Berlin:20270430T223000
 SUMMARY:Il viaggio a Reims – Oper Leipzig
-LOCATION:Oper Leipzig\, Leipzig
+LOCATION:Oper Leipzig\, Leipzig\, Deutschland
 GEO:51.339;12.3805
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Leipzig, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Oper Leipzig":geo:51.339,12.3805
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Leipz
+ ig, Leipzig, Deutschland:geo:51.339,12.3805
 URL:https://www.oper-leipzig.de/de/programm/die-reise-nach-reims/741
 DESCRIPTION:Gioachino Rossini: Il viaggio a Reims\nTermine und Karten: http
  s://www.oper-leipzig.de/de/programm/die-reise-nach-reims/741\nDas Ende ist

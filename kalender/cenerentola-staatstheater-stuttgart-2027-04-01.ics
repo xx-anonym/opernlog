@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270401T190000
 DTEND;TZID=Europe/Berlin:20270401T223000
 SUMMARY:La Cenerentola – Staatsoper Stuttgart
-LOCATION:Staatsoper Stuttgart\, Stuttgart
+LOCATION:Staatsoper Stuttgart\, Stuttgart\, Deutschland
 GEO:48.7808;9.1837
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stuttgart, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Staatsoper Stuttgart":geo:48.7808,9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
+  Stuttgart, Stuttgart, Deutschland:geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/la-cenerentola/9
  566/
 DESCRIPTION:Gioachino Rossini: La Cenerentola\nTermine und Karten: https://

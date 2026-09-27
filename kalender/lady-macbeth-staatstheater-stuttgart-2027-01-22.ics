@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270122T190000
 DTEND;TZID=Europe/Berlin:20270122T220000
 SUMMARY:Lady Macbeth von Mzensk – Staatsoper Stuttgart
-LOCATION:Staatsoper Stuttgart\, Stuttgart
+LOCATION:Staatsoper Stuttgart\, Stuttgart\, Deutschland
 GEO:48.7808;9.1837
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Stuttgart, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Staatsoper Stuttgart":geo:48.7808,9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
+  Stuttgart, Stuttgart, Deutschland:geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/a-z/lady-macbeth-von-mzen
  sk/
 DESCRIPTION:Dmitri Schostakowitsch: Lady Macbeth von Mzensk\nTermine und Ka

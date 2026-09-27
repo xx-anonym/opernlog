@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20261223T193000
 DTEND;TZID=Europe/Zurich:20261223T220500
 SUMMARY:L'elisir d'amore – Luzerner Theater
-LOCATION:Luzerner Theater\, Luzern
+LOCATION:Luzerner Theater\, Luzern\, Schweiz
 GEO:47.050611;8.306201
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Luzern, Schweiz";X-APPLE-R
- ADIUS=100;X-TITLE="Luzerner Theater":geo:47.050611,8.306201
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Luzerner T
+ heater, Luzern, Schweiz:geo:47.050611,8.306201
 URL:https://www.luzernertheater.ch/lelisirdamore
 DESCRIPTION:Gaetano Donizetti: L'elisir d'amore\nTermine und Karten: https:
  //www.luzernertheater.ch/lelisirdamore\nAus OpernLog – maßgeblich ist d

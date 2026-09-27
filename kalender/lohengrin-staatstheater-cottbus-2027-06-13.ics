@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270613T160000
 DTEND;TZID=Europe/Berlin:20270613T190000
 SUMMARY:Lohengrin – Staatstheater Cottbus
-LOCATION:Staatstheater Cottbus\, Cottbus
+LOCATION:Staatstheater Cottbus\, Cottbus\, Deutschland
 GEO:51.7565;14.3268
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Cottbus, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Staatstheater Cottbus":geo:51.7565,14.3268
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
+ ter Cottbus, Cottbus, Deutschland:geo:51.7565,14.3268
 URL:https://www.staatstheater-cottbus.de/de/programm/repertoire/artikel-loh
  engrin.html
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.staa

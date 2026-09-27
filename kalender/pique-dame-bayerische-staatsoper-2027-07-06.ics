@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270706T190000
 DTEND;TZID=Europe/Berlin:20270706T220000
 SUMMARY:Pique Dame – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
+  Staatsoper, München, Deutschland:geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/pique-dame/2027-07-03-1900-16332
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Pique Dame\nTermine und Karten: ht
  tps://www.staatsoper.de/stuecke/pique-dame/2027-07-03-1900-16332\nDas Ende

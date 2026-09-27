@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270624T190000
 DTEND;TZID=Europe/Berlin:20270624T220000
 SUMMARY:Candide – Staatstheater am Gärtnerplatz
-LOCATION:Staatstheater am Gärtnerplatz\, München
+LOCATION:Staatstheater am Gärtnerplatz\, München\, Deutschland
 GEO:48.13;11.5751
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Staatstheater am Gärtnerplatz":geo:48.13,11.5751
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsthea
+ ter am Gärtnerplatz, München, Deutschland:geo:48.13,11.5751
 URL:https://www.gaertnerplatztheater.de/de/produktionen/candide.html
 DESCRIPTION:Leonard Bernstein: Candide\nTermine und Karten: https://www.gae
  rtnerplatztheater.de/de/produktionen/candide.html\nDas Ende ist geschätzt

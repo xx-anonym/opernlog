@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261205T180000
 DTEND;TZID=Europe/Berlin:20261205T210000
 SUMMARY:Hänsel und Gretel – Oper Frankfurt
-LOCATION:Oper Frankfurt\, Frankfurt am Main
+LOCATION:Oper Frankfurt\, Frankfurt am Main\, Deutschland
 GEO:50.1078;8.6725
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Frankfurt am Main, Deutsch
- land";X-APPLE-RADIUS=100;X-TITLE="Oper Frankfurt":geo:50.1078,8.6725
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Oper Frank
+ furt, Frankfurt am Main, Deutschland:geo:50.1078,8.6725
 URL:https://oper-frankfurt.de/de/spielplan/haensel-und-gretel_5/
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://oper-frankfurt.de/de/spielplan/haensel-und-gretel_5/\nDas Ende ist

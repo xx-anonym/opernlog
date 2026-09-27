@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261114T193000
 DTEND;TZID=Europe/Berlin:20261114T223000
 SUMMARY:Le nozze di Figaro – Landestheater Niederbayern
-LOCATION:Landestheater Niederbayern\, Passau / Landshut
+LOCATION:Landestheater Niederbayern\, Passau / Landshut\, Deutschland
 GEO:48.5745;13.4655
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Passau / Landshut, Deutsch
- land";X-APPLE-RADIUS=100;X-TITLE="Landestheater Niederbayern":geo:48.5745,
- 13.4655
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Landesthea
+ ter Niederbayern, Passau / Landshut, Deutschland:geo:48.5745,13.4655
 URL:https://www.landestheater-niederbayern.de/event/le-nozze-di-figaro/
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
  : https://www.landestheater-niederbayern.de/event/le-nozze-di-figaro/\nDas

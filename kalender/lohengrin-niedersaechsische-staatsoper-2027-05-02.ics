@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270502T170000
 DTEND;TZID=Europe/Berlin:20270502T214000
 SUMMARY:Lohengrin – Staatsoper Hannover
-LOCATION:Staatsoper Hannover\, Hannover
+LOCATION:Staatsoper Hannover\, Hannover\, Deutschland
 GEO:52.376;9.7405
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Hannover, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Staatsoper Hannover":geo:52.376,9.7405
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Staatsoper
+  Hannover, Hannover, Deutschland:geo:52.376,9.7405
 URL:https://staatstheater-hannover.de/de_DE/programm/lohengrin.1397726
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://staatsth
  eater-hannover.de/de_DE/programm/lohengrin.1397726\nAus OpernLog – maßg

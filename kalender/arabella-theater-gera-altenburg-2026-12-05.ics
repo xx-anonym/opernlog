@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261205T180000
 DTEND;TZID=Europe/Berlin:20261205T210000
 SUMMARY:Arabella – Theater Altenburg Gera
-LOCATION:Theater Altenburg Gera\, Gera / Altenburg
+LOCATION:Theater Altenburg Gera\, Gera / Altenburg\, Deutschland
 GEO:50.879;12.08
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Gera / Altenburg, Deutschl
- and";X-APPLE-RADIUS=100;X-TITLE="Theater Altenburg Gera":geo:50.879,12.08
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Al
+ tenburg Gera, Gera / Altenburg, Deutschland:geo:50.879,12.08
 URL:https://theater-altenburg-gera.de/stuecke-konzerte/arabella-2191/
 DESCRIPTION:Richard Strauss: Arabella\nTermine und Karten: https://theater-
  altenburg-gera.de/stuecke-konzerte/arabella-2191/\nDas Ende ist geschätzt

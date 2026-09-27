@@ -26,11 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270109T180000
 DTEND;TZID=Europe/Berlin:20270109T223000
 SUMMARY:Der Rosenkavalier – Pfalztheater Kaiserslautern
-LOCATION:Pfalztheater Kaiserslautern\, Kaiserslautern
+LOCATION:Pfalztheater Kaiserslautern\, Kaiserslautern\, Deutschland
 GEO:49.443;7.769
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Kaiserslautern, Deutschlan
- d";X-APPLE-RADIUS=100;X-TITLE="Pfalztheater Kaiserslautern":geo:49.443,7.7
- 69
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Pfalztheat
+ er Kaiserslautern, Kaiserslautern, Deutschland:geo:49.443,7.769
 URL:https://pfalztheater.de/unsere-stuecke/der-rosenkavalier/
 DESCRIPTION:Richard Strauss: Der Rosenkavalier\nTermine und Karten: https:/
  /pfalztheater.de/unsere-stuecke/der-rosenkavalier/\nAus OpernLog – maßg

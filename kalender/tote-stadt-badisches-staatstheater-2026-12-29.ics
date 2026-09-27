@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261229T193000
 DTEND;TZID=Europe/Berlin:20261229T223000
 SUMMARY:Die tote Stadt – Badisches Staatstheater
-LOCATION:Badisches Staatstheater\, Karlsruhe
+LOCATION:Badisches Staatstheater\, Karlsruhe\, Deutschland
 GEO:48.9975;8.4045
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Karlsruhe, Deutschland";X-
- APPLE-RADIUS=100;X-TITLE="Badisches Staatstheater":geo:48.9975,8.4045
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Badisches 
+ Staatstheater, Karlsruhe, Deutschland:geo:48.9975,8.4045
 URL:https://staatstheater-karlsruhe.de/programm/info/3893/
 DESCRIPTION:Erich Wolfgang Korngold: Die tote Stadt\nTermine und Karten: ht
  tps://staatstheater-karlsruhe.de/programm/info/3893/\nDas Ende ist geschä

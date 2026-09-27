@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270605T180000
 DTEND;TZID=Europe/Berlin:20270605T223000
 SUMMARY:Lohengrin – Aalto-Theater
-LOCATION:Aalto-Theater\, Essen
+LOCATION:Aalto-Theater\, Essen\, Deutschland
 GEO:51.452;7.009
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Essen, Deutschland";X-APPL
- E-RADIUS=100;X-TITLE="Aalto-Theater":geo:51.452,7.009
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Aalto-Thea
+ ter, Essen, Deutschland:geo:51.452,7.009
 URL:https://www.theater-essen.de/programm/spielzeit-26-27/lohengrin/
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.thea
  ter-essen.de/programm/spielzeit-26-27/lohengrin/\nAus OpernLog – maßgeb

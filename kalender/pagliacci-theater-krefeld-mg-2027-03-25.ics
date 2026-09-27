@@ -26,11 +26,12 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270325T193000
 DTEND;TZID=Europe/Berlin:20270325T223000
 SUMMARY:Pagliacci – Theater Krefeld und Mönchengladbach
-LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach
+LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach\
+ , Deutschland
 GEO:51.335;6.567
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Krefeld / Mönchengladbach
- , Deutschland";X-APPLE-RADIUS=100;X-TITLE="Theater Krefeld und Mönchengla
- dbach":geo:51.335,6.567
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Kr
+ efeld und Mönchengladbach, Krefeld / Mönchengladbach, Deutschland:geo:51
+ .335,6.567
 URL:https://theater-kr-mg.de/spielplan/der-bajazzo/
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://the
  ater-kr-mg.de/spielplan/der-bajazzo/\nDas Ende ist geschätzt (3 Stunden).

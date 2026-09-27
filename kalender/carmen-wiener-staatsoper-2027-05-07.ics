@@ -9,10 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20270507
 DTEND;VALUE=DATE:20270508
 SUMMARY:Carmen – Wiener Staatsoper
-LOCATION:Wiener Staatsoper\, Wien
+LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Wien, Österreich";X-APPLE
- -RADIUS=100;X-TITLE="Wiener Staatsoper":geo:48.2029,16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Wiener Sta
+ atsoper, Wien, Österreich:geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/carmen/
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.wiener-s
  taatsoper.at/kalender/detail/carmen/\nDie Uhrzeit steht auf der Seite des 

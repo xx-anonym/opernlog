@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261101T150000
 DTEND;TZID=Europe/Berlin:20261101T171500
 SUMMARY:Werther – Theater Freiburg
-LOCATION:Theater Freiburg\, Freiburg
+LOCATION:Theater Freiburg\, Freiburg\, Deutschland
 GEO:47.997;7.848
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Freiburg, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Theater Freiburg":geo:47.997,7.848
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Fr
+ eiburg, Freiburg, Deutschland:geo:47.997,7.848
 URL:https://theater.freiburg.de/de_DE/programm/werther.1404971
 DESCRIPTION:Jules Massenet: Werther\nTermine und Karten: https://theater.fr
  eiburg.de/de_DE/programm/werther.1404971\nAus OpernLog – maßgeblich ist

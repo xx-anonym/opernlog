@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270203T193000
 DTEND;TZID=Europe/Berlin:20270203T223000
 SUMMARY:Rigoletto – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin
+LOCATION:Deutsche Oper Berlin\, Berlin\, Deutschland
 GEO:52.5121;13.3092
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Berlin, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Deutsche Oper Berlin":geo:52.5121,13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Deutsche O
+ per Berlin, Berlin, Deutschland:geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/rigoletto.1385794
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://deutsche
  operberlin.de/de_DE/production/rigoletto.1385794\nDas Ende ist geschätzt 

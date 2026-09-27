@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270615T180000
 DTEND;TZID=Europe/Berlin:20270615T210000
 SUMMARY:Der Rosenkavalier – Theater Koblenz
-LOCATION:Theater Koblenz\, Koblenz
+LOCATION:Theater Koblenz\, Koblenz\, Deutschland
 GEO:50.358167;7.599444
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Koblenz, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Theater Koblenz":geo:50.358167,7.599444
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Ko
+ blenz, Koblenz, Deutschland:geo:50.358167,7.599444
 URL:https://theater-koblenz.de/der-rosenkavalier/
 DESCRIPTION:Richard Strauss: Der Rosenkavalier\nTermine und Karten: https:/
  /theater-koblenz.de/der-rosenkavalier/\nDas Ende ist geschätzt (3 Stunden

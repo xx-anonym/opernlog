@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270124T150000
 DTEND;TZID=Europe/Berlin:20270124T180000
 SUMMARY:Rigoletto – Volkstheater Rostock
-LOCATION:Volkstheater Rostock\, Rostock
+LOCATION:Volkstheater Rostock\, Rostock\, Deutschland
 GEO:54.089;12.123
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Rostock, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Volkstheater Rostock":geo:54.089,12.123
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Volkstheat
+ er Rostock, Rostock, Deutschland:geo:54.089,12.123
 URL:https://www.volkstheater-rostock.de/spielplan/premieren/rigoletto/
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.volk
  stheater-rostock.de/spielplan/premieren/rigoletto/\nDas Ende ist geschätz

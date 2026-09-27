@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261122T180000
 DTEND;TZID=Europe/Berlin:20261122T210000
 SUMMARY:Don Carlos – Semperoper
-LOCATION:Semperoper\, Dresden
+LOCATION:Semperoper\, Dresden\, Deutschland
 GEO:51.0543;13.7351
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Dresden, Deutschland";X-AP
- PLE-RADIUS=100;X-TITLE="Semperoper":geo:51.0543,13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Semperoper
+ , Dresden, Deutschland:geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/don-carlo/61447.html
 DESCRIPTION:Giuseppe Verdi: Don Carlos\nTermine und Karten: https://www.sem
  peroper.de/spielplan/stuecke/stid/don-carlo/61447.html\nDas Ende ist gesch

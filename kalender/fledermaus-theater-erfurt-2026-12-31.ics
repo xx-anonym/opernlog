@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261231T150000
 DTEND;TZID=Europe/Berlin:20261231T180000
 SUMMARY:Die Fledermaus – Theater Erfurt
-LOCATION:Theater Erfurt\, Erfurt
+LOCATION:Theater Erfurt\, Erfurt\, Deutschland
 GEO:50.98;11.018
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="Erfurt, Deutschland";X-APP
- LE-RADIUS=100;X-TITLE="Theater Erfurt":geo:50.98,11.018
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Theater Er
+ furt, Erfurt, Deutschland:geo:50.98,11.018
 URL:https://www.theater-erfurt.de/stuecke/die-fledermaus
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.theater-erfurt.de/stuecke/die-fledermaus\nDas Ende ist geschätzt (3 S

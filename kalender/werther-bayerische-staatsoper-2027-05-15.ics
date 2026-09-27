@@ -26,10 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270515T180000
 DTEND;TZID=Europe/Berlin:20270515T210000
 SUMMARY:Werther – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
-X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="München, Deutschland";X-A
- PPLE-RADIUS=100;X-TITLE="Bayerische Staatsoper":geo:48.1397,11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=100;X-TITLE=Bayerische
+  Staatsoper, München, Deutschland:geo:48.1397,11.5794
 URL:https://www.staatsoper.de/stuecke/werther
 DESCRIPTION:Jules Massenet: Werther\nTermine und Karten: https://www.staats
  oper.de/stuecke/werther\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLo
