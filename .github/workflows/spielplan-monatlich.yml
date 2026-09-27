@@ -1,0 +1,125 @@
+name: Spielplan monatlich lesen
+
+# Die Termine in src/data/spielplan.js stammen aus dem großen Lauf im
+# September und einem kleinen im Januar. Dazwischen ändert sich einiges:
+# Zusatzvorstellungen, verschobene Premieren, Uhrzeiten, die erst mit dem
+# Vorverkauf erscheinen. Dieser Lauf liest einmal im Monat alle Häuser und
+# legt die Unterschiede zur App als Issue an
+# (tests/werkzeug/spielplan-vergleich.mjs).
+#
+# Er übernimmt nichts. Ein Treffer kann eine Lesung, ein Liederabend oder ein
+# Ladefehler sein; die Daten gehen erst nach der Durchsicht von Hand in die
+# App, wie nach jedem Lauf. Dafür hebt er den Lauf als Artefakt auf – wie
+# man ihn übernimmt, steht im Issue.
+#
+# Wie bei den anderen Prüfläufen: immer höchstens ein offenes Issue. Ein
+# neuer Lauf ersetzt seinen Text; ohne Unterschiede schließt es sich.
+
+on:
+  schedule:
+    # Am 3. jedes Monats um 02:00 UTC – nachts sind die Seiten der Häuser am
+    # wenigsten belastet.
+    - cron: '0 2 3 * *'
+  workflow_dispatch:
+
+concurrency:
+  group: spielplan-lauf
+  cancel-in-progress: false
+
+jobs:
+  lesen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+
+    permissions:
+      contents: read
+      issues: write
+
+    env:
+      LABEL: spielplan
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Dieselbe Einrichtung wie für die Browser-Tests (tests.yml): das
+      # Werkzeug lädt Playwright aus tests/browser/node_modules.
+      - name: Playwright einrichten
+        working-directory: tests/browser
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      # Bricht der Lauf mittendrin ab, stehen die bis dahin gelesenen Häuser
+      # in lauf.json; die übrigen gelten als nicht gelesen und bleiben in der
+      # App, wie sie sind. Deshalb weiter zum Vergleich.
+      - name: Spielpläne lesen
+        continue-on-error: true
+        timeout-minutes: 200
+        run: node tests/werkzeug/spielplaene-lesen.mjs lauf.json --straenge 6
+
+      - name: Mit der App vergleichen
+        id: vergleich
+        run: node tests/werkzeug/spielplan-vergleich.mjs lauf.json bericht.md uebernahme.json
+
+      - name: Lauf aufheben
+        uses: actions/upload-artifact@v4
+        with:
+          name: spielplan-lauf
+          path: |
+            lauf.json
+            bericht.md
+            uebernahme.json
+          retention-days: 40
+
+      - name: Issue anlegen, anpassen oder schließen
+        env:
+          ANZAHL: ${{ steps.vergleich.outputs.anzahl }}
+          ZUSAMMENFASSUNG: ${{ steps.vergleich.outputs.zusammenfassung }}
+        run: |
+          set -euo pipefail
+
+          gh label create "$LABEL" --description "Monatlicher Spielplan-Lauf" --color C9A84C 2>/dev/null || true
+          NUMMER=$(gh issue list --state open --label "$LABEL" --limit 1 --json number --jq '.[0].number // empty')
+
+          if [ "$ANZAHL" = "0" ]; then
+            if [ -n "$NUMMER" ]; then
+              gh issue close "$NUMMER" --comment "Der Lauf vom $(date +%d.%m.%Y) findet keine Unterschiede mehr zur App."
+              echo "Issue #$NUMMER geschlossen."
+            else
+              echo "Keine Unterschiede."
+            fi
+            exit 0
+          fi
+
+          TITEL="Spielplan: $ZUSAMMENFASSUNG"
+          if [ -z "$NUMMER" ]; then
+            if ! gh issue create --title "$TITEL" --body-file bericht.md \
+                   --label "$LABEL" --assignee "${{ github.repository_owner }}"; then
+              echo "::warning::Zuweisen fehlgeschlagen, Issue wird ohne Zuweisung angelegt"
+              gh issue create --title "$TITEL" --body-file bericht.md --label "$LABEL"
+            fi
+            echo "Issue angelegt."
+          else
+            gh issue edit "$NUMMER" --title "$TITEL" --body-file bericht.md
+            gh issue comment "$NUMMER" --body "Neuer Lauf vom $(date +%d.%m.%Y): $ZUSAMMENFASSUNG."
+            echo "Issue #$NUMMER aktualisiert."
+          fi
+
+      # Liest der Lauf weniger als die Hälfte der Häuser, stimmt etwas mit
+      # ihm selbst nicht – gesperrte Adressen der Runner, ein kaputter
+      # Browser. Das Issue sähe dann ruhig aus, weil nicht gelesene Häuser
+      # nichts melden. Rot enden, damit GitHub eine Mail schickt.
+      - name: Rot enden, wenn kaum ein Haus lesbar war
+        env:
+          GELESEN: ${{ steps.vergleich.outputs.gelesen }}
+          HAEUSER: ${{ steps.vergleich.outputs.haeuser }}
+        run: |
+          if [ $((GELESEN * 2)) -lt "$HAEUSER" ]; then
+            echo "::error::Nur $GELESEN von $HAEUSER Häusern ließen sich lesen – siehe das Protokoll des Schritts 'Spielpläne lesen'."
+            exit 1
+          fi
