@@ -29,6 +29,12 @@ const ZEITRAEUME = [
 // So viele Abende stehen sofort da; der Rest auf Wunsch.
 const SICHTBAR = 60;
 
+// Ob "weitere Abende zeigen" gerade gedrückt ist. Die Seite wird neu gebaut,
+// wenn man von einem Werk zurückkommt; ohne das stand die Liste dann wieder
+// gekürzt da. Jede Änderung an Umkreis, Zeitraum oder Filter kürzt sie wie
+// bisher.
+let weitereGezeigt = false;
+
 const MERKER = 'opernlog_naehe';
 
 /** Ein Gerät mit Fingern statt Maus – für den Hinweis unter der Karte. */
@@ -63,7 +69,7 @@ export function NaehePage() {
         // Besuch soll wieder alles dastehen.
         haus: null,
     };
-    let alleZeigen = false;
+    let alleZeigen = weitereGezeigt;
     let karte = null;   // die zuletzt gezeichnete Karte, für die Vorschau beim Zoomen
 
     const wunschliste = () => new Set(store.getWishlist()?.items || []);
@@ -182,6 +188,7 @@ export function NaehePage() {
             return;
         }
 
+        weitereGezeigt = alleZeigen;
         const gezeigt = alleZeigen ? abende : abende.slice(0, SICHTBAR);
         const merkliste = wunschliste();
         const tage = new Map();

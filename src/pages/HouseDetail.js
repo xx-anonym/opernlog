@@ -21,6 +21,11 @@ import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../ka
 // Vorgabe: die Seite soll das Haus zeigen, nicht einen ganzen Spielplan).
 const ABENDE_SICHTBAR = 2;
 
+// Häuser, deren "Alle Abende zeigen" gerade aufgeklappt ist. Wer von dort
+// ein Werk öffnet und zurückkehrt, bekommt die Seite neu gebaut; ohne das
+// klappte die Liste dabei wieder zu. Wie offeneTermine auf der Werkseite.
+const aufgeklappt = new Set();
+
 /**
  * "Demnächst hier": was das Haus in dieser Spielzeit spielt, aus dem
  * Spielplan (src/data/spielplan.js). Vorher stand auf der Seite eines Hauses
@@ -41,7 +46,7 @@ function demnaechstHier(bereich, house) {
 
   const merkliste = new Set(store.getWishlist()?.items || []);
   const werke = new Set(abende.map(a => a.werk)).size;
-  let alle = false;
+  let alle = aufgeklappt.has(house.id);
 
   const zeile = (a) => {
     const werk = operas.find(o => o.id === a.werk);
@@ -88,6 +93,8 @@ function demnaechstHier(bereich, house) {
   bereich.addEventListener('click', (e) => {
     if (e.target.closest('[data-aktion="alle"]')) {
       alle = !alle;
+      if (alle) aufgeklappt.add(house.id);
+      else aufgeklappt.delete(house.id);
       zeichnen();
       if (!alle) bereich.scrollIntoView({ block: 'start', behavior: 'smooth' });
       return;
