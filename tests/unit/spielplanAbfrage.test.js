@@ -136,8 +136,8 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
     assert.ok(weggelassen.some(w => w.werk === 'unbekanntes-werk' && w.grund === 'nicht im Katalog'));
 });
 
-import { dazunehmen } from '../werkzeug/spielplan-uebernehmen.mjs';
-import { uebersichtsSeiten, seitenAuswahl, seitenTermine, unnoetig } from '../werkzeug/spielplaene-lesen.mjs';
+import { dazunehmen, nachtragsUmfang } from '../werkzeug/spielplan-uebernehmen.mjs';
+import { uebersichtsSeiten, seitenAuswahl, seitenTermine, unnoetig, dateiLink } from '../werkzeug/spielplaene-lesen.mjs';
 import { zeitenAusLd } from '../werkzeug/spielplan-termine.mjs';
 
 test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
@@ -203,6 +203,34 @@ test('der Lauf lässt Bilder, Schriften und Zähldienste weg, aber keine Skripte
     assert.equal(unnoetig('script', 'https://www.eventim-light.com/de/widget.js'), false);
     assert.equal(unnoetig('xhr', 'https://api.reservix.de/termine'), false);
     assert.equal(unnoetig('script', 'kaputt'), false);
+});
+
+test('Links auf Dateien zählen nicht als Seiten einer Produktion', () => {
+    // Theater Kiel: neben jedem Titel im Kalender ein Kalendereintrag zum Laden.
+    assert.equal(dateiLink('https://theater-kiel.de/ical.php?ID_Vorstellung=1905'), true);
+    assert.equal(dateiLink('https://theater-kiel.de/ical.php'), true);
+    assert.equal(dateiLink('https://oper.example/spielplan/ical'), true);
+    assert.equal(dateiLink('https://oper.example/tosca.ics?v=2'), true);
+    assert.equal(dateiLink('https://oper.example/programmheft-tosca.pdf'), true);
+    assert.equal(dateiLink('https://theater-kiel.de/produktionen/tannhaeuser.html?m=40'), false);
+    assert.equal(dateiLink('https://oper.example/stuecke/musical-ical-dreams/'), false);
+});
+
+test('ein Nachtrag leert kein Haus, bei dem der Lauf nichts fand', () => {
+    const alt = [
+        { werk: 'tannhaeuser', haus: 'theater-kiel', url: 'k', termine: ['2026-10-04'] },
+        { werk: 'carmen', haus: 'oper-leipzig', url: 'l', termine: ['2026-10-05'] },
+    ];
+    const neu = [{ werk: 'carmen', haus: 'oper-leipzig', url: 'l', termine: ['2026-10-06'] }];
+    const erg = nachtragsUmfang({ haeuser: ['theater-kiel', 'oper-leipzig'] }, alt, neu, '2026-09-27');
+    assert.deepEqual(erg.umfang.haeuser, ['oper-leipzig']);
+    assert.deepEqual(erg.bleiben, ['theater-kiel']);
+    // Bleibt kein Haus übrig, gibt es nichts zu übernehmen – ein leerer
+    // Umfang hieße für dazunehmen() "alles ersetzen".
+    const nurKiel = nachtragsUmfang({ haeuser: ['theater-kiel'] }, alt, neu, '2026-09-27');
+    assert.equal(nurKiel.umfang, null);
+    // Nachträge für Werke betrifft das nicht.
+    assert.deepEqual(nachtragsUmfang({ werke: ['carmen'] }, alt, neu, '2026-09-27').umfang, { werke: ['carmen'] });
 });
 
 test('ein Nachtrag behält Uhrzeiten, die er selbst nicht gelesen hat', () => {

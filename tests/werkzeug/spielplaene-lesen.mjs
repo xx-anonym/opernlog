@@ -242,6 +242,17 @@ function ohneEnthaltene(ids) {
 // Eine Vorstellung im Pfad: ".../2026-10-03/" oder ".../03-10-2026/1930" (Nürnberg).
 const VORSTELLUNG_IM_PFAD = /\/(\d{4}-\d{2}-\d{2}|\d{2}-\d{2}-\d{4}(\/\d{3,4})?)\/?$/;
 
+// Links auf Dateien statt Seiten: Kalendereinträge, Programmhefte, Bilder.
+// Theater Kiel setzt neben jeden Titel im Kalender "ical.php?ID_Vorstellung=…";
+// als Produktionsseite gezählt, belegten diese Downloads beide Plätze je
+// Werk, und die echte Seite mit dem Komponisten kam nie dran.
+const DATEI = /\.(ics|pdf|jpg|png|mp3|mp4)$|\/ical(\.php)?$/i;
+
+/** Führt der Link auf eine Datei statt auf eine Seite? */
+export function dateiLink(href) {
+    try { return DATEI.test(new URL(href).pathname); } catch { return true; }
+}
+
 export function produktionsSeite(url) {
     try {
         const u = new URL(url);
@@ -884,7 +895,7 @@ async function lesen(kontext, hausId, fenster) {
         sammleBloecke(daten);
         komponistImLink(daten.links).forEach(id => komponistAusLinks.add(id));
         for (const l of daten.links) {
-            if (!/^https?:/.test(l.href) || /\.(ics|pdf|jpg|png|mp3|mp4)(\?|$)/i.test(l.href)) continue;
+            if (!/^https?:/.test(l.href) || dateiLink(l.href)) continue;
             if (NEBENHER.test(l.text) || NEBENHER.test(entschluesselt(l.href)) || ARTIKEL.test(l.href)) continue;
             const ids = werkeImLink(l.text, l.href);
             if (!ids.length) continue;

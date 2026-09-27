@@ -142,6 +142,33 @@ export function dazunehmen(bestehend, nachtrag, { werke, haeuser } = {}) {
     return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen), zusatzhaeuser: zusatzhaeuser(zeilen) };
 }
 
+/**
+ * Häuser, die in der App künftige Termine haben, für die der Lauf aber gar
+ * nichts fand – kein Werk, kein Termin. So sieht eine Sperrseite oder ein
+ * Werkzeug aus, das die Seiten nicht mehr erreicht (Kiel, September 2026:
+ * Links auf ical.php statt auf die Produktionen), kein leerer Spielplan.
+ */
+export function leerGelesen(alt, neu, heute) {
+    const kuenftig = zeilen => new Set(zeilen.filter(z => z.termine.some(t => t > heute)).map(z => z.haus));
+    const gefunden = kuenftig(neu);
+    return [...kuenftig(alt)].filter(h => !gefunden.has(h)).sort();
+}
+
+/**
+ * Der Umfang eines Nachtrags für einzelne Häuser, ohne die leer gelesenen:
+ * deren Einträge bleiben, statt dass die Übernahme sie löscht. null, wenn
+ * danach kein Haus übrig ist – dann gibt es nichts zu übernehmen, und ein
+ * leerer Umfang hieße für dazunehmen() "alles ersetzen".
+ */
+export function nachtragsUmfang(umfang, alt, neu, heute) {
+    if (!umfang.haeuser?.length) return { umfang, bleiben: [] };
+    const leer = new Set(leerGelesen(alt, neu, heute));
+    const bleiben = umfang.haeuser.filter(h => leer.has(h));
+    const haeuser = umfang.haeuser.filter(h => !leer.has(h));
+    if (!haeuser.length && !umfang.werke?.length) return { umfang: null, bleiben };
+    return { umfang: { ...umfang, haeuser }, bleiben };
+}
+
 export function alsModul({ zeilen, stand, zusatzwerke = [], zusatzhaeuser = [] }) {
     const kopf = fs.readFileSync(path.join(WURZEL, 'src/data/spielplan.js'), 'utf8').split('export const SPIELPLAN_STAND')[0];
     const zeitenText = z => {
@@ -161,9 +188,12 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
     const vorschlag = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
     let erg = uebernehmen(vorschlag);
     if (process.argv.includes('--dazu')) {
-        const umfang = { werke: vorschlag._suche, haeuser: vorschlag._haeuser };
-        if (!umfang.werke?.length && !umfang.haeuser?.length) { console.error('--dazu braucht einen Lauf mit --werke oder für einzelne Häuser'); process.exit(1); }
+        const gewuenscht = { werke: vorschlag._suche, haeuser: vorschlag._haeuser };
+        if (!gewuenscht.werke?.length && !gewuenscht.haeuser?.length) { console.error('--dazu braucht einen Lauf mit --werke oder für einzelne Häuser'); process.exit(1); }
         const alt = await import(pathToFileURL(path.join(WURZEL, 'src/data/spielplan.js')).href);
+        const { umfang, bleiben } = nachtragsUmfang(gewuenscht, alt.spielplan, erg.zeilen, erg.stand);
+        if (bleiben.length) console.warn(`Nichts gefunden, bleibt wie es ist: ${bleiben.join(', ')}.`);
+        if (!umfang) { console.error('Kein Haus mit Ergebnis – nichts übernommen.'); process.exit(1); }
         erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, umfang), weggelassen: erg.weggelassen };
         console.log(`Nachtrag für ${[...(umfang.werke || []), ...(umfang.haeuser || [])].join(', ')}.`);
     }

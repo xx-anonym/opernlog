@@ -32,7 +32,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
-import { uebernehmen, dazunehmen } from './spielplan-uebernehmen.mjs';
+import { uebernehmen, dazunehmen, leerGelesen } from './spielplan-uebernehmen.mjs';
+
+export { leerGelesen };
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -147,17 +149,6 @@ export function zusammenfassung(v) {
 /** Die Häuser, deren Einträge sich ändern würden – nur gelesene. */
 export function geaenderteHaeuser(v) {
     return [...new Set([...v.neu, ...v.weg, ...v.geaendert, ...v.uhrzeiten].map(z => z.haus))].sort();
-}
-
-/**
- * Häuser, die in der App künftige Termine haben, für die der Lauf aber gar
- * nichts fand – kein Werk, kein Termin. So sieht eine Sperrseite aus, kein
- * leerer Spielplan.
- */
-export function leerGelesen(alt, neu, heute) {
-    const kuenftig = zeilen => new Set(zeilen.filter(z => z.termine.some(t => t > heute)).map(z => z.haus));
-    const gefunden = kuenftig(neu);
-    return [...kuenftig(alt)].filter(h => !gefunden.has(h)).sort();
 }
 
 async function main() {
