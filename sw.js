@@ -122,6 +122,7 @@ const APP_SHELL = [
     './src/components/KatalogLoeschen.js',
     './src/components/BildAusschnitt.js',
     './src/datenExport.js',
+    './src/fehlerprotokoll.js',
     './src/components/DatenExport.js',
     './src/components/KontoLoeschen.js',
     './src/components/Passkeys.js',

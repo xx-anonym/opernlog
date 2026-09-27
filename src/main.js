@@ -31,7 +31,8 @@ import { VERSION } from './version.js';
 import { showError, showToast } from './components/Toast.js';
 import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud } from './store/supabase.js';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden } from './store/supabase.js';
+import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 
 /**
  * Steht irgendwo Text, den jemand selbst eingegeben hat? Verglichen wird mit
@@ -756,4 +757,8 @@ class App {
 }
 
 // Start
+// Nicht abgefangene Fehler ins Fehlerprotokoll (src/fehlerprotokoll.js) –
+// vor dem Start der App, damit auch Fehler beim Start ankommen.
+fehlerprotokollEinrichten({ senden: fehlerMelden, angemeldet: () => store.isCloud });
+
 new App();
