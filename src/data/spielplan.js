@@ -1094,7 +1094,7 @@ export const spielplan = [
       zeiten: { '2026-10-11': '18:00', '2026-10-30': '19:30', '2026-11-14': '19:30', '2026-11-29': '16:00' } },
     { werk: 'nixon-in-china', haus: 'deutsche-oper-berlin', url: "https://deutscheoperberlin.de/de_DE/production/nixon-in-china.1385484",
       termine: ['2027-01-10', '2027-01-13', '2027-01-23', '2027-01-30'],
-      zeiten: { '2027-01-10': '16:00', '2027-01-23': '19:30', '2027-01-30': '19:30' } },
+      zeiten: { '2027-01-10': '16:00', '2027-01-13': '19:30', '2027-01-23': '19:30', '2027-01-30': '19:30' } },
     { werk: 'norma', haus: 'staatsoper-berlin', url: "https://www.staatsoper-berlin.de/de/veranstaltungen/norma.15538/",
       termine: ['2027-04-03', '2027-04-09', '2027-04-11', '2027-04-16'],
       zeiten: { '2027-04-03': '19:00', '2027-04-09': '19:00', '2027-04-11': '18:00', '2027-04-16': '19:00' } },
