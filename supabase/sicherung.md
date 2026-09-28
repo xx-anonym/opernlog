@@ -13,7 +13,7 @@ enthält sie:
 
 | Datei | Inhalt |
 | --- | --- |
-| `rollen.sql` | eigene Datenbankrollen |
+| `rollen.sql` | Einstellungen der Datenbankrollen |
 | `schema.sql` | Tabellen, Regeln (RLS), Rechte, Funktionen, Trigger |
 | `daten.sql` | alle Zeilen, auch Konten und Passkeys (`auth.*`) |
 | `cron-jobs.csv` | die pg_cron-Zeitpläne |
@@ -23,6 +23,9 @@ Google, Weiterleitungsadressen, E-Mail-Vorlagen), die Edge Functions (sie
 stehen im Repo unter `supabase/functions/`) und die Geheimnisse im Vault: der
 Schlüssel für die Mitteilungen (VAPID) und `push_geheimnis`. Sie sind an das
 Projekt gebunden und ließen sich in einem anderen ohnehin nicht öffnen.
+Ebenfalls ausgenommen sind `storage.buckets_vectors` und
+`storage.vector_indexes`: Beide sind leer und gehören dem Speicherdienst,
+beim Zurückspielen dürfte man sie nicht beschreiben.
 
 Die Datei ist mit [age](https://age-encryption.org) verschlüsselt. Öffnen
 kann sie nur, wer den privaten Schlüssel hat. Google sieht nur unlesbare
@@ -126,9 +129,10 @@ Unter Actions → *Datenbank sichern* → *Run workflow* den Haken bei
 „Zusätzlich in eine leere Supabase-Datenbank zurückspielen“ setzen und den
 Lauf starten. Er braucht etwa fünf Minuten. Die Probe baut auf GitHubs
 Rechner eine leere Supabase-Datenbank auf, spielt die Sicherung hinein und
-vergleicht die Zeilen jeder Tabelle mit dem Original. Ist alles grün, steht
-am Lauf „Wiederherstellung geprobt: … alle Zeilen da“, und in Drive liegt
-die erste Datei.
+vergleicht Zeilen, Rechte, RLS und Regeln jeder Tabelle mit dem Original.
+Ist alles grün, steht am Lauf „Wiederherstellung geprobt: … wie im
+Original“. Die Datei in Drive entsteht vorher, also auch dann, wenn die
+Probe scheitert.
 
 ### 6. Einmal selbst öffnen
 
@@ -178,11 +182,27 @@ heraussuchen und im SQL-Editor wieder einfügen.
 
 **Alles verloren:** Ein neues Supabase-Projekt anlegen und die Sicherung mit
 einem psql ab Version 17 hineinspielen (`brew install libpq`, danach liegt
-psql unter `$(brew --prefix libpq)/bin/psql`):
+psql unter `$(brew --prefix libpq)/bin/psql`). Das geht in zwei Schritten.
+
+Zuerst die Rollen. Fehler zu Rollen, die Supabase selbst verwaltet
+(`"supabase_admin" is a reserved role`), sind dabei normal: das neue Projekt
+hat diese Einstellungen schon.
 
 ```bash
-psql --single-transaction -v ON_ERROR_STOP=1 -f sicherung/rollen.sql -f sicherung/schema.sql -c 'SET session_replication_role = replica' -f sicherung/daten.sql -d "ADRESSE_DES_NEUEN_PROJEKTS"
+psql -f sicherung/rollen.sql -d "ADRESSE_DES_NEUEN_PROJEKTS"
 ```
+
+Dann Schema und Daten in einem Zug. Die erste Zeile nimmt die Standardrechte
+des neuen Projekts zurück. Ohne sie bekäme jede Tabelle alle Rechte für
+`anon` und `authenticated`, mehr als im Original; die Rechte des Originals
+stehen in `schema.sql`.
+
+```bash
+psql --single-transaction -v ON_ERROR_STOP=1 -c 'ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES FROM anon, authenticated' -f sicherung/schema.sql -c 'SET session_replication_role = replica' -f sicherung/daten.sql -d "ADRESSE_DES_NEUEN_PROJEKTS"
+```
+
+Genau so spielt die Probe (Schritt 5) zurück und vergleicht danach Zeilen,
+Rechte, RLS und Regeln jeder Tabelle mit dem Original.
 
 Danach:
 

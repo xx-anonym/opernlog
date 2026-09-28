@@ -103,7 +103,10 @@ jobs:
           mkdir sicherung
           supabase db dump --db-url "$DB_URL" -f sicherung/rollen.sql --role-only
           supabase db dump --db-url "$DB_URL" -f sicherung/schema.sql
-          supabase db dump --db-url "$DB_URL" -f sicherung/daten.sql --data-only --use-copy
+          # Ohne die beiden leeren Tabellen der Vektor-Buckets: sie gehören dem
+          # Speicherdienst, beim Zurückspielen darf postgres nicht hinein.
+          supabase db dump --db-url "$DB_URL" -f sicherung/daten.sql --data-only --use-copy \
+            --exclude storage.buckets_vectors,storage.vector_indexes
           # Die Zeitpläne liegen im Schema cron, das die CLI nicht mitnimmt.
           # Beim Wiederherstellen werden sie mit cron.schedule neu angelegt.
           psql "$DB_URL" -v ON_ERROR_STOP=1 -q \
@@ -120,14 +123,32 @@ jobs:
           grep -qF 'CREATE TABLE' sicherung/schema.sql || { echo "::error::schema.sql enthält keine Tabellen"; exit 1; }
           wc -c sicherung/* | sed 's#sicherung/##'
 
-          # Für die Probe unten: Zeilen je Tabelle, gleich nach dem Abzug.
-          # Nur Zahlen, keine Inhalte.
-          psql "$DB_URL" -v ON_ERROR_STOP=1 -q -At -F ' ' -f - > zeilen-quelle.txt <<'SQL'
-          select format('select %L, count(*) from %I.%I', schemaname || '.' || tablename, schemaname, tablename)
-          from pg_tables
-          where schemaname = 'public' or (schemaname = 'auth' and tablename in ('users', 'identities', 'mfa_factors', 'webauthn_credentials'))
-          order by 1 \gexec
+          # Für die Probe unten, gleich nach dem Abzug: Zeilen je Tabelle,
+          # Rechte von anon und authenticated, RLS und Regeln. Nur Zahlen und
+          # Namen, keine Inhalte. Die Probe stellt dieselben Fragen an die
+          # zurückgespielte Datenbank. Sortiert nach Bytes (collate "C"): die
+          # beiden Datenbanken sortieren sonst womöglich verschieden.
+          cat > vergleich.sql <<'SQL'
+          select q from (
+            select format('select %L, count(*) from %I.%I', 'zeilen ' || schemaname || '.' || tablename, schemaname, tablename) as q
+            from pg_tables
+            where schemaname = 'public' or (schemaname = 'auth' and tablename in ('users', 'identities', 'mfa_factors', 'webauthn_credentials'))
+          ) t order by q collate "C" \gexec
+          select z from (
+            select 'recht ' || c.relname || ' ' || r.rolname || ' ' || a.privilege_type as z
+            from pg_class c join pg_namespace n on n.oid = c.relnamespace
+            cross join lateral aclexplode(c.relacl) a join pg_roles r on r.oid = a.grantee
+            where n.nspname = 'public' and c.relkind in ('r', 'v') and r.rolname in ('anon', 'authenticated')
+            union all
+            select 'rls ' || c.relname || ' ' || c.relrowsecurity
+            from pg_class c join pg_namespace n on n.oid = c.relnamespace
+            where n.nspname = 'public' and c.relkind = 'r'
+            union all
+            select 'regel ' || tablename || ' ' || policyname || ' ' || cmd
+            from pg_policies where schemaname = 'public'
+          ) t order by z collate "C";
           SQL
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -q -At -F ' ' -f vergleich.sql > vergleich-quelle.txt
 
       - name: Verschlüsseln
         run: |
@@ -175,11 +196,24 @@ jobs:
           (cd probe && supabase init < /dev/null > /dev/null && supabase start > /dev/null)
           container=$(docker ps --format '{{.Names}}' | grep '^supabase_db_' | head -1)
           docker cp sicherung "$container":/tmp/probe
+          docker cp vergleich.sql "$container":/tmp/probe/vergleich.sql
           docker exec -u root "$container" chmod -R a+rX /tmp/probe
 
+          # Die Rollen für sich und ohne Anhalten: rollen.sql enthält auch
+          # Einstellungen der Rollen, die Supabase selbst verwaltet
+          # (supabase_admin …). Die darf niemand ändern, und ein neues Projekt
+          # hat sie ohnehin. Andere Fehler hier sind eine Warnung wert.
+          docker exec "$container" psql -U postgres -d postgres -q -f /tmp/probe/rollen.sql > /dev/null 2> rollen-fehler.txt || true
+          grep 'ERROR:' rollen-fehler.txt | grep -v 'is a reserved role' | sed -E 's#: "[^"]*"#: "…"#g' | cut -c1-300 \
+            | head -5 | while IFS= read -r zeile; do echo "::warning::$zeile"; done || true
+
+          # Vor dem Schema die Standardrechte des Ziels zurücknehmen: sonst
+          # bekäme jede neue Tabelle alle Rechte für anon und authenticated,
+          # mehr als im Original (Hinweis in Supabase' Anleitung zu db dump).
           zurueckspielen() {
             docker exec "$container" psql -U postgres -d postgres -q "$@" \
-              -f /tmp/probe/rollen.sql -f /tmp/probe/schema.sql \
+              -c 'ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES FROM anon, authenticated' \
+              -f /tmp/probe/schema.sql \
               -c 'SET session_replication_role = replica' -f /tmp/probe/daten.sql \
               > /dev/null 2> probe-fehler.txt
           }
@@ -196,23 +230,18 @@ jobs:
             exit 1
           fi
 
-          docker exec -i "$container" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -At -F ' ' -f - > zeilen-probe.txt <<'SQL'
-          select format('select %L, count(*) from %I.%I', schemaname || '.' || tablename, schemaname, tablename)
-          from pg_tables
-          where schemaname = 'public' or (schemaname = 'auth' and tablename in ('users', 'identities', 'mfa_factors', 'webauthn_credentials'))
-          order by 1 \gexec
-          SQL
+          docker exec "$container" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -At -F ' ' -f /tmp/probe/vergleich.sql > vergleich-probe.txt
           (cd probe && supabase stop --no-backup > /dev/null)
 
           # Zwischen Abzug und Zählung können einzelne Zeilen dazugekommen
           # sein (Fehlerprotokoll, Mitteilungen); das zeigt der Vergleich mit.
-          if diff zeilen-quelle.txt zeilen-probe.txt > unterschied.txt; then
-            echo "::notice::Wiederherstellung geprobt: $(wc -l < zeilen-probe.txt) Tabellen, alle Zeilen da"
+          if diff vergleich-quelle.txt vergleich-probe.txt > unterschied.txt; then
+            echo "::notice::Wiederherstellung geprobt: $(grep -c '^zeilen ' vergleich-probe.txt) Tabellen mit allen Zeilen, $(grep -c '^recht ' vergleich-probe.txt) Rechte, $(grep -c '^regel ' vergleich-probe.txt) Regeln wie im Original"
           else
-            echo "::error::Zurückgespielt fehlen Zeilen oder Tabellen (links Quelle, rechts Probe): $(tr '\n' ' ' < unterschied.txt)"
+            echo "::error::Zurückgespielt weicht ab (< Original, > Probe): $(grep '^[<>]' unterschied.txt | tr '\n' ' ' | cut -c1-900)"
             exit 1
           fi
 
       - name: Unverschlüsseltes wegräumen
         if: always()
-        run: rm -rf sicherung probe probe-fehler.txt
+        run: rm -rf sicherung probe probe-fehler.txt rollen-fehler.txt
