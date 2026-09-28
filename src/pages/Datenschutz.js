@@ -64,6 +64,8 @@ export function DatenschutzPage() {
           Daten wie deine IP-Adresse an, die nur kurz in Protokollen stehen.</li>
         <li><strong>Supabase</strong> (Supabase Inc., USA; Server in Irland) speichert Konto und Inhalte,
           übernimmt die Anmeldung und verschickt Mitteilungen.</li>
+        <li><strong>Google Drive</strong> (Google Ireland Ltd.) verwahrt eine wöchentliche Sicherung der
+          Datenbank, verschlüsselt – lesen kann sie nur der Betreiber.</li>
         <li><strong>Wikimedia Commons</strong> (Wikimedia Foundation, USA): Bilder von Werken, Häusern und
           Komponisten lädt dein Browser direkt von dort; Wikimedia sieht dabei deine IP-Adresse.</li>
         <li><strong>Google</strong>, nur wenn du dich mit Google anmeldest.</li>
@@ -86,7 +88,8 @@ export function DatenschutzPage() {
 
       <h2>Wie lange</h2>
       <p>Bis du dein Konto löschst; dann verschwindet alles, was dazu gehört, auch Kommentare und Likes an
-      deinen Abenden. Registrierungen, die nie bestätigt wurden, werden nach 30 Tagen gelöscht.</p>
+      deinen Abenden. Registrierungen, die nie bestätigt wurden, werden nach 30 Tagen gelöscht. In den
+      Sicherungen steht Gelöschtes noch bis zu 60 Tage.</p>
 
       <h2>Deine Rechte</h2>
       <p>Du kannst Auskunft, Berichtigung, Löschung, Einschränkung und Datenübertragbarkeit verlangen und der

@@ -1,0 +1,195 @@
+name: Datenbank sichern
+
+# Supabase bietet im Gratis-Tarif keine Sicherung an, die sich herunterladen
+# ließe – geht etwas verloren (ein Fehler im täglichen Löschjob, eine
+# Migration, eine Lücke in den Regeln, ein Problem mit dem Konto), ist es weg.
+#
+# Einmal pro Woche: Rollen, Schema und Daten mit der Supabase-CLI, so wie in
+# Supabase' eigener Anleitung zu Sicherungen per GitHub Actions, dazu die
+# pg_cron-Jobs. Das Ganze wird mit age verschlüsselt und landet in Google
+# Drive; Sicherungen älter als 60 Tage löscht er dort endgültig.
+#
+# Die Sicherung enthält fremde Daten – E-Mail-Adressen, Passwort-Hashes,
+# IP-Adressen. Deshalb:
+# - Unverschlüsselt verlässt sie den Runner nie. Den privaten Schlüssel hat
+#   nur Jonas; hier steht nur der öffentliche.
+# - Das Repo ist öffentlich: kein Artefakt, nichts davon ins Protokoll.
+#   tests/checks/sicherung.test.js achtet darauf.
+# - Nur Zeitplan und Handstart, kein pull_request – sonst kämen fremde
+#   Änderungen an die Geheimnisse.
+#
+# Einrichtung, Wiederherstellung und was zu tun ist, wenn der Lauf scheitert:
+# supabase/sicherung.md. Scheitert er, schickt GitHub eine E-Mail.
+
+on:
+  schedule:
+    # Sonntags 02:43 UTC. Die krumme Minute, weil zur vollen Stunde sehr
+    # viele Zeitpläne starten und GitHub sie dann schiebt.
+    - cron: '43 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      wiederherstellung_pruefen:
+        description: 'Zusätzlich in eine leere Supabase-Datenbank zurückspielen und Zeilen zählen'
+        type: boolean
+        default: false
+
+concurrency:
+  group: sicherung
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  sichern:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      AGE_EMPFAENGER: ${{ secrets.SICHERUNG_AGE_EMPFAENGER }}
+      ORDNER: OpernLog-Sicherungen
+      AUFBEWAHREN: 60d
+
+    steps:
+      - name: Geheimnisse prüfen
+        env:
+          DRIVE_TOKEN: ${{ secrets.SICHERUNG_DRIVE_TOKEN }}
+        run: |
+          set -euo pipefail
+          fehlt=""
+          [ -n "$DB_URL" ] || fehlt="$fehlt SUPABASE_DB_URL"
+          [ -n "$AGE_EMPFAENGER" ] || fehlt="$fehlt SICHERUNG_AGE_EMPFAENGER"
+          [ -n "$DRIVE_TOKEN" ] || fehlt="$fehlt SICHERUNG_DRIVE_TOKEN"
+          if [ -n "$fehlt" ]; then
+            echo "::error::Geheimnisse fehlen:$fehlt – Einrichtung in supabase/sicherung.md"
+            exit 1
+          fi
+          # Wer aus Versehen den privaten Schlüssel einträgt, verschlüsselt
+          # mit nichts und hat den Schlüssel obendrein bei GitHub liegen.
+          case "$AGE_EMPFAENGER" in
+            age1*) ;;
+            *) echo "::error::SICHERUNG_AGE_EMPFAENGER muss der öffentliche Schlüssel sein (beginnt mit age1), nie der private"
+               exit 1 ;;
+          esac
+          # GitHub schwärzt die ganze Adresse im Protokoll, nicht aber das
+          # Passwort allein, falls ein Werkzeug nur das ausgibt.
+          passwort=$(printf '%s' "$DB_URL" | sed -nE 's#^[^:]+://[^:/]+:([^@]+)@.*#\1#p')
+          [ -z "$passwort" ] || echo "::add-mask::$passwort"
+          case "$DB_URL" in
+            *pooler.supabase.com*) ;;
+            *) echo "::warning::SUPABASE_DB_URL ist nicht die Pooler-Adresse – die direkte Adresse erreicht GitHub nicht (nur IPv6). Siehe supabase/sicherung.md" ;;
+          esac
+
+      # Feste Version: ein neuer Stand der CLI soll nicht unbemerkt ändern,
+      # was gesichert wird. Stellt Supabase auf eine neue Postgres-Version
+      # um und der Abzug scheitert, hier erhöhen.
+      - uses: supabase/setup-cli@v3
+        with:
+          version: 2.118.0
+
+      - name: age und rclone einrichten
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq age rclone > /dev/null
+          age --version
+          rclone version | head -1
+
+      - name: Datenbank abziehen
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir sicherung
+          supabase db dump --db-url "$DB_URL" -f sicherung/rollen.sql --role-only
+          supabase db dump --db-url "$DB_URL" -f sicherung/schema.sql
+          supabase db dump --db-url "$DB_URL" -f sicherung/daten.sql --data-only --use-copy
+          # Die Zeitpläne liegen im Schema cron, das die CLI nicht mitnimmt.
+          # Beim Wiederherstellen werden sie mit cron.schedule neu angelegt.
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -q \
+            -c "\copy (select jobid, jobname, schedule, command, active from cron.job order by jobid) to 'sicherung/cron-jobs.csv' csv header"
+
+          # Taugt der Abzug? Ohne Konten und Abende wäre er wertlos, auch
+          # wenn jeder Befehl oben geklappt hat.
+          for tabelle in '"auth"."users"' '"public"."profiles"' '"public"."visits"'; do
+            if ! grep -qF "COPY $tabelle" sicherung/daten.sql; then
+              echo "::error::Im Abzug fehlen die Daten von $tabelle"
+              exit 1
+            fi
+          done
+          grep -qF 'CREATE TABLE' sicherung/schema.sql || { echo "::error::schema.sql enthält keine Tabellen"; exit 1; }
+          wc -c sicherung/* | sed 's#sicherung/##'
+
+          # Für die Probe unten: Zeilen je Tabelle, gleich nach dem Abzug.
+          # Nur Zahlen, keine Inhalte.
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -q -At -F ' ' -f - > zeilen-quelle.txt <<'SQL'
+          select format('select %L, count(*) from %I.%I', schemaname || '.' || tablename, schemaname, tablename)
+          from pg_tables
+          where schemaname = 'public' or (schemaname = 'auth' and tablename in ('users', 'identities', 'mfa_factors', 'webauthn_credentials'))
+          order by 1 \gexec
+          SQL
+
+      - name: Wiederherstellung proben
+        if: ${{ inputs.wiederherstellung_pruefen }}
+        run: |
+          set -euo pipefail
+          # Eine leere Supabase-Datenbank auf dem Runner – wie ein neues
+          # Projekt, in das man im Ernstfall zurückspielt. Zurückgespielt wird
+          # wie in supabase/sicherung.md beschrieben, mit dem psql im
+          # Datenbank-Container: der passt zur Version des Abzugs.
+          mkdir probe
+          (cd probe && supabase init < /dev/null > /dev/null && supabase start > /dev/null)
+          container=$(docker ps --format '{{.Names}}' | grep '^supabase_db_' | head -1)
+          {
+            cat sicherung/rollen.sql sicherung/schema.sql
+            echo 'SET session_replication_role = replica;'
+            cat sicherung/daten.sql
+          } | docker exec -i "$container" psql -U postgres -d postgres --single-transaction -v ON_ERROR_STOP=1 -q > /dev/null
+
+          docker exec -i "$container" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -At -F ' ' -f - > zeilen-probe.txt <<'SQL'
+          select format('select %L, count(*) from %I.%I', schemaname || '.' || tablename, schemaname, tablename)
+          from pg_tables
+          where schemaname = 'public' or (schemaname = 'auth' and tablename in ('users', 'identities', 'mfa_factors', 'webauthn_credentials'))
+          order by 1 \gexec
+          SQL
+          (cd probe && supabase stop --no-backup > /dev/null)
+
+          # Zwischen Abzug und Zählung können einzelne Zeilen dazugekommen
+          # sein (Fehlerprotokoll, Mitteilungen); das zeigt der Vergleich mit.
+          if diff zeilen-quelle.txt zeilen-probe.txt > unterschied.txt; then
+            echo "::notice::Wiederherstellung geprobt: $(wc -l < zeilen-probe.txt) Tabellen, alle Zeilen da"
+          else
+            echo "::error::Zurückgespielt fehlen Zeilen oder Tabellen (links Quelle, rechts Probe): $(tr '\n' ' ' < unterschied.txt)"
+            exit 1
+          fi
+
+      - name: Verschlüsseln
+        run: |
+          set -euo pipefail
+          umask 077
+          datei="opernlog-$(date -u +%Y-%m-%d).tar.gz.age"
+          tar -C sicherung -czf - . | age -r "$AGE_EMPFAENGER" -o "$datei"
+          rm -rf sicherung
+          echo "DATEI=$datei" >> "$GITHUB_ENV"
+          ls -l "$datei"
+
+      # rclone bekommt den Zugang aus Umgebungsvariablen, eine
+      # Konfigurationsdatei gibt es hier nicht. drive.file: rclone sieht in
+      # Drive nur, was es selbst angelegt hat.
+      - name: Nach Google Drive
+        env:
+          RCLONE_CONFIG_DRIVE_TYPE: drive
+          RCLONE_CONFIG_DRIVE_SCOPE: drive.file
+          RCLONE_CONFIG_DRIVE_TOKEN: ${{ secrets.SICHERUNG_DRIVE_TOKEN }}
+        run: |
+          set -euo pipefail
+          rclone copy "$DATEI" "drive:$ORDNER"
+          # Angekommen und gleich groß? Erst dann wird aufgeräumt.
+          lokal=$(stat -c %s "$DATEI")
+          drive=$(rclone lsjson "drive:$ORDNER/$DATEI" | sed -nE 's/.*"Size":([0-9]+).*/\1/p')
+          if [ "$lokal" != "$drive" ]; then
+            echo "::error::In Drive liegt $DATEI nicht vollständig ($drive statt $lokal Bytes)"
+            exit 1
+          fi
+          # Endgültig, nicht in den Papierkorb: die Datenschutzseite sagt,
+          # dass Gelöschtes höchstens 60 Tage in den Sicherungen steht.
+          rclone delete "drive:$ORDNER" --min-age "$AUFBEWAHREN" --include 'opernlog-*.tar.gz.age' --drive-use-trash=false
+          echo "::notice::Gesichert: $DATEI ($lokal Bytes). In Drive: $(rclone lsf "drive:$ORDNER" | tr '\n' ' ')"

@@ -243,3 +243,7 @@ Die Migrationen unter `supabase/migrations/` sind nicht automatisiert; sie
 werden von Hand im SQL-Editor des Supabase-Dashboards ausgeführt.
 `tests/checks/rls.test.js` liest Schema und Migrationen und stellt sicher, dass
 nur die bewusst öffentlichen Tabellen für jeden lesbar sind.
+
+Jeden Sonntag sichert `.github/workflows/sicherung.yml` die Datenbank
+verschlüsselt nach Google Drive. Einrichtung und Wiederherstellung:
+[supabase/sicherung.md](supabase/sicherung.md).
