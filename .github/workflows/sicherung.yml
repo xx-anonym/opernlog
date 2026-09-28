@@ -56,12 +56,18 @@ jobs:
       - name: Geheimnisse prüfen
         env:
           DRIVE_TOKEN: ${{ secrets.SICHERUNG_DRIVE_TOKEN }}
+          DRIVE_CLIENT_ID: ${{ secrets.SICHERUNG_DRIVE_CLIENT_ID }}
+          DRIVE_CLIENT_SECRET: ${{ secrets.SICHERUNG_DRIVE_CLIENT_SECRET }}
         run: |
           set -euo pipefail
           fehlt=""
           [ -n "$DB_URL" ] || fehlt="$fehlt SUPABASE_DB_URL"
           [ -n "$AGE_EMPFAENGER" ] || fehlt="$fehlt SICHERUNG_AGE_EMPFAENGER"
           [ -n "$DRIVE_TOKEN" ] || fehlt="$fehlt SICHERUNG_DRIVE_TOKEN"
+          # Der gemeinsame Google-Zugang von rclone wird 2026 abgeschaltet;
+          # ohne eigenen bliebe die Sicherung eines Tages einfach stehen.
+          [ -n "$DRIVE_CLIENT_ID" ] || fehlt="$fehlt SICHERUNG_DRIVE_CLIENT_ID"
+          [ -n "$DRIVE_CLIENT_SECRET" ] || fehlt="$fehlt SICHERUNG_DRIVE_CLIENT_SECRET"
           if [ -n "$fehlt" ]; then
             echo "::error::Geheimnisse fehlen:$fehlt – Einrichtung in supabase/sicherung.md"
             exit 1
@@ -161,11 +167,15 @@ jobs:
 
       # rclone bekommt den Zugang aus Umgebungsvariablen, eine
       # Konfigurationsdatei gibt es hier nicht. drive.file: rclone sieht in
-      # Drive nur, was es selbst angelegt hat.
+      # Drive nur, was es selbst angelegt hat. Client-ID und -Geheimnis sind
+      # Jonas' eigene Google-App; mit ihr wurde der Zugang ausgestellt, und
+      # nur mit ihr lässt er sich erneuern.
       - name: Nach Google Drive
         env:
           RCLONE_CONFIG_DRIVE_TYPE: drive
           RCLONE_CONFIG_DRIVE_SCOPE: drive.file
+          RCLONE_CONFIG_DRIVE_CLIENT_ID: ${{ secrets.SICHERUNG_DRIVE_CLIENT_ID }}
+          RCLONE_CONFIG_DRIVE_CLIENT_SECRET: ${{ secrets.SICHERUNG_DRIVE_CLIENT_SECRET }}
           RCLONE_CONFIG_DRIVE_TOKEN: ${{ secrets.SICHERUNG_DRIVE_TOKEN }}
         run: |
           set -euo pipefail

@@ -59,23 +59,46 @@ age-keygen -y ~/.opernlog/sicherung-schluessel.txt
 
 ### 2. Google Drive verbinden
 
+rclone braucht einen eigenen Zugang bei Google. Der gemeinsame Zugang, den
+rclone mitbringt, wird 2026 abgeschaltet.
+
+**Eigene Google-App anlegen** (einmal, in der
+[Google Cloud Console](https://console.cloud.google.com/)):
+
+1. Oben ein neues Projekt anlegen, etwa „OpernLog Sicherung“.
+2. Unter *APIs & Services → Library* die **Google Drive API** suchen und
+   aktivieren.
+3. Unter *Google Auth Platform* auf *Get started* klicken. Als App-Name
+   „OpernLog Sicherung“ und die eigene E-Mail angeben, als Zielgruppe
+   (*Audience*) **External** wählen.
+4. Unter *Data Access* → *Add or remove scopes* den Bereich
+   `…/auth/drive.file` hinzufügen und speichern.
+5. Unter *Audience* auf **Publish app** klicken, sodass dort „In production“
+   steht. Das ist wichtig: Im Testmodus läuft der Zugang nach 7 Tagen ab.
+   Eine Prüfung durch Google ist für `drive.file` nicht nötig.
+6. Unter *Clients* → *Create client* als Typ **Desktop app** wählen und als
+   Name „rclone“ eintragen. Client-ID und Client-Geheimnis in den
+   Passwortmanager legen: Beide kommen in Schritt 4 zu GitHub.
+
+**rclone verbinden:**
+
 ```bash
 rclone config
 ```
 
 Die Fragen der Reihe nach:
 
-- `n` für eine neue Verbindung, Name `drive`.
+- `n` für eine neue Verbindung, Name `drive`. Gibt es schon eine Verbindung
+  `drive`, sie vorher mit `rclone config delete drive` entfernen.
 - Als Speicher **Google Drive** (`drive`) wählen.
-- `client_id` und `client_secret` leer lassen, also Enter drücken. So nimmt
-  rclone seinen eigenen, von Google freigegebenen Zugang, und der
-  Anmeldeschlüssel läuft nicht nach 7 Tagen ab.
+- Bei `client_id` und `client_secret` die Werte aus Punkt 6 einfügen.
 - Als `scope` **drive.file** wählen. Damit sieht rclone in Drive nur die
   Dateien, die es selbst angelegt hat, sonst nichts.
 - `service_account_file` leer lassen, die erweiterten Einstellungen mit `n`
   überspringen.
 - Die Anmeldung im Browser mit `y` bestätigen. Dann im Browser mit dem
-  Google-Konto anmelden und den Zugriff erlauben.
+  Google-Konto anmelden und den Zugriff erlauben. Warnt Google, die App sei
+  nicht überprüft: Das ist die eigene App, über „Erweitert“ fortfahren.
 - Die Frage nach einer geteilten Ablage (Shared Drive) mit `n` beantworten,
   zum Schluss mit `y` speichern und mit `q` beenden.
 
@@ -85,6 +108,12 @@ auf dem Bildschirm erscheint:
 ```bash
 rclone config show drive | sed -n 's/^token = //p' | pbcopy
 ```
+
+Er gehört nur zu GitHub, sonst nirgendwohin. Wer ihn hat, kommt an die
+Dateien, die rclone in Drive angelegt hat. Ist er doch einmal
+herausgerutscht: unter [myaccount.google.com/connections](https://myaccount.google.com/connections)
+der App den Zugriff entziehen, rclone neu verbinden (`rclone config reconnect
+drive:`) und den neuen Schlüssel in GitHub eintragen.
 
 ### 3. Verbindungsadresse der Datenbank
 
@@ -109,16 +138,18 @@ In der Adresse `[YOUR-PASSWORD]` durch das Datenbank-Passwort ersetzen.
   diese in der Adresse kodiert werden (`@` als `%40`, `#` als `%23` …).
   Einfacher ist ein neues Passwort nur aus Buchstaben und Ziffern.
 
-### 4. Drei Geheimnisse bei GitHub
+### 4. Fünf Geheimnisse bei GitHub
 
 Im Repo unter Settings → Secrets and variables → Actions → *New repository
-secret* diese drei Geheimnisse anlegen:
+secret* diese fünf Geheimnisse anlegen:
 
 | Name | Inhalt |
 | --- | --- |
 | `SUPABASE_DB_URL` | die Adresse aus Schritt 3 |
 | `SICHERUNG_AGE_EMPFAENGER` | der öffentliche Schlüssel `age1…` aus Schritt 1 |
 | `SICHERUNG_DRIVE_TOKEN` | der Anmeldeschlüssel aus Schritt 2 (Zwischenablage) |
+| `SICHERUNG_DRIVE_CLIENT_ID` | die Client-ID der eigenen Google-App aus Schritt 2 |
+| `SICHERUNG_DRIVE_CLIENT_SECRET` | das Client-Geheimnis der eigenen Google-App aus Schritt 2 |
 
 Der Lauf prüft, dass im zweiten Feld wirklich ein öffentlicher Schlüssel
 steht, und bricht ab, falls dort aus Versehen der private liegt.
@@ -154,9 +185,10 @@ Zeile:
 - **`password authentication failed`:** Das Datenbank-Passwort hat sich
   geändert. `SUPABASE_DB_URL` mit dem neuen Passwort neu eintragen.
 - **`invalid_grant`, `token … expired or revoked`:** Der Zugriff auf Drive
-  wurde entzogen, etwa in den Google-Kontoeinstellungen. Die Verbindung mit
-  `rclone config reconnect drive:` erneuern, dann den Befehl aus Schritt 2
-  wiederholen und `SICHERUNG_DRIVE_TOKEN` neu eintragen.
+  wurde entzogen, etwa in den Google-Kontoeinstellungen, oder die eigene
+  Google-App steht noch im Testmodus (Schritt 2, Punkt 5). Die Verbindung
+  mit `rclone config reconnect drive:` erneuern, dann den Befehl aus
+  Schritt 2 wiederholen und `SICHERUNG_DRIVE_TOKEN` neu eintragen.
 - **`supabase db dump` scheitert, nachdem Supabase die Datenbank auf eine
   neue Postgres-Version umgestellt hat:** Die Version der CLI im Workflow
   (`setup-cli`, `version:`) erhöhen.
