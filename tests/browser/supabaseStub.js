@@ -15,7 +15,9 @@ const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar
 
 window.__seen = [];     // opera_id-Liste in der "Datenbank"
 window.__lists = [];    // Listen (Wunschliste u. a.), die die App anlegt oder ändert
-window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
+// Besuchszeilen, wie sie aus der Cloud kaemen. __besucheVorgabe per
+// addInitScript setzen, wenn beim Start schon welche da sein sollen.
+window.__visits = window.__besucheVorgabe || [];
 window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
 // Neue Besuche: jeder Versuch landet in __besuchVersuche. __besuchFehler ist
 // eine Schlange – je Versuch wird der vorderste Fehler geliefert, solange
@@ -79,6 +81,17 @@ window.__verzoegerung = 0;
 window.__unterwegs = 0;
 window.__hoechstensUnterwegs = 0;
 window.__adminAbfragen = 0;
+// Lesen oder Schreiben einer Tabelle aufhalten, bis der Test __freigeben()
+// ruft: __anhalten = { tabelle: 'lesen' | 'schreiben' }. Ein Lesen antwortet
+// mit dem Stand beim Aufruf, kommt aber erst mit der Freigabe an – wie eine
+// Abfrage, die noch unterwegs ist, waehrend jemand etwas aendert. Ein
+// Schreiben wirkt erst mit der Freigabe. __angehalten zaehlt, was wartet.
+// Freigabe statt fester Wartezeit: unter Last dauern Klicks im Test
+// sekundenlang, und eine feste Luecke war dann schon wieder zu.
+window.__anhalten = {};
+window.__angehalten = 0;
+let wartende = [];
+window.__freigeben = () => { const w = wartende; wartende = []; w.forEach(weiter => weiter()); };
 window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
 // Geplante Besuche: Zeilen wie in der Datenbank. __geplantVorgabe per
 // addInitScript setzen, wenn beim Start schon welche da sein sollen.
@@ -187,6 +200,11 @@ function builder(table) {
       if (table === 'likes' && window.__likeFehler) {
         return Promise.resolve({ data: null, error: { message: window.__likeFehler } }).then(res, rej);
       }
+      if (table === 'visits' && op === 'delete') {
+        const weg = window.__visits.filter(v => v.id === filter.id);
+        window.__visits = window.__visits.filter(v => v.id !== filter.id);
+        return Promise.resolve({ data: weg, error: null }).then(res, rej);
+      }
       if (table === 'visits' && op === 'insert') {
         window.__besuchVersuche.push(nutzlast);
         const fehler = window.__besuchFehler.length ? window.__besuchFehler.shift() : null;
@@ -244,6 +262,18 @@ function builder(table) {
     if (table === 'admins') window.__adminAbfragen++;
     window.__unterwegs++;
     window.__hoechstensUnterwegs = Math.max(window.__hoechstensUnterwegs, window.__unterwegs);
+    if (window.__anhalten[table] === (op ? 'schreiben' : 'lesen')) {
+      window.__angehalten++;
+      const frei = new Promise(weiter => wartende.push(weiter));
+      const antwort = () => new Promise((ok, fehl) => antworten.call(api, ok, fehl));
+      // Lesen: erst antworten, dann warten. Kopiert, weil Listenzeilen
+      // spaeter an Ort und Stelle geaendert werden.
+      const fertig = op ? frei.then(antwort)
+        : antwort().then(a => structuredClone(a)).then(a => frei.then(() => a));
+      return fertig
+        .finally(() => { window.__unterwegs--; window.__angehalten--; })
+        .then(res, rej);
+    }
     const warten = window.__verzoegerung ? new Promise(r => setTimeout(r, window.__verzoegerung)) : Promise.resolve();
     return warten
       .then(() => new Promise((ok, fehl) => antworten.call(api, ok, fehl)))

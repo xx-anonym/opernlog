@@ -170,8 +170,44 @@ class Store {
     // aktuell auszugeben.
     syncError = null;
 
+    // Je Bereich (listen, besuche, gesehen, geplant): wie viele Schreibzugriffe
+    // abgeschlossen und wie viele noch unterwegs sind. Siehe _schreiben().
+    _aenderungen = {};
+
+    _zaehler(bereich) {
+        return (this._aenderungen[bereich] ||= { fertig: 0, laufend: 0 });
+    }
+
+    /**
+     * Schreibt in die Cloud und zählt für den Bereich mit. Ein Abgleich, der
+     * gleichzeitig läuft, kann den Stand von vor diesem Schreiben lesen.
+     * Übernähme er ihn, verschwände die Änderung auf dem Gerät bis zum
+     * nächsten Abgleich – oder ein gelöschter Eintrag stünde wieder da.
+     */
+    async _schreiben(bereich, anfrage) {
+        const z = this._zaehler(bereich);
+        z.laufend++;
+        try {
+            return await anfrage();
+        } finally {
+            z.laufend--;
+            z.fertig++;
+        }
+    }
+
+    /**
+     * Vor dem Lesen eines Bereichs aufrufen. Die zurückgegebene Prüfung sagt
+     * nach dem Lesen, ob die Antwort übernommen werden darf: nur wenn seitdem
+     * nichts geschrieben wurde und nichts mehr unterwegs ist.
+     */
+    _nochAktuell(bereich) {
+        const z = this._zaehler(bereich);
+        const fertig = z.fertig;
+        return () => z.fertig === fertig && z.laufend === 0;
+    }
+
     /** Eigene Listen aus der Cloud; doppelte Wunschlisten werden dabei aufgeräumt. */
-    async _listenAbgleichen() {
+    async _listenAbgleichen(nochAktuell) {
         const cloudLists = await sb.getMyListsCloud();
 
         // Auto-deduplicate wishlists
@@ -190,6 +226,7 @@ class Store {
             }
         }
 
+        if (!nochAktuell()) return;
         this.data.myLists = cloudLists.map(l => ({
             id: l.id,
             userId: 'user-me',
@@ -204,8 +241,9 @@ class Store {
     }
 
     /** Eigene Abende aus der Cloud, dazu was nur auf diesem Gerät wartet. */
-    async _besucheAbgleichen() {
+    async _besucheAbgleichen(nochAktuell) {
         const cloudVisits = await sb.getMyVisitsCloud();
+        if (!nochAktuell()) return;
         // Was noch auf dem Gerät wartet, bleibt stehen – außer es
         // ist inzwischen doch angekommen (ein Versuch, dessen
         // Antwort im Funkloch verloren ging).
@@ -263,20 +301,26 @@ class Store {
                 // Wartezeiten. Jeder Bereich scheitert für sich; die Liste der
                 // Fehlschläge bleibt in fester Reihenfolge, damit die Meldung
                 // nicht springt.
+                //
+                // Was während des Lesens geändert wurde, bleibt lokal stehen
+                // statt der Antwort (_nochAktuell); der nächste Abgleich holt
+                // den Rest.
+                const gesehenAktuell = this._nochAktuell('gesehen');
+                const geplantAktuell = this._nochAktuell('geplant');
                 const bereiche = await Promise.all([
-                    this._listenAbgleichen().then(() => null, (e) => {
+                    this._listenAbgleichen(this._nochAktuell('listen')).then(() => null, (e) => {
                         console.error('[Store] Listen-Abgleich fehlgeschlagen', e);
                         return 'Listen';
                     }),
-                    this._besucheAbgleichen().then(() => null, (e) => {
+                    this._besucheAbgleichen(this._nochAktuell('besuche')).then(() => null, (e) => {
                         console.error('[Store] Besuche-Abgleich fehlgeschlagen', e);
                         return 'Besuche';
                     }),
-                    sb.getSeenOperasCloud().then((gesehen) => { this.data.seenOperas = gesehen; return null; }, (e) => {
+                    sb.getSeenOperasCloud().then((gesehen) => { if (gesehenAktuell()) this.data.seenOperas = gesehen; return null; }, (e) => {
                         console.error('[Store] Abgleich der gesehenen Werke fehlgeschlagen', e);
                         return 'Gesehene Werke';
                     }),
-                    sb.getGeplanteBesucheCloud().then((plaene) => { this.data.geplant = plaene; return null; }, (e) => {
+                    sb.getGeplanteBesucheCloud().then((plaene) => { if (geplantAktuell()) this.data.geplant = plaene; return null; }, (e) => {
                         console.error('[Store] Abgleich der geplanten Besuche fehlgeschlagen', e);
                         return 'Geplante Besuche';
                     }),
@@ -568,7 +612,7 @@ class Store {
             uhr = setTimeout(() => nein(Object.assign(new Error('Zeitüberschreitung beim Hochladen'), { code: 'ZEIT' })), HOCHLADEN_GEDULD_MS);
         });
         try {
-            const hochladen = sb.addVisitCloud(visit);
+            const hochladen = this._schreiben('besuche', () => sb.addVisitCloud(visit));
             // Nach einer Zeitüberschreitung hört niemand mehr zu; ein späterer
             // Fehler soll nicht als unbehandelt in der Konsole landen.
             hochladen.catch(() => {});
@@ -646,7 +690,7 @@ class Store {
 
         if (this.isCloud) {
             try {
-                await sb.updateVisitCloud(visitId, updates);
+                await this._schreiben('besuche', () => sb.updateVisitCloud(visitId, updates));
             } catch (e) {
                 // Cloud ist die Quelle der Wahrheit – lokale Änderung zurücknehmen,
                 // damit die UI nicht Erfolg zeigt und der Eintrag beim Neuladen zurückspringt.
@@ -662,7 +706,7 @@ class Store {
         // Eintrag verschwunden und beim nächsten Laden wieder da. Ein noch
         // nicht übertragener Besuch steht nur hier.
         const wartet = this.data.myVisits.find(v => v.id === visitId)?.ausstehend;
-        if (this.isCloud && !wartet) await sb.deleteVisitCloud(visitId);
+        if (this.isCloud && !wartet) await this._schreiben('besuche', () => sb.deleteVisitCloud(visitId));
         this.data.myVisits = this.data.myVisits.filter(v => v.id !== visitId);
         this.save();
     }
@@ -839,7 +883,7 @@ class Store {
 
         if (this.isCloud) {
             try {
-                const cloudData = await sb.addListCloud(newList);
+                const cloudData = await this._schreiben('listen', () => sb.addListCloud(newList));
                 const local = this.data.myLists.find(l => l.id === newList.id);
                 if (local && cloudData?.id) {
                     local.id = cloudData.id;
@@ -867,7 +911,7 @@ class Store {
 
         if (this.isCloud) {
             try {
-                await sb.updateListCloud(listId, this._listToCloud(updates));
+                await this._schreiben('listen', () => sb.updateListCloud(listId, this._listToCloud(updates)));
             } catch (e) {
                 Object.assign(list, previous);
                 this.save();
@@ -888,7 +932,7 @@ class Store {
     }
 
     async deleteList(listId) {
-        if (this.isCloud) await sb.deleteListCloud(listId);
+        if (this.isCloud) await this._schreiben('listen', () => sb.deleteListCloud(listId));
         this.data.myLists = this.data.myLists.filter(l => l.id !== listId);
         this.save();
     }
@@ -964,7 +1008,7 @@ class Store {
 
         if (this.isCloud) {
             try {
-                await sb.addSeenOperaCloud(operaId);
+                await this._schreiben('gesehen', () => sb.addSeenOperaCloud(operaId));
             } catch (e) {
                 // Wie überall hier: die Cloud ist die Quelle der Wahrheit.
                 // Ohne das Zurücknehmen stünde die Markierung bis zum
@@ -984,7 +1028,7 @@ class Store {
 
         if (this.isCloud) {
             try {
-                await sb.removeSeenOperaCloud(operaId);
+                await this._schreiben('gesehen', () => sb.removeSeenOperaCloud(operaId));
             } catch (e) {
                 this.data.seenOperas = vorher;
                 this.save();
@@ -1012,7 +1056,7 @@ class Store {
         this.save();
         if (this.isCloud) {
             try {
-                await sb.addGeplantCloud(plan);
+                await this._schreiben('geplant', () => sb.addGeplantCloud(plan));
             } catch (e) {
                 this.data.geplant = this.getGeplant().filter(p => p.id !== plan.id);
                 this.save();
@@ -1028,7 +1072,7 @@ class Store {
         this.save();
         if (this.isCloud) {
             try {
-                await sb.deleteGeplantCloud(id);
+                await this._schreiben('geplant', () => sb.deleteGeplantCloud(id));
             } catch (e) {
                 this.data.geplant = vorher;
                 this.save();
