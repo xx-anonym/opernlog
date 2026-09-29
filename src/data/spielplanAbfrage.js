@@ -117,6 +117,45 @@ export function abendeImHaus(hausId, { heute = heuteIso(), daten = spielplan } =
     return abendeInDerNaehe({ heute, daten: daten.filter(e => e.haus === hausId) });
 }
 
+// ── Vorschläge im Log-Formular ─────────────────────────────────────────
+//
+// Wer loggt, war an einem Abend in einem Haus – und der Spielplan weiß oft
+// schon, was dort lief. Beide Richtungen: Haus und Tag ergeben das Werk,
+// Haus und Werk ergeben die Tage.
+
+/**
+ * Was an einem Haus an einem Tag laut Spielplan lief, nach Beginn geordnet –
+ * meist ein Werk, an manchen Tagen eine Nachmittags- und eine Abendvorstellung.
+ *
+ * @param {string} hausId
+ * @param {string} datum      JJJJ-MM-TT
+ * @param {object} [o]
+ * @param {Array}  [o.daten]  nur für Tests
+ * @returns {Array<{werk: string, zeit: string|null}>}
+ */
+export function werkeAmAbend(hausId, datum, { daten = spielplan } = {}) {
+    return abendeInDerNaehe({ heute: datum, bis: datum, daten: daten.filter(e => e.haus === hausId) })
+        .map(a => ({ werk: a.werk, zeit: a.zeit }));
+}
+
+/**
+ * An welchen Tagen ein Werk an einem Haus bis einschließlich heute lief,
+ * der jüngste zuerst: wer loggt, loggt meist den letzten Abend.
+ *
+ * @param {string} hausId
+ * @param {string} werkId
+ * @param {object} [o]
+ * @param {string} [o.heute]  JJJJ-MM-TT
+ * @param {Array}  [o.daten]  nur für Tests
+ * @returns {string[]}
+ */
+export function gespielteTage(hausId, werkId, { heute = heuteIso(), daten = spielplan } = {}) {
+    const tage = daten
+        .filter(e => e.haus === hausId && e.werk === werkId)
+        .flatMap(e => e.termine.filter(t => t <= heute));
+    return [...new Set(tage)].sort().reverse();
+}
+
 // ── Umkreis für "In der Nähe" ──────────────────────────────────────────
 //
 // Die Stufen des Schiebers: fein, wo es auf wenige Kilometer ankommt, grob

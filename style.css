@@ -2779,6 +2779,26 @@ h3 {
     display: none;
 }
 
+/* Vorschläge aus dem Spielplan im Log-Formular: ein Satz, dahinter Knöpfe
+   zum Übernehmen. Gleicher Grund wie oben für die eigene hidden-Regel. */
+.form-vorschlag {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+    margin-top: 8px;
+}
+
+.form-vorschlag[hidden] {
+    display: none;
+}
+
+.form-vorschlag__text {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 .setup-btn-loading {
     display: inline-flex;
     align-items: center;

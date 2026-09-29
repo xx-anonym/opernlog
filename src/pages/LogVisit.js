@@ -7,6 +7,7 @@ import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, vi
 import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
 import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke } from '../data/besetzung.js';
+import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
 
 export function LogVisitPage(params = {}) {
   const page = document.createElement('div');
@@ -60,11 +61,13 @@ export function LogVisitPage(params = {}) {
           <div class="autocomplete__list" id="operaList"></div>
         </div>
         <input type="hidden" id="operaId" />
+        <div class="form-vorschlag" id="operaVorschlag" hidden></div>
       </div>
       
       <div class="form-group">
         <label class="form-label">${icon('calendar', { className: 'icon--meta' })}Datum</label>
         <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : (vorDatum || heute)}" max="${heute}" />
+        <div class="form-vorschlag" id="datumVorschlag" hidden></div>
       </div>
       
       <details class="form-collapse"${credits.any ? ' open' : ''}>
@@ -125,6 +128,10 @@ export function LogVisitPage(params = {}) {
   const houseInput = page.querySelector('#houseInput');
   const houseList = page.querySelector('#houseList');
   const houseIdInput = page.querySelector('#houseId');
+  const operaInput = page.querySelector('#operaInput');
+  const operaList = page.querySelector('#operaList');
+  const operaIdInput = page.querySelector('#operaId');
+  const dateInput = page.querySelector('#visitDate');
 
   // Pre-select if passed via URL
   if (params.house) {
@@ -137,8 +144,8 @@ export function LogVisitPage(params = {}) {
   if (params.opera) {
     const preOpera = operas.find(o => o.id === params.opera);
     if (preOpera) {
-      page.querySelector('#operaInput').value = `${preOpera.title} – ${preOpera.composer}`;
-      page.querySelector('#operaId').value = preOpera.id;
+      operaInput.value = `${preOpera.title} – ${preOpera.composer}`;
+      operaIdInput.value = preOpera.id;
     }
   }
 
@@ -151,10 +158,79 @@ export function LogVisitPage(params = {}) {
     }
     const preOpera = operas.find(o => o.id === editVisit.operaId);
     if (preOpera) {
-      page.querySelector('#operaInput').value = `${preOpera.title} – ${preOpera.composer}`;
-      page.querySelector('#operaId').value = preOpera.id;
+      operaInput.value = `${preOpera.title} – ${preOpera.composer}`;
+      operaIdInput.value = preOpera.id;
     }
   }
+
+  // ── Vorschläge aus dem Spielplan ────────────────────────────────────
+  //
+  // Stehen Haus und Tag, weiß der Spielplan oft, welches Werk lief; stehen
+  // Haus und Werk, weiß er die Tage. Beides nur als Knopf zum Übernehmen, nie
+  // von selbst: der Spielplan kennt nur Werke aus dem Katalog, und wer an dem
+  // Abend im Ballett war, soll nicht plötzlich eine Oper im Formular haben.
+  const operaVorschlag = page.querySelector('#operaVorschlag');
+  const datumVorschlag = page.querySelector('#datumVorschlag');
+
+  // Ein von Hand gewähltes Datum steht fest; dann schlägt niemand mehr andere
+  // Tage vor. Sonst würde, wer einen Besuch von 2019 nachträgt, auf die Abende
+  // dieser Spielzeit gelenkt. Beim Bearbeiten gilt das Datum von Anfang an,
+  // ebenso das eines vorgemerkten Abends.
+  let dateTouched = !!editVisit || !!vorDatum;
+
+  function vorschlagsKnopf(text, { aktiv = false, onClick }) {
+    const knopf = document.createElement('button');
+    knopf.type = 'button';
+    knopf.className = `chip${aktiv ? ' chip--active' : ''}`;
+    knopf.textContent = text;
+    knopf.addEventListener('click', onClick);
+    return knopf;
+  }
+
+  function zeigeVorschlag(ziel, titel, knoepfe) {
+    ziel.replaceChildren();
+    ziel.hidden = !knoepfe.length;
+    if (!knoepfe.length) return;
+    const text = document.createElement('span');
+    text.className = 'form-vorschlag__text';
+    text.textContent = titel;
+    ziel.append(text, ...knoepfe);
+  }
+
+  function zeigeVorschlaege() {
+    const hausId = houseIdInput.value;
+    const datum = dateInput.value;
+
+    // Das Werk: nur solange keines gewählt ist.
+    const werke = hausId && datum && !operaIdInput.value
+      ? werkeAmAbend(hausId, datum)
+          .map(a => ({ ...a, opera: operas.find(o => o.id === a.werk) }))
+          .filter(a => a.opera)
+      : [];
+    zeigeVorschlag(operaVorschlag,
+      datum === heuteIso() ? 'Laut Spielplan heute hier:' : 'Laut Spielplan an dem Tag hier:',
+      werke.map(a => vorschlagsKnopf(
+        // Nur der Beginn: er unterscheidet Nachmittag und Abend, das Ende nicht.
+        a.zeit ? `${a.opera.title} · ${a.zeit.slice(0, 5)}` : a.opera.title,
+        { onClick: () => {
+          operaInput.value = `${a.opera.title} – ${a.opera.composer}`;
+          operaIdInput.value = a.opera.id;
+          operaList.style.display = 'none';
+          zeigeVorschlaege();
+        } })));
+
+    // Die Tage: die letzten vier, der gewählte hervorgehoben.
+    const tage = hausId && operaIdInput.value && !dateTouched
+      ? gespielteTage(hausId, operaIdInput.value).slice(0, 4)
+      : [];
+    zeigeVorschlag(datumVorschlag, 'Laut Spielplan hier gespielt:',
+      tage.map(tag => vorschlagsKnopf(terminMitWochentag(tag), {
+        aktiv: tag === datum,
+        onClick: () => { dateInput.value = tag; zeigeVorschlaege(); },
+      })));
+  }
+
+  dateInput.addEventListener('input', () => { dateTouched = true; zeigeVorschlaege(); });
 
   // ── Opernhaus vorbelegen ────────────────────────────────────────────
   //
@@ -226,6 +302,7 @@ export function LogVisitPage(params = {}) {
 
     houseHint.innerHTML = quelle.hinweis(distanzKm);
     houseHint.hidden = false;
+    zeigeVorschlaege();
     return true;
   }
 
@@ -280,6 +357,8 @@ export function LogVisitPage(params = {}) {
     fillFromPosition(ipPosition, QUELLEN.ip);
   }
 
+  // Haus oder Werk aus der Adresse, oder der bearbeitete Besuch.
+  zeigeVorschlaege();
   if (!params.house && !editVisit) preselectHouse();
 
   // Löschtaste räumt die gewählte Zeile am Stück – siehe selectionField().
@@ -291,7 +370,7 @@ export function LogVisitPage(params = {}) {
       const house = operaHouses.find(h => h.id === id);
       return house ? `${house.name} (${house.city})` : null;
     },
-    onChange: () => { houseTouched = true; clearAutoSelection(); },
+    onChange: () => { houseTouched = true; clearAutoSelection(); zeigeVorschlaege(); },
   });
 
   houseInput.addEventListener('input', () => {
@@ -315,16 +394,13 @@ export function LogVisitPage(params = {}) {
         houseInput.value = `${house.name} (${house.city})`;
         houseIdInput.value = house.id;
         houseList.style.display = 'none';
+        zeigeVorschlaege();
       });
       houseList.appendChild(item);
     });
   });
 
   // Autocomplete for operas
-  const operaInput = page.querySelector('#operaInput');
-  const operaList = page.querySelector('#operaList');
-  const operaIdInput = page.querySelector('#operaId');
-
   const operaField = selectionField({
     input: operaInput,
     idInput: operaIdInput,
@@ -333,6 +409,7 @@ export function LogVisitPage(params = {}) {
       const opera = operas.find(o => o.id === id);
       return opera ? `${opera.title} – ${opera.composer}` : null;
     },
+    onChange: zeigeVorschlaege,
   });
 
   operaInput.addEventListener('input', () => {
@@ -354,6 +431,7 @@ export function LogVisitPage(params = {}) {
         operaInput.value = `${opera.title} – ${opera.composer}`;
         operaIdInput.value = opera.id;
         operaList.style.display = 'none';
+        zeigeVorschlaege();
       });
       operaList.appendChild(item);
     });
