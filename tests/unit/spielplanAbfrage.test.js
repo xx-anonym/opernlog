@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { kommendeAuffuehrungen, terminKurz, heuteIso } from '../../src/data/spielplanAbfrage.js';
+import { kommendeAuffuehrungen, terminKurz, heuteIso, werkeAmAbend, gespielteTage } from '../../src/data/spielplanAbfrage.js';
 import { uebernehmen, seitenrahmen } from '../werkzeug/spielplan-uebernehmen.mjs';
 
 const DATEN = [
@@ -515,4 +515,39 @@ test('ausschliessen mit url trifft nur diese Produktion (Volksoper, Killing Carm
     assert.equal(uebernehmen(LAUF, k).zeilen.length, 1, 'die echte Tosca bleibt');
     const k2 = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'semperoper.example/tosca', grund: 'Bearbeitung' }] };
     assert.equal(uebernehmen(LAUF, k2).zeilen.length, 0);
+});
+
+// ── Vorschläge im Log-Formular ─────────────────────────────────────────
+
+const ABENDE = [
+    { werk: 'tosca', haus: 'semperoper', url: 'x', termine: ['2026-09-01', '2026-09-12', '2026-09-20', '2026-11-08'],
+      zeiten: { '2026-09-12': '19:00-22:00' } },
+    { werk: 'haensel-gretel', haus: 'semperoper', url: 'x', termine: ['2026-09-12'], zeiten: { '2026-09-12': '15:00' } },
+    { werk: 'carmen', haus: 'semperoper', url: 'x', termine: ['2026-09-13'] },
+    { werk: 'tosca', haus: 'wiener-staatsoper', url: 'x', termine: ['2026-09-12'] },
+];
+
+test('werkeAmAbend: was an dem Tag an dem Haus lief, nach Beginn', () => {
+    assert.deepEqual(werkeAmAbend('semperoper', '2026-09-12', { daten: ABENDE }), [
+        { werk: 'haensel-gretel', zeit: '15:00' },
+        { werk: 'tosca', zeit: '19:00-22:00' },
+    ]);
+    assert.deepEqual(werkeAmAbend('semperoper', '2026-09-13', { daten: ABENDE }), [{ werk: 'carmen', zeit: null }]);
+    assert.deepEqual(werkeAmAbend('semperoper', '2026-09-14', { daten: ABENDE }), [], 'spielfreier Tag');
+    assert.deepEqual(werkeAmAbend('gibt-es-nicht', '2026-09-12', { daten: ABENDE }), []);
+});
+
+test('gespielteTage: nur bis heute, der jüngste zuerst, nur dieses Haus', () => {
+    assert.deepEqual(gespielteTage('semperoper', 'tosca', { heute: '2026-09-20', daten: ABENDE }),
+        ['2026-09-20', '2026-09-12', '2026-09-01'], 'heute zählt mit, November noch nicht');
+    assert.deepEqual(gespielteTage('wiener-staatsoper', 'tosca', { heute: '2026-09-20', daten: ABENDE }), ['2026-09-12']);
+    assert.deepEqual(gespielteTage('semperoper', 'tosca', { heute: '2026-08-31', daten: ABENDE }), []);
+});
+
+test('gespielteTage: steht ein Werk doppelt am Haus, zählt jeder Tag einmal', () => {
+    const doppelt = [
+        { werk: 'tosca', haus: 'semperoper', url: 'a', termine: ['2026-09-01', '2026-09-05'] },
+        { werk: 'tosca', haus: 'semperoper', url: 'b', termine: ['2026-09-05'] },
+    ];
+    assert.deepEqual(gespielteTage('semperoper', 'tosca', { heute: '2026-09-30', daten: doppelt }), ['2026-09-05', '2026-09-01']);
 });

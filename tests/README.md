@@ -39,7 +39,7 @@ node --test "tests/**/*.test.js"
 | `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung; wohin sie auf iPhone und iPad geht (Safari-Tab: eigenes Fenster, installierte App: echtes Safari) |
 | `neuigkeiten.test.js` | wann „Neu in OpernLog“ fällig ist: Konten von vorher, einmal je Gerät, ohne Speicher lieber nicht |
 | `spielplanTermine.test.js` | Termine aus Spielplantexten: Schreibweisen, Jahr aus dem Zusammenhang, Kalender über mehrere Zeilen, Uhrzeit, Monatsnavigation; was kein Termin ist (Uraufführung, Spanne, Matinee, Vorverkauf, Gastspiel) |
-| `spielplanAbfrage.test.js` | welche Häuser ein Werk demnächst spielen, nach Nähe oder Datum; Übernahme eines Laufs ohne Daten, die zur Seite gehören statt zum Stück |
+| `spielplanAbfrage.test.js` | welche Häuser ein Werk demnächst spielen, nach Nähe oder Datum; was an einem Haus an einem Tag lief und an welchen Tagen ein Werk dort schon lief (Vorschläge beim Loggen); Übernahme eines Laufs ohne Daten, die zur Seite gehören statt zum Stück |
 
 **`checks/`** – nicht die Logik, sondern der Zustand des Projekts. Diese
 Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
@@ -76,6 +76,7 @@ Datenbank.
 | `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
 | `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
 | `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich; in der installierten App kein Fenster |
+| `logVorschlag.test.js` | Vorschläge aus dem Spielplan beim Loggen: Haus und Tag ergeben das Werk, Haus und Werk die Tage; nur auf Klick, ein Datum von Hand bleibt stehen, die Vorauswahl nach dem Standort bringt den Vorschlag mit |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 | `durchsicht.test.js` | Funde der Durchsicht vom 23.09.2026: gestaltete Anmeldefelder, kein Tagebuch-Versprechen ohne Konto, Suche ohne Umlaute, Datum kurz nach Mitternacht, angefangener Text und offene Termine überleben die Rückkehr in die App; abgemeldet keine Wunschliste, keine Markierung, keine Liste |
 | `offlineLoggen.test.js` | Loggen ohne Netz: das Formular ist da, der Besuch wartet auf dem Gerät und geht mit derselben Kennung hoch, sobald Netz da ist; kein Doppel, wenn ein Versuch doch ankam; Abmelden fragt vorher |

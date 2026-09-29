@@ -87,7 +87,12 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   `daten/spielplan.json` von der Website und vergleicht mit dem, was sie schon
   kennt (`supabase/migrations/spielplan_mitteilungen_migration.sql`); die
   Datei schreibt das Übernahme-Werkzeug mit.
-  Mit Standort stehen die nächsten Häuser vorn. Das Kalender-Symbol neben
+  Mit Standort stehen die nächsten Häuser vorn. Auch beim Loggen hilft der
+  Spielplan: Stehen Haus und Tag fest, schlägt das Formular das Werk des
+  Abends vor, stehen Haus und Werk fest, die Tage, an denen es dort lief –
+  jeweils als Knopf, nie von selbst. Weil ein neuer Lauf nur übernimmt, was
+  die Häuser dann noch zeigen, reichen diese Vorschläge nur bis zum letzten
+  Lauf für das Haus zurück. Das Kalender-Symbol neben
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
   Werkzeug mit, wo sie eindeutig neben dem Datum stehen. Nennt die Seite
