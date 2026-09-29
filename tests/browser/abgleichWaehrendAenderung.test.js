@@ -130,6 +130,10 @@ test('ein Abend, vorgemerkt während der Abgleich unterwegs ist, bleibt vorgemer
         await p.waitForFunction(() => window.__geplant.length === 1);
         await p.waitForSelector('.kalender-wahl__vormerken--an');
         await p.click('#kalenderWahlAbbrechen');
+        // Das Schließen nimmt den Verlaufseintrag des Fensters verzögert weg
+        // (zurueckGeste.js). Erst abwarten – sonst kommt der Rücksprung nach
+        // dem Wechsel zur Startseite an und führt wieder zum Werk.
+        await p.waitForFunction(() => !history.state?.opernlogFenster);
         await p.evaluate(() => window.__freigeben());
         await abgleichFertig(p);
 
