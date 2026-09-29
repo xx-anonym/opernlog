@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270709T203000
 DTEND;TZID=Europe/Zurich:20270709T233000
 SUMMARY:Otello – Theater St. Gallen
-LOCATION:Theater St. Gallen\, St. Gallen
+LOCATION:Theater St. Gallen\, Schweiz
 GEO:47.429;9.381
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater St. Gallen, Schweiz":geo:47.429,9.381
 URL:https://www.konzertundtheater.ch/programm/kalender/otello/3973/
 DESCRIPTION:Giuseppe Verdi: Otello\nTermine und Karten: https://www.konzert
  undtheater.ch/programm/kalender/otello/3973/\nDas Ende ist geschätzt (3 S

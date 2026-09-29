@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270320T193000
 DTEND;TZID=Europe/Berlin:20270320T223000
 SUMMARY:L'elisir d'amore – Staatstheater am Gärtnerplatz
-LOCATION:Staatstheater am Gärtnerplatz\, München
+LOCATION:Staatstheater am Gärtnerplatz\, München\, Deutschland
 GEO:48.13;11.5751
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater am Gärtnerplatz, München, Deutschland":geo:
+ 48.13,11.5751
 URL:https://www.gaertnerplatztheater.de/de/produktionen/der-liebestrank.htm
  l
 DESCRIPTION:Gaetano Donizetti: L'elisir d'amore\nTermine und Karten: https:

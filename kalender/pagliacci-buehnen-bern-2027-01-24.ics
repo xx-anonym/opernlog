@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270124T160000
 DTEND;TZID=Europe/Zurich:20270124T190000
 SUMMARY:Pagliacci – Bühnen Bern
-LOCATION:Bühnen Bern\, Bern
+LOCATION:Bühnen Bern\, Schweiz
 GEO:46.949;7.447
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bühnen Bern, Schweiz":geo:46.949,7.447
 URL:https://buehnenbern.ch/spielplan/programm/cavalleria-rusticana-pagliacc
  i/
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://bue

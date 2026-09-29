@@ -27,8 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270304T193000
 DTEND;TZID=Europe/Berlin:20270304T223000
 SUMMARY:Eugen Onegin – Staatstheater Wiesbaden
-LOCATION:Staatstheater Wiesbaden\, Wiesbaden
+LOCATION:Staatstheater Wiesbaden\, Deutschland
 GEO:50.0857;8.2478
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Wiesbaden, Deutschland":geo:50.0857,8.2478
 URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/onegin-26-27/
 DESCRIPTION:Pjotr Iljitsch Tschaikowsky: Eugen Onegin\nTermine und Karten: 
  https://www.staatstheater-wiesbaden.de/spielplan/a-z/onegin-26-27/\nDas En

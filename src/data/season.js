@@ -10,6 +10,7 @@
 import { operaHouses, distanceKm } from './operaHouses.js';
 import { operas } from './operas.js';
 import { visitCredits } from '../utils.js';
+import { meistgehoerteStimmen } from './besetzung.js';
 
 const SEASON_START_MONTH = 8;   // August, 1-basiert
 
@@ -245,6 +246,8 @@ export function buildSeasonReview(alleBesuche, startYear) {
             : null,
         topComposer: topKomponist,
         topConductor: topDirigent,
+        // Wer am häufigsten auf der Bühne stand, ab zwei Abenden (besetzung.js).
+        topVoices: meistgehoerteStimmen(besuche),
         topMonth: monatName ? { name: monatName, anzahl: topMonat.anzahl } : null,
         topWeekday: topWochentag,
         repeats: wiederholungen,

@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270413T193000
 DTEND;TZID=Europe/Berlin:20270413T223000
 SUMMARY:Fidelio – Staatsoper Hannover
-LOCATION:Staatsoper Hannover\, Hannover
+LOCATION:Staatsoper Hannover\, Deutschland
 GEO:52.376;9.7405
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Hannover, Deutschland":geo:52.376,9.7405
 URL:https://staatstheater-hannover.de/de_DE/programm/fidelio-focus-fade.139
  9478
 DESCRIPTION:Ludwig van Beethoven: Fidelio\nTermine und Karten: https://staa

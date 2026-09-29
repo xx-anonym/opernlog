@@ -1,7 +1,8 @@
 // Ein Termin aus dem Spielplan als Kalenderdatei (iCalendar, RFC 5545).
 //
 // Die Datei entsteht im Browser, ohne Server: Werk, Haus mit Ort und
-// Koordinaten, Beginn, Ende und der Link auf die Seite des Hauses. Ohne
+// Koordinaten (auch so, dass Apple Kalender eine Karte zeigt), Beginn, Ende
+// und der Link auf die Seite des Hauses. Ohne
 // bekannte Uhrzeit wird es ein ganztägiger Eintrag; ohne bekanntes Ende
 // ein dreistündiger, und die Beschreibung sagt das.
 
@@ -14,6 +15,61 @@ const zoneFuer = haus => ZONE[haus?.state] || 'Europe/Berlin';
 const GESCHAETZT_STUNDEN = 3;
 
 const zwei = n => String(n).padStart(2, '0');
+
+/**
+ * Wert eines Parameters (nicht eines Feldes): immer in Anführungszeichen.
+ * Ohne sie liest Apple Kommas als Trennzeichen einer Liste – aus
+ * "Oper Leipzig, Leipzig, Deutschland" wurde "Oper Leipzig", und der Ort
+ * blieb ohne Karte. Anführungszeichen selbst sind in Parametern gar nicht
+ * erlaubt, auch nicht maskiert.
+ */
+function parameter(text) {
+    return `"${String(text ?? '').replace(/"/g, "'").replace(/\r?\n/g, ' ')}"`;
+}
+
+const landFuer = haus => (haus?.state === 'Österreich' || haus?.state === 'Schweiz') ? haus.state : 'Deutschland';
+
+/**
+ * Steht die Stadt schon im Namen des Hauses? "Oper Leipzig" nennt Leipzig,
+ * "Oper Frankfurt" Frankfurt am Main, "Theater Krefeld und Mönchengladbach"
+ * beide Städte. "Wiener Staatsoper" nennt Wien nicht – dort ist es ein
+ * Adjektiv, und "Wiener Staatsoper, Wien" liest sich nicht doppelt.
+ */
+function stadtImNamen(haus) {
+    if (!haus.city || !haus.name) return false;
+    const alsWort = wort => new RegExp(`(^|[^\\p{L}])${wort.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^\\p{L}])`, 'iu').test(haus.name);
+    return haus.city.split(/\s*\/\s*/).every(teil => {
+        const kern = teil.replace(/\s*\(.*\)$/, '').replace(/\s+(am|an der|im|in der|bei|ob der)\s.*$/i, '');
+        return alsWort(teil) || alsWort(kern);
+    });
+}
+
+/**
+ * "Semperoper, Dresden, Deutschland", aber "Oper Leipzig, Deutschland" –
+ * derselbe Text in LOCATION und X-TITLE.
+ */
+const ortText = haus => [haus.name, stadtImNamen(haus) ? null : haus.city, landFuer(haus)].filter(Boolean).join(', ');
+
+/**
+ * Der Ort, wie Apple Kalender ihn braucht, um eine Karte, die Wegzeit und
+ * "Route" anzuzeigen. GEO allein liest er nicht, und LOCATION ist für ihn
+ * nur Text.
+ *
+ * Apple übernimmt den Ort nur, wenn X-TITLE genau dem Text in LOCATION
+ * entspricht. Eine Straßenadresse führt der Katalog nicht; dann gehört auch
+ * kein X-ADDRESS hinein – mit einer bloßen Stadt darin zeigte Apple keine
+ * Karte. Die Koordinaten reichen: die Karte zeigt den Punkt, die Navigation
+ * führt hin.
+ *
+ * Ausprobiert am 27.9.2026 in Apple Kalender auf dem Mac, vier Fassungen
+ * nebeneinander: mit Karte kamen nur Apples eigenes Exportformat (mit
+ * Straße) und genau diese hier – Titel in Anführungszeichen, Radius 70,
+ * X-APPLE-REFERENCEFRAME=1.
+ */
+function appleOrt(haus) {
+    if (!Number.isFinite(haus.lat) || !Number.isFinite(haus.lon)) return [];
+    return [`X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFRAME=1;X-TITLE=${parameter(ortText(haus))}:geo:${haus.lat},${haus.lon}`];
+}
 
 /** Text für ein Feld: Backslash, Semikolon, Komma und Zeilenumbruch maskiert. */
 function feld(text) {
@@ -123,8 +179,9 @@ export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', jetz
         `DTSTAMP:${utcStempel(jetzt)}`,
         ...zeitZeilen,
         `SUMMARY:${feld(`${werk.title} – ${haus.name}`)}`,
-        `LOCATION:${feld([haus.name, haus.city].filter(Boolean).join(', '))}`,
+        `LOCATION:${feld(ortText(haus))}`,
         ...(Number.isFinite(haus.lat) && Number.isFinite(haus.lon) ? [`GEO:${haus.lat};${haus.lon}`] : []),
+        ...appleOrt(haus),
         ...(url ? [`URL:${url}`] : []),
         `DESCRIPTION:${feld(beschreibung)}`,
         'END:VEVENT',

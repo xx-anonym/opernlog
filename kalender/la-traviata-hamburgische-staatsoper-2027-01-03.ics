@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270103T170000
 DTEND;TZID=Europe/Berlin:20270103T200000
 SUMMARY:La Traviata – Hamburgische Staatsoper
-LOCATION:Hamburgische Staatsoper\, Hamburg
+LOCATION:Hamburgische Staatsoper\, Hamburg\, Deutschland
 GEO:53.5566;9.9887
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Hamburgische Staatsoper, Hamburg, Deutschland":geo:53.5566,
+ 9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/144-la-trav
  iata#tickets
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.di

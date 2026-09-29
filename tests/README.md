@@ -76,7 +76,7 @@ Datenbank.
 | `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
 | `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
 | `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich; in der installierten App kein Fenster |
-| `logVorschlag.test.js` | Vorschläge aus dem Spielplan beim Loggen: Haus und Tag ergeben das Werk, Haus und Werk die Tage; nur auf Klick, ein Datum von Hand bleibt stehen, die Vorauswahl nach dem Standort bringt den Vorschlag mit |
+| `logVorschlag.test.js` | Vorschläge aus dem Spielplan beim Loggen: Haus und Tag ergeben das Werk, Haus und Werk die Tage; nur auf Klick, ein Datum von Hand oder aus einem vorgemerkten Abend bleibt stehen, die Vorauswahl nach dem Standort bringt den Vorschlag mit |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 | `durchsicht.test.js` | Funde der Durchsicht vom 23.09.2026: gestaltete Anmeldefelder, kein Tagebuch-Versprechen ohne Konto, Suche ohne Umlaute, Datum kurz nach Mitternacht, angefangener Text und offene Termine überleben die Rückkehr in die App; abgemeldet keine Wunschliste, keine Markierung, keine Liste |
 | `offlineLoggen.test.js` | Loggen ohne Netz: das Formular ist da, der Besuch wartet auf dem Gerät und geht mit derselben Kennung hoch, sobald Netz da ist; kein Doppel, wenn ein Versuch doch ankam; Abmelden fragt vorher |

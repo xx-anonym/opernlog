@@ -160,20 +160,27 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
         // kleinerer Monat gehört ins nächste Jahr ("3. Oktober 2026 · 1. März").
         // Eine alleinstehende Jahreszahl ("Festspiele 2026") kennt keinen
         // Monat und springt deshalb nie.
-        else if (kontext?.jahr) {
+        else if (kontext?.jahr && kontext.monat === 0) {
+            // Eine Terminliste beginnt (siehe termineMitZeiten): ihr erster
+            // Tag liegt im Jahr des Kontexts oder im nächsten.
+            // Steht dort ein späteres Jahr (Bregenz: 2027), gilt es; "gerade
+            // vorbei" betrifft nur das laufende.
+            jahre = kontext.jahr > jahrVon ? [kontext.jahr] : kurzVorbei ? [] : [kontext.jahr, kontext.jahr + 1];
+        } else if (kontext?.jahr) {
             const springt = kontext.monat && f.m < kontext.monat;
             jahre = springt && kurzVorbei ? [] : [springt ? kontext.jahr + 1 : kontext.jahr];
         } else jahre = kurzVorbei ? [] : Array.from({ length: jahrBis - jahrVon + 1 }, (_, i) => jahrVon + i);
+        let gewaehlt = jahre[0];
         for (const jj of jahre) {
             if (!gueltig(jj, f.m, f.t)) continue;
             const iso = `${jj}-${zwei(f.m)}-${zwei(f.t)}`;
-            if (iso >= von && iso <= bis) { if (!f.spanne) gefunden.add(iso); break; }
+            if (iso >= von && iso <= bis) { if (!f.spanne) gefunden.add(iso); gewaehlt = jj; break; }
         }
         // Ein Jahr weit außerhalb (die Uraufführung 1900) gibt keinen Kontext.
         const jahr = f.j < 100 ? 2000 + f.j : f.j;
         if (f.ohneKontext) continue;
         if (f.j && jahr >= jahrVon - 1 && jahr <= jahrBis + 1) kontext = { jahr, monat: f.m };
-        else if (!f.j && jahre.length && kontext?.jahr && kontext.monat) kontext = { jahr: jahre[0], monat: f.m };
+        else if (!f.j && jahre.length && kontext?.jahr && kontext.monat !== undefined) kontext = { jahr: gewaehlt, monat: f.m };
     }
     return { termine: [...gefunden].sort(), kontext };
 }
@@ -245,12 +252,13 @@ const OHNE_DATEN = new RegExp(`\\b(${MONATSMUSTER}|${WOCHENTAG})\\b|[\\d\\s.,·|
 const nurDaten = z => z.replace(OHNE_DATEN, '').length === 0;
 
 // Zeilen mit einem Datum, das kein Opernabend ist: Matinee, Vorverkauf,
-// Führung, Rabattaktion, die Uraufführung vor 150 Jahren.
+// Führung, Rabattaktion, die Uraufführung vor 150 Jahren, "Premierenfieber"
+// (Gärtnerplatz: Einblick in die Proben vor der Premiere).
 // Foyer, Probebühne und Treffpunkt als Ort: Führung, Workshop, Probenbesuch
 // (Hamburg: "10. Dezember 2026, 9:15 – 11:45 · Eingangsfoyer").
 // "Uraufführung am …" und "Premiere dieser Inszenierung" stehen in Chroniken
 // (Hamburg), ihr Jahr in einer eigenen Zeile davor – zu alt, um zu zählen.
-const NEBEN_ZEILE = /foyer|probebühne|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|uraufführung am|premiere dieser inszenierung|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
+const NEBEN_ZEILE = /foyer|probebühne|premierenfieber|treffpunkt|absacker|probenbesuch|einführungsgespräch|click in|matin[ée]e|vorverkauf|freiverkauf|vorbestell|kartenverkauf|(tickets?|karten)\b.{0,40}\bab\b|uraufgeführt|uraufführung am|premiere dieser inszenierung|preisvorteil|rabatt|literaturkino|(?<!ein)(?<!auf)führung|probe\b|soir[ée]e|gespräch/i;
 
 // Eine Zeile, die nur sagt, was für ein Anlass es ist: "Einführung",
 // "Einführungssoiree" (St. Gallen), "EINFÜHRUNGS-MATINEE" (Klagenfurt),
@@ -263,6 +271,9 @@ const ABGESAGT = /\b(entfällt|abgesagt|fällt aus)\b/i;
 const NUR_NEBENHER = /^(\S*einführung\S*|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche probe|generalprobe|\S*gespräch|workshop|verkaufsstart.*)$|^(kostprobe|\S*matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
 
 const EINDEUTIG_NEBENHER = /^(einführungsgespräch|\S*matin[ée]e\S*|\S*soir[ée]e\S*|führung|öffentliche[rs]? probe.*|probenbesuch.*|generalprobe|workshop|verkaufsstart.*)$|^(kostprobe|\S*matin[ée]e|öffentliche[rs]? probe|probenbesuch)/i;
+
+const TERMINE_KOPF = /^(alle\s+)?(vorstellungs|spiel)?termine(\s*(und|&)\s*(karten|tickets))?:?$/i;
+const BEGLEITPROGRAMM = /^(zusatzangebote?|begleitprogramm|rahmenprogramm|rund um die vorstellung|außerdem)$/i;
 
 // "Verkaufsstart:" über einem Datum: das ist der Beginn des Vorverkaufs,
 // keine Vorstellung (Volksoper Wien: "Do / 12. November 2026 /
@@ -443,9 +454,21 @@ export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
     // davon mit Uhrzeit.
     const ohneZeit = new Set();
     let listeMitZeit = false;
+    // Nach "Zusatzangebote" (Hagen), "Außerdem" (Semperoper) oder
+    // "Begleitprogramm" kommen Proben, Einführungen, Führungen und Gespräche,
+    // keine Vorstellungen mehr.
+    let begleitprogramm = false;
     // Das Jahr aus den Zeilen davor gilt weiter – siehe termineLesen().
     let kontext = saison ? { saison } : null;
     zeilen.forEach((z, i) => {
+        if (BEGLEITPROGRAMM.test(z)) begleitprogramm = true;
+        if (begleitprogramm) return;
+        // Die Terminliste beginnt neu: der Monat aus dem Text davor gilt nicht.
+        // Koblenz erwähnt über der Liste "am 2., 4., 8. und 14. November 2026" –
+        // danach wäre "14. OKT" im Jahr 2027 gelandet.
+        // Nur ein Kontext mit Monat: ein Jahr allein ("RIGOLETTO 2027") kennt
+        // keinen und soll auch danach nicht springen (St. Margarethen).
+        if (TERMINE_KOPF.test(z)) { if (kontext?.jahr && kontext.monat) kontext = { jahr: kontext.jahr, monat: 0 }; return; }
         const vorher = kontext;
         // Das Jahr in der Zeile darunter gehört zum Datum: Wien schreibt
         // "30. April" / "2027" – sonst bekäme der Tag das Jahr davor.

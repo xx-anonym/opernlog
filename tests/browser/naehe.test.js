@@ -41,14 +41,14 @@ export const spielplan = [
   { werk: 'aida', haus: 'wiener-staatsoper', url: 'https://www.wiener-staatsoper.at/aida', termine: ['${iso(5)}'] },
 ];`;
 
-async function naehe({ standort = true, merker = null, touch = false } = {}) {
+async function naehe({ standort = true, merker = null, touch = false, spielplan = SPIELPLAN } = {}) {
     const ctx = await browser.newContext({ viewport: HANDY, acceptDownloads: true, hasTouch: touch,
         ...(standort ? { geolocation: DRESDEN, permissions: ['geolocation'] } : {}) });
     if (merker) await ctx.addInitScript(m => localStorage.setItem('opernlog_naehe', JSON.stringify(m)), merker);
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
-    await p.route('**/src/data/spielplan.js', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: SPIELPLAN }));
+    await p.route('**/src/data/spielplan.js', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: spielplan }));
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html#/naehe`);
     await p.waitForSelector('#naeheListe');
@@ -308,5 +308,29 @@ test('zwei Finger auf der Karte halten den Browser vom Scrollen ab, einer nicht'
         });
         assert.equal(ergebnis.zwei, true, 'zwei Finger: der Browser darf scrollen und die Geste abbrechen');
         assert.equal(ergebnis.einer, false, 'ein Finger: die Seite muss weiter scrollen können');
+    } finally { await ctx.close(); }
+});
+
+test('"weitere Abende zeigen", ein Werk geöffnet, zurück: die Liste bleibt lang', { skip: fehltPlaywright }, async () => {
+    // Mehr Abende, als die Seite zuerst zeigt (60): siebzig Tage Tosca in Dresden.
+    const tage = Array.from({ length: 70 }, (_, i) => `'${iso(i + 1)}'`).join(', ');
+    const viele = `
+export const SPIELPLAN_STAND = '${iso(-1)}';
+export const SPIELPLAN_ZUSATZWERKE = [];
+export const spielplan = [
+  { werk: 'tosca', haus: 'semperoper', url: 'https://www.semperoper.de/tosca', termine: [${tage}] },
+];`;
+    const { ctx, p, fehler } = await naehe({ spielplan: viele, merker: { umkreis: 100, tage: null } });
+    try {
+        assert.equal(await p.locator('.naehe-abend').count(), 60);
+        await p.click('#naeheMehr');
+        assert.equal(await p.locator('.naehe-abend').count(), 70);
+        await p.locator('.naehe-abend__werk').nth(69).click();
+        await p.waitForSelector('.page--opera-detail');
+        await p.goBack();
+        await p.waitForSelector('#naeheListe .naehe-abend');
+        assert.equal(await p.locator('.naehe-abend').count(), 70);
+        assert.equal(await p.locator('#naeheMehr').count(), 0);
+        assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

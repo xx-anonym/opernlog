@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270131T160000
 DTEND;TZID=Europe/Berlin:20270131T190000
 SUMMARY:Il barbiere di Siviglia – Theater Bonn
-LOCATION:Theater Bonn\, Bonn
+LOCATION:Theater Bonn\, Deutschland
 GEO:50.741;7.103
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Bonn, Deutschland":geo:50.741,7.103
 URL:https://www.theater-bonn.de/de/programm/der-barbier-von-sevilla/238228
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
   https://www.theater-bonn.de/de/programm/der-barbier-von-sevilla/238228\nD

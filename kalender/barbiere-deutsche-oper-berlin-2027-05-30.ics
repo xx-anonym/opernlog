@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270530T160000
 DTEND;TZID=Europe/Berlin:20270530T190000
 SUMMARY:Il barbiere di Siviglia – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin
+LOCATION:Deutsche Oper Berlin\, Deutschland
 GEO:52.5121;13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsche Oper Berlin, Deutschland":geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/il-barbiere-di-siviglia.
  1385828
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

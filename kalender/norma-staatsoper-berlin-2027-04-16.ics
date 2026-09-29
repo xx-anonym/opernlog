@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270416T190000
 DTEND;TZID=Europe/Berlin:20270416T220000
 SUMMARY:Norma – Staatsoper Unter den Linden
-LOCATION:Staatsoper Unter den Linden\, Berlin
+LOCATION:Staatsoper Unter den Linden\, Berlin\, Deutschland
 GEO:52.517;13.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Unter den Linden, Berlin, Deutschland":geo:52.51
+ 7,13.3958
 URL:https://www.staatsoper-berlin.de/de/veranstaltungen/norma.15538/
 DESCRIPTION:Vincenzo Bellini: Norma\nTermine und Karten: https://www.staats
  oper-berlin.de/de/veranstaltungen/norma.15538/\nDas Ende ist geschätzt (3

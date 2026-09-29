@@ -27,8 +27,11 @@ DTSTART;TZID=Europe/Berlin:20261129T150000
 DTEND;TZID=Europe/Berlin:20261129T180000
 SUMMARY:Il barbiere di Siviglia – Theater Nordhausen / Loh-Orchester Sond
  ershausen
-LOCATION:Theater Nordhausen / Loh-Orchester Sondershausen\, Nordhausen
+LOCATION:Theater Nordhausen / Loh-Orchester Sondershausen\, Deutschland
 GEO:51.503;10.793
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Nordhausen / Loh-Orchester Sondershausen, Deutschla
+ nd":geo:51.503,10.793
 URL:https://theater-nordhausen.de/musiktheater/der-barbier-von-sevilla-26-2
  7
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

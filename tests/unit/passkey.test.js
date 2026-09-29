@@ -138,21 +138,24 @@ test('fehlt WebAuthn doch, steht es so da', () => {
 
 // ── Zeilen im Profil ─────────────────────────────────────────────────────
 
-test('eine Zeile nennt Namen, Anlage und letzte Benutzung', () => {
+test('eine Zeile nennt Namen und letzte Benutzung, die Anlage für den Tooltip', () => {
     const z = passkeyZeile({ friendly_name: 'iCloud-Schlüsselbund',
         created_at: '2026-09-10T12:00:00Z', last_used_at: '2026-09-14T12:00:00Z' });
     assert.equal(z.name, 'iCloud-Schlüsselbund');
-    assert.equal(z.unterzeile, 'angelegt am 10. Sep 2026 · zuletzt benutzt am 14. Sep 2026');
+    assert.equal(z.unterzeile, 'zuletzt benutzt am 14. Sep 2026');
+    assert.equal(z.angelegt, 'angelegt am 10. Sep 2026');
 });
 
 test('nie benutzt und ohne Namen', () => {
     const z = passkeyZeile({ friendly_name: '  ', created_at: '2026-09-10T12:00:00Z', last_used_at: null });
     assert.equal(z.name, 'Passkey');
-    assert.equal(z.unterzeile, 'angelegt am 10. Sep 2026 · noch nie benutzt');
+    assert.equal(z.unterzeile, 'noch nie benutzt');
+    assert.equal(z.angelegt, 'angelegt am 10. Sep 2026');
 });
 
 test('ein kaputtes Datum ergibt kein "NaN"', () => {
     const z = passkeyZeile({ created_at: 'Quatsch' });
-    assert.doesNotMatch(z.unterzeile, /NaN|undefined/);
+    assert.doesNotMatch(z.unterzeile + z.angelegt, /NaN|undefined/);
     assert.equal(z.unterzeile, 'noch nie benutzt');
+    assert.equal(z.angelegt, '');
 });

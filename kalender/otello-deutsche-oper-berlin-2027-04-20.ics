@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270420T193000
 DTEND;TZID=Europe/Berlin:20270420T223000
 SUMMARY:Otello – Deutsche Oper Berlin
-LOCATION:Deutsche Oper Berlin\, Berlin
+LOCATION:Deutsche Oper Berlin\, Deutschland
 GEO:52.5121;13.3092
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsche Oper Berlin, Deutschland":geo:52.5121,13.3092
 URL:https://deutscheoperberlin.de/de_DE/production/otello.1385835
 DESCRIPTION:Giuseppe Verdi: Otello\nTermine und Karten: https://deutscheope
  rberlin.de/de_DE/production/otello.1385835\nDas Ende ist geschätzt (3 Stu

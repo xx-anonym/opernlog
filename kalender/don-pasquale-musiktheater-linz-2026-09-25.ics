@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20260925T193000
 DTEND;TZID=Europe/Vienna:20260925T222500
 SUMMARY:Don Pasquale – Musiktheater Linz
-LOCATION:Musiktheater Linz\, Linz
+LOCATION:Musiktheater Linz\, Österreich
 GEO:48.2965;14.2931
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Musiktheater Linz, Österreich":geo:48.2965,14.2931
 URL:https://www.landestheater-linz.at/stuecke/detail?ref=202620271838&spiel
  zeit=2026/27
 DESCRIPTION:Gaetano Donizetti: Don Pasquale\nTermine und Karten: https://ww

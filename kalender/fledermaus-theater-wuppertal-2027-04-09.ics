@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270409T193000
 DTEND;TZID=Europe/Berlin:20270409T223000
 SUMMARY:Die Fledermaus – Oper Wuppertal
-LOCATION:Oper Wuppertal\, Wuppertal
+LOCATION:Oper Wuppertal\, Deutschland
 GEO:51.27;7.198
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Wuppertal, Deutschland":geo:51.27,7.198
 URL:https://www.oper-wuppertal.de/programm/detailansicht-produktion/die-fle
  dermaus
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://

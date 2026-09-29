@@ -9,8 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20270424
 DTEND;VALUE=DATE:20270425
 SUMMARY:Ariadne auf Naxos – Wiener Staatsoper
-LOCATION:Wiener Staatsoper\, Wien
+LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/ariadne-auf-naxos/
 DESCRIPTION:Richard Strauss: Ariadne auf Naxos\nTermine und Karten: https:/
  /www.wiener-staatsoper.at/kalender/detail/ariadne-auf-naxos/\nDie Uhrzeit 

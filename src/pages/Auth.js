@@ -130,6 +130,7 @@ export function AuthPage(onSuccess) {
           <button type="submit" class="btn btn--primary btn--lg btn--full">Registrieren</button>
         </form>
       `}
+      <a class="rechtstext-link" href="#/datenschutz">Datenschutz</a>
     </div>
   `;
 

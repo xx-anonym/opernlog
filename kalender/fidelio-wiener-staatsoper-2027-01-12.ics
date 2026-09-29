@@ -9,8 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20270112
 DTEND;VALUE=DATE:20270113
 SUMMARY:Fidelio – Wiener Staatsoper
-LOCATION:Wiener Staatsoper\, Wien
+LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/fidelio/
 DESCRIPTION:Ludwig van Beethoven: Fidelio\nTermine und Karten: https://www.
  wiener-staatsoper.at/kalender/detail/fidelio/\nDie Uhrzeit steht auf der S

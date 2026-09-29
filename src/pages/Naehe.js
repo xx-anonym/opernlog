@@ -18,6 +18,7 @@ import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
 
 export { UMKREIS_STUFEN };
 const ZEITRAEUME = [
@@ -28,6 +29,12 @@ const ZEITRAEUME = [
 ];
 // So viele Abende stehen sofort da; der Rest auf Wunsch.
 const SICHTBAR = 60;
+
+// Ob "weitere Abende zeigen" gerade gedrückt ist. Die Seite wird neu gebaut,
+// wenn man von einem Werk zurückkommt; ohne das stand die Liste dann wieder
+// gekürzt da. Jede Änderung an Umkreis, Zeitraum oder Filter kürzt sie wie
+// bisher.
+let weitereGezeigt = false;
 
 const MERKER = 'opernlog_naehe';
 
@@ -63,7 +70,7 @@ export function NaehePage() {
         // Besuch soll wieder alles dastehen.
         haus: null,
     };
-    let alleZeigen = false;
+    let alleZeigen = weitereGezeigt;
     let karte = null;   // die zuletzt gezeichnete Karte, für die Vorschau beim Zoomen
 
     const wunschliste = () => new Set(store.getWishlist()?.items || []);
@@ -182,6 +189,7 @@ export function NaehePage() {
             return;
         }
 
+        weitereGezeigt = alleZeigen;
         const gezeigt = alleZeigen ? abende : abende.slice(0, SICHTBAR);
         const merkliste = wunschliste();
         const tage = new Map();
@@ -241,13 +249,17 @@ export function NaehePage() {
         page.querySelector('#naeheKarteInhalt').replaceChildren(karte);
     }
 
-    // Ein Zuhörer für alle Kalenderknöpfe der Liste.
+    // Ein Zuhörer für alle Kalender- und Vormerk-Knöpfe der Liste.
     page.querySelector('#naeheListe').addEventListener('click', (e) => {
-        const knopf = e.target.closest('.naehe-abend__kalender');
+        const knopf = e.target.closest('.naehe-abend__kalender, .naehe-abend__vormerken');
         if (!knopf) return;
         const { werk: werkId, haus: hausId, datum } = knopf.dataset;
         const abend = abendeInDerNaehe({ heute: datum, bis: datum })
             .find(a => a.werk === werkId && a.haus.id === hausId);
+        if (knopf.classList.contains('naehe-abend__vormerken')) {
+            vormerkZeichenUmschalten(knopf, abend?.zeit);
+            return;
+        }
         const werk = operas.find(o => o.id === werkId);
         if (!abend || !werk) return;
         kalenderHerunterladen(
@@ -420,7 +432,7 @@ export function NaehePage() {
     return page;
 }
 
-/** Eine Zeile: Uhrzeit, Werk, Haus, Entfernung, Kalender. */
+/** Eine Zeile: Uhrzeit, Werk, Haus, Entfernung, Vormerken, Kalender. */
 function abendZeile(a, aufWunschliste) {
     const werk = operas.find(o => o.id === a.werk);
     const zeit = zeitText(a.zeit);
@@ -436,6 +448,7 @@ function abendZeile(a, aufWunschliste) {
             ? `<span class="naehe-abend__stern" title="Auf deiner Wunschliste">${icon('star', { filled: true })}</span>` : ''}${escapeHTML(werk.title)}</a>
           <span class="naehe-abend__wo">${haus} · ${escapeHTML(a.haus.city || '')}${a.km !== null ? ` · ${a.km} km` : ''}</span>
         </div>
+        ${vormerkZeichen(werk, a.haus, a.datum)}
         <button type="button" class="naehe-abend__kalender" data-werk="${escapeHTML(a.werk)}" data-haus="${escapeHTML(a.haus.id)}" data-datum="${a.datum}"
           title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${werk.title}, ${a.haus.name}`)}">${icon('calendar')}</button>
       </div>`;

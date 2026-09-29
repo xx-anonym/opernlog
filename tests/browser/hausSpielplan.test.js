@@ -73,6 +73,28 @@ test('die Seite eines Hauses zeigt, was dort demnächst läuft', { skip: fehltPl
     } finally { await ctx.close(); }
 });
 
+test('aufgeklappt, ein Werk geöffnet, zurück: die Abende bleiben aufgeklappt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await hausSeite('semperoper');
+    try {
+        await p.click('#hausSpielplan [data-aktion="alle"]');
+        const alle = await p.locator('#hausSpielplan .naehe-abend').count();
+        assert.ok(alle > 2, 'Testvoraussetzung: mehr als zwei Abende');
+        // Ein Werk weiter unten öffnen – eines, das erst nach dem Aufklappen dasteht.
+        await p.locator('#hausSpielplan a.naehe-abend__werk').nth(alle - 1).click();
+        await p.waitForSelector('.page--opera-detail');
+        await p.goBack();
+        await p.waitForSelector('#hausSpielplan [data-aktion="alle"]');
+        assert.equal(await p.locator('#hausSpielplan .naehe-abend').count(), alle);
+        assert.match(await p.innerText('#hausSpielplan [data-aktion="alle"]'), /Weniger zeigen/);
+        // Ein anderes Haus beginnt trotzdem zugeklappt.
+        await p.evaluate(() => { location.hash = '#/house/oper-leipzig'; });
+        await p.waitForSelector('#hausSpielplan .section__title');
+        const leipzig = await p.locator('#hausSpielplan .naehe-abend').count();
+        assert.ok(leipzig <= 2, `Leipzig: ${leipzig}`);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
 test('ohne Termine sagt die Seite, warum nichts dasteht', { skip: fehltPlaywright }, async () => {
     // Eine Sommerbühne, deren Termine im Herbst noch nicht stehen. Das Haus
     // für Mozart taugte dafür nicht mehr, seit die Mozartwoche mitgelesen

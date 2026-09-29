@@ -133,7 +133,7 @@ export function ListDetailPage(listId) {
         const color = composerFarbe(item.composer);
 
         card.innerHTML = `
-          <div class="list-detail-card__image" style="${coverBackground(item.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
+          <div class="list-detail-card__image" style="${coverBackground(item.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)', item.bildAusschnitt)}">
             ${isWishlist && isOwner ? `<button class="list-detail-card__remove" title="Entfernen">✕</button>` : ''}
           </div>
           <div class="list-detail-card__body">
@@ -167,7 +167,7 @@ export function ListDetailPage(listId) {
       } else {
         // Opera house
         card.innerHTML = `
-          <div class="list-detail-card__image" style="${coverBackground(item.imageUrl, `linear-gradient(135deg, ${item.color || '#8b1a2b'}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
+          <div class="list-detail-card__image" style="${coverBackground(item.imageUrl, `linear-gradient(135deg, ${item.color || '#8b1a2b'}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)', item.bildAusschnitt)}">
           </div>
           <div class="list-detail-card__body">
             <h3 class="list-detail-card__title">${escapeHTML(item.name)}</h3>

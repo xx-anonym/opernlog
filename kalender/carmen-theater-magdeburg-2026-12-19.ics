@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261219T180000
 DTEND;TZID=Europe/Berlin:20261219T211500
 SUMMARY:Carmen – Theater Magdeburg
-LOCATION:Theater Magdeburg\, Magdeburg
+LOCATION:Theater Magdeburg\, Deutschland
 GEO:52.133;11.628
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Magdeburg, Deutschland":geo:52.133,11.628
 URL:https://www.theater-magdeburg.de/inszenierungen/musiktheater/sz-2024202
  5/premiere/carmen/
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.theater-

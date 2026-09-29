@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270410T193000
 DTEND;TZID=Europe/Berlin:20270410T223000
 SUMMARY:Così fan tutte – Oper Köln
-LOCATION:Oper Köln\, Köln
+LOCATION:Oper Köln\, Deutschland
 GEO:50.9384;6.9497
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Köln, Deutschland":geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/cosi-fan-tutte
 DESCRIPTION:Wolfgang Amadeus Mozart: Così fan tutte\nTermine und Karten: h
  ttps://www.oper.koeln/produktion/cosi-fan-tutte\nDas Ende ist geschätzt (

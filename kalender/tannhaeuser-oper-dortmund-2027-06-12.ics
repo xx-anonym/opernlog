@@ -9,8 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20270612
 DTEND;VALUE=DATE:20270613
 SUMMARY:Tannhäuser – Oper Dortmund
-LOCATION:Oper Dortmund\, Dortmund
+LOCATION:Oper Dortmund\, Deutschland
 GEO:51.517;7.46
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Dortmund, Deutschland":geo:51.517,7.46
 URL:https://www.theaterdo.de/produktionen/detail/tannhaeuser-und-der-saenge
  rkrieg-auf-wartburg/
 DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.th

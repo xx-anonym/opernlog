@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270625T193000
 DTEND;TZID=Europe/Berlin:20270625T223000
 SUMMARY:Die verkaufte Braut – Theater Trier
-LOCATION:Theater Trier\, Trier
+LOCATION:Theater Trier\, Deutschland
 GEO:49.756;6.642
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Trier, Deutschland":geo:49.756,6.642
 URL:https://www.theater-trier.de/produktionen/die-verkaufte-braut.html
 DESCRIPTION:Bedřich Smetana: Die verkaufte Braut\nTermine und Karten: http
  s://www.theater-trier.de/produktionen/die-verkaufte-braut.html\nDas Ende i

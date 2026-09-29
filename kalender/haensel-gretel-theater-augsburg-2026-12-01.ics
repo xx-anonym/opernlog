@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261201T193000
 DTEND;TZID=Europe/Berlin:20261201T223000
 SUMMARY:Hänsel und Gretel – Staatstheater Augsburg
-LOCATION:Staatstheater Augsburg\, Augsburg
+LOCATION:Staatstheater Augsburg\, Deutschland
 GEO:48.3707;10.8983
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Augsburg, Deutschland":geo:48.3707,10.8983
 URL:https://staatstheater-augsburg.de/haensel_und_gretel
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://staatstheater-augsburg.de/haensel_und_gretel\nDas Ende ist geschä

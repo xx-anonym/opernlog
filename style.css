@@ -665,6 +665,99 @@ h3 {
     }
 }
 
+/* Bildausschnitt wählen (nur Admins, src/components/BildAusschnitt.js):
+   ein runder Knopf oben rechts im Kopf, wie der Zurück-Knopf gestaltet;
+   beim Wählen ein Rahmen, die Leiste mit den Knöpfen und gedämpfter Text. */
+.bild-ausschnitt__knopf {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.bild-ausschnitt__knopf svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* display oben würde hidden sonst überstimmen */
+.bild-ausschnitt__knopf[hidden] {
+    display: none;
+}
+
+@media (hover: hover) {
+    .bild-ausschnitt__knopf:hover {
+        color: var(--gold);
+        background: rgba(0, 0, 0, 0.6);
+        border-color: rgba(201, 168, 76, 0.3);
+    }
+}
+
+.detail-hero--ausschnitt {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    outline: 2px dashed var(--gold);
+    outline-offset: -2px;
+}
+
+.detail-hero--ziehen {
+    cursor: grabbing;
+}
+
+.detail-hero--ausschnitt .detail-hero__content,
+.detail-hero--ausschnitt .back-link {
+    pointer-events: none;
+    opacity: 0.35;
+}
+
+/* Eine dunkle Tafel: die Knöpfe müssen auch auf einem hellen Bild lesbar sein. */
+.bild-ausschnitt__leiste {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    max-width: calc(100% - 24px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: rgba(20, 24, 28, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: default;
+}
+
+.bild-ausschnitt__hinweis {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 0 4px;
+}
+
+/* Auf dem Handy passen die drei Knöpfe sonst nicht in eine Zeile, und die
+   Tafel deckte ein Drittel des Bildes zu. Der gestrichelte Rahmen sagt dort
+   genug. */
+@media (max-width: 480px) {
+    .bild-ausschnitt__hinweis {
+        display: none;
+    }
+}
+
 .detail-hero__title {
     font-size: 36px;
     margin-bottom: 16px;
@@ -679,10 +772,19 @@ h3 {
     margin-bottom: 20px;
 }
 
+/* Feste Höhe, so hoch wie die Sterne: vorher stand hier zuerst ein Ladekreisel
+   mit 40px Innenabstand (104px), dann die Sterne (48px) oder "Noch keine
+   Bewertungen" (26px). Der Kopf schrumpfte um bis zu 80px, und das Bild, das
+   ihn ausfüllt, sprang dabei auf eine neue Größe. */
 .detail-hero__rating {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-height: 48px;
+}
+
+.detail-hero__rating .loading-spinner {
+    padding: 0;
 }
 
 .detail-hero__rating-count {
@@ -1477,6 +1579,18 @@ h3 {
     stroke-width: 2.4;
 }
 
+/* Ein Profilfoto füllt den Kreis und deckt das Monogramm zu; lädt es
+   nicht, bleibt das Monogramm darunter stehen. */
+.avatar-foto {
+    position: absolute;
+    inset: 0;
+    /* über dem Monogramm, das selbst z-index 1 trägt */
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* Nur wenn ein Emblem da ist, weicht das Monogramm aus */
 .avatar-icon + .avatar-initials {
     transform: translate(-14%, -10%);
@@ -1539,6 +1653,14 @@ h3 {
     width: 28px;
     height: 28px;
     color: var(--text-secondary);
+}
+
+/* Ein Profilfoto (von Hand eingetragen) steht als eigene Wahl im Picker */
+.icon-picker__option img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .icon-picker__option:hover {
@@ -3349,14 +3471,16 @@ body {
 }
 
 /* Wishlist active button */
+/* Gold, wie der Stern. Vorher stand hier die Akzentfarbe – dunkelrote
+   Schrift auf dunklem Grund, kaum zu lesen. */
 .btn--wishlist-active {
-    background: rgba(201, 168, 76, 0.15);
-    color: var(--accent);
-    border: 1px solid var(--accent-dim);
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.45);
 }
 
 .btn--wishlist-active:hover {
-    background: rgba(201, 168, 76, 0.25);
+    background: rgba(201, 168, 76, 0.2);
 }
 
 /* "Läuft demnächst" in der Karte der Wunschliste. */
@@ -3424,6 +3548,178 @@ body {
 .spielplan-zeile__kalender svg {
     width: 18px;
     height: 18px;
+}
+
+/* Termine eines Werks an einem Haus: Zeile = Kalendereintrag, daneben
+ * "Vormerken" (geplante Besuche). */
+.kalender-wahl__zeile {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+}
+
+.kalender-wahl__zeile .kalender-wahl__tag {
+    flex: 1;
+    min-width: 0;
+    /* Wird es eng, rutscht die Uhrzeit als Ganzes in die nächste Zeile. */
+    flex-wrap: wrap;
+    row-gap: 2px;
+    column-gap: 8px;
+    padding: 10px;
+}
+
+.kalender-wahl__zeile .kalender-wahl__tag span {
+    white-space: nowrap;
+}
+
+.kalender-wahl__zeile .kalender-wahl__zeit {
+    font-size: 0.88em;
+    align-self: center;
+}
+
+/* Reicht die Breite nicht für Datum und Uhrzeit nebeneinander (schmale
+ * Handys), steht die Uhrzeit in allen Zeilen darunter – nicht nur in denen
+ * mit breiterem Datum. */
+.kalender-wahl__liste {
+    container-type: inline-size;
+}
+
+@container (max-width: 312px) {
+    .kalender-wahl__zeile .kalender-wahl__tag {
+        flex-direction: column;
+    }
+    .kalender-wahl__zeile .kalender-wahl__zeit {
+        align-self: flex-start;
+    }
+}
+
+.kalender-wahl__vormerken {
+    flex-shrink: 0;
+    /* Gleich breit, ob vorgemerkt oder nicht – sonst stehen die Zeilen versetzt. */
+    min-width: 8.2em;
+    padding: 0 8px;
+    white-space: nowrap;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+
+.kalender-wahl__vormerken:hover,
+.kalender-wahl__vormerken:focus-visible {
+    border-color: var(--gold);
+    color: var(--text-primary);
+}
+
+.kalender-wahl__vormerken--an {
+    color: var(--gold);
+    border-color: rgba(201, 168, 76, 0.45);
+    background: rgba(201, 168, 76, 0.08);
+}
+
+/* Startseite: die Frage nach einem vorgemerkten Abend, der vorbei ist, und
+ * knapp die kommenden. */
+.plan-frage {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 12px;
+    background: rgba(201, 168, 76, 0.05);
+}
+
+.plan-frage__text {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.plan-frage__text strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+}
+
+.plan-frage__ort {
+    margin: 2px 0 10px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.plan-frage__knoepfe {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.demnaechst {
+    margin: 0 0 20px;
+}
+
+.demnaechst__titel {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 6px;
+}
+
+.demnaechst__liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+
+.demnaechst__zeile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.demnaechst__link {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 1px;
+    padding: 9px 2px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.demnaechst__link:hover {
+    color: var(--text);
+}
+
+.demnaechst__wann {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.demnaechst__was {
+    font-size: 0.92rem;
+}
+
+.demnaechst__was strong {
+    font-weight: 600;
+}
+
+.demnaechst__weg {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+
+.demnaechst__weg:hover {
+    color: var(--text-primary);
 }
 
 /* "In den Kalender": die Abende zur Wahl */
@@ -5083,15 +5379,84 @@ body {
     color: var(--text-muted);
 }
 
-.composer-link {
+.composer-link,
+.person-link {
     color: inherit;
     text-decoration: none;
     border-bottom: 1px dotted var(--text-muted);
 }
 
-.composer-link:hover {
+.composer-link:hover,
+.person-link:hover {
     color: var(--gold);
     border-bottom-color: var(--gold);
+}
+
+/* Personenseite (src/pages/PersonDetail.js): die eigenen Abende mit einer
+ * Person, gebaut wie die Werkliste der Komponistenseite – Datum, Werk und
+ * Haus, rechts was sie an dem Abend war. */
+.person-abende {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+
+.person-abende__eintrag {
+    border-bottom: 1px solid var(--border);
+}
+
+.person-abende__zeile {
+    display: grid;
+    grid-template-columns: 6.6em 1fr auto;
+    align-items: baseline;
+    gap: 10px;
+    padding: 11px 4px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background var(--transition);
+}
+
+.person-abende__zeile:hover {
+    background: var(--bg-tertiary);
+    color: var(--text);
+}
+
+.person-abende__datum {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.person-abende__text {
+    display: grid;
+    min-width: 0;
+}
+
+.person-abende__werk {
+    font-weight: 500;
+}
+
+.person-abende__haus,
+.person-abende__als {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.person-abende__als {
+    text-align: right;
+    color: var(--gold);
+}
+
+@media (max-width: 420px) {
+    .person-abende__zeile {
+        grid-template-columns: 5.6em 1fr;
+    }
+
+    .person-abende__als {
+        grid-column: 2;
+        text-align: left;
+    }
 }
 
 .composer-werke {
@@ -5452,107 +5817,177 @@ body {
     border-top: 1px solid var(--border);
 }
 
-/* Mitteilungen – über den Passkeys, gleich aufgebaut. */
-.mitteilungen {
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+/* Mitteilungen und Passkeys: schlichte Zeilen, keine Kästen – Titel
+ * links, Knöpfe rechts, darunter klein der Stand oder die Liste. Getrennt
+ * durch dieselbe feine Linie wie der ganze Bereich von den Feldern darüber. */
+.konto-abschnitt {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
 }
 
-.mitteilungen__titel {
+.konto-abschnitt:first-child {
+    padding-top: 0;
+}
+
+.konto-abschnitt__kopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 12px;
+    flex-wrap: wrap;
+}
+
+.konto-abschnitt__titel {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.05rem;
-    margin: 0 0 4px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
 }
 
-.mitteilungen__erklaerung {
-    margin: 0 0 12px;
+.konto-abschnitt__stand {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 2px 0 0;
 }
 
-.mitteilungen__stand {
-    font-size: 0.88rem;
-    margin: 0 0 12px;
-}
-
-.mitteilungen__fehler {
-    margin: 0 0 12px;
-}
-
-.mitteilungen__fehler[hidden] {
+.konto-abschnitt__stand:empty {
     display: none;
 }
 
 .mitteilungen__knoepfe {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
 }
 
-.passkeys {
-    padding: 16px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+.mitteilungen__fehler,
+.passkeys__fehler {
+    margin: 6px 0 0;
 }
 
-.passkeys__titel {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.05rem;
-    margin: 0 0 4px;
-}
-
-.passkeys__erklaerung {
-    margin: 0 0 14px;
+.mitteilungen__fehler[hidden],
+.passkeys__fehler[hidden] {
+    display: none;
 }
 
 .passkeys__liste {
     list-style: none;
-    margin: 0 0 14px;
+    margin: 2px 0 0;
     padding: 0;
     display: grid;
-    gap: 8px;
+    gap: 2px;
 }
 
 .passkeys__zeile {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    gap: 8px;
 }
 
 .passkeys__text {
-    display: grid;
-    gap: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
     min-width: 0;
     flex: 1;
 }
 
 .passkeys__name {
-    font-weight: 600;
+    font-size: 0.85rem;
     overflow-wrap: anywhere;
 }
 
 .passkeys__unterzeile,
 .passkeys__leer {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
 }
 
 .passkeys__loeschen {
     flex-shrink: 0;
+    padding: 4px;
 }
 
-.passkeys__fehler {
-    margin: 0 0 14px;
+/* Datenschutz (src/pages/Datenschutz.js): Fließtext in Lesebreite, und der
+ * Link dorthin so unauffällig wie möglich – klein, grau, ohne Kasten. */
+.rechtstext {
+    max-width: 680px;
+    line-height: 1.6;
+    color: var(--text-secondary);
 }
 
-.passkeys__fehler[hidden] {
+.rechtstext h1 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--text);
+    margin: 16px 0 2px;
+}
+
+.rechtstext h2 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 26px 0 6px;
+}
+
+.rechtstext p,
+.rechtstext ul {
+    margin: 0 0 10px;
+    font-size: 0.92rem;
+}
+
+.rechtstext ul {
+    padding-left: 1.2em;
+}
+
+.rechtstext li {
+    margin-bottom: 6px;
+}
+
+.rechtstext strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.rechtstext__stand {
+    font-size: 0.8rem !important;
+    color: var(--text-muted);
+}
+
+.rechtstext-link {
+    display: block;
+    width: fit-content;
+    margin: 18px auto 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.rechtstext-link:hover {
+    color: var(--text-secondary);
+}
+
+/* Meine Daten herunterladen – ein schlichter Knopf direkt über "Konto
+ * löschen", wie dieser mittig und ohne Kasten. */
+.daten-export {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.daten-export + .konto-loeschen {
+    margin-top: 4px;
+}
+
+.daten-export__fehler {
+    margin: 4px 0 0;
+}
+
+.daten-export__fehler[hidden] {
     display: none;
 }
 
@@ -5784,7 +6219,8 @@ body {
     color: var(--text-secondary);
 }
 
-.naehe-abend__kalender {
+.naehe-abend__kalender,
+.naehe-abend__vormerken {
     flex: 0 0 auto;
     padding: 6px;
     border: 1px solid var(--border);
@@ -5794,9 +6230,21 @@ body {
     cursor: pointer;
 }
 
-.naehe-abend__kalender .icon {
+.naehe-abend__kalender .icon,
+.naehe-abend__vormerken .icon {
     width: 16px;
     height: 16px;
+}
+
+/* Lesezeichen und Kalender stehen als Paar enger beisammen. */
+.naehe-abend__vormerken + .naehe-abend__kalender {
+    margin-left: -6px;
+}
+
+.naehe-abend__vormerken--an {
+    color: var(--gold);
+    border-color: rgba(201, 168, 76, 0.45);
+    background: rgba(201, 168, 76, 0.08);
 }
 
 /* "Demnächst hier" auf der Seite eines Hauses – dieselben Zeilen wie in

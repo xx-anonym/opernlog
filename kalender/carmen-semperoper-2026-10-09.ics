@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261009T190000
 DTEND;TZID=Europe/Berlin:20261009T220000
 SUMMARY:Carmen – Semperoper
-LOCATION:Semperoper\, Dresden
+LOCATION:Semperoper\, Dresden\, Deutschland
 GEO:51.0543;13.7351
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Semperoper, Dresden, Deutschland":geo:51.0543,13.7351
 URL:https://www.semperoper.de/spielplan/stuecke/stid/carmen/62706.html
 DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://www.semperop
  er.de/spielplan/stuecke/stid/carmen/62706.html\nDas Ende ist geschätzt (3

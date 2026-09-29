@@ -6,6 +6,7 @@ import { store } from '../store/store.js';
 import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, visitCredits, passtZurSuche, heuteIso } from '../utils.js';
 import { showToast, runWithFeedback } from '../components/Toast.js';
 import { StarRating } from '../components/StarRating.js';
+import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke } from '../data/besetzung.js';
 import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
 
 export function LogVisitPage(params = {}) {
@@ -29,6 +30,9 @@ export function LogVisitPage(params = {}) {
   // 2 Uhr (im Winter 1 Uhr) der Vortag im Feld, und der heutige Tag galt
   // beim Speichern als "in der Zukunft".
   const heute = heuteIso();
+  // Aus "Wie war …?" auf der Startseite: das Datum des vorgemerkten Abends.
+  // Nur ein gültiges und keins in der Zukunft – das Formular verweigert die.
+  const vorDatum = /^\d{4}-\d{2}-\d{2}$/.test(params.datum || '') && params.datum <= heute ? params.datum : null;
 
   page.innerHTML = `
     <div class="page-header">
@@ -62,7 +66,7 @@ export function LogVisitPage(params = {}) {
       
       <div class="form-group">
         <label class="form-label">${icon('calendar', { className: 'icon--meta' })}Datum</label>
-        <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : heute}" max="${heute}" />
+        <input type="date" class="input" id="visitDate" value="${editVisit ? editVisit.date : (vorDatum || heute)}" max="${heute}" />
         <div class="form-vorschlag" id="datumVorschlag" hidden></div>
       </div>
       
@@ -89,8 +93,11 @@ export function LogVisitPage(params = {}) {
           </div>
           <div class="form-group">
             <label class="form-label" for="castInput">${icon('users', { className: 'icon--meta' })}Besetzung</label>
-            <textarea class="input textarea" id="castInput" rows="3"
-              placeholder="Eine Zeile pro Person, z.B.&#10;Anna Netrebko (Tosca)&#10;Jonas Kaufmann (Cavaradossi)">${escapeHTML(credits.castList)}</textarea>
+            <div class="autocomplete" id="castAutocomplete">
+              <textarea class="input textarea" id="castInput" rows="3"
+                placeholder="Eine Zeile pro Person, z.B.&#10;Anna Netrebko (Tosca)&#10;Jonas Kaufmann (Cavaradossi)">${escapeHTML(credits.castList)}</textarea>
+              <div class="autocomplete__list" id="castVorschlaege"></div>
+            </div>
           </div>
         </div>
       </details>
@@ -167,8 +174,9 @@ export function LogVisitPage(params = {}) {
 
   // Ein von Hand gewähltes Datum steht fest; dann schlägt niemand mehr andere
   // Tage vor. Sonst würde, wer einen Besuch von 2019 nachträgt, auf die Abende
-  // dieser Spielzeit gelenkt. Beim Bearbeiten gilt das Datum von Anfang an.
-  let dateTouched = !!editVisit;
+  // dieser Spielzeit gelenkt. Beim Bearbeiten gilt das Datum von Anfang an,
+  // ebenso das eines vorgemerkten Abends.
+  let dateTouched = !!editVisit || !!vorDatum;
 
   function vorschlagsKnopf(text, { aktiv = false, onClick }) {
     const knopf = document.createElement('button');
@@ -447,12 +455,63 @@ export function LogVisitPage(params = {}) {
     werte: () => eigeneBesuche.map(v => visitCredits(v).director),
   });
 
+  // ── Vorschläge in der Besetzung ─────────────────────────────────────
+  // Eine Person je Zeile. Vorgeschlagen wird für die Zeile, in der die
+  // Schreibmarke steht, solange sie im Namen steht und nicht in der Rolle
+  // dahinter – aus den Namen der eigenen bisherigen Besetzungen. So bleibt
+  // "Anna Netrebko" eine Person und wird nicht mal "A. Netrebko"; sonst
+  // zerfiele sie auf der Personenseite in zwei.
+  const castInput = page.querySelector('#castInput');
+  const castVorschlaege = page.querySelector('#castVorschlaege');
+  const castNamen = besetzungsNamen(eigeneBesuche);
+
+  function zeichneBesetzung() {
+    const text = castInput.value;
+    const marke = castInput.selectionStart ?? text.length;
+    const zeile = zeileAnMarke(text, marke);
+    const klammer = text.slice(zeile.anfang, zeile.ende).search(/\s*\(/);
+    const imNamen = klammer === -1 || marke - zeile.anfang <= klammer;
+    const schonDa = new Set(besetzungLesen(text).map(p => personSchluessel(p.name)));
+    const treffer = imNamen && zeile.name.length >= 2
+      ? castNamen
+        .filter(k => !schonDa.has(personSchluessel(k.name)) && passtZurSuche(zeile.name, k.name))
+        .slice(0, 6)
+      : [];
+
+    castVorschlaege.innerHTML = '';
+    castVorschlaege.style.display = treffer.length ? 'block' : 'none';
+    treffer.forEach(k => {
+      const item = document.createElement('div');
+      item.className = 'autocomplete__item';
+      item.innerHTML = `<strong>${escapeHTML(k.name)}</strong>`
+        + (k.anzahl > 1 ? ` <span class="text-muted">– ${k.anzahl}×</span>` : '');
+      // mousedown statt click, wie bei Dirigent und Regie.
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        const aktuell = zeileAnMarke(castInput.value, castInput.selectionStart ?? castInput.value.length);
+        castInput.value = castInput.value.slice(0, aktuell.anfang) + k.name + aktuell.rest + castInput.value.slice(aktuell.ende);
+        // Die Marke hinter den Namen: dort geht es mit " (Rolle)" weiter.
+        const neu = aktuell.anfang + k.name.length;
+        castInput.setSelectionRange(neu, neu);
+        castVorschlaege.style.display = 'none';
+      });
+      castVorschlaege.appendChild(item);
+    });
+  }
+
+  castInput.addEventListener('input', zeichneBesetzung);
+  castInput.addEventListener('focus', zeichneBesetzung);
+  castInput.addEventListener('blur', () => {
+    setTimeout(() => { castVorschlaege.style.display = 'none'; }, 120);
+  });
+
   // Close dropdowns when clicking elsewhere (scoped to page to prevent leaks)
   page.addEventListener('click', (e) => {
     if (!e.target.closest('#houseAutocomplete')) houseList.style.display = 'none';
     if (!e.target.closest('#operaAutocomplete')) operaList.style.display = 'none';
     if (!e.target.closest('#conductorAutocomplete')) page.querySelector('#conductorList').style.display = 'none';
     if (!e.target.closest('#directorAutocomplete')) page.querySelector('#directorList').style.display = 'none';
+    if (!e.target.closest('#castAutocomplete')) castVorschlaege.style.display = 'none';
   });
 
   // Form submit

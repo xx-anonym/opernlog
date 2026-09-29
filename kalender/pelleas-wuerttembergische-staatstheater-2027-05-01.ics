@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270501T180000
 DTEND;TZID=Europe/Berlin:20270501T210000
 SUMMARY:Pelléas et Mélisande – Staatstheater Wiesbaden
-LOCATION:Staatstheater Wiesbaden\, Wiesbaden
+LOCATION:Staatstheater Wiesbaden\, Deutschland
 GEO:50.0857;8.2478
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Wiesbaden, Deutschland":geo:50.0857,8.2478
 URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/pelleas-et-melisan
  de-26-27/
 DESCRIPTION:Claude Debussy: Pelléas et Mélisande\nTermine und Karten: htt

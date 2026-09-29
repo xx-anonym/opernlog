@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270303T200000
 DTEND;TZID=Europe/Vienna:20270303T230000
 SUMMARY:Gianni Schicchi – Volksoper Wien
-LOCATION:Volksoper Wien\, Wien
+LOCATION:Volksoper Wien\, Österreich
 GEO:48.2258;16.3494
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Volksoper Wien, Österreich":geo:48.2258,16.3494
 URL:https://www.volksoper.at/produktion/die-sieben-todsunden-gianni-schicch
  i-2027.1019238725.de.html
 DESCRIPTION:Giacomo Puccini: Gianni Schicchi\nTermine und Karten: https://w

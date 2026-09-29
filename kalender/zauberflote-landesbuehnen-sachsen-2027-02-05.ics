@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270205T190000
 DTEND;TZID=Europe/Berlin:20270205T220000
 SUMMARY:Die Zauberflöte – Landesbühnen Sachsen
-LOCATION:Landesbühnen Sachsen\, Radebeul
+LOCATION:Landesbühnen Sachsen\, Radebeul\, Deutschland
 GEO:51.105;13.642
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Landesbühnen Sachsen, Radebeul, Deutschland":geo:51.105,13
+ .642
 URL:https://www.landesbuehnen-sachsen.de/spielzeit/die-zauberfloete/
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
  https://www.landesbuehnen-sachsen.de/spielzeit/die-zauberfloete/\nDas Ende

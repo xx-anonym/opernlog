@@ -26,11 +26,13 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261108T180000
 DTEND;TZID=Europe/Berlin:20261108T204500
 SUMMARY:Rigoletto – Aalto-Theater
-LOCATION:Aalto-Theater\, Essen
+LOCATION:Aalto-Theater\, Essen\, Deutschland
 GEO:51.452;7.009
-URL:https://www.theater-essen.de/programm/a-z/rigoletto/
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Aalto-Theater, Essen, Deutschland":geo:51.452,7.009
+URL:https://www.theater-essen.de/programm/spielzeit-26-27/rigoletto/
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.thea
- ter-essen.de/programm/a-z/rigoletto/\nAus OpernLog – maßgeblich ist die
-  Seite des Hauses.
+ ter-essen.de/programm/spielzeit-26-27/rigoletto/\nAus OpernLog – maßgeb
+ lich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

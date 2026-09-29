@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261206T180000
 DTEND;TZID=Europe/Berlin:20261206T210000
 SUMMARY:La Bohème – Theater Bonn
-LOCATION:Theater Bonn\, Bonn
+LOCATION:Theater Bonn\, Deutschland
 GEO:50.741;7.103
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Bonn, Deutschland":geo:50.741,7.103
 URL:https://www.theater-bonn.de/de/programm/la-boheme/234668
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.th
  eater-bonn.de/de/programm/la-boheme/234668\nDas Ende ist geschätzt (3 Stu

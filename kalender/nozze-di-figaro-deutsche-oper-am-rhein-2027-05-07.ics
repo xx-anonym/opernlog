@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270507T190000
 DTEND;TZID=Europe/Berlin:20270507T223000
 SUMMARY:Le nozze di Figaro – Deutsche Oper am Rhein
-LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg
+LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg\, Deutschland
 GEO:51.227;6.776
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsche Oper am Rhein, Düsseldorf / Duisburg, Deutschland
+ ":geo:51.227,6.776
 URL:https://www.operamrhein.de/spielplan/produktionen/le-nozze-di-figaro/?a
  =termine
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten

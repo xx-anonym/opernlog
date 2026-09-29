@@ -46,6 +46,11 @@
       "haus": "salzburger-landestheater",
       "werk": "zauberflote",
       "grund": "„Die kleine Zauberflöte“, Kinderfassung von Marco Dott"
+    },
+    {
+      "haus": "musiktheater-im-revier",
+      "werk": "candide",
+      "grund": "„Candide oder der Optimismus“, musikalische Lesung nach Voltaire (Gastspiel), nicht Bernsteins Candide"
     }
   ],
   "aufnehmen": [
@@ -61,6 +66,30 @@
     }
   ],
   "termineEntfernen": [
+    {
+      "haus": "theater-koblenz",
+      "werk": "macbeth",
+      "termine": [
+        "2027-06-20"
+      ],
+      "grund": "Matinee im Oberen Foyer; der Anlass steht unter dem Titel, nicht am Datum"
+    },
+    {
+      "haus": "theater-koblenz",
+      "werk": "pelleas",
+      "termine": [
+        "2027-04-04"
+      ],
+      "grund": "Matinee im Oberen Foyer; der Anlass steht unter dem Titel, nicht am Datum"
+    },
+    {
+      "haus": "theater-koblenz",
+      "werk": "rosenkavalier",
+      "termine": [
+        "2027-05-02"
+      ],
+      "grund": "Matinee im Oberen Foyer; der Anlass steht unter dem Titel, nicht am Datum"
+    },
     {
       "haus": "theater-osnabrueck",
       "werk": "csardasfuerstin",
@@ -272,6 +301,19 @@
     },
     {
       "haus": "badisches-staatstheater",
+      "werk": "il-trittico",
+      "url": "https://staatstheater-karlsruhe.de/",
+      "termine": [
+        "2027-07-03",
+        "2027-07-09",
+        "2027-07-18",
+        "2027-07-21",
+        "2027-07-23"
+      ],
+      "quelle": "Spielzeitheft 2026/27 des Badischen Staatstheaters: Premieren, Wiederaufnahmen, „Weitere Daten“ und Abo-Termine (Il Trittico)"
+    },
+    {
+      "haus": "badisches-staatstheater",
       "werk": "rigoletto",
       "url": "https://staatstheater-karlsruhe.de/",
       "termine": [
@@ -387,6 +429,18 @@
         "2026-12-09": "19:30",
         "2026-12-30": "19:30",
         "2027-01-22": "19:30"
+      }
+    },
+    {
+      "haus": "staatstheater-kassel",
+      "werk": "elisir",
+      "url": "https://www.staatstheater-kassel.de/play/lelisirdamore-3322",
+      "termine": [
+        "2027-02-13"
+      ],
+      "quelle": "Seite der Produktion, von Jonas am 27.9.2026 gemeldet; die Seiten in Kassel laden für das Werkzeug seit dem 26.9. nicht",
+      "zeiten": {
+        "2027-02-13": "19:00-22:00"
       }
     }
   ]

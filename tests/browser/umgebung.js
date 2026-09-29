@@ -24,12 +24,29 @@ export async function ersetzeSupabase(page, { neuigkeit = false } = {}) {
     const { STUB } = await import('./supabaseStub.js');
     await page.route('**/vendor/supabase-js.js', r =>
         r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
+    // Das Stück in index.html, das Fehler vor dem Start meldet, schickt
+    // direkt an Supabase, ohne die Bibliothek. Aus einem Test darf nichts
+    // die echte Datenbank erreichen.
+    await page.route('https://*.supabase.co/**', r => r.fulfill({ status: 201, body: '' }));
     // Das Testprofil ist von 2024 und bekäme sonst in jedem Test das Fenster
     // "Neu in OpernLog" vor die Nase. neuigkeit: true lässt es kommen.
     if (!neuigkeit) {
         const { NEUIGKEIT, NEUIGKEIT_GESEHEN } = await import('../../src/neuigkeiten.js');
         await page.addInitScript(([k, id]) => { try { localStorage.setItem(k, id); } catch { /* egal */ } }, [NEUIGKEIT_GESEHEN, NEUIGKEIT.id]);
     }
+}
+
+/**
+ * Wartet, bis der Vorhang des Ladebildschirms aufgeht. Bis dahin fängt er
+ * jeden Klick ab, auch wenn die Seite dahinter schon steht. Playwright
+ * wiederholt den Klick dann und scrollt den Knopf dabei jedes Mal etwas
+ * anders ins Bild. Weil die Seite weich scrollt (scroll-behavior: smooth),
+ * misst es unter Last mitten in der Bewegung und klickt daneben – im
+ * Passkeys-Test 19 Pixel über "Profil bearbeiten", das Fenster ging nie auf.
+ * Mit gehobenem Vorhang sitzt schon der erste Klick, gescrollt wird nicht.
+ */
+export async function vorhangAuf(page) {
+    await page.waitForFunction(() => !document.querySelector('#splash:not(.splash--hidden)'));
 }
 
 const TYPEN = {

@@ -44,7 +44,10 @@ const schema = sqlOhneKommentare('supabase/schema.sql');
 // Abende aller, und die Community-Statistik lebt davon. Diese Tabellen sind
 // deshalb absichtlich für jeden lesbar. Kommt eine weitere hinzu, soll dieser
 // Test fehlschlagen – damit das eine Entscheidung bleibt und keine Nebenwirkung.
-const OEFFENTLICH_LESBAR = ['comments', 'follows', 'likes', 'profiles', 'visits'];
+// bild_ausschnitte gehört zum Katalog (der Teil eines Bildes, der zu sehen
+// ist) und enthält nichts über Personen; die Katalogtabellen selbst legen
+// ihre Regeln in einer Schleife an und stehen deshalb nicht hier.
+const OEFFENTLICH_LESBAR = ['bild_ausschnitte', 'comments', 'follows', 'likes', 'profiles', 'visits'];
 
 function oeffentlichLesbareTabellen(sql) {
     return [...sql.matchAll(/CREATE POLICY\s+"[^"]*"\s+ON\s+(\w+)\s+FOR SELECT\s+USING\s*\(\s*true\s*\)/gi)]
@@ -99,6 +102,23 @@ test('jede SECURITY-DEFINER-Funktion setzt search_path', () => {
         });
     }
     assert.deepEqual(fehlend, [], `ohne SET search_path:\n  ${fehlend.join('\n  ')}`);
+});
+
+test('keine Regel ruft auth.uid() für jede Zeile neu auf', () => {
+    // auth.uid() direkt in einer Regel wertet Postgres je Zeile aus, in
+    // (SELECT auth.uid()) gefasst einmal je Abfrage – gleiche Bedeutung,
+    // siehe supabase/migrations/rls_leistung_migration.sql. Die älteren
+    // Dateien legen ihre Regeln noch in der langsamen Form an; das zählt als
+    // erledigt, sobald eine Migration dieselbe Regel per ALTER POLICY umstellt.
+    const nackt = /(?<!SELECT\s+)auth\.uid\(\)/i;
+    const regeln = sqlDateien.flatMap(datei => sqlOhneKommentare(datei).split(';').map((stelle) => {
+        const m = stelle.trim().match(/^(CREATE|ALTER) POLICY\s+"([^"]+)"\s+ON\s+(?:public\.)?(\w+)/i);
+        return m && { art: m[1].toUpperCase(), name: `${m[3]}: ${m[2]}`, nackt: nackt.test(stelle), datei };
+    })).filter(Boolean);
+    const umgestellt = new Set(regeln.filter(r => r.art === 'ALTER' && !r.nackt).map(r => r.name));
+    const offen = regeln.filter(r => r.nackt && (r.art === 'ALTER' || !umgestellt.has(r.name)))
+        .map(r => `${r.datei}: ${r.name}`);
+    assert.deepEqual(offen, [], `auth.uid() ohne SELECT:\n  ${offen.join('\n  ')}`);
 });
 
 test('die Anwendung liest invites nirgends – sonst bräche die neue Regel etwas', () => {

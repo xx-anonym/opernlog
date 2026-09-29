@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261024T180000
 DTEND;TZID=Europe/Berlin:20261024T210000
 SUMMARY:Der Rosenkavalier – Oper Köln
-LOCATION:Oper Köln\, Köln
+LOCATION:Oper Köln\, Deutschland
 GEO:50.9384;6.9497
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Köln, Deutschland":geo:50.9384,6.9497
 URL:https://www.oper.koeln/produktion/der-rosenkavalier
 DESCRIPTION:Richard Strauss: Der Rosenkavalier\nTermine und Karten: https:/
  /www.oper.koeln/produktion/der-rosenkavalier\nDas Ende ist geschätzt (3 S

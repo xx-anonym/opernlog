@@ -34,6 +34,12 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Entfernen lässt sich nur, was in den Tabellen steht – eine Datei im Repo
   ändert man mit einem Commit. Vorher zählt die Datenbank, was an dem Eintrag
   hängt; hängt etwas dran, wird nicht gelöscht.
+
+  Welcher Teil eines Werk- oder Hausbilds zu sehen ist, wählt der Admin über
+  das Kamerasymbol oben rechts im Kopf der Seite: Bild ziehen, speichern. Der
+  Ausschnitt steht in `bild_ausschnitte` (Prozentwerte für
+  `background-position`) und gilt für beide Quellen und überall, wo das Bild
+  erscheint – Kopf, Karten, Listen.
 - **Passkeys** melden mit Face ID, Fingerabdruck oder Geräte-PIN an. Anlegen
   kann einen nur, wer schon angemeldet ist – im Fenster „Profil bearbeiten“;
   registriert wird weiter per E-Mail oder Google. Supabase führt die Funktion
@@ -137,6 +143,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   node tests/werkzeug/spielplan-uebernehmen.mjs haus.json --dazu
   ```
 
+  Ein Haus, das über das Admin-Formular angelegt wird (`catalog_houses`),
+  liest das Werkzeug mit, sobald es in `spielplan-quellen.json` Einstiegsseiten
+  hat. Dort trägt es `"ausDatenbank": true`, damit die Prüfung ohne Netz es
+  kennt; `src/data/spielplan.js` vermerkt es unter `SPIELPLAN_ZUSATZHAEUSER`.
+
   Viele Einstiegsseiten tragen die Spielzeit im Namen (Zürich:
   `/spielplan/oper-2627/`, Semperoper: `spielzeit-2026-27`) und müssen vor
   dem Septemberlauf auf die neue Spielzeit umgestellt werden – sonst sieht
@@ -237,3 +248,8 @@ Die Migrationen unter `supabase/migrations/` sind nicht automatisiert; sie
 werden von Hand im SQL-Editor des Supabase-Dashboards ausgeführt.
 `tests/checks/rls.test.js` liest Schema und Migrationen und stellt sicher, dass
 nur die bewusst öffentlichen Tabellen für jeden lesbar sind.
+
+Jeden Sonntag sichert ein Workflow im privaten Repo `opernlog-sicherung`
+die Datenbank verschlüsselt; dort stehen auch Einrichtung und
+Wiederherstellung. Privat, weil die Sicherung als Datei am Lauf liegt – bei
+einem öffentlichen Repo könnte sie jeder herunterladen.

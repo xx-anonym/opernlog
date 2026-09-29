@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270403T193000
 DTEND;TZID=Europe/Berlin:20270403T223000
 SUMMARY:The Turn of the Screw – Theater Krefeld und Mönchengladbach
-LOCATION:Theater Krefeld und Mönchengladbach\, Krefeld / Mönchengladbach
+LOCATION:Theater Krefeld und Mönchengladbach\, Deutschland
 GEO:51.335;6.567
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Krefeld und Mönchengladbach, Deutschland":geo:51.3
+ 35,6.567
 URL:https://theater-kr-mg.de/spielplan/das-geheimnis-von-bly-the-turn-of-th
  e-screw/
 DESCRIPTION:Benjamin Britten: The Turn of the Screw\nTermine und Karten: ht

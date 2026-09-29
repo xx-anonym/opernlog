@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270107T190000
 DTEND;TZID=Europe/Berlin:20270107T220000
 SUMMARY:Die Fledermaus – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/die-fledermaus/2026-12-31-1800-16178
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
  www.staatsoper.de/stuecke/die-fledermaus/2026-12-31-1800-16178\nDas Ende i

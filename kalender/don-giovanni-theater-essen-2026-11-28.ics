@@ -26,11 +26,13 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261128T190000
 DTEND;TZID=Europe/Berlin:20261128T221500
 SUMMARY:Don Giovanni – Aalto-Theater
-LOCATION:Aalto-Theater\, Essen
+LOCATION:Aalto-Theater\, Essen\, Deutschland
 GEO:51.452;7.009
-URL:https://www.theater-essen.de/programm/a-z/don-giovanni/
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Aalto-Theater, Essen, Deutschland":geo:51.452,7.009
+URL:https://www.theater-essen.de/programm/spielzeit-26-27/don-giovanni/
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
- s://www.theater-essen.de/programm/a-z/don-giovanni/\nAus OpernLog – maß
- geblich ist die Seite des Hauses.
+ s://www.theater-essen.de/programm/spielzeit-26-27/don-giovanni/\nAus Opern
+ Log – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

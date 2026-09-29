@@ -26,12 +26,14 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270605T193000
 DTEND;TZID=Europe/Berlin:20270605T223000
 SUMMARY:Il barbiere di Siviglia – Deutsches Nationaltheater Weimar
-LOCATION:Deutsches Nationaltheater Weimar\, Weimar
+LOCATION:Deutsches Nationaltheater Weimar\, Deutschland
 GEO:50.98;11.327
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsches Nationaltheater Weimar, Deutschland":geo:50.98,11
+ .327
 URL:https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3721
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
-  https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3721\nDas End
- e ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite 
- des Hauses.
+  https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3721\nAus Ope
+ rnLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

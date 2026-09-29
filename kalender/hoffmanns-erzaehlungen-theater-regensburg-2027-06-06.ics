@@ -27,8 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270606T180000
 DTEND;TZID=Europe/Berlin:20270606T210000
 SUMMARY:Hoffmanns Erzählungen – Theater Regensburg
-LOCATION:Theater Regensburg\, Regensburg
+LOCATION:Theater Regensburg\, Deutschland
 GEO:49.0195;12.0917
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Regensburg, Deutschland":geo:49.0195,12.0917
 URL:https://www.staatstheater-regensburg.de/produktionen/les-contes-dhoffma
  nn.html
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 

@@ -1,0 +1,41 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:orpheus-in-der-unterwelt-komische-oper-berlin-2026-12-23@opernlog.verce
+ l.app
+DTSTAMP:20260923T000000Z
+DTSTART;TZID=Europe/Berlin:20261223T190000
+DTEND;TZID=Europe/Berlin:20261223T220000
+SUMMARY:Orpheus in der Unterwelt – Komische Oper Berlin
+LOCATION:Komische Oper Berlin\, Deutschland
+GEO:52.5158;13.3865
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Komische Oper Berlin, Deutschland":geo:52.5158,13.3865
+URL:https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterw
+ elt/
+DESCRIPTION:Jacques Offenbach: Orpheus in der Unterwelt\nTermine und Karten
+ : https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterwe
+ lt/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich is
+ t die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

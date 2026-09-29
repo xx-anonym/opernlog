@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270530T170000
 DTEND;TZID=Europe/Berlin:20270530T200000
 SUMMARY:Der Rosenkavalier – Staatsoper Stuttgart
-LOCATION:Staatsoper Stuttgart\, Stuttgart
+LOCATION:Staatsoper Stuttgart\, Deutschland
 GEO:48.7808;9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Stuttgart, Deutschland":geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/a-z/der-rosenkavalier/
 DESCRIPTION:Richard Strauss: Der Rosenkavalier\nTermine und Karten: https:/
  /www.staatsoper-stuttgart.de/spielplan/a-z/der-rosenkavalier/\nDas Ende is

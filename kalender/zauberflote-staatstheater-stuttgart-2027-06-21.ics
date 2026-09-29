@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270621T190000
 DTEND;TZID=Europe/Berlin:20270621T220000
 SUMMARY:Die Zauberflöte – Staatsoper Stuttgart
-LOCATION:Staatsoper Stuttgart\, Stuttgart
+LOCATION:Staatsoper Stuttgart\, Deutschland
 GEO:48.7808;9.1837
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatsoper Stuttgart, Deutschland":geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/die-zauberfloete
  /9763/
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 

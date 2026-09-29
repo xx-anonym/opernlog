@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270511T193000
 DTEND;TZID=Europe/Berlin:20270511T223000
 SUMMARY:Das schlaue Füchslein – Theater Osnabrück
-LOCATION:Theater Osnabrück\, Osnabrück
+LOCATION:Theater Osnabrück\, Deutschland
 GEO:52.279;8.043
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Osnabrück, Deutschland":geo:52.279,8.043
 URL:https://www.theater-osnabrueck.de/spielplan-detail/?stid=950
 DESCRIPTION:Leoš Janáček: Das schlaue Füchslein\nTermine und Karten: ht
  tps://www.theater-osnabrueck.de/spielplan-detail/?stid=950\nDas Ende ist g

@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261216T110000
 DTEND;TZID=Europe/Berlin:20261216T140000
 SUMMARY:Hänsel und Gretel – Oper Halle
-LOCATION:Oper Halle\, Halle (Saale)
+LOCATION:Oper Halle\, Deutschland
 GEO:51.483;11.972
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Halle, Deutschland":geo:51.483,11.972
 URL:https://www.buehnen-halle.de/de/program/hansel-und-gretel/274395
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.buehnen-halle.de/de/program/hansel-und-gretel/274395\nDas Ende

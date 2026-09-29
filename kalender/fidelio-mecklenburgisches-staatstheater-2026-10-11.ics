@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261011T170000
 DTEND;TZID=Europe/Berlin:20261011T200000
 SUMMARY:Fidelio – Mecklenburgisches Staatstheater
-LOCATION:Mecklenburgisches Staatstheater\, Schwerin
+LOCATION:Mecklenburgisches Staatstheater\, Schwerin\, Deutschland
 GEO:53.627;11.4152
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Mecklenburgisches Staatstheater, Schwerin, Deutschland":geo
+ :53.627,11.4152
 URL:https://www.mecklenburgisches-staatstheater.de/programm/fidelio.html
 DESCRIPTION:Ludwig van Beethoven: Fidelio\nTermine und Karten: https://www.
  mecklenburgisches-staatstheater.de/programm/fidelio.html\nDas Ende ist ges

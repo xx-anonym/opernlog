@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261121T193000
 DTEND;TZID=Europe/Berlin:20261121T223000
 SUMMARY:Il Trovatore – Oper Chemnitz
-LOCATION:Oper Chemnitz\, Chemnitz
+LOCATION:Oper Chemnitz\, Deutschland
 GEO:50.836;12.928
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Chemnitz, Deutschland":geo:50.836,12.928
 URL:https://www.theater-chemnitz.de/spielplan/detailseite/il-trovatore
 DESCRIPTION:Giuseppe Verdi: Il Trovatore\nTermine und Karten: https://www.t
  heater-chemnitz.de/spielplan/detailseite/il-trovatore\nDas Ende ist gesch

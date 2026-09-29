@@ -4,6 +4,7 @@ import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, runWithFeedback } from '../components/Toast.js';
 import { escapeHTML, visitCredits, besetzungKurz, ausstehendMarke } from '../utils.js';
+import { besetzungLesen, personAdresse } from '../data/besetzung.js';
 import { store } from '../store/store.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
@@ -38,10 +39,18 @@ export function ReviewCard(visit, options = {}) {
   // Dirigent, Regie, Besetzung – jedes für sich optional. Leere Felder
   // erzeugen keine Zeile, ein Besuch ganz ohne Angaben keinen Block.
   const credits = visitCredits(visit);
-  const creditRow = (label, wert) => wert ? `
+  // Jeder Name führt auf die Personenseite: alle eigenen Abende mit dieser
+  // Person (src/pages/PersonDetail.js). Die Zeile bleibt, wie sie
+  // eingetragen wurde – "Tosca: Anna Netrebko" wird nicht umgestellt.
+  const personLink = name => `<a class="person-link" href="${personAdresse(name)}">${escapeHTML(name)}</a>`;
+  const besetzungHTML = castList => besetzungLesen(castList).map(p =>
+    p.form === 'klammer' ? `${personLink(p.name)} (${escapeHTML(p.rolle)})`
+      : p.form === 'doppelpunkt' ? `${escapeHTML(p.rolle)}: ${personLink(p.name)}`
+        : personLink(p.name)).join('\n');
+  const creditRow = (label, html) => html ? `
         <div class="credit">
           <span class="credit__label">${label}</span>
-          <span class="credit__value">${escapeHTML(wert)}</span>
+          <span class="credit__value">${html}</span>
         </div>` : '';
 
   // Die Besetzung ist oft die längste Angabe der Karte – sechs Zeilen und
@@ -53,7 +62,7 @@ export function ReviewCard(visit, options = {}) {
   // Dort ist man hingegangen, um alles zu lesen.
   const besetzung = besetzungKurz(credits.castList);
   const besetzungRow = () => {
-    if (!besetzung.einklappen) return creditRow('Besetzung', credits.castList);
+    if (!besetzung.einklappen) return creditRow('Besetzung', besetzungHTML(credits.castList));
     return `
         <div class="credit">
           <span class="credit__label">Besetzung</span>
@@ -62,7 +71,7 @@ export function ReviewCard(visit, options = {}) {
               <span class="besetzung__kurz">${escapeHTML(besetzung.kurz)}</span>
               <span class="besetzung__offen">${besetzung.zeilen.length} Mitwirkende</span>
             </summary>
-            <span class="credit__value">${escapeHTML(besetzung.zeilen.join('\n'))}</span>
+            <span class="credit__value">${besetzungHTML(credits.castList)}</span>
           </details>
         </div>`;
   };
@@ -100,8 +109,8 @@ export function ReviewCard(visit, options = {}) {
     ` : ''}
     ${credits.any && !compact ? `
       <div class="review-card__credits">
-        ${creditRow('Dirigent', credits.conductor)}
-        ${creditRow('Regie', credits.director)}
+        ${creditRow('Dirigent', credits.conductor && personLink(credits.conductor))}
+        ${creditRow('Regie', credits.director && personLink(credits.director))}
         ${besetzungRow()}
       </div>
     ` : ''}
@@ -157,6 +166,8 @@ export function ReviewCard(visit, options = {}) {
         if (e.target.closest('input') || e.target.closest('button')) return;
         // Auf- und Zuklappen der Besetzung ist kein Klick auf den Besuch.
         if (e.target.closest('summary')) return;
+        // Ein Name führt auf die Personenseite, nicht zum Besuch.
+        if (e.target.closest('a[href]')) return;
         
         // If it's not standalone, navigate to the visit detail
         if (!standalone) {

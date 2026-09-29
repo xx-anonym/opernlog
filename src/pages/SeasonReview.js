@@ -231,6 +231,18 @@ function karten(r) {
         });
     }
 
+    // Die Besetzung zählt erst, wenn jemand an zwei Abenden auf der Bühne
+    // stand – sonst wäre bei einem Abend jeder der sechs Namen "meistgehört".
+    if (r.topVoices?.length) {
+        const [erste, ...weitere] = r.topVoices;
+        liste.push({
+            symbol: 'users',
+            label: 'Meistgehörte Stimmen',
+            wert: erste.name,
+            zusatz: [`${erste.anzahl} Abende`, ...weitere.map(w => `${w.name} (${w.anzahl})`)].join(' · '),
+        });
+    }
+
     if (r.bestVisit?.opera) {
         liste.push({
             groesse: 'gross',
@@ -373,6 +385,7 @@ function shareText(r) {
     if (r.topHouse?.house) zeilen.push(`Stammhaus: ${r.topHouse.house.name}`);
     if (r.topComposer) zeilen.push(`Komponist der Saison: ${r.topComposer.wert}`);
     if (r.topConductor) zeilen.push(`Dirigent der Saison: ${r.topConductor.wert}`);
+    if (r.topVoices?.length) zeilen.push(`Meistgehörte Stimme: ${r.topVoices[0].name}`);
     if (r.bestVisit?.opera) zeilen.push(`Bester Abend: ${r.bestVisit.opera.title}`);
     if (r.travelKm > 0) zeilen.push(`${zahl(r.travelKm)} km zwischen den Häusern`);
     zeilen.push('', 'geloggt mit OpernLog');
@@ -539,6 +552,8 @@ async function zeichneKarte(r) {
         r.topConductor ? ['Dirigent der Saison', r.topConductor.wert] : null,
         r.bestVisit?.opera ? ['Bester Abend', r.bestVisit.opera.title] : null,
         r.travelKm > 0 ? ['Zwischen den Häusern', `${zahl(r.travelKm)} km`] : null,
+        // Zuletzt: reicht der Platz nicht, fällt sie als Erste weg.
+        r.topVoices?.length ? ['Meistgehörte Stimme', r.topVoices[0].name] : null,
     ].filter(Boolean);
 
     const untergrenze = H - 170;   // darunter beginnt die Fußzeile

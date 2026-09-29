@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270410T193000
 DTEND;TZID=Europe/Berlin:20270410T223000
 SUMMARY:Das Rheingold – Oper Frankfurt
-LOCATION:Oper Frankfurt\, Frankfurt am Main
+LOCATION:Oper Frankfurt\, Deutschland
 GEO:50.1078;8.6725
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Frankfurt, Deutschland":geo:50.1078,8.6725
 URL:https://oper-frankfurt.de/de/spielplan/das-rheingold_3/
 DESCRIPTION:Richard Wagner: Das Rheingold\nTermine und Karten: https://oper
  -frankfurt.de/de/spielplan/das-rheingold_3/\nDas Ende ist geschätzt (3 St

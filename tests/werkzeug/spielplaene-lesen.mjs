@@ -41,7 +41,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
-import { werkeAusDatenbank } from './datenbank-werke.mjs';
+import { werkeAusDatenbank, haeuserAusDatenbank } from './datenbank-werke.mjs';
 import { termineAusText, termineMitZeiten, termineLesen, beginnFinden, saisonAusAdresse, zeitenAusKalender, monatAusAdresse, zeitenAusLd } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -66,6 +66,8 @@ export const ANDERE_TITEL = {
     'gianni-schicchi': ['Il trittico', 'Das Triptychon'],
     'suor-angelica': ['Il trittico', 'Das Triptychon', 'Schwester Angelica'],
     'il-tabarro': ['Il trittico', 'Das Triptychon', 'Der Mantel'],
+    // aus der Datenbank: der ganze Abend; die drei Teile oben bekommen ihn auch
+    'il-trittico': ['Trittico', 'Das Triptychon'],
     'rosenkavalier': ['Rosenkavalier'],
     'frau-ohne-schatten': ['Frau ohne Schatten'],
     'freischuetz': ['Freischütz'],
@@ -88,6 +90,9 @@ export const ANDERE_TITEL = {
     'akhnaten': ['Echnaton'],
     // aus der Datenbank; deutsche Häuser spielen sie oft unter deutschem Titel
     'la-gazza-ladra': ['Die diebische Elster', 'Diebische Elster'],
+    'l-italiana-in-algeri': ['Die Italienerin in Algier', 'Italienerin in Algier', "L'Italiana in Algeri"],
+    'il-viaggio-a-reims': ['Die Reise nach Reims', 'Reise nach Reims', 'Le Voyage à Reims', 'Le voyage a Reims', 'The Journey to Reims'],
+    'orpheus-in-der-unterwelt': ['Orphée aux enfers', 'Orphee aux enfers', 'Orpheus in the Underworld', 'Orfeo all\'inferno'],
     'elisir': ["L’elisir d’amore", 'Der Liebestrank', "L'elisir d'amore"],
     'jenufa': ['Jenufa', 'Její pastorkyňa'],
     'katja-kabanova': ['Katja Kabanowa', 'Káťa Kabanová'],
@@ -188,6 +193,7 @@ function alsWerk(o) {
         titel,
         slugs: [...new Set(titel.flatMap(adressFormen).filter(s => s.length >= 4))],
         komponist: komponistMuster(nachname),
+        nachname,
         // Nur Titel, die für sich stehen: "Siegfried" soll nicht in
         // "Siegfried Jerusalem" treffen, "Aida" nicht in "Aidan".
         muster: titel.map(t => new RegExp(`(^|[^a-z0-9ß])${ohneAkzente(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^a-z0-9ß])`, 'i')),
@@ -236,6 +242,17 @@ function ohneEnthaltene(ids) {
 // Eine Vorstellung im Pfad: ".../2026-10-03/" oder ".../03-10-2026/1930" (Nürnberg).
 const VORSTELLUNG_IM_PFAD = /\/(\d{4}-\d{2}-\d{2}|\d{2}-\d{2}-\d{4}(\/\d{3,4})?)\/?$/;
 
+// Links auf Dateien statt Seiten: Kalendereinträge, Programmhefte, Bilder.
+// Theater Kiel setzt neben jeden Titel im Kalender "ical.php?ID_Vorstellung=…";
+// als Produktionsseite gezählt, belegten diese Downloads beide Plätze je
+// Werk, und die echte Seite mit dem Komponisten kam nie dran.
+const DATEI = /\.(ics|pdf|jpg|png|mp3|mp4)$|\/ical(\.php)?$/i;
+
+/** Führt der Link auf eine Datei statt auf eine Seite? */
+export function dateiLink(href) {
+    try { return DATEI.test(new URL(href).pathname); } catch { return true; }
+}
+
 export function produktionsSeite(url) {
     try {
         const u = new URL(url);
@@ -257,7 +274,9 @@ function rang(url) {
 // Nebenveranstaltungen zu einem Werk sind keine Vorstellungen.
 // "Hör’n Sie mal!" ist in Hannover eine Einführung zum Hören.
 // "Preview «Elektra»" (Zürich): eine Einführung um halb zwölf, kein Abend.
-export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview/i;
+// "Vor der Premiere", "Drumherum", "Musiktheaterclub" (Graz): Begleitprogramm.
+// "Premierenfieber" (Gärtnerplatz): eine Stunde Einblick vor der Premiere.
+export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview|vor der premiere|premierenfieber|drumherum|musiktheaterclub|operaktiv/i;
 
 // Artikel über ein Stück sind keine Seiten der Produktion: Bonn erzählt im
 // Magazin von Galas vergangener Spielzeiten ("Am 11. Mai erlebte das
@@ -269,11 +288,12 @@ export const ARTIKEL = /\/magazin(\/|\.|$)|_magazin\b|\/blog\b|blind[_-]date/i;
 // Monatskalender erst die halbe Liste; der Rest kommt mit "weitere
 // Spieltage anzeigen" – ohne den Klick fehlten dort die Uhrzeiten der
 // zweiten Monatshälfte.
-export const NACHLADEN = /^\s*(mehr (laden|anzeigen)|(mehr|weitere) (termine|vorstellungen|spieltage)( laden| anzeigen)?|weitere laden|alle termine|load more|show more)\s*$/i;
+export const NACHLADEN = /^\s*(mehr (laden|anzeigen)|(mehr|weitere|alle) (termine|vorstellungen|spieltage)( laden| anzeigen)?|weitere laden|load more|show more)\s*$/i;
 // Knöpfe, die das Werkzeug direkt auslöst, auch wenn Playwright sie für
 // verdeckt hält: nur solche, die ausdrücklich Termine nachladen – ein
 // allgemeines "Mehr anzeigen" klappt oft nur einen Text auf.
-export const NACHLADEN_DIREKT = /^\s*(mehr|weitere) (termine|vorstellungen|spieltage)( laden| anzeigen)?\s*$/i;
+// "ALLE TERMINE ANZEIGEN" (Koblenz): die Seite zeigt sonst nur drei.
+export const NACHLADEN_DIREKT = /^\s*(mehr|weitere|alle) (termine|vorstellungen|spieltage)( laden| anzeigen)?\s*$/i;
 
 const UEBERSICHT = /spielzeit\s*(20)?2[67]|saison\s*(20)?2[67]|premieren|repertoire|musiktheater|^oper$|^opera$|produktionen|stücke|programm 20?2[67]|season 20?2[67]|alle vorstellungen|festspiele 2027|programm 2027/i;
 const HINWEISE = [['ballett', /ballett|ballet|tanzstück|choreograf/i], ['schauspiel', /schauspiel(?!haus)|theaterstück|nach william shakespeare|von johann wolfgang|drama von/i],
@@ -501,11 +521,48 @@ async function ladePlaywright() {
     return m.chromium ? m : m.default;
 }
 
+// Was eine Seite nachlädt, ohne dass es für die Termine zählt: Bilder,
+// Videos, Schriften und Zähldienste. Ohne sie wird eine Seite schneller
+// "still" (networkidle), und genau darauf wartet seite() bis zu 12 Sekunden.
+// Gemessen am 27.09.2026 an 36 Produktionsseiten, je Haus eine: dieselben
+// Termine und Uhrzeiten auf jeder, zusammen 197 s statt 149 s; Freiburg
+// 34 s statt 7 s je Seite, die Deutsche Oper 15 s statt 4 s.
+//
+// Skripte bleiben erlaubt, auch fremde – Termine kommen oft aus einem
+// Kartendienst eines anderen Anbieters. Cookieleisten ebenso: Erfurt belebt
+// "Weitere Termine laden" erst nach der Entscheidung darüber.
+const UNNOETIGE_ARTEN = new Set(['image', 'media', 'font']);
+const ZAEHLDIENSTE = /(^|\.)(google-analytics\.com|googletagmanager\.com|doubleclick\.net|googlesyndication\.com|googleadservices\.com|facebook\.net|facebook\.com|hotjar\.com|clarity\.ms|etracker\.(com|de)|youtube\.com|youtube-nocookie\.com|ytimg\.com|vimeo\.com|vimeocdn\.com|linkedin\.com|tiktok\.com|pinterest\.com|twitter\.com|criteo\.(com|net))$/i;
+
+/** Braucht der Lauf diese Anfrage nicht? */
+export function unnoetig(art, adresse) {
+    if (UNNOETIGE_ARTEN.has(art)) return true;
+    try { return ZAEHLDIENSTE.test(new URL(adresse).hostname); } catch { return false; }
+}
+
+/** Lässt im Kontext alles weg, was unnoetig() nennt. */
+export async function sparsam(kontext) {
+    await kontext.route('**/*', (r) => {
+        const anfrage = r.request();
+        return unnoetig(anfrage.resourceType(), anfrage.url()) ? r.abort() : r.continue();
+    });
+    return kontext;
+}
+
+export const FEHLERSEITE = /^\s*(network error|too many requests|service unavailable|429\b|503\b)/i;
+
 export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
     const p = await kontext.newPage();
     try {
-        const antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        let antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
         await p.waitForLoadState('networkidle', { timeout: 12000 }).catch(() => {});
+        // Seiten, die ihren Inhalt nachladen, melden unter Last "Network
+        // Error" (Kassel nach einigen Abrufen in Folge): kurz warten, noch einmal.
+        for (let i = 0; i < 2 && FEHLERSEITE.test(await p.title().catch(() => '')); i++) {
+            await p.waitForTimeout(5000 * (i + 1));
+            antwort = await p.reload({ waitUntil: 'domcontentloaded', timeout: 30000 });
+            await p.waitForLoadState('networkidle', { timeout: 12000 }).catch(() => {});
+        }
         // Eine Cookieleiste ablehnen, wie ein sparsamer Besucher: manche
         // Seiten beleben ihre Knöpfe erst nach der Entscheidung (Erfurt:
         // "Weitere Termine laden").
@@ -556,8 +613,21 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         for (let i = 0; i < 8; i++) {
             const geklickt = await p.evaluate(({ quelle, flags }) => {
                 const muster = new RegExp(quelle, flags);
-                const k = [...document.querySelectorAll('button')].find(b => b.offsetParent !== null && !b.disabled
-                    && muster.test(b.textContent || ''));
+                // Nicht nur <button>: Hagen nimmt ein Listenelement,
+                // <li class="show-more-event-items"><b>weitere Termine anzeigen</b></li>.
+                // Das innerste passende Element: in Leipzig steckt der Knopf in
+                // einem <div> mit demselben Text, und ein Klick auf das <div>
+                // erreicht ihn nicht. Umgekehrt steigt der Klick nach oben.
+                // Kein Link mit Ziel: die Staatsoper Berlin führt mit "Alle
+                // Termine anzeigen" auf eine andere Seite (?showAll=1).
+                // Kein Schalter, der schon offen ist: in Karlsruhe klappt
+                // "Weitere Termine" eine Liste auf und beim nächsten Klick
+                // wieder zu – nach acht Klicks wäre sie zu.
+                const wegLink = b => b.closest('a[href]') && !/^(#|javascript:)/i.test(b.closest('a[href]').getAttribute('href') || '#');
+                const offen = b => b.getAttribute('aria-expanded') === 'true' || !!b.querySelector('[aria-expanded="true"]');
+                const passt = b => b.offsetParent !== null && !b.disabled && !wegLink(b) && !offen(b) && muster.test((b.textContent || '').trim());
+                const k = [...document.querySelectorAll('button, [role="button"], a, li, span, b, div')]
+                    .find(b => passt(b) && ![...b.querySelectorAll('*')].some(passt));
                 if (!k) return false;
                 k.click();
                 return true;
@@ -751,6 +821,32 @@ function quelle(hausId) {
             terminLinks: q.terminLinks || null };
 }
 
+/**
+ * Nennt ein Eintrag einen anderen Komponisten als den des Werks, ist es ein
+ * anderes Werk gleichen Titels: Graz spielt Leoncavallos "La Bohème", und
+ * die Termine landeten bei Puccinis.
+ */
+export function fremderKomponist(text, id) {
+    const w = WERKE.find(x => x.id === id);
+    if (!w || w.komponist.test(text)) return false;
+    return WERKE.some(x => x.nachname !== w.nachname && x.komponist.test(text));
+}
+
+/**
+ * Werke, deren Komponist schon im Link steht: Kassel verlinkt im Spielplan
+ * "L’elisir d’amore Oper von Gaetano Donizetti", die Seite des Stücks nennt
+ * Donizetti nicht.
+ * @param {{href: string, text: string}[]} links
+ * @returns {Set<string>}
+ */
+export function komponistImLink(links) {
+    const aus = new Set();
+    for (const l of links) for (const id of werkeImLink(l.text, l.href)) {
+        if (WERKE.find(w => w.id === id)?.komponist.test(l.text)) aus.add(id);
+    }
+    return aus;
+}
+
 // Adressen mit kaputtem Prozentzeichen ("50%-Rabatt") ließen decodeURIComponent
 // werfen – und damit die ganze Seite ausfallen.
 const entschluesselt = s => { try { return decodeURIComponent(s); } catch { return s; } };
@@ -769,7 +865,7 @@ async function lesen(kontext, hausId, fenster) {
     const sammleBloecke = (daten) => {
         for (const b of daten.bloecke || []) {
             if (NEBENHER.test(b.block) || !enthaeltOrt(b.block, q.ort)) continue;
-            const ids = werkeImLink(b.text, b.href);
+            const ids = werkeImLink(b.text, b.href).filter(id => !fremderKomponist(b.block, id));
             if (!ids.length) continue;
             const { termine: mit, zeiten } = termineMitZeiten(b.block, fenster, { ort: q.ortJeTermin });
             // Mehr als drei Termine in einem Eintrag: das ist kein Eintrag,
@@ -794,10 +890,12 @@ async function lesen(kontext, hausId, fenster) {
             listenZeiten.set(id, { ...z, ...(listenZeiten.get(id) || {}) });
         }
     };
+    const komponistAusLinks = new Set();
     const sammle = (daten) => {
         sammleBloecke(daten);
+        komponistImLink(daten.links).forEach(id => komponistAusLinks.add(id));
         for (const l of daten.links) {
-            if (!/^https?:/.test(l.href) || /\.(ics|pdf|jpg|png|mp3|mp4)(\?|$)/i.test(l.href)) continue;
+            if (!/^https?:/.test(l.href) || dateiLink(l.href)) continue;
             if (NEBENHER.test(l.text) || NEBENHER.test(entschluesselt(l.href)) || ARTIKEL.test(l.href)) continue;
             const ids = werkeImLink(l.text, l.href);
             if (!ids.length) continue;
@@ -944,7 +1042,7 @@ async function lesen(kontext, hausId, fenster) {
         const liste = [...(ausListen.get(id) || [])];
         erg.werke[id] = {
             url: beste?.url || erg.treffer.find(t => t.werk === id)?.url || null,
-            komponistGenannt: erg.treffer.some(t => t.werk === id && t.komponistGenannt),
+            komponistGenannt: erg.treffer.some(t => t.werk === id && t.komponistGenannt) || komponistAusLinks.has(id),
             ausSeite: [...new Set([...(beste?.termine || []), ...zusatz.flatMap(t => t.termine)])].sort(),
             ohneUhrzeit: beste ? beste.ohneUhrzeit : false,
             ausListe: liste.sort(),
@@ -970,6 +1068,14 @@ async function main() {
     } catch (e) {
         console.warn(`Werke aus der Datenbank nicht geladen (${e.message}) – nur die aus operas.js.`);
     }
+    // Häuser aus der Datenbank: gelesen werden sie, sobald
+    // spielplan-quellen.json Einstiegsseiten für sie hat.
+    let haeuserDb = [];
+    try {
+        haeuserDb = (await haeuserAusDatenbank()).filter(h => !operaHouses.some(o => o.id === h.id));
+    } catch (e) {
+        console.warn(`Häuser aus der Datenbank nicht geladen (${e.message}) – nur die aus operaHouses.js.`);
+    }
     if (werkeOption) {
         SUCHE = new Set(werkeOption.split(',').map(w => w.trim()).filter(Boolean));
         const unbekannt = [...SUCHE].filter(id => !WERKE.some(w => w.id === id));
@@ -981,11 +1087,12 @@ async function main() {
     const jahr = Number(heute.slice(0, 4));
     // Bis Ende September im Jahr nach dem Saisonstart – die Sommerfestspiele gehören dazu.
     const fenster = { von: heute, bis: `${Number(heute.slice(5, 7)) >= 8 ? jahr + 1 : jahr}-09-30` };
-    const haeuser = operaHouses.map(h => h.id).filter(id => !nur.length || nur.includes(id));
+    const haeuser = [...operaHouses, ...haeuserDb].map(h => h.id).filter(id => !nur.length || nur.includes(id));
 
     const bisher = fs.existsSync(ausgabe) ? JSON.parse(fs.readFileSync(ausgabe, 'utf8')) : {};
     // Für die Übernahme: welche Werke aus der Datenbank kamen, und wonach gesucht wurde.
     bisher._werke = ausDatenbank.map(({ id, title, composer }) => ({ id, title, composer }));
+    bisher._haeuserKatalog = haeuserDb.map(({ id, name, city }) => ({ id, name, city }));
     if (SUCHE) bisher._suche = [...SUCHE];
     // Nur einzelne Häuser gelesen: die Übernahme mit --dazu ersetzt nur deren Einträge.
     if (nur.length) bisher._haeuser = [...new Set([...(bisher._haeuser || []), ...nur])];
@@ -994,8 +1101,13 @@ async function main() {
     const kontext = await browser.newContext({
         userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15 OpernLog-Spielplanlauf',
         locale: 'de-DE',
+        // Manche Seiten schreiben die Uhrzeit per Skript in der Zeitzone des
+        // Browsers (Theater Ulm). Auf GitHub ist das UTC, und aus 19:00 wurde
+        // 20:00. Alle Häuser liegen in derselben Zone.
+        timezoneId: 'Europe/Berlin',
         viewport: { width: 1280, height: 1600 },
     });
+    await sparsam(kontext);
     // Mehrere Häuser gleichzeitig, je Haus eine Seite nach der anderen.
     const warteschlange = [...haeuser];
     const strang = async () => {

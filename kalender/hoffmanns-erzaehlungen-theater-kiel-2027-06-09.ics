@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270609T190000
 DTEND;TZID=Europe/Berlin:20270609T220000
 SUMMARY:Hoffmanns Erzählungen – Theater Kiel
-LOCATION:Theater Kiel\, Kiel
+LOCATION:Theater Kiel\, Deutschland
 GEO:54.322;10.135
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Kiel, Deutschland":geo:54.322,10.135
 URL:https://theater-kiel.de/produktionen/les-contes-dhoffmann-2.html?m=11
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 
  https://theater-kiel.de/produktionen/les-contes-dhoffmann-2.html?m=11\nDas

@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270103T130000
 DTEND;TZID=Europe/Zurich:20270103T154500
 SUMMARY:La Traviata – Opernhaus Zürich
-LOCATION:Opernhaus Zürich\, Zürich
+LOCATION:Opernhaus Zürich\, Schweiz
 GEO:47.365;8.546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Opernhaus Zürich, Schweiz":geo:47.365,8.546
 URL:https://www.opernhaus.ch/spielplan/kalendarium/la-traviata-1/
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.op
  ernhaus.ch/spielplan/kalendarium/la-traviata-1/\nAus OpernLog – maßgebl

@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261114T193000
 DTEND;TZID=Europe/Berlin:20261114T214500
 SUMMARY:Rigoletto – Theater Regensburg
-LOCATION:Theater Regensburg\, Regensburg
+LOCATION:Theater Regensburg\, Deutschland
 GEO:49.0195;12.0917
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Regensburg, Deutschland":geo:49.0195,12.0917
 URL:https://www.staatstheater-regensburg.de/produktionen/rigoletto.html
 DESCRIPTION:Giuseppe Verdi: Rigoletto\nTermine und Karten: https://www.staa
  tstheater-regensburg.de/produktionen/rigoletto.html\nAus OpernLog – maß

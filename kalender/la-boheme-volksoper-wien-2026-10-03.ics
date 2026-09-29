@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261003T190000
 DTEND;TZID=Europe/Vienna:20261003T211500
 SUMMARY:La Bohème – Volksoper Wien
-LOCATION:Volksoper Wien\, Wien
+LOCATION:Volksoper Wien\, Österreich
 GEO:48.2258;16.3494
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Volksoper Wien, Österreich":geo:48.2258,16.3494
 URL:https://www.volksoper.at/produktion/la-boheme-1980.de.html
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.vo
  lksoper.at/produktion/la-boheme-1980.de.html\nAus OpernLog – maßgeblich

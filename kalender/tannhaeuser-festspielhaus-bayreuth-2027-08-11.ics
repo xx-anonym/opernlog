@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270811T160000
 DTEND;TZID=Europe/Berlin:20270811T190000
 SUMMARY:Tannhäuser – Bayreuther Festspielhaus
-LOCATION:Bayreuther Festspielhaus\, Bayreuth
+LOCATION:Bayreuther Festspielhaus\, Bayreuth\, Deutschland
 GEO:49.9578;11.5803
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayreuther Festspielhaus, Bayreuth, Deutschland":geo:49.957
+ 8,11.5803
 URL:https://www.bayreuther-festspiele.de/programm/auffuehrungen/tannhaeuser
  /
 DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.ba

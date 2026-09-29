@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20270530T170000
 DTEND;TZID=Europe/Vienna:20270530T200000
 SUMMARY:Lohengrin – Tiroler Landestheater
-LOCATION:Tiroler Landestheater\, Innsbruck
+LOCATION:Tiroler Landestheater\, Innsbruck\, Österreich
 GEO:47.2703;11.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Tiroler Landestheater, Innsbruck, Österreich":geo:47.2703,
+ 11.3958
 URL:https://www.landestheater.at/produktionen/lohengrin
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://www.land
  estheater.at/produktionen/lohengrin\nDas Ende ist geschätzt (3 Stunden).\

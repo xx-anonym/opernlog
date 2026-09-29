@@ -27,8 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270514T193000
 DTEND;TZID=Europe/Berlin:20270514T223000
 SUMMARY:Hoffmanns Erzählungen – Nationaltheater Mannheim
-LOCATION:Nationaltheater Mannheim\, Mannheim
+LOCATION:Nationaltheater Mannheim\, Deutschland
 GEO:49.4894;8.4795
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Nationaltheater Mannheim, Deutschland":geo:49.4894,8.4795
 URL:https://www.nationaltheater-mannheim.de/spielplan/filmkonzert-hoffmanns
  -erzaehlungen/4524/
 DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 

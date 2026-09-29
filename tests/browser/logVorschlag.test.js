@@ -122,6 +122,18 @@ test('Haus und Werk aus der Adresse: die Tage stehen gleich da', { skip: fehltPl
     } finally { await ctx.close(); }
 });
 
+test('vorgemerkter Abend ("Wie war …?"): das Datum steht fest, keine anderen Tage', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await formular(`#/log?house=semperoper&opera=tosca&datum=${iso(-3)}`);
+    try {
+        assert.equal(await p.inputValue('#visitDate'), iso(-3));
+        assert.equal(await p.inputValue('#operaId'), 'tosca');
+        await p.waitForTimeout(300);
+        assert.equal(await p.isVisible('#datumVorschlag'), false, 'Tage trotz vorgemerktem Datum');
+        assert.equal(await p.isVisible('#operaVorschlag'), false);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
 test('Haus nach dem Standort vorausgewählt: der Vorschlag kommt mit', { skip: fehltPlaywright }, async () => {
     const { ctx, p, fehler } = await formular('#/log', { geraet: SEMPEROPER });
     try {

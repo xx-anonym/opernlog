@@ -136,8 +136,8 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
     assert.ok(weggelassen.some(w => w.werk === 'unbekanntes-werk' && w.grund === 'nicht im Katalog'));
 });
 
-import { dazunehmen } from '../werkzeug/spielplan-uebernehmen.mjs';
-import { uebersichtsSeiten, seitenAuswahl, seitenTermine } from '../werkzeug/spielplaene-lesen.mjs';
+import { dazunehmen, nachtragsUmfang } from '../werkzeug/spielplan-uebernehmen.mjs';
+import { uebersichtsSeiten, seitenAuswahl, seitenTermine, unnoetig, dateiLink } from '../werkzeug/spielplaene-lesen.mjs';
 import { zeitenAusLd } from '../werkzeug/spielplan-termine.mjs';
 
 test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
@@ -188,6 +188,65 @@ test('ein Nachtrag für ein Haus ersetzt nur dessen Einträge', () => {
         'tosca@semperoper https://t.example/',
     ]);
     assert.equal(erg.stand, '2026-09-23');
+});
+
+test('der Lauf lässt Bilder, Schriften und Zähldienste weg, aber keine Skripte der Seite', () => {
+    for (const art of ['image', 'media', 'font']) assert.equal(unnoetig(art, 'https://www.oper-leipzig.de/x'), true, art);
+    for (const art of ['document', 'script', 'xhr', 'fetch', 'stylesheet']) {
+        assert.equal(unnoetig(art, 'https://www.oper-leipzig.de/x'), false, art);
+    }
+    // Zähldienste samt Unterdomänen – aber keine Adresse, die nur so endet.
+    assert.equal(unnoetig('script', 'https://www.googletagmanager.com/gtm.js?id=1'), true);
+    assert.equal(unnoetig('document', 'https://www.youtube-nocookie.com/embed/abc'), true);
+    assert.equal(unnoetig('script', 'https://nichtgoogle-analytics.com/a.js'), false);
+    // Kartendienste liefern oft die Termine selbst.
+    assert.equal(unnoetig('script', 'https://www.eventim-light.com/de/widget.js'), false);
+    assert.equal(unnoetig('xhr', 'https://api.reservix.de/termine'), false);
+    assert.equal(unnoetig('script', 'kaputt'), false);
+});
+
+test('Links auf Dateien zählen nicht als Seiten einer Produktion', () => {
+    // Theater Kiel: neben jedem Titel im Kalender ein Kalendereintrag zum Laden.
+    assert.equal(dateiLink('https://theater-kiel.de/ical.php?ID_Vorstellung=1905'), true);
+    assert.equal(dateiLink('https://theater-kiel.de/ical.php'), true);
+    assert.equal(dateiLink('https://oper.example/spielplan/ical'), true);
+    assert.equal(dateiLink('https://oper.example/tosca.ics?v=2'), true);
+    assert.equal(dateiLink('https://oper.example/programmheft-tosca.pdf'), true);
+    assert.equal(dateiLink('https://theater-kiel.de/produktionen/tannhaeuser.html?m=40'), false);
+    assert.equal(dateiLink('https://oper.example/stuecke/musical-ical-dreams/'), false);
+});
+
+test('ein Nachtrag leert kein Haus, bei dem der Lauf nichts fand', () => {
+    const alt = [
+        { werk: 'tannhaeuser', haus: 'theater-kiel', url: 'k', termine: ['2026-10-04'] },
+        { werk: 'carmen', haus: 'oper-leipzig', url: 'l', termine: ['2026-10-05'] },
+    ];
+    const neu = [{ werk: 'carmen', haus: 'oper-leipzig', url: 'l', termine: ['2026-10-06'] }];
+    const erg = nachtragsUmfang({ haeuser: ['theater-kiel', 'oper-leipzig'] }, alt, neu, '2026-09-27');
+    assert.deepEqual(erg.umfang.haeuser, ['oper-leipzig']);
+    assert.deepEqual(erg.bleiben, ['theater-kiel']);
+    // Bleibt kein Haus übrig, gibt es nichts zu übernehmen – ein leerer
+    // Umfang hieße für dazunehmen() "alles ersetzen".
+    const nurKiel = nachtragsUmfang({ haeuser: ['theater-kiel'] }, alt, neu, '2026-09-27');
+    assert.equal(nurKiel.umfang, null);
+    // Nachträge für Werke betrifft das nicht.
+    assert.deepEqual(nachtragsUmfang({ werke: ['carmen'] }, alt, neu, '2026-09-27').umfang, { werke: ['carmen'] });
+});
+
+test('ein Nachtrag behält Uhrzeiten, die er selbst nicht gelesen hat', () => {
+    const bestehend = { stand: '2026-09-23', zeilen: [
+        { werk: 'nixon-in-china', haus: 'deutsche-oper-berlin', url: 'https://d.example/nixon',
+          termine: ['2027-01-13', '2027-01-16'], zeiten: { '2027-01-13': '19:30', '2027-01-16': '19:30' } },
+    ] };
+    // Der Kalender lud nur halb: der 13. ohne Zeit. Dazu ein neuer Termin,
+    // und für den 16. eine neue Zeit – die neue gilt.
+    const nachtrag = { stand: '2026-10-03', zeilen: [
+        { werk: 'nixon-in-china', haus: 'deutsche-oper-berlin', url: 'https://d.example/nixon',
+          termine: ['2027-01-13', '2027-01-16', '2027-01-20'], zeiten: { '2027-01-16': '18:00' } },
+    ] };
+    const [zeile] = dazunehmen(bestehend, nachtrag, { haeuser: ['deutsche-oper-berlin'] }).zeilen;
+    assert.deepEqual(zeile.termine, ['2027-01-13', '2027-01-16', '2027-01-20']);
+    assert.deepEqual(zeile.zeiten, { '2027-01-13': '19:30', '2027-01-16': '18:00' });
 });
 
 test('aus dem Menü zählt nur, was ganz eine Übersicht benennt', () => {
@@ -374,7 +433,7 @@ test('Knöpfe zum Nachladen: auch "weitere Spieltage anzeigen" (Deutsche Oper Be
     for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr laden', 'Mehr anzeigen', 'mehr Vorstellungen', 'Alle Termine', 'Load more']) {
         assert.ok(NACHLADEN.test(t), t);
     }
-    for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr Vorstellungen anzeigen']) assert.ok(NACHLADEN_DIREKT.test(t), t);
+    for (const t of ['weitere Spieltage anzeigen', 'Weitere Termine laden', 'Mehr Vorstellungen anzeigen', 'ALLE TERMINE ANZEIGEN']) assert.ok(NACHLADEN_DIREKT.test(t), t);
     // Ein allgemeines "Mehr anzeigen" klappt oft nur Text auf: nicht direkt auslösen.
     for (const t of ['Mehr anzeigen', 'Mehr laden']) assert.ok(!NACHLADEN_DIREKT.test(t), t);
     for (const t of ['Weitere Informationen', 'mehr erfahren', 'Tickets']) assert.ok(!NACHLADEN.test(t) && !NACHLADEN_DIREKT.test(t), t);
@@ -510,11 +569,34 @@ test('eine "Preview" ist eine Nebenveranstaltung (Zürich)', async () => {
     assert.ok(!NEBENHER.test('So 22 Nov\n18.00\nOpernhaus\nElektra\nTICKETS'));
 });
 
+test('"Premierenfieber" in der Spielplanliste ist eine Nebenveranstaltung (Gärtnerplatz)', async () => {
+    const { NEBENHER } = await import('../werkzeug/spielplaene-lesen.mjs');
+    assert.ok(NEBENHER.test('Mi, 30.09.26\n18.00–19.00 Uhr\nPremierenfieber\nPREMIERENFIEBER\n»DIE REISE NACH REIMS«\nTickets'));
+    assert.ok(!NEBENHER.test('Fr, 16.10.26\n19.30 Uhr\nPremiere\n»DIE REISE NACH REIMS«\nTickets'));
+});
+
 test('ausschliessen mit url trifft nur diese Produktion (Volksoper, Killing Carmen)', () => {
     const k = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'andere-tosca', grund: 'Bearbeitung' }] };
     assert.equal(uebernehmen(LAUF, k).zeilen.length, 1, 'die echte Tosca bleibt');
     const k2 = { ...LEER, ausschliessen: [{ haus: 'semperoper', werk: 'tosca', url: 'semperoper.example/tosca', grund: 'Bearbeitung' }] };
     assert.equal(uebernehmen(LAUF, k2).zeilen.length, 0);
+});
+
+test('der Komponist darf im Link stehen (Kassel)', async () => {
+    const { komponistImLink } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const ids = komponistImLink([
+        { href: 'https://www.staatstheater-kassel.de/play/lelisirdamore-3322', text: 'L’elisir d’amore Oper von Gaetano Donizetti' },
+        { href: 'https://www.staatstheater-kassel.de/play/diefledermaus-3262', text: 'Die Fledermaus' },
+    ]);
+    assert.deepEqual([...ids], ['elisir']);
+});
+
+test('Leoncavallos "La Bohème" ist nicht Puccinis (Graz)', async () => {
+    const { fremderKomponist, NEBENHER } = await import('../werkzeug/spielplaene-lesen.mjs');
+    assert.equal(fremderKomponist('OPER ZUM LETZTEN MAL\nLa Bohème\n\nRuggero Leoncavallo\n\nMi. 04.11.2026\n19:30', 'la-boheme'), true);
+    assert.equal(fremderKomponist('La Bohème\nGiacomo Puccini\nSa. 28.11.2026\n19:30', 'la-boheme'), false);
+    assert.equal(fremderKomponist('La Bohème\nSa. 28.11.2026\n19:30', 'la-boheme'), false);
+    for (const t of ['DRUMHERUM Vor der Premiere »La Bohème«', 'OPERAKTIV! Musiktheaterclub 1']) assert.ok(NEBENHER.test(t), t);
 });
 
 // ── Vorschläge im Log-Formular ─────────────────────────────────────────

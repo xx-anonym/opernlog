@@ -27,8 +27,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270528T193000
 DTEND;TZID=Europe/Berlin:20270528T223000
 SUMMARY:Le nozze di Figaro – Staatstheater Braunschweig
-LOCATION:Staatstheater Braunschweig\, Braunschweig
+LOCATION:Staatstheater Braunschweig\, Deutschland
 GEO:52.264;10.531
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Braunschweig, Deutschland":geo:52.264,10.531
 URL:https://staatstheater-braunschweig.de/produktion/figaros-hochzeit
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
  : https://staatstheater-braunschweig.de/produktion/figaros-hochzeit\nDas E

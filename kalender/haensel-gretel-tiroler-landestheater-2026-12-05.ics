@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261205T190000
 DTEND;TZID=Europe/Vienna:20261205T220000
 SUMMARY:Hänsel und Gretel – Tiroler Landestheater
-LOCATION:Tiroler Landestheater\, Innsbruck
+LOCATION:Tiroler Landestheater\, Innsbruck\, Österreich
 GEO:47.2703;11.3958
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Tiroler Landestheater, Innsbruck, Österreich":geo:47.2703,
+ 11.3958
 URL:https://www.landestheater.at/produktionen/haensel-und-gretel
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.landestheater.at/produktionen/haensel-und-gretel\nDas Ende ist

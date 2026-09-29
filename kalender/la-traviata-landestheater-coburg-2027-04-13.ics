@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270413T193000
 DTEND;TZID=Europe/Berlin:20270413T223000
 SUMMARY:La Traviata – Landestheater Coburg
-LOCATION:Landestheater Coburg\, Coburg
+LOCATION:Landestheater Coburg\, Deutschland
 GEO:50.2588;10.966
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Landestheater Coburg, Deutschland":geo:50.2588,10.966
 URL:https://landestheater-coburg.de/programm/musiktheater/la-traviata
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://landes
  theater-coburg.de/programm/musiktheater/la-traviata\nDas Ende ist geschät

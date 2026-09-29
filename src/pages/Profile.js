@@ -8,7 +8,7 @@ import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
-import { profileIcons, renderAvatarHTML } from '../data/profileIcons.js';
+import { profileIcons, renderAvatarHTML, profilFoto } from '../data/profileIcons.js';
 import { openListModal } from '../components/ListModal.js';
 import { seenOperaList } from '../data/seenOperas.js';
 import { visitedHouseList } from '../data/visitedHouses.js';
@@ -17,6 +17,7 @@ import { composerByName } from '../data/composers.js';
 import { lastCompletedSeasonStartYear, seasonsWithVisits } from '../data/season.js';
 import { kontoLoeschModal } from '../components/KontoLoeschen.js';
 import { passkeyBereich } from '../components/Passkeys.js';
+import { datenExportBereich } from '../components/DatenExport.js';
 import { mitteilungenBereich } from '../components/Mitteilungen.js';
 import { passkeysMoeglich } from '../passkey.js';
 
@@ -612,6 +613,10 @@ function renderLocalProfile(page, userId, isMe) {
           <label class="form-label">Profilbild</label>
           <div class="icon-picker" id="iconPicker">
             <button type="button" class="icon-picker__option icon-picker__option--none${!user.avatarIcon ? ' icon-picker__option--active' : ''}" data-icon="" title="Kein Icon">✕</button>
+            ${profilFoto(user.avatarIcon) ? `
+              <button type="button" class="icon-picker__option icon-picker__option--active" data-icon="${escapeHTML(user.avatarIcon)}" title="Profilfoto">
+                <img src="${escapeHTML(profilFoto(user.avatarIcon))}" alt="">
+              </button>` : ''}
             ${Object.entries(profileIcons).map(([key, icon]) => `
               <button type="button" class="icon-picker__option${user.avatarIcon === key ? ' icon-picker__option--active' : ''}" data-icon="${key}" title="${icon.label}">
                 ${icon.svg}
@@ -853,6 +858,10 @@ function renderLocalProfile(page, userId, isMe) {
       ziel.appendChild(passkeyBereich(user.id));
     }
 
+    // Die eigenen Daten als Datei, direkt über dem Löschen: wer geht, will
+    // sie oft vorher mitnehmen.
+    ziel.appendChild(datenExportBereich());
+
     // Konto löschen: zuunterst, abgesetzt von allem anderen. Das eigentliche
     // Löschen verlangt im nächsten Fenster noch den abgetippten Namen.
     const bereich = document.createElement('div');
@@ -861,7 +870,8 @@ function renderLocalProfile(page, userId, isMe) {
       <button class="btn btn--ghost btn--sm konto-loeschen__knopf" id="deleteAccountBtn">
         Konto löschen
       </button>
-      <p class="form-hint">Endgültig, mit allem, was du geloggt hast.</p>`;
+      <p class="form-hint">Endgültig, mit allem, was du geloggt hast.</p>
+      <a class="rechtstext-link" href="#/datenschutz">Datenschutz</a>`;
 
     bereich.querySelector('#deleteAccountBtn').addEventListener('click', () => {
       document.body.appendChild(kontoLoeschModal(user.name || '', {

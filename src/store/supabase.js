@@ -796,9 +796,12 @@ export async function deleteVisitCloud(visitId) {
 async function enrichVisitsWithSocial(visits) {
     if (!visits || visits.length === 0) return [];
     const visitIds = visits.map(v => v.id);
-    const likeCounts = await getLikesForItems('visit', visitIds);
-    const myLikes = await getMyLikesForItems('visit', visitIds);
-    const commentsByVisit = await getCommentsForItems(visitIds);
+    // Gleichzeitig: die drei Abfragen hängen nicht voneinander ab.
+    const [likeCounts, myLikes, commentsByVisit] = await Promise.all([
+        getLikesForItems('visit', visitIds),
+        getMyLikesForItems('visit', visitIds),
+        getCommentsForItems(visitIds),
+    ]);
 
     return visits.map(v => ({
         ...v,
@@ -994,9 +997,12 @@ export async function getUserStatsCloud(userId) {
 async function enrichListsWithSocial(lists) {
     if (!lists || lists.length === 0) return [];
     const listIds = lists.map(l => l.id);
-    const likeCounts = await getLikesForItems('list', listIds);
-    const myLikes = await getMyLikesForItems('list', listIds);
-    const commentsByList = await getCommentsForItems(listIds);
+    // Gleichzeitig: die drei Abfragen hängen nicht voneinander ab.
+    const [likeCounts, myLikes, commentsByList] = await Promise.all([
+        getLikesForItems('list', listIds),
+        getMyLikesForItems('list', listIds),
+        getCommentsForItems(listIds),
+    ]);
 
     return lists.map(l => ({
         ...l,
@@ -1205,6 +1211,127 @@ export async function searchUsers(query) {
     return data || [];
 }
 
+// ── Fehlerprotokoll ──────────────────────────────────────
+/**
+ * Eine Zeile ins Fehlerprotokoll (src/fehlerprotokoll.js). Ohne .select():
+ * lesen dürfen die Tabelle nur Admins, die Antwort bliebe leer. Kein
+ * console.error bei einem Fehlschlag – der Aufrufer schweigt ohnehin.
+ */
+export async function fehlerMelden(eintrag) {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { error } = await sb.from('fehlerprotokoll').insert(eintrag);
+    if (error) throw error;
+}
+
+// ── Datenexport ──────────────────────────────────────────
+/**
+ * Alles, was die Datenbank zum angemeldeten Konto hält, Zeile für Zeile –
+ * für "Meine Daten herunterladen" (src/datenExport.js macht daraus die
+ * Datei). Jede Abfrage filtert selbst auf die eigene Id: visits, comments,
+ * likes und follows sind öffentlich lesbar, RLS allein ließe also auch
+ * Fremdes durch.
+ *
+ * Nicht dabei ist push_protokoll (wann welche Mitteilung ging): die Tabelle
+ * ist für die App gar nicht lesbar.
+ */
+export async function meineDatenCloud() {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Daten zusammenstellen', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const ich = session.user.id;
+    const lesen = (tabelle, abfrage) => retryRead(() => abfrage(sb.from(tabelle)), `Datenexport: ${tabelle}`);
+
+    const [profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
+        einladungen, vorschlaege, pushAbos, admin, werke, haeuser, komponisten, bildausschnitte, geplant] = await Promise.all([
+        lesen('profiles', q => q.select('*').eq('id', ich).maybeSingle()),
+        lesen('visits', q => q.select('*').eq('user_id', ich).order('date')),
+        lesen('lists', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('seen_operas', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('comments', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('likes', q => q.select('*').eq('user_id', ich).order('created_at')),
+        lesen('follows', q => q.select('*').eq('follower_id', ich)),
+        lesen('follows', q => q.select('*').eq('following_id', ich)),
+        lesen('friend_requests', q => q.select('*').or(`sender_id.eq.${ich},receiver_id.eq.${ich}`).order('created_at')),
+        lesen('invites', q => q.select('*').eq('created_by', ich).order('created_at')),
+        lesen('suggestions', q => q.select('*').eq('user_id', ich).order('created_at')),
+        // Ohne p256dh und auth – siehe src/datenExport.js.
+        lesen('push_abos', q => q.select('id, endpoint, created_at, zuletzt_benutzt').eq('user_id', ich)),
+        lesen('admins', q => q.select('*').eq('user_id', ich).maybeSingle()),
+        lesen('catalog_operas', q => q.select('*').eq('created_by', ich)),
+        lesen('catalog_houses', q => q.select('*').eq('created_by', ich)),
+        lesen('catalog_composers', q => q.select('*').eq('created_by', ich)),
+        lesen('bild_ausschnitte', q => q.select('*').eq('geaendert_von', ich)),
+        lesen('geplante_besuche', q => q.select('*').eq('user_id', ich).order('datum')),
+    ]);
+
+    // Namen der anderen Seite von Freundschaften und Anfragen. profiles ist
+    // öffentlich lesbar; es geht nur um den Benutzernamen.
+    const andere = [...new Set([
+        ...(ichFolge || []).map(f => f.following_id),
+        ...(folgenMir || []).map(f => f.follower_id),
+        ...(anfragen || []).flatMap(a => [a.sender_id, a.receiver_id]),
+    ])].filter(id => id && id !== ich);
+    const personen = andere.length
+        ? await lesen('profiles', q => q.select('id, username').in('id', andere))
+        : [];
+
+    // Passkeys verwaltet Supabase Auth, nicht die Datenbank. Geht die Liste
+    // nicht (Browser ohne WebAuthn, Dienst gestört), fehlt nur dieser Teil.
+    let passkeys = null;
+    try { passkeys = await listPasskeys(); } catch (e) { console.warn('[Supabase] Datenexport: Passkeys', e); }
+
+    const u = session.user;
+    return {
+        konto: {
+            id: u.id,
+            email: u.email ?? null,
+            angelegt: u.created_at ?? null,
+            letzte_anmeldung: u.last_sign_in_at ?? null,
+            anmeldung_ueber: u.app_metadata?.providers ?? (u.app_metadata?.provider ? [u.app_metadata.provider] : []),
+            admin: !!admin,
+        },
+        profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
+        einladungen, vorschlaege, pushAbos, passkeys, personen, geplant,
+        katalog: { werke, haeuser, komponisten, bildausschnitte },
+    };
+}
+
+// ── Geplante Besuche ─────────────────────────────────────
+// Privat: nur die eigenen Zeilen (supabase/migrations/geplante_besuche_migration.sql).
+const alsPlan = z => ({ id: z.id, operaId: z.opera_id, houseId: z.house_id, datum: z.datum, zeit: z.zeit || null });
+
+export async function getGeplanteBesucheCloud() {
+    const session = await getSession();
+    if (!session) return [];
+    const sb = getSupabase();
+    const data = await retryRead(
+        () => sb.from('geplante_besuche').select('id, opera_id, house_id, datum, zeit').eq('user_id', session.user.id).order('datum'),
+        'Geplante Besuche laden'
+    );
+    return (data || []).map(alsPlan);
+}
+
+/** Legt einen Plan an; die Kennung vergibt der Browser, wie bei Besuchen. */
+export async function addGeplantCloud(plan) {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Vormerken', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const result = await sb.from('geplante_besuche').insert({
+        id: plan.id, user_id: session.user.id, opera_id: plan.operaId, house_id: plan.houseId, datum: plan.datum, zeit: plan.zeit || null,
+    }).select('id, opera_id, house_id, datum, zeit');
+    return alsPlan(unwrapWritten(result, 'Vormerken'));
+}
+
+export async function deleteGeplantCloud(id) {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Vormerkung entfernen', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const { error } = await sb.from('geplante_besuche').delete().eq('id', id).eq('user_id', session.user.id);
+    if (error) throw new SupabaseError('Vormerkung entfernen', error);
+    return true;
+}
+
 // ── Bereits gesehen (ohne Besuchseintrag) ────────────────
 export async function getSeenOperasCloud() {
     const session = await getSession();
@@ -1284,38 +1411,84 @@ export async function hasPendingSuggestionCloud(type) {
 // Schaltflächen aus, die ohnehin nichts bewirkt hätten.
 
 /** Steht das angemeldete Konto in der Admin-Tabelle? */
+// Ob jemand Admin ist, ändert sich nicht mitten in der Sitzung. Gefragt
+// wurde trotzdem bei jedem Seitenwechsel – am 26.09.2026 über 700-mal an
+// einem Tag. Die Antwort gilt jetzt je Konto, bis die Seite neu lädt; ein
+// Fehlschlag wird nicht gemerkt, beim nächsten Mal wird wieder gefragt.
+let adminAntwort = null; // { nutzer, antwort: Promise<boolean> }
+
 export async function istAdmin() {
     const session = await getSession();
     if (!session) return false;
     const sb = getSupabase();
     if (!sb) return false;
+    if (adminAntwort?.nutzer === session.user.id) return adminAntwort.antwort;
     // Die Regel auf admins zeigt jedem nur die eigene Zeile. Kommt eine
     // zurück, ist man Admin; kommt keine, nicht. Wer sonst Admin ist, erfährt
     // man auf diesem Weg nicht.
-    const { data, error } = await sb.from('admins').select('user_id').maybeSingle();
-    if (error) {
-        console.error('[Supabase] Adminrecht prüfen', error);
-        return false;
-    }
-    return !!data;
+    const eintrag = { nutzer: session.user.id };
+    eintrag.antwort = (async () => {
+        const { data, error } = await sb.from('admins').select('user_id').maybeSingle();
+        if (error) {
+            console.error('[Supabase] Adminrecht prüfen', error);
+            if (adminAntwort === eintrag) adminAntwort = null;
+            return false;
+        }
+        return !!data;
+    })();
+    adminAntwort = eintrag;
+    return eintrag.antwort;
 }
 
-/** Alle drei Zusatztabellen auf einmal. */
+/** Alle drei Zusatztabellen auf einmal, dazu die Bildausschnitte. */
 export async function getKatalogZusatzCloud() {
     const sb = getSupabase();
     if (!sb) return { werke: [], haeuser: [], komponisten: [] };
 
-    const [werke, haeuser, komponisten] = await Promise.all([
+    const [werke, haeuser, komponisten, ausschnitte] = await Promise.all([
         sb.from('catalog_operas').select('*'),
         sb.from('catalog_houses').select('*'),
         sb.from('catalog_composers').select('*'),
+        sb.from('bild_ausschnitte').select('art, id, x, y'),
     ]);
 
     return {
         werke: unwrap(werke, 'Werke aus dem Katalog holen') ?? [],
         haeuser: unwrap(haeuser, 'Häuser aus dem Katalog holen') ?? [],
         komponisten: unwrap(komponisten, 'Komponisten aus dem Katalog holen') ?? [],
+        // Ohne Ausschnitte ist der Katalog trotzdem vollständig. Ein Fehler
+        // hier soll ihn nicht mitreißen; dann gilt der Stand von zuletzt.
+        ausschnitte: ausschnitte.error
+            ? (console.error('[Supabase] Bildausschnitte holen', ausschnitte.error), undefined)
+            : ausschnitte.data ?? [],
     };
+}
+
+/**
+ * Den Ausschnitt eines Katalogbilds speichern (nur Admins, siehe
+ * supabase/migrations/bild_ausschnitte_migration.sql). Ohne Adminrecht
+ * verwirft die Regel die Zeile, und unwrapWritten meldet das als Fehler.
+ */
+export async function setBildAusschnitt(art, id, { x, y }) {
+    const session = await getSession();
+    if (!session) throw new Error('Dafür musst du angemeldet sein.');
+    const sb = getSupabase();
+    return unwrapWritten(
+        await sb.from('bild_ausschnitte')
+            .upsert({ art, id, x, y, geaendert_von: session.user.id, geaendert: new Date().toISOString() }, { onConflict: 'art,id' })
+            .select(),
+        'Bildausschnitt speichern');
+}
+
+/**
+ * Zurück auf die Mitte: die Zeile fällt weg. Hatte der Eintrag gar keinen
+ * Ausschnitt, ist nichts zu löschen – dann ist auch keine Zeile kein Fehler.
+ */
+export async function deleteBildAusschnitt(art, id, { hatteEinen = true } = {}) {
+    const sb = getSupabase();
+    if (!sb) throw new Error('Keine Verbindung.');
+    const antwort = await sb.from('bild_ausschnitte').delete().eq('art', art).eq('id', id).select();
+    return hatteEinen ? unwrapWritten(antwort, 'Bildausschnitt zurücksetzen') : unwrap(antwort, 'Bildausschnitt zurücksetzen');
 }
 
 /**

@@ -7,6 +7,8 @@ import { HouseDetailPage } from './pages/HouseDetail.js';
 import { OperasPage } from './pages/Operas.js';
 import { OperaDetailPage } from './pages/OperaDetail.js';
 import { ComposerDetailPage } from './pages/ComposerDetail.js';
+import { PersonDetailPage } from './pages/PersonDetail.js';
+import { DatenschutzPage } from './pages/Datenschutz.js';
 import { LogVisitPage } from './pages/LogVisit.js';
 import { DiaryPage } from './pages/Diary.js';
 import { VisitDetailPage } from './pages/VisitDetail.js';
@@ -31,7 +33,8 @@ import { VERSION } from './version.js';
 import { showError, showToast } from './components/Toast.js';
 import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud } from './store/supabase.js';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden } from './store/supabase.js';
+import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 
 /**
  * Steht irgendwo Text, den jemand selbst eingegeben hat? Verglichen wird mit
@@ -601,6 +604,12 @@ class App {
             case 'composer':
                 page = ComposerDetailPage(param);
                 break;
+            case 'person':
+                page = PersonDetailPage(param);
+                break;
+            case 'datenschutz':
+                page = DatenschutzPage();
+                break;
             case 'log':
                 page = LogVisitPage(params);
                 break;
@@ -756,4 +765,8 @@ class App {
 }
 
 // Start
+// Nicht abgefangene Fehler ins Fehlerprotokoll (src/fehlerprotokoll.js) –
+// vor dem Start der App, damit auch Fehler beim Start ankommen.
+fehlerprotokollEinrichten({ senden: fehlerMelden, angemeldet: () => store.isCloud });
+
 new App();

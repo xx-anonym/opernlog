@@ -21,8 +21,15 @@ test('mit Beginn und Ende: Ortszeit samt Zeitzone, Ort, Link', () => {
     assert.equal(wert(ics, 'DTEND;TZID=Europe/Berlin:'), '20261205T223000');
     assert.ok(zeilen(ics).includes('TZID:Europe/Berlin'), 'die Zeitzone ist beschrieben');
     assert.equal(wert(ics, 'SUMMARY:'), 'Tosca – Semperoper');
-    assert.equal(wert(ics, 'LOCATION:'), 'Semperoper\\, Dresden');
+    assert.equal(wert(ics, 'LOCATION:'), 'Semperoper\\, Dresden\\, Deutschland');
     assert.equal(wert(ics, 'GEO:'), '51.0543;13.7351');
+    // Apple Kalender zeigt Karte und Route nur mit diesem Feld.
+    // Apple übernimmt ihn nur, wenn X-TITLE dem Text in LOCATION entspricht –
+    // in Anführungszeichen, sonst liest es die Kommas als Liste –, und ohne
+    // Straße gehört kein X-ADDRESS hinein. So zeigte Apple Kalender die Karte.
+    assert.equal(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'),
+        'VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFRAME=1;X-TITLE="Semperoper, Dresden, Deutschland":geo:51.0543,13.7351');
+    assert.equal(wert(ics, 'LOCATION:').replace(/\\,/g, ','), 'Semperoper, Dresden, Deutschland');
     assert.equal(wert(ics, 'URL:'), URL);
     assert.equal(wert(ics, 'UID:'), 'tosca-semperoper-2026-12-05@opernlog.vercel.app');
     assert.equal(wert(ics, 'DTSTAMP:'), '20260923T120000Z');
@@ -54,6 +61,7 @@ test('ohne Uhrzeit ganztägig, mit Hinweis', () => {
 test('ein Haus in Österreich bekommt die Wiener Zeitzone', () => {
     const ics = kalenderEintrag({ werk: TOSCA, haus: WIEN, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
     assert.equal(wert(ics, 'DTSTART;TZID=Europe/Vienna:'), '20261205T190000');
+    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:/);
 });
 
 test('Sonderzeichen werden maskiert, lange Zeilen gefaltet, Zeilen enden mit CRLF', () => {
@@ -106,4 +114,28 @@ test('installiert erkannt auch am Anzeigemodus, und das iPad zählt mit', () => 
     kalenderHerunterladen('egal', 'tosca-semperoper-2026-12-05.ics', u);
     assert.deepEqual(u.geoeffnet, []);
     assert.equal(u.location.href, `x-safari-${DATEI}`);
+});
+
+test('Anführungszeichen im Hausnamen brechen den Parameter nicht auf; ohne Koordinaten kein Kartenort', () => {
+    const haus = { ...SEMPER, name: 'Theater "Am Markt"; Saal 2' };
+    const ics = kalenderEintrag({ werk: TOSCA, haus, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
+    assert.match(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'), /X-TITLE="Theater 'Am Markt'; Saal 2, Dresden, Deutschland":geo:/);
+    const ohne = kalenderEintrag({ werk: TOSCA, haus: { id: 'x', name: 'Ohne Ort', city: 'Irgendwo' }, datum: '2026-12-05', jetzt: JETZT });
+    assert.equal(wert(ohne, 'X-APPLE-STRUCTURED-LOCATION;'), undefined);
+    assert.equal(wert(ohne, 'GEO:'), undefined);
+});
+
+test('steht die Stadt schon im Hausnamen, fällt sie im Ort weg – in LOCATION wie im Kartenort', () => {
+    const ort = (haus) => {
+        const ics = kalenderEintrag({ werk: TOSCA, haus, datum: '2026-12-05', zeit: '19:00', jetzt: JETZT });
+        return { location: wert(ics, 'LOCATION:').replace(/\\,/g, ','), titel: /X-TITLE="([^"]*)"/.exec(wert(ics, 'X-APPLE-STRUCTURED-LOCATION;'))[1] };
+    };
+    const leipzig = ort({ id: 'oper-leipzig', name: 'Oper Leipzig', city: 'Leipzig', state: 'Sachsen', lat: 51.339, lon: 12.3805 });
+    assert.deepEqual(leipzig, { location: 'Oper Leipzig, Deutschland', titel: 'Oper Leipzig, Deutschland' });
+    assert.equal(ort({ id: 'f', name: 'Oper Frankfurt', city: 'Frankfurt am Main', state: 'Hessen', lat: 50.1, lon: 8.7 }).location, 'Oper Frankfurt, Deutschland');
+    assert.equal(ort({ id: 'k', name: 'Theater Krefeld und Mönchengladbach', city: 'Krefeld / Mönchengladbach', state: 'Nordrhein-Westfalen', lat: 51.3, lon: 6.6 }).location,
+        'Theater Krefeld und Mönchengladbach, Deutschland');
+    // Nur ein Adjektiv im Namen: die Stadt bleibt.
+    assert.equal(ort(WIEN).location, 'Wiener Staatsoper, Wien, Österreich');
+    assert.equal(ort(SEMPER).location, 'Semperoper, Dresden, Deutschland');
 });

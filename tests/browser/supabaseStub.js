@@ -9,12 +9,15 @@
 export const STUB = `
 const UID = '11111111-1111-1111-1111-111111111111';
 const SESSION = { user: { id: UID, email: 'test@opernlog.test', user_metadata: { username: 'Testnutzer' } } };
-const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar_icon: null,
+// __avatarIconVorgabe per addInitScript: ein Instrument oder eine Bildadresse.
+const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar_icon: window.__avatarIconVorgabe ?? null,
   bio: '', profile_complete: true, created_at: '2024-01-01T00:00:00Z' };
 
 window.__seen = [];     // opera_id-Liste in der "Datenbank"
 window.__lists = [];    // Listen (Wunschliste u. a.), die die App anlegt oder ändert
-window.__visits = [];   // Besuchszeilen, wie sie aus der Cloud kaemen
+// Besuchszeilen, wie sie aus der Cloud kaemen. __besucheVorgabe per
+// addInitScript setzen, wenn beim Start schon welche da sein sollen.
+window.__visits = window.__besucheVorgabe || [];
 window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
 // Neue Besuche: jeder Versuch landet in __besuchVersuche. __besuchFehler ist
 // eine Schlange – je Versuch wird der vorderste Fehler geliefert, solange
@@ -41,6 +44,11 @@ window.__verweise = { besuche: 0, markierungen: 0, listen: 0 };  // was am Eintr
 window.__verweiseFehler = null; // gesetzt: die Zaehlung scheitert
 window.__geloescht = [];        // { tabelle, id } je DELETE
 window.__deleteFehler = null;   // gesetzt: jedes DELETE scheitert damit
+// Bildausschnitte. __ausschnitteVorgabe per addInitScript setzen, wenn sie
+// schon beim Start der App in der "Datenbank" stehen sollen.
+window.__ausschnitte = window.__ausschnitteVorgabe || [];   // { art, id, x, y }
+window.__ausschnittSchreiben = [];  // { op, art, id, x, y } je upsert/delete
+window.__ausschnittFehler = null;   // gesetzt: jedes Schreiben scheitert damit
 window.__kontoGeloescht = 0;    // wie oft konto_loeschen() gerufen wurde
 window.__kontoFehler = null;    // gesetzt: Loeschen scheitert damit
 window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
@@ -49,6 +57,7 @@ window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
 window.__signUpMitSitzung = false;
 window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
 window.__profilUpsert = [];     // jedes upsert auf profiles
+window.__profilUpdate = [];     // jedes update auf profiles (Profil bearbeiten)
 // Passkeys. Die WebAuthn-Zeremonie selbst laeuft im Test nicht – der Stub
 // antwortet an ihrer Stelle, so wie supabase-js es nach der Zeremonie taete.
 window.__pushAbos = [];         // was push_abo_speichern bekommen hat
@@ -65,6 +74,29 @@ window.__passkeyFehler = null;  // gesetzt: signInWithPasskey/registerPasskey li
 window.__passkeyListeFehler = null;
 window.__passkeyAnmeldungen = 0;
 window.__passkeyGeloescht = [];
+window.__lesefehler = {};       // { tabelle: meldung } – jedes Lesen dieser Tabelle scheitert
+// Für den Abgleich: jede Antwort um so viele ms verzögern, und mitzählen,
+// wie viele Abfragen gleichzeitig unterwegs waren – und wie oft admins.
+window.__verzoegerung = 0;
+window.__unterwegs = 0;
+window.__hoechstensUnterwegs = 0;
+window.__adminAbfragen = 0;
+// Lesen oder Schreiben einer Tabelle aufhalten, bis der Test __freigeben()
+// ruft: __anhalten = { tabelle: 'lesen' | 'schreiben' }. Ein Lesen antwortet
+// mit dem Stand beim Aufruf, kommt aber erst mit der Freigabe an – wie eine
+// Abfrage, die noch unterwegs ist, waehrend jemand etwas aendert. Ein
+// Schreiben wirkt erst mit der Freigabe. __angehalten zaehlt, was wartet.
+// Freigabe statt fester Wartezeit: unter Last dauern Klicks im Test
+// sekundenlang, und eine feste Luecke war dann schon wieder zu.
+window.__anhalten = {};
+window.__angehalten = 0;
+let wartende = [];
+window.__freigeben = () => { const w = wartende; wartende = []; w.forEach(weiter => weiter()); };
+window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
+// Geplante Besuche: Zeilen wie in der Datenbank. __geplantVorgabe per
+// addInitScript setzen, wenn beim Start schon welche da sein sollen.
+window.__geplant = window.__geplantVorgabe || [];
+window.__geplantFehler = null;   // gesetzt: jedes Anlegen scheitert damit
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -73,6 +105,9 @@ function builder(table) {
   const drin = {};     // aus in()
   const api = {
     then(res, rej) {
+      if (!op && window.__lesefehler[table]) {
+        return Promise.resolve({ data: null, error: { message: window.__lesefehler[table] } }).then(res, rej);
+      }
       if (table === 'seen_operas' && op) {
         if (op === 'upsert' && nutzlast && !window.__seen.includes(nutzlast.opera_id)) {
           window.__seen.push(nutzlast.opera_id);
@@ -97,6 +132,27 @@ function builder(table) {
         const rows = window.__istAdmin ? [{ user_id: UID }] : [];
         return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
       }
+      if (table === 'bild_ausschnitte') {
+        if (op && window.__ausschnittFehler) {
+          return Promise.resolve({ data: null, error: { message: window.__ausschnittFehler } }).then(res, rej);
+        }
+        // Wie die echte Regel: nur Admins schreiben, sonst keine Zeile.
+        if (op && !window.__istAdmin) return Promise.resolve({ data: [], error: null }).then(res, rej);
+        const gleich = (a) => a.art === (nutzlast?.art ?? filter.art) && a.id === (nutzlast?.id ?? filter.id);
+        if (op === 'upsert') {
+          window.__ausschnittSchreiben.push({ op, art: nutzlast.art, id: nutzlast.id, x: nutzlast.x, y: nutzlast.y });
+          const zeile = { art: nutzlast.art, id: nutzlast.id, x: nutzlast.x, y: nutzlast.y };
+          window.__ausschnitte = [...window.__ausschnitte.filter(a => !gleich(a)), zeile];
+          return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
+        }
+        if (op === 'delete') {
+          window.__ausschnittSchreiben.push({ op, art: filter.art, id: filter.id });
+          const weg = window.__ausschnitte.filter(gleich);
+          window.__ausschnitte = window.__ausschnitte.filter(a => !gleich(a));
+          return Promise.resolve({ data: weg, error: null }).then(res, rej);
+        }
+        return Promise.resolve({ data: window.__ausschnitte, error: null }).then(res, rej);
+      }
       if (window.__katalog[table]) {
         if (op === 'delete') {
           if (window.__deleteFehler) {
@@ -119,12 +175,35 @@ function builder(table) {
         }
         return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
       }
+      if (table === 'geplante_besuche') {
+        if (op === 'insert') {
+          if (window.__geplantFehler) return Promise.resolve({ data: null, error: { message: window.__geplantFehler } }).then(res, rej);
+          const zeile = { ...nutzlast };
+          window.__geplant.push(zeile);
+          return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
+        }
+        if (op === 'delete') {
+          window.__geplant = window.__geplant.filter(z => z.id !== filter.id);
+          return Promise.resolve({ data: null, error: null }).then(res, rej);
+        }
+        return Promise.resolve({ data: window.__geplant.filter(z => !filter.user_id || z.user_id === filter.user_id), error: null }).then(res, rej);
+      }
+      if (table === 'fehlerprotokoll' && op === 'insert') {
+        window.__fehlerMeldungen.push(nutzlast);
+        return Promise.resolve({ data: null, error: null }).then(res, rej);
+      }
       if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
+      if (table === 'profiles' && op === 'update') window.__profilUpdate.push(nutzlast);
       if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
         return Promise.resolve({ data: null, error: { message: window.__profilSchreibfehler, code: '42501' } }).then(res, rej);
       }
       if (table === 'likes' && window.__likeFehler) {
         return Promise.resolve({ data: null, error: { message: window.__likeFehler } }).then(res, rej);
+      }
+      if (table === 'visits' && op === 'delete') {
+        const weg = window.__visits.filter(v => v.id === filter.id);
+        window.__visits = window.__visits.filter(v => v.id !== filter.id);
+        return Promise.resolve({ data: weg, error: null }).then(res, rej);
       }
       if (table === 'visits' && op === 'insert') {
         window.__besuchVersuche.push(nutzlast);
@@ -171,12 +250,36 @@ function builder(table) {
     single() { single = true; return api; },
     maybeSingle() { single = true; return api; },
   };
-  for (const m of ['select', 'order', 'limit', 'ilike', 'gte', 'lte']) api[m] = () => api;
+  for (const m of ['select', 'order', 'limit', 'ilike', 'gte', 'lte', 'or']) api[m] = () => api;
   api.eq = (spalte, wert) => { filter[spalte] = wert; return api; };
   api.neq = (spalte, wert) => { nicht[spalte] = wert; return api; };
   api.in = (spalte, werte) => { drin[spalte] = werte || []; return api; };
   for (const m of ['insert', 'update', 'upsert']) api[m] = (n) => { op = m; nutzlast = n; return api; };
   api.delete = () => { op = 'delete'; return api; };
+  // Mitzählen und, wenn gewünscht, verzögern – um die eigentliche Antwort herum.
+  const antworten = api.then;
+  api.then = (res, rej) => {
+    if (table === 'admins') window.__adminAbfragen++;
+    window.__unterwegs++;
+    window.__hoechstensUnterwegs = Math.max(window.__hoechstensUnterwegs, window.__unterwegs);
+    if (window.__anhalten[table] === (op ? 'schreiben' : 'lesen')) {
+      window.__angehalten++;
+      const frei = new Promise(weiter => wartende.push(weiter));
+      const antwort = () => new Promise((ok, fehl) => antworten.call(api, ok, fehl));
+      // Lesen: erst antworten, dann warten. Kopiert, weil Listenzeilen
+      // spaeter an Ort und Stelle geaendert werden.
+      const fertig = op ? frei.then(antwort)
+        : antwort().then(a => structuredClone(a)).then(a => frei.then(() => a));
+      return fertig
+        .finally(() => { window.__unterwegs--; window.__angehalten--; })
+        .then(res, rej);
+    }
+    const warten = window.__verzoegerung ? new Promise(r => setTimeout(r, window.__verzoegerung)) : Promise.resolve();
+    return warten
+      .then(() => new Promise((ok, fehl) => antworten.call(api, ok, fehl)))
+      .finally(() => { window.__unterwegs--; })
+      .then(res, rej);
+  };
   return api;
 }
 

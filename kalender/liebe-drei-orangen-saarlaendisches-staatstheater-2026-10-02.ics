@@ -27,8 +27,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261002T193000
 DTEND;TZID=Europe/Berlin:20261002T223000
 SUMMARY:Die Liebe zu den drei Orangen – Saarländisches Staatstheater
-LOCATION:Saarländisches Staatstheater\, Saarbrücken
+LOCATION:Saarländisches Staatstheater\, Saarbrücken\, Deutschland
 GEO:49.233;6.997
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Saarländisches Staatstheater, Saarbrücken, Deutschland":g
+ eo:49.233,6.997
 URL:https://www.staatstheater.saarland/detail/die-liebe-zu-den-drei-orangen
 DESCRIPTION:Sergej Prokofjew: Die Liebe zu den drei Orangen\nTermine und Ka
  rten: https://www.staatstheater.saarland/detail/die-liebe-zu-den-drei-oran

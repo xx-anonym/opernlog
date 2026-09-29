@@ -1,6 +1,7 @@
 // Profile Icons – Minimalist line-art SVGs
 // Each icon is a thin-stroke drawing that appears behind avatar initials
 import { escapeHTML } from '../utils.js';
+import { BILD_HOSTS, thumbAdresse } from './katalogRegeln.js';
 
 export const profileIcons = {
   violin: {
@@ -131,12 +132,51 @@ export const profileIcons = {
 // seinen eigenen Platz. Früher lagen beide mittig übereinander, das Icon bei
 // 18 % Deckkraft – man sah von seiner Wahl praktisch nichts.
 export function renderAvatarHTML(initials, iconKey) {
+  // initials come from the DB (avatar_initials) and are user-controlled
+  const monogramm = `<span class="avatar-initials">${escapeHTML(initials)}</span>`;
+
+  // Ein Foto statt eines Instruments: liegt über dem Monogramm und deckt es
+  // zu. Lädt es nicht, bleibt das Monogramm sichtbar.
+  const foto = profilFoto(iconKey);
+  if (foto) return `${monogramm}<img class="avatar-foto" src="${escapeHTML(foto)}" alt="" loading="lazy" decoding="async">`;
+
   // Own-property check so keys like "constructor" can't resolve to Object.prototype members
   const icon = iconKey && Object.prototype.hasOwnProperty.call(profileIcons, iconKey)
     ? profileIcons[iconKey]
     : null;
 
   const emblem = icon ? `<span class="avatar-icon" aria-hidden="true">${icon.svg}</span>` : '';
-  // initials come from the DB (avatar_initials) and are user-controlled
-  return `${emblem}<span class="avatar-initials">${escapeHTML(initials)}</span>`;
+  return `${emblem}${monogramm}`;
+}
+
+// Profilfotos.
+//
+// In der App wählt man ein Instrument; wer ein Foto haben soll, bekommt es von
+// Hand in der Datenbank: eine Wikimedia-Adresse in profiles.avatar_icon.
+//
+// Nur von Wikimedia, dem einzigen Bildhost der App. Die Spalte kann jeder für
+// das eigene Profil beschreiben – ein beliebiger Host hieße, dass jeder, der
+// ein Profil ansieht, einen fremden Server anfragt, der mitzählen kann.
+// Geladen wird eine kleine Vorschaufassung statt des oft riesigen Originals.
+//
+// Wikimedia erzeugt Vorschaubilder nur noch in festen Breiten (20, 40, 60,
+// 120, 250, 330, 500, 960, …); jede andere beantwortet es mit HTTP 400. 240
+// sah naheliegend aus – 80px Kreis mal dreifache Pixeldichte – und ergab in
+// Safari nur eine Kachel mit Fragezeichen. 250 ist die nächste gültige.
+export const FOTO_BREITE = 250;
+export const WIKIMEDIA_BREITEN = [20, 40, 60, 120, 250, 330, 500, 960, 1280, 1920, 3840];
+
+/** Die Vorschauadresse, wenn der Wert ein Wikimedia-Bild ist – sonst null. */
+export function profilFoto(wert) {
+  if (typeof wert !== 'string' || !wert.startsWith('https://')) return null;
+  let url;
+  try {
+    url = new URL(wert.trim());
+  } catch {
+    return null;
+  }
+  if (url.protocol !== 'https:' || !BILD_HOSTS.includes(url.hostname)) return null;
+  // Was Commons beim Kopieren anhängt (?utm_source=…), braucht das Bild nicht.
+  url.search = '';
+  return thumbAdresse(url.toString(), FOTO_BREITE);
 }

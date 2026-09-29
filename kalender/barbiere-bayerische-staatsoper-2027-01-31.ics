@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270131T180000
 DTEND;TZID=Europe/Berlin:20270131T210000
 SUMMARY:Il barbiere di Siviglia – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/il-barbiere-di-siviglia/2027-01-31-18
  00-16202
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:

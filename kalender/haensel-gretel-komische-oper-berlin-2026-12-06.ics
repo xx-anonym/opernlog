@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261206T160000
 DTEND;TZID=Europe/Berlin:20261206T190000
 SUMMARY:Hänsel und Gretel – Komische Oper Berlin
-LOCATION:Komische Oper Berlin\, Berlin
+LOCATION:Komische Oper Berlin\, Deutschland
 GEO:52.5158;13.3865
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Komische Oper Berlin, Deutschland":geo:52.5158,13.3865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/haensel-und-gretel/
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.komische-oper-berlin.de/spielplan/a-z/haensel-und-gretel/\nDas

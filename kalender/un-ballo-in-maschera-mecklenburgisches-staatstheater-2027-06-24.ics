@@ -27,8 +27,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270624T193000
 DTEND;TZID=Europe/Berlin:20270624T223000
 SUMMARY:Un ballo in maschera – Mecklenburgisches Staatstheater
-LOCATION:Mecklenburgisches Staatstheater\, Schwerin
+LOCATION:Mecklenburgisches Staatstheater\, Schwerin\, Deutschland
 GEO:53.627;11.4152
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Mecklenburgisches Staatstheater, Schwerin, Deutschland":geo
+ :53.627,11.4152
 URL:https://www.mecklenburgisches-staatstheater.de/programm/un-ballo-in-mas
  chera.html
 DESCRIPTION:Giuseppe Verdi: Un ballo in maschera\nTermine und Karten: https

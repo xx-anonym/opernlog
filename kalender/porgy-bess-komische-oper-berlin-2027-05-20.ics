@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270520T190000
 DTEND;TZID=Europe/Berlin:20270520T220000
 SUMMARY:Porgy and Bess – Komische Oper Berlin
-LOCATION:Komische Oper Berlin\, Berlin
+LOCATION:Komische Oper Berlin\, Deutschland
 GEO:52.5158;13.3865
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Komische Oper Berlin, Deutschland":geo:52.5158,13.3865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/
 DESCRIPTION:George Gershwin: Porgy and Bess\nTermine und Karten: https://ww
  w.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/\nDas Ende ist gesc

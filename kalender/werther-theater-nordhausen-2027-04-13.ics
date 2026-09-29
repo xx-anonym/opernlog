@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270413T150000
 DTEND;TZID=Europe/Berlin:20270413T180000
 SUMMARY:Werther – Theater Nordhausen / Loh-Orchester Sondershausen
-LOCATION:Theater Nordhausen / Loh-Orchester Sondershausen\, Nordhausen
+LOCATION:Theater Nordhausen / Loh-Orchester Sondershausen\, Deutschland
 GEO:51.503;10.793
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Nordhausen / Loh-Orchester Sondershausen, Deutschla
+ nd":geo:51.503,10.793
 URL:https://theater-nordhausen.de/musiktheater/werther-26-27
 DESCRIPTION:Jules Massenet: Werther\nTermine und Karten: https://theater-no
  rdhausen.de/musiktheater/werther-26-27\nDas Ende ist geschätzt (3 Stunden

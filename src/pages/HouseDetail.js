@@ -3,6 +3,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
 import { istAdmin } from '../store/supabase.js';
 import { loeschSchalter } from '../components/KatalogLoeschen.js';
+import { bildAusschnittKnopf } from '../components/BildAusschnitt.js';
 import { coverBackground, escapeHTML } from '../utils.js';
 import { showError, showToast } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
@@ -15,10 +16,16 @@ import { isSupabaseConfigured } from '../config.js';
 import { abendeImHaus, terminMitWochentag, zeitText, heuteIso } from '../data/spielplanAbfrage.js';
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
 
 // Die nächsten zwei Abende stehen da, der Rest klappt auf (Jonas'
 // Vorgabe: die Seite soll das Haus zeigen, nicht einen ganzen Spielplan).
 const ABENDE_SICHTBAR = 2;
+
+// Häuser, deren "Alle Abende zeigen" gerade aufgeklappt ist. Wer von dort
+// ein Werk öffnet und zurückkehrt, bekommt die Seite neu gebaut; ohne das
+// klappte die Liste dabei wieder zu. Wie offeneTermine auf der Werkseite.
+const aufgeklappt = new Set();
 
 /**
  * "Demnächst hier": was das Haus in dieser Spielzeit spielt, aus dem
@@ -40,7 +47,7 @@ function demnaechstHier(bereich, house) {
 
   const merkliste = new Set(store.getWishlist()?.items || []);
   const werke = new Set(abende.map(a => a.werk)).size;
-  let alle = false;
+  let alle = aufgeklappt.has(house.id);
 
   const zeile = (a) => {
     const werk = operas.find(o => o.id === a.werk);
@@ -57,6 +64,7 @@ function demnaechstHier(bereich, house) {
             ? `<span class="naehe-abend__stern" title="Auf deiner Wunschliste">${icon('star', { filled: true })}</span>` : ''}${escapeHTML(werk.title)}</a>
           <span class="naehe-abend__wo">${escapeHTML(kurzname(werk.composer))}${beimHaus}</span>
         </div>
+        ${vormerkZeichen(werk, house, a.datum)}
         <button type="button" class="naehe-abend__kalender" data-werk="${escapeHTML(werk.id)}" data-datum="${a.datum}"
           title="In den Kalender" aria-label="${escapeHTML(`In den Kalender: ${werk.title}, ${a.datum}`)}">${icon('calendar')}</button>
       </div>`;
@@ -87,13 +95,19 @@ function demnaechstHier(bereich, house) {
   bereich.addEventListener('click', (e) => {
     if (e.target.closest('[data-aktion="alle"]')) {
       alle = !alle;
+      if (alle) aufgeklappt.add(house.id);
+      else aufgeklappt.delete(house.id);
       zeichnen();
       if (!alle) bereich.scrollIntoView({ block: 'start', behavior: 'smooth' });
       return;
     }
-    const knopf = e.target.closest('.naehe-abend__kalender');
+    const knopf = e.target.closest('.naehe-abend__kalender, .naehe-abend__vormerken');
     if (!knopf) return;
     const abend = abende.find(a => a.werk === knopf.dataset.werk && a.datum === knopf.dataset.datum);
+    if (knopf.classList.contains('naehe-abend__vormerken')) {
+      vormerkZeichenUmschalten(knopf, abend?.zeit);
+      return;
+    }
     const werk = operas.find(o => o.id === knopf.dataset.werk);
     if (!abend || !werk) return;
     kalenderHerunterladen(
@@ -120,7 +134,8 @@ export function HouseDetailPage(houseId) {
   const heroStyle = coverBackground(
     house.imageUrl,
     `linear-gradient(135deg, ${house.color}, #14181c)`,
-    'rgba(20, 24, 28, 0.3), #14181c'
+    'rgba(20, 24, 28, 0.3), #14181c',
+    house.bildAusschnitt
   );
 
   page.innerHTML = `
@@ -245,11 +260,14 @@ export function HouseDetailPage(houseId) {
   // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet
   // ist – und nur bei Einträgen, die in der Datenbank stehen. Was als Datei im
   // Repo liegt, kann die App nicht löschen.
+  // Ebenso der Knopf für den Bildausschnitt oben rechts im Kopf – den gibt es
+  // für jeden Eintrag, auch für die aus dem Repo.
   istAdmin().then(ja => {
     const schalter = loeschSchalter('haus', house, ja, () => {
       window.location.hash = '#/houses';
     });
     if (schalter) page.appendChild(schalter);
+    if (ja) bildAusschnittKnopf(page.querySelector('.detail-hero'), 'haus', house, house.imageUrl);
   }).catch(() => {});
 
   return page;

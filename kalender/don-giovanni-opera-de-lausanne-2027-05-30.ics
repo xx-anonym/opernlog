@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270530T170000
 DTEND;TZID=Europe/Zurich:20270530T200000
 SUMMARY:Don Giovanni – Opéra de Lausanne
-LOCATION:Opéra de Lausanne\, Lausanne
+LOCATION:Opéra de Lausanne\, Schweiz
 GEO:46.521;6.634
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Opéra de Lausanne, Schweiz":geo:46.521,6.634
 URL:https://www.opera-lausanne.ch/show/don-giovanni-2/
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
  s://www.opera-lausanne.ch/show/don-giovanni-2/\nDas Ende ist geschätzt (3

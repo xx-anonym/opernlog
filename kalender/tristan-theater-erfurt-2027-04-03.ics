@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270403T160000
 DTEND;TZID=Europe/Berlin:20270403T190000
 SUMMARY:Tristan und Isolde – Theater Erfurt
-LOCATION:Theater Erfurt\, Erfurt
+LOCATION:Theater Erfurt\, Deutschland
 GEO:50.98;11.018
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Erfurt, Deutschland":geo:50.98,11.018
 URL:https://www.theater-erfurt.de/stuecke/tristan-und-isolde
 DESCRIPTION:Richard Wagner: Tristan und Isolde\nTermine und Karten: https:/
  /www.theater-erfurt.de/stuecke/tristan-und-isolde\nDas Ende ist geschätzt

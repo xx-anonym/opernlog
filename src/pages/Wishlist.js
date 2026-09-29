@@ -43,7 +43,7 @@ export function WishlistPage() {
             const card = document.createElement('div');
             card.className = 'wishlist-card';
             card.innerHTML = `
-        <div class="wishlist-card__image" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)')}">
+        <div class="wishlist-card__image" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.1), rgba(20,24,28,0.85)', opera.bildAusschnitt)}">
           <button class="wishlist-card__remove" title="Von der Wunschliste entfernen">✕</button>
         </div>
         <div class="wishlist-card__body">

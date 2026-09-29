@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261211T193000
 DTEND;TZID=Europe/Berlin:20261211T223000
 SUMMARY:Die Csárdásfürstin – Theater Osnabrück
-LOCATION:Theater Osnabrück\, Osnabrück
+LOCATION:Theater Osnabrück\, Deutschland
 GEO:52.279;8.043
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Theater Osnabrück, Deutschland":geo:52.279,8.043
 URL:https://www.theater-osnabrueck.de/spielplan-detail/?stid=921
 DESCRIPTION:Emmerich Kálmán: Die Csárdásfürstin\nTermine und Karten: h
  ttps://www.theater-osnabrueck.de/spielplan-detail/?stid=921\nDas Ende ist 

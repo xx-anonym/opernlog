@@ -604,3 +604,44 @@ test('Kalender mit der Uhrzeit in der Datumszeile (Bayreuth)', () => {
     assert.deepEqual(z.get('lohengrin'), { '2027-07-25': '16:00' });
     assert.deepEqual(z.get('parsifal'), { '2027-07-26': '16:00' });
 });
+
+test('nach "Zusatzangebote" kommt Begleitprogramm, keine Vorstellung (Hagen)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const hagen = 'Sa. 05. 12. / 19:30 Uhr\nGroßes Haus\nDetails Karten kaufen\nZUSATZANGEBOTE\nOFFENE PROBE\nSa. 28. 11. / 11:00 Uhr\nGroßes Haus\nDetails Eintritt frei';
+    assert.deepEqual(termineMitZeiten(hagen, fenster).termine, ['2026-12-05']);
+});
+
+test('"Premierenfieber" vor der Premiere ist keine Vorstellung (Gärtnerplatz)', () => {
+    const fenster = { von: '2026-09-27', bis: '2027-09-30' };
+    const text = 'TERMINE\nMi\t30.09.26\t18.00 Uhr\tPremierenfieber\nFr\t16.10.26\t19.30 Uhr\tPremiere\nSo\t18.10.26\t18.00 Uhr';
+    const { termine, zeiten } = termineMitZeiten(text, fenster);
+    assert.deepEqual(termine, ['2026-10-16', '2026-10-18']);
+    assert.equal(zeiten['2026-10-16'], '19:30');
+});
+
+test('nach "Außerdem" kommen Kostprobe und Archivführung, keine Vorstellung (Semperoper)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const semper = 'Premiere\n26\nSa\n26. Juni 2027, 18 Uhr\nJuni 2027\n18 Uhr\nPremiere\nDetails\n24 – 125 €\nTickets\n'
+        + '29\nDi\n29. Juni 2027, 19 Uhr\nJuni 2027\n19 Uhr\nDetails\nTickets\n'
+        + 'Außerdem\nKostprobe Rienzi, der Letzte der Tribunen\n21. Juni 2027, 18 Uhr\nMo 21.06.2027,\n18 Uhr,\nRundfoyer Semperoper\n'
+        + 'Aktenzeichen Zwischen Revolution und Ruhm\n28. Juni 2027, 18 Uhr\nMo 28.06.2027,\n18 Uhr,\nHistorisches Archiv';
+    assert.deepEqual(termineMitZeiten(semper, fenster).termine, ['2027-06-26', '2027-06-29']);
+});
+
+test('"VORSTELLUNGSTERMINE" beginnt neu, ohne das Jahr aus dem Text davor (Koblenz)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const koblenz = 'Zu den Vorstellungen am 8. Oktober 2026 und am 2., 4., 8. und 14. November 2026 fährt der Shuttle-Bus\n'
+        + 'VORSTELLUNGSTERMINE\nSO\n4. OKT\n18:00 Uhr\nTheaterzelt\nHoffmanns Erzählungen\nMI\n14. OKT\n18:00 Uhr\nTheaterzelt\nHoffmanns Erzählungen\n'
+        + 'SA\n9. JAN\n19:30 Uhr\nTheaterzelt\nHoffmanns Erzählungen';
+    const { termine, zeiten } = termineMitZeiten(koblenz, fenster);
+    for (const t of ['2026-10-04', '2026-10-14', '2027-01-09']) assert.ok(termine.includes(t), t);
+    assert.equal(zeiten['2026-10-14'], '18:00');
+});
+
+test('"Termine" nach einem Jahr allein: kein Sprung ins Folgejahr (St. Margarethen)', () => {
+    const fenster = { von: '2026-09-26', bis: '2027-09-30' };
+    const t = 'RIGOLETTO 2027\nTermine\nJuli\n1. August\n2\n3\nVorstellung am: 14.Juli\n20:00 Uhr\nVorstellung am: 5.August\n20:00 Uhr';
+    const { termine } = termineMitZeiten(t, fenster);
+    assert.ok(termine.includes('2027-07-14'), JSON.stringify(termine));
+    assert.ok(termine.includes('2027-08-05'), JSON.stringify(termine));
+});

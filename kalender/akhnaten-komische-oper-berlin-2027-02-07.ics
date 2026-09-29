@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270207T180000
 DTEND;TZID=Europe/Berlin:20270207T210000
 SUMMARY:Akhnaten – Komische Oper Berlin
-LOCATION:Komische Oper Berlin\, Berlin
+LOCATION:Komische Oper Berlin\, Deutschland
 GEO:52.5158;13.3865
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Komische Oper Berlin, Deutschland":geo:52.5158,13.3865
 URL:https://www.komische-oper-berlin.de/spielplan/a-z/akhnaten-echnaton/
 DESCRIPTION:Philip Glass: Akhnaten\nTermine und Karten: https://www.komisch
  e-oper-berlin.de/spielplan/a-z/akhnaten-echnaton/\nDas Ende ist geschätzt

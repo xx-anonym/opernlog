@@ -91,3 +91,90 @@ test('Uhrzeiten aus <time datetime="… 18:00">, wo der Text keine Daten zeigt (
         assert.deepEqual(erg.zeiten, { '2026-09-27': '18:00', '2026-10-04': '16:00' });
     } finally { await ctx.close(); }
 });
+
+test('"weitere Termine anzeigen" auch als Listenelement statt Knopf (Hagen)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const SEITE = '<!doctype html><html><body><main><h1>Die Fledermaus</h1><ul id="t">'
+        + '<li>Sa, 03.10.2026, 19:30 Uhr</li>'
+        + '<li class="show-more-event-items"><b>weitere Termine anzeigen</b></li></ul></main><script>'
+        + 'document.querySelector(".show-more-event-items").addEventListener("click", (e) => {'
+        + '  e.currentTarget.remove();'
+        + '  document.getElementById("t").insertAdjacentHTML("beforeend", "<li>Sa, 20.02.2027, 19:30 Uhr</li>");'
+        + '});'
+        + '</script></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/fledermaus', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        const d = await seite(ctx, 'https://theater.example/fledermaus');
+        assert.match(d.text, /20\.02\.2027/);
+    } finally { await ctx.close(); }
+});
+
+test('"Network Error" beim ersten Laden: kurz warten und neu laden (Kassel)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    let aufrufe = 0;
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/elisir', r => {
+            aufrufe++;
+            const body = aufrufe === 1
+                ? '<!doctype html><html><head><title>Network Error</title></head><body><main>Network Error</main></body></html>'
+                : '<!doctype html><html><head><title>L’elisir d’amore</title></head><body><main><h1>L’elisir d’amore</h1><p>Sa 13.02.2027, 19:00 Uhr</p></main></body></html>';
+            return r.fulfill({ body, contentType: 'text/html; charset=utf-8' });
+        });
+        const d = await seite(ctx, 'https://theater.example/elisir');
+        assert.match(d.text, /13\.02\.2027/);
+        assert.equal(aufrufe, 2);
+    } finally { await ctx.close(); }
+});
+
+test('Nachlade-Knopf in einem <div> mit demselben Text: der Knopf wird geklickt (Leipzig)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const SEITE = '<!doctype html><html><body><main><h1>Carmen</h1><ul id="t"><li>Sa, 09.01.2027, 19:00 Uhr</li></ul>'
+        + '<div class="mehr"><button type="button">Weitere Termine anzeigen</button></div></main>'
+        // Eine Leiste über allem, wie ein Cookiehinweis: Playwrights Klick
+        // kommt nicht durch, nur der direkte im Dokument.
+        + '<div style="position: fixed; inset: 0; z-index: 9"></div><script>'
+        + 'document.querySelector(".mehr button").addEventListener("click", () => {'
+        + '  document.querySelector(".mehr").remove();'
+        + '  document.getElementById("t").insertAdjacentHTML("beforeend", "<li>So, 09.05.2027, 18:00 Uhr</li>");'
+        + '});'
+        + '</script></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/carmen', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        const d = await seite(ctx, 'https://theater.example/carmen');
+        assert.match(d.text, /09\.05\.2027/);
+    } finally { await ctx.close(); }
+});
+
+test('"Weitere Termine" als Schalter wird nur einmal aufgeklappt (Karlsruhe)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const SEITE = '<!doctype html><html><body><main><h1>Il Trittico</h1>'
+        + '<div>Samstag, 3.7.2027, 18:00</div>'
+        + '<p><b><a href="#liste" class="schalter" aria-expanded="false">Weitere Termine</a></b></p>'
+        + '<div id="liste" style="display: none">Mittwoch, 21.7.2027, 19:00</div></main><script>'
+        + 'document.querySelector(".schalter").addEventListener("click", (e) => {'
+        + '  e.preventDefault();'
+        + '  const liste = document.getElementById("liste");'
+        + '  const zu = liste.style.display === "none";'
+        + '  liste.style.display = zu ? "block" : "none";'
+        + '  e.currentTarget.setAttribute("aria-expanded", zu ? "true" : "false");'
+        + '});'
+        + '</script></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/trittico', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        const d = await seite(ctx, 'https://theater.example/trittico');
+        assert.match(d.text, /21\.7\.2027/);
+    } finally { await ctx.close(); }
+});
+
+test('"Alle Termine anzeigen" als Link auf eine andere Seite wird nicht geklickt (Staatsoper Berlin)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const SEITE = '<!doctype html><html><body><main><h1>Spielplan Dezember</h1><ul><li>Fr, 04.12.2026, 19:00 Uhr – La Bohème</li></ul>'
+        + '<a href="/andere-seite">Alle Termine anzeigen</a></main></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/dezember', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        await ctx.route('https://theater.example/andere-seite', r => r.fulfill({ body: '<!doctype html><html><body><main>Andere Seite</main></body></html>', contentType: 'text/html' }));
+        const d = await seite(ctx, 'https://theater.example/dezember');
+        assert.equal(d.endUrl, 'https://theater.example/dezember');
+        assert.match(d.text, /04\.12\.2026/);
+    } finally { await ctx.close(); }
+});

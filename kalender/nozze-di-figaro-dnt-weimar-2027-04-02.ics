@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270402T193000
 DTEND;TZID=Europe/Berlin:20270402T223000
 SUMMARY:Le nozze di Figaro – Deutsches Nationaltheater Weimar
-LOCATION:Deutsches Nationaltheater Weimar\, Weimar
+LOCATION:Deutsches Nationaltheater Weimar\, Deutschland
 GEO:50.98;11.327
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Deutsches Nationaltheater Weimar, Deutschland":geo:50.98,11
+ .327
 URL:https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3893
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
  : https://www.dnt-weimar.de/de/programm/stueck-detail.php?SID=3893\nDas En

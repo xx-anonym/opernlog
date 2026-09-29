@@ -26,8 +26,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270313T193000
 DTEND;TZID=Europe/Berlin:20270313T223000
 SUMMARY:Peter Grimes – Staatstheater Darmstadt
-LOCATION:Staatstheater Darmstadt\, Darmstadt
+LOCATION:Staatstheater Darmstadt\, Deutschland
 GEO:49.8697;8.6435
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Staatstheater Darmstadt, Deutschland":geo:49.8697,8.6435
 URL:https://www.staatstheater-darmstadt.de/veranstaltungen/peter-grimes.228
  0/
 DESCRIPTION:Benjamin Britten: Peter Grimes\nTermine und Karten: https://www

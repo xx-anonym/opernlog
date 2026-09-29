@@ -9,8 +9,10 @@ DTSTAMP:20260923T000000Z
 DTSTART;VALUE=DATE:20270425
 DTEND;VALUE=DATE:20270426
 SUMMARY:Die tote Stadt – Wiener Staatsoper
-LOCATION:Wiener Staatsoper\, Wien
+LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/die-tote-stadt/
 DESCRIPTION:Erich Wolfgang Korngold: Die tote Stadt\nTermine und Karten: ht
  tps://www.wiener-staatsoper.at/kalender/detail/die-tote-stadt/\nDie Uhrzei

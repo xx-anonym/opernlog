@@ -26,8 +26,11 @@ DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270117T170000
 DTEND;TZID=Europe/Berlin:20270117T200000
 SUMMARY:Don Giovanni – Bayerische Staatsoper
-LOCATION:Bayerische Staatsoper\, München
+LOCATION:Bayerische Staatsoper\, München\, Deutschland
 GEO:48.1397;11.5794
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
+ 1.5794
 URL:https://www.staatsoper.de/stuecke/don-giovanni/2027-01-15-1900-16189
 DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
  s://www.staatsoper.de/stuecke/don-giovanni/2027-01-15-1900-16189\nDas Ende
