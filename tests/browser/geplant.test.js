@@ -69,6 +69,10 @@ test('im Termin-Fenster vormerken, auf der Startseite sehen, wieder entfernen', 
         // Das Fenster bleibt offen – man merkt sich oft zwei Abende.
         assert.equal(await p.locator('.kalender-wahl').count(), 1);
         await p.click('#kalenderWahlAbbrechen');
+        // Das Schließen nimmt den Verlaufseintrag des Fensters verzögert weg
+        // (zurueckGeste.js). Erst abwarten – sonst kommt der Rücksprung nach
+        // dem Wechsel zur Startseite an und führt wieder zum Werk.
+        await p.waitForFunction(() => !history.state?.opernlogFenster);
 
         await p.evaluate(() => { location.hash = '#/'; });
         await p.waitForSelector('.demnaechst');
