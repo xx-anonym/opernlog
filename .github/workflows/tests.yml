@@ -12,13 +12,21 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Beide Aufträge auf fester Ubuntu-Version: ubuntu-latest wechselt ab dem
+# 19.10.2026 auf 26.04, und die Browser-Tests hängen an Playwright und
+# dessen Systempaketen. Den Wechsel bewusst machen, nicht nebenbei. Die
+# übrigen Workflows folgen dem.
+#
+# Gescheiterte Tests meldet zusätzlich tests/werkzeug/github-anmerkungen.mjs
+# als Anmerkung am Lauf – die ist ohne Anmeldung lesbar, das Protokoll nicht.
+
 jobs:
   # Schnell und ohne Abhängigkeiten: Node bringt den Testläufer selbst mit.
   # Läuft in unter einer Sekunde und deckt die Datenmodule und den Zustand des
   # Projekts ab.
   einheiten:
     name: Module und Projektprüfungen
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
 
@@ -29,12 +37,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       - name: Unit-Tests und Prüfungen
-        run: node --test "tests/unit/*.test.js" "tests/checks/*.test.js"
+        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/werkzeug/github-anmerkungen.mjs --test-reporter-destination=stdout "tests/unit/*.test.js" "tests/checks/*.test.js"
 
       # Nur auf main: die Version benennt den App-Shell-Cache, und wer sie
       # stehen lässt, lässt allen installierten Nutzern offline ihre alte
@@ -50,14 +58,14 @@ jobs:
   # und ein Fehler in einem Datenmodul soll nicht erst danach sichtbar werden.
   browser:
     name: Oberfläche im Browser
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
 
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
 
@@ -74,4 +82,4 @@ jobs:
       # Playwright deshalb ausdrücklich in tests/browser/node_modules.
       # NODE_PATH hülfe hier nicht – ESM-Importe beachten es nicht.
       - name: Browser-Tests
-        run: node --test "tests/browser/*.test.js"
+        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/werkzeug/github-anmerkungen.mjs --test-reporter-destination=stdout "tests/browser/*.test.js"

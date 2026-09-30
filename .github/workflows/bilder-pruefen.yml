@@ -38,7 +38,8 @@ on:
 jobs:
   bilder:
     name: Katalogdaten von außen
-    runs-on: ubuntu-latest
+    # Fest statt ubuntu-latest, siehe tests.yml.
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
 

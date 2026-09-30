@@ -115,3 +115,11 @@ grün ist, weil er nichts ausübt, ist schlimmer als keiner.
 
 Deshalb: nach jeder Änderung an einem Test einmal die Gegenprobe machen –
 Fehler absichtlich wieder einbauen, Test muss rot werden, Fehler zurücknehmen.
+
+Auf GitHub steht jeder gescheiterte Test zusätzlich als Anmerkung am Lauf,
+mit Datei, Zeile und Fehlermeldung (`tests/werkzeug/github-anmerkungen.mjs`).
+Die Anmerkungen sind ohne Anmeldung lesbar, das Protokoll nicht:
+
+```
+curl -s https://api.github.com/repos/xx-anonym/opernlog/check-runs/<job-id>/annotations
+```

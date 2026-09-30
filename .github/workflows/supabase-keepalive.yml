@@ -27,7 +27,8 @@ on:
 
 jobs:
   wachhalten:
-    runs-on: ubuntu-latest
+    # Fest statt ubuntu-latest, siehe tests.yml.
+    runs-on: ubuntu-24.04
 
     # Der Lauf liest nur eine Datei aus dem Repository und schreibt nichts.
     permissions:
