@@ -82,6 +82,8 @@ test('eigener Abend: Foto hochladen – verkleinert, als JPEG, privat', { skip: 
 
         await p.waitForSelector('.andenken__foto img');
         assert.equal(await p.getAttribute('.andenken__sicht', 'aria-pressed'), 'false');
+        // In der Oberfläche heißen sie Momentaufnahmen.
+        assert.equal((await p.textContent('.andenken__titel')).trim(), 'Momentaufnahmen');
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
@@ -175,6 +177,7 @@ test('beim Loggen: zwei Fotos, eines öffentlich – nach dem Speichern am neuen
     const { ctx, p, fehler } = await oeffne('#/log?house=semperoper&opera=tosca');
     try {
         await p.waitForSelector('.andenken--auswahl .andenken__neu input');
+        assert.match(await p.textContent('.andenken--auswahl .form-label'), /Momentaufnahmen/);
         await fotoWaehlen(p);
         await p.waitForFunction(() => document.querySelectorAll('.andenken--auswahl .andenken__foto').length === 1);
         await fotoWaehlen(p, 800, 1200);

@@ -1,5 +1,10 @@
 // Andenken: Fotos zu einem Abend auf seiner Seite (#/visit/…).
 //
+// In der Oberfläche heißen sie "Momentaufnahmen" (Jonas, 30.9.2026: klingt
+// schöner). Tabelle, Speicher und Code behalten den Namen andenken – ein
+// Umbenennen dort hieße Datenbank und Dateien umziehen, ohne dass es
+// jemand sähe.
+//
 // Beim eigenen Abend: Fotos hinzufügen (höchstens sechs), je Foto
 // umschalten zwischen privat (Schloss, Standard) und öffentlich (Globus),
 // löschen. Bei fremden Abenden nur die öffentlichen, ohne Knöpfe. Antippen
@@ -44,7 +49,7 @@ export function andenkenBereich(visit) {
         const platz = HOECHSTENS_JE_ABEND - fotos.length;
         bereich.hidden = !eigen && !fotos.length;
         bereich.innerHTML = `
-          <h2 class="andenken__titel">${icon('camera')}Andenken</h2>
+          <h2 class="andenken__titel">${icon('camera')}Momentaufnahmen</h2>
           <div class="andenken__raster">
             ${fotos.map(f => `
               <figure class="andenken__foto" data-id="${escapeHTML(f.id)}">
@@ -142,7 +147,7 @@ export function andenkenAuswahl() {
     function zeichnen() {
         const platz = HOECHSTENS_JE_ABEND - fotos.length;
         feld.innerHTML = `
-          <span class="form-label">${icon('camera', { className: 'icon--meta' })}Andenken <span class="form-collapse__optional">(optional)</span></span>
+          <span class="form-label">${icon('camera', { className: 'icon--meta' })}Momentaufnahmen <span class="form-collapse__optional">(optional)</span></span>
           <div class="andenken__raster">
             ${fotos.map((f, i) => `
               <figure class="andenken__foto" data-i="${i}">

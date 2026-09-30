@@ -56,7 +56,7 @@ export function datenExport(roh, { werke = [], haeuser = [], version = '', jetzt
         schon_gesehen: (roh.gesehen ?? []).map(g => ({ ...g, werk: werkTitel(g.opera_id) })),
         geplante_besuche: (roh.geplant ?? []).map(g => ({ ...g, werk: werkTitel(g.opera_id), haus: hausName(g.house_id) })),
         // url gilt einen Tag: so lange lässt sich jedes Foto herunterladen.
-        andenken: (roh.andenken ?? []).map(a => ({ abend: a.visit_id, oeffentlich: a.oeffentlich, angelegt: a.created_at, url: a.url })),
+        momentaufnahmen: (roh.andenken ?? []).map(a => ({ abend: a.visit_id, oeffentlich: a.oeffentlich, angelegt: a.created_at, url: a.url })),
         kommentare: roh.kommentare ?? [],
         gefaellt_mir: roh.likes ?? [],
         freunde: {

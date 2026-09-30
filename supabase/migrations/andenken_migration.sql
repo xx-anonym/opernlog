@@ -70,7 +70,7 @@ SET search_path = ''
 AS $$
 BEGIN
     IF (SELECT count(*) FROM public.andenken WHERE visit_id = NEW.visit_id) >= 6 THEN
-        RAISE EXCEPTION 'Höchstens 6 Andenken je Abend' USING ERRCODE = 'check_violation';
+        RAISE EXCEPTION 'Höchstens 6 Momentaufnahmen je Abend' USING ERRCODE = 'check_violation';
     END IF;
     RETURN NEW;
 END;
