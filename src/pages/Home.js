@@ -357,7 +357,8 @@ function abendListe(ziel, besuche, { mitFotos = false } = {}) {
     });
     fotos?.then((nachAbend) => neu.forEach(({ karte, v }) => {
       const zumAbend = nachAbend.get(String(v.id));
-      if (zumAbend?.length) karte.insertBefore(andenkenImFeed(zumAbend), karte.querySelector('.review-card__actions'));
+      // Neben Werk, Besetzung und Review; ob daneben oder darunter, regelt style.css.
+      if (zumAbend?.length) karte.querySelector('.review-card__koerper').appendChild(andenkenImFeed(zumAbend));
     }));
     gezeigt = Math.min(besuche.length, gezeigt + n);
     const rest = besuche.length - gezeigt;

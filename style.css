@@ -1111,11 +1111,34 @@ h3 {
 
 .andenken__mosaik--6 .andenken__foto:first-child { grid-area: span 2 / span 2; }
 
-/* Im Feed: höchstens drei Kacheln, flacher und ohne Schatten; auf breiten
-   Bildschirmen nicht über die ganze Karte. */
+/* Im Feed: höchstens drei Kacheln, flacher und ohne Schatten. Auf breiten
+   Karten rechts neben Werk, Besetzung und Review – dort war sonst nur leere
+   Fläche –, auf schmalen darunter. */
+.feed-list {
+    container: feed / inline-size;
+}
+
 .andenken--feed {
     margin: 4px 0 14px;
     max-width: 520px;
+}
+
+@container feed (min-width: 640px) {
+    .review-card__koerper:has(> .andenken--feed) {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .review-card__koerper > .review-card__inhalt {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .review-card__koerper > .andenken--feed {
+        flex: 0 0 300px;
+        margin: 2px 0 12px;
+    }
 }
 
 .andenken__mosaik--feed {

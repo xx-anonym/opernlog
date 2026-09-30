@@ -42,8 +42,8 @@ const mitVorschau = f => ({ ...f, vorschau: f.pfad.replace(/\.jpg$/, '-klein.jpg
 // Befreundet heißt: in beide Richtungen gefolgt.
 const FREUNDE = [{ follower_id: UID, following_id: FREMD }, { follower_id: FREMD, following_id: UID }];
 
-async function oeffne(hash, { andenken = [], speicher = {}, bild = null, follows = FREUNDE, adresseFuer = false } = {}) {
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
+async function oeffne(hash, { andenken = [], speicher = {}, bild = null, follows = FREUNDE, adresseFuer = false, breite = 390 } = {}) {
+    const ctx = await browser.newContext({ viewport: { width: breite, height: 900 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
@@ -277,9 +277,13 @@ test('Feed: freigegebene Fotos eines Freundes als Vorschau, private nicht', { sk
         const kacheln = await p.$$eval('.andenken--feed .andenken__foto img', bs => bs.map(b => b.getAttribute('src').split('#')[1]));
         assert.deepEqual(kacheln, fuenf.slice(0, 3).map(f => f.vorschau));
         assert.equal((await p.textContent('.andenken--feed .andenken__mehr')).trim(), '+2');
-        // Vor Gefällt-mir, in der Karte des Abends.
-        assert.equal(await p.evaluate(() => document.querySelector('.andenken--feed')
-            .nextElementSibling?.classList.contains('review-card__actions')), true);
+        // In der Karte des Abends, hinter Werk, Besetzung und Review – vor Gefällt-mir.
+        assert.equal(await p.evaluate(() => {
+            const fotos = document.querySelector('.andenken--feed');
+            return fotos.parentElement.classList.contains('review-card__koerper')
+                && fotos.previousElementSibling?.classList.contains('review-card__inhalt')
+                && fotos.parentElement.nextElementSibling?.classList.contains('review-card__actions');
+        }), true);
 
         await p.click('.andenken--feed .andenken__foto:nth-child(3) .andenken__oeffnen');
         assert.equal(await p.textContent('.andenken-gross__zahl'), '3 / 5');
@@ -305,6 +309,30 @@ test('signierte Adressen werden wiederverwendet – vom Feed zum Abend nichts ne
         assert.equal(await p.evaluate(() => window.__signiert.length), vorher);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
+});
+
+// Jonas, 1.10.2026: am Rechner zu groß, und rechts daneben nur leere Fläche.
+// Breit: neben dem Text, 300 px. Schmal: darunter über die Breite.
+test('Feed: breit rechts neben dem Text und klein, schmal darunter', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const drei = [1, 2, 3].map(i => mitVorschau(foto(`dddddddd-4444-4000-8000-00000000000${i}`, FREMD, FREMDER_ABEND, true)));
+    for (const breite of [1280, 390]) {
+        const { ctx, p } = await oeffne('#/', { andenken: drei, breite });
+        try {
+            await p.waitForSelector('.andenken--feed .andenken__foto');
+            const [text, fotos] = await p.evaluate(() => [
+                document.querySelector('.andenken--feed').previousElementSibling,
+                document.querySelector('.andenken--feed .andenken__mosaik'),
+            ].map(e => e.getBoundingClientRect().toJSON()));
+            if (breite > 600) {
+                assert.ok(fotos.left >= text.right, `nicht daneben: ${fotos.left} < ${text.right}`);
+                assert.ok(Math.abs(fotos.width - 300) < 1, `Breite ${fotos.width}`);
+                assert.ok(fotos.height <= 200.5, `Höhe ${fotos.height}`);
+            } else {
+                assert.ok(fotos.top >= text.bottom, `nicht darunter: ${fotos.top} < ${text.bottom}`);
+                assert.ok(fotos.width > 280, `Breite ${fotos.width}`);
+            }
+        } finally { await ctx.close(); }
+    }
 });
 
 test('Feed: bei nur einseitigem Folgen keine Fotos', { skip: fehltPlaywright, timeout: 60000 }, async () => {

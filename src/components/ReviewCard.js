@@ -93,6 +93,7 @@ export function ReviewCard(visit, options = {}) {
       <div class="review-card__rating"></div>
     </div>
     ${ausstehendMarke(visit)}
+    <div class="review-card__koerper"><div class="review-card__inhalt">
     ${showOpera && opera ? `
       <div class="review-card__opera" data-action="opera" data-opera-id="${opera.id}">
         <span class="review-card__opera-info">
@@ -117,6 +118,7 @@ export function ReviewCard(visit, options = {}) {
     ${visit.review && !compact ? `
       <p class="review-card__text">${escapeHTML(visit.review)}</p>
     ` : ''}
+    </div></div>
     ${visit.ausstehend ? '' : `
     <div class="review-card__actions">
       <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" data-action="like" data-visit-id="${visit.id}">
