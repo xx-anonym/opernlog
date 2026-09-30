@@ -9,7 +9,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase } from './umgebung.js';
+import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase, vorhangAuf } from './umgebung.js';
 
 const HANDY = { width: 390, height: 900 };
 const ICH = '11111111-1111-1111-1111-111111111111';
@@ -130,6 +130,8 @@ test('um 0:30 Uhr steht heute im Formular und lässt sich speichern', { skip: fe
     try {
         await p.goto(`${server.url}/index.html#/log?house=semperoper&opera=tosca`);
         await p.waitForSelector('#visitDate');
+        // Sonst landen die Klicks unten womöglich noch im Vorhang.
+        await vorhangAuf(p);
         assert.equal(await p.inputValue('#visitDate'), '2026-09-24');
         assert.equal(await p.getAttribute('#visitDate', 'max'), '2026-09-24');
 
@@ -141,7 +143,9 @@ test('um 0:30 Uhr steht heute im Formular und lässt sich speichern', { skip: fe
         });
         await p.locator('#ratingWidget .star').nth(3).click();
         await p.click('#logForm button[type="submit"]');
-        await p.waitForTimeout(400);
+        // Warten, bis gespeichert ist – aber nicht ewig: wird der Tag als
+        // Zukunft abgelehnt, kommt nichts, und die Prüfung darunter sagt es.
+        await p.waitForFunction(() => window.__gespeichert.length > 0, null, { timeout: 5000 }).catch(() => {});
         const gespeichert = await p.evaluate(() => window.__gespeichert);
         assert.equal(gespeichert.length, 1, 'der heutige Tag galt als Zukunft');
         assert.equal(gespeichert[0].date, '2026-09-24');
@@ -284,8 +288,14 @@ test('auf der Seite eines Abends steht der Komponist unter dem Titel', { skip: f
             location.hash = '#/visit/f9';
         }, { freund: FREUND });
         await p.waitForSelector('.review-card__opera-composer');
-        const titel = await p.locator('.review-card__opera-title').boundingBox();
-        const komponist = await p.locator('.review-card__opera-composer').boundingBox();
+        // Beide im selben Moment gemessen: die Karte blendet sich mit einer
+        // Bewegung ein, und zwei Messungen nacheinander fielen unter Last in
+        // verschiedene Bilder – der Titel stand dann sieben Pixel tiefer als
+        // der Komponist, der eine Aufnahme später gemessen war.
+        const { titel, komponist } = await p.evaluate(() => ({
+            titel: document.querySelector('.review-card__opera-title').getBoundingClientRect().toJSON(),
+            komponist: document.querySelector('.review-card__opera-composer').getBoundingClientRect().toJSON(),
+        }));
         assert.ok(komponist.y >= titel.y + titel.height - 2, `Komponist nicht unter dem Titel: ${JSON.stringify({ titel, komponist })}`);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }

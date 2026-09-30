@@ -89,11 +89,15 @@ test('der Feed zeigt erst fünf Abende, den Rest auf Knopfdruck', { skip: fehltP
         besuch('f' + i, FREUND, 'la-traviata', `2026-05-${String(i + 1).padStart(2, '0')}`, 4));
     const { ctx, p, fehler } = await oeffneFeed({ folgt: [{ follower_id: ICH, following_id: FREUND }], besuche: zwoelf });
     try {
+        // Erst wenn keine Abfrage mehr unterwegs ist: unter Last kam die
+        // Startseite sonst nach dem Klick noch einmal mit ihren Daten zurück
+        // und stellte wieder fünf Karten hin.
+        await p.waitForFunction(() => window.__unterwegs === 0);
         const karten = p.locator('.feed-list .review-card');
         assert.equal(await karten.count(), 5);
         assert.match(await p.innerText('.feed-mehr'), /Weitere Abende anzeigen \(7\)/);
         await p.click('.feed-mehr');
-        assert.equal(await karten.count(), 12);
+        await p.waitForFunction(() => document.querySelectorAll('.feed-list .review-card').length === 12);
         assert.equal(await p.locator('.feed-mehr').count(), 0, 'der Knopf bleibt, obwohl alles da ist');
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
