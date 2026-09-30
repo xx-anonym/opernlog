@@ -97,6 +97,12 @@ window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
 // addInitScript setzen, wenn beim Start schon welche da sein sollen.
 window.__geplant = window.__geplantVorgabe || [];
 window.__geplantFehler = null;   // gesetzt: jedes Anlegen scheitert damit
+// Andenken: Zeilen wie in der Datenbank (__andenkenVorgabe), die Dateien im
+// Speicher als { pfad: { typ, groesse } }. Gelesen wird wie unter RLS: eigene
+// alle, fremde nur öffentliche. __speicherGeloescht: was entfernt wurde.
+window.__andenken = window.__andenkenVorgabe || [];
+window.__speicher = window.__speicherVorgabe || {};
+window.__speicherGeloescht = [];
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -187,6 +193,26 @@ function builder(table) {
           return Promise.resolve({ data: null, error: null }).then(res, rej);
         }
         return Promise.resolve({ data: window.__geplant.filter(z => !filter.user_id || z.user_id === filter.user_id), error: null }).then(res, rej);
+      }
+      if (table === 'andenken') {
+        if (op === 'insert') {
+          const zeile = { oeffentlich: false, created_at: new Date().toISOString(), ...nutzlast };
+          window.__andenken.push(zeile);
+          return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
+        }
+        if (op === 'update') {
+          const treffer = window.__andenken.filter(z => z.id === filter.id && z.user_id === UID);
+          treffer.forEach(z => Object.assign(z, nutzlast));
+          return Promise.resolve({ data: treffer, error: null }).then(res, rej);
+        }
+        if (op === 'delete') {
+          window.__andenken = window.__andenken.filter(z => !(z.id === filter.id && z.user_id === UID));
+          return Promise.resolve({ data: null, error: null }).then(res, rej);
+        }
+        const sichtbar = window.__andenken
+          .filter(z => z.oeffentlich || z.user_id === UID)
+          .filter(z => Object.entries(filter).every(([spalte, wert]) => z[spalte] === wert));
+        return Promise.resolve({ data: sichtbar, error: null }).then(res, rej);
       }
       if (table === 'fehlerprotokoll' && op === 'insert') {
         window.__fehlerMeldungen.push(nutzlast);
@@ -340,6 +366,7 @@ window.supabase = { createClient: () => ({
     if (name === 'konto_loeschen') {
       if (window.__kontoFehler) return { data: null, error: { message: window.__kontoFehler } };
       window.__kontoGeloescht++;
+      window.__ablauf.push('konto_loeschen');
       return { data: null, error: null };
     }
     if (name === 'katalog_verweise') {
@@ -359,5 +386,24 @@ window.supabase = { createClient: () => ({
     },
   },
   from: builder,
+  storage: {
+    from: () => ({
+      upload: async (pfad, blob, optionen) => {
+        window.__speicher[pfad] = { typ: optionen?.contentType, blobTyp: blob?.type, groesse: blob?.size };
+        return { data: { path: pfad }, error: null };
+      },
+      remove: async (pfade) => {
+        for (const pfad of pfade) { delete window.__speicher[pfad]; window.__speicherGeloescht.push(pfad); }
+        window.__ablauf.push('dateien');
+        return { data: pfade.map(name => ({ name })), error: null };
+      },
+      // Ein Punkt als Bild: die Seite soll etwas laden können.
+      createSignedUrls: async (pfade) => ({
+        data: pfade.map(p => ({ path: p, error: null,
+          signedUrl: window.__bildAdresse || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==' })),
+        error: null,
+      }),
+    }),
+  },
 })};
 `;

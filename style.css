@@ -971,6 +971,161 @@ h3 {
     transform: scale(1.1); /* Prevent blurred edges */
 }
 
+/* Andenken: Fotos unter der Karte eines Abends (src/components/Andenken.js).
+   Drei Kacheln je Zeile, quadratisch beschnitten; an eigenen Fotos unten
+   links privat/öffentlich, oben rechts löschen. */
+.andenken {
+    position: relative;
+    margin-top: 24px;
+}
+
+.andenken[hidden] {
+    display: none;
+}
+
+.andenken__titel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+}
+
+.andenken__titel .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--gold);
+}
+
+.andenken__raster {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.andenken__foto {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+}
+
+.andenken__oeffnen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+}
+
+.andenken__oeffnen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.andenken__sicht,
+.andenken__weg {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.andenken__sicht {
+    left: 6px;
+    bottom: 6px;
+}
+
+.andenken__sicht--an {
+    color: var(--gold);
+}
+
+.andenken__sicht .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.andenken__weg {
+    top: 6px;
+    right: 6px;
+}
+
+.andenken__neu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.andenken__neu:hover {
+    border-color: var(--gold-dark);
+    color: var(--text);
+}
+
+.andenken__neu input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.andenken__neu span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.andenken__neu .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.andenken__neu--laedt {
+    cursor: progress;
+    opacity: 0.6;
+}
+
+/* Vergrößert: das ganze Foto auf dunklem Grund; Tippen schließt. */
+.andenken-gross__rahmen {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 94vw;
+    max-height: 90vh;
+    margin: auto;
+    cursor: zoom-out;
+}
+
+.andenken-gross__rahmen img {
+    max-width: 94vw;
+    max-height: 90vh;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
 /* --- Comments --- */
 .comment {
     background: rgba(255, 255, 255, 0.03);

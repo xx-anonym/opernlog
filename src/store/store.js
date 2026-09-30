@@ -1081,6 +1081,32 @@ class Store {
         }
     }
 
+    // ── Andenken: Fotos zu einem Abend ─────────────────────
+    //
+    // Nur in der Cloud, nichts davon liegt lokal: Fotos sind zu groß für den
+    // Gerätespeicher der App. Siehe src/components/Andenken.js.
+
+    async getAndenken(visitId) {
+        if (!this.isCloud) return [];
+        return sb.getAndenkenCloud(visitId);
+    }
+
+    /** foto: vorbereitet von fotoVorbereiten() in src/bild.js */
+    async andenkenHinzufuegen(visitId, foto) {
+        this._kontoNoetig();
+        return sb.addAndenkenCloud(visitId, neueKennung(), foto);
+    }
+
+    async andenkenSichtbarkeit(id, oeffentlich) {
+        this._kontoNoetig();
+        return sb.setAndenkenOeffentlichCloud(id, oeffentlich);
+    }
+
+    async andenkenLoeschen(andenken) {
+        this._kontoNoetig();
+        return sb.deleteAndenkenCloud(andenken);
+    }
+
     // ── Stats ────────────────────────────────────────────
     getStats(userId) {
         const visits = this.getVisitsByUser(userId);

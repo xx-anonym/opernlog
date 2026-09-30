@@ -40,8 +40,10 @@ export function DatenschutzPage() {
         <li><strong>Profil:</strong> Benutzername, Kürzel, Profilbild-Symbol, Beschreibung und wer dir
           Freundschaftsanfragen schicken darf.</li>
         <li><strong>Inhalte:</strong> deine Abende (Werk, Haus, Datum, Bewertung, Review, Dirigent, Regie,
-          Besetzung), vorgemerkte Abende, Listen und Wunschliste, Markierungen „schon gesehen“, Kommentare,
-          Likes, Freundschaften und Anfragen, Einladungslinks und Vorschläge für den Katalog.</li>
+          Besetzung), Fotos zu deinen Abenden, vorgemerkte Abende, Listen und Wunschliste, Markierungen
+          „schon gesehen“, Kommentare, Likes, Freundschaften und Anfragen, Einladungslinks und Vorschläge für
+          den Katalog. Fotos verkleinert die App vor dem Hochladen und entfernt dabei Aufnahmeort, Uhrzeit
+          und andere Angaben der Kamera.</li>
         <li><strong>Mitteilungen:</strong> wenn du sie einschaltest, die Push-Adresse deines Geräts und wann
           welche Mitteilung verschickt wurde.</li>
       </ul>
@@ -50,9 +52,9 @@ export function DatenschutzPage() {
 
       <h2>Wer was sehen kann</h2>
       <p>OpernLog ist ein offenes Tagebuch: dein Profil, deine Abende mit Bewertungen und Reviews,
-      Markierungen „schon gesehen“, Kommentare, Likes, Freundschaften und öffentliche Listen kann jeder
-      sehen, auch ohne Konto.
-      Nicht öffentlich sind deine E-Mail-Adresse, vorgemerkte Abende, private Listen,
+      Markierungen „schon gesehen“, Kommentare, Likes, Freundschaften, öffentliche Listen und Fotos, die du
+      als öffentlich markierst, kann jeder sehen, auch ohne Konto.
+      Nicht öffentlich sind deine E-Mail-Adresse, deine übrigen Fotos, vorgemerkte Abende, private Listen,
       Einladungslinks, Vorschläge und Mitteilungseinstellungen.</p>
 
       <h2>Auf deinem Gerät</h2>

@@ -1,5 +1,6 @@
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
+import { andenkenBereich } from '../components/Andenken.js';
 import { operas } from '../data/operas.js';
 
 export function VisitDetailPage(visitId) {
@@ -34,6 +35,7 @@ export function VisitDetailPage(visitId) {
 
         const content = page.querySelector('#visitContent');
         content.appendChild(ReviewCard(visit, { showOpera: true, showHouse: true, standalone: true }));
+        content.appendChild(andenkenBereich(visit));
         
         // Fix scroll position (prevent auto scroll down from previous page or DOM change)
         setTimeout(() => window.scrollTo(0, 0), 10);

@@ -786,6 +786,10 @@ export async function getSeasonVisitCounts(vonISO, bisISO) {
 }
 
 export async function deleteVisitCloud(visitId) {
+    // Erst die Fotos des Abends: ihre Zeilen gehen mit dem Abend, die Dateien
+    // nicht. Scheitert das, bleibt der Abend stehen und man kann es erneut
+    // versuchen.
+    await andenkenDateienLoeschen({ visitId });
     const sb = getSupabase();
     return unwrapWritten(
         await sb.from('visits').delete().eq('id', visitId).select(),
@@ -1286,6 +1290,9 @@ export async function meineDatenCloud() {
     let passkeys = null;
     try { passkeys = await listPasskeys(); } catch (e) { console.warn('[Supabase] Datenexport: Passkeys', e); }
 
+    // Die Fotos mit Adressen, die einen Tag lang gelten – zum Herunterladen.
+    const andenken = await mitAdressen(await lesen('andenken', q => q.select('*').eq('user_id', ich).order('created_at')) || [], 86400);
+
     const u = session.user;
     return {
         konto: {
@@ -1297,7 +1304,7 @@ export async function meineDatenCloud() {
             admin: !!admin,
         },
         profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
-        einladungen, vorschlaege, pushAbos, passkeys, personen, geplant,
+        einladungen, vorschlaege, pushAbos, passkeys, personen, geplant, andenken,
         katalog: { werke, haeuser, komponisten, bildausschnitte },
     };
 }
@@ -1335,6 +1342,93 @@ export async function deleteGeplantCloud(id) {
     const { error } = await sb.from('geplante_besuche').delete().eq('id', id).eq('user_id', session.user.id);
     if (error) throw new SupabaseError('Vormerkung entfernen', error);
     return true;
+}
+
+// ── Andenken: Fotos zu einem Abend ───────────────────────
+//
+// Zeilen in andenken, Dateien im privaten Bucket gleichen Namens unter
+// <user_id>/<visit_id>/<id>.jpg – siehe supabase/migrations/andenken_migration.sql.
+// Angezeigt wird über signierte Adressen; der Speicher gibt sie nur aus,
+// wenn das Lesen erlaubt ist (eigene, oder fremde öffentliche).
+
+const ANDENKEN = 'andenken';
+// Eine Stunde reicht für eine Sitzung auf der Seite eines Abends.
+const ANZEIGE_SEKUNDEN = 3600;
+
+async function mitAdressen(zeilen, sekunden = ANZEIGE_SEKUNDEN) {
+    if (!zeilen.length) return [];
+    const sb = getSupabase();
+    const { data, error } = await sb.storage.from(ANDENKEN).createSignedUrls(zeilen.map(z => z.pfad), sekunden);
+    if (error) throw new SupabaseError('Fotos laden', error);
+    const adresse = new Map((data || []).map(d => [d.path, d.signedUrl]));
+    return zeilen.map(z => ({ ...z, url: adresse.get(z.pfad) || null }));
+}
+
+/** Die Andenken eines Abends, die man sehen darf – eigene alle, fremde öffentliche. */
+export async function getAndenkenCloud(visitId) {
+    const sb = getSupabase();
+    const zeilen = unwrap(await sb.from('andenken')
+        .select('id, user_id, visit_id, pfad, oeffentlich, breite, hoehe, created_at')
+        .eq('visit_id', visitId)
+        .order('created_at'), 'Fotos laden') || [];
+    return mitAdressen(zeilen);
+}
+
+/**
+ * Lädt ein vorbereitetes Foto hoch (src/bild.js) und legt die Zeile an.
+ * Scheitert die Zeile, wird die Datei wieder entfernt – sonst läge sie
+ * verwaist im Speicher.
+ */
+export async function addAndenkenCloud(visitId, id, { blob, breite, hoehe }) {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Foto hochladen', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const pfad = `${session.user.id}/${visitId}/${id}.jpg`;
+    const hoch = await sb.storage.from(ANDENKEN).upload(pfad, blob, { contentType: 'image/jpeg', upsert: false });
+    if (hoch.error) throw new SupabaseError('Foto hochladen', hoch.error);
+    const result = await sb.from('andenken')
+        .insert({ id, user_id: session.user.id, visit_id: visitId, pfad, breite, hoehe })
+        .select('id, user_id, visit_id, pfad, oeffentlich, breite, hoehe, created_at');
+    try {
+        const zeile = unwrapWritten(result, 'Foto speichern');
+        return (await mitAdressen([zeile]))[0];
+    } catch (e) {
+        await sb.storage.from(ANDENKEN).remove([pfad]).catch(() => {});
+        throw e;
+    }
+}
+
+export async function setAndenkenOeffentlichCloud(id, oeffentlich) {
+    const sb = getSupabase();
+    unwrapWritten(await sb.from('andenken').update({ oeffentlich }).eq('id', id).select('id'), 'Sichtbarkeit ändern');
+    return true;
+}
+
+/** Erst die Datei, dann die Zeile: bliebe die Datei stehen, fände sie niemand mehr. */
+export async function deleteAndenkenCloud({ id, pfad }) {
+    const sb = getSupabase();
+    const weg = await sb.storage.from(ANDENKEN).remove([pfad]);
+    if (weg.error) throw new SupabaseError('Foto löschen', weg.error);
+    const { error } = await sb.from('andenken').delete().eq('id', id);
+    if (error) throw new SupabaseError('Foto löschen', error);
+    return true;
+}
+
+/**
+ * Entfernt die Dateien der eigenen Andenken – eines Abends oder alle. Vor dem
+ * Löschen eines Abends und des Kontos: die Zeilen verschwinden dann von
+ * selbst, die Dateien nicht (per SQL lassen sie sich nicht löschen).
+ */
+export async function andenkenDateienLoeschen({ visitId = null } = {}) {
+    const session = await getSession();
+    if (!session) return;
+    const sb = getSupabase();
+    let abfrage = sb.from('andenken').select('pfad').eq('user_id', session.user.id);
+    if (visitId) abfrage = abfrage.eq('visit_id', visitId);
+    const pfade = (unwrap(await abfrage, 'Fotos zum Löschen finden') || []).map(z => z.pfad);
+    if (!pfade.length) return;
+    const { error } = await sb.storage.from(ANDENKEN).remove(pfade);
+    if (error) throw new SupabaseError('Fotos löschen', error);
 }
 
 // ── Bereits gesehen (ohne Besuchseintrag) ────────────────
@@ -1601,6 +1695,9 @@ export async function kontoLoeschen() {
     if (!session) throw new Error('Dafür musst du angemeldet sein.');
     const sb = getSupabase();
     if (!sb) throw new Error('Keine Verbindung.');
+    // Die Fotos zuerst – mit dem Konto gingen nur ihre Zeilen, die Dateien
+    // blieben im Speicher.
+    await andenkenDateienLoeschen();
     const { error } = await sb.rpc('konto_loeschen');
     if (error) throw new SupabaseError('Konto löschen', error);
     // Mit dem Konto sind auch seine Passkeys weg. Bliebe der Vermerk, böte die
