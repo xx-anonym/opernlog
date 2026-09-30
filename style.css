@@ -1111,7 +1111,41 @@ h3 {
 
 .andenken__mosaik--6 .andenken__foto:first-child { grid-area: span 2 / span 2; }
 
-/* Eigenes öffentliches Foto: kleiner Globus, sonst nichts auf dem Bild. */
+/* Im Feed: höchstens drei Kacheln, flacher und ohne Schatten; auf breiten
+   Bildschirmen nicht über die ganze Karte. */
+.andenken--feed {
+    margin: 4px 0 14px;
+    max-width: 520px;
+}
+
+.andenken__mosaik--feed {
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+.andenken__mosaik--feed.andenken__mosaik--1 { aspect-ratio: 3 / 2; }
+.andenken__mosaik--feed.andenken__mosaik--2 { aspect-ratio: 2 / 1; }
+.andenken__mosaik--feed.andenken__mosaik--3 { aspect-ratio: 3 / 2; }
+
+/* "+2" auf der letzten Kachel im Feed: so viele Fotos mehr. */
+.andenken__mehr {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 10, 14, 0.62);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+/* Eigenes, für Freunde freigegebenes Foto: kleines Zeichen, sonst nichts
+   auf dem Bild. */
 .andenken__marke {
     position: absolute;
     left: 8px;

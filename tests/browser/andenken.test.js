@@ -1,9 +1,10 @@
-// Andenken: Fotos auf der Seite eines Abends. Hochladen verkleinert auf
-// höchstens 1600 px und schreibt ein JPEG; neu ist ein Foto privat. Die
-// Fotos stehen als Mosaik in der Karte, vor Gefällt-mir; Schalter und
-// Löschen gibt es erst in der Vergrößerung, dort blättert man auch. Bei
-// fremden Abenden nur die öffentlichen, ohne Knöpfe. Wer einen Abend löscht,
-// löscht auch die Dateien seiner Fotos.
+// Andenken: Fotos auf der Seite eines Abends und im Feed. Hochladen
+// verkleinert auf höchstens 1600 px, legt eine Vorschau daneben und schreibt
+// JPEGs; neu ist ein Foto privat. Die Fotos stehen als Mosaik in der Karte,
+// vor Gefällt-mir; Schalter und Löschen gibt es erst in der Vergrößerung,
+// dort blättert man auch. Freigegeben heißt: für Freunde (gegenseitig
+// gefolgt), nie für andere. Bei fremden Abenden nur diese, ohne Knöpfe. Wer
+// einen Abend löscht, löscht auch die Dateien seiner Fotos.
 
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -35,17 +36,24 @@ const BESUCHE = [
     { id: FREMDER_ABEND, user_id: FREMD, opera_id: 'aida', house_id: 'oper-leipzig', date: '2026-04-01', rating: 5 },
 ];
 const pfad = (nutzer, abend, id) => `${nutzer}/${abend}/${id}.jpg`;
+// Ohne Vorschau, wie Fotos von vor dem 1.10.2026; mitVorschau() für neuere.
 const foto = (id, nutzer, abend, oeffentlich) => ({ id, user_id: nutzer, visit_id: abend, pfad: pfad(nutzer, abend, id), oeffentlich });
+const mitVorschau = f => ({ ...f, vorschau: f.pfad.replace(/\.jpg$/, '-klein.jpg') });
+// Befreundet heißt: in beide Richtungen gefolgt.
+const FREUNDE = [{ follower_id: UID, following_id: FREMD }, { follower_id: FREMD, following_id: UID }];
 
-async function oeffne(hash, { andenken = [], speicher = {}, bild = null } = {}) {
+async function oeffne(hash, { andenken = [], speicher = {}, bild = null, follows = FREUNDE, adresseFuer = false } = {}) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
-    await p.addInitScript(([b, a, s, bild]) => {
+    await p.addInitScript(([b, a, s, bild, f, fuer]) => {
         window.__besucheVorgabe = b; window.__andenkenVorgabe = a; window.__speicherVorgabe = s;
+        window.__followsVorgabe = f;
         if (bild) window.__bildAdresse = bild;
-    }, [BESUCHE, andenken, speicher, bild]);
+        // Jede Datei ihre eigene Adresse: so sieht man, ob Vorschau oder Foto geladen wird.
+        if (fuer) window.__bildAdresseFuer = pf => `${bild}#${pf}`;
+    }, [BESUCHE, andenken, speicher, bild, follows, adresseFuer]);
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html${hash}`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
@@ -96,6 +104,12 @@ test('eigener Abend: Foto hochladen – verkleinert, als JPEG, privat', { skip: 
         assert.equal(zeile.oeffentlich, false);
         const datei = await p.evaluate(pf => window.__speicher[pf], zeile.pfad);
         assert.deepEqual([datei.typ, datei.blobTyp], ['image/jpeg', 'image/jpeg']);
+        // Daneben die Vorschau, kleiner; beide darf der Browser lange behalten.
+        assert.equal(zeile.vorschau, zeile.pfad.replace(/\.jpg$/, '-klein.jpg'));
+        const klein = await p.evaluate(pf => window.__speicher[pf], zeile.vorschau);
+        assert.deepEqual([klein.typ, klein.blobTyp], ['image/jpeg', 'image/jpeg']);
+        assert.ok(klein.groesse < datei.groesse, `${klein.groesse} gegen ${datei.groesse}`);
+        assert.deepEqual([datei.cache, klein.cache], ['31536000', '31536000']);
 
         await p.waitForSelector('.andenken__foto img');
         // Privat: kein Globus auf der Kachel, in der Vergrößerung "Privat".
@@ -109,14 +123,18 @@ test('eigener Abend: Foto hochladen – verkleinert, als JPEG, privat', { skip: 
 });
 
 test('eigener Abend: öffentlich schalten, dann löschen – Datei und Zeile weg', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const f = foto('cccccccc-3333-4000-8000-000000000003', UID, MEIN_ABEND, false);
-    const { ctx, p, fehler } = await oeffne(`#/visit/${MEIN_ABEND}`, { andenken: [f], speicher: { [f.pfad]: { typ: 'image/jpeg' } } });
+    const f = mitVorschau(foto('cccccccc-3333-4000-8000-000000000003', UID, MEIN_ABEND, false));
+    const { ctx, p, fehler } = await oeffne(`#/visit/${MEIN_ABEND}`,
+        { andenken: [f], speicher: { [f.pfad]: { typ: 'image/jpeg' }, [f.vorschau]: { typ: 'image/jpeg' } } });
     try {
         await p.waitForSelector('.andenken__foto img');
         assert.equal(await p.locator('.andenken__marke').count(), 0);
         await p.click('.andenken__oeffnen');
+        assert.equal((await p.textContent('.andenken-gross__sicht')).trim(), 'Privat');
         await p.click('.andenken-gross__sicht[aria-pressed="false"]');
         await p.waitForSelector('.andenken-gross__sicht[aria-pressed="true"]');
+        // Freigegeben heißt: für Freunde – das Wort "öffentlich" steht nirgends.
+        assert.equal((await p.textContent('.andenken-gross__sicht')).trim(), 'Freunde');
         assert.equal(await p.evaluate(() => window.__andenken[0].oeffentlich), true);
         // Das Mosaik darunter zeigt jetzt den Globus.
         assert.equal(await p.locator('.andenken__mosaik .andenken__marke').count(), 1);
@@ -124,7 +142,7 @@ test('eigener Abend: öffentlich schalten, dann löschen – Datei und Zeile weg
         p.on('dialog', d => d.accept());
         await p.click('.andenken-gross__weg');
         await p.waitForFunction(() => window.__andenken.length === 0);
-        assert.deepEqual(await p.evaluate(() => window.__speicherGeloescht), [f.pfad]);
+        assert.deepEqual(await p.evaluate(() => window.__speicherGeloescht), [f.pfad, f.vorschau]);
         // Das letzte Foto ist weg: Vergrößerung zu, Mosaik leer.
         await p.waitForSelector('.andenken-gross', { state: 'detached' });
         await p.waitForSelector('.andenken__foto', { state: 'detached' });
@@ -152,6 +170,19 @@ test('fremder Abend: nur die öffentlichen Fotos, keine Knöpfe', { skip: fehltP
         await p.waitForSelector('.andenken-gross', { state: 'detached' });
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
+});
+
+test('nur einseitig gefolgt: auch freigegebene Fotos bleiben unsichtbar', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const freigegeben = foto('dddddddd-4444-4000-8000-000000000004', FREMD, FREMDER_ABEND, true);
+    for (const follows of [[{ follower_id: UID, following_id: FREMD }], [{ follower_id: FREMD, following_id: UID }], []]) {
+        const { ctx, p } = await oeffne(`#/visit/${FREMDER_ABEND}`, { andenken: [freigegeben], follows });
+        try {
+            await p.waitForSelector('.review-card');
+            await p.waitForFunction(() => window.__andenkenGelesen > 0);
+            await p.waitForFunction(() => document.querySelector('.andenken')?.hidden === true);
+            assert.equal(await p.locator('.andenken__foto').count(), 0, JSON.stringify(follows));
+        } finally { await ctx.close(); }
+    }
 });
 
 test('fremder Abend ohne öffentliche Fotos: kein Abschnitt', { skip: fehltPlaywright, timeout: 60000 }, async () => {
@@ -235,6 +266,58 @@ test('einen Abend löschen entfernt auch die Dateien seiner Fotos', { skip: fehl
     } finally { await ctx.close(); }
 });
 
+// Im Feed: die freigegebenen Fotos eines Freundes, höchstens drei Kacheln
+// als Vorschau, "+2" für den Rest; vergrößert das Foto selbst, durch alle.
+test('Feed: freigegebene Fotos eines Freundes als Vorschau, private nicht', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const fuenf = [1, 2, 3, 4, 5].map(i => mitVorschau(foto(`dddddddd-4444-4000-8000-00000000000${i}`, FREMD, FREMDER_ABEND, true)));
+    const privat = mitVorschau(foto('eeeeeeee-5555-4000-8000-000000000005', FREMD, FREMDER_ABEND, false));
+    const { ctx, p, fehler } = await oeffne('#/', { andenken: [...fuenf, privat], bild: BILD, adresseFuer: true });
+    try {
+        await p.waitForSelector('.review-card .andenken--feed');
+        const kacheln = await p.$$eval('.andenken--feed .andenken__foto img', bs => bs.map(b => b.getAttribute('src').split('#')[1]));
+        assert.deepEqual(kacheln, fuenf.slice(0, 3).map(f => f.vorschau));
+        assert.equal((await p.textContent('.andenken--feed .andenken__mehr')).trim(), '+2');
+        // Vor Gefällt-mir, in der Karte des Abends.
+        assert.equal(await p.evaluate(() => document.querySelector('.andenken--feed')
+            .nextElementSibling?.classList.contains('review-card__actions')), true);
+
+        await p.click('.andenken--feed .andenken__foto:nth-child(3) .andenken__oeffnen');
+        assert.equal(await p.textContent('.andenken-gross__zahl'), '3 / 5');
+        assert.equal((await p.getAttribute('.andenken-gross img', 'src')).split('#')[1], fuenf[2].pfad);
+        assert.equal(await p.locator('.andenken-gross__knopf').count(), 0);
+        await p.keyboard.press('ArrowRight');
+        assert.equal(await p.textContent('.andenken-gross__zahl'), '4 / 5');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+// Jede neue Signatur ist eine neue Adresse, also für den Browser eine neue
+// Datei. Vom Feed auf den Abend: dieselben Fotos, keine neuen Signaturen.
+test('signierte Adressen werden wiederverwendet – vom Feed zum Abend nichts neu', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const zwei = [1, 2].map(i => mitVorschau(foto(`dddddddd-4444-4000-8000-00000000000${i}`, FREMD, FREMDER_ABEND, true)));
+    const { ctx, p, fehler } = await oeffne('#/', { andenken: zwei });
+    try {
+        await p.waitForSelector('.andenken--feed .andenken__foto');
+        const vorher = await p.evaluate(() => window.__signiert.length);
+        assert.equal(vorher, 4);
+        await p.evaluate(a => { location.hash = `#/visit/${a}`; }, FREMDER_ABEND);
+        await p.waitForSelector('.andenken__mosaik--2 .andenken__foto');
+        assert.equal(await p.evaluate(() => window.__signiert.length), vorher);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Feed: bei nur einseitigem Folgen keine Fotos', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const f = mitVorschau(foto('dddddddd-4444-4000-8000-000000000004', FREMD, FREMDER_ABEND, true));
+    const { ctx, p } = await oeffne('#/', { andenken: [f], follows: [{ follower_id: UID, following_id: FREMD }] });
+    try {
+        await p.waitForSelector('.feed-list .review-card');
+        await p.waitForFunction(() => window.__andenkenGelesen > 0);
+        await p.waitForTimeout(200);
+        assert.equal(await p.locator('.andenken--feed').count(), 0);
+    } finally { await ctx.close(); }
+});
+
 // Mit dem Konto gingen nur die Zeilen; die Dateien müssen vorher weg.
 test('Konto löschen: erst die eigenen Fotodateien, dann das Konto', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const meins = foto('cccccccc-3333-4000-8000-000000000003', UID, MEIN_ABEND, false);
@@ -278,7 +361,9 @@ test('beim Loggen: zwei Fotos, eines öffentlich – nach dem Speichern am neuen
         assert.deepEqual(zeilen.map(z => z.visit_id), [besuch.id, besuch.id]);
         assert.deepEqual(zeilen.map(z => z.oeffentlich), [false, true]);
         assert.deepEqual(zeilen.map(z => [z.breite, z.hoehe]), [[1600, 800], [800, 1200]]);
-        assert.equal(Object.keys(await p.evaluate(() => window.__speicher)).length, 2);
+        // Je Foto zwei Dateien: das Foto und seine Vorschau.
+        assert.equal(Object.keys(await p.evaluate(() => window.__speicher)).length, 4);
+        assert.deepEqual(zeilen.map(z => !!z.vorschau), [true, true]);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

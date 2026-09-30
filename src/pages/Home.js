@@ -23,6 +23,7 @@ import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, showToast, runWithFeedback } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { BlindSpots } from '../components/BlindSpots.js';
+import { andenkenImFeed } from '../components/Andenken.js';
 import { store } from '../store/store.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -263,7 +264,7 @@ function feedAbschnitt() {
     el.innerHTML = `<h2 class="section__title">${icon('feed')}Von deinen Freunden</h2>`;
 
     if (feed.length) {
-      abendListe(el, feed);
+      abendListe(el, feed, { mitFotos: true });
       return;
     }
 
@@ -325,17 +326,39 @@ async function gemeinschaft(el) {
 const ABENDE_SICHTBAR = 5;
 const ABENDE_NACHLADEN = 10;
 
-/** Die Karten in `ziel`, erst ABENDE_SICHTBAR, dann auf Knopfdruck mehr. */
-function abendListe(ziel, besuche) {
+/**
+ * Die Karten in `ziel`, erst ABENDE_SICHTBAR, dann auf Knopfdruck mehr.
+ *
+ * `mitFotos`: die für Freunde freigegebenen Momentaufnahmen dazu – nur im
+ * Feed der Freunde; bei Fremden gäbe die Datenbank ohnehin keine heraus.
+ * Eine Abfrage für alle Abende, die Karten stehen schon vorher da; die
+ * Fotos rücken nach, sobald sie da sind. Scheitert das, bleibt der Feed
+ * eben ohne Fotos.
+ */
+function abendListe(ziel, besuche, { mitFotos = false } = {}) {
   const liste = document.createElement('div');
   liste.className = 'feed-list';
   const mehr = document.createElement('button');
   mehr.type = 'button';
   mehr.className = 'btn btn--outline feed-mehr';
+  const fotos = mitFotos
+    ? sb.getFreigegebeneAndenkenCloud(besuche.map(v => v.id)).catch((e) => {
+      console.warn('[Feed] Fotos laden', e);
+      return new Map();
+    })
+    : null;
 
   let gezeigt = 0;
   const zeige = (n) => {
-    besuche.slice(gezeigt, gezeigt + n).forEach(v => liste.appendChild(ReviewCard(v)));
+    const neu = besuche.slice(gezeigt, gezeigt + n).map((v) => {
+      const karte = ReviewCard(v);
+      liste.appendChild(karte);
+      return { karte, v };
+    });
+    fotos?.then((nachAbend) => neu.forEach(({ karte, v }) => {
+      const zumAbend = nachAbend.get(String(v.id));
+      if (zumAbend?.length) karte.insertBefore(andenkenImFeed(zumAbend), karte.querySelector('.review-card__actions'));
+    }));
     gezeigt = Math.min(besuche.length, gezeigt + n);
     const rest = besuche.length - gezeigt;
     if (rest > 0) mehr.textContent = `Weitere Abende anzeigen (${rest})`;

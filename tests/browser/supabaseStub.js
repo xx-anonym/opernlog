@@ -18,7 +18,7 @@ window.__lists = [];    // Listen (Wunschliste u. a.), die die App anlegt oder �
 // Besuchszeilen, wie sie aus der Cloud kaemen. __besucheVorgabe per
 // addInitScript setzen, wenn beim Start schon welche da sein sollen.
 window.__visits = window.__besucheVorgabe || [];
-window.__follows = [];  // { follower_id, following_id } – wem der Testnutzer folgt
+window.__follows = window.__followsVorgabe || [];  // { follower_id, following_id } – wer wem folgt
 // Neue Besuche: jeder Versuch landet in __besuchVersuche. __besuchFehler ist
 // eine Schlange – je Versuch wird der vorderste Fehler geliefert, solange
 // einer da ist. Eine schon vorhandene Kennung scheitert wie in der echten
@@ -98,8 +98,10 @@ window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
 window.__geplant = window.__geplantVorgabe || [];
 window.__geplantFehler = null;   // gesetzt: jedes Anlegen scheitert damit
 // Andenken: Zeilen wie in der Datenbank (__andenkenVorgabe), die Dateien im
-// Speicher als { pfad: { typ, groesse } }. Gelesen wird wie unter RLS: eigene
-// alle, fremde nur öffentliche. __speicherGeloescht: was entfernt wurde.
+// Speicher als { pfad: { typ, groesse, cache } }. Gelesen wird wie unter RLS:
+// eigene alle, fremde nur freigegebene von Freunden (gegenseitig gefolgt,
+// __follows). __speicherGeloescht: was entfernt wurde. __bildAdresseFuer(pfad)
+// gibt, falls gesetzt, jeder Datei ihre eigene Adresse.
 window.__andenken = window.__andenkenVorgabe || [];
 window.__speicher = window.__speicherVorgabe || {};
 window.__speicherGeloescht = [];
@@ -209,9 +211,12 @@ function builder(table) {
           window.__andenken = window.__andenken.filter(z => !(z.id === filter.id && z.user_id === UID));
           return Promise.resolve({ data: null, error: null }).then(res, rej);
         }
+        window.__andenkenGelesen = (window.__andenkenGelesen || 0) + 1;
+        const folgt = (von, zu) => window.__follows.some(f => f.follower_id === von && f.following_id === zu);
         const sichtbar = window.__andenken
-          .filter(z => z.oeffentlich || z.user_id === UID)
-          .filter(z => Object.entries(filter).every(([spalte, wert]) => z[spalte] === wert));
+          .filter(z => z.user_id === UID || (z.oeffentlich && folgt(UID, z.user_id) && folgt(z.user_id, UID)))
+          .filter(z => Object.entries(filter).every(([spalte, wert]) => z[spalte] === wert))
+          .filter(z => Object.entries(drin).every(([spalte, werte]) => werte.includes(z[spalte])));
         return Promise.resolve({ data: sichtbar, error: null }).then(res, rej);
       }
       if (table === 'fehlerprotokoll' && op === 'insert') {
@@ -389,7 +394,7 @@ window.supabase = { createClient: () => ({
   storage: {
     from: () => ({
       upload: async (pfad, blob, optionen) => {
-        window.__speicher[pfad] = { typ: optionen?.contentType, blobTyp: blob?.type, groesse: blob?.size };
+        window.__speicher[pfad] = { typ: optionen?.contentType, blobTyp: blob?.type, groesse: blob?.size, cache: optionen?.cacheControl };
         return { data: { path: pfad }, error: null };
       },
       remove: async (pfade) => {
@@ -398,9 +403,9 @@ window.supabase = { createClient: () => ({
         return { data: pfade.map(name => ({ name })), error: null };
       },
       // Ein Punkt als Bild: die Seite soll etwas laden können.
-      createSignedUrls: async (pfade) => ({
+      createSignedUrls: async (pfade) => (window.__signiert = [...(window.__signiert || []), ...pfade], {
         data: pfade.map(p => ({ path: p, error: null,
-          signedUrl: window.__bildAdresse || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==' })),
+          signedUrl: window.__bildAdresseFuer?.(p) || window.__bildAdresse || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==' })),
         error: null,
       }),
     }),

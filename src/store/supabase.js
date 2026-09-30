@@ -1347,53 +1347,118 @@ export async function deleteGeplantCloud(id) {
 // ── Andenken: Fotos zu einem Abend ───────────────────────
 //
 // Zeilen in andenken, Dateien im privaten Bucket gleichen Namens unter
-// <user_id>/<visit_id>/<id>.jpg – siehe supabase/migrations/andenken_migration.sql.
-// Angezeigt wird über signierte Adressen; der Speicher gibt sie nur aus,
-// wenn das Lesen erlaubt ist (eigene, oder fremde öffentliche).
+// <user_id>/<visit_id>/<id>.jpg, dazu die Vorschau <id>-klein.jpg – siehe
+// supabase/migrations/andenken_migration.sql. Angezeigt wird über signierte
+// Adressen; der Speicher gibt sie nur aus, wenn das Lesen erlaubt ist
+// (eigene, oder die für Freunde freigegebenen von Freunden).
 
 const ANDENKEN = 'andenken';
+const ANDENKEN_SPALTEN = 'id, user_id, visit_id, pfad, vorschau, oeffentlich, breite, hoehe, created_at';
 // Eine Stunde reicht für eine Sitzung auf der Seite eines Abends.
 const ANZEIGE_SEKUNDEN = 3600;
+// Die Dateien ändern sich nie (jedes Foto hat seinen eigenen Namen); der
+// Browser darf sie also lange behalten.
+const DATEI_CACHE = '31536000';
+
+// Signierte Adressen, solange sie noch eine Weile gelten. Jede neue
+// Signatur ist eine neue Adresse – und damit für den Browser eine neue
+// Datei, die er noch einmal lädt. Wer zwischen Feed und Abend hin- und
+// herwechselt, bekäme sonst dasselbe Foto jedes Mal frisch übers Netz.
+const adressen = new Map();   // pfad -> { url, bis }
+const RESTZEIT_MS = 10 * 60 * 1000;
 
 async function mitAdressen(zeilen, sekunden = ANZEIGE_SEKUNDEN) {
     if (!zeilen.length) return [];
-    const sb = getSupabase();
-    const { data, error } = await sb.storage.from(ANDENKEN).createSignedUrls(zeilen.map(z => z.pfad), sekunden);
-    if (error) throw new SupabaseError('Fotos laden', error);
-    const adresse = new Map((data || []).map(d => [d.path, d.signedUrl]));
-    return zeilen.map(z => ({ ...z, url: adresse.get(z.pfad) || null }));
+    const merken = sekunden === ANZEIGE_SEKUNDEN;
+    const pfade = [...new Set(zeilen.flatMap(z => [z.pfad, z.vorschau]).filter(Boolean))];
+    const jetzt = Date.now();
+    const offen = merken ? pfade.filter(p => !(adressen.get(p)?.bis - jetzt > RESTZEIT_MS)) : pfade;
+    const neu = new Map();
+    if (offen.length) {
+        const sb = getSupabase();
+        const { data, error } = await sb.storage.from(ANDENKEN).createSignedUrls(offen, sekunden);
+        if (error) throw new SupabaseError('Fotos laden', error);
+        for (const d of data || []) {
+            if (!d.signedUrl) continue;
+            neu.set(d.path, d.signedUrl);
+            if (merken) adressen.set(d.path, { url: d.signedUrl, bis: jetzt + sekunden * 1000 });
+        }
+    }
+    const adresse = p => neu.get(p) || (merken ? adressen.get(p)?.url : null) || null;
+    return zeilen.map(z => ({
+        ...z,
+        url: adresse(z.pfad),
+        // Ältere Fotos haben keine Vorschau – dann eben das Foto selbst.
+        vorschauUrl: (z.vorschau && adresse(z.vorschau)) || adresse(z.pfad),
+    }));
 }
 
-/** Die Andenken eines Abends, die man sehen darf – eigene alle, fremde öffentliche. */
+/** Die Andenken eines Abends, die man sehen darf – eigene alle, von Freunden die freigegebenen. */
 export async function getAndenkenCloud(visitId) {
     const sb = getSupabase();
     const zeilen = unwrap(await sb.from('andenken')
-        .select('id, user_id, visit_id, pfad, oeffentlich, breite, hoehe, created_at')
+        .select(ANDENKEN_SPALTEN)
         .eq('visit_id', visitId)
         .order('created_at'), 'Fotos laden') || [];
     return mitAdressen(zeilen);
 }
 
 /**
- * Lädt ein vorbereitetes Foto hoch (src/bild.js) und legt die Zeile an.
- * Scheitert die Zeile, wird die Datei wieder entfernt – sonst läge sie
- * verwaist im Speicher.
+ * Die für Freunde freigegebenen Andenken mehrerer Abende, für den Feed – in
+ * einer Abfrage statt einer je Karte. Die Regel in der Datenbank lässt nur
+ * die von Freunden durch; hier kommt nur die Freigabe dazu, damit auch die
+ * eigenen privaten nicht im Feed stehen.
+ * @returns {Promise<Map<string, Array>>} Abend-ID -> Fotos
  */
-export async function addAndenkenCloud(visitId, id, { blob, breite, hoehe, oeffentlich = false }) {
+export async function getFreigegebeneAndenkenCloud(visitIds) {
+    const ids = [...new Set(visitIds.map(String))];
+    const nachAbend = new Map();
+    if (!ids.length) return nachAbend;
+    const sb = getSupabase();
+    const zeilen = unwrap(await sb.from('andenken')
+        .select(ANDENKEN_SPALTEN)
+        .in('visit_id', ids)
+        .eq('oeffentlich', true)
+        .order('created_at'), 'Fotos im Feed laden') || [];
+    for (const z of await mitAdressen(zeilen)) {
+        const id = String(z.visit_id);
+        if (!nachAbend.has(id)) nachAbend.set(id, []);
+        nachAbend.get(id).push(z);
+    }
+    return nachAbend;
+}
+
+/**
+ * Lädt ein vorbereitetes Foto samt Vorschau hoch (src/bild.js) und legt die
+ * Zeile an. Scheitert etwas danach, werden die Dateien wieder entfernt –
+ * sonst lägen sie verwaist im Speicher.
+ */
+export async function addAndenkenCloud(visitId, id, { blob, vorschau: vorschauBlob, breite, hoehe, oeffentlich = false }) {
     const session = await getSession();
     if (!session) throw new SupabaseError('Foto hochladen', { message: 'Nicht eingeloggt' });
     const sb = getSupabase();
     const pfad = `${session.user.id}/${visitId}/${id}.jpg`;
-    const hoch = await sb.storage.from(ANDENKEN).upload(pfad, blob, { contentType: 'image/jpeg', upsert: false });
-    if (hoch.error) throw new SupabaseError('Foto hochladen', hoch.error);
-    const result = await sb.from('andenken')
-        .insert({ id, user_id: session.user.id, visit_id: visitId, pfad, breite, hoehe, oeffentlich: !!oeffentlich })
-        .select('id, user_id, visit_id, pfad, oeffentlich, breite, hoehe, created_at');
+    const vorschau = vorschauBlob ? pfad.replace(/\.jpg$/, '-klein.jpg') : null;
+    const optionen = { contentType: 'image/jpeg', upsert: false, cacheControl: DATEI_CACHE };
+    const hochgeladen = [];
+    const aufraeumen = () => (hochgeladen.length
+        ? sb.storage.from(ANDENKEN).remove(hochgeladen).catch(() => {}) : null);
     try {
+        const hoch = await sb.storage.from(ANDENKEN).upload(pfad, blob, optionen);
+        if (hoch.error) throw new SupabaseError('Foto hochladen', hoch.error);
+        hochgeladen.push(pfad);
+        if (vorschau) {
+            const klein = await sb.storage.from(ANDENKEN).upload(vorschau, vorschauBlob, optionen);
+            if (klein.error) throw new SupabaseError('Foto hochladen', klein.error);
+            hochgeladen.push(vorschau);
+        }
+        const result = await sb.from('andenken')
+            .insert({ id, user_id: session.user.id, visit_id: visitId, pfad, vorschau, breite, hoehe, oeffentlich: !!oeffentlich })
+            .select(ANDENKEN_SPALTEN);
         const zeile = unwrapWritten(result, 'Foto speichern');
         return (await mitAdressen([zeile]))[0];
     } catch (e) {
-        await sb.storage.from(ANDENKEN).remove([pfad]).catch(() => {});
+        await aufraeumen();
         throw e;
     }
 }
@@ -1404,10 +1469,10 @@ export async function setAndenkenOeffentlichCloud(id, oeffentlich) {
     return true;
 }
 
-/** Erst die Datei, dann die Zeile: bliebe die Datei stehen, fände sie niemand mehr. */
-export async function deleteAndenkenCloud({ id, pfad }) {
+/** Erst die Dateien, dann die Zeile: blieben die Dateien stehen, fände sie niemand mehr. */
+export async function deleteAndenkenCloud({ id, pfad, vorschau = null }) {
     const sb = getSupabase();
-    const weg = await sb.storage.from(ANDENKEN).remove([pfad]);
+    const weg = await sb.storage.from(ANDENKEN).remove([pfad, vorschau].filter(Boolean));
     if (weg.error) throw new SupabaseError('Foto löschen', weg.error);
     const { error } = await sb.from('andenken').delete().eq('id', id);
     if (error) throw new SupabaseError('Foto löschen', error);
@@ -1423,9 +1488,10 @@ export async function andenkenDateienLoeschen({ visitId = null } = {}) {
     const session = await getSession();
     if (!session) return;
     const sb = getSupabase();
-    let abfrage = sb.from('andenken').select('pfad').eq('user_id', session.user.id);
+    let abfrage = sb.from('andenken').select('pfad, vorschau').eq('user_id', session.user.id);
     if (visitId) abfrage = abfrage.eq('visit_id', visitId);
-    const pfade = (unwrap(await abfrage, 'Fotos zum Löschen finden') || []).map(z => z.pfad);
+    const pfade = (unwrap(await abfrage, 'Fotos zum Löschen finden') || [])
+        .flatMap(z => [z.pfad, z.vorschau]).filter(Boolean);
     if (!pfade.length) return;
     const { error } = await sb.storage.from(ANDENKEN).remove(pfade);
     if (error) throw new SupabaseError('Fotos löschen', error);

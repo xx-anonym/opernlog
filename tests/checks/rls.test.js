@@ -60,6 +60,27 @@ test('nur die bewusst öffentlichen Tabellen sind für jeden lesbar', () => {
     assert.deepEqual([...new Set(oeffentlichLesbareTabellen(allesSql))], OEFFENTLICH_LESBAR);
 });
 
+// Momentaufnahmen, die man freigibt, sehen nur Freunde – nie Dritte und nie
+// ohne Anmeldung (Jonas, 1.10.2026). Freunde heißt: gegenseitig gefolgt.
+// Einseitig folgen kann jeder von sich aus ("User kann folgen"); das allein
+// darf nichts freischalten. Die Dateien fragen dieselbe Regel ab.
+test('Momentaufnahmen: freigegebene nur für Freunde, nichts ohne Anmeldung', () => {
+    const datei = sqlOhneKommentare('supabase/migrations/andenken_migration.sql');
+    const regel = (tabelle, name) => datei.split(';')
+        .find(stelle => new RegExp(`CREATE POLICY\\s+"${name}"\\s+ON\\s+${tabelle}\\s`, 'i').test(stelle));
+    const lesen = regel('andenken', 'Andenken lesen');
+    assert.ok(lesen, 'Regel "Andenken lesen" fehlt');
+    assert.match(lesen, /FOR SELECT\s+TO authenticated\s/i);
+    assert.match(lesen, /f\.follower_id = andenken\.user_id\s+AND f\.following_id = \(SELECT auth\.uid\(\)\)/i);
+    assert.match(lesen, /f\.follower_id = \(SELECT auth\.uid\(\)\)\s+AND f\.following_id = andenken\.user_id/i);
+    const ansehen = regel('storage\\.objects', 'Andenken ansehen');
+    assert.ok(ansehen, 'Regel "Andenken ansehen" fehlt');
+    assert.match(ansehen, /FOR SELECT\s+TO authenticated\s/i);
+    assert.match(ansehen, /FROM public\.andenken a/i);
+    // Kein Leserecht für anon – auch nicht aus einer anderen Datei.
+    assert.doesNotMatch(allesSql, /GRANT[^;]*SELECT[^;]*ON\s+andenken\s+TO[^;]*anon/i);
+});
+
 test('Einladungscodes sind nicht öffentlich lesbar', () => {
     // Wer die Codes lesen kann, kann sich über accept_invite() zum
     // gegenseitigen Kontakt jedes Nutzers machen, der je einen Link erzeugt hat.
