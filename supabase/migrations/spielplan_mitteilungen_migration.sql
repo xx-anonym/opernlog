@@ -171,6 +171,8 @@ BEGIN
         WHERE EXISTS (SELECT 1 FROM jsonb_array_elements_text(e->'termine') AS t(tag) WHERE t.tag::date >= current_date)
         ON CONFLICT (werk, haus) DO NOTHING;
 
+    -- push_nach_abend() liest diesen Abruf eine Minute vorher (7:04) für die
+    -- Namen von Werk und Haus; siehe push_nach_abend_migration.sql.
     IF abruf IS NOT NULL THEN
         DELETE FROM public.spielplan_abruf WHERE id <= abruf;
     END IF;

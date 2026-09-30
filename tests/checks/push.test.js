@@ -41,3 +41,22 @@ test('niemand außer der Datenbank kann push_senden aufrufen', () => {
     assert.match(SQL, /REVOKE ALL ON FUNCTION public\.push_senden\([^)]*\) FROM PUBLIC, anon, authenticated;/);
     assert.match(SQL, /REVOKE ALL ON FUNCTION public\.push_intern\(\) FROM PUBLIC, anon, authenticated;/);
 });
+
+// push_nach_abend() holt die Namen von Werk und Haus aus dem Spielplan-Abruf
+// von spielplan_holen(); spielplan_abgleichen() löscht ihn danach. Rückt einer
+// der drei Termine, kommt die Mitteilung nur noch als "Wie war dein Abend
+// gestern?" – still, ohne Fehler.
+test('die Mitteilung nach dem Abend läuft zwischen Abruf und Abgleich des Spielplans', () => {
+    const plaene = lies('supabase/migrations/spielplan_mitteilungen_migration.sql')
+        + lies('supabase/migrations/push_nach_abend_migration.sql');
+    const minute = (name) => {
+        const m = plaene.match(new RegExp(String.raw`cron\.schedule\('${name}', '(\d+) (\d+) \* \* \*'`));
+        assert.ok(m, `kein täglicher Termin ${name}`);
+        return Number(m[2]) * 60 + Number(m[1]);
+    };
+    const holen = minute('spielplan-holen');
+    const nachAbend = minute('push-nach-abend');
+    const abgleichen = minute('spielplan-abgleichen');
+    assert.ok(holen < nachAbend && nachAbend < abgleichen,
+        `Reihenfolge: holen ${holen}, nach dem Abend ${nachAbend}, abgleichen ${abgleichen} (Minuten nach Mitternacht UTC)`);
+});

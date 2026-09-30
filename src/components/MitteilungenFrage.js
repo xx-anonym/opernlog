@@ -37,6 +37,7 @@ export function mitteilungenFrage(dienste = {}) {
           <li>dir jemand eine Freundschaftsanfrage schickt oder deine Einladung annimmt,</li>
           <li>jemand deine Review liked oder kommentiert,</li>
           <li>ein Werk deiner Wunschliste neu im Spielplan eines Hauses steht,</li>
+          <li>ein vorgemerkter Abend vorbei ist und noch nicht im Tagebuch steht,</li>
           <li>am 31. Juli dein Saisonrückblick fertig ist.</li>
         </ul>
         <p class="form-hint">Ändern lässt sich das jederzeit unter „Profil bearbeiten“.</p>
