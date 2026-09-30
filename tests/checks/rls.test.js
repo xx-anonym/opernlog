@@ -127,6 +127,36 @@ test('die Anwendung liest invites nirgends – sonst bräche die neue Regel etwa
     assert.deepEqual([...new Set(zugriffe)], ['insert']);
 });
 
+// Postgres lässt jede neue Funktion von PUBLIC ausführen, also auch ohne
+// Anmeldung über /rest/v1/rpc/…. Bei einer Funktion mit Besitzerrechten muss
+// deshalb jede Migration sagen, wer sie aufrufen darf – ein REVOKE nur von
+// anon wirkt nicht, anon erbt das Recht über PUBLIC. Ohne Anmeldung aufrufbar
+// bleiben nur die hier genannten; siehe funktionsrechte_migration.sql.
+const OHNE_ANMELDUNG_AUFRUFBAR = ['pending_suggestion_counts'];
+
+function definerFunktionen() {
+    const namen = new Set();
+    for (const datei of sqlDateien) {
+        for (const block of sqlOhneKommentare(datei).split(/CREATE (?:OR REPLACE )?FUNCTION/i).slice(1)) {
+            if (!/SECURITY DEFINER/i.test(block.split(/\$\$;/)[0])) continue;
+            namen.add(block.trim().split('(')[0].trim().replace(/^public\./i, '').toLowerCase());
+        }
+    }
+    return [...namen].sort();
+}
+
+test('jede SECURITY-DEFINER-Funktion nimmt PUBLIC das Ausführen', () => {
+    const offen = definerFunktionen().filter(name => !new RegExp(
+        String.raw`REVOKE\s+(ALL|EXECUTE)\b[^;]*\bON\s+FUNCTION\s+(public\.)?${name}\s*\([^;]*\bFROM\b[^;]*\bPUBLIC\b`, 'i').test(allesSql));
+    assert.deepEqual(offen, [], `ohne REVOKE … FROM PUBLIC:\n  ${offen.join('\n  ')}`);
+});
+
+test('ohne Anmeldung aufrufbar sind nur die bewusst offenen Funktionen', () => {
+    const fuerAnon = definerFunktionen().filter(name => new RegExp(
+        String.raw`GRANT\s+(ALL|EXECUTE)\b[^;]*\bON\s+FUNCTION\s+(public\.)?${name}\s*\([^;]*\bTO\b[^;]*\banon\b`, 'i').test(allesSql));
+    assert.deepEqual(fuerAnon, OHNE_ANMELDUNG_AUFRUFBAR);
+});
+
 // Ab dem 30. Oktober 2026 gibt Supabase neuen Tabellen in public keine Rechte
 // für die Datenschnittstelle mehr von selbst (Mail vom 23.9.2026). Eine
 // Tabelle ohne GRANT ist dann für supabase-js unerreichbar – die App bekäme
