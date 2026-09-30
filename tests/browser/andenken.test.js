@@ -59,6 +59,7 @@ async function fotoWaehlen(p, breite = 2400, hoehe = 1200) {
         const blob = await new Promise(r => c.toBlob(r, 'image/png'));
         const dt = new DataTransfer();
         dt.items.add(new File([blob], 'applaus.png', { type: 'image/png' }));
+        // Auf der Seite des Abends oder im Log-Formular – es gibt je eins.
         const feld = document.querySelector('.andenken__neu input');
         feld.files = dt.files;
         feld.dispatchEvent(new Event('change', { bubbles: true }));
@@ -166,5 +167,44 @@ test('Konto löschen: erst die eigenen Fotodateien, dann das Konto', { skip: feh
         assert.deepEqual(await p.evaluate(() => window.__speicherGeloescht), [meins.pfad]);
         assert.deepEqual(await p.evaluate(() => window.__ablauf), ['dateien', 'konto_loeschen']);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+// Beim Loggen gewählt, nach dem Speichern hochgeladen – an den neuen Abend.
+test('beim Loggen: zwei Fotos, eines öffentlich – nach dem Speichern am neuen Abend', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/log?house=semperoper&opera=tosca');
+    try {
+        await p.waitForSelector('.andenken--auswahl .andenken__neu input');
+        await fotoWaehlen(p);
+        await p.waitForFunction(() => document.querySelectorAll('.andenken--auswahl .andenken__foto').length === 1);
+        await fotoWaehlen(p, 800, 1200);
+        await p.waitForFunction(() => document.querySelectorAll('.andenken--auswahl .andenken__foto').length === 2);
+        await p.click('.andenken--auswahl .andenken__foto:nth-child(2) .andenken__sicht');
+        await p.waitForSelector('.andenken--auswahl .andenken__foto:nth-child(2) .andenken__sicht[aria-pressed="true"]');
+        // Vor dem Speichern geht nichts hoch.
+        assert.equal(await p.evaluate(() => window.__andenken.length), 0);
+
+        const stern = p.locator('#ratingWidget .star').nth(3);
+        const box = await stern.boundingBox();
+        await p.mouse.click(box.x + box.width * 0.75, box.y + box.height / 2);
+        await p.click('#logForm button[type="submit"]');
+        await p.waitForFunction(() => window.__andenken.length === 2);
+
+        const besuch = await p.evaluate(() => window.__besuchVersuche[0]);
+        const zeilen = await p.evaluate(() => window.__andenken);
+        assert.deepEqual(zeilen.map(z => z.visit_id), [besuch.id, besuch.id]);
+        assert.deepEqual(zeilen.map(z => z.oeffentlich), [false, true]);
+        assert.deepEqual(zeilen.map(z => [z.breite, z.hoehe]), [[1600, 800], [800, 1200]]);
+        assert.equal(Object.keys(await p.evaluate(() => window.__speicher)).length, 2);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('beim Bearbeiten keine Fotoauswahl – die Fotos stehen auf der Seite des Abends', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p } = await oeffne(`#/log?edit=${MEIN_ABEND}`);
+    try {
+        await p.waitForSelector('#logForm');
+        await p.waitForTimeout(300);
+        assert.equal(await p.locator('.andenken--auswahl').count(), 0);
     } finally { await ctx.close(); }
 });

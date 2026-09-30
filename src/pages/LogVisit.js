@@ -4,7 +4,8 @@ import { icon } from '../components/Icon.js';
 import { operas } from '../data/operas.js';
 import { store } from '../store/store.js';
 import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, visitCredits, passtZurSuche, heuteIso } from '../utils.js';
-import { showToast, runWithFeedback } from '../components/Toast.js';
+import { showToast, showError, runWithFeedback } from '../components/Toast.js';
+import { andenkenAuswahl } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
 import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke } from '../data/besetzung.js';
 import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
@@ -516,6 +517,13 @@ export function LogVisitPage(params = {}) {
 
   // Form submit
   const form = page.querySelector('#logForm');
+
+  // Andenken gleich beim Loggen – nur für einen neuen Abend und mit Netz:
+  // ohne Netz bleibt der Abend zunächst auf dem Gerät, und an ihm kann noch
+  // kein Foto hängen. Beim Bearbeiten stehen die Fotos auf der Seite des
+  // Abends.
+  const auswahl = !editVisit && store.isCloud && !store.isOffline ? andenkenAuswahl() : null;
+  if (auswahl) form.querySelector('.form-actions').before(auswahl.element);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -561,6 +569,27 @@ export function LogVisitPage(params = {}) {
     showToast(ergebnis?.ausstehend
       ? 'Auf diesem Gerät gespeichert – wird übertragen, sobald wieder Netz da ist.'
       : editVisit ? 'Besuch erfolgreich aktualisiert!' : 'Besuch erfolgreich geloggt!');
+
+    // Die Fotos hängen am jetzt gespeicherten Abend. Scheitert eines, bleibt
+    // der Abend trotzdem – die Fotos lassen sich auf seiner Seite nachreichen.
+    const fotos = auswahl ? auswahl.fotos() : [];
+    if (fotos.length && ergebnis?.ausstehend) {
+      showError('Die Fotos gehen ohne Netz nicht mit – füge sie später auf der Seite des Abends hinzu.');
+    } else if (fotos.length) {
+      submitBtn.textContent = fotos.length === 1 ? 'Foto wird hochgeladen …' : 'Fotos werden hochgeladen …';
+      let gescheitert = 0;
+      for (const foto of fotos) {
+        try {
+          await store.andenkenHinzufuegen(ergebnis.id, foto);
+        } catch (e) {
+          console.warn('[Loggen] Foto hochladen', e);
+          gescheitert++;
+        }
+      }
+      if (gescheitert) {
+        showError(`${gescheitert} von ${fotos.length} Fotos ließen sich nicht hochladen – auf der Seite des Abends erneut versuchen.`);
+      }
+    }
 
     setTimeout(() => { window.location.hash = '#/diary'; }, 800);
   });

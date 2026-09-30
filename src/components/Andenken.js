@@ -124,3 +124,82 @@ export function andenkenBereich(visit) {
 
     return bereich;
 }
+
+/**
+ * Fotos schon beim Loggen wählen (src/pages/LogVisit.js). Hochgeladen wird
+ * erst nach dem Speichern: ein Foto hängt an einem Abend, und den gibt es
+ * vorher nicht. Vorbereitet (verkleinert, ohne Metadaten) wird gleich bei
+ * der Auswahl, damit das Speichern nicht darauf warten muss.
+ *
+ * @returns {{element: HTMLElement, fotos: () => Array<{blob: Blob, breite: number, hoehe: number, oeffentlich: boolean}>}}
+ */
+export function andenkenAuswahl() {
+    const feld = document.createElement('div');
+    feld.className = 'form-group andenken andenken--auswahl';
+    let fotos = [];   // { blob, breite, hoehe, oeffentlich, vorschau }
+    let laedt = false;
+
+    function zeichnen() {
+        const platz = HOECHSTENS_JE_ABEND - fotos.length;
+        feld.innerHTML = `
+          <span class="form-label">${icon('camera', { className: 'icon--meta' })}Andenken <span class="form-collapse__optional">(optional)</span></span>
+          <div class="andenken__raster">
+            ${fotos.map((f, i) => `
+              <figure class="andenken__foto" data-i="${i}">
+                <img src="${f.vorschau}" alt="">
+                <button type="button" class="andenken__sicht${f.oeffentlich ? ' andenken__sicht--an' : ''}" aria-pressed="${f.oeffentlich}"
+                  title="${f.oeffentlich ? 'Öffentlich – jeder, der den Abend sieht' : 'Privat – nur du'}">${icon(f.oeffentlich ? 'globe' : 'lock')}</button>
+                <button type="button" class="andenken__weg" aria-label="Foto entfernen" title="Foto entfernen">✕</button>
+              </figure>`).join('')}
+            ${platz > 0 ? `
+            <label class="andenken__neu${laedt ? ' andenken__neu--laedt' : ''}">
+              <input type="file" accept="image/*" multiple${laedt ? ' disabled' : ''}>
+              <span>${laedt ? 'Bereitet vor …' : `${icon('plus')}Foto`}</span>
+            </label>` : ''}
+          </div>`;
+    }
+
+    const fotoZu = knopf => fotos[Number(knopf.closest('.andenken__foto')?.dataset.i)];
+
+    feld.addEventListener('click', (e) => {
+        const sicht = e.target.closest('.andenken__sicht');
+        if (sicht) {
+            const foto = fotoZu(sicht);
+            if (foto) foto.oeffentlich = !foto.oeffentlich;
+            zeichnen();
+            return;
+        }
+        const weg = e.target.closest('.andenken__weg');
+        if (weg) {
+            const foto = fotoZu(weg);
+            if (!foto) return;
+            URL.revokeObjectURL(foto.vorschau);
+            fotos = fotos.filter(f => f !== foto);
+            zeichnen();
+        }
+    });
+
+    feld.addEventListener('change', async (e) => {
+        const eingabe = e.target.closest('.andenken__neu input');
+        if (!eingabe || !eingabe.files?.length) return;
+        const platz = HOECHSTENS_JE_ABEND - fotos.length;
+        const dateien = [...eingabe.files].slice(0, platz);
+        if (eingabe.files.length > platz) showToast(`Höchstens ${HOECHSTENS_JE_ABEND} Fotos je Abend`);
+        laedt = true;
+        zeichnen();
+        for (const datei of dateien) {
+            await runWithFeedback(async () => {
+                const foto = await fotoVorbereiten(datei);
+                fotos = [...fotos, { ...foto, oeffentlich: false, vorschau: URL.createObjectURL(foto.blob) }];
+            }, { failure: 'Foto ließ sich nicht öffnen' });
+        }
+        laedt = false;
+        zeichnen();
+    });
+
+    zeichnen();
+    return {
+        element: feld,
+        fotos: () => fotos.map(({ blob, breite, hoehe, oeffentlich }) => ({ blob, breite, hoehe, oeffentlich })),
+    };
+}

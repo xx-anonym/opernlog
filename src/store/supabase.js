@@ -1379,7 +1379,7 @@ export async function getAndenkenCloud(visitId) {
  * Scheitert die Zeile, wird die Datei wieder entfernt – sonst läge sie
  * verwaist im Speicher.
  */
-export async function addAndenkenCloud(visitId, id, { blob, breite, hoehe }) {
+export async function addAndenkenCloud(visitId, id, { blob, breite, hoehe, oeffentlich = false }) {
     const session = await getSession();
     if (!session) throw new SupabaseError('Foto hochladen', { message: 'Nicht eingeloggt' });
     const sb = getSupabase();
@@ -1387,7 +1387,7 @@ export async function addAndenkenCloud(visitId, id, { blob, breite, hoehe }) {
     const hoch = await sb.storage.from(ANDENKEN).upload(pfad, blob, { contentType: 'image/jpeg', upsert: false });
     if (hoch.error) throw new SupabaseError('Foto hochladen', hoch.error);
     const result = await sb.from('andenken')
-        .insert({ id, user_id: session.user.id, visit_id: visitId, pfad, breite, hoehe })
+        .insert({ id, user_id: session.user.id, visit_id: visitId, pfad, breite, hoehe, oeffentlich: !!oeffentlich })
         .select('id, user_id, visit_id, pfad, oeffentlich, breite, hoehe, created_at');
     try {
         const zeile = unwrapWritten(result, 'Foto speichern');

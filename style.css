@@ -1023,11 +1023,17 @@ h3 {
     cursor: zoom-in;
 }
 
-.andenken__oeffnen img {
+.andenken__oeffnen img,
+.andenken__foto > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* Im Log-Formular: Abstand wie die übrigen Felder, kein eigener Kopf. */
+.andenken--auswahl {
+    margin-top: 0;
 }
 
 .andenken__sicht,
