@@ -34,8 +34,11 @@ export function VisitDetailPage(visitId) {
         `;
 
         const content = page.querySelector('#visitContent');
-        content.appendChild(ReviewCard(visit, { showOpera: true, showHouse: true, standalone: true }));
-        content.appendChild(andenkenBereich(visit));
+        const karte = ReviewCard(visit, { showOpera: true, showHouse: true, standalone: true });
+        content.appendChild(karte);
+        // Die Fotos gehören zum Abend selbst: in die Karte, vor Gefällt-mir
+        // und Kommentare – nicht als Anhang unter alles andere.
+        karte.insertBefore(andenkenBereich(visit), karte.querySelector('.review-card__actions'));
         
         // Fix scroll position (prevent auto scroll down from previous page or DOM change)
         setTimeout(() => window.scrollTo(0, 0), 10);

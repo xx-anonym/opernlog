@@ -5,11 +5,14 @@
 // Umbenennen dort hieße Datenbank und Dateien umziehen, ohne dass es
 // jemand sähe.
 //
-// Beim eigenen Abend: Fotos hinzufügen (höchstens sechs), je Foto
-// umschalten zwischen privat (Schloss, Standard) und öffentlich (Globus),
-// löschen. Bei fremden Abenden nur die öffentlichen, ohne Knöpfe. Antippen
-// vergrößert. Die Fotos liegen nur in der Cloud – ohne Netz steht hier
-// nichts. Datenbank und Speicher: supabase/migrations/andenken_migration.sql.
+// Die Fotos stehen in der Karte des Abends, vor Gefällt-mir und
+// Kommentaren, als Mosaik: das erste groß, die übrigen darum herum. Auf den
+// Kacheln liegt nichts außer einem kleinen Globus an eigenen öffentlichen
+// Fotos. Antippen vergrößert; dort blättert man (Wischen, Pfeiltasten) und
+// schaltet beim eigenen Abend zwischen privat (Standard) und öffentlich
+// oder löscht. Bei fremden Abenden nur die öffentlichen, ohne Knöpfe. Die
+// Fotos liegen nur in der Cloud – ohne Netz steht hier nichts. Datenbank
+// und Speicher: supabase/migrations/andenken_migration.sql.
 
 import { icon } from './Icon.js';
 import { showToast, runWithFeedback } from './Toast.js';
@@ -19,18 +22,11 @@ import { fotoVorbereiten } from '../bild.js';
 
 export const HOECHSTENS_JE_ABEND = 6;
 
-function gross(foto) {
-    const modal = document.createElement('div');
-    modal.className = 'modal modal--active andenken-gross';
-    modal.innerHTML = `
-      <div class="modal__overlay"></div>
-      <div class="andenken-gross__rahmen" role="dialog" aria-label="Foto">
-        <img src="${escapeHTML(foto.url || '')}" alt="">
-      </div>`;
-    const schliessen = () => modal.remove();
-    modal.querySelector('.modal__overlay').addEventListener('click', schliessen);
-    modal.querySelector('.andenken-gross__rahmen').addEventListener('click', schliessen);
-    document.body.appendChild(modal);
+// Ein einzelnes Foto behält ungefähr sein Format – ein hochkant
+// fotografiertes Programmheft soll nicht zum Querstreifen werden.
+function einzelFormat(foto) {
+    const verhaeltnis = foto.breite && foto.hoehe ? foto.breite / foto.hoehe : 4 / 3;
+    return Math.min(16 / 9, Math.max(4 / 5, verhaeltnis)).toFixed(3);
 }
 
 export function andenkenBereich(visit) {
@@ -49,58 +45,124 @@ export function andenkenBereich(visit) {
         const platz = HOECHSTENS_JE_ABEND - fotos.length;
         bereich.hidden = !eigen && !fotos.length;
         bereich.innerHTML = `
-          <h2 class="andenken__titel">${icon('camera')}Momentaufnahmen</h2>
-          <div class="andenken__raster">
-            ${fotos.map(f => `
+          <div class="andenken__kopf">
+            <h2 class="andenken__titel">${icon('camera')}Momentaufnahmen</h2>
+            ${eigen && platz > 0 ? `
+            <label class="btn btn--sm btn--outline andenken__neu${laedt ? ' andenken__neu--laedt' : ''}">
+              <input type="file" accept="image/*" multiple${laedt ? ' disabled' : ''}>
+              ${laedt ? 'Lädt …' : `${icon('plus')}Foto`}
+            </label>` : ''}
+          </div>
+          ${fotos.length ? `
+          <div class="andenken__mosaik andenken__mosaik--${fotos.length}"${fotos.length === 1 ? ` style="aspect-ratio: ${einzelFormat(fotos[0])}"` : ''}>
+            ${fotos.map((f, i) => `
               <figure class="andenken__foto" data-id="${escapeHTML(f.id)}">
-                <button type="button" class="andenken__oeffnen" aria-label="Foto vergrößern">
+                <button type="button" class="andenken__oeffnen" aria-label="Foto ${i + 1} vergrößern">
                   <img src="${escapeHTML(f.url || '')}" alt="" loading="lazy">
                 </button>
-                ${eigen ? `
-                <button type="button" class="andenken__sicht${f.oeffentlich ? ' andenken__sicht--an' : ''}" aria-pressed="${f.oeffentlich}"
-                  title="${f.oeffentlich ? 'Öffentlich – jeder, der den Abend sieht' : 'Privat – nur du'}">${icon(f.oeffentlich ? 'globe' : 'lock')}</button>
-                <button type="button" class="andenken__weg" aria-label="Foto löschen" title="Foto löschen">✕</button>` : ''}
+                ${eigen && f.oeffentlich ? `<span class="andenken__marke" title="Öffentlich">${icon('globe')}</span>` : ''}
               </figure>`).join('')}
-            ${eigen && platz > 0 ? `
-            <label class="andenken__neu${laedt ? ' andenken__neu--laedt' : ''}">
-              <input type="file" accept="image/*" multiple${laedt ? ' disabled' : ''}>
-              <span>${laedt ? 'Lädt …' : `${icon('plus')}Foto`}</span>
-            </label>` : ''}
-          </div>`;
+          </div>` : ''}`;
     }
 
-    const fotoZu = knopf => fotos.find(f => f.id === knopf.closest('.andenken__foto')?.dataset.id);
+    function gross(start) {
+        let nr = start;
+        let startX = null;
+        let gewischt = false;
+        const modal = document.createElement('div');
+        modal.className = 'modal modal--active andenken-gross';
+        modal.innerHTML = `
+          <div class="modal__overlay"></div>
+          <div class="andenken-gross__rahmen" role="dialog" aria-label="Foto"></div>`;
+        const rahmen = modal.querySelector('.andenken-gross__rahmen');
 
-    bereich.addEventListener('click', async (e) => {
+        function zeigen() {
+            const f = fotos[nr];
+            rahmen.innerHTML = `
+              <img src="${escapeHTML(f.url || '')}" alt="" draggable="false">
+              ${eigen || fotos.length > 1 ? `
+              <div class="andenken-gross__leiste">
+                ${fotos.length > 1 ? `<span class="andenken-gross__zahl">${nr + 1} / ${fotos.length}</span>` : ''}
+                ${eigen ? `
+                <button type="button" class="andenken-gross__knopf andenken-gross__sicht${f.oeffentlich ? ' andenken-gross__sicht--an' : ''}" aria-pressed="${f.oeffentlich}">${icon(f.oeffentlich ? 'globe' : 'lock')}${f.oeffentlich ? 'Öffentlich' : 'Privat'}</button>
+                <button type="button" class="andenken-gross__knopf andenken-gross__weg">${icon('trash')}Löschen</button>` : ''}
+              </div>` : ''}`;
+        }
+        const blaettern = (schritt) => {
+            if (fotos.length < 2) return;
+            nr = (nr + schritt + fotos.length) % fotos.length;
+            zeigen();
+        };
+        const schliessen = () => {
+            modal.remove();
+            document.removeEventListener('keydown', taste);
+        };
+        function taste(e) {
+            if (e.key === 'Escape') schliessen();
+            else if (e.key === 'ArrowRight') blaettern(1);
+            else if (e.key === 'ArrowLeft') blaettern(-1);
+        }
+        document.addEventListener('keydown', taste);
+
+        // Wischen blättert; der Klick, den die Maus danach noch meldet,
+        // schließt dann nicht. Ein Finger meldet nach dem Wischen oft gar
+        // keinen Klick – deshalb setzt jedes neue Antippen die Sperre zurück.
+        rahmen.addEventListener('pointerdown', (e) => {
+            startX = e.clientX;
+            gewischt = false;
+        });
+        rahmen.addEventListener('pointerup', (e) => {
+            if (startX === null) return;
+            const weg = e.clientX - startX;
+            startX = null;
+            if (Math.abs(weg) < 40) return;
+            gewischt = true;
+            blaettern(weg < 0 ? 1 : -1);
+        });
+
+        modal.addEventListener('click', async (e) => {
+            if (gewischt) {
+                gewischt = false;
+                return;
+            }
+            const knopf = e.target.closest('.andenken-gross__knopf');
+            if (!knopf) {
+                if (!e.target.closest('.andenken-gross__leiste')) schliessen();
+                return;
+            }
+            if (knopf.disabled) return;
+            const f = fotos[nr];
+            if (knopf.classList.contains('andenken-gross__sicht')) {
+                knopf.disabled = true;
+                const neu = !f.oeffentlich;
+                if (await runWithFeedback(() => store.andenkenSichtbarkeit(f.id, neu), { failure: 'Sichtbarkeit ließ sich nicht ändern' })) {
+                    f.oeffentlich = neu;
+                    showToast(neu ? 'Öffentlich – jeder, der den Abend sieht' : 'Privat – nur für dich');
+                }
+                zeigen();
+                zeichnen();
+                return;
+            }
+            if (!window.confirm('Foto löschen?')) return;
+            knopf.disabled = true;
+            if (await runWithFeedback(() => store.andenkenLoeschen(f), { failure: 'Foto ließ sich nicht löschen' })) {
+                fotos = fotos.filter(x => x.id !== f.id);
+                zeichnen();
+                if (!fotos.length) return schliessen();
+                nr = Math.min(nr, fotos.length - 1);
+            }
+            zeigen();
+        });
+
+        zeigen();
+        document.body.appendChild(modal);
+    }
+
+    bereich.addEventListener('click', (e) => {
         const oeffnen = e.target.closest('.andenken__oeffnen');
-        if (oeffnen) {
-            const foto = fotoZu(oeffnen);
-            if (foto) gross(foto);
-            return;
-        }
-        const sicht = e.target.closest('.andenken__sicht');
-        if (sicht && !sicht.disabled) {
-            const foto = fotoZu(sicht);
-            if (!foto) return;
-            sicht.disabled = true;
-            const neu = !foto.oeffentlich;
-            if (await runWithFeedback(() => store.andenkenSichtbarkeit(foto.id, neu), { failure: 'Sichtbarkeit ließ sich nicht ändern' })) {
-                foto.oeffentlich = neu;
-                showToast(neu ? 'Öffentlich – jeder, der den Abend sieht' : 'Privat – nur für dich');
-            }
-            zeichnen();
-            return;
-        }
-        const weg = e.target.closest('.andenken__weg');
-        if (weg && !weg.disabled) {
-            const foto = fotoZu(weg);
-            if (!foto || !window.confirm('Foto löschen?')) return;
-            weg.disabled = true;
-            if (await runWithFeedback(() => store.andenkenLoeschen(foto), { failure: 'Foto ließ sich nicht löschen' })) {
-                fotos = fotos.filter(f => f.id !== foto.id);
-            }
-            zeichnen();
-        }
+        if (!oeffnen) return;
+        const nr = fotos.findIndex(f => f.id === oeffnen.closest('.andenken__foto')?.dataset.id);
+        if (nr >= 0) gross(nr);
     });
 
     bereich.addEventListener('change', async (e) => {
@@ -147,7 +209,7 @@ export function andenkenAuswahl() {
     function zeichnen() {
         const platz = HOECHSTENS_JE_ABEND - fotos.length;
         feld.innerHTML = `
-          <span class="form-label">${icon('camera', { className: 'icon--meta' })}Momentaufnahmen <span class="form-collapse__optional">(optional)</span></span>
+          <span class="form-label">${icon('camera', { className: 'icon--meta' })}Momentaufnahmen<span class="form-collapse__optional">(optional)</span></span>
           <div class="andenken__raster">
             ${fotos.map((f, i) => `
               <figure class="andenken__foto" data-i="${i}">
