@@ -13,8 +13,8 @@
 // eigenen, für Freunde freigegebenen Fotos. Antippen vergrößert; dort
 // blättert man (Wischen, Pfeiltasten) und schaltet beim eigenen Abend
 // zwischen privat (Standard) und Freunden oder löscht. Im Feed stehen die
-// freigegebenen Fotos von Freunden als kleines Mosaik aus höchstens drei
-// Kacheln. Kacheln zeigen die Vorschau (720 px), die Vergrößerung das Foto.
+// freigegebenen Fotos als kleines Mosaik aus höchstens drei Kacheln –
+// ebenso auf Werk-, Haus- und Profilseite. Kacheln zeigen die Vorschau (720 px), die Vergrößerung das Foto.
 // Die Fotos liegen nur in der Cloud – ohne Netz steht hier nichts.
 // Datenbank und Speicher: supabase/migrations/andenken_migration.sql.
 
@@ -238,8 +238,8 @@ export function andenkenBereich(visit) {
 }
 
 /**
- * Die freigegebenen Fotos eines Abends in seiner Karte im Feed
- * (src/pages/Home.js). Antippen vergrößert und blättert durch alle.
+ * Die freigegebenen Fotos eines Abends in seiner Karte in einer Liste.
+ * Antippen vergrößert und blättert durch alle.
  */
 export function andenkenImFeed(fotos) {
     const el = document.createElement('div');
@@ -252,6 +252,29 @@ export function andenkenImFeed(fotos) {
         if (nr >= 0) grossAnsicht(() => fotos, nr);
     });
     return el;
+}
+
+/**
+ * Hängt an die Karten einer Liste – Feed, Werk-, Haus- und Profilseite – die
+ * freigegebenen Fotos ihres Abends, mit einer Abfrage für alle. Die Karten
+ * stehen schon da; die Fotos rücken nach. Neben oder unter den Text, das
+ * regelt style.css. Scheitert das Laden, bleibt es eben ohne Fotos.
+ * @param {Array<{karte: HTMLElement, visit: object}>} paare
+ */
+export async function fotosAnKarten(paare) {
+    if (!paare.length) return;
+    let nachAbend;
+    try {
+        nachAbend = await store.getFreigegebeneAndenken(paare.map(p => p.visit.id));
+    } catch (e) {
+        console.warn('[Andenken] Fotos für Karten laden', e);
+        return;
+    }
+    for (const { karte, visit } of paare) {
+        const fotos = nachAbend.get(String(visit.id));
+        const koerper = karte.querySelector('.review-card__koerper');
+        if (fotos?.length && koerper) koerper.appendChild(andenkenImFeed(fotos));
+    }
 }
 
 /**

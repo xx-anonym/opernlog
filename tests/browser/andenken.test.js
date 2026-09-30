@@ -335,6 +335,37 @@ test('Feed: breit rechts neben dem Text und klein, schmal darunter', { skip: feh
     }
 });
 
+// Nicht nur im Feed: überall, wo Karten eines Abends in einer Liste stehen.
+test('Werk-, Haus- und Profilseite zeigen die freigegebenen Fotos in der Karte', { skip: fehltPlaywright, timeout: 90000 }, async () => {
+    const zwei = [1, 2].map(i => mitVorschau(foto(`dddddddd-4444-4000-8000-00000000000${i}`, FREMD, FREMDER_ABEND, true)));
+    for (const hash of ['#/opera/aida', '#/house/oper-leipzig', `#/profile/${FREMD}`]) {
+        const { ctx, p, fehler } = await oeffne(hash, { andenken: zwei, breite: 1280 });
+        try {
+            await p.waitForSelector('.review-card__koerper .andenken--feed .andenken__foto', { timeout: 15000 });
+            assert.equal(await p.locator('.andenken--feed .andenken__foto').count(), 2, hash);
+            assert.deepEqual(fehler, [], hash);
+        } finally { await ctx.close(); }
+    }
+});
+
+// Ein Abend, der noch auf die Übertragung wartet, hat keine UUID. Stünde er
+// in der Abfrage, lehnte die Datenbank sie ganz ab – und keine Karte der
+// Liste bekäme Fotos.
+test('Kartenlisten: Abende ohne UUID stören die Abfrage nicht', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const f = mitVorschau(foto('dddddddd-4444-4000-8000-000000000001', FREMD, FREMDER_ABEND, true));
+    const { ctx, p, fehler } = await oeffne('#/', { andenken: [f] });
+    try {
+        await p.waitForFunction(() => !!window.supabase);
+        const ids = await p.evaluate(async (abend) => {
+            const { store } = await import('/src/store/store.js');
+            const nachAbend = await store.getFreigegebeneAndenken(['lokal-1727712000000', abend]);
+            return [...nachAbend.keys()];
+        }, FREMDER_ABEND);
+        assert.deepEqual(ids, [FREMDER_ABEND]);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
 test('Feed: bei nur einseitigem Folgen keine Fotos', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const f = mitVorschau(foto('dddddddd-4444-4000-8000-000000000004', FREMD, FREMDER_ABEND, true));
     const { ctx, p } = await oeffne('#/', { andenken: [f], follows: [{ follower_id: UID, following_id: FREMD }] });

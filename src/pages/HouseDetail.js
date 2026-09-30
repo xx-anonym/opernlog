@@ -10,6 +10,7 @@ import { operas } from '../data/operas.js';
 import { kurzname } from '../data/composers.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
+import { fotosAnKarten } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -249,9 +250,12 @@ export function HouseDetailPage(houseId) {
     if (allVisits.length === 0) {
       reviewsContainer.innerHTML = '<div class="empty-state">Noch keine Reviews für dieses Haus.</div>';
     } else {
-      allVisits.forEach(visit => {
-        reviewsContainer.appendChild(ReviewCard(visit, { showHouse: false }));
+      const paare = allVisits.map((visit) => {
+        const karte = ReviewCard(visit, { showHouse: false });
+        reviewsContainer.appendChild(karte);
+        return { karte, visit };
       });
+      fotosAnKarten(paare);
     }
   }
   demnaechstHier(page.querySelector('#hausSpielplan'), house);

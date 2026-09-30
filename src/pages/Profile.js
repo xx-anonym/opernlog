@@ -4,6 +4,7 @@ import { icon } from '../components/Icon.js';
 import { runWithFeedback, showToast } from '../components/Toast.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
+import { fotosAnKarten } from '../components/Andenken.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -109,7 +110,8 @@ function renderGroupedVisits(visitsArray, container) {
   const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 
   container.innerHTML = '';
-  
+  const paare = [];
+
   Object.keys(months).sort().reverse().forEach(key => {
     const visitsGroup = months[key];
     const [year, month] = key.split('-');
@@ -122,12 +124,15 @@ function renderGroupedVisits(visitsArray, container) {
     feedList.className = 'feed-list';
     
     visitsGroup.forEach(visit => {
-      feedList.appendChild(ReviewCard(visit, { compact: false }));
+      const karte = ReviewCard(visit, { compact: false });
+      feedList.appendChild(karte);
+      paare.push({ karte, visit });
     });
     
     monthSection.appendChild(feedList);
     container.appendChild(monthSection);
   });
+  fotosAnKarten(paare);
 }
 
 export function ProfilePage(userId) {

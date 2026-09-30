@@ -212,6 +212,11 @@ function builder(table) {
           return Promise.resolve({ data: null, error: null }).then(res, rej);
         }
         window.__andenkenGelesen = (window.__andenkenGelesen || 0) + 1;
+        // Wie Postgres: eine Kennung, die keine UUID ist, lässt die ganze Abfrage scheitern.
+        const keineUuid = (drin.visit_id || []).find(w => !/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(w));
+        if (keineUuid) {
+          return Promise.resolve({ data: null, error: { code: '22P02', message: 'invalid input syntax for type uuid: "' + keineUuid + '"' } }).then(res, rej);
+        }
         const folgt = (von, zu) => window.__follows.some(f => f.follower_id === von && f.following_id === zu);
         const sichtbar = window.__andenken
           .filter(z => z.user_id === UID || (z.oeffentlich && folgt(UID, z.user_id) && folgt(z.user_id, UID)))

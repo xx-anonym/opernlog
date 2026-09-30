@@ -1091,6 +1091,18 @@ class Store {
         return sb.getAndenkenCloud(visitId);
     }
 
+    /**
+     * Die für Freunde freigegebenen Fotos mehrerer Abende, für Kartenlisten
+     * (Feed, Werk-, Haus- und Profilseite): Abend-ID -> Fotos. Abende, die
+     * noch auf die Übertragung warten, tragen keine UUID und fallen heraus –
+     * die Datenbank lehnte sonst die ganze Abfrage ab.
+     */
+    async getFreigegebeneAndenken(visitIds) {
+        const ids = visitIds.map(String).filter(id => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id));
+        if (!this.isCloud || this.isOffline || !ids.length) return new Map();
+        return sb.getFreigegebeneAndenkenCloud(ids);
+    }
+
     /** foto: vorbereitet von fotoVorbereiten() in src/bild.js */
     async andenkenHinzufuegen(visitId, foto) {
         this._kontoNoetig();

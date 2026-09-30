@@ -12,6 +12,7 @@ import { runWithFeedback, showError, showToast } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
+import { fotosAnKarten } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -262,9 +263,12 @@ export function OperaDetailPage(operaId) {
     if (allVisits.length === 0) {
       reviewsContainer.innerHTML = '<div class="empty-state">Noch keine Reviews für dieses Werk.</div>';
     } else {
-      allVisits.forEach(visit => {
-        reviewsContainer.appendChild(ReviewCard(visit, { showOpera: false }));
+      const paare = allVisits.map((visit) => {
+        const karte = ReviewCard(visit, { showOpera: false });
+        reviewsContainer.appendChild(karte);
+        return { karte, visit };
       });
+      fotosAnKarten(paare);
     }
   }
   loadVisits();
