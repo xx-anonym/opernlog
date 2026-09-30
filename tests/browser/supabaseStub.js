@@ -13,7 +13,7 @@ const SESSION = { user: { id: UID, email: 'test@opernlog.test', user_metadata: {
 const PROFILE = { id: UID, username: 'Testnutzer', avatar_initials: 'TN', avatar_icon: window.__avatarIconVorgabe ?? null,
   bio: '', profile_complete: true, created_at: '2024-01-01T00:00:00Z' };
 
-window.__seen = [];     // opera_id-Liste in der "Datenbank"
+window.__seen = window.__seenVorgabe || [];     // opera_id-Liste in der "Datenbank"
 window.__lists = [];    // Listen (Wunschliste u. a.), die die App anlegt oder ändert
 // Besuchszeilen, wie sie aus der Cloud kaemen. __besucheVorgabe per
 // addInitScript setzen, wenn beim Start schon welche da sein sollen.

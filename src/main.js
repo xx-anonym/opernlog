@@ -17,6 +17,7 @@ import { ListsPage } from './pages/Lists.js';
 import { ListDetailPage } from './pages/ListDetail.js';
 import { WishlistPage } from './pages/Wishlist.js';
 import { SeasonReviewPage } from './pages/SeasonReview.js';
+import { SammlungenPage } from './pages/Sammlungen.js';
 import { NaehePage } from './pages/Naehe.js';
 import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
@@ -541,13 +542,13 @@ class App {
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'invite', 'visit', 'season'];
+            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'invite', 'visit', 'season', 'sammlungen'];
 
             // Ohne Netz zeigt die App das, was lokal liegt, statt zur Anmeldung
             // zu schicken. Sinn und Zweck eines Offline-Modus: das eigene
             // Tagebuch ist vollständig da, nur bestätigen lässt sich die
             // Anmeldung gerade nicht.
-            const offlineErlaubt = ['diary', 'profile', 'visit', 'season', 'lists', 'wishlist', 'log'];
+            const offlineErlaubt = ['diary', 'profile', 'visit', 'season', 'lists', 'wishlist', 'log', 'sammlungen'];
 
             if (protectedRoutes.includes(path) && path !== 'invite') {
                 if (store.isOfflineWithLocalUser && offlineErlaubt.includes(path)) {
@@ -643,6 +644,10 @@ class App {
                 break;
             case 'naehe':
                 page = NaehePage();
+                break;
+            case 'sammlungen':
+                // #/sammlungen/ring springt zur Sammlung.
+                page = SammlungenPage(param);
                 break;
             case 'season':
                 // #/season zeigt die zuletzt abgeschlossene Spielzeit,

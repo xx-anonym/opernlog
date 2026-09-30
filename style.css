@@ -1740,6 +1740,40 @@ h3 {
     margin-bottom: 32px;
 }
 
+/* Sammlungen im Profil: die drei vordersten Zeilen im Kasten von "Was dir
+   noch fehlt" (.sammlung, weiter unten), als Verweise zu #/sammlungen. */
+.profil-sammlungen {
+    margin: -8px 0 28px;
+}
+
+.profil-sammlungen__kopf {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.profil-sammlungen__titel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+}
+
+.profil-sammlungen__titel .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--gold);
+}
+
+.profil-sammlungen__alle {
+    font-size: 0.85rem;
+    color: var(--gold);
+    text-decoration: none;
+}
+
 .favorite-item {
     background: var(--bg-secondary);
     border-radius: 12px;
@@ -5121,6 +5155,32 @@ body {
 .blindspot__work:hover {
     border-color: var(--gold-dark);
     color: var(--text);
+}
+
+/* Sammlungen (src/pages/Sammlungen.js) nutzen den Kasten oben mit. Im
+   Profil sind die Zeilen Verweise statt aufklappbar: Pfeil nach rechts. */
+.sammlung__kopf--verweis {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sammlung__kopf--verweis .sammlung__pfeil {
+    margin-top: 0;
+    transform: rotate(-45deg);
+}
+
+/* Gesehene Teile einer Sammlung: mit Haken, heller als die fehlenden. */
+.sammlung__gesehen {
+    border-color: rgba(201, 168, 76, 0.35);
+    color: var(--text);
+}
+
+.sammlung__gesehen .icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+    color: var(--gold);
+    vertical-align: -1px;
 }
 
 /* ── Listenfenster (gesehene Werke, besuchte Häuser) ──────────────────────────────────────── */

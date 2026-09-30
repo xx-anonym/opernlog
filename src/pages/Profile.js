@@ -20,6 +20,7 @@ import { passkeyBereich } from '../components/Passkeys.js';
 import { datenExportBereich } from '../components/DatenExport.js';
 import { mitteilungenBereich } from '../components/Mitteilungen.js';
 import { passkeysMoeglich } from '../passkey.js';
+import { eigeneSammlungen, sammlungKopf } from '../components/SammlungBalken.js';
 
 /**
  * Die Kachel "Meistbesuchtes Haus". Ist das Haus bekannt, ist sie ein Link
@@ -510,6 +511,27 @@ async function renderCloudProfile(page, userId) {
   }
 }
 
+/**
+ * Die drei vordersten Sammlungen (src/data/sammlungen.js) als knappe Zeilen
+ * mit Balken; alle unter #/sammlungen.
+ */
+function sammlungenAbschnitt() {
+  const vorn = eigeneSammlungen().slice(0, 3);
+  return `
+    <section class="profil-sammlungen">
+      <div class="profil-sammlungen__kopf">
+        <h2 class="profil-sammlungen__titel">${icon('layers')}Sammlungen</h2>
+        <a class="profil-sammlungen__alle" href="#/sammlungen">Alle</a>
+      </div>
+      <div class="sammlung">
+        ${vorn.map(stand => `
+        <div class="sammlung__zeile">
+          <a class="sammlung__kopf sammlung__kopf--verweis" href="#/sammlungen/${encodeURIComponent(stand.sammlung.id)}">${sammlungKopf(stand)}</a>
+        </div>`).join('')}
+      </div>
+    </section>`;
+}
+
 function renderLocalProfile(page, userId, isMe) {
   const user = store.getCurrentUser();
 
@@ -584,6 +606,8 @@ function renderLocalProfile(page, userId, isMe) {
         : null)}
     </div>
     ` : ''}
+
+    ${isMe ? sammlungenAbschnitt() : ''}
     
     <div class="profile-tabs">
       <button class="tab tab--active" data-tab="reviews">Reviews (${visits.length})</button>
