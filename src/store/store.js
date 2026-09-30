@@ -1038,7 +1038,7 @@ class Store {
     }
 
     // ── Geplante Besuche ─────────────────────────────────
-    // Privat und nur mit Konto, wie die Markierungen "schon gesehen".
+    // Privat und nur mit Konto.
     getGeplant() {
         if (!this.hatKonto) return [];
         return this.data.geplant || [];

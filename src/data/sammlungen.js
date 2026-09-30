@@ -80,14 +80,16 @@ function teile(sammlung) {
  * Der Stand jeder Sammlung. Begonnene zuerst, die dem Ende nächsten vorn;
  * dann die vollständigen; dann die unbegonnenen, die kleinsten vorn.
  *
- * @param {Array<{operaId: string, houseId: string}>} besuche  die eigenen Abende
- * @param {string[]} [gesehen]  als "schon gesehen" markierte Werke
+ * @param {Array<object>} besuche  Abende – aus dem Store (operaId, houseId) oder
+ *   so, wie fremde aus der Datenbank kommen (opera_id, house_id)
+ * @param {string[]} [gesehen]  als "schon gesehen" markierte Werke; nur die
+ *   eigenen, die fremden sind privat
  * @returns {Array<{sammlung: object, teile: Array<{id: string, name: string, erledigt: boolean}>,
  *   erledigt: number, gesamt: number, vollstaendig: boolean}>}
  */
 export function fortschritt(besuche, gesehen = []) {
-    const werke = new Set([...(besuche || []).map(b => b.operaId), ...(gesehen || [])]);
-    const haeuser = new Set((besuche || []).map(b => b.houseId));
+    const werke = new Set([...(besuche || []).map(b => b.operaId ?? b.opera_id), ...(gesehen || [])]);
+    const haeuser = new Set((besuche || []).map(b => b.houseId ?? b.house_id));
     const laender = new Set([...haeuser].map(id => operaHouses.find(h => h.id === id)?.state).filter(Boolean));
     const hat = { werke, haeuser, bundeslaender: laender };
 

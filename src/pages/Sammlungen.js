@@ -7,7 +7,7 @@
 // #/sammlungen zeigt alle, #/sammlungen/ring öffnet eine.
 
 import { icon } from '../components/Icon.js';
-import { eigeneSammlungen, sammlungKopf } from '../components/SammlungBalken.js';
+import { eigeneSammlungen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
 import { escapeHTML, getCachedPosition } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { kommendeAuffuehrungen, abendeImHaus, terminKurz } from '../data/spielplanAbfrage.js';
@@ -26,21 +26,6 @@ function naechstes(sammlung, teil, position) {
     return null;
 }
 
-function ziel(sammlung, teil) {
-    if (sammlung.art === 'werke') return `#/opera/${encodeURIComponent(teil.id)}`;
-    if (sammlung.art === 'haeuser') return `#/house/${encodeURIComponent(teil.id)}`;
-    return null;
-}
-
-function teilHTML(sammlung, teil, position) {
-    const hinweis = teil.erledigt ? null : naechstes(sammlung, teil, position);
-    const klasse = `blindspot__work${teil.erledigt ? ' sammlung__gesehen' : ''}${hinweis ? ' blindspot__work--laeuft' : ''}`;
-    const inhalt = `${teil.erledigt ? icon('check') : ''}${escapeHTML(teil.name)}`;
-    const titel = hinweis ? ` title="${escapeHTML(hinweis)}"` : '';
-    const link = ziel(sammlung, teil);
-    return link ? `<a class="${klasse}" href="${link}"${titel}>${inhalt}</a>` : `<span class="${klasse}"${titel}>${inhalt}</span>`;
-}
-
 function zeile(stand, offen, position) {
     const { sammlung } = stand;
     const hinweise = stand.teile.filter(t => !t.erledigt).map(t => naechstes(sammlung, t, position)).filter(Boolean);
@@ -49,7 +34,7 @@ function zeile(stand, offen, position) {
         <summary class="sammlung__kopf">${sammlungKopf(stand)}</summary>
         <div class="sammlung__werke">
           ${hinweise.length ? `<p class="sammlung__hinweis"><span class="blindspot__punkt"></span>${escapeHTML(hinweise[0])}</p>` : ''}
-          ${stand.teile.map(t => teilHTML(sammlung, t, position)).join('')}
+          ${stand.teile.map(t => teilChip(sammlung, t, t.erledigt ? null : naechstes(sammlung, t, position))).join('')}
         </div>
       </details>`;
 }

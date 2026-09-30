@@ -47,7 +47,9 @@ const schema = sqlOhneKommentare('supabase/schema.sql');
 // bild_ausschnitte gehört zum Katalog (der Teil eines Bildes, der zu sehen
 // ist) und enthält nichts über Personen; die Katalogtabellen selbst legen
 // ihre Regeln in einer Schleife an und stehen deshalb nicht hier.
-const OEFFENTLICH_LESBAR = ['bild_ausschnitte', 'comments', 'follows', 'likes', 'profiles', 'visits'];
+// seen_operas ist seit dem 30.9.2026 öffentlich: die Sammlungen von Freunden
+// zählen ihre Markierungen mit (schon_gesehen_oeffentlich_migration.sql).
+const OEFFENTLICH_LESBAR = ['bild_ausschnitte', 'comments', 'follows', 'likes', 'profiles', 'seen_operas', 'visits'];
 
 function oeffentlichLesbareTabellen(sql) {
     return [...sql.matchAll(/CREATE POLICY\s+"[^"]*"\s+ON\s+(\w+)\s+FOR SELECT\s+USING\s*\(\s*true\s*\)/gi)]
@@ -67,10 +69,6 @@ test('Einladungscodes sind nicht öffentlich lesbar', () => {
     const regel = schema.match(/CREATE POLICY\s+"[^"]*"\s+ON\s+invites\s+FOR SELECT\s+USING\s*(.*)/i);
     assert.ok(regel, 'invites braucht eine SELECT-Regel, sonst sieht niemand seine eigenen');
     assert.match(regel[1], /auth\.uid\(\)\s*=\s*created_by/);
-});
-
-test('Markierungen "schon gesehen" bleiben privat', () => {
-    assert.ok(!oeffentlichLesbareTabellen(allesSql).includes('seen_operas'));
 });
 
 test('auf jeder Tabelle ist RLS eingeschaltet', () => {

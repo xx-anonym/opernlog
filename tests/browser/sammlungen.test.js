@@ -40,13 +40,14 @@ const BESUCHE = [
     { id: 'v1', user_id: UID, opera_id: 'ring-walkuere', house_id: 'staatsoper-berlin', date: '2026-05-01', rating: 4 },
 ];
 
-async function oeffne(hash) {
+async function oeffne(hash, { besuche = BESUCHE, seenFremd = {} } = {}) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
     await p.route('**/src/data/spielplan.js', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: SPIELPLAN }));
-    await p.addInitScript(([b, s]) => { window.__besucheVorgabe = b; window.__seenVorgabe = s; }, [BESUCHE, ['ring-rheingold']]);
+    await p.addInitScript(([b, s, f]) => { window.__besucheVorgabe = b; window.__seenVorgabe = s; window.__seenFremd = f; },
+        [besuche, ['ring-rheingold'], seenFremd]);
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html${hash}`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
@@ -88,6 +89,29 @@ test('#/sammlungen: gesehene Teile abgehakt, beim fehlenden Werk der nächste Te
         // Ohne Termin im Spielplan kein Punkt.
         const goetterdaemmerung = p.locator('#sammlung-ring a[href="#/opera/ring-goetterdaemmerung"]');
         assert.doesNotMatch(await goetterdaemmerung.getAttribute('class'), /laeuft/);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+// Bei anderen zählen ihre Abende und ihre Markierungen – beide öffentlich –,
+// nicht die des Betrachters.
+test('auf dem Profil eines anderen: seine begonnenen Sammlungen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const FREMD = '22222222-2222-2222-2222-222222222222';
+    const { ctx, p, fehler } = await oeffne(`#/profile/${FREMD}`, {
+        besuche: [...BESUCHE, { id: 'v9', user_id: FREMD, opera_id: 'ring-walkuere', house_id: 'semperoper', date: '2026-04-01', rating: 5 }],
+        seenFremd: { [FREMD]: ['ring-siegfried'] },
+    });
+    try {
+        await p.waitForSelector('.profil-sammlungen details.sammlung__zeile');
+        const ring = p.locator('.profil-sammlungen details.sammlung__zeile', { hasText: 'Der Ring des Nibelungen' });
+        assert.match((await ring.locator('summary').textContent()).replace(/\s+/g, ' '), /2 von 4/);
+        await ring.locator('summary').click();
+        const gesehen = await ring.locator('.sammlung__gesehen').allTextContents();
+        assert.deepEqual(gesehen.map(t => t.trim()), ['Die Walküre', 'Siegfried']);
+        // Nur begonnene; der Link "Alle" führt zu den eigenen, fehlt hier.
+        assert.equal(await p.locator('.profil-sammlungen__alle').count(), 0);
+        // Auch "Werke gesehen" zählt die Markierung mit.
+        assert.equal((await p.textContent('.profile-stats')).match(/(\d+)\s*Werke gesehen/)?.[1], '2');
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

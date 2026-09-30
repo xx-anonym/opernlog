@@ -226,7 +226,12 @@ function builder(table) {
           // nur neue Konten bekommen.
           : { ...PROFILE, created_at: window.__profilErstellt || PROFILE.created_at }];
       }
-      if (table === 'seen_operas') rows = window.__seen.map(id => ({ opera_id: id }));
+      // Fremde Markierungen per __seenFremd = { [id]: [...] }: sie sind
+      // öffentlich, das Profil eines anderen liest sie mit.
+      if (table === 'seen_operas') {
+        rows = (filter.user_id && filter.user_id !== UID ? (window.__seenFremd || {})[filter.user_id] || [] : window.__seen)
+          .map(id => ({ opera_id: id }));
+      }
       // Angelegte Listen kommen beim nächsten Abgleich wieder – sonst leerte
       // ein Abgleich im falschen Moment die gerade gesetzte Wunschliste.
       if (table === 'lists') rows = window.__lists.filter(l => !filter.user_id || l.user_id === filter.user_id);

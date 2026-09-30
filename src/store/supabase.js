@@ -975,13 +975,17 @@ export async function getAllCommunityStats() {
 // ── Stats ────────────────────────────────────────────────
 export async function getUserStatsCloud(userId) {
     const sb = getSupabase();
-    const visits = unwrap(await sb.from('visits')
-        .select('*')
-        .eq('user_id', userId), 'Statistiken des Nutzers laden');
-
-    const v = visits || [];
+    // Die Markierungen "schon gesehen" sind öffentlich (seit 30.9.2026) und
+    // zählen wie im eigenen Profil bei "Werke gesehen" mit – und bei den
+    // Sammlungen, dafür kommen sie als gesehen zurück.
+    const [visits, markiert] = await Promise.all([
+        sb.from('visits').select('*').eq('user_id', userId),
+        sb.from('seen_operas').select('opera_id').eq('user_id', userId),
+    ]);
+    const v = unwrap(visits, 'Statistiken des Nutzers laden') || [];
+    const gesehen = (unwrap(markiert, 'Gesehene Werke des Nutzers laden') || []).map(r => r.opera_id);
     const houses = new Set(v.map(x => x.house_id));
-    const operas = new Set(v.map(x => x.opera_id));
+    const operas = new Set([...v.map(x => x.opera_id), ...gesehen]);
     const avgRating = v.length ? (v.reduce((s, x) => s + parseFloat(x.rating), 0) / v.length) : 0;
 
     return {
@@ -989,6 +993,7 @@ export async function getUserStatsCloud(userId) {
         uniqueHouses: houses.size,
         uniqueOperas: operas.size,
         averageRating: avgRating,
+        gesehen,
     };
 }
 

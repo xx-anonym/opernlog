@@ -20,7 +20,8 @@ import { passkeyBereich } from '../components/Passkeys.js';
 import { datenExportBereich } from '../components/DatenExport.js';
 import { mitteilungenBereich } from '../components/Mitteilungen.js';
 import { passkeysMoeglich } from '../passkey.js';
-import { eigeneSammlungen, sammlungKopf } from '../components/SammlungBalken.js';
+import { eigeneSammlungen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
+import { fortschritt } from '../data/sammlungen.js';
 
 /**
  * Die Kachel "Meistbesuchtes Haus". Ist das Haus bekannt, ist sie ein Link
@@ -289,6 +290,8 @@ async function renderCloudProfile(page, userId) {
       </div>
       ` : ''}
 
+      ${fremdeSammlungen(visits, stats?.gesehen)}
+
       <div class="profile-tabs">
         <button class="tab tab--active" data-cloud-tab="reviews">Reviews (${visits.length})</button>
         <button class="tab" data-cloud-tab="lists">Listen (${regularLists.length + (wishlist && wishlist.items.length > 0 ? 1 : 0)})</button>
@@ -528,6 +531,29 @@ function sammlungenAbschnitt() {
         <div class="sammlung__zeile">
           <a class="sammlung__kopf sammlung__kopf--verweis" href="#/sammlungen/${encodeURIComponent(stand.sammlung.id)}">${sammlungKopf(stand)}</a>
         </div>`).join('')}
+      </div>
+    </section>`;
+}
+
+/**
+ * Die begonnenen Sammlungen eines anderen – aus seinen Abenden und
+ * Markierungen, die beide öffentlich sind. Aufklappbar, ohne die Hinweise auf
+ * Termine: die gelten dem, der schaut, nicht dem Profil.
+ */
+function fremdeSammlungen(visits, gesehen) {
+  const begonnen = fortschritt(visits, gesehen).filter(s => s.erledigt > 0);
+  if (!begonnen.length) return '';
+  return `
+    <section class="profil-sammlungen">
+      <div class="profil-sammlungen__kopf">
+        <h2 class="profil-sammlungen__titel">${icon('layers')}Sammlungen</h2>
+      </div>
+      <div class="sammlung">
+        ${begonnen.map(stand => `
+        <details class="sammlung__zeile">
+          <summary class="sammlung__kopf">${sammlungKopf(stand)}</summary>
+          <div class="sammlung__werke">${stand.teile.map(t => teilChip(stand.sammlung, t)).join('')}</div>
+        </details>`).join('')}
       </div>
     </section>`;
 }
