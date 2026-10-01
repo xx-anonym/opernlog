@@ -36,7 +36,7 @@ window.__leakGefragt = [];      // die Rumpfobjekte, die invoke() gesehen hat
 window.__registriert = [];      // was signUp() entgegengenommen hat
 
 // Fuer das Admin-Katalogformular.
-window.__istAdmin = false;      // steht der Testnutzer in admins?
+window.__istAdmin = !!window.__istAdminVorgabe;      // steht der Testnutzer in admins?
 window.__katalog = { catalog_operas: [], catalog_houses: [], catalog_composers: [] };
 window.__angelegt = [];         // { tabelle, zeile } je INSERT
 window.__insertFehler = null;   // gesetzt: jedes INSERT scheitert damit
@@ -366,6 +366,12 @@ window.supabase = { createClient: () => ({
   },
   rpc: async (name, args) => {
     if (name === 'accept_invite') return { data: window.__einlader, error: null };
+    // Belegter Speicher in Bytes (__speicherBelegt); wie in der Datenbank nur für Admins.
+    if (name === 'speicher_belegt') {
+      window.__speicherGefragt = (window.__speicherGefragt || 0) + 1;
+      if (!window.__istAdmin) return { data: null, error: { message: 'Nur Admins' } };
+      return { data: [window.__speicherBelegt || { dateien: 0, datenbank: 0 }], error: null };
+    }
     if (name === 'push_abo_speichern') {
       if (window.__pushSpeichernFehler) return { data: null, error: { message: window.__pushSpeichernFehler } };
       window.__pushAbos.push(args);

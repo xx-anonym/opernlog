@@ -132,6 +132,8 @@ const APP_SHELL = [
     './src/components/DatenExport.js',
     './src/components/SammlungBalken.js',
     './src/components/Andenken.js',
+    './src/components/SpeicherHinweis.js',
+    './src/data/speicher.js',
     './src/bild.js',
     './src/components/KontoLoeschen.js',
     './src/components/Passkeys.js',

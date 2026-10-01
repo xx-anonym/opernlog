@@ -1582,6 +1582,18 @@ export async function hasPendingSuggestionCloud(type) {
 // Fehlschlag wird nicht gemerkt, beim nächsten Mal wird wieder gefragt.
 let adminAntwort = null; // { nutzer, antwort: Promise<boolean> }
 
+/**
+ * Wie viel bei Supabase belegt ist, in Bytes – nur für Admins, siehe
+ * supabase/migrations/speicher_belegt_migration.sql.
+ * @returns {Promise<{dateien: number, datenbank: number}>}
+ */
+export async function getSpeicherBelegtCloud() {
+    const sb = getSupabase();
+    const daten = unwrap(await sb.rpc('speicher_belegt'), 'Speicher prüfen');
+    const zeile = Array.isArray(daten) ? daten[0] : daten;
+    return { dateien: Number(zeile?.dateien) || 0, datenbank: Number(zeile?.datenbank) || 0 };
+}
+
 export async function istAdmin() {
     const session = await getSession();
     if (!session) return false;

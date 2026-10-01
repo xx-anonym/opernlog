@@ -38,6 +38,10 @@ async function oeffne(seite, { admin = false, insertFehler = null } = {}) {
     p.on('pageerror', e => fehler.push(e.message));
 
     await ersetzeSupabase(p);
+    // Schon vor dem Laden: die Startseite fragt istAdmin() gleich zu Beginn
+    // (Speicherhinweis), und die App merkt sich die Antwort. Erst danach
+    // gesetzt, blieb manchmal das frühe "kein Admin" hängen.
+    await p.addInitScript(a => { window.__istAdminVorgabe = a; }, admin);
     await p.goto(`${server.url}/index.html`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
     await p.evaluate(({ a, f }) => {
@@ -118,7 +122,9 @@ test('ein Werk landet im Katalog und ist sofort da', { skip: fehltPlaywright }, 
         await p.waitForSelector('#kfForm');
         await fuelleWerk(p);
         await p.click('#kfSenden');
-        await p.waitForTimeout(600);
+        // Warten, bis angelegt ist – eine feste Pause war unter Last zu kurz.
+        await p.waitForFunction(() => window.__angelegt.length >= 1);
+        await p.waitForTimeout(100);
 
         assert.equal(await p.locator('#kfForm').count(), 0, 'das Formular blieb offen');
         const angelegt = await p.evaluate(() => window.__angelegt);
@@ -160,7 +166,7 @@ test('ein neuer Komponist wird mit angelegt und die Werkseite verlinkt ihn', { s
         await p.fill('#kfDescription', 'Im Ghetto Theresienstadt entstanden.');
         await p.fill('#kfImage', BILD);
         await p.click('#kfSenden');
-        await p.waitForTimeout(700);
+        await p.waitForFunction(() => window.__angelegt.length >= 2);
 
         // Der Komponist zuerst: sonst zeigte die Werkseite kurz einen Namen
         // ohne Profil.
@@ -218,7 +224,8 @@ test('ein Haus landet im Katalog', { skip: fehltPlaywright }, async () => {
         await p.fill('#kfDescription', 'Ein Haus zum Prüfen.');
         await p.fill('#kfImageUrl', BILD);
         await p.click('#kfSenden');
-        await p.waitForTimeout(600);
+        await p.waitForFunction(() => window.__angelegt.length >= 1);
+        await p.waitForTimeout(100);
 
         const angelegt = await p.evaluate(() => window.__angelegt);
         assert.equal(angelegt.length, 1);

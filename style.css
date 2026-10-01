@@ -1375,6 +1375,36 @@ h3 {
     }
 }
 
+/* Hinweis für Admins: Speicher bei Supabase fast voll
+   (src/components/SpeicherHinweis.js). */
+.speicher-hinweis {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    border: 1px solid rgba(240, 170, 60, 0.35);
+    border-radius: 10px;
+    background: rgba(240, 170, 60, 0.08);
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.speicher-hinweis__zeile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.speicher-hinweis__zeile + .speicher-hinweis__zeile {
+    margin-top: 6px;
+}
+
+.speicher-hinweis .icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    color: #f0aa3c;
+}
+
 /* --- Comments --- */
 .comment {
     background: rgba(255, 255, 255, 0.03);

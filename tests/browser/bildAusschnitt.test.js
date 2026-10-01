@@ -44,6 +44,9 @@ async function oeffne(seite, { admin = false, vorgabe = [], fehler: schreibFehle
 
     await ersetzeSupabase(p);
     await p.addInitScript((v) => { window.__ausschnitteVorgabe = v; }, vorgabe);
+    // Admin schon vor dem Laden – siehe katalog.test.js: die Startseite fragt
+    // istAdmin() sofort, und die Antwort bleibt gemerkt.
+    await p.addInitScript(a => { window.__istAdminVorgabe = a; }, admin);
     await p.goto(`${server.url}/index.html`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
     await p.evaluate(({ a, f }) => { window.__istAdmin = a; window.__ausschnittFehler = f; }, { a: admin, f: schreibFehler });

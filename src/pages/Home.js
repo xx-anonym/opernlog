@@ -24,6 +24,7 @@ import { showError, showToast, runWithFeedback } from '../components/Toast.js';
 import { ReviewCard } from '../components/ReviewCard.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { fotosAnKarten } from '../components/Andenken.js';
+import { speicherHinweis } from '../components/SpeicherHinweis.js';
 import { store } from '../store/store.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
@@ -57,6 +58,8 @@ export function HomePage() {
   freundschaftsanfragen(page);
   page.appendChild(feedAbschnitt());
   empfehlungen(page, eigene);
+  // Nur für Admins, nur ab 90 % – sonst bleibt die Seite, wie sie ist.
+  speicherHinweis(page);
 
   return page;
 }
