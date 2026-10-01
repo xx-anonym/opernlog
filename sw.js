@@ -133,6 +133,7 @@ const APP_SHELL = [
     './src/components/SammlungBalken.js',
     './src/components/Andenken.js',
     './src/components/SpeicherHinweis.js',
+    './src/components/Leer.js',
     './src/data/speicher.js',
     './src/bild.js',
     './src/components/KontoLoeschen.js',

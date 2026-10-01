@@ -6,6 +6,7 @@ import { runWithFeedback } from '../components/Toast.js';
 import { escapeHTML, passtZurSuche } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
+import { leerHTML } from '../components/Leer.js';
 
 export function ListsPage() {
   const page = document.createElement('div');
@@ -14,7 +15,7 @@ export function ListsPage() {
   page.innerHTML = `
     <div class="page-header">
       <h1 class="page-header__title">${icon('list')}Listen</h1>
-      <p class="page-header__subtitle">Erstelle und verwalte deine kuratierten Sammlungen</p>
+      <p class="page-header__subtitle">Werke und Häuser, von dir zusammengestellt</p>
     </div>
     
     <div id="listsContent"></div>
@@ -73,13 +74,12 @@ export function ListsPage() {
     content.appendChild(createBtn);
 
     if (myLists.length === 0) {
-      const emptyState = document.createElement('div');
-      emptyState.className = 'empty-state';
-      emptyState.innerHTML = `
-            <p>Du hast noch keine Listen erstellt.</p>
-            <p class="text-muted">Erstelle kuratierte Sammlungen deiner Lieblingsopern oder -häuser!</p>
-      `;
-      content.appendChild(emptyState);
+      // Ohne eigenen Knopf: "Neue Liste erstellen" steht direkt darüber.
+      content.insertAdjacentHTML('beforeend', leerHTML({
+        zeichen: 'list',
+        titel: 'Noch keine Listen',
+        text: 'Stell Werke oder Häuser zusammen – deine Lieblingsopern etwa oder die Häuser einer Reise.',
+      }));
     } else {
       const grid = document.createElement('div');
       grid.className = 'lists-grid';

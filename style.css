@@ -758,6 +758,37 @@ h3 {
     }
 }
 
+/* Lesbarkeit im Kopf: Titel und Angaben lagen direkt auf unruhigen Plakaten
+   und Fotos (Jonas, 1.10.2026). Ein dunkler Verlauf von unten und von links,
+   wo der Text steht, dazu ein Schatten unter der Schrift; oben rechts bleibt
+   das Bild hell. Der Verlauf liegt über dem Hintergrund, Zurück-Knopf und
+   Text darüber. */
+.detail-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        linear-gradient(to top, rgba(12, 14, 17, 0.85) 0%, rgba(12, 14, 17, 0.55) 45%, rgba(12, 14, 17, 0) 80%),
+        linear-gradient(to right, rgba(12, 14, 17, 0.45) 0%, rgba(12, 14, 17, 0) 60%);
+    pointer-events: none;
+}
+
+.detail-hero > .back-link,
+.detail-hero > .detail-hero__content {
+    position: relative;
+}
+
+.detail-hero > .back-link {
+    background: rgba(12, 14, 17, 0.62);
+}
+
+.detail-hero__title,
+.detail-hero__meta,
+.detail-hero__rating-count {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 0, 0, 0.5);
+}
+
 .detail-hero__title {
     font-size: 36px;
     margin-bottom: 16px;
@@ -768,7 +799,7 @@ h3 {
     flex-wrap: wrap;
     gap: 16px;
     font-size: 15px;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.86);
     margin-bottom: 20px;
 }
 
@@ -789,7 +820,7 @@ h3 {
 
 .detail-hero__rating-count {
     font-size: 14px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .detail-body {
@@ -2710,6 +2741,54 @@ h3 {
 
 .empty-state p {
     margin-bottom: 20px;
+}
+
+/* Leere Seiten (src/components/Leer.js): Zeichen im goldenen Kreis, eine
+   Zeile, ein Satz, ein Knopf. */
+.empty-state.leer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 56px 24px;
+}
+
+.leer__zeichen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 35%, rgba(201, 168, 76, 0.16), rgba(201, 168, 76, 0.04));
+    color: var(--gold);
+}
+
+.leer__zeichen .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.empty-state.leer .leer__titel {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.empty-state.leer .leer__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.leer__knopf {
+    margin-top: 14px;
 }
 
 /* --- Section --- */

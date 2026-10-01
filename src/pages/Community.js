@@ -8,6 +8,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { escapeHTML, copyToClipboard, sterneText } from '../utils.js';
+import { leerHTML } from '../components/Leer.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -85,13 +86,12 @@ export function CommunityPage() {
         content.appendChild(actions);
 
         if (following.length === 0) {
-          const emptyState = document.createElement('div');
-          emptyState.className = 'empty-state';
-          emptyState.innerHTML = `
-                        <p>Du hast noch keine Freunde.</p>
-                        <p class="text-muted">Lade Freunde ein oder sende Freundschaftsanfragen!</p>
-                    `;
-          content.appendChild(emptyState);
+          // Ohne eigenen Knopf: "Freunde einladen" steht direkt darüber.
+          content.insertAdjacentHTML('beforeend', leerHTML({
+            zeichen: 'users',
+            titel: 'Noch keine Freunde',
+            text: 'Mit Freunden siehst du ihre Abende im Feed – und sie deine.',
+          }));
         } else {
           const grid = document.createElement('div');
           grid.className = 'community-grid';
@@ -155,13 +155,11 @@ export function CommunityPage() {
       content.appendChild(addBtn);
 
       if (friends.length === 0) {
-        const emptyState = document.createElement('div');
-        emptyState.className = 'empty-state';
-        emptyState.innerHTML = `
-                    <p>Du hast noch keine Freunde hinzugefügt.</p>
-                    <p class="text-muted">Füge Freunde hinzu, mit denen du Opernbesuche teilst!</p>
-                `;
-        content.appendChild(emptyState);
+        content.insertAdjacentHTML('beforeend', leerHTML({
+          zeichen: 'users',
+          titel: 'Noch keine Freunde',
+          text: 'Füge Freunde hinzu, mit denen du Opernabende teilst.',
+        }));
       } else {
         const grid = document.createElement('div');
         grid.className = 'community-grid';
@@ -214,13 +212,12 @@ export function CommunityPage() {
         content.innerHTML = '';
 
         if (feedItems.length === 0) {
-          content.innerHTML = `
-                        <div class="empty-state">
-                            <p>Noch keine Aktivitäten von Freunden.</p>
-                            <p class="text-muted">Folge jemandem, um deren Besuche hier zu sehen!</p>
-                            <a href="#/invite" class="btn btn--primary">${icon('link')} Freunde einladen</a>
-                        </div>
-                    `;
+          content.innerHTML = leerHTML({
+            zeichen: 'feed',
+            titel: 'Noch nichts von Freunden',
+            text: 'Sobald jemand, dem du folgst, einen Abend loggt, steht er hier.',
+            knopf: { text: 'Freunde einladen', href: '#/invite' },
+          });
         } else {
           const feedList = document.createElement('div');
           feedList.className = 'feed-list';
@@ -272,12 +269,11 @@ export function CommunityPage() {
       // Local mode: show own visits
       const allVisits = store.getAllVisits().slice(0, 20);
       if (allVisits.length === 0) {
-        content.innerHTML = `
-                    <div class="empty-state">
-                        <p>Du hast noch keine Besuche geloggt.</p>
-                        <a href="#/log" class="btn btn--primary">Ersten Besuch loggen</a>
-                    </div>
-                `;
+        content.innerHTML = leerHTML({
+          zeichen: 'calendar',
+          titel: 'Noch keine Abende',
+          knopf: { text: 'Ersten Abend loggen', href: '#/log' },
+        });
       } else {
         const feedList = document.createElement('div');
         feedList.className = 'feed-list';

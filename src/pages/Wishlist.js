@@ -5,6 +5,7 @@ import { coverBackground } from '../utils.js';
 import { runWithFeedback } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
 import { composerFarbe } from '../data/composerFarben.js';
+import { leerHTML } from '../components/Leer.js';
 
 export function WishlistPage() {
     const page = document.createElement('div');
@@ -25,12 +26,12 @@ export function WishlistPage() {
         const content = page.querySelector('#wishlistContent');
 
         if (items.length === 0) {
-            content.innerHTML = `
-        <div class="empty-state">
-          <p>Deine Wunschliste ist noch leer.</p>
-          <p class="text-muted">Stöbere durch die <a href="#/operas" class="link">Opern</a> und füge Werke hinzu, die du noch sehen möchtest!</p>
-        </div>
-      `;
+            content.innerHTML = leerHTML({
+                zeichen: 'star',
+                titel: 'Deine Wunschliste ist leer',
+                text: 'Werke, die du sehen willst, merkst du dir auf ihrer Seite mit dem Stern.',
+                knopf: { text: 'Opern entdecken', href: '#/operas' },
+            });
             return;
         }
 
