@@ -40,14 +40,14 @@ const BESUCHE = [
     { id: 'v1', user_id: UID, opera_id: 'ring-walkuere', house_id: 'staatsoper-berlin', date: '2026-05-01', rating: 4 },
 ];
 
-async function oeffne(hash, { besuche = BESUCHE, seenFremd = {} } = {}) {
+async function oeffne(hash, { besuche = BESUCHE, seenFremd = {}, gesehen = ['ring-rheingold'] } = {}) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
     await p.route('**/src/data/spielplan.js', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: SPIELPLAN }));
     await p.addInitScript(([b, s, f]) => { window.__besucheVorgabe = b; window.__seenVorgabe = s; window.__seenFremd = f; },
-        [besuche, ['ring-rheingold'], seenFremd]);
+        [besuche, gesehen, seenFremd]);
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html${hash}`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
@@ -113,5 +113,47 @@ test('auf dem Profil eines anderen: seine begonnenen Sammlungen', { skip: fehltP
         // Auch "Werke gesehen" zählt die Markierung mit.
         assert.equal((await p.textContent('.profile-stats')).match(/(\d+)\s*Werke gesehen/)?.[1], '2');
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+// Eine Sammlung erscheint erst mit dem ersten Treffer – "0 von 10"
+// demotiviert (Jonas, 1.10.2026).
+test('ohne Treffer: kein Abschnitt im Profil, auf #/sammlungen eine leere Seite', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/profile', { besuche: [], gesehen: [] });
+    try {
+        await p.waitForSelector('#editProfileBtn');
+        await p.waitForTimeout(300);
+        assert.equal(await p.locator('.profil-sammlungen').count(), 0);
+        await p.evaluate(() => { location.hash = '#/sammlungen'; });
+        await p.waitForSelector('.page--sammlungen .leer');
+        assert.equal((await p.textContent('.leer__titel')).trim(), 'Noch keine Sammlung begonnen');
+        assert.equal(await p.locator('.sammlung__zeile').count(), 0);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('#/sammlungen: nur begonnene, keine "0 von", dazu die Zahl der übrigen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/sammlungen');
+    try {
+        await p.waitForSelector('.sammlung__zeile');
+        const zahlen = await p.$$eval('.sammlung__zahl', zs => zs.map(z => z.textContent.replace(/\s+/g, ' ').trim()));
+        assert.ok(zahlen.length > 0);
+        assert.ok(zahlen.every(z => !/^0 von/.test(z)), zahlen.join(' | '));
+        const { SAMMLUNGEN } = await import('../../src/data/sammlungen.js');
+        assert.equal(await p.textContent('.sammlung__weitere'), `${SAMMLUNGEN.length - zahlen.length} weitere erscheinen mit dem ersten passenden Abend.`);
+        // Im Profil ebenso.
+        await p.evaluate(() => { location.hash = '#/profile'; });
+        await p.waitForSelector('.profil-sammlungen .sammlung__zahl');
+        const imProfil = await p.$$eval('.profil-sammlungen .sammlung__zahl', zs => zs.map(z => z.textContent.trim()));
+        assert.ok(imProfil.every(z => !/^0/.test(z)), imProfil.join(' | '));
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('ein Link auf eine noch nicht begonnene Sammlung zeigt sie trotzdem', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p } = await oeffne('#/sammlungen/salzburg');
+    try {
+        await p.waitForSelector('#sammlung-salzburg[open]');
+        assert.match((await p.textContent('#sammlung-salzburg .sammlung__zahl')).replace(/\s+/g, ' '), /^0 von 3/);
     } finally { await ctx.close(); }
 });

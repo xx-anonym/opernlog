@@ -7,7 +7,8 @@
 // #/sammlungen zeigt alle, #/sammlungen/ring öffnet eine.
 
 import { icon } from '../components/Icon.js';
-import { eigeneSammlungen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
+import { eigeneSammlungen, begonnen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
+import { leerHTML } from '../components/Leer.js';
 import { escapeHTML, getCachedPosition } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { kommendeAuffuehrungen, abendeImHaus, terminKurz } from '../data/spielplanAbfrage.js';
@@ -44,14 +45,27 @@ export function SammlungenPage(sprungZu = null) {
     page.className = 'page page--sammlungen';
     const position = getCachedPosition();
 
+    // Nur begonnene Sammlungen – "0 von 10" demotiviert. Ausnahme: die eine,
+    // zu der ein Link ausdrücklich führt (#/sammlungen/ring).
+    const alle = eigeneSammlungen();
+    const sichtbar = alle.filter(s => begonnen(s) || s.sammlung.id === sprungZu);
+    const weitere = alle.length - sichtbar.length;
     page.innerHTML = `
       <div class="page-header">
         <h1 class="page-header__title">${icon('layers')}Sammlungen</h1>
         <p class="page-header__subtitle">Geloggt oder als gesehen markiert</p>
       </div>
+      ${sichtbar.length ? `
       <div class="sammlung">
-        ${eigeneSammlungen().map(stand => zeile(stand, stand.sammlung.id === sprungZu, position)).join('')}
-      </div>`;
+        ${sichtbar.map(stand => zeile(stand, stand.sammlung.id === sprungZu, position)).join('')}
+      </div>
+      ${weitere ? `<p class="sammlung__weitere">${weitere} weitere erscheinen mit dem ersten passenden Abend.</p>` : ''}`
+        : leerHTML({
+            zeichen: 'layers',
+            titel: 'Noch keine Sammlung begonnen',
+            text: 'Mit dem ersten passenden Abend erscheint hier die erste – etwa der Ring oder Mozarts Da-Ponte-Opern.',
+            knopf: { text: 'Abend loggen', href: '#/log' },
+        })}`;
 
     const offen = sprungZu && page.querySelector(`#sammlung-${CSS.escape(sprungZu)}`);
     // Nur so weit wie nötig: steht sie schon im Bild, bleibt die Seite stehen.

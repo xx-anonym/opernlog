@@ -13,6 +13,12 @@ export function eigeneSammlungen() {
     return fortschritt(store.getVisitsByUser('user-me') || [], store.getSeenOperas());
 }
 
+/**
+ * Nur die begonnenen: eine Sammlung erscheint erst mit dem ersten Treffer.
+ * "0 von 10" demotiviert (Jonas, 1.10.2026).
+ */
+export const begonnen = stand => stand.erledigt > 0;
+
 /** Name, Stand und Balken einer Sammlung; der Rahmen (summary oder a) kommt vom Aufrufer. */
 export function sammlungKopf(stand) {
     const anteil = Math.round((stand.erledigt / stand.gesamt) * 100);

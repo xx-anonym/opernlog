@@ -21,7 +21,7 @@ import { passkeyBereich } from '../components/Passkeys.js';
 import { datenExportBereich } from '../components/DatenExport.js';
 import { mitteilungenBereich } from '../components/Mitteilungen.js';
 import { passkeysMoeglich } from '../passkey.js';
-import { eigeneSammlungen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
+import { eigeneSammlungen, begonnen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
 import { fortschritt } from '../data/sammlungen.js';
 
 /**
@@ -520,11 +520,13 @@ async function renderCloudProfile(page, userId) {
 }
 
 /**
- * Die drei vordersten Sammlungen (src/data/sammlungen.js) als knappe Zeilen
- * mit Balken; alle unter #/sammlungen.
+ * Die drei vordersten begonnenen Sammlungen (src/data/sammlungen.js) als
+ * knappe Zeilen mit Balken; alle unter #/sammlungen. Ohne Treffer in keiner
+ * Sammlung: kein Abschnitt – eine Reihe "0 von 3" demotiviert nur.
  */
 function sammlungenAbschnitt() {
-  const vorn = eigeneSammlungen().slice(0, 3);
+  const vorn = eigeneSammlungen().filter(begonnen).slice(0, 3);
+  if (!vorn.length) return '';
   return `
     <section class="profil-sammlungen">
       <div class="profil-sammlungen__kopf">
@@ -546,15 +548,15 @@ function sammlungenAbschnitt() {
  * Termine: die gelten dem, der schaut, nicht dem Profil.
  */
 function fremdeSammlungen(visits, gesehen) {
-  const begonnen = fortschritt(visits, gesehen).filter(s => s.erledigt > 0);
-  if (!begonnen.length) return '';
+  const seine = fortschritt(visits, gesehen).filter(begonnen);
+  if (!seine.length) return '';
   return `
     <section class="profil-sammlungen">
       <div class="profil-sammlungen__kopf">
         <h2 class="profil-sammlungen__titel">${icon('layers')}Sammlungen</h2>
       </div>
       <div class="sammlung">
-        ${begonnen.map(stand => `
+        ${seine.map(stand => `
         <details class="sammlung__zeile">
           <summary class="sammlung__kopf">${sammlungKopf(stand)}</summary>
           <div class="sammlung__werke">${stand.teile.map(t => teilChip(stand.sammlung, t)).join('')}</div>
