@@ -277,7 +277,9 @@ function rang(url) {
 // "Preview «Elektra»" (Zürich): eine Einführung um halb zwölf, kein Abend.
 // "Vor der Premiere", "Drumherum", "Musiktheaterclub" (Graz): Begleitprogramm.
 // "Premierenfieber" (Gärtnerplatz): eine Stunde Einblick vor der Premiere.
-export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview|vor der premiere|premierenfieber|drumherum|musiktheaterclub|operaktiv/i;
+// "Oper extra" (Frankfurt): Matinee zur Neuproduktion; "Opera Next Level":
+// Probenbesuch für Junge.
+export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|workshop|führung|gespräch|podcast|nachgespräch|werkstatt|begegnung|einblick|soir[ée]e|kostprobe|stream|lecture|hör.?n sie mal|preview|vor der premiere|premierenfieber|drumherum|musiktheaterclub|operaktiv|oper extra|opera next level/i;
 
 // Artikel über ein Stück sind keine Seiten der Produktion: Bonn erzählt im
 // Magazin von Galas vergangener Spielzeiten ("Am 11. Mai erlebte das
@@ -289,6 +291,11 @@ export const ARTIKEL = /\/magazin(\/|\.|$)|_magazin\b|\/blog\b|blind[_-]date/i;
 // Monatskalender erst die halbe Liste; der Rest kommt mit "weitere
 // Spieltage anzeigen" – ohne den Klick fehlten dort die Uhrzeiten der
 // zweiten Monatshälfte.
+// Überschriften zugeklappter Terminlisten, die seite() aufklappt: "Termine"
+// (Burg Gars), "Termine & Karten", und andersherum "Karten / Termine"
+// (Theater Bremen – dort fehlten deshalb fast alle Daten).
+export const TERMINE_TITEL = /^\s*(alle\s+)?(spiel)?termine(\s*(und|&)\s*(karten|tickets))?\s*$|^\s*(karten|tickets)\s*(\/|&|und)\s*termine\s*$|^\s*(vorstellungen|dates|performances)\s*$/i;
+
 export const NACHLADEN = /^\s*(mehr (laden|anzeigen)|(mehr|weitere|alle) (termine|vorstellungen|spieltage)( laden| anzeigen)?|weitere laden|load more|show more)\s*$/i;
 // Knöpfe, die das Werkzeug direkt auslöst, auch wenn Playwright sie für
 // verdeckt hält: nur solche, die ausdrücklich Termine nachladen – ein
@@ -577,8 +584,8 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         if (abgelehnt) await p.waitForTimeout(500);
         // Zugeklappte Abschnitte "Termine" öffnen: zugeklappter Text fehlt in
         // innerText, und Oper Burg Gars führt die Vorstellungen nur dort.
-        const aufgeklappt = await p.evaluate(() => {
-            const titel = /^\s*(alle\s+)?(spiel)?termine(\s*(und|&)\s*(karten|tickets))?\s*$|^\s*(vorstellungen|dates|performances)\s*$/i;
+        const aufgeklappt = await p.evaluate(([quelle, flags]) => {
+            const titel = new RegExp(quelle, flags);
             let n = 0;
             for (const d of document.querySelectorAll('details:not([open])')) {
                 if (titel.test(d.querySelector('summary')?.textContent || '')) { d.open = true; n++; }
@@ -589,7 +596,7 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 n++;
             }
             return n;
-        }).catch(() => 0);
+        }, [TERMINE_TITEL.source, TERMINE_TITEL.flags]).catch(() => 0);
         if (aufgeklappt) await p.waitForTimeout(600);
         // Nachgeladene Listen: ans Ende rollen und "Mehr laden" drücken, bis
         // nichts mehr dazukommt – höchstens achtmal.

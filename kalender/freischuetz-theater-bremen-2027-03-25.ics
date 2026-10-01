@@ -21,18 +21,19 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:carmen-theater-bremen-2026-12-13@opernlog.vercel.app
+UID:freischuetz-theater-bremen-2027-03-25@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20261213T180000
-DTEND;TZID=Europe/Berlin:20261213T210000
-SUMMARY:Carmen – Theater Bremen
+DTSTART;TZID=Europe/Berlin:20270325T190000
+DTEND;TZID=Europe/Berlin:20270325T220000
+SUMMARY:Der Freischütz – Theater Bremen
 LOCATION:Theater Bremen\, Deutschland
 GEO:53.074;8.814
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Theater Bremen, Deutschland":geo:53.074,8.814
-URL:https://theaterbremen.de/de_DE/programm/carmen.1398907#events
-DESCRIPTION:Georges Bizet: Carmen\nTermine und Karten: https://theaterbreme
- n.de/de_DE/programm/carmen.1398907#events\nDas Ende ist geschätzt (3 Stun
- den).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://theaterbremen.de/de_DE/programm/der-freischuetz.1398908#events
+DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
+ s://theaterbremen.de/de_DE/programm/der-freischuetz.1398908#events\nDas En
+ de ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite
+  des Hauses.
 END:VEVENT
 END:VCALENDAR

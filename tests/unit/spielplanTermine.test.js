@@ -645,3 +645,19 @@ test('"Termine" nach einem Jahr allein: kein Sprung ins Folgejahr (St. Margareth
     assert.ok(termine.includes('2027-07-14'), JSON.stringify(termine));
     assert.ok(termine.includes('2027-08-05'), JSON.stringify(termine));
 });
+
+// Oper Frankfurt, Monatskalender April 2027: unter dem Eintrag steht der
+// Beginn des Vorverkaufs, mit Datum in derselben Zeile. Er wurde zum
+// 15. Februar, 11 Uhr – einer Vorstellung, die es nicht gibt.
+test('"Vorverkauf ab 15. Februar" in derselben Zeile ist kein Termin', () => {
+    const fenster = { von: '2026-10-01', bis: '2027-09-30' };
+    const eintrag = 'Oper extra\nThe Greek Passion\nVorverkauf ab 15. Februar\nbooking opens February 15\n11.00 Uhr, Holzfoyer';
+    assert.deepEqual(termineMitZeiten(eintrag, fenster).termine, []);
+    assert.deepEqual(termineAusText(eintrag, fenster), []);
+    for (const z of ['Kostenlose Tickets buchbar ab 15. Februar', 'Vorverkaufsbeginn 1. März 2027']) {
+        assert.deepEqual(termineAusText(z, fenster), [], z);
+    }
+    // Der Monat aus der Verkaufszeile gilt nicht für die Tage danach.
+    const liste = 'April 2027\nVorverkauf ab 15. Februar\nSo 25.\nThe Greek Passion\n18.00 Uhr, Opernhaus';
+    assert.deepEqual(termineMitZeiten(liste, fenster).termine, ['2027-04-25']);
+});

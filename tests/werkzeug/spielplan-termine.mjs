@@ -230,6 +230,7 @@ function ordnen(text) {
         const z = roh[i];
         const n = roh[i + 1] || '';
         let m;
+        if (VERKAUF_ZEILE.test(z)) continue;
         if ((m = z.match(MONATSKOPF))) { kopfEnde(); kopf = `${MONATSNAME[MONATE[m[1].toLowerCase()]]} ${m[2]}`; aus.push(z); continue; }
         if (NUR_TAG.test(z) && NUR_MONAT.test(n)) { aus.push(tagUndMonat(z.match(NUR_TAG)[1], n)); i++; continue; }
         if (NUR_MONAT.test(z) && NUR_TAG.test(n)) { aus.push(tagUndMonat(n.match(NUR_TAG)[1], z)); i++; continue; }
@@ -279,6 +280,13 @@ const BEGLEITPROGRAMM = /^(zusatzangebote?|begleitprogramm|rahmenprogramm|rund u
 // keine Vorstellung (Volksoper Wien: "Do / 12. November 2026 /
 // Verkaufsstart: / 01.10.2026 10:00 / 19:00 - 20:45").
 const VERKAUF_DAVOR = /^(verkaufsstart|vorverkaufs?(start|beginn)?|vorverkauf ab|kartenverkauf|buchbar ab)\s*:?\s*$/i;
+
+// Der Verkaufsbeginn in derselben Zeile wie sein Datum: auch das ist keine
+// Vorstellung. Die Oper Frankfurt schreibt unter Einträge im Monatskalender
+// "Vorverkauf ab 15. Februar" / "booking opens February 15" – The Greek
+// Passion bekam so einen 15. Februar um 11 Uhr. Die Zeile fällt ganz weg,
+// damit ihr Monat auch nicht als Kontext für die Tage danach gilt.
+const VERKAUF_ZEILE = /^(vorverkaufs?(start|beginn)?|verkaufsstart|kartenverkauf|(kostenlose\s+)?tickets\s+buchbar|buchbar|booking opens|on sale)\b.*\d/i;
 
 // Die Zeilen eines Eintrags: ab dem Datum bis vor das nächste Datum. Ein
 // Verkaufsstart darin zählt nicht – weder als Anlass noch als Datum.

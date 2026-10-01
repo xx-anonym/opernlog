@@ -439,6 +439,13 @@ test('Knöpfe zum Nachladen: auch "weitere Spieltage anzeigen" (Deutsche Oper Be
     for (const t of ['Weitere Informationen', 'mehr erfahren', 'Tickets']) assert.ok(!NACHLADEN.test(t) && !NACHLADEN_DIREKT.test(t), t);
 });
 
+test('zugeklappte Terminlisten: auch "Karten / Termine" (Theater Bremen)', async () => {
+    const { TERMINE_TITEL } = await import('../werkzeug/spielplaene-lesen.mjs');
+    for (const t of ['Termine', 'Spieltermine', 'Alle Termine', 'Termine & Karten', 'Termine und Tickets',
+        'Karten / Termine', 'Tickets & Termine', 'Karten und Termine', 'Vorstellungen']) assert.ok(TERMINE_TITEL.test(t), t);
+    for (const t of ['Besetzung', 'Karten', 'Tickets', 'Termine im Überblick', 'Karten kaufen']) assert.ok(!TERMINE_TITEL.test(t), t);
+});
+
 test('Ansichten einzelner Termine: nur Links auf dieselbe Produktion (Frankfurt)', async () => {
     const { terminAnsichten } = await import('../werkzeug/spielplaene-lesen.mjs');
     const seiteUrl = 'https://oper-frankfurt.de/de/spielplan/aida_3/';

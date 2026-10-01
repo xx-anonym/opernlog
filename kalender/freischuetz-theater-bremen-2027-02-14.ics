@@ -30,10 +30,10 @@ LOCATION:Theater Bremen\, Deutschland
 GEO:53.074;8.814
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Theater Bremen, Deutschland":geo:53.074,8.814
-URL:https://theaterbremen.de/de_DE/programm/der-freischuetz.1398908
+URL:https://theaterbremen.de/de_DE/programm/der-freischuetz.1398908#events
 DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
- s://theaterbremen.de/de_DE/programm/der-freischuetz.1398908\nDas Ende ist 
- geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Ha
- uses.
+ s://theaterbremen.de/de_DE/programm/der-freischuetz.1398908#events\nDas En
+ de ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite
+  des Hauses.
 END:VEVENT
 END:VCALENDAR
