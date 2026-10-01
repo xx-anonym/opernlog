@@ -167,12 +167,24 @@ function geplanteAbende(page, eigene) {
     page.appendChild(el);
   });
 
-  const kommend = kommendePlaene(plaene, heute);
+  // Demnächst: immer nur der nächste vorgemerkte Abend; die späteren per
+  // Wischen oder Pfeil (Jonas, 1.10.2026: die Liste war zu voll). Gewischt
+  // wird über das Scrollen des Browsers mit Einrasten – am Handy fühlt sich
+  // das an wie bei Fotos, am Rechner geht es mit dem Trackpad.
+  const kommend = kommendePlaene(plaene, heute)
+    .filter(plan => werk(plan.operaId) && haus(plan.houseId));
   if (!kommend.length) return;
   const liste = document.createElement('section');
   liste.className = 'demnaechst fade-in';
   liste.innerHTML = `
-    <h2 class="demnaechst__titel">Demnächst</h2>
+    <div class="demnaechst__kopf">
+      <h2 class="demnaechst__titel">Demnächst</h2>
+      <div class="demnaechst__blaettern">
+        <span class="demnaechst__zahl" aria-live="polite"></span>
+        <button type="button" class="demnaechst__pfeil" data-schritt="-1" aria-label="Früherer Termin">${icon('chevronLeft')}</button>
+        <button type="button" class="demnaechst__pfeil" data-schritt="1" aria-label="Nächster Termin">${icon('chevronRight')}</button>
+      </div>
+    </div>
     <ul class="demnaechst__liste">
       ${kommend.map((plan) => {
         const w = werk(plan.operaId), h = haus(plan.houseId);
@@ -188,17 +200,41 @@ function geplanteAbende(page, eigene) {
       </li>`;
       }).join('')}
     </ul>`;
+
+  const band = liste.querySelector('.demnaechst__liste');
+  const zeilen = () => [...band.querySelectorAll('.demnaechst__zeile')];
+  const aktuell = () => Math.min(zeilen().length - 1, Math.max(0, Math.round(band.scrollLeft / (band.clientWidth || 1))));
+  const auffrischen = () => {
+    const n = zeilen().length, i = aktuell();
+    liste.querySelector('.demnaechst__blaettern').hidden = n < 2;
+    liste.querySelector('.demnaechst__zahl').textContent = `${i + 1} / ${n}`;
+    liste.querySelector('[data-schritt="-1"]').disabled = i === 0;
+    liste.querySelector('[data-schritt="1"]').disabled = i >= n - 1;
+  };
+  const zeige = (i) => {
+    const sanft = !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    band.scrollTo({ left: i * band.clientWidth, behavior: sanft ? 'smooth' : 'auto' });
+  };
+  band.addEventListener('scroll', auffrischen, { passive: true });
+
   liste.addEventListener('click', async (e) => {
+    const pfeil = e.target.closest('.demnaechst__pfeil');
+    if (pfeil) {
+      zeige(aktuell() + Number(pfeil.dataset.schritt));
+      return;
+    }
     const knopf = e.target.closest('.demnaechst__weg');
     if (!knopf) return;
     const zeile = knopf.closest('.demnaechst__zeile');
     if (await runWithFeedback(() => store.planEntfernen(zeile.dataset.plan), { failure: 'Vormerkung ließ sich nicht entfernen' })) {
       zeile.remove();
-      if (!liste.querySelector('.demnaechst__zeile')) liste.remove();
+      if (!zeilen().length) liste.remove();
+      else auffrischen();
       showToast('Vormerkung entfernt');
     }
   });
   page.appendChild(liste);
+  auffrischen();
 }
 
 /**

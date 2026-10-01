@@ -4203,6 +4203,15 @@ body {
     margin: 0 0 20px;
 }
 
+/* Kopfzeile: Titel links, "2 / 5" und die Pfeile rechts. */
+.demnaechst__kopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 6px;
+}
+
 .demnaechst__titel {
     font-family: var(--font-body);
     font-size: 0.78rem;
@@ -4210,21 +4219,81 @@ body {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--gold);
-    margin: 0 0 6px;
+    margin: 0;
 }
 
+.demnaechst__blaettern {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.demnaechst__blaettern[hidden] {
+    display: none;
+}
+
+.demnaechst__zahl {
+    margin-right: 6px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.demnaechst__pfeil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.demnaechst__pfeil .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.demnaechst__pfeil:hover:not(:disabled) {
+    border-color: var(--gold-dark);
+    color: var(--gold);
+}
+
+.demnaechst__pfeil:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+/* Ein Abend je Breite; das Band scrollt seitwärts und rastet ein. */
 .demnaechst__liste {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
     list-style: none;
     margin: 0;
     padding: 0;
     border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.demnaechst__liste::-webkit-scrollbar {
+    display: none;
 }
 
 .demnaechst__zeile {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
     display: flex;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid var(--border);
 }
 
 .demnaechst__link {
