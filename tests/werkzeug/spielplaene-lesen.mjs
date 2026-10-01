@@ -93,6 +93,7 @@ export const ANDERE_TITEL = {
     'l-italiana-in-algeri': ['Die Italienerin in Algier', 'Italienerin in Algier', "L'Italiana in Algeri"],
     'il-viaggio-a-reims': ['Die Reise nach Reims', 'Reise nach Reims', 'Le Voyage à Reims', 'Le voyage a Reims', 'The Journey to Reims'],
     'orpheus-in-der-unterwelt': ['Orphée aux enfers', 'Orphee aux enfers', 'Orpheus in the Underworld', 'Orfeo all\'inferno'],
+    'the-greek-passion': ['Die griechische Passion', 'Griechische Passion', 'Řecké pašije', 'Recke pasije', 'La Passion grecque'],
     'elisir': ["L’elisir d’amore", 'Der Liebestrank', "L'elisir d'amore"],
     'jenufa': ['Jenufa', 'Její pastorkyňa'],
     'katja-kabanova': ['Katja Kabanowa', 'Káťa Kabanová'],

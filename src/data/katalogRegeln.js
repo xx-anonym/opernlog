@@ -74,6 +74,15 @@ function bildMaengel(adresse, feld) {
     if (!BILD_HOSTS.includes(url.hostname)) {
         maengel.push(`${feld}: ${url.hostname} ist nicht ${BILD_HOSTS.join(' oder ')}. `
             + 'Von einem anderen Host holt der Service Worker nichts, offline bliebe die Kachel leer.');
+    } else if (!url.pathname.startsWith('/wikipedia/commons/')) {
+        // Nur Wikimedia Commons: dort sind die Dateien frei lizenziert. Die
+        // einzelnen Wikipedias (/wikipedia/el/, /en/ …) führen daneben eigene,
+        // oft als "Fair Use" – erlaubt nur für ihren Artikel, nicht für
+        // OpernLog. So kamen am 1.10.2026 der Buchumschlag bei The Greek
+        // Passion und das Plakat bei Candide herein.
+        const wiki = url.pathname.split('/')[2] || '?';
+        maengel.push(`${feld} liegt nicht auf Wikimedia Commons, sondern nur in einer Wikipedia (${wiki}). `
+            + 'Solche Dateien sind oft nicht frei ("Fair Use") – bitte ein Bild von commons.wikimedia.org nehmen.');
     }
 
     const breite = adresse.match(/\/thumb\/.*?\/(?:lossy-page1-|page1-)?(\d+)px-/);

@@ -65,6 +65,26 @@ test('die Prüfung deckt wirklich den ganzen Katalog ab', () => {
     assert.ok(composers.length > 40, `nur ${composers.length} Komponisten`);
 });
 
+// Dateien einzelner Wikipedias sind oft "Fair Use" – nur für ihren Artikel
+// erlaubt. So kamen der Buchumschlag bei The Greek Passion und das Plakat bei
+// Candide in den Katalog (1.10.2026).
+test('Bilder nur von Wikimedia Commons, nicht aus einer einzelnen Wikipedia', () => {
+    const vorlage = operas.find(o => o.id === 'tosca');
+    const commonsMaengel = image => pruefeWerk({ ...vorlage, id: 'probe-werk', title: 'Probewerk', image },
+        { werke: operas, komponisten: composers }).filter(m => /Commons/.test(m));
+    for (const wiki of ['el', 'en', 'de']) {
+        const lokal = `https://upload.wikimedia.org/wikipedia/${wiki}/thumb/6/64/Umschlag.jpg/500px-Umschlag.jpg`;
+        assert.equal(commonsMaengel(lokal).length, 1, wiki);
+        assert.match(commonsMaengel(lokal)[0], new RegExp(`\\(${wiki}\\)`));
+    }
+    assert.deepEqual(commonsMaengel(vorlage.image), []);
+    // Auch das Porträt eines Komponisten.
+    const k = composers[0];
+    assert.ok(pruefeKomponist({ ...k, id: 'probe-komponist', name: 'Probe Komponist',
+        bild: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Bild.jpg/500px-Bild.jpg' }, { komponisten: composers })
+        .some(m => /Commons/.test(m)));
+});
+
 test('die erlaubten Bild-Hosts stimmen mit dem Service Worker überein', () => {
     // Die Regeln laufen im Browser und können sw.js nicht lesen; der Service
     // Worker führt seine Liste als klassischer Worker und kann kein Modul
