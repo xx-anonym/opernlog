@@ -10,6 +10,7 @@ import { operas } from '../data/operas.js';
 import { kurzname } from '../data/composers.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
+import { bildnachweisImKopf } from '../components/Bildnachweis.js';
 import { fotosAnKarten } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
@@ -260,6 +261,7 @@ export function HouseDetailPage(houseId) {
   }
   demnaechstHier(page.querySelector('#hausSpielplan'), house);
   loadVisits();
+  bildnachweisImKopf(page.querySelector('.detail-hero'), house.imageUrl);
 
   // Der Schalter zum Entfernen kommt nach, sobald die Adminfrage beantwortet
   // ist – und nur bei Einträgen, die in der Datenbank stehen. Was als Datei im

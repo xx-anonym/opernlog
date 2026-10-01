@@ -33,7 +33,9 @@ test('der kleine Link unter "Konto löschen" führt zur Datenschutzseite', { ski
         await p.waitForSelector('#editProfileBtn', { timeout: 15000 });
         await vorhangAuf(p);
         await p.click('#editProfileBtn');
-        const link = p.locator('#profilKonto a.rechtstext-link');
+        // Darunter steht seit dem 1.10.2026 auch "Bildnachweise".
+        assert.equal(await p.locator('#profilKonto a.rechtstext-link[href="#/bildnachweise"]').count(), 1);
+        const link = p.locator('#profilKonto a.rechtstext-link[href="#/datenschutz"]');
         await link.scrollIntoViewIfNeeded();
         await link.click();
         await p.waitForFunction(() => location.hash === '#/datenschutz');

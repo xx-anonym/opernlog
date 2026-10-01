@@ -32,6 +32,12 @@ export const werkeAusDatenbank = () => tabelle('catalog_operas', 'id,title,compo
 /** Die Häuser, die der Admin in der App angelegt hat (catalog_houses): [{id, name, city, state, lat, lon}] */
 export const haeuserAusDatenbank = () => tabelle('catalog_houses', 'id,name,city,state,lat,lon');
 
+/** Die Bilder der Einträge aus der Datenbank – für die Bildnachweise. [{id, bild}] */
+export async function bilderAusDatenbank() {
+    const [werke, haeuser] = await Promise.all([tabelle('catalog_operas', 'id,image'), tabelle('catalog_houses', 'id,image_url')]);
+    return [...werke.map(w => ({ id: w.id, bild: w.image })), ...haeuser.map(h => ({ id: h.id, bild: h.image_url }))];
+}
+
 /**
  * Die Werke aus der Datenbank, die in diesen Spielplanzeilen vorkommen, aber
  * nicht in operas.js stehen. Fragt nur, wenn es solche gibt.

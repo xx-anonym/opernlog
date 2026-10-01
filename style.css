@@ -783,6 +783,38 @@ h3 {
     background: rgba(12, 14, 17, 0.62);
 }
 
+/* Bildnachweis unten rechts im Kopf: klein und blass, wird beim Zeigen
+   deutlicher (src/components/Bildnachweis.js). */
+.bildnachweis {
+    position: absolute;
+    right: 14px;
+    bottom: 8px;
+    display: flex;
+    max-width: calc(100% - 28px);
+    white-space: nowrap;
+    font-size: 10.5px;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.bildnachweis__wer {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bildnachweis__lizenz {
+    flex: none;
+}
+
+.bildnachweis:hover,
+.bildnachweis:focus-visible {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .detail-hero__title,
 .detail-hero__meta,
 .detail-hero__rating-count {
@@ -1434,6 +1466,44 @@ h3 {
     width: 16px;
     height: 16px;
     color: #f0aa3c;
+}
+
+/* #/bildnachweise: schlichte Liste, je Eintrag Name und eine graue Zeile. */
+.nachweise {
+    margin-bottom: 28px;
+}
+
+.nachweise__titel {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+}
+
+.nachweise__liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nachweise__eintrag {
+    display: grid;
+    gap: 1px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.nachweise__name {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.nachweise__wer {
+    font-size: 12px;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+
+.nachweise__wer a {
+    color: var(--text-secondary);
 }
 
 /* --- Comments --- */
@@ -6612,6 +6682,10 @@ body {
 
 .rechtstext-link:hover {
     color: var(--text-secondary);
+}
+
+.rechtstext-link + .rechtstext-link {
+    margin-top: 6px;
 }
 
 /* Meine Daten herunterladen – ein schlichter Knopf direkt über "Konto

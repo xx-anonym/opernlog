@@ -12,6 +12,7 @@ import { runWithFeedback, showError, showToast } from '../components/Toast.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { store } from '../store/store.js';
 import { ReviewCard } from '../components/ReviewCard.js';
+import { bildnachweisImKopf } from '../components/Bildnachweis.js';
 import { fotosAnKarten } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
@@ -272,6 +273,7 @@ export function OperaDetailPage(operaId) {
     }
   }
   loadVisits();
+  bildnachweisImKopf(page.querySelector('.detail-hero'), opera.image);
 
   // Wishlist toggle
   const wishlistBtn = page.querySelector('#wishlistToggle');

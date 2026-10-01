@@ -926,7 +926,8 @@ function renderLocalProfile(page, userId, isMe) {
         Konto löschen
       </button>
       <p class="form-hint">Endgültig, mit allem, was du geloggt hast.</p>
-      <a class="rechtstext-link" href="#/datenschutz">Datenschutz</a>`;
+      <a class="rechtstext-link" href="#/datenschutz">Datenschutz</a>
+      <a class="rechtstext-link" href="#/bildnachweise">Bildnachweise</a>`;
 
     bereich.querySelector('#deleteAccountBtn').addEventListener('click', () => {
       document.body.appendChild(kontoLoeschModal(user.name || '', {

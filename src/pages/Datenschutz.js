@@ -72,7 +72,8 @@ export function DatenschutzPage() {
         <li><strong>GitHub</strong> (GitHub Inc., USA) verwahrt eine wöchentliche Sicherung der Datenbank,
           verschlüsselt – lesen kann sie nur der Betreiber.</li>
         <li><strong>Wikimedia Commons</strong> (Wikimedia Foundation, USA): Bilder von Werken, Häusern und
-          Komponisten lädt dein Browser direkt von dort; Wikimedia sieht dabei deine IP-Adresse.</li>
+          Komponisten lädt dein Browser direkt von dort, bei neuen Bildern auch ihren
+          <a href="#/bildnachweise">Bildnachweis</a>; Wikimedia sieht dabei deine IP-Adresse.</li>
         <li><strong>Google</strong>, nur wenn du dich mit Google anmeldest.</li>
         <li><strong>Push-Dienste</strong> von Apple, Google oder Mozilla (je nach Browser) stellen
           Mitteilungen zu, wenn du sie eingeschaltet hast.</li>
