@@ -1410,30 +1410,16 @@ export async function getAndenkenCloud(visitId) {
  * eigenen privaten nicht im Feed stehen.
  * @returns {Promise<Map<string, Array>>} Abend-ID -> Fotos
  */
-export function getFreigegebeneAndenkenCloud(visitIds) {
-    return andenkenNachAbend(visitIds, true);
-}
-
-/**
- * Alle Andenken eigener Abende, auch die privaten – für den Saisonrückblick,
- * den nur man selbst sieht. Fotos hängen immer am Abend ihres Besitzers
- * (Regel "Andenken anlegen"), bei eigenen Abenden sind es also die eigenen.
- * @returns {Promise<Map<string, Array>>} Abend-ID -> Fotos
- */
-export function getEigeneAndenkenCloud(visitIds) {
-    return andenkenNachAbend(visitIds, false);
-}
-
-async function andenkenNachAbend(visitIds, nurFreigegeben) {
+export async function getFreigegebeneAndenkenCloud(visitIds) {
     const ids = [...new Set(visitIds.map(String))];
     const nachAbend = new Map();
     if (!ids.length) return nachAbend;
     const sb = getSupabase();
-    let abfrage = sb.from('andenken')
+    const zeilen = unwrap(await sb.from('andenken')
         .select(ANDENKEN_SPALTEN)
-        .in('visit_id', ids);
-    if (nurFreigegeben) abfrage = abfrage.eq('oeffentlich', true);
-    const zeilen = unwrap(await abfrage.order('created_at'), 'Fotos laden') || [];
+        .in('visit_id', ids)
+        .eq('oeffentlich', true)
+        .order('created_at'), 'Fotos im Feed laden') || [];
     for (const z of await mitAdressen(zeilen)) {
         const id = String(z.visit_id);
         if (!nachAbend.has(id)) nachAbend.set(id, []);

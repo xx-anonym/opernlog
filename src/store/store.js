@@ -29,10 +29,6 @@ function neueKennung() {
     return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }
 
-// Abende, die noch auf die Übertragung warten, tragen keine UUID. Fragt man
-// die Datenbank nach ihnen, lehnt sie die ganze Abfrage ab.
-const istUuid = id => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-
 /** Lag es am Netz – oder hat der Server den Besuch abgelehnt? */
 function istNetzfehler(e) {
     if (!e) return false;
@@ -1098,19 +1094,13 @@ class Store {
     /**
      * Die für Freunde freigegebenen Fotos mehrerer Abende, für Kartenlisten
      * (Feed, Werk-, Haus- und Profilseite): Abend-ID -> Fotos. Abende, die
-     * noch auf die Übertragung warten, fallen heraus (istUuid).
+     * noch auf die Übertragung warten, tragen keine UUID und fallen heraus –
+     * die Datenbank lehnte sonst die ganze Abfrage ab.
      */
     async getFreigegebeneAndenken(visitIds) {
-        const ids = visitIds.map(String).filter(istUuid);
+        const ids = visitIds.map(String).filter(id => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id));
         if (!this.isCloud || this.isOffline || !ids.length) return new Map();
         return sb.getFreigegebeneAndenkenCloud(ids);
-    }
-
-    /** Alle Fotos eigener Abende, auch die privaten – für den Saisonrückblick. */
-    async getEigeneAndenken(visitIds) {
-        const ids = visitIds.map(String).filter(istUuid);
-        if (!this.isCloud || this.isOffline || !ids.length) return new Map();
-        return sb.getEigeneAndenkenCloud(ids);
     }
 
     /** foto: vorbereitet von fotoVorbereiten() in src/bild.js */

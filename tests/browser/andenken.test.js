@@ -42,7 +42,7 @@ const mitVorschau = f => ({ ...f, vorschau: f.pfad.replace(/\.jpg$/, '-klein.jpg
 // Befreundet heißt: in beide Richtungen gefolgt.
 const FREUNDE = [{ follower_id: UID, following_id: FREMD }, { follower_id: FREMD, following_id: UID }];
 
-async function oeffne(hash, { andenken = [], speicher = {}, bild = null, follows = FREUNDE, adresseFuer = false, breite = 390, besuche = BESUCHE } = {}) {
+async function oeffne(hash, { andenken = [], speicher = {}, bild = null, follows = FREUNDE, adresseFuer = false, breite = 390 } = {}) {
     const ctx = await browser.newContext({ viewport: { width: breite, height: 900 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
@@ -53,7 +53,7 @@ async function oeffne(hash, { andenken = [], speicher = {}, bild = null, follows
         if (bild) window.__bildAdresse = bild;
         // Jede Datei ihre eigene Adresse: so sieht man, ob Vorschau oder Foto geladen wird.
         if (fuer) window.__bildAdresseFuer = pf => `${bild}#${pf}`;
-    }, [besuche, andenken, speicher, bild, follows, adresseFuer]);
+    }, [BESUCHE, andenken, speicher, bild, follows, adresseFuer]);
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html${hash}`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
@@ -433,98 +433,5 @@ test('beim Bearbeiten keine Fotoauswahl – die Fotos stehen auf der Seite des A
         await p.waitForSelector('#logForm');
         await p.waitForTimeout(300);
         assert.equal(await p.locator('.andenken--auswahl').count(), 0);
-    } finally { await ctx.close(); }
-});
-
-// Saisonrückblick (#/season/2025 = 1.8.2025 bis 31.7.2026): je Abend eine
-// Kachel mit seinem ersten Foto, in der Reihenfolge der Abende, auch private.
-// Vergrößert blättert man durch alle Fotos der Spielzeit; unter jedem steht
-// der Abend, als Weg dorthin.
-const HERBST_ABEND = 'aaaaaaaa-1111-4000-8000-000000000003';
-const ALTER_ABEND = 'aaaaaaaa-1111-4000-8000-000000000004';
-const SAISON_BESUCHE = [
-    ...BESUCHE,
-    { id: HERBST_ABEND, user_id: UID, opera_id: 'aida', house_id: 'oper-leipzig', date: '2025-10-12', rating: 3 },
-    { id: ALTER_ABEND, user_id: UID, opera_id: 'aida', house_id: 'oper-leipzig', date: '2025-03-01', rating: 3 },
-];
-
-test('Saisonrückblick: je Abend eine Kachel, auch private, vergrößert mit Weg zum Abend', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const mai1 = mitVorschau(foto('cccccccc-3333-4000-8000-000000000011', UID, MEIN_ABEND, false));
-    const mai2 = mitVorschau(foto('cccccccc-3333-4000-8000-000000000012', UID, MEIN_ABEND, true));
-    const herbst = mitVorschau(foto('cccccccc-3333-4000-8000-000000000013', UID, HERBST_ABEND, false));
-    const alt = mitVorschau(foto('cccccccc-3333-4000-8000-000000000014', UID, ALTER_ABEND, true));
-    // Vom Freund, freigegeben, am 1.4.2026 – kein eigener Abend, gehört nicht hinein.
-    const freund = mitVorschau(foto('dddddddd-4444-4000-8000-000000000015', FREMD, FREMDER_ABEND, true));
-    const { ctx, p, fehler } = await oeffne('#/season/2025', {
-        besuche: SAISON_BESUCHE, andenken: [mai1, mai2, herbst, alt, freund], bild: BILD, adresseFuer: true,
-    });
-    try {
-        await p.waitForSelector('.andenken--saison .andenken__foto');
-        // Unter den Kacheln, vor den Knöpfen zum Teilen.
-        assert.equal(await p.evaluate(() => {
-            const fotos = document.querySelector('.andenken--saison');
-            return fotos.previousElementSibling?.id === 'seasonCards'
-                && fotos.nextElementSibling?.classList.contains('season__actions');
-        }), true);
-        assert.match(await p.textContent('.andenken--saison .andenken__summe'), /^3 Fotos · 2 Abende$/);
-        // Oktober vor Mai; je Abend das erste Foto, als Vorschau.
-        const kacheln = await p.$$eval('.andenken--saison .andenken__foto', fs => fs.map(f => f.dataset.id));
-        assert.deepEqual(kacheln, [herbst.id, mai1.id]);
-        assert.equal((await p.getAttribute('.andenken--saison .andenken__foto:nth-child(2) img', 'src')).split('#')[1], mai1.vorschau);
-        // Zwei Kacheln in drei Spalten: die erste doppelt breit, beide gleich hoch.
-        const [erste, zweite] = await p.$$eval('.andenken--saison .andenken__foto', fs => fs.map(f => f.getBoundingClientRect().toJSON()));
-        assert.ok(Math.abs(erste.width - (2 * zweite.width + 3)) < 1.5, `Breiten ${erste.width} / ${zweite.width}`);
-        assert.ok(Math.abs(erste.height - zweite.height) < 1, `Höhen ${erste.height} / ${zweite.height}`);
-        assert.ok(Math.abs(zweite.width - zweite.height) < 1, 'quadratisch');
-
-        await p.click('.andenken--saison .andenken__foto:nth-child(2) .andenken__oeffnen');
-        assert.equal(await p.textContent('.andenken-gross__zahl'), '2 / 3');
-        assert.equal(await p.textContent('.andenken-gross__abend'), 'Tosca · 1. Mai 2026');
-        assert.equal(await p.locator('.andenken-gross__knopf').count(), 0);
-        await p.keyboard.press('ArrowLeft');
-        assert.equal(await p.textContent('.andenken-gross__abend'), 'Aida · 12. Okt. 2025');
-        await p.keyboard.press('ArrowLeft');
-        assert.equal(await p.textContent('.andenken-gross__zahl'), '3 / 3');
-        assert.equal((await p.getAttribute('.andenken-gross img', 'src')).split('#')[1], mai2.pfad);
-
-        // Der Weg zum Abend schließt die Vergrößerung (src/zurueckGeste.js).
-        await p.click('.andenken-gross__abend');
-        await p.waitForSelector('.andenken-gross', { state: 'detached' });
-        await p.waitForFunction(id => location.hash === `#/visit/${id}`, MEIN_ABEND);
-        assert.deepEqual(fehler, []);
-    } finally { await ctx.close(); }
-});
-
-test('Saisonrückblick ohne Fotos in der Spielzeit: kein Abschnitt', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const alt = foto('cccccccc-3333-4000-8000-000000000014', UID, ALTER_ABEND, true);
-    const { ctx, p, fehler } = await oeffne('#/season/2025', { besuche: SAISON_BESUCHE, andenken: [alt] });
-    try {
-        await p.waitForSelector('.season-card');
-        await p.waitForFunction(() => window.__andenkenGelesen >= 1);
-        await p.waitForTimeout(200);
-        assert.equal(await p.$eval('.andenken--saison', el => el.hidden), true);
-        assert.deepEqual(fehler, []);
-    } finally { await ctx.close(); }
-});
-
-test('Saisonrückblick: höchstens zwölf Kacheln, "+1" für den dreizehnten Abend', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const nr = i => String(i).padStart(2, '0');
-    const besuche = Array.from({ length: 13 }, (_, i) => ({
-        id: `aaaaaaaa-1111-4000-8000-0000000001${nr(i)}`, user_id: UID, opera_id: 'tosca', house_id: 'semperoper',
-        date: `2025-${nr(9 + Math.floor(i / 4))}-${nr(1 + (i % 4))}`, rating: 4,
-    }));
-    const andenken = besuche.map((v, i) => foto(`cccccccc-3333-4000-8000-0000000002${nr(i)}`, UID, v.id, false));
-    const { ctx, p, fehler } = await oeffne('#/season/2025', { besuche, andenken, breite: 1000 });
-    try {
-        await p.waitForSelector('.andenken--saison .andenken__foto');
-        assert.equal(await p.locator('.andenken--saison .andenken__foto').count(), 12);
-        assert.equal((await p.textContent('.andenken--saison .andenken__foto:last-child .andenken__mehr')).trim(), '+1');
-        assert.match(await p.textContent('.andenken--saison .andenken__summe'), /^13 Fotos · 13 Abende$/);
-        // Breit vier Spalten: zwölf Kacheln, drei volle Reihen.
-        const reihen = await p.$$eval('.andenken--saison .andenken__foto', fs => new Set(fs.map(f => Math.round(f.getBoundingClientRect().top))).size);
-        assert.equal(reihen, 3);
-        await p.click('.andenken--saison .andenken__foto:last-child .andenken__oeffnen');
-        assert.equal(await p.textContent('.andenken-gross__zahl'), '12 / 13');
-        assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

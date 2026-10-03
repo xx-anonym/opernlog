@@ -1358,60 +1358,6 @@ h3 {
     height: 14px;
 }
 
-/* Im Saisonrückblick: je Abend eine quadratische Kachel, drei je Reihe,
-   breit vier. Geht die Zahl nicht auf, wird die erste Kachel breiter, damit
-   am Ende keine Lücke bleibt: bei einer übrig über die ganze Breite und zwei
-   Reihen hoch, bei zwei übrig doppelt breit (breit: die ersten beiden).
-   Die Reihenhöhe folgt der Breite des Abschnitts (cqw) – so ist eine breite
-   Kachel genauso hoch wie die quadratischen daneben. */
-.andenken--saison {
-    margin: 28px 0 0;
-    container-type: inline-size;
-}
-
-.andenken__summe {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-variant-numeric: tabular-nums;
-}
-
-.saison-fotos {
-    display: grid;
-    gap: 3px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: calc((100cqw - 2 * 3px) / 3);
-    overflow: hidden;
-    border-radius: 14px;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-}
-
-.saison-fotos--r3-1 > :first-child { grid-column: 1 / -1; grid-row: span 2; }
-.saison-fotos--r3-2 > :first-child { grid-column: span 2; }
-
-@media (min-width: 720px) {
-    .saison-fotos {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        grid-auto-rows: calc((100cqw - 3 * 3px) / 4);
-    }
-
-    .saison-fotos--r3-1 > :first-child,
-    .saison-fotos--r3-2 > :first-child { grid-column: auto; grid-row: auto; }
-
-    .saison-fotos--r4-1 > :first-child { grid-column: 1 / -1; grid-row: span 2; }
-    .saison-fotos--r4-2 > :nth-child(-n + 2),
-    .saison-fotos--r4-3 > :first-child { grid-column: span 2; }
-}
-
-.saison-fotos .andenken__oeffnen img {
-    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-@media (hover: hover) {
-    .saison-fotos .andenken__oeffnen:hover img {
-        transform: scale(1.04);
-    }
-}
-
 /* Vergrößert: das ganze Foto auf fast schwarzem, weichgezeichnetem Grund,
    darunter eine gläserne Leiste. Tippen daneben oder aufs Foto schließt,
    Wischen blättert. */
@@ -1462,7 +1408,6 @@ h3 {
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     cursor: default;
-    max-width: 94vw;
 }
 
 .andenken-gross__zahl {
@@ -1504,30 +1449,8 @@ h3 {
     color: #f08a8a;
 }
 
-/* Unter dem Foto im Saisonrückblick: von welchem Abend, als Weg dorthin.
-   Lange Titel kürzen, statt die Leiste über den Rand zu schieben. */
-.andenken-gross__abend {
-    min-width: 0;
-    padding: 7px 14px 7px 4px;
-    overflow: hidden;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 13px;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.andenken-gross__abend:first-child {
-    padding-left: 14px;
-}
-
-.andenken-gross__abend:hover {
-    color: var(--gold);
-}
-
 @media (prefers-reduced-motion: reduce) {
     .andenken-gross__rahmen img,
-    .saison-fotos .andenken__oeffnen img,
     .andenken__mosaik .andenken__oeffnen img {
         animation: none;
         transition: none;
