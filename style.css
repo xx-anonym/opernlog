@@ -5608,16 +5608,21 @@ html.story-offen body {
 .story__folie--3 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.18), transparent 60%), linear-gradient(165deg, #1b4038, #14181c 75%); }
 .story__folie--4 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.2), transparent 60%), linear-gradient(165deg, #3b2150, #14181c 75%); }
 
+/* Die Zeilen schweben nacheinander herein, langsam und weich, ein Stück
+   von unten (Jonas, 3.10.2026: "etwas langsamer reinflattern"). Alles steht
+   nach gut zwei Sekunden, die Folie sechs. Keine Unschärfe (filter): mit
+   dem Verlaufstext des Titels (background-clip: text) zeichnet Safari
+   das nicht zuverlässig. */
 .story__folie > * {
-    animation: storyAuf 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation: storyAuf 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
 }
 
-.story__folie > :nth-child(2) { animation-delay: 0.08s; }
-.story__folie > :nth-child(3) { animation-delay: 0.16s; }
-.story__folie > :nth-child(n + 4) { animation-delay: 0.24s; }
+.story__folie > :nth-child(2) { animation-delay: 0.4s; }
+.story__folie > :nth-child(3) { animation-delay: 0.7s; }
+.story__folie > :nth-child(n + 4) { animation-delay: 1s; }
 
 @keyframes storyAuf {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(26px); }
     to { opacity: 1; transform: none; }
 }
 
