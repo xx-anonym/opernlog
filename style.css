@@ -5523,13 +5523,17 @@ html.story-offen body {
 
 .story__teil i {
     display: block;
-    width: 0;
     height: 100%;
     background: #fff;
+    /* Gefüllt wird über scaleX, nicht über die Breite: das rechnet die
+       Grafikkarte, ohne je Bild das Layout neu zu machen. Sonst ruckelt am
+       iPhone die hereinschwebende Schrift mit. */
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 .story__teil--voll i {
-    width: 100%;
+    transform: none;
 }
 
 .story__teil--jetzt i {
@@ -5541,8 +5545,8 @@ html.story-offen body {
 }
 
 @keyframes storyLauf {
-    from { width: 0; }
-    to { width: 100%; }
+    from { transform: scaleX(0); }
+    to { transform: none; }
 }
 
 .story__zu {
@@ -5609,21 +5613,32 @@ html.story-offen body {
 .story__folie--4 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.2), transparent 60%), linear-gradient(165deg, #3b2150, #14181c 75%); }
 
 /* Die Zeilen schweben nacheinander herein, langsam und weich, ein Stück
-   von unten (Jonas, 3.10.2026: "etwas langsamer reinflattern"). Alles steht
-   nach gut zwei Sekunden, die Folie sechs. Keine Unschärfe (filter): mit
-   dem Verlaufstext des Titels (background-clip: text) zeichnet Safari
-   das nicht zuverlässig. */
+   von unten (Jonas, 3.10.2026: "etwas langsamer reinflattern", dann
+   "etwas smoother"). Die Bewegung beginnt sanft statt mit einem Satz und
+   läuft lang aus; das Einblenden ist etwas kürzer, damit nichts
+   durchsichtig nachschleicht. Alles steht nach knapp drei Sekunden, die
+   Folie sechs. Keine Unschärfe (filter) und kein will-change: mit dem
+   Verlaufstext des Titels (background-clip: text) zeichnet Safari beides
+   nicht zuverlässig. */
 .story__folie > * {
-    animation: storyAuf 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+    animation:
+        storyEinblenden 1.2s cubic-bezier(0.4, 0, 0.2, 1) backwards,
+        storySchweben 1.6s cubic-bezier(0.33, 0, 0.15, 1) backwards;
+    animation-delay: 0.15s;
 }
 
-.story__folie > :nth-child(2) { animation-delay: 0.4s; }
-.story__folie > :nth-child(3) { animation-delay: 0.7s; }
-.story__folie > :nth-child(n + 4) { animation-delay: 1s; }
+.story__folie > :nth-child(2) { animation-delay: 0.5s; }
+.story__folie > :nth-child(3) { animation-delay: 0.85s; }
+.story__folie > :nth-child(n + 4) { animation-delay: 1.2s; }
 
-@keyframes storyAuf {
-    from { opacity: 0; transform: translateY(26px); }
-    to { opacity: 1; transform: none; }
+@keyframes storyEinblenden {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes storySchweben {
+    from { transform: translate3d(0, 18px, 0); }
+    to { transform: none; }
 }
 
 .story__kicker {
@@ -5699,7 +5714,7 @@ html.story-offen body {
 @media (prefers-reduced-motion: reduce) {
     /* Nichts läuft von allein: der Balken zeigt nur, wo man ist. */
     .story__teil--jetzt i {
-        width: 100%;
+        transform: none;
         animation: none;
     }
 

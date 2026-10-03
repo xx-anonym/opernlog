@@ -113,6 +113,7 @@ test('Story: läuft von selbst bis zum Schluss und bleibt dort; "Von vorn" begin
         await p.waitForTimeout(500);
         assert.equal(await nr(p), folien - 1);
         assert.match(await p.textContent('.story__folie'), /Bis zur nächsten Spielzeit/);
+        assert.equal(await p.textContent('.story__kicker'), 'Das war 2025/26');
         assert.match(await p.textContent('.story__notiz'), /^3 Abende · 2 Werke · 2 Häuser$/);
 
         await p.evaluate(() => document.querySelector('.story').style.setProperty('--story-dauer', '60s', 'important'));

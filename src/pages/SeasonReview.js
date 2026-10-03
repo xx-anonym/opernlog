@@ -241,7 +241,7 @@ function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
     }
     folien.push({
         html: `
-          <span class="story__kicker">Vorhang</span>
+          <span class="story__kicker">Das war ${r.label}</span>
           <span class="story__titel story__titel--schluss">Bis zur nächsten Spielzeit</span>
           <span class="story__notiz">${zahl(r.visitCount)} ${r.visitCount === 1 ? 'Abend' : 'Abende'} · `
             + `${zahl(r.operaCount)} ${r.operaCount === 1 ? 'Werk' : 'Werke'} · `
