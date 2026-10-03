@@ -12,10 +12,12 @@ import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { icon } from '../components/Icon.js';
 import { showToast, showError } from '../components/Toast.js';
-import { escapeHTML, copyToClipboard, datumKurz } from '../utils.js';
+import { escapeHTML, copyToClipboard, datumKurz, coverBackground } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
 import { storyOeffnen } from '../components/Story.js';
 import { STORY_MUSIK } from '../data/musik.js';
+import { composerByName } from '../data/composers.js';
+import { reisewegSVG } from '../components/Reiseweg.js';
 import {
     buildSeasonReview,
     seasonLabel,
@@ -216,7 +218,11 @@ const stilVon = karte => karte.stil || (karte.wert.length > 40 ? 'liste' : '');
 // "Von vorn". Die Kacheln sind schon maskiert (karten()), der Vergleich
 // noch nicht.
 function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
-    const folie = ({ symbol, label, wert, zusatz, stil }) => `
+    // bild: rund und blass im Hintergrund (Stammhaus, Komponist);
+    // grafik: der Weg zwischen den Häusern.
+    const folie = ({ symbol, label, wert, zusatz, stil, bild, grafik }) => `
+      ${bild ? `<div class="story__bild" style="${coverBackground(bild.url, 'none', '', bild.ausschnitt)}"></div>` : ''}
+      ${grafik ? `<div class="story__grafik">${grafik}</div>` : ''}
       <span class="story__kicker">${symbol ? icon(symbol) : ''}${label}</span>
       <span class="story__wert${stil ? ` story__wert--${stil}` : ''}">${wert}</span>
       ${zusatz ? `<span class="story__notiz">${zusatz}</span>` : ''}`;
@@ -292,6 +298,8 @@ function karten(r) {
             symbol: 'building',
             label: 'Dein Stammhaus',
             wert: r.topHouse.house.name,
+            bild: r.topHouse.house.imageUrl
+                ? { url: r.topHouse.house.imageUrl, ausschnitt: r.topHouse.house.bildAusschnitt } : null,
             zusatz: `${r.topHouse.anzahl} ${r.topHouse.anzahl === 1 ? 'Abend' : 'Abende'} · ${r.topHouse.house.city}`,
         });
     }
@@ -301,6 +309,9 @@ function karten(r) {
             symbol: 'bookOpen',
             label: 'Komponist der Saison',
             wert: r.topComposer.wert,
+            // Porträts: das Gesicht sitzt meist im oberen Drittel.
+            bild: composerByName(r.topComposer.wert)?.bild
+                ? { url: composerByName(r.topComposer.wert).bild, ausschnitt: { x: 50, y: 22 } } : null,
             zusatz: `${r.topComposer.anzahl} ${r.topComposer.anzahl === 1 ? 'Abend' : 'Abende'}`,
         });
     }
@@ -354,6 +365,7 @@ function karten(r) {
             symbol: 'globe',
             label: 'Zwischen den Häusern',
             wert: `${zahl(r.travelKm)} km`,
+            grafik: reisewegSVG(r.route),
             zusatz: 'Luftlinie, in der Reihenfolge deiner Abende',
         });
     }

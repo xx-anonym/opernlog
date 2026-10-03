@@ -135,6 +135,21 @@ function haeufigstes(werte) {
 }
 
 /**
+ * Die Häuser einer Spielzeit in der Reihenfolge der Abende; zwei Abende
+ * hintereinander im selben Haus sind ein Halt. Nur Häuser mit Koordinaten.
+ * Die Story zeichnet daraus den Weg (src/components/Reiseweg.js).
+ */
+export function reiseweg(besuche) {
+    const halte = [];
+    for (const v of besuche) {
+        const haus = operaHouses.find(h => h.id === v.houseId);
+        if (!haus || typeof haus.lat !== 'number' || typeof haus.lon !== 'number') continue;
+        if (halte.at(-1)?.id !== haus.id) halte.push(haus);
+    }
+    return halte;
+}
+
+/**
  * Wie weit die Spielzeit einen geführt hat: die Luftlinie zwischen
  * aufeinanderfolgenden Spielstätten, chronologisch aufsummiert.
  *
@@ -142,16 +157,10 @@ function haeufigstes(werte) {
  * selben Haus zählen null, und der Weg von zu Hause zum Haus ist nicht
  * enthalten. Die Beschriftung sagt das auch so.
  */
-function reiseKilometer(besuche) {
+function reiseKilometer(halte) {
     let summe = 0;
-    let vorher = null;
-    for (const v of besuche) {
-        const haus = operaHouses.find(h => h.id === v.houseId);
-        if (!haus || typeof haus.lat !== 'number') continue;
-        if (vorher && vorher.id !== haus.id) {
-            summe += distanceKm(vorher.lat, vorher.lon, haus.lat, haus.lon);
-        }
-        vorher = haus;
+    for (let i = 1; i < halte.length; i++) {
+        summe += distanceKm(halte[i - 1].lat, halte[i - 1].lon, halte[i].lat, halte[i].lon);
     }
     return Math.round(summe);
 }
@@ -251,7 +260,8 @@ export function buildSeasonReview(alleBesuche, startYear) {
         topMonth: monatName ? { name: monatName, anzahl: topMonat.anzahl } : null,
         topWeekday: topWochentag,
         repeats: wiederholungen,
-        travelKm: reiseKilometer(besuche),
+        travelKm: reiseKilometer(reiseweg(besuche)),
+        route: reiseweg(besuche),
         firstVisit: besuche[0],
         lastVisit: besuche[besuche.length - 1],
     };

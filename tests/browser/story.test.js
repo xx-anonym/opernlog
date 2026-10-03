@@ -290,3 +290,38 @@ test('Story: am Schluss der Nachweis der Musik, er führt zu den Bildnachweisen'
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
+
+// Stammhaus und Komponist zeigen ihr Bild rund und blass hinter dem Text,
+// "Zwischen den Häusern" den Weg als Linie (Jonas, 3.10.2026).
+test('Story: Stammhaus und Komponist mit rundem Bild im Hintergrund, der Weg als Linie', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler, folien } = await rueckblick();
+    try {
+        await p.click('#storyBtn');
+        const gesehen = {};
+        for (let i = 0; i < folien; i++) {
+            const kicker = (await p.textContent('.story__kicker')).trim();
+            gesehen[kicker] = await p.evaluate(() => {
+                const bild = document.querySelector('.story__folie > .story__bild');
+                const grafik = document.querySelector('.story__folie > .story__grafik');
+                const stil = bild && getComputedStyle(bild);
+                return {
+                    bild: bild ? { url: stil.backgroundImage, rund: stil.borderRadius, hinten: stil.zIndex, breite: bild.getBoundingClientRect().width } : null,
+                    halte: grafik ? [...grafik.querySelectorAll('.reiseweg__halt')].map(c => c.dataset.haus) : null,
+                    boegen: grafik ? (grafik.querySelector('.reiseweg__linie').getAttribute('d').match(/Q/g) || []).length : null,
+                };
+            });
+            await p.keyboard.press('ArrowRight');
+        }
+        const stammhaus = gesehen['Dein Stammhaus'];
+        assert.match(stammhaus.bild.url, /Semperoper/i);
+        assert.equal(stammhaus.bild.rund, '50%');
+        assert.equal(stammhaus.bild.hinten, '-1');
+        assert.ok(stammhaus.bild.breite <= 200, `nicht zu groß: ${stammhaus.bild.breite}px`);
+        assert.match(gesehen['Komponist der Saison'].bild.url, /Puccini/i);
+        assert.deepEqual(gesehen['Zwischen den Häusern'].halte.sort(), ['oper-leipzig', 'semperoper']);
+        assert.equal(gesehen['Zwischen den Häusern'].boegen, 2);
+        // Die übrigen Folien bleiben ohne Bild.
+        assert.equal(gesehen['Dein Schnitt'].bild, null);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
