@@ -219,13 +219,14 @@ const stilVon = karte => karte.stil || (karte.wert.length > 40 ? 'liste' : '');
 // noch nicht.
 function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
     // bild: rund und blass im Hintergrund (Stammhaus, Komponist);
-    // grafik: der Weg zwischen den Häusern.
-    const folie = ({ symbol, label, wert, zusatz, stil, bild, grafik }) => `
+    // grafik: der Weg zwischen den Häusern; unten: unter dem Text (Schnitt).
+    const folie = ({ symbol, label, wert, zusatz, stil, bild, grafik, unten }) => `
       ${bild ? `<div class="story__bild" style="${coverBackground(bild.url, 'none', '', bild.ausschnitt)}"></div>` : ''}
       ${grafik ? `<div class="story__grafik">${grafik}</div>` : ''}
       <span class="story__kicker">${symbol ? icon(symbol) : ''}${label}</span>
       <span class="story__wert${stil ? ` story__wert--${stil}` : ''}">${wert}</span>
-      ${zusatz ? `<span class="story__notiz">${zusatz}</span>` : ''}`;
+      ${zusatz ? `<span class="story__notiz">${zusatz}</span>` : ''}
+      ${unten ? `<div class="story__unten">${unten}</div>` : ''}`;
 
     const folien = [
         {
@@ -274,6 +275,32 @@ function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
         },
     });
     return folien;
+}
+
+/**
+ * Für die Folie "Dein Schnitt" (Jonas, 3.10.2026: "etwas karg"): fünf große
+ * Sterne, die sich bis zum Schnitt golden füllen, darunter die Verteilung
+ * der Bewertungen in halben Sternen. Nur Zahlen, nichts aus Eingaben.
+ */
+function schnittGrafik(schnitt, bewertungen) {
+    if (!bewertungen.length) return '';
+    const sterne = [0, 1, 2, 3, 4].map((i) => {
+        const anteil = Math.max(0, Math.min(1, schnitt - i));
+        return `<span class="story-sterne__stern" style="--anteil: ${anteil.toFixed(2)}; --nr: ${i}"><span class="story-sterne__gold">★</span></span>`;
+    }).join('');
+
+    const stufen = Array.from({ length: 10 }, (_, i) => (i + 1) / 2);
+    const anzahl = stufen.map(s => bewertungen.filter(b => Math.round(b * 2) / 2 === s).length);
+    const meiste = Math.max(...anzahl);
+    const balken = stufen.map((s, i) => `
+      <span class="story-verteilung__balken${anzahl[i] ? '' : ' story-verteilung__balken--leer'}" data-stufe="${s}"
+        style="--hoehe: ${(anzahl[i] / meiste).toFixed(3)}; --nr: ${i}">${anzahl[i] ? `<i>${anzahl[i]}</i>` : ''}</span>`).join('');
+    const achse = [1, 2, 3, 4, 5].map(n => `<span style="grid-column: ${2 * n}">${n}★</span>`).join('');
+
+    return `
+      <div class="story-sterne" aria-hidden="true">${sterne}</div>
+      <div class="story-verteilung" aria-hidden="true">${balken}</div>
+      <div class="story-verteilung__achse" aria-hidden="true">${achse}</div>`;
 }
 
 // ── Die einzelnen Kacheln ─────────────────────────────────────────────
@@ -358,6 +385,7 @@ function karten(r) {
         label: 'Dein Schnitt',
         wert: r.avgRating.toFixed(1).replace('.', ','),
         zusatz: 'von 5 Sternen',
+        unten: schnittGrafik(r.avgRating, r.ratings),
     });
 
     if (r.travelKm > 0) {

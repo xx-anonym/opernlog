@@ -35,7 +35,7 @@ const BESUCHE = [
     { id: 'aaaaaaaa-1111-4000-8000-000000000003', user_id: UID, opera_id: 'tosca', house_id: 'semperoper', date: '2026-05-01', rating: 3 },
 ];
 
-async function rueckblick({ dauer = '60s', bewegung = 'no-preference', teilen = false } = {}) {
+async function rueckblick({ dauer = '60s', bewegung = 'no-preference', teilen = false, besuche = BESUCHE } = {}) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block', reducedMotion: bewegung });
     const p = await ctx.newPage();
     const fehler = [];
@@ -46,7 +46,7 @@ async function rueckblick({ dauer = '60s', bewegung = 'no-preference', teilen = 
             Object.defineProperty(navigator, 'share', { configurable: true, value: async (d) => { window.__geteilt = d; } });
             Object.defineProperty(navigator, 'canShare', { configurable: true, value: () => false });
         }
-    }, [BESUCHE, teilen]);
+    }, [besuche, teilen]);
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html#/season/2025`);
     await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
@@ -323,5 +323,40 @@ test('Story: Stammhaus und Komponist mit rundem Bild im Hintergrund, der Weg als
         // Die übrigen Folien bleiben ohne Bild.
         assert.equal(gesehen['Dein Schnitt'].bild, null);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+// "Dein Schnitt" (Jonas, 3.10.2026: "etwas karg"): fünf Sterne, gefüllt bis
+// zum Schnitt, darunter die Verteilung in halben Sternen.
+test('Story: Dein Schnitt mit Sternen bis zum Schnitt und der Verteilung der Bewertungen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await rueckblick();
+    try {
+        await p.click('#storyBtn');
+        while (!(await p.textContent('.story__kicker')).includes('Dein Schnitt')) await p.keyboard.press('ArrowRight');
+        // 5, 4 und 3 Sterne: Schnitt 4,0 – vier volle, ein leerer.
+        assert.equal((await p.textContent('.story__wert')).trim(), '4,0');
+        const anteile = await p.$$eval('.story-sterne__stern', els => els.map(e => e.style.getPropertyValue('--anteil').trim()));
+        assert.deepEqual(anteile, ['1.00', '1.00', '1.00', '1.00', '0.00']);
+        const balken = await p.$$eval('.story-verteilung__balken', els => els.map(e => [e.dataset.stufe, e.textContent.trim()]));
+        assert.deepEqual(balken, [['0.5', ''], ['1', ''], ['1.5', ''], ['2', ''], ['2.5', ''], ['3', '1'], ['3.5', ''], ['4', '1'], ['4.5', ''], ['5', '1']]);
+        assert.deepEqual(await p.$$eval('.story-verteilung__achse span', els => els.map(e => e.textContent)), ['1★', '2★', '3★', '4★', '5★']);
+        // Die Balken stehen unter dem Text, nicht dahinter.
+        assert.equal(await p.evaluate(() => document.querySelector('.story-verteilung').getBoundingClientRect().top
+            > document.querySelector('.story__notiz').getBoundingClientRect().bottom), true);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Story: ein krummer Schnitt füllt den letzten Stern nur zum Teil', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const besuche = BESUCHE.map((b, i) => ({ ...b, rating: [4.5, 4, 3][i] }));
+    const { ctx, p } = await rueckblick({ besuche });
+    try {
+        await p.click('#storyBtn');
+        while (!(await p.textContent('.story__kicker')).includes('Dein Schnitt')) await p.keyboard.press('ArrowRight');
+        assert.equal((await p.textContent('.story__wert')).trim(), '3,8');
+        const anteile = await p.$$eval('.story-sterne__stern', els => els.map(e => e.style.getPropertyValue('--anteil').trim()));
+        assert.deepEqual(anteile, ['1.00', '1.00', '1.00', '0.83', '0.00']);
+        const balken = await p.$$eval('.story-verteilung__balken', els => els.filter(e => e.textContent.trim()).map(e => e.dataset.stufe));
+        assert.deepEqual(balken, ['3', '4', '4.5']);
     } finally { await ctx.close(); }
 });

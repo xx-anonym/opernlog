@@ -243,6 +243,8 @@ export function buildSeasonReview(alleBesuche, startYear) {
         composerCount: new Set(werke.map(w => w.composer)).size,
         newHouses: neueHaeuser,
         avgRating: schnitt,
+        // Die einzelnen Bewertungen, für die Verteilung in der Story.
+        ratings: bewertungen.filter(n => n > 0),
         bestVisit: bester
             ? {
                 visit: bester,

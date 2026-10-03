@@ -5814,6 +5814,98 @@ html.story-offen body {
     animation: storyEinblenden 0.8s ease 2.6s backwards;
 }
 
+/* "Dein Schnitt": fünf Sterne füllen sich bis zum Schnitt, darunter die
+   Verteilung der Bewertungen in halben Sternen. Erst die Sterne, einer
+   nach dem anderen, dann wachsen die Balken von links nach rechts.
+   --anteil, --hoehe und --nr setzt SeasonReview.js je Element im style. */
+.story__unten {
+    margin-top: 14px;
+}
+
+.story-sterne {
+    display: flex;
+    gap: 8px;
+    font-size: clamp(34px, 11vw, 46px);
+    line-height: 1;
+    /* Der Schein liegt auf der ganzen Reihe: am einzelnen Stern schnitte
+       clip-path ihn an dessen Rand ab. */
+    filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.35));
+}
+
+.story-sterne__stern {
+    position: relative;
+    color: rgba(255, 255, 255, 0.16);
+}
+
+.story-sterne__stern::before {
+    content: '★';
+}
+
+.story-sterne__gold {
+    position: absolute;
+    inset: 0;
+    color: var(--gold);
+    clip-path: inset(0 calc((1 - var(--anteil, 0)) * 100%) 0 0);
+    animation: storySternFuellen 0.7s cubic-bezier(0.33, 0, 0.15, 1) calc(1.5s + var(--nr, 0) * 0.22s) backwards;
+}
+
+@keyframes storySternFuellen {
+    from { clip-path: inset(0 100% 0 0); }
+}
+
+.story-verteilung {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 5px;
+    align-items: end;
+    height: 90px;
+    margin-top: 34px;
+}
+
+.story-verteilung__balken {
+    position: relative;
+    height: calc(var(--hoehe, 0) * 100%);
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(to top, var(--gold-dark), var(--gold-light));
+    /* Von unten aufgedeckt statt gestreckt – sonst würde die Zahl darüber
+       mitgestaucht. Oben bleibt Platz für sie. */
+    clip-path: inset(-24px -12px 0 -12px);
+    animation: storyBalken 0.9s cubic-bezier(0.33, 0, 0.15, 1) calc(2.7s + var(--nr, 0) * 0.08s) backwards;
+}
+
+.story-verteilung__balken--leer {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.story-verteilung__balken i {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    padding-bottom: 4px;
+    font-size: 0.75rem;
+    font-style: normal;
+    text-align: center;
+    color: rgba(240, 230, 210, 0.8);
+}
+
+@keyframes storyBalken {
+    from { clip-path: inset(100% -12px 0 -12px); }
+}
+
+.story-verteilung__achse {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 5px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.72rem;
+    color: rgba(240, 230, 210, 0.55);
+    text-align: center;
+}
+
 /* Schlussfolie: Der Vorhang schließt sich wie beim Ladebildschirm, nur
    andersherum (Samt und Bogen wie .splash__curtain in index.html). Danach
    erscheinen Text und Knöpfe auf dem geschlossenen Vorhang. */
@@ -5975,7 +6067,8 @@ html.story-offen body {
 
     .story__folie > *,
     .story__vorhang > *,
-    .reiseweg * {
+    .reiseweg *,
+    .story__unten * {
         animation: none;
     }
 }
