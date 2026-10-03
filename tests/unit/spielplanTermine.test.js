@@ -661,3 +661,16 @@ test('"Vorverkauf ab 15. Februar" in derselben Zeile ist kein Termin', () => {
     const liste = 'April 2027\nVorverkauf ab 15. Februar\nSo 25.\nThe Greek Passion\n18.00 Uhr, Opernhaus';
     assert.deepEqual(termineMitZeiten(liste, fenster).termine, ['2027-04-25']);
 });
+
+// Theater Heidelberg, The Rake's Progress, gelesen am 3.10.2026: eine Liste
+// ohne Jahr, die im April 2027 beginnt. 7.6. bis 9.7. galten als "kurz
+// vorbei" (bis 120 Tage vor dem Lauf) und fielen weg.
+test('eine Liste ohne Jahr, schon im nächsten Jahr: der Sommer ist nicht "kurz vorbei"', () => {
+    const fenster = { von: '2026-10-03', bis: '2027-09-30' };
+    const liste = ['Fr 16.4.', 'So 18.4.', 'Do 3.6.', 'Mo 7.6.', 'So 13.6.', 'Di 22.6.', 'Do 1.7.', 'Fr 9.7.']
+        .map(t => `${t}\n19:30\n↗\nTICKETS\n↗`).join('\n');
+    assert.deepEqual(termineMitZeiten(liste, fenster).termine,
+        ['2027-04-16', '2027-04-18', '2027-06-03', '2027-06-07', '2027-06-13', '2027-06-22', '2027-07-01', '2027-07-09']);
+    // Allein, ohne Liste davor, bleibt ein Tag kurz nach dem Sommer vorbei.
+    assert.deepEqual(termineAusText('Mo 7.9.', fenster), []);
+});

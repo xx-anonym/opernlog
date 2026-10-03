@@ -3,19 +3,36 @@ VERSION:2.0
 PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Vienna
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:la-boheme-wiener-staatsoper-2026-12-06@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;VALUE=DATE:20261206
-DTEND;VALUE=DATE:20261207
+DTSTART;TZID=Europe/Vienna:20261206T190000
+DTEND;TZID=Europe/Vienna:20261206T220000
 SUMMARY:La Bohème – Wiener Staatsoper
 LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/la-boheme/
+URL:https://www.wiener-staatsoper.at/kalender/detail/la-boheme/#dates
 DESCRIPTION:Giacomo Puccini: La Bohème\nTermine und Karten: https://www.wi
- ener-staatsoper.at/kalender/detail/la-boheme/\nDie Uhrzeit steht auf der S
- eite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ ener-staatsoper.at/kalender/detail/la-boheme/#dates\nDas Ende ist geschät
+ zt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

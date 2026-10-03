@@ -30,9 +30,9 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/lorfeo/
+URL:https://www.wiener-staatsoper.at/kalender/detail/lorfeo/#dates
 DESCRIPTION:Claudio Monteverdi: L'Orfeo\nTermine und Karten: https://www.wi
- ener-staatsoper.at/kalender/detail/lorfeo/\nDas Ende ist geschätzt (3 Stu
- nden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ ener-staatsoper.at/kalender/detail/lorfeo/#dates\nDas Ende ist geschätzt 
+ (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

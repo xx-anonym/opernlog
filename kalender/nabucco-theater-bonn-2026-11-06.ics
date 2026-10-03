@@ -4,7 +4,7 @@ PRODID:-//OpernLog//Spielplan//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VTIMEZONE
-TZID:Europe/Vienna
+TZID:Europe/Berlin
 BEGIN:DAYLIGHT
 TZOFFSETFROM:+0100
 TZOFFSETTO:+0200
@@ -21,18 +21,18 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:tosca-wiener-staatsoper-2026-09-30@opernlog.vercel.app
+UID:nabucco-theater-bonn-2026-11-06@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Vienna:20260930T190000
-DTEND;TZID=Europe/Vienna:20260930T220000
-SUMMARY:Tosca – Wiener Staatsoper
-LOCATION:Wiener Staatsoper\, Wien\, Österreich
-GEO:48.2029;16.369
+DTSTART;TZID=Europe/Berlin:20261106T193000
+DTEND;TZID=Europe/Berlin:20261106T223000
+SUMMARY:Nabucco – Theater Bonn
+LOCATION:Theater Bonn\, Deutschland
+GEO:50.741;7.103
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/tosca/
-DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.wiener-
- staatsoper.at/kalender/detail/tosca/\nDas Ende ist geschätzt (3 Stunden).
+ AME=1;X-TITLE="Theater Bonn, Deutschland":geo:50.741,7.103
+URL:https://www.theater-bonn.de/de/programm/nabucco/238124
+DESCRIPTION:Giuseppe Verdi: Nabucco\nTermine und Karten: https://www.theate
+ r-bonn.de/de/programm/nabucco/238124\nDas Ende ist geschätzt (3 Stunden).
  \nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

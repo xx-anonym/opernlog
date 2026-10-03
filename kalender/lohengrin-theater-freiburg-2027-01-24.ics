@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:lohengrin-theater-freiburg-2027-01-24@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270124T170000
-DTEND;TZID=Europe/Berlin:20270124T200000
+DTEND;TZID=Europe/Berlin:20270124T220000
 SUMMARY:Lohengrin – Theater Freiburg
 LOCATION:Theater Freiburg\, Deutschland
 GEO:47.997;7.848
@@ -32,7 +32,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Theater Freiburg, Deutschland":geo:47.997,7.848
 URL:https://theater.freiburg.de/de_DE/programm/lohengrin.1398876
 DESCRIPTION:Richard Wagner: Lohengrin\nTermine und Karten: https://theater.
- freiburg.de/de_DE/programm/lohengrin.1398876\nDas Ende ist geschätzt (3 S
- tunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ freiburg.de/de_DE/programm/lohengrin.1398876\nAus OpernLog – maßgeblich
+  ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

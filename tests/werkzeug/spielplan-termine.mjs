@@ -134,6 +134,10 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
     });
     const gefunden = new Set();
     const gesehen = new Set();
+    // Das zuletzt geratene Jahr (Datum ohne Jahr, ohne Kontext), über Zeilen
+    // hinweg im Kontext mitgegeben – siehe "kurz vorbei" unten.
+    let geraten = kontext?.geraten || null;
+    const ohneEchtenKontext = () => !(kontext?.jahr || kontext?.saison);
     for (const f of funde) {
         if (f.art === 'saison') { kontext = { saison: f.saison }; continue; }
         if (f.art === 'jahr') {
@@ -169,12 +173,23 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
         } else if (kontext?.jahr) {
             const springt = kontext.monat && f.m < kontext.monat;
             jahre = springt && kurzVorbei ? [] : [springt ? kontext.jahr + 1 : kontext.jahr];
+        } else if (kurzVorbei && geraten && geraten.jahr > jahrVon && f.m >= geraten.monat) {
+            // "Kurz vorbei" nur, wenn die Liste nicht schon im nächsten Jahr
+            // ist: Heidelberg schreibt "Fr 16.4. / So 18.4. / Do 3.6. / Mo 7.6.
+            // …" ohne Jahr. Im Oktober galten 7.6. bis 9.7. als gerade vorbei
+            // und fielen weg, obwohl die Liste mit April 2027 begann.
+            jahre = [geraten.jahr];
         } else jahre = kurzVorbei ? [] : Array.from({ length: jahrBis - jahrVon + 1 }, (_, i) => jahrVon + i);
         let gewaehlt = jahre[0];
         for (const jj of jahre) {
             if (!gueltig(jj, f.m, f.t)) continue;
             const iso = `${jj}-${zwei(f.m)}-${zwei(f.t)}`;
-            if (iso >= von && iso <= bis) { if (!f.spanne) gefunden.add(iso); gewaehlt = jj; break; }
+            if (iso >= von && iso <= bis) {
+                if (!f.spanne) gefunden.add(iso);
+                gewaehlt = jj;
+                if (!f.j && ohneEchtenKontext()) geraten = { jahr: jj, monat: f.m };
+                break;
+            }
         }
         // Ein Jahr weit außerhalb (die Uraufführung 1900) gibt keinen Kontext.
         const jahr = f.j < 100 ? 2000 + f.j : f.j;
@@ -182,6 +197,7 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
         if (f.j && jahr >= jahrVon - 1 && jahr <= jahrBis + 1) kontext = { jahr, monat: f.m };
         else if (!f.j && jahre.length && kontext?.jahr && kontext.monat !== undefined) kontext = { jahr: gewaehlt, monat: f.m };
     }
+    if (geraten && ohneEchtenKontext()) kontext = { geraten };
     return { termine: [...gefunden].sort(), kontext };
 }
 

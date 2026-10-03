@@ -13,10 +13,10 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/manon-lescaut/
+URL:https://www.wiener-staatsoper.at/kalender/detail/manon-lescaut/#dates
 DESCRIPTION:Giacomo Puccini: Manon Lescaut\nTermine und Karten: https://www
- .wiener-staatsoper.at/kalender/detail/manon-lescaut/\nDie Uhrzeit steht au
- f der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Ha
- uses.
+ .wiener-staatsoper.at/kalender/detail/manon-lescaut/#dates\nDie Uhrzeit st
+ eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
+ des Hauses.
 END:VEVENT
 END:VCALENDAR

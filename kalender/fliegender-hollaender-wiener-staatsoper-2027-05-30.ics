@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fliegender-hollaender-wiener-staatsoper-2027-05-30@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270530
+DTEND;VALUE=DATE:20270531
+SUMMARY:Der fliegende Holländer – Wiener Staatsoper
+LOCATION:Wiener Staatsoper\, Wien\, Österreich
+GEO:48.2029;16.369
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
+URL:https://www.wiener-staatsoper.at/kalender/detail/der-fliegende-hollaend
+ er/#dates
+DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h
+ ttps://www.wiener-staatsoper.at/kalender/detail/der-fliegende-hollaender/#
+ dates\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßg
+ eblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

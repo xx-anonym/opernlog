@@ -31,10 +31,10 @@ GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/die-entfuehrung-aus-de
- m-serail/
+ m-serail/#dates
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Entführung aus dem Serail\nTermin
  e und Karten: https://www.wiener-staatsoper.at/kalender/detail/die-entfueh
- rung-aus-dem-serail/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog 
- – maßgeblich ist die Seite des Hauses.
+ rung-aus-dem-serail/#dates\nDas Ende ist geschätzt (3 Stunden).\nAus Oper
+ nLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:turandot-theater-magdeburg-2026-12-13@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261213T160000
-DTEND;TZID=Europe/Berlin:20261213T190000
+DTEND;TZID=Europe/Berlin:20261213T183000
 SUMMARY:Turandot – Theater Magdeburg
 LOCATION:Theater Magdeburg\, Deutschland
 GEO:52.133;11.628
@@ -34,7 +34,6 @@ URL:https://www.theater-magdeburg.de/inszenierungen/musiktheater/sz-2024202
  5/wiederaufnahme/turandot/
 DESCRIPTION:Giacomo Puccini: Turandot\nTermine und Karten: https://www.thea
  ter-magdeburg.de/inszenierungen/musiktheater/sz-20242025/wiederaufnahme/tu
- randot/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblic
- h ist die Seite des Hauses.
+ randot/\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -503,7 +503,9 @@ test('Artikel über ein Stück sind keine Produktionsseiten (Bonn, Schwerin, Bre
     const { ARTIKEL } = await import('../werkzeug/spielplaene-lesen.mjs');
     for (const u of ['https://www.theater-bonn.de/de/magazin/freddie_de_tommaso', 'https://www.theater-bonn.de/de/meistersinger_magazin/',
         'https://www.theater-bonn.de/de/eugen_onegin/magazin/', 'https://www.theater-bonn.de/de/blind_date/madama_butterfly/',
-        'https://www.mecklenburgisches-staatstheater.de/magazin/zwischen-maerchen-posse-und-traktat.html', 'https://theaterbremen.de/de_DE/blog?p=1&tag=3168']) {
+        'https://www.mecklenburgisches-staatstheater.de/magazin/zwischen-maerchen-posse-und-traktat.html', 'https://theaterbremen.de/de_DE/blog?p=1&tag=3168',
+        // Personenseiten (Hannover: die Sängerin Carmen Fuggiss; Bremen)
+        'https://staatstheater-hannover.de/de_DE/ensemble-staatsoper/carmen-fuggiss.169120', 'https://theaterbremen.de/de_DE/ensemble/stefan-klingele.272674']) {
         assert.ok(ARTIKEL.test(u), u);
     }
     for (const u of ['https://www.theater-bonn.de/de/programm/nabucco/238124', 'https://www.staatstheater-cottbus.de/de/programm/repertoire/artikel-nabucco.html',

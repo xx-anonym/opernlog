@@ -13,10 +13,11 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/die-verkaufte-braut/
+URL:https://www.wiener-staatsoper.at/kalender/detail/die-verkaufte-braut/#d
+ ates
 DESCRIPTION:Bedřich Smetana: Die verkaufte Braut\nTermine und Karten: http
- s://www.wiener-staatsoper.at/kalender/detail/die-verkaufte-braut/\nDie Uhr
- zeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die
-  Seite des Hauses.
+ s://www.wiener-staatsoper.at/kalender/detail/die-verkaufte-braut/#dates\nD
+ ie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich i
+ st die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -13,9 +13,10 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/la-traviata/
+URL:https://www.wiener-staatsoper.at/kalender/detail/la-traviata/#dates
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.wi
- ener-staatsoper.at/kalender/detail/la-traviata/\nDie Uhrzeit steht auf der
-  Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ ener-staatsoper.at/kalender/detail/la-traviata/#dates\nDie Uhrzeit steht a
+ uf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des H
+ auses.
 END:VEVENT
 END:VCALENDAR

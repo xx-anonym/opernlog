@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:la-traviata-staatstheater-stuttgart-2027-03-15@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270315T190000
-DTEND;TZID=Europe/Berlin:20270315T220000
+DTEND;TZID=Europe/Berlin:20270315T213000
 SUMMARY:La Traviata – Staatsoper Stuttgart
 LOCATION:Staatsoper Stuttgart\, Deutschland
 GEO:48.7808;9.1837
@@ -32,7 +32,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatsoper Stuttgart, Deutschland":geo:48.7808,9.1837
 URL:https://www.staatsoper-stuttgart.de/spielplan/a-z/la-traviata/
 DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.st
- aatsoper-stuttgart.de/spielplan/a-z/la-traviata/\nDas Ende ist geschätzt 
- (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ aatsoper-stuttgart.de/spielplan/a-z/la-traviata/\nAus OpernLog – maßgeb
+ lich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -24,8 +24,8 @@ BEGIN:VEVENT
 UID:haensel-gretel-niedersaechsische-staatsoper-2026-12-19@opernlog.vercel.
  app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20261219T160000
-DTEND;TZID=Europe/Berlin:20261219T182000
+DTSTART;TZID=Europe/Berlin:20261219T150000
+DTEND;TZID=Europe/Berlin:20261219T172000
 SUMMARY:Hänsel und Gretel – Staatsoper Hannover
 LOCATION:Staatsoper Hannover\, Deutschland
 GEO:52.376;9.7405

@@ -21,10 +21,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:midsummer-nights-dream-theater-bielefeld-2027-01-23@opernlog.vercel.app
+UID:midsummer-nights-dream-theater-bielefeld-2026-11-23@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270123T193000
-DTEND;TZID=Europe/Berlin:20270123T223000
+DTSTART;TZID=Europe/Berlin:20261123T190000
+DTEND;TZID=Europe/Berlin:20261123T220000
 SUMMARY:A Midsummer Night's Dream – Theater Bielefeld
 LOCATION:Theater Bielefeld\, Deutschland
 GEO:52.02074;8.53496

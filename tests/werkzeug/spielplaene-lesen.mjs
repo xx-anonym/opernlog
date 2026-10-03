@@ -285,7 +285,10 @@ export const NEBENHER = /einführung|matinee|öffentliche probe|probe|opernlab|w
 // Magazin von Galas vergangener Spielzeiten ("Am 11. Mai erlebte das
 // Publikum …", ohne Jahr), und die Seite der Produktion kam dahinter nicht
 // mehr dran. Cottbus nennt seine Produktionsseiten "artikel-…" – die zählen.
-export const ARTIKEL = /\/magazin(\/|\.|$)|_magazin\b|\/blog\b|blind[_-]date/i;
+// Seiten von Sängerinnen und Sängern ebenso: Hannover führt Carmen Fuggiss
+// unter ".../ensemble-staatsoper/carmen-fuggiss.169120"; der Name enthält
+// "Carmen", und ihre Auftritte in anderen Stücken wurden zu Carmen-Terminen.
+export const ARTIKEL = /\/magazin(\/|\.|$)|_magazin\b|\/blog\b|blind[_-]date|\/ensemble[^/]*\/[^/]+|\/(kuenstler|künstler|artists?|personen)\//i;
 
 // Knöpfe, die weitere Termine nachladen. Die Deutsche Oper Berlin zeigt im
 // Monatskalender erst die halbe Liste; der Rest kommt mit "weitere

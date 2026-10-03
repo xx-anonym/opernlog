@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:don-pasquale-musiktheater-linz-2026-10-08@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261008T193000
-DTEND;TZID=Europe/Vienna:20261008T222500
+DTEND;TZID=Europe/Vienna:20261008T222000
 SUMMARY:Don Pasquale – Musiktheater Linz
 LOCATION:Musiktheater Linz\, Österreich
 GEO:48.2965;14.2931

@@ -31,10 +31,10 @@ GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/il-barbiere-di-sivigli
- a/
+ a/#dates
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
   https://www.wiener-staatsoper.at/kalender/detail/il-barbiere-di-siviglia/
- \nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist d
- ie Seite des Hauses.
+ #dates\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich
+  ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

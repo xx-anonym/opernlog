@@ -24,17 +24,15 @@ BEGIN:VEVENT
 UID:lucia-staatstheater-stuttgart-2026-10-09@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261009T190000
-DTEND;TZID=Europe/Berlin:20261009T220000
+DTEND;TZID=Europe/Berlin:20261009T221500
 SUMMARY:Lucia di Lammermoor – Staatsoper Stuttgart
 LOCATION:Staatsoper Stuttgart\, Deutschland
 GEO:48.7808;9.1837
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatsoper Stuttgart, Deutschland":geo:48.7808,9.1837
-URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/lucia-di-lammerm
- oor/9508/
+URL:https://www.staatsoper-stuttgart.de/spielplan/a-z/lucia-di-lammermoor/
 DESCRIPTION:Gaetano Donizetti: Lucia di Lammermoor\nTermine und Karten: htt
- ps://www.staatsoper-stuttgart.de/spielplan/kalender/lucia-di-lammermoor/95
- 08/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich is
- t die Seite des Hauses.
+ ps://www.staatsoper-stuttgart.de/spielplan/a-z/lucia-di-lammermoor/\nAus O
+ pernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -21,20 +21,20 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:don-giovanni-oper-chemnitz-2026-09-25@opernlog.vercel.app
+UID:fliegender-hollaender-oper-chemnitz-2026-11-08@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20260925T193000
-DTEND;TZID=Europe/Berlin:20260925T223000
-SUMMARY:Don Giovanni – Oper Chemnitz
+DTSTART;TZID=Europe/Berlin:20261108T160000
+DTEND;TZID=Europe/Berlin:20261108T190000
+SUMMARY:Der fliegende Holländer – Oper Chemnitz
 LOCATION:Oper Chemnitz\, Deutschland
 GEO:50.836;12.928
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Oper Chemnitz, Deutschland":geo:50.836,12.928
-URL:https://www.theater-chemnitz.de/spielplan/detailseite/don-giovanni/1142
- 9
-DESCRIPTION:Wolfgang Amadeus Mozart: Don Giovanni\nTermine und Karten: http
- s://www.theater-chemnitz.de/spielplan/detailseite/don-giovanni/11429\nDas 
- Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Sei
- te des Hauses.
+URL:https://www.theater-chemnitz.de/spielplan/detailseite/der-fliegende-hol
+ laender/11501
+DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h
+ ttps://www.theater-chemnitz.de/spielplan/detailseite/der-fliegende-hollaen
+ der/11501\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgebl
+ ich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

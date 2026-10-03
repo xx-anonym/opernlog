@@ -13,10 +13,11 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/le-nozze-di-figaro/
+URL:https://www.wiener-staatsoper.at/kalender/detail/le-nozze-di-figaro/#da
+ tes
 DESCRIPTION:Wolfgang Amadeus Mozart: Le nozze di Figaro\nTermine und Karten
- : https://www.wiener-staatsoper.at/kalender/detail/le-nozze-di-figaro/\nDi
- e Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich is
- t die Seite des Hauses.
+ : https://www.wiener-staatsoper.at/kalender/detail/le-nozze-di-figaro/#dat
+ es\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgebl
+ ich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

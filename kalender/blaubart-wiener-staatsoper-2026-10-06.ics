@@ -31,10 +31,10 @@ GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
 URL:https://www.wiener-staatsoper.at/kalender/detail/eine-florentinische-tr
- agoedie-herzog-blaubarts-burg/
+ agoedie-herzog-blaubarts-burg/#dates
 DESCRIPTION:Béla Bartók: Herzog Blaubarts Burg\nTermine und Karten: https
  ://www.wiener-staatsoper.at/kalender/detail/eine-florentinische-tragoedie-
- herzog-blaubarts-burg/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog
-  – maßgeblich ist die Seite des Hauses.
+ herzog-blaubarts-burg/#dates\nDas Ende ist geschätzt (3 Stunden).\nAus Op
+ ernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

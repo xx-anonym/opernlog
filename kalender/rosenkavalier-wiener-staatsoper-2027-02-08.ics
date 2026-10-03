@@ -13,10 +13,11 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/der-rosenkavalier/
+URL:https://www.wiener-staatsoper.at/kalender/detail/der-rosenkavalier/#dat
+ es
 DESCRIPTION:Richard Strauss: Der Rosenkavalier\nTermine und Karten: https:/
- /www.wiener-staatsoper.at/kalender/detail/der-rosenkavalier/\nDie Uhrzeit 
- steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seit
- e des Hauses.
+ /www.wiener-staatsoper.at/kalender/detail/der-rosenkavalier/#dates\nDie Uh
+ rzeit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist di
+ e Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

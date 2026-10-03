@@ -13,10 +13,10 @@ LOCATION:Wiener Staatsoper\, Wien\, Österreich
 GEO:48.2029;16.369
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Wiener Staatsoper, Wien, Österreich":geo:48.2029,16.369
-URL:https://www.wiener-staatsoper.at/kalender/detail/lelisir-damore/
+URL:https://www.wiener-staatsoper.at/kalender/detail/lelisir-damore/#dates
 DESCRIPTION:Gaetano Donizetti: L'elisir d'amore\nTermine und Karten: https:
- //www.wiener-staatsoper.at/kalender/detail/lelisir-damore/\nDie Uhrzeit st
- eht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite 
- des Hauses.
+ //www.wiener-staatsoper.at/kalender/detail/lelisir-damore/#dates\nDie Uhrz
+ eit steht auf der Seite des Hauses.\nAus OpernLog – maßgeblich ist die 
+ Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
