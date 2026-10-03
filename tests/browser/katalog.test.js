@@ -173,15 +173,17 @@ test('ein neuer Komponist wird mit angelegt und die Werkseite verlinkt ihn', { s
         const angelegt = await p.evaluate(() => window.__angelegt);
         assert.deepEqual(angelegt.map(a => a.tabelle), ['catalog_composers', 'catalog_operas']);
 
+        // Warten, bis die Werkseite steht, statt fest 700 ms: auf GitHub war
+        // das unter Last zu kurz (Lauf zu a058bc4d, 3.10.2026).
         await p.evaluate(() => { window.location.hash = '#/opera/der-kaiser-von-atlantis'; });
-        await p.waitForTimeout(700);
+        await p.waitForFunction(() => document.querySelector('h1')?.textContent.includes('Der Kaiser von Atlantis'), null, { timeout: 10000 });
         const link = p.locator('a.composer-link').first();
+        await link.waitFor({ timeout: 5000 }).catch(() => {});
         assert.equal(await link.count(), 1, 'die Werkseite verlinkt den Komponisten nicht');
         assert.equal(await link.getAttribute('href'), '#/composer/viktor-ullmann');
 
         await p.evaluate(() => { window.location.hash = '#/composer/viktor-ullmann'; });
-        await p.waitForTimeout(700);
-        assert.match(await p.textContent('h1'), /Viktor Ullmann/);
+        await p.waitForFunction(() => /Viktor Ullmann/.test(document.querySelector('h1')?.textContent || ''), null, { timeout: 10000 });
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
