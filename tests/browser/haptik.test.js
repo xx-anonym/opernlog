@@ -115,23 +115,28 @@ test('Android: unter "Demnächst" klickt der Schritt zum nächsten Abend', { ski
     } finally { await ctx.close(); }
 });
 
-test('iPhone: der unsichtbare Schalter wird umgelegt, sein Klick kommt nirgends an', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+test('iPhone: je Klicken ein unsichtbarer Schalter im <head>, umgelegt und wieder weg; sein Klick kommt nirgends an', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler } = await oeffne('#/log?house=semperoper&opera=tosca', { iphone: true });
     try {
         await p.waitForSelector('#ratingWidget .star');
         await p.evaluate(() => {
             window.__angekommen = 0;
+            window.__umgelegt = [];
             document.addEventListener('click', (e) => { if (e.target.closest?.('.haptik')) window.__angekommen++; });
+            // Mitschreiben, was der Schalter beim Klick tut – er ist danach gleich wieder weg.
+            const klick = HTMLElement.prototype.click;
+            HTMLElement.prototype.click = function () {
+                const feld = this.classList?.contains('haptik') ? this.querySelector('input[type="checkbox"][switch]') : null;
+                const imKopf = this.parentNode === document.head;
+                klick.call(this);
+                if (feld) window.__umgelegt.push({ imKopf, an: feld.checked });
+            };
         });
         await p.locator('#ratingWidget .star').nth(2).click();
-        const stand = await p.evaluate(() => {
-            const feld = document.querySelector('.haptik input[type="checkbox"][switch]');
-            return { da: !!feld, an: feld?.checked, angekommen: window.__angekommen, vibriert: window.__vibriert.length };
-        });
-        assert.deepEqual(stand, { da: true, an: true, angekommen: 0, vibriert: 0 });
         await p.locator('#ratingWidget .star').nth(3).click();
-        assert.equal(await p.evaluate(() => document.querySelector('.haptik input').checked), false);
-        assert.equal(await p.locator('.haptik').count(), 1);
+        const stand = await p.evaluate(() => ({ umgelegt: window.__umgelegt, angekommen: window.__angekommen,
+            uebrig: document.querySelectorAll('.haptik').length, vibriert: window.__vibriert.length }));
+        assert.deepEqual(stand, { umgelegt: [{ imKopf: true, an: true }, { imKopf: true, an: true }], angekommen: 0, uebrig: 0, vibriert: 0 });
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

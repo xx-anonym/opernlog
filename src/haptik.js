@@ -12,35 +12,34 @@
 // Ein Kniff, kein offizieller Weg: nimmt Apple ihn weg, fehlt nur das
 // Klicken.
 
-let schalter = null;
-
 const istIos = () => /iPhone|iPad|iPod/.test(navigator.userAgent)
     || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-function iosSchalter() {
-    if (schalter?.isConnected) return schalter;
-    schalter = document.createElement('label');
+// Für jedes Klicken ein frischer, unsichtbarer Schalter im <head>, gleich
+// wieder entfernt – so, wie es die bekannten Umsetzungen tun. Die erste
+// Fassung (ein bleibender Schalter im <body>, außerhalb des Bildes) gab auf
+// Jonas' iPhone kein Klicken (3.10.2026).
+function iosKlick() {
+    const schalter = document.createElement('label');
     schalter.className = 'haptik';
     schalter.setAttribute('aria-hidden', 'true');
+    schalter.style.display = 'none';
     const feld = document.createElement('input');
     feld.type = 'checkbox';
     feld.setAttribute('switch', '');
-    feld.tabIndex = -1;
     schalter.appendChild(feld);
     // Der Klick des Schalters darf nirgends ankommen: ein Fenster, das bei
     // Klicks außerhalb schließt, hielte ihn sonst für einen.
     for (const art of ['click', 'change', 'input']) schalter.addEventListener(art, e => e.stopPropagation());
-    document.body.appendChild(schalter);
-    return schalter;
+    document.head.appendChild(schalter);
+    schalter.click();
+    schalter.remove();
 }
 
 /** Ein kurzes Klicken. Ohne Wirkung, wo das Gerät es nicht kann. */
 export function tippen() {
     try {
-        if (typeof navigator.vibrate === 'function' && !istIos()) {
-            navigator.vibrate(10);
-        } else if (istIos()) {
-            iosSchalter().click();
-        }
+        if (typeof navigator.vibrate === 'function' && !istIos()) navigator.vibrate(10);
+        else if (istIos()) iosKlick();
     } catch { /* kein Klicken – mehr nicht */ }
 }
