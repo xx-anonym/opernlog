@@ -3,6 +3,9 @@
 // Erreichbar auf drei Wegen: über den Hinweis auf der Startseite im Zeitfenster
 // vom 31. Juli bis Ende August, über #/season direkt, und über das Osterei im
 // eigenen Profil (Cmd+Ü).
+//
+// Dieselben Kacheln gibt es auch als Story (src/components/Story.js): eine
+// nach der anderen, bildschirmfüllend, mit Anfang und Schluss.
 
 import { store } from '../store/store.js';
 import * as sb from '../store/supabase.js';
@@ -11,6 +14,7 @@ import { icon } from '../components/Icon.js';
 import { showToast, showError } from '../components/Toast.js';
 import { escapeHTML, copyToClipboard, datumKurz } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
+import { storyOeffnen } from '../components/Story.js';
 import {
     buildSeasonReview,
     seasonLabel,
@@ -75,6 +79,9 @@ export function SeasonReviewPage(param) {
       <p class="season__lead">
         ${datum(review.firstVisit.date)} bis ${datum(review.lastVisit.date)}
       </p>
+      <button type="button" class="btn btn--accent season__story" id="storyBtn">
+        ${icon('play')}Als Story ansehen
+      </button>
     </div>
 
     <div class="season__cards" id="seasonCards"></div>
@@ -94,13 +101,12 @@ export function SeasonReviewPage(param) {
   `;
 
     const cards = page.querySelector('#seasonCards');
-    karten(review).forEach((karte, i) => {
+    const alleKarten = karten(review);
+    alleKarten.forEach((karte, i) => {
         const el = document.createElement('div');
         el.className = `season-card season-card--${karte.groesse || 'normal'} fade-in`;
         el.style.animationDelay = `${Math.min(i, 9) * 60}ms`;
-        // Aufzählungen bekommen kleinere Schrift als Namen: drei Hausnamen in
-        // der Größe eines Komponistennamens erschlagen sonst die ganze Seite.
-        const stil = karte.stil || (karte.wert.length > 40 ? 'liste' : '');
+        const stil = stilVon(karte);
         el.innerHTML = `
       <span class="season-card__label">${karte.symbol ? icon(karte.symbol, { className: 'icon--meta' }) : ''}${karte.label}</span>
       <span class="season-card__value${stil ? ` season-card__value--${stil}` : ''}">${karte.wert}</span>
@@ -123,9 +129,12 @@ export function SeasonReviewPage(param) {
     `;
     cards.insertBefore(vergleichKarte, cards.children[1] || null);
 
+    // Die Story nimmt den Vergleich mit, wenn er beim Start schon da ist.
+    let vergleich = null;
     ladeVergleich(review).then((inhalt) => {
         if (!page.isConnected) return;
         if (!inhalt) { vergleichKarte.remove(); return; }
+        vergleich = inhalt;
         vergleichKarte.classList.remove('season-card--laedt');
         vergleichKarte.innerHTML = `
       <span class="season-card__label">${icon('users', { className: 'icon--meta' })}${escapeHTML(inhalt.label)}</span>
@@ -152,16 +161,26 @@ export function SeasonReviewPage(param) {
     }
     bild().catch(e => console.warn('[Saisonrückblick] Bild vorbereiten', e));
 
-    shareBtn.addEventListener('click', async () => {
-        shareBtn.disabled = true;
+    async function teilenMitMeldung(knopf) {
+        knopf.disabled = true;
         try {
             const datei = await bild().catch(() => null);
             const ergebnis = await teilen(review, datei);
             if (ergebnis === 'kopiert') showToast('In die Zwischenablage kopiert');
             else if (ergebnis === 'fehlgeschlagen') showError('Teilen hat nicht geklappt.');
         } finally {
-            shareBtn.disabled = false;
+            knopf.disabled = false;
         }
+    }
+    shareBtn.addEventListener('click', () => teilenMitMeldung(shareBtn));
+
+    page.querySelector('#storyBtn').addEventListener('click', () => {
+        let story = null;
+        const folien = storyFolien(review, alleKarten, vergleich, {
+            teilen: knopf => teilenMitMeldung(knopf),
+            vonVorn: () => story?.zeige(0),
+        });
+        story = storyOeffnen(folien, { titel: `Saisonrückblick ${review.label}` });
     });
 
     imageBtn.addEventListener('click', async () => {
@@ -185,6 +204,59 @@ export function SeasonReviewPage(param) {
     });
 
     return page;
+}
+
+// Aufzählungen bekommen kleinere Schrift als Namen: drei Hausnamen in der
+// Größe eines Komponistennamens erschlagen sonst die ganze Seite.
+const stilVon = karte => karte.stil || (karte.wert.length > 40 ? 'liste' : '');
+
+// ── Die Story ─────────────────────────────────────────────────────────
+// Vorn die Spielzeit, dann je Kachel eine Folie, am Schluss Teilen und
+// "Von vorn". Die Kacheln sind schon maskiert (karten()), der Vergleich
+// noch nicht.
+function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
+    const folie = ({ symbol, label, wert, zusatz, stil }) => `
+      <span class="story__kicker">${symbol ? icon(symbol) : ''}${label}</span>
+      <span class="story__wert${stil ? ` story__wert--${stil}` : ''}">${wert}</span>
+      ${zusatz ? `<span class="story__notiz">${zusatz}</span>` : ''}`;
+
+    const folien = [
+        {
+            html: `
+          <span class="story__kicker">Saisonrückblick</span>
+          <span class="story__titel">${r.label}</span>
+          <span class="story__notiz">${datum(r.firstVisit.date)} bis ${datum(r.lastVisit.date)}</span>`,
+        },
+        ...kacheln.map(k => ({ html: folie({ ...k, stil: stilVon(k) }), nachbau: k.nachbau })),
+    ];
+    if (vergleich) {
+        folien.splice(2, 0, {
+            html: folie({
+                symbol: 'users',
+                label: escapeHTML(vergleich.label),
+                wert: escapeHTML(vergleich.wert),
+                zusatz: escapeHTML(vergleich.zusatz),
+            }),
+        });
+    }
+    folien.push({
+        html: `
+          <span class="story__kicker">Vorhang</span>
+          <span class="story__titel story__titel--schluss">Bis zur nächsten Spielzeit</span>
+          <span class="story__notiz">${zahl(r.visitCount)} ${r.visitCount === 1 ? 'Abend' : 'Abende'} · `
+            + `${zahl(r.operaCount)} ${r.operaCount === 1 ? 'Werk' : 'Werke'} · `
+            + `${zahl(r.houseCount)} ${r.houseCount === 1 ? 'Haus' : 'Häuser'}</span>
+          <div class="story__knoepfe">
+            <button type="button" class="btn btn--accent story__teilen">${icon('link')}Rückblick teilen</button>
+            <button type="button" class="btn btn--outline story__vorn">Von vorn</button>
+          </div>`,
+        nachbau: (el) => {
+            const knopf = el.querySelector('.story__teilen');
+            knopf.addEventListener('click', () => teilenKlick(knopf));
+            el.querySelector('.story__vorn').addEventListener('click', vonVorn);
+        },
+    });
+    return folien;
 }
 
 // ── Die einzelnen Kacheln ─────────────────────────────────────────────

@@ -33,6 +33,8 @@ import { heuteIso, terminMitWochentag, zeitText } from '../data/spielplanAbfrage
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
 import { tippen } from '../haptik.js';
+import { StarRating } from '../components/StarRating.js';
+import { abendeAmJahrestag, jahrestagText, reviewAuszug } from '../data/jahrestag.js';
 import {
   isSeasonReviewWindow,
   lastCompletedSeasonStartYear,
@@ -56,6 +58,7 @@ export function HomePage() {
   page.appendChild(kopf(eigene));
   geplanteAbende(page, eigene);
   saisonBanner(page, eigene);
+  jahrestag(page, eigene);
   freundschaftsanfragen(page);
   page.appendChild(feedAbschnitt());
   empfehlungen(page, eigene);
@@ -263,6 +266,51 @@ function saisonBanner(page, eigene) {
       ${besuche.length} ${besuche.length === 1 ? 'Abend' : 'Abende'} – ansehen ${icon('link')}
     </span>`;
   page.appendChild(banner);
+}
+
+/**
+ * Heute vor einem Jahr (src/data/jahrestag.js): eigene Abende, die auf den
+ * Tag genau Jahre zurückliegen. Höchstens zwei, der jüngste zuerst; mit
+ * Bewertung, dem Anfang des Reviews und, wenn es eins gibt, dem ersten Foto.
+ * Die Karte führt zum Abend. Die Startseite sieht nur man selbst, also
+ * dürfen auch private Fotos hier stehen.
+ */
+function jahrestag(page, eigene) {
+  for (const { visit, jahre } of abendeAmJahrestag(eigene, new Date()).slice(0, 2)) {
+    const w = operas.find(o => o.id === visit.operaId);
+    if (!w) continue;
+    const h = operaHouses.find(x => x.id === visit.houseId);
+    const auszug = reviewAuszug(visit.review);
+    // "Oper Leipzig · Leipzig" sagt die Stadt zweimal.
+    const ort = h && (h.name.includes(h.city) ? h.name : `${h.name} · ${h.city}`);
+    const el = document.createElement('a');
+    el.className = 'jahrestag fade-in';
+    el.href = `#/visit/${encodeURIComponent(visit.id)}`;
+    el.innerHTML = `
+      <div class="jahrestag__text">
+        <span class="jahrestag__kicker">${icon('calendar', { className: 'icon--meta' })}${jahrestagText(jahre)}</span>
+        <span class="jahrestag__werk">${escapeHTML(w.title)}</span>
+        ${h ? `<span class="jahrestag__ort">${escapeHTML(ort)}</span>` : ''}
+        ${auszug ? `<span class="jahrestag__review">„${escapeHTML(auszug)}“</span>` : ''}
+      </div>`;
+    const bewertung = Number(visit.rating);
+    if (visit.rating != null && Number.isFinite(bewertung) && bewertung > 0) {
+      (el.querySelector('.jahrestag__ort') || el.querySelector('.jahrestag__werk'))
+        .after(StarRating(bewertung, false, null, 'sm'));
+    }
+    page.appendChild(el);
+
+    // Das Foto rückt nach. Ein Abend, der noch auf die Übertragung wartet,
+    // hat in der Cloud noch keine Fotos.
+    if (visit.ausstehend) continue;
+    store.getAndenken(visit.id).then((fotos) => {
+      const f = fotos[0];
+      const adresse = f && (f.vorschauUrl || f.url);
+      if (!adresse || !el.isConnected) return;
+      el.classList.add('jahrestag--foto');
+      el.insertAdjacentHTML('beforeend', `<img class="jahrestag__foto" src="${escapeHTML(adresse)}" alt="">`);
+    }, e => console.warn('[Jahrestag] Foto', e));
+  }
 }
 
 /**

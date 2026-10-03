@@ -136,6 +136,8 @@ const APP_SHELL = [
     './src/components/Leer.js',
     './src/components/Bildnachweis.js',
     './src/haptik.js',
+    './src/data/jahrestag.js',
+    './src/components/Story.js',
     './src/data/bildnachweise.js',
     './src/data/bildnachweisRegeln.js',
     './src/pages/Bildnachweise.js',

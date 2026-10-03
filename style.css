@@ -5239,6 +5239,80 @@ body {
     color: var(--text-secondary);
 }
 
+/* Heute vor einem Jahr: eine Erinnerung, keine Aufgabe – ruhiger als der
+   Saisonhinweis, mit goldener Linie links. Ein Foto steht rechts. */
+.jahrestag {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 20px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold-dark);
+    border-radius: 14px;
+    background: linear-gradient(120deg, rgba(201, 168, 76, 0.08), transparent 60%), var(--card-bg);
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.16s ease, transform 0.16s ease;
+}
+
+.jahrestag:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-1px);
+}
+
+.jahrestag__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.jahrestag__kicker {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.jahrestag__werk {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1.2;
+}
+
+.jahrestag__ort {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.jahrestag .star-rating {
+    margin-top: 2px;
+}
+
+.jahrestag__review {
+    display: -webkit-box;
+    margin-top: 4px;
+    overflow: hidden;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.jahrestag__foto {
+    flex: 0 0 88px;
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
 .season__hero {
     text-align: center;
     padding: 40px 0 28px;
@@ -5376,6 +5450,256 @@ body {
 
     .season-card--gross {
         grid-column: span 2;
+    }
+}
+
+/* Der Knopf im Kopf des Rückblicks. */
+.season__story {
+    margin-top: 18px;
+}
+
+/* ── Story (src/components/Story.js) ────────────────────────────────── */
+/* Bildschirmfüllend am Handy; am Rechner ein Hochformat in der Mitte.
+   --story-dauer: so lange steht eine Folie, bis die nächste kommt. */
+
+html.story-offen,
+html.story-offen body {
+    overflow: hidden;
+}
+
+.story {
+    --story-dauer: 6s;
+    padding: 0;
+    overflow: hidden;
+    background: #08090b;
+}
+
+.story .modal__overlay {
+    background: #08090b;
+}
+
+.story__buehne {
+    position: relative;
+    z-index: 1;
+    width: min(100vw, 460px);
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    overflow: hidden;
+    outline: none;
+    touch-action: none;
+    overscroll-behavior: contain;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+@media (min-width: 600px) and (min-height: 700px) {
+    .story__buehne {
+        height: min(92vh, 860px);
+        border-radius: 18px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+}
+
+.story__balken {
+    position: absolute;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    left: 12px;
+    right: 12px;
+    z-index: 4;
+    display: flex;
+    gap: 4px;
+    pointer-events: none;
+}
+
+.story__teil {
+    flex: 1;
+    height: 3px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.story__teil i {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: #fff;
+}
+
+.story__teil--voll i {
+    width: 100%;
+}
+
+.story__teil--jetzt i {
+    animation: storyLauf var(--story-dauer) linear forwards;
+}
+
+.story--angehalten .story__teil--jetzt i {
+    animation-play-state: paused;
+}
+
+@keyframes storyLauf {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.story__zu {
+    position: absolute;
+    top: calc(24px + env(safe-area-inset-top, 0px));
+    right: 10px;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Tippflächen: links ein Drittel zurück, rechts der Rest weiter. */
+.story__zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.story__zone--zurueck { left: 0; width: 33%; }
+.story__zone--weiter { right: 0; width: 67%; }
+
+.story__zone:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+/* Die Folie liegt über den Tippflächen, lässt Berührungen aber durch –
+   außer an ihren eigenen Knöpfen. */
+.story__folie {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    padding: 90px 32px 70px;
+    color: #f0e6d2;
+    pointer-events: none;
+}
+
+.story__folie a,
+.story__folie button {
+    pointer-events: auto;
+}
+
+/* Bühnenlicht von oben, darunter je Folie ein anderer Samtton. */
+.story__folie--0 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.22), transparent 60%), linear-gradient(165deg, #5c111c, #14181c 75%); }
+.story__folie--1 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.2), transparent 60%), linear-gradient(165deg, #5e4a1c, #14181c 75%); }
+.story__folie--2 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.18), transparent 60%), linear-gradient(165deg, #1d3350, #14181c 75%); }
+.story__folie--3 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.18), transparent 60%), linear-gradient(165deg, #1b4038, #14181c 75%); }
+.story__folie--4 { background: radial-gradient(ellipse at 50% -10%, rgba(255, 225, 170, 0.2), transparent 60%), linear-gradient(165deg, #3b2150, #14181c 75%); }
+
+.story__folie > * {
+    animation: storyAuf 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.story__folie > :nth-child(2) { animation-delay: 0.08s; }
+.story__folie > :nth-child(3) { animation-delay: 0.16s; }
+.story__folie > :nth-child(n + 4) { animation-delay: 0.24s; }
+
+@keyframes storyAuf {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+}
+
+.story__kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.story__kicker .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.story__titel {
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 19vw, 5.5rem);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-light), var(--accent-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.story__titel--schluss {
+    font-size: clamp(2.4rem, 12vw, 3.6rem);
+    line-height: 1.1;
+}
+
+.story__wert {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 10vw, 3.4rem);
+    line-height: 1.12;
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+
+.story__wert--zahl {
+    font-size: clamp(6rem, 36vw, 10rem);
+    line-height: 1;
+}
+
+.story__wert--liste {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    line-height: 1.45;
+}
+
+.story__notiz {
+    font-size: 1.02rem;
+    line-height: 1.45;
+    color: rgba(240, 230, 210, 0.72);
+}
+
+.story__folie .star-rating--sm .star {
+    font-size: 30px;
+}
+
+.story__folie .star-rating__number {
+    display: none;
+}
+
+.story__knoepfe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* Nichts läuft von allein: der Balken zeigt nur, wo man ist. */
+    .story__teil--jetzt i {
+        width: 100%;
+        animation: none;
+    }
+
+    .story__folie > * {
+        animation: none;
     }
 }
 
