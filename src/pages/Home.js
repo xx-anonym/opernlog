@@ -182,8 +182,8 @@ function geplanteAbende(page, eigene) {
       <h2 class="demnaechst__titel">Demnächst</h2>
       <div class="demnaechst__blaettern">
         <span class="demnaechst__zahl" aria-live="polite"></span>
-        <button type="button" class="demnaechst__pfeil" data-schritt="-1" aria-label="Früherer Termin">${icon('chevronLeft')}</button>
-        <button type="button" class="demnaechst__pfeil" data-schritt="1" aria-label="Nächster Termin">${icon('chevronRight')}</button>
+        <button type="button" class="demnaechst__pfeil" data-schritt="-1" data-haptik aria-label="Früherer Termin">${icon('chevronLeft')}</button>
+        <button type="button" class="demnaechst__pfeil" data-schritt="1" data-haptik aria-label="Nächster Termin">${icon('chevronRight')}</button>
       </div>
     </div>
     <ul class="demnaechst__liste">

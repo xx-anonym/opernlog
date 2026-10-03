@@ -115,7 +115,7 @@ export function LogVisitPage(params = {}) {
       </div>
       
       <div class="form-actions">
-        <button type="submit" class="btn btn--primary btn--lg">${editVisit ? 'Änderungen speichern' : 'Besuch speichern'}</button>
+        <button type="submit" class="btn btn--primary btn--lg" data-haptik>${editVisit ? 'Änderungen speichern' : 'Besuch speichern'}</button>
         <button type="button" class="btn btn--outline" id="cancelBtn">Abbrechen</button>
       </div>
     </form>

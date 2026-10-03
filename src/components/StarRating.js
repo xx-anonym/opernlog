@@ -27,6 +27,7 @@ export function StarRating(rating, interactive = false, onChange = null, size = 
 
             if (interactive) {
                 star.style.cursor = 'pointer';
+                star.dataset.haptik = '';
                 star.addEventListener('click', (e) => {
                     const rect = star.getBoundingClientRect();
                     const isLeftHalf = (e.clientX - rect.left) < rect.width / 2;

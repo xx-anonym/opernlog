@@ -149,7 +149,7 @@ export function OperaDetailPage(operaId) {
         ${opera.librettist ? `<p class="detail-librettist"><strong>Libretto:</strong> ${opera.librettist}</p>` : ''}
         <div class="detail-actions">
           <a href="#/log?opera=${opera.id}" class="btn btn--primary">+ Besuch mit diesem Werk loggen</a>
-          <button id="wishlistToggle" class="btn ${store.isOnWishlist(opera.id) ? 'btn--wishlist-active' : 'btn--outline'}">
+          <button id="wishlistToggle" data-haptik class="btn ${store.isOnWishlist(opera.id) ? 'btn--wishlist-active' : 'btn--outline'}">
             ${store.isOnWishlist(opera.id)
               ? icon('star', { filled: true }) + ' Auf der Wunschliste'
               : icon('star') + ' Auf die Wunschliste'}

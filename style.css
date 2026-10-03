@@ -1513,6 +1513,31 @@ h3 {
     color: var(--text-muted);
 }
 
+/* Die unsichtbare Fläche für das haptische Klicken auf dem iPhone
+   (src/haptik.js): ein <label> über der ganzen Stelle, der Schalter darin
+   winzig und unsichtbar. Fast, aber nicht ganz durchsichtig – ganz
+   unsichtbare Flächen nimmt WebKit womöglich nicht als berührt. */
+.haptik-flaeche {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    margin: 0;
+    opacity: 0.011;
+    cursor: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.haptik-flaeche input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* --- Comments --- */
 .comment {
     background: rgba(255, 255, 255, 0.03);

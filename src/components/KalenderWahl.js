@@ -81,7 +81,7 @@ export function kalenderWahl(werkId, hausId, { daten = spielplan, heute = heuteI
 }
 
 function vormerkKnopf(datum, vorgemerkt) {
-    return `<button type="button" class="kalender-wahl__vormerken${vorgemerkt ? ' kalender-wahl__vormerken--an' : ''}" data-datum="${datum}"
+    return `<button type="button" class="kalender-wahl__vormerken${vorgemerkt ? ' kalender-wahl__vormerken--an' : ''}" data-haptik data-datum="${datum}"
       aria-pressed="${vorgemerkt}">${vorgemerkt ? '✓ Vorgemerkt' : 'Vormerken'}</button>`;
 }
 
@@ -117,7 +117,7 @@ async function vormerkungUmschalten({ operaId, houseId, datum, zeit }) {
 export function vormerkZeichen(werk, haus, datum) {
     if (!store.hatKonto) return '';
     const an = !!store.planFuer(werk.id, haus.id, datum);
-    return `<button type="button" class="naehe-abend__vormerken${an ? ' naehe-abend__vormerken--an' : ''}"
+    return `<button type="button" class="naehe-abend__vormerken${an ? ' naehe-abend__vormerken--an' : ''}" data-haptik
       data-werk="${escapeHTML(werk.id)}" data-haus="${escapeHTML(haus.id)}" data-datum="${datum}" aria-pressed="${an}"
       title="${an ? 'Vorgemerkt' : 'Vormerken'}" aria-label="${escapeHTML(`Vormerken: ${werk.title}, ${haus.name}`)}">${icon('bookmark', { filled: an })}</button>`;
 }

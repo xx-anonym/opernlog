@@ -115,28 +115,93 @@ test('Android: unter "Demnächst" klickt der Schritt zum nächsten Abend', { ski
     } finally { await ctx.close(); }
 });
 
-test('iPhone: je Klicken ein unsichtbarer Schalter im <head>, umgelegt und wieder weg; sein Klick kommt nirgends an', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+// iPhone (iOS 26.5+): nur eine echte Berührung des Schalters oder seines
+// Labels klickt. Deshalb liegt auf jeder Stelle ein unsichtbares Label; der
+// Klick muss trotzdem genau einmal bei der Stelle ankommen.
+// Wie oft ein Schalter umgelegt wurde – das ist der Moment, in dem das iPhone klickt.
+const umgelegtZaehlen = p => p.evaluate(() => {
+    window.__umgelegt = 0;
+    if (window.__zaehlerDa) return;
+    window.__zaehlerDa = true;
+    document.addEventListener('change', (e) => { if (e.target.matches?.('.haptik-flaeche input[switch]')) window.__umgelegt++; }, true);
+});
+const umgelegt = p => p.evaluate(() => window.__umgelegt);
+
+test('iPhone: Stern und Speichern – Fläche getroffen, Schalter umgelegt, alles genau einmal', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler } = await oeffne('#/log?house=semperoper&opera=tosca', { iphone: true });
     try {
-        await p.waitForSelector('#ratingWidget .star');
-        await p.evaluate(() => {
-            window.__angekommen = 0;
-            window.__umgelegt = [];
-            document.addEventListener('click', (e) => { if (e.target.closest?.('.haptik')) window.__angekommen++; });
-            // Mitschreiben, was der Schalter beim Klick tut – er ist danach gleich wieder weg.
-            const klick = HTMLElement.prototype.click;
-            HTMLElement.prototype.click = function () {
-                const feld = this.classList?.contains('haptik') ? this.querySelector('input[type="checkbox"][switch]') : null;
-                const imKopf = this.parentNode === document.head;
-                klick.call(this);
-                if (feld) window.__umgelegt.push({ imKopf, an: feld.checked });
-            };
-        });
-        await p.locator('#ratingWidget .star').nth(2).click();
-        await p.locator('#ratingWidget .star').nth(3).click();
-        const stand = await p.evaluate(() => ({ umgelegt: window.__umgelegt, angekommen: window.__angekommen,
-            uebrig: document.querySelectorAll('.haptik').length, vibriert: window.__vibriert.length }));
-        assert.deepEqual(stand, { umgelegt: [{ imKopf: true, an: true }, { imKopf: true, an: true }], angekommen: 0, uebrig: 0, vibriert: 0 });
+        await p.waitForSelector('#ratingWidget .star > .haptik-flaeche');
+        await p.waitForSelector('#logForm button[type="submit"] > .haptik-flaeche');
+        await umgelegtZaehlen(p);
+        // Rechte Hälfte des vierten Sterns: vier Sterne.
+        const stern = p.locator('#ratingWidget .star').nth(3);
+        const box = await stern.boundingBox();
+        await p.mouse.click(box.x + box.width * 0.75, box.y + box.height / 2);
+        // Der Klick kommt einen Augenblick später an der Stelle an (siehe haptik.js).
+        await p.waitForFunction(() => [...document.querySelectorAll('#ratingWidget .star')].filter(s => s.textContent.includes('★')).length === 4);
+        await p.click('#logForm button[type="submit"]');
+        await p.waitForFunction(() => window.__besuchVersuche.length >= 1);
+        await p.waitForTimeout(300);
+        assert.equal(await p.evaluate(() => window.__besuchVersuche.length), 1);
+        assert.equal(await p.evaluate(() => window.__besuchVersuche[0].rating), 4);
+        assert.equal(await umgelegt(p), 2);
+        // Auf dem iPhone vibriert nichts – das Klicken kommt vom Schalter.
+        assert.equal(await vibriert(p), 0);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('iPhone: Wunschliste, Gefällt mir, Vormerken, Demnächst – je genau einmal', { skip: fehltPlaywright, timeout: 90000 }, async () => {
+    const besuch = { id: 'aaaaaaaa-1111-4000-8000-000000000009', user_id: FREMD, opera_id: 'aida', house_id: 'oper-leipzig', date: '2026-04-01', rating: 5 };
+    // Nicht Tosca am 5. Tag: den merkt der Test unten im Termin-Fenster vor.
+    const plaene = [['rigoletto', 6], ['aida', 9], ['carmen', 12]].map(([werk, tage], i) => (
+        { id: `aaaaaaaa-0000-4000-8000-00000000004${i}`, user_id: UID, opera_id: werk, house_id: 'semperoper', datum: iso(tage), zeit: null }));
+    const { ctx, p, fehler } = await oeffne('#/opera/tosca', { iphone: true, besuche: [besuch], follows: [{ follower_id: UID, following_id: FREMD }], plaene });
+    try {
+        await p.waitForSelector('#wishlistToggle > .haptik-flaeche');
+        await umgelegtZaehlen(p);
+        await p.click('#wishlistToggle');
+        await p.waitForFunction(() => document.querySelector('#wishlistToggle')?.textContent.includes('Auf der Wunschliste'));
+        assert.equal(await umgelegt(p), 1);
+
+        // Vormerken im Termin-Fenster: einmal an, nicht an und gleich wieder aus.
+        const vorher = await p.evaluate(() => window.__geplant.length);
+        await p.click('#termineToggle');
+        await p.click('#operaTermine .spielplan-zeile__kalender');
+        await p.waitForSelector('.kalender-wahl__vormerken > .haptik-flaeche');
+        await p.locator('.kalender-wahl__vormerken').first().click();
+        await p.waitForFunction(n => window.__geplant.length === n + 1, vorher);
+        await p.waitForTimeout(300);
+        assert.equal(await p.evaluate(() => window.__geplant.length), vorher + 1);
+        assert.equal(await umgelegt(p), 2);
+        await p.click('#kalenderWahlAbbrechen');
+        await p.waitForFunction(() => !history.state?.opernlogFenster);
+
+        await p.evaluate(() => { location.hash = '#/'; });
+        await p.waitForSelector('.feed-list [data-action="like"] > .haptik-flaeche');
+        await umgelegtZaehlen(p);
+        await p.click('.feed-list [data-action="like"]');
+        await p.waitForFunction(() => document.querySelector('.feed-list [data-action="like"] .btn-icon__count')?.textContent === '1');
+        await p.waitForTimeout(300);
+        assert.equal(await p.textContent('.feed-list [data-action="like"] .btn-icon__count'), '1');
+        assert.equal(await umgelegt(p), 1);
+
+        // Ein Schritt weiter, nicht zwei.
+        await p.click('.demnaechst__pfeil[data-schritt="1"]');
+        await p.waitForFunction(() => /^2 \//.test(document.querySelector('.demnaechst__zahl')?.textContent || ''));
+        await p.waitForTimeout(500);
+        assert.match(await p.textContent('.demnaechst__zahl'), /^2 \//);
+        assert.equal(await umgelegt(p), 2);
+        assert.equal(await vibriert(p), 0);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('ohne iPhone keine Flächen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p } = await oeffne('#/log?house=semperoper&opera=tosca');
+    try {
+        await p.waitForSelector('#ratingWidget .star');
+        await p.waitForTimeout(300);
+        assert.equal(await p.locator('.haptik-flaeche').count(), 0);
     } finally { await ctx.close(); }
 });

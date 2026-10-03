@@ -122,7 +122,7 @@ export function ReviewCard(visit, options = {}) {
     </div></div>
     ${visit.ausstehend ? '' : `
     <div class="review-card__actions">
-      <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" data-action="like" data-visit-id="${visit.id}">
+      <button class="btn-icon ${isLiked ? 'btn-icon--active' : ''}" data-action="like" data-haptik data-visit-id="${visit.id}">
         ${icon('heart', { filled: isLiked, label: 'Gefällt mir' })}
         <span class="btn-icon__count">${visit.likes || 0}</span>
       </button>

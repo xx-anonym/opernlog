@@ -28,6 +28,7 @@ import { mitteilungenFrageFaellig } from './push.js';
 import { neuigkeitFenster } from './components/Neuigkeit.js';
 import { neuigkeitFaellig } from './neuigkeiten.js';
 import { zurueckGesteEinrichten } from './zurueckGeste.js';
+import { haptikEinrichten } from './haptik.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
@@ -64,6 +65,7 @@ class App {
         this.zeigeVersion();
         // "Zurück" schließt ein offenes Fenster, statt die Seite zu verlassen.
         zurueckGesteEinrichten();
+        haptikEinrichten();
         this.init();
     }
 
