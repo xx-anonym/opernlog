@@ -61,6 +61,19 @@ async function rueckblick({ dauer = '60s', bewegung = 'no-preference', teilen = 
 
 const nr = p => p.getAttribute('.story', 'data-folie').then(Number);
 
+// Die Vorhangteile der Schlussfolie, die gerade laufen.
+const vorhangLaeuft = p => p.evaluate(() => document.getAnimations()
+    .filter(a => a.effect?.target?.closest?.('.story__vorhang'))
+    .map(a => a.animationName).sort());
+
+// Geschlossen: links bündig, rechts bündig, in der Mitte keine Lücke.
+const vorhangZu = p => p.evaluate(() => {
+    const b = document.querySelector('.story__buehne').getBoundingClientRect();
+    const l = document.querySelector('.story__vorhang-teil--links').getBoundingClientRect();
+    const r = document.querySelector('.story__vorhang-teil--rechts').getBoundingClientRect();
+    return l.left <= b.left + 1 && r.right >= b.right - 1 && l.right >= r.left;
+});
+
 test('Story: Anfang, je Kachel eine Folie, blättern per Tippen und Pfeiltaste, Escape schließt', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler, folien } = await rueckblick();
     try {
@@ -110,8 +123,22 @@ test('Story: läuft von selbst bis zum Schluss und bleibt dort; "Von vorn" begin
     try {
         await p.click('#storyBtn');
         await p.waitForFunction(n => document.querySelector('.story')?.dataset.folie === String(n), folien - 1, { timeout: 15000 });
-        await p.waitForTimeout(500);
+        // Am Schluss fährt der Vorhang zu – und steht danach geschlossen.
+        assert.deepEqual(await vorhangLaeuft(p), ['storyBogen', 'storyEinblenden', 'storyVorhangLinks', 'storyVorhangRechts']);
+        await p.waitForFunction(() => !document.getAnimations().some(a => a.effect?.target?.closest?.('.story__vorhang')), null, { timeout: 5000 });
+        assert.equal(await vorhangZu(p), true);
         assert.equal(await nr(p), folien - 1);
+        // Text und Knöpfe liegen über dem Vorhang, nicht dahinter – auch wenn
+        // ihr Hereinschweben vorbei ist. Der Vorhang lässt Klicks durch; zum
+        // Nachsehen wird er kurz greifbar gemacht.
+        await p.waitForFunction(() => !document.getAnimations().some(a => a.effect?.target?.closest?.('.story__folie')), null, { timeout: 8000 });
+        assert.equal(await p.evaluate(() => {
+            document.querySelectorAll('.story__vorhang, .story__vorhang > *').forEach(e => { e.style.pointerEvents = 'auto'; });
+            const k = document.querySelector('.story__teilen').getBoundingClientRect();
+            const oben = document.elementFromPoint(k.left + k.width / 2, k.top + k.height / 2);
+            document.querySelectorAll('.story__vorhang, .story__vorhang > *').forEach(e => { e.style.pointerEvents = ''; });
+            return !!oben?.closest('.story__teilen');
+        }), true);
         assert.match(await p.textContent('.story__folie'), /Bis zur nächsten Spielzeit/);
         assert.equal(await p.textContent('.story__kicker'), 'Das war 2025/26');
         assert.match(await p.textContent('.story__notiz'), /^3 Abende · 2 Werke · 2 Häuser$/);
@@ -141,13 +168,18 @@ test('Story: Gedrückthalten hält an, Loslassen blättert nicht', { skip: fehlt
 });
 
 test('Story: bei weniger Bewegung läuft nichts von allein', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const { ctx, p, fehler } = await rueckblick({ dauer: '100ms', bewegung: 'reduce' });
+    const { ctx, p, fehler, folien } = await rueckblick({ dauer: '100ms', bewegung: 'reduce' });
     try {
         await p.click('#storyBtn');
         await p.waitForTimeout(700);
         assert.equal(await nr(p), 0);
         await p.click('.story__zone--weiter');
         assert.equal(await nr(p), 1);
+        // Der Vorhang ist am Schluss gleich zu, ohne zu fahren.
+        for (let i = 2; i < folien; i++) await p.keyboard.press('ArrowRight');
+        assert.equal(await nr(p), folien - 1);
+        assert.deepEqual(await vorhangLaeuft(p), []);
+        assert.equal(await vorhangZu(p), true);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

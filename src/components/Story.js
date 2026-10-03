@@ -18,7 +18,8 @@ const HALTEN_MS = 220;
 const HINTERGRUENDE = 5;
 
 /**
- * @param {Array<{html: string, nachbau?: (folie: HTMLElement) => void}>} folien
+ * @param {Array<{html: string, klasse?: string, nachbau?: (folie: HTMLElement) => void}>} folien
+ *        klasse: zusätzliche CSS-Klasse der Folie, etwa für einen eigenen Hintergrund
  * @param {{titel?: string, start?: number}} [optionen]
  * @returns {{schliessen: () => void, zeige: (nr: number) => void}}
  */
@@ -45,7 +46,7 @@ export function storyOeffnen(folien, { titel = 'Story', start = 0 } = {}) {
     function zeige(neu) {
         nr = Math.max(0, Math.min(folien.length - 1, neu));
         balken.innerHTML = folien.map((_, i) => `<span class="story__teil${i < nr ? ' story__teil--voll' : i === nr ? ' story__teil--jetzt' : ''}"><i></i></span>`).join('');
-        folie.className = `story__folie story__folie--${nr % HINTERGRUENDE}`;
+        folie.className = `story__folie story__folie--${nr % HINTERGRUENDE}${folien[nr].klasse ? ` ${folien[nr].klasse}` : ''}`;
         folie.innerHTML = folien[nr].html;
         folien[nr].nachbau?.(folie);
         modal.dataset.folie = String(nr);

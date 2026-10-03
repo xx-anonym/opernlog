@@ -5711,6 +5711,144 @@ html.story-offen body {
     margin-top: 18px;
 }
 
+/* Schlussfolie: Der Vorhang schließt sich wie beim Ladebildschirm, nur
+   andersherum (Samt und Bogen wie .splash__curtain in index.html). Danach
+   erscheinen Text und Knöpfe auf dem geschlossenen Vorhang. */
+.story__vorhang {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.story__folie--schluss > :not(.story__vorhang) {
+    position: relative;
+    z-index: 1;
+}
+
+.story__folie--schluss > .story__vorhang {
+    animation: none;
+}
+
+.story__vorhang-teil {
+    position: absolute;
+    top: -10%;
+    width: 52%;
+    height: 120%;
+    background:
+        repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.055) 0px,
+            rgba(0, 0, 0, 0.10) 9px,
+            rgba(0, 0, 0, 0.26) 19px,
+            rgba(0, 0, 0, 0.10) 29px,
+            rgba(255, 255, 255, 0.055) 38px),
+        repeating-linear-gradient(90deg,
+            rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0.05) 2px,
+            rgba(0, 0, 0, 0) 4px),
+        linear-gradient(180deg,
+            #3d0a15 0%, #6b1525 15%, #8b1a2b 30%,
+            #7a1826 50%, #8b1a2b 65%, #6b1525 85%, #3d0a15 100%);
+    box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.55);
+}
+
+.story__vorhang-teil--links {
+    left: 0;
+    border-right: 3px solid #4a0e1a;
+    animation: storyVorhangLinks 1.8s cubic-bezier(0.45, 0, 0.15, 1) 0.2s backwards;
+}
+
+.story__vorhang-teil--rechts {
+    right: 0;
+    border-left: 3px solid #4a0e1a;
+    animation: storyVorhangRechts 1.8s cubic-bezier(0.45, 0, 0.15, 1) 0.2s backwards;
+}
+
+@keyframes storyVorhangLinks {
+    from { transform: translate3d(-105%, 0, 0); }
+}
+
+@keyframes storyVorhangRechts {
+    from { transform: translate3d(105%, 0, 0); }
+}
+
+/* Der Bogen oben, mit goldener Kante. */
+.story__vorhang-bogen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background:
+        repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 0px,
+            rgba(0, 0, 0, 0.14) 11px,
+            rgba(0, 0, 0, 0.24) 22px,
+            rgba(255, 255, 255, 0.05) 34px),
+        linear-gradient(180deg, #8b1a2b 0%, #6b1525 60%, #4a0e1a 100%);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
+    border-bottom: 2px solid rgba(201, 168, 76, 0.4);
+    animation: storyBogen 1.2s cubic-bezier(0.45, 0, 0.15, 1) backwards;
+}
+
+@keyframes storyBogen {
+    from { transform: translate3d(0, -100%, 0); }
+}
+
+/* Licht von oben und von der Rampe, sobald der Vorhang zu ist; dazu eine
+   leichte Abdunklung hinter dem Text. */
+.story__vorhang-licht {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 45% at 50% 0%, rgba(255, 230, 170, 0.16), transparent 70%),
+        radial-gradient(ellipse 80% 30% at 50% 100%, rgba(255, 210, 140, 0.14), transparent 75%),
+        radial-gradient(ellipse 90% 40% at 30% 55%, rgba(0, 0, 0, 0.35), transparent 75%);
+    animation: storyEinblenden 1.2s ease 1.6s backwards;
+}
+
+/* Text auf dem Samt: der Titel in reinem Gold statt Gold-Rot-Verlauf (das
+   Rot ginge im Vorhang unter), alles mit Schatten. Der Teilen-Knopf wird
+   golden – rot auf rotem Samt wäre er unsichtbar. */
+.story__folie--schluss .story__titel {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: #ecd28a;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+}
+
+.story__folie--schluss .story__kicker,
+.story__folie--schluss .story__notiz {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+
+.story__folie--schluss .story__notiz {
+    color: rgba(250, 238, 215, 0.88);
+}
+
+.story__folie--schluss .story__teilen {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: #2a1a05;
+}
+
+.story__folie--schluss .story__teilen:hover {
+    background: var(--gold-light);
+}
+
+.story__folie--schluss .story__vorn {
+    border-color: rgba(255, 240, 210, 0.5);
+    background: rgba(20, 6, 10, 0.35);
+    color: #fbefd9;
+}
+
+/* Der Text kommt erst, wenn der Vorhang zu ist. */
+.story__folie--schluss > .story__kicker { animation-delay: 1.5s; }
+.story__folie--schluss > .story__titel { animation-delay: 1.8s; }
+.story__folie--schluss > .story__notiz { animation-delay: 2.1s; }
+.story__folie--schluss > .story__knoepfe { animation-delay: 2.4s; }
+
 @media (prefers-reduced-motion: reduce) {
     /* Nichts läuft von allein: der Balken zeigt nur, wo man ist. */
     .story__teil--jetzt i {
@@ -5718,7 +5856,8 @@ html.story-offen body {
         animation: none;
     }
 
-    .story__folie > * {
+    .story__folie > *,
+    .story__vorhang > * {
         animation: none;
     }
 }

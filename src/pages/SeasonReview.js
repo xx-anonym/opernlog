@@ -239,8 +239,17 @@ function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
             }),
         });
     }
+    // Zum Schluss schließt sich der Vorhang wie beim Ladebildschirm
+    // (index.html), Text und Knöpfe erscheinen darauf.
     folien.push({
+        klasse: 'story__folie--schluss',
         html: `
+          <div class="story__vorhang" aria-hidden="true">
+            <span class="story__vorhang-teil story__vorhang-teil--links"></span>
+            <span class="story__vorhang-teil story__vorhang-teil--rechts"></span>
+            <span class="story__vorhang-bogen"></span>
+            <span class="story__vorhang-licht"></span>
+          </div>
           <span class="story__kicker">Das war ${r.label}</span>
           <span class="story__titel story__titel--schluss">Bis zur nächsten Spielzeit</span>
           <span class="story__notiz">${zahl(r.visitCount)} ${r.visitCount === 1 ? 'Abend' : 'Abende'} · `
