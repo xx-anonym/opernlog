@@ -11,12 +11,14 @@ import { icon } from '../components/Icon.js';
 import { showToast, showError } from '../components/Toast.js';
 import { escapeHTML, copyToClipboard, datumKurz } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
+import { andenkenDerSaison } from '../components/Andenken.js';
 import {
     buildSeasonReview,
     seasonLabel,
     seasonRange,
     lastCompletedSeasonStartYear,
     seasonsWithVisits,
+    visitsInSeason,
 } from '../data/season.js';
 
 // Liegt seit dem Werkverlauf in utils.js – dort braucht es dieselbe Ausgabe,
@@ -122,6 +124,10 @@ export function SeasonReviewPage(param) {
       <span class="season-card__value season-card__value--liste">wird geladen …</span>
     `;
     cards.insertBefore(vergleichKarte, cards.children[1] || null);
+
+    // Die Fotos der Spielzeit unter den Kacheln. Sie kommen aus dem Netz und
+    // rücken nach; ohne Fotos bleibt der Abschnitt weg.
+    cards.after(andenkenDerSaison(visitsInSeason(alleBesuche, startYear)));
 
     ladeVergleich(review).then((inhalt) => {
         if (!page.isConnected) return;

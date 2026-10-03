@@ -15,18 +15,24 @@
 // zwischen privat (Standard) und Freunden oder löscht. Im Feed stehen die
 // freigegebenen Fotos als kleines Mosaik aus höchstens drei Kacheln –
 // ebenso auf Werk-, Haus- und Profilseite. Kacheln zeigen die Vorschau (720 px), die Vergrößerung das Foto.
+// Im Saisonrückblick steht je Abend der Spielzeit eine Kachel, auch für
+// private Fotos: den Rückblick sieht nur man selbst.
 // Die Fotos liegen nur in der Cloud – ohne Netz steht hier nichts.
 // Datenbank und Speicher: supabase/migrations/andenken_migration.sql.
 
 import { icon } from './Icon.js';
 import { showToast, runWithFeedback } from './Toast.js';
 import { store } from '../store/store.js';
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, datumKurz } from '../utils.js';
 import { fotoVorbereiten } from '../bild.js';
+import { operas } from '../data/operas.js';
 
 export const HOECHSTENS_JE_ABEND = 6;
 // Im Feed höchstens so viele Kacheln; die übrigen zählt ein "+2" auf der letzten.
 const IM_FEED = 3;
+// Im Saisonrückblick höchstens so viele Abende: vier Reihen zu drei, breit
+// drei Reihen zu vier.
+const IM_RUECKBLICK = 12;
 
 const FREUNDE = 'Für Freunde sichtbar';
 const PRIVAT = 'Privat – nur du';
@@ -68,8 +74,10 @@ function mosaikHTML(fotos, { eigen = false, feed = false } = {}) {
  * Die Vergrößerung. `holen` liefert die aktuelle Liste (sie kann beim
  * Löschen schrumpfen); `aktionen` gibt es nur beim eigenen Abend:
  * umschalten(foto) und loeschen(foto) – letzteres liefert, ob es geklappt hat.
+ * `unterschrift(foto)`: HTML in der Leiste, etwa ein Verweis auf den Abend.
+ * Führt er woandershin, schließt src/zurueckGeste.js die Vergrößerung.
  */
-function grossAnsicht(holen, start, aktionen = null) {
+function grossAnsicht(holen, start, aktionen = null, { unterschrift = null } = {}) {
     let nr = start;
     let startX = null;
     let gewischt = false;
@@ -85,9 +93,10 @@ function grossAnsicht(holen, start, aktionen = null) {
         const f = fotos[nr];
         rahmen.innerHTML = `
           <img src="${escapeHTML(f.url || f.vorschauUrl || '')}" alt="" draggable="false">
-          ${aktionen || fotos.length > 1 ? `
+          ${aktionen || unterschrift || fotos.length > 1 ? `
           <div class="andenken-gross__leiste">
             ${fotos.length > 1 ? `<span class="andenken-gross__zahl">${nr + 1} / ${fotos.length}</span>` : ''}
+            ${unterschrift ? unterschrift(f) : ''}
             ${aktionen ? `
             <button type="button" class="andenken-gross__knopf andenken-gross__sicht${f.oeffentlich ? ' andenken-gross__sicht--an' : ''}"
               aria-pressed="${f.oeffentlich}" title="${f.oeffentlich ? FREUNDE : PRIVAT}">${sichtZeichen(f)}${f.oeffentlich ? 'Freunde' : 'Privat'}</button>
@@ -275,6 +284,72 @@ export async function fotosAnKarten(paare) {
         const koerper = karte.querySelector('.review-card__koerper');
         if (fotos?.length && koerper) koerper.appendChild(andenkenImFeed(fotos));
     }
+}
+
+/**
+ * Die Momentaufnahmen einer Spielzeit im Saisonrückblick (#/season): je
+ * Abend eine Kachel mit seinem ersten Foto, in der Reihenfolge der Abende.
+ * Die Vergrößerung blättert durch alle Fotos der Spielzeit und nennt unter
+ * jedem den Abend, mit Weg dorthin. Gezeigt werden auch die privaten – den
+ * Rückblick sieht nur man selbst. Ins Bild zum Teilen kommen sie nicht:
+ * das geht an Leute außerhalb der App. Ohne Fotos bleibt der Abschnitt weg.
+ * @param {Array} besuche  die eigenen Abende der Spielzeit
+ */
+export function andenkenDerSaison(besuche) {
+    const bereich = document.createElement('section');
+    bereich.className = 'andenken andenken--saison';
+    bereich.hidden = true;
+
+    const welcher = (v) => {
+        const werk = operas.find(o => o.id === (v.operaId || v.opera_id));
+        return [werk?.title, datumKurz(v.date)].filter(Boolean).join(' · ');
+    };
+
+    // Alle Fotos der Spielzeit, Abend für Abend; die Vergrößerung blättert hindurch.
+    let fotos = [];
+
+    store.getEigeneAndenken(besuche.map(v => v.id)).then((nachAbend) => {
+        const abende = besuche
+            .filter(v => nachAbend.get(String(v.id))?.length)
+            .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+        if (!abende.length) return;
+        fotos = abende.flatMap(v => nachAbend.get(String(v.id)).map(f => ({ ...f, abend: v })));
+        const kacheln = abende.slice(0, IM_RUECKBLICK).map(v => fotos.find(f => f.abend === v));
+        const n = kacheln.length;
+        const mehr = abende.length - n;
+        // Geht die Zahl in den Reihen nicht auf, wird die erste Kachel breiter
+        // (style.css). Über die volle Breite bekommt sie das Foto selbst.
+        const banner = n % 3 === 1 || n % 4 === 1;
+
+        bereich.innerHTML = `
+          <div class="andenken__kopf">
+            <h2 class="andenken__titel">${icon('camera')}Momentaufnahmen</h2>
+            <span class="andenken__summe">${fotos.length} ${fotos.length === 1 ? 'Foto' : 'Fotos'} · ${abende.length} ${abende.length === 1 ? 'Abend' : 'Abende'}</span>
+          </div>
+          <div class="saison-fotos saison-fotos--r3-${n % 3} saison-fotos--r4-${n % 4}">
+            ${kacheln.map((f, i) => `
+              <figure class="andenken__foto" data-id="${escapeHTML(f.id)}">
+                <button type="button" class="andenken__oeffnen" title="${escapeHTML(welcher(f.abend))}" aria-label="${escapeHTML(welcher(f.abend))}, vergrößern">
+                  <img src="${escapeHTML((i === 0 && banner ? f.url : f.vorschauUrl) || f.url || '')}" alt="" loading="lazy">
+                </button>
+                ${i === n - 1 && mehr > 0 ? `<span class="andenken__mehr">+${mehr}</span>` : ''}
+              </figure>`).join('')}
+          </div>`;
+        bereich.hidden = false;
+    }).catch(e => console.warn('[Andenken] Saisonrückblick', e));
+
+    bereich.addEventListener('click', (e) => {
+        const oeffnen = e.target.closest('.andenken__oeffnen');
+        if (!oeffnen) return;
+        const id = oeffnen.closest('.andenken__foto')?.dataset.id;
+        const nr = fotos.findIndex(f => f.id === id);
+        if (nr < 0) return;
+        grossAnsicht(() => fotos, nr, null, {
+            unterschrift: f => `<a class="andenken-gross__abend" href="#/visit/${encodeURIComponent(f.abend.id)}">${escapeHTML(welcher(f.abend))}</a>`,
+        });
+    });
+
+    return bereich;
 }
 
 /**
