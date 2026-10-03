@@ -64,7 +64,16 @@ function worker({ netz, speicherVoll = false }) {
         });
         return await antwort;
     }
-    return { bild, abrufe, gespeichert };
+    /** Eine Anfrage an die eigene Seite; liefert, ob der Worker sie übernahm. */
+    function eigene(pfad, kopf = {}) {
+        let uebernommen = false;
+        zuhoerer.fetch({
+            request: { url: `https://opernlog.vercel.app/${pfad}`, method: 'GET', mode: 'no-cors', headers: new Map(Object.entries(kopf)) },
+            respondWith: () => { uebernommen = true; },
+        });
+        return uebernommen;
+    }
+    return { bild, eigene, abrufe, gespeichert };
 }
 
 test('Bilder werden mit CORS geholt, damit sie mit ihrer echten Größe zählen', async () => {
@@ -109,4 +118,13 @@ test('was im Cache liegt, kommt ohne Netz', async () => {
     const zweite = await w.bild();
     assert.equal(zweite, erste);
     assert.equal(w.abrufe.length, 1);
+});
+
+// Musik (audio/, src/components/StoryMusik.js) holt der Browser in
+// Teilstücken. Eine Antwort 206 lässt sich nicht cachen; cache.put würde
+// scheitern. Solche Anfragen gehen am Worker vorbei.
+test('Teilstücke (Range) gehen am Worker vorbei, ganze Dateien nicht', () => {
+    const w = worker({ netz: async () => new Antwort('basic') });
+    assert.equal(w.eigene('audio/cavalleria-intermezzo.mp3', { range: 'bytes=0-' }), false);
+    assert.equal(w.eigene('src/main.js'), true);
 });

@@ -58,6 +58,7 @@ const TYPEN = {
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
     '.ico': 'image/x-icon',
+    '.mp3': 'audio/mpeg',
 };
 
 /** Statischer Server auf einem freien Port. Gibt {url, schliessen} zurück. */

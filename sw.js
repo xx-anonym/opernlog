@@ -138,6 +138,8 @@ const APP_SHELL = [
     './src/haptik.js',
     './src/data/jahrestag.js',
     './src/components/Story.js',
+    './src/components/StoryMusik.js',
+    './src/data/musik.js',
     './src/data/bildnachweise.js',
     './src/data/bildnachweisRegeln.js',
     './src/pages/Bildnachweise.js',
@@ -245,6 +247,11 @@ self.addEventListener('fetch', (event) => {
 
     // Skip non-GET requests and Supabase/external API calls
     if (event.request.method !== 'GET') return;
+
+    // Teilstücke (Range) – so holen Browser Musik und Video. Eine Antwort
+    // 206 lässt sich nicht in den Cache legen, und der Browser kann das
+    // ohnehin selbst. Die Musik der Story (audio/) läuft so am Worker vorbei.
+    if (event.request.headers?.has?.('range')) return;
 
     if (IMAGE_HOSTS.includes(url.hostname)) {
         event.respondWith(serveImage(event.request));

@@ -15,6 +15,7 @@ import { showToast, showError } from '../components/Toast.js';
 import { escapeHTML, copyToClipboard, datumKurz } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
 import { storyOeffnen } from '../components/Story.js';
+import { STORY_MUSIK } from '../data/musik.js';
 import {
     buildSeasonReview,
     seasonLabel,
@@ -180,7 +181,7 @@ export function SeasonReviewPage(param) {
             teilen: knopf => teilenMitMeldung(knopf),
             vonVorn: () => story?.zeige(0),
         });
-        story = storyOeffnen(folien, { titel: `Saisonrückblick ${review.label}` });
+        story = storyOeffnen(folien, { titel: `Saisonrückblick ${review.label}`, musik: STORY_MUSIK.datei });
     });
 
     imageBtn.addEventListener('click', async () => {
@@ -258,7 +259,8 @@ function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
           <div class="story__knoepfe">
             <button type="button" class="btn btn--accent story__teilen">${icon('link')}Rückblick teilen</button>
             <button type="button" class="btn btn--outline story__vorn">Von vorn</button>
-          </div>`,
+          </div>
+          <a class="story__musiknachweis" href="#/bildnachweise">Musik: ${escapeHTML(STORY_MUSIK.komponist)}, ${escapeHTML(STORY_MUSIK.werk)} · ${escapeHTML(STORY_MUSIK.aufnahme)} · ${escapeHTML(STORY_MUSIK.lizenz)}</a>`,
         nachbau: (el) => {
             const knopf = el.querySelector('.story__teilen');
             knopf.addEventListener('click', () => teilenKlick(knopf));

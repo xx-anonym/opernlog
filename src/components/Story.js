@@ -9,8 +9,13 @@
 //
 // Das Fenster ist ein .modal mit .modal__overlay. So schließt die
 // Zurück-Geste es wie jedes andere Fenster (src/zurueckGeste.js).
+//
+// Mit `musik` läuft darunter ein Stück (src/components/StoryMusik.js); ein
+// Knopf neben ✕ schaltet es ab.
 
 import { escapeHTML } from '../utils.js';
+import { icon } from './Icon.js';
+import { storyMusik } from './StoryMusik.js';
 
 // So lange muss man drücken, damit es als Halten zählt und nicht als Tippen.
 const HALTEN_MS = 220;
@@ -20,10 +25,11 @@ const HINTERGRUENDE = 5;
 /**
  * @param {Array<{html: string, klasse?: string, nachbau?: (folie: HTMLElement) => void}>} folien
  *        klasse: zusätzliche CSS-Klasse der Folie, etwa für einen eigenen Hintergrund
- * @param {{titel?: string, start?: number}} [optionen]
+ * @param {{titel?: string, start?: number, musik?: string}} [optionen]
+ *        musik: Adresse der Musikdatei; muss in der Nutzergeste geöffnet werden
  * @returns {{schliessen: () => void, zeige: (nr: number) => void}}
  */
-export function storyOeffnen(folien, { titel = 'Story', start = 0 } = {}) {
+export function storyOeffnen(folien, { titel = 'Story', start = 0, musik: musikDatei = null } = {}) {
     let nr = 0;
     let haltTimer = null;
     let gehalten = false;
@@ -35,6 +41,7 @@ export function storyOeffnen(folien, { titel = 'Story', start = 0 } = {}) {
       <div class="story__buehne" role="dialog" aria-modal="true" aria-label="${escapeHTML(titel)}" tabindex="-1">
         <div class="story__balken"></div>
         <button type="button" class="story__zu" aria-label="Schließen">✕</button>
+        ${musikDatei ? '<button type="button" class="story__ton" aria-label="Musik"></button>' : ''}
         <button type="button" class="story__zone story__zone--zurueck" aria-label="Zurück"></button>
         <button type="button" class="story__zone story__zone--weiter" aria-label="Weiter"></button>
         <div class="story__folie" aria-live="polite"></div>
@@ -52,10 +59,23 @@ export function storyOeffnen(folien, { titel = 'Story', start = 0 } = {}) {
         modal.dataset.folie = String(nr);
     }
 
-    const anhalten = (ja) => modal.classList.toggle('story--angehalten', ja);
+    const musik = musikDatei ? storyMusik(modal, musikDatei) : null;
+    const tonKnopf = modal.querySelector('.story__ton');
+    const tonZeigen = () => {
+        if (!tonKnopf) return;
+        tonKnopf.setAttribute('aria-pressed', String(musik.an));
+        tonKnopf.innerHTML = icon(musik.an ? 'volume' : 'volumeX');
+    };
+    tonZeigen();
+
+    const anhalten = (ja) => {
+        modal.classList.toggle('story--angehalten', ja);
+        musik?.anhalten(ja);
+    };
 
     function schliessen() {
         clearTimeout(haltTimer);
+        musik?.beenden();
         modal.remove();
         document.documentElement.classList.remove('story-offen');
         document.removeEventListener('keydown', taste);
@@ -77,7 +97,7 @@ export function storyOeffnen(folien, { titel = 'Story', start = 0 } = {}) {
     });
 
     buehne.addEventListener('pointerdown', (e) => {
-        if (e.target.closest('.story__zu, .story__folie a, .story__folie button')) return;
+        if (e.target.closest('.story__zu, .story__ton, .story__folie a, .story__folie button')) return;
         gehalten = false;
         clearTimeout(haltTimer);
         haltTimer = setTimeout(() => { gehalten = true; anhalten(true); }, HALTEN_MS);
@@ -93,6 +113,10 @@ export function storyOeffnen(folien, { titel = 'Story', start = 0 } = {}) {
         // Nach dem Halten meldet der Browser noch einen Klick. Der blättert nicht.
         if (gehalten) { gehalten = false; return; }
         if (e.target.closest('.story__zu')) return schliessen();
+        if (e.target.closest('.story__ton')) {
+            musik.umschalten();
+            return tonZeigen();
+        }
         const zone = e.target.closest('.story__zone');
         if (zone) zeige(nr + (zone.classList.contains('story__zone--zurueck') ? -1 : 1));
     });

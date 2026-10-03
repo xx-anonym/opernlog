@@ -9,6 +9,7 @@ import { composers } from '../data/composers.js';
 import { escapeHTML } from '../utils.js';
 import { nachweisZeile } from '../data/bildnachweisRegeln.js';
 import { nachweisFuer, commonsSeite } from '../components/Bildnachweis.js';
+import { STORY_MUSIK } from '../data/musik.js';
 
 const nachName = (a, b) => a.name.localeCompare(b.name, 'de');
 
@@ -26,6 +27,22 @@ function zeile(eintrag, n) {
       </li>`;
 }
 
+// Die Musik unter der Story des Saisonrückblicks (src/data/musik.js).
+function musikAbschnitt() {
+    const m = STORY_MUSIK;
+    const extern = 'target="_blank" rel="noopener noreferrer"';
+    return `
+      <section class="nachweise">
+        <h2 class="nachweise__titel">Musik</h2>
+        <ul class="nachweise__liste">
+          <li class="nachweise__eintrag">
+            <span class="nachweise__name">${escapeHTML(m.komponist)}: ${escapeHTML(m.werk)}</span>
+            <span class="nachweise__wer">${escapeHTML(m.aufnahme)} · <a href="${escapeHTML(m.lizenzUrl)}" ${extern}>${escapeHTML(m.lizenz)}</a> · ${escapeHTML(m.bearbeitung)} · <a href="${escapeHTML(m.quelle)}" ${extern}>Commons</a></span>
+          </li>
+        </ul>
+      </section>`;
+}
+
 async function abschnitt(titel, eintraege) {
     const mitNachweis = await Promise.all(eintraege.map(async e => [e, e.fertig || await nachweisFuer(e.bild)]));
     return `
@@ -41,7 +58,7 @@ export function BildnachweisePage() {
     page.innerHTML = `
       <div class="page-header">
         <h1 class="page-header__title">Bildnachweise</h1>
-        <p class="page-header__subtitle">Alle Bilder stammen von Wikimedia Commons.</p>
+        <p class="page-header__subtitle">Alle Bilder und die Musik stammen von Wikimedia Commons.</p>
       </div>
       <div class="nachweise__inhalt"></div>`;
 
@@ -54,6 +71,6 @@ export function BildnachweisePage() {
     })).sort(nachName);
 
     Promise.all([abschnitt('Werke', werke), abschnitt('Häuser', haeuser), abschnitt('Komponisten', komponisten)])
-        .then((teile) => { page.querySelector('.nachweise__inhalt').innerHTML = teile.join(''); });
+        .then((teile) => { page.querySelector('.nachweise__inhalt').innerHTML = teile.join('') + musikAbschnitt(); });
     return page;
 }

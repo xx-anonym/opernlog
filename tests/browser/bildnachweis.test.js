@@ -66,12 +66,12 @@ test('gemeinfreies Bild: keine Zeile im Kopf', { skip: fehltPlaywright, timeout:
     } finally { await ctx.close(); }
 });
 
-test('#/bildnachweise listet Werke, Häuser und Komponisten mit Lizenz', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+test('#/bildnachweise listet Werke, Häuser und Komponisten mit Lizenz, dazu die Musik der Story', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler } = await oeffne('#/bildnachweise');
     try {
         await p.waitForSelector('.nachweise__eintrag');
         const titel = await p.$$eval('.nachweise__titel', h => h.map(x => x.textContent));
-        assert.deepEqual(titel, ['Werke', 'Häuser', 'Komponisten']);
+        assert.deepEqual(titel, ['Werke', 'Häuser', 'Komponisten', 'Musik']);
         const traviata = await p.locator('.nachweise__eintrag', { hasText: 'La Traviata' }).first().textContent();
         assert.match(traviata, /Christian Michelides · CC BY-SA 4\.0 · Commons/);
         assert.ok(await p.locator('.nachweise__eintrag').count() > 200);

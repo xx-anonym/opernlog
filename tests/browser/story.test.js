@@ -212,3 +212,81 @@ test('Story: am Schluss den Rückblick teilen', { skip: fehltPlaywright, timeout
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
+
+// Musik (src/components/StoryMusik.js): beginnt mit dem Öffnen, hält beim
+// Gedrückthalten an, der Knopf neben ✕ schaltet sie ab, und das merkt sich
+// das Gerät. Schließen blendet aus und hält an.
+const musikLaeuft = p => p.waitForFunction(() => {
+    const a = document.querySelector('.story__musik');
+    return a && !a.paused && a.currentTime > 0.3;
+}, null, { timeout: 10000 });
+const musikSteht = p => p.waitForFunction(() => document.querySelector('.story__musik')?.paused === true, null, { timeout: 5000 });
+
+test('Story: Musik läuft, hält beim Halten an, der Ton-Knopf schaltet sie ab – auch beim nächsten Mal', { skip: fehltPlaywright, timeout: 90000 }, async () => {
+    const { ctx, p, fehler } = await rueckblick();
+    try {
+        await p.click('#storyBtn');
+        assert.equal(await p.getAttribute('.story__musik', 'src'), 'audio/cavalleria-intermezzo.mp3');
+        await musikLaeuft(p);
+        assert.equal(await p.getAttribute('.story__ton', 'aria-pressed'), 'true');
+
+        const box = await p.locator('.story__zone--weiter').boundingBox();
+        await p.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await p.mouse.down();
+        await musikSteht(p);
+        await p.mouse.up();
+        await musikLaeuft(p);
+
+        // Ton aus: Musik steht, die Folie bleibt, das Gerät merkt es sich.
+        await p.click('.story__ton');
+        assert.equal(await p.getAttribute('.story__ton', 'aria-pressed'), 'false');
+        await musikSteht(p);
+        assert.equal(await nr(p), 0);
+        assert.equal(await p.evaluate(() => localStorage.getItem('opernlog_story_ton')), 'aus');
+
+        await p.keyboard.press('Escape');
+        await p.waitForSelector('.story', { state: 'detached' });
+        await p.click('#storyBtn');
+        assert.equal(await p.getAttribute('.story__ton', 'aria-pressed'), 'false');
+        await p.waitForTimeout(800);
+        assert.equal(await p.evaluate(() => document.querySelector('.story__musik').paused), true);
+
+        await p.click('.story__ton');
+        await musikLaeuft(p);
+        assert.equal(await p.evaluate(() => localStorage.getItem('opernlog_story_ton')), null);
+
+        // Schließen: erst ausblenden – die Musik läuft noch kurz –, dann
+        // anhalten und weg.
+        await p.evaluate(() => { window.__musik = document.querySelector('.story__musik'); });
+        await p.keyboard.press('Escape');
+        // Ein <audio>, das aus der Seite fällt, hält der Browser nach ein
+        // paar Millisekunden an; die Ausblende dauert 800.
+        await p.waitForTimeout(300);
+        assert.equal(await p.evaluate(() => !document.querySelector('.story') && !window.__musik.paused), true, 'blendet aus statt abzubrechen');
+        await p.waitForFunction(() => window.__musik.paused && !window.__musik.isConnected, null, { timeout: 5000 });
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Story: am Schluss der Nachweis der Musik, er führt zu den Bildnachweisen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler, folien } = await rueckblick();
+    try {
+        await p.click('#storyBtn');
+        for (let i = 1; i < folien; i++) await p.keyboard.press('ArrowRight');
+        const nachweis = await p.textContent('.story__musiknachweis');
+        assert.match(nachweis, /Pietro Mascagni, Cavalleria rusticana, Intermezzo sinfonico/);
+        assert.match(nachweis, /Fulda Symphonic Orchestra, Leitung Simon Schindler \(2002\)/);
+        assert.match(nachweis, /EFF Open Audio License 1\.0/);
+
+        await p.click('.story__musiknachweis');
+        await p.waitForSelector('.story', { state: 'detached' });
+        assert.equal(await p.evaluate(() => location.hash), '#/bildnachweise');
+        const musik = p.locator('.nachweise', { has: p.locator('.nachweise__titel', { hasText: 'Musik' }) });
+        await musik.waitFor();
+        assert.match(await musik.textContent(), /Fulda Symphonic Orchestra/);
+        const links = await musik.locator('a').evaluateAll(as => as.map(a => a.href));
+        assert.ok(links.some(h => h.includes('eff_oal_1.0')), 'Link zur Lizenz');
+        assert.ok(links.some(h => h.includes('commons.wikimedia.org/wiki/File:Pietro_Mascagni')), 'Link zur Quelle');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
