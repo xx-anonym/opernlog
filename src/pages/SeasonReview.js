@@ -292,9 +292,12 @@ function schnittGrafik(schnitt, bewertungen) {
     const stufen = Array.from({ length: 10 }, (_, i) => (i + 1) / 2);
     const anzahl = stufen.map(s => bewertungen.filter(b => Math.round(b * 2) / 2 === s).length);
     const meiste = Math.max(...anzahl);
+    // Je Stufe eine Spalte: oben die Zahl, darunter die Säule. Die Zahl
+    // steht innerhalb des Diagramms – außerhalb ihrer Spalte schnitt Safari
+    // sie bei der höchsten Säule ab.
     const balken = stufen.map((s, i) => `
       <span class="story-verteilung__balken${anzahl[i] ? '' : ' story-verteilung__balken--leer'}" data-stufe="${s}"
-        style="--hoehe: ${(anzahl[i] / meiste).toFixed(3)}; --nr: ${i}">${anzahl[i] ? `<i>${anzahl[i]}</i>` : ''}</span>`).join('');
+        style="--hoehe: ${(anzahl[i] / meiste).toFixed(3)}; --nr: ${i}">${anzahl[i] ? `<i>${anzahl[i]}</i>` : ''}<span class="story-verteilung__saeule"></span></span>`).join('');
     const achse = [1, 2, 3, 4, 5].map(n => `<span style="grid-column: ${2 * n}">${n}★</span>`).join('');
 
     return `

@@ -340,6 +340,16 @@ test('Story: Dein Schnitt mit Sternen bis zum Schnitt und der Verteilung der Bew
         const balken = await p.$$eval('.story-verteilung__balken', els => els.map(e => [e.dataset.stufe, e.textContent.trim()]));
         assert.deepEqual(balken, [['0.5', ''], ['1', ''], ['1.5', ''], ['2', ''], ['2.5', ''], ['3', '1'], ['3.5', ''], ['4', '1'], ['4.5', ''], ['5', '1']]);
         assert.deepEqual(await p.$$eval('.story-verteilung__achse span', els => els.map(e => e.textContent)), ['1★', '2★', '3★', '4★', '5★']);
+        // Jede Zahl steht innerhalb des Diagramms über ihrer Säule – auch über
+        // der höchsten. Ragte sie hinaus, schnitt Safari sie ab.
+        assert.equal(await p.evaluate(() => {
+            const kasten = document.querySelector('.story-verteilung').getBoundingClientRect();
+            return [...document.querySelectorAll('.story-verteilung__balken i')].every((zahl) => {
+                const z = zahl.getBoundingClientRect();
+                const saeule = (zahl.parentElement.querySelector('.story-verteilung__saeule') || zahl.parentElement).getBoundingClientRect();
+                return z.top >= kasten.top - 0.5 && z.bottom <= saeule.top + 0.5;
+            });
+        }), true);
         // Die Balken stehen unter dem Text, nicht dahinter.
         assert.equal(await p.evaluate(() => document.querySelector('.story-verteilung').getBoundingClientRect().top
             > document.querySelector('.story__notiz').getBoundingClientRect().bottom), true);
