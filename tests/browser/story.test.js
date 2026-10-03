@@ -370,3 +370,29 @@ test('Story: ein krummer Schnitt füllt den letzten Stern nur zum Teil', { skip:
         assert.deepEqual(balken, ['3', '4', '4.5']);
     } finally { await ctx.close(); }
 });
+
+// "Dein dichtester Monat" (Jonas, 3.10.2026: "etwas leer"): das
+// Kalenderblatt des Monats, die Abende rot eingekreist.
+test('Story: dichtester Monat als Kalenderblatt, die Abende eingekreist', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const besuche = [
+        ...BESUCHE,
+        { id: 'aaaaaaaa-1111-4000-8000-000000000004', user_id: UID, opera_id: 'aida', house_id: 'semperoper', date: '2026-03-07', rating: 4 },
+        { id: 'aaaaaaaa-1111-4000-8000-000000000005', user_id: UID, opera_id: 'tosca', house_id: 'semperoper', date: '2026-03-21', rating: 4 },
+    ];
+    const { ctx, p, fehler } = await rueckblick({ besuche });
+    try {
+        await p.click('#storyBtn');
+        while (!(await p.textContent('.story__kicker')).includes('Dein dichtester Monat')) await p.keyboard.press('ArrowRight');
+        assert.equal((await p.textContent('.story__wert')).trim(), 'März 2026');
+        const tage = await p.$$eval('.kalenderblatt__tag', els => els.map(e => e.textContent.trim()));
+        assert.equal(tage.length, 31);
+        // Der 1. März 2026 ist ein Sonntag: letzte Spalte.
+        assert.equal(await p.$eval('.kalenderblatt__tag', e => e.style.gridColumnStart), '7');
+        assert.deepEqual(await p.$$eval('.kalenderblatt__tag--abend', els => els.map(e => e.dataset.tag)), ['7', '21']);
+        assert.equal(await p.locator('.kalenderblatt__tag--abend svg path[pathLength="1"]').count(), 2);
+        // Das Blatt steht unter dem Text.
+        assert.equal(await p.evaluate(() => document.querySelector('.kalenderblatt').getBoundingClientRect().top
+            > document.querySelector('.story__notiz').getBoundingClientRect().bottom), true);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});

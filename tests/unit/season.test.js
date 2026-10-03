@@ -145,3 +145,17 @@ test('der häufigste Dirigent kommt aus den Mitwirkenden – in beiden Schreibwe
     assert.equal(r.topConductor.wert, 'Kirill Petrenko');
     assert.equal(r.topConductor.anzahl, 2);
 });
+
+// Für das Kalenderblatt der Story: Jahr, Monat (0 = Januar) und die Tage
+// des dichtesten Monats, an denen Abende waren – jeder Tag einmal.
+test('dichtester Monat: mit Jahr, Monat und den Tagen der Abende', () => {
+    const abend = date => ({ houseId: 'semperoper', operaId: 'tosca', date, rating: 4 });
+    const r = buildSeasonReview([
+        abend('2025-10-03'), abend('2026-03-28'), abend('2026-03-07'), abend('2026-03-07'), abend('2026-05-01'),
+    ], 2025);
+    assert.equal(r.topMonth.name, 'März 2026');
+    assert.equal(r.topMonth.anzahl, 3);
+    assert.equal(r.topMonth.jahr, 2026);
+    assert.equal(r.topMonth.monat, 2);
+    assert.deepEqual(r.topMonth.tage, [7, 28]);
+});

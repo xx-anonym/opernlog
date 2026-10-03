@@ -5907,6 +5907,114 @@ html.story-offen body {
     text-align: center;
 }
 
+/* "Dein dichtester Monat": ein Kalenderblatt aus Papier, oben gebunden,
+   dahinter angedeutet die nächsten Blätter. Es schwingt von oben herein,
+   dann kreist rote Tinte die Abende ein. --nr und --dreh setzt
+   SeasonReview.js je Tag. */
+.kalenderblatt {
+    width: min(100%, 300px);
+    margin-top: 6px;
+    perspective: 900px;
+}
+
+.kalenderblatt__blatt {
+    position: relative;
+    padding-bottom: 12px;
+    border-radius: 6px;
+    background: #f4ecda;
+    color: #3a3530;
+    box-shadow: 0 2px 0 #e2d6bd, 0 4px 0 #d2c4a8, 0 18px 40px rgba(0, 0, 0, 0.5);
+    transform-origin: 50% 0;
+    animation: storyBlatt 1.5s cubic-bezier(0.2, 0.7, 0.25, 1) 1.3s backwards;
+}
+
+@keyframes storyBlatt {
+    0% { opacity: 0; transform: rotateX(-82deg); }
+    45% { opacity: 1; transform: rotateX(12deg); }
+    70% { transform: rotateX(-5deg); }
+    85% { transform: rotateX(2deg); }
+    100% { transform: none; }
+}
+
+.kalenderblatt__kopf {
+    display: flex;
+    justify-content: space-around;
+    height: 22px;
+    margin-bottom: 8px;
+    padding: 0 70px;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, #8b1a2b, #5c111c);
+}
+
+/* Die Löcher der Bindung. */
+.kalenderblatt__kopf i {
+    width: 9px;
+    height: 9px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: #14181c;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.kalenderblatt__tage {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    row-gap: 2px;
+    padding: 0 10px;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+.kalenderblatt__wt {
+    padding-bottom: 4px;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a7f70;
+}
+
+.kalenderblatt__tag {
+    position: relative;
+    line-height: 30px;
+    font-variant-numeric: tabular-nums;
+}
+
+.kalenderblatt__tag--abend {
+    font-weight: 700;
+    color: #8b1a2b;
+    /* Rot erst mit dem eigenen Kreis. */
+    animation: storyTinte 0.4s ease calc(3.1s + var(--nr, 0) * 0.5s) backwards;
+}
+
+@keyframes storyTinte {
+    from { color: #3a3530; font-weight: 400; }
+}
+
+.kalenderblatt__tag svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 38px;
+    height: 38px;
+    margin: -19px 0 0 -19px;
+    overflow: visible;
+    transform: rotate(var(--dreh, 0deg));
+}
+
+.kalenderblatt__tag path {
+    fill: none;
+    stroke: #b22d40;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    animation: storyKreis 0.75s cubic-bezier(0.45, 0, 0.3, 1) calc(2.9s + var(--nr, 0) * 0.5s) backwards;
+}
+
+@keyframes storyKreis {
+    from { stroke-dashoffset: 1; }
+}
+
 /* Schlussfolie: Der Vorhang schließt sich wie beim Ladebildschirm, nur
    andersherum (Samt und Bogen wie .splash__curtain in index.html). Danach
    erscheinen Text und Knöpfe auf dem geschlossenen Vorhang. */

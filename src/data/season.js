@@ -231,6 +231,11 @@ export function buildSeasonReview(alleBesuche, startYear) {
     const monatName = topMonat
         ? `${MONATE[Number(topMonat.wert.split('-')[1])]} ${topMonat.wert.split('-')[0]}`
         : null;
+    // Für das Kalenderblatt in der Story: welche Tage dieses Monats Abende hatten.
+    const [topJahr, topMonatNr] = topMonat ? topMonat.wert.split('-').map(Number) : [];
+    const topTage = [...new Set(besuche.map(v => toDate(v.date))
+        .filter(d => d && d.getFullYear() === topJahr && d.getMonth() === topMonatNr)
+        .map(d => d.getDate()))].sort((a, b) => a - b);
 
     return {
         startYear,
@@ -259,7 +264,9 @@ export function buildSeasonReview(alleBesuche, startYear) {
         topConductor: topDirigent,
         // Wer am häufigsten auf der Bühne stand, ab zwei Abenden (besetzung.js).
         topVoices: meistgehoerteStimmen(besuche),
-        topMonth: monatName ? { name: monatName, anzahl: topMonat.anzahl } : null,
+        topMonth: monatName
+            ? { name: monatName, anzahl: topMonat.anzahl, jahr: topJahr, monat: topMonatNr, tage: topTage }
+            : null,
         topWeekday: topWochentag,
         repeats: wiederholungen,
         travelKm: reiseKilometer(reiseweg(besuche)),

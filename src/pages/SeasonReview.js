@@ -306,6 +306,41 @@ function schnittGrafik(schnitt, bewertungen) {
       <div class="story-verteilung__achse" aria-hidden="true">${achse}</div>`;
 }
 
+// Ein von Hand gezogener Kreis: etwas schief und über den Anfang hinaus.
+const HANDKREIS = 'M29 7C38 11 41 24 35 32C28 40 13 39 7 31C1 23 4 11 13 6C19 3 27 4 33 9';
+
+/**
+ * Für "Dein dichtester Monat" (Jonas, 3.10.2026: "etwas leer"): das
+ * Kalenderblatt des Monats. Es schwingt herein wie ein aufgehängtes Blatt,
+ * dann werden die Tage mit Abenden nacheinander rot eingekreist. Die Woche
+ * beginnt am Montag. Nur Zahlen, nichts aus Eingaben.
+ */
+function kalenderblatt({ jahr, monat, tage }) {
+    if (!Number.isInteger(jahr) || !Number.isInteger(monat)) return '';
+    const anzahlTage = new Date(jahr, monat + 1, 0).getDate();
+    const ersterWochentag = (new Date(jahr, monat, 1).getDay() + 6) % 7;
+    const abende = new Set(tage);
+    let nr = 0;
+    const zellen = Array.from({ length: anzahlTage }, (_, i) => {
+        const tag = i + 1;
+        const stil = tag === 1 ? `grid-column-start: ${ersterWochentag + 1}` : '';
+        if (!abende.has(tag)) return `<span class="kalenderblatt__tag"${stil ? ` style="${stil}"` : ''}>${tag}</span>`;
+        // Jeder Kreis etwas anders gedreht, wie mit der Hand gezogen.
+        const dreh = [-8, 14, -20, 6, 22, -14][nr % 6];
+        return `<span class="kalenderblatt__tag kalenderblatt__tag--abend" data-tag="${tag}" style="${stil ? `${stil}; ` : ''}--nr: ${nr++}; --dreh: ${dreh}deg">${tag}<svg viewBox="0 0 42 42"><path pathLength="1" d="${HANDKREIS}"/></svg></span>`;
+    }).join('');
+    return `
+      <div class="kalenderblatt" aria-hidden="true">
+        <div class="kalenderblatt__blatt">
+          <div class="kalenderblatt__kopf"><i></i><i></i></div>
+          <div class="kalenderblatt__tage">
+            ${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="kalenderblatt__wt">${w}</span>`).join('')}
+            ${zellen}
+          </div>
+        </div>
+      </div>`;
+}
+
 // ── Die einzelnen Kacheln ─────────────────────────────────────────────
 // Nur was Inhalt hat, wird gebaut: wer keine Dirigenten einträgt, bekommt
 // keine leere Kachel „Dirigent der Saison“ vorgesetzt.
@@ -427,6 +462,7 @@ function karten(r) {
             label: 'Dein dichtester Monat',
             wert: r.topMonth.name,
             zusatz: `${r.topMonth.anzahl} ${r.topMonth.anzahl === 1 ? 'Abend' : 'Abende'}`,
+            unten: kalenderblatt(r.topMonth),
         });
     }
 
