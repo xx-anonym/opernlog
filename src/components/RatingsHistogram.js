@@ -1,6 +1,8 @@
 // Ratings Histogram – Letterboxd-style rating distribution bar chart
 // Shows how many ratings exist for each star level (½ to 5 in 0.5 steps)
 
+import { HALBER_STERN } from './StarRating.js';
+
 export function RatingsHistogram(ratings, options = {}) {
     const {
         height = 80,
@@ -92,14 +94,21 @@ function formatStep(step) {
     return '';
 }
 
-function renderStars(rating) {
+export function renderStars(rating) {
     // Auf 0 bis 5 begrenzt: der Durchschnitt fremder Profile kommt aus der
     // Datenbank, und repeat() wirft bei einer negativen Zahl.
     rating = Math.min(5, Math.max(0, Number(rating) || 0));
-    const full = Math.floor(rating);
-    const half = rating % 1 >= 0.25 && rating % 1 < 0.75 ? 1 : 0;
+    // Auf halbe Sterne gerundet: 3,8 sind vier Sterne. Vorher fiel alles ab
+    // ,75 ganz weg – 3,8 zeigte drei.
+    const gerundet = Math.round(rating * 2) / 2;
+    const full = Math.floor(gerundet);
+    const half = gerundet % 1 ? 1 : 0;
     const empty = 5 - full - half;
-    return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+    // Dieselben Sterne wie überall sonst (StarRating.js): gold, der halbe
+    // als halb gefüllter Umriss statt "½".
+    return '<span class="star star--full">★</span>'.repeat(full)
+        + (half ? `<span class="star star--half">${HALBER_STERN}</span>` : '')
+        + '<span class="star star--empty">☆</span>'.repeat(empty);
 }
 
 function lightenColor(hex, percent) {

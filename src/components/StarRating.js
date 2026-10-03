@@ -1,6 +1,11 @@
 // Star Rating Component
 import { tippen } from '../haptik.js';
 
+// Ein halber Stern: der leere Umriss, darüber die linke Hälfte gefüllt.
+// Vorher war es ein ganzer Stern mit weniger Deckkraft – von einem vollen
+// kaum zu unterscheiden (Jonas, 3.10.2026).
+export const HALBER_STERN = '<span class="star__leer">☆</span><span class="star__halb" aria-hidden="true">★</span>';
+
 export function StarRating(rating, interactive = false, onChange = null, size = 'md') {
     const container = document.createElement('div');
     container.className = `star-rating star-rating--${size}`;
@@ -18,7 +23,7 @@ export function StarRating(rating, interactive = false, onChange = null, size = 
                 star.innerHTML = '★';
                 star.classList.add('star--full');
             } else if (currentRating >= i - 0.5) {
-                star.innerHTML = '★';
+                star.innerHTML = HALBER_STERN;
                 star.classList.add('star--half');
             } else {
                 star.innerHTML = '☆';

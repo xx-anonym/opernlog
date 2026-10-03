@@ -904,9 +904,28 @@ h3 {
     color: var(--gold);
 }
 
+/* Halber Stern: Umriss wie ein leerer, darüber die linke Hälfte gold.
+   Beide Zeichen in derselben Rasterzelle – absolut darübergelegt saß die
+   gefüllte Hälfte ein paar Pixel tiefer als der Umriss. */
 .star--half {
+    display: inline-grid;
+}
+
+.star__leer,
+.star__halb {
+    grid-area: 1 / 1;
+}
+
+.star__leer {
+    color: var(--text-muted);
+    opacity: 0.3;
+}
+
+.star__halb {
+    width: 50%;
+    overflow: hidden;
+    white-space: nowrap;
     color: var(--gold);
-    opacity: 0.6;
 }
 
 .star--empty {
@@ -3809,7 +3828,6 @@ h3 {
 }
 
 .ratings-histogram__avg-stars {
-    color: var(--accent);
     font-size: 0.95rem;
     letter-spacing: 1px;
 }
