@@ -9,6 +9,7 @@ import { andenkenAuswahl } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
 import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke } from '../data/besetzung.js';
 import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
+import { tippen } from '../haptik.js';
 
 export function LogVisitPage(params = {}) {
   const page = document.createElement('div');
@@ -538,6 +539,9 @@ export function LogVisitPage(params = {}) {
     if (!date) { shakeElement(page.querySelector('#visitDate')); return; }
     // Als Zeichenkette verglichen: new Date('JJJJ-MM-TT') wäre UTC-Mitternacht.
     if (date > heuteIso()) { shakeElement(page.querySelector('#visitDate')); showToast('Datum darf nicht in der Zukunft liegen'); return; }
+    // Gleich beim Tippen, nicht erst nach dem Speichern: danach zählt es
+    // auf dem iPhone nicht mehr als Berührung.
+    tippen();
 
     const payload = {
       houseId, operaId, date, rating: selectedRating, review,

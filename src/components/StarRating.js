@@ -1,4 +1,6 @@
 // Star Rating Component
+import { tippen } from '../haptik.js';
+
 export function StarRating(rating, interactive = false, onChange = null, size = 'md') {
     const container = document.createElement('div');
     container.className = `star-rating star-rating--${size}`;
@@ -29,6 +31,7 @@ export function StarRating(rating, interactive = false, onChange = null, size = 
                     const rect = star.getBoundingClientRect();
                     const isLeftHalf = (e.clientX - rect.left) < rect.width / 2;
                     currentRating = isLeftHalf ? i - 0.5 : i;
+                    tippen();
                     if (onChange) onChange(currentRating);
                     render();
                 });

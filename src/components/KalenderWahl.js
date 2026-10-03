@@ -18,6 +18,7 @@ import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { heuteIso, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { tippen } from '../haptik.js';
 
 /** Hängt das Fenster an und gibt es zurück – oder null, wenn es nichts zu wählen gibt. */
 export function kalenderWahl(werkId, hausId, { daten = spielplan, heute = heuteIso(), herunterladen = kalenderHerunterladen, mitKonto = store.hatKonto } = {}) {
@@ -96,6 +97,7 @@ function zeigeVormerkung(knopf, vorgemerkt) {
  * geklappt hat.
  */
 async function vormerkungUmschalten({ operaId, houseId, datum, zeit }) {
+    tippen();
     const plan = store.planFuer(operaId, houseId, datum);
     const ok = await runWithFeedback(
         () => plan ? store.planEntfernen(plan.id) : store.vormerken({ operaId, houseId, datum, zeit }),

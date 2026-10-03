@@ -18,6 +18,7 @@ import { StarRating } from '../components/StarRating.js';
 import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
+import { tippen } from '../haptik.js';
 
 /** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
 function note(n) {
@@ -280,6 +281,7 @@ export function OperaDetailPage(operaId) {
   if (wishlistBtn) {
     wishlistBtn.addEventListener('click', async () => {
       if (zurAnmeldung('Für die Wunschliste brauchst du ein Konto.')) return;
+      tippen();
       const wasOn = store.isOnWishlist(opera.id);
       wishlistBtn.disabled = true;
       const ok = await runWithFeedback(

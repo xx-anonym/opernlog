@@ -32,6 +32,7 @@ import { kommendePlaene, offenePlaene, wannText } from '../data/geplant.js';
 import { heuteIso, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
+import { tippen } from '../haptik.js';
 import {
   isSeasonReviewWindow,
   lastCompletedSeasonStartYear,
@@ -204,8 +205,12 @@ function geplanteAbende(page, eigene) {
   const band = liste.querySelector('.demnaechst__liste');
   const zeilen = () => [...band.querySelectorAll('.demnaechst__zeile')];
   const aktuell = () => Math.min(zeilen().length - 1, Math.max(0, Math.round(band.scrollLeft / (band.clientWidth || 1))));
+  // Beim Einrasten auf einen anderen Abend ein Klicken – ob durch Pfeil oder
+  // Wischen. Nach dem Wischen erlaubt iOS es nicht immer; dann eben nicht.
+  let zuletzt = 0;
   const auffrischen = () => {
     const n = zeilen().length, i = aktuell();
+    if (i !== zuletzt) { zuletzt = i; tippen(); }
     liste.querySelector('.demnaechst__blaettern').hidden = n < 2;
     liste.querySelector('.demnaechst__zahl').textContent = `${i + 1} / ${n}`;
     liste.querySelector('[data-schritt="-1"]').disabled = i === 0;

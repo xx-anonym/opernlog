@@ -10,6 +10,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
+import { tippen } from '../haptik.js';
 
 export function ReviewCard(visit, options = {}) {
   const { showHouse = true, showOpera = true, compact = false, standalone = false } = options;
@@ -181,6 +182,7 @@ export function ReviewCard(visit, options = {}) {
     const actionType = action.dataset.action;
 
     if (actionType === 'like') {
+      tippen();
       const btn = action;
       const visitId = action.dataset.visitId;
 

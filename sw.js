@@ -135,6 +135,7 @@ const APP_SHELL = [
     './src/components/SpeicherHinweis.js',
     './src/components/Leer.js',
     './src/components/Bildnachweis.js',
+    './src/haptik.js',
     './src/data/bildnachweise.js',
     './src/data/bildnachweisRegeln.js',
     './src/pages/Bildnachweise.js',
