@@ -419,41 +419,84 @@ test('Story: Opernabend als Wochenspalten, der Tag golden', { skip: fehltPlaywri
     } finally { await ctx.close(); }
 });
 
-// Das Bild zum Teilen (src/components/Teilbild.js; Jonas, 4.10.2026: das
-// alte sah "total billig" aus): 1080 × 1920, in der Sprache der Story, mit
-// Karten für Stammhaus, Komponist, Weg, besten Abend und Schnitt. Keine
-// Fotos – das Bild verlässt die App; gezeichnet werden nur eigene Leinwände.
-test('Teilbild: Hochformat mit Karten, ohne Fotos, als PNG speicherbar', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+// Das Bild zum Teilen (src/components/Teilbild.js): ein Theaterzettel,
+// 1080 × 1920 (Jonas, 4.10.2026, nach zwei Entwürfen). Keine Fotos – das
+// Bild verlässt die App. Der Satz passt sich an: bei vielen Abenden werden
+// die Listen kürzer, statt in den Fuß zu laufen; bei einem Abend fehlt,
+// was nur wiederholte.
+async function teilbild(p) {
+    return p.evaluate(async () => {
+        const texte = [];
+        const bilder = [];
+        const proto = CanvasRenderingContext2D.prototype;
+        const fillText = proto.fillText;
+        const drawImage = proto.drawImage;
+        proto.fillText = function (t, x, y, ...rest) {
+            texte.push({ t: String(t), y: new DOMMatrix(this.getTransform()).transformPoint({ x, y }).y });
+            return fillText.call(this, t, x, y, ...rest);
+        };
+        proto.drawImage = function (quelle, ...rest) { bilder.push(quelle.constructor.name); return drawImage.call(this, quelle, ...rest); };
+        try {
+            const { buildSeasonReview } = await import('/src/data/season.js');
+            const { store } = await import('/src/store/store.js');
+            const { zeichneTeilbild } = await import('/src/components/Teilbild.js');
+            const leinwand = await zeichneTeilbild(buildSeasonReview(store.getVisitsByUser('user-me'), 2025));
+            const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
+            return { breite: leinwand.width, hoehe: leinwand.height, png: blob?.type, texte, bilder };
+        } finally {
+            proto.fillText = fillText;
+            proto.drawImage = drawImage;
+        }
+    });
+}
+
+test('Teilbild: Theaterzettel im Hochformat, ohne Fotos, als PNG speicherbar', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler } = await rueckblick();
     try {
-        const ergebnis = await p.evaluate(async () => {
-            const texte = [];
-            const bilder = [];
-            const proto = CanvasRenderingContext2D.prototype;
-            const fillText = proto.fillText;
-            const drawImage = proto.drawImage;
-            proto.fillText = function (t, ...rest) { texte.push(String(t)); return fillText.call(this, t, ...rest); };
-            proto.drawImage = function (quelle, ...rest) { bilder.push(quelle.constructor.name); return drawImage.call(this, quelle, ...rest); };
-            try {
-                const { buildSeasonReview } = await import('/src/data/season.js');
-                const { store } = await import('/src/store/store.js');
-                const { zeichneTeilbild } = await import('/src/components/Teilbild.js');
-                const leinwand = await zeichneTeilbild(buildSeasonReview(store.getVisitsByUser('user-me'), 2025));
-                const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
-                return { breite: leinwand.width, hoehe: leinwand.height, png: blob?.type, texte, bilder };
-            } finally {
-                proto.fillText = fillText;
-                proto.drawImage = drawImage;
-            }
-        });
-        assert.equal(ergebnis.breite, 1080);
-        assert.equal(ergebnis.hoehe, 1920);
-        assert.equal(ergebnis.png, 'image/png');
-        for (const t of ['2025/26', 'STAMMHAUS', 'Semperoper', 'KOMPONIST DER SAISON', 'Giacomo Puccini',
-            'ZWISCHEN DEN HÄUSERN', 'BESTER ABEND', 'Tosca', 'DEIN SCHNITT', '4,0', 'Bis zur nächsten Spielzeit']) {
-            assert.ok(ergebnis.texte.includes(t), `fehlt im Bild: ${t}`);
+        const bild = await teilbild(p);
+        assert.equal(bild.breite, 1080);
+        assert.equal(bild.hoehe, 1920);
+        assert.equal(bild.png, 'image/png');
+        const texte = bild.texte.map(x => x.t);
+        for (const t of ['OPERNLOG', 'präsentiert', 'DIE SPIELZEIT', '2025/26', 'in 3 Abenden', 'MIT DEN WERKEN', 'Tosca  ·  Aida',
+            'IN DEN HÄUSERN', 'Semperoper  ·  Oper Leipzig', 'STAMMHAUS', 'KOMPONIST', 'BESTER ABEND',
+            'im Schnitt 4,0 von 5 Sternen', 'opernlog.vercel.app']) {
+            assert.ok(texte.includes(t), `fehlt im Bild: ${t}`);
         }
-        assert.deepEqual([...new Set(ergebnis.bilder)], ['HTMLCanvasElement'], 'nur eigene Leinwände, keine Fotos');
+        assert.ok(texte.some(t => /Kilometer zwischen den Häusern$/.test(t)), 'fehlt: Kilometer');
+        assert.deepEqual(bild.bilder, [], 'keine Bilder, keine Fotos');
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Teilbild: viele Abende – kürzere Listen, nichts läuft in den Fuß', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const werke = ['aida', 'nabucco', 'tristan', 'rigoletto', 'la-traviata', 'carmen', 'tosca', 'turandot', 'madama-butterfly', 'la-boheme',
+        'salome', 'elektra', 'fidelio', 'lohengrin', 'parsifal', 'otello', 'falstaff', 'wozzeck'];
+    const haeuser = ['oper-leipzig', 'semperoper', 'staatsoper-berlin', 'wiener-staatsoper', 'deutsche-oper-berlin', 'komische-oper-berlin',
+        'bayerische-staatsoper', 'hamburgische-staatsoper', 'opernhaus-zuerich', 'volksoper-wien', 'theater-an-der-wien'];
+    const besuche = werke.map((w, i) => ({
+        id: `aaaaaaaa-1111-4000-8000-0000000002${String(i).padStart(2, '0')}`, user_id: UID, opera_id: w,
+        house_id: haeuser[i % haeuser.length], date: `2025-${String(9 + (i % 4)).padStart(2, '0')}-${String(1 + i).padStart(2, '0')}`, rating: 4,
+    }));
+    const { ctx, p, fehler } = await rueckblick({ besuche });
+    try {
+        const bild = await teilbild(p);
+        const fuss = bild.texte.find(x => x.t === 'opernlog.vercel.app');
+        const tiefster = Math.max(...bild.texte.filter(x => x !== fuss).map(x => x.y));
+        assert.ok(tiefster < fuss.y - 40, `Satz endet bei ${tiefster}, Fuß bei ${fuss.y}`);
+        assert.ok(bild.texte.some(x => /^und \d+ weiteren$/.test(x.t)), 'die Liste zählt den Rest');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Teilbild: ein Abend – keine Spalte, die nur wiederholt', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p } = await rueckblick({ besuche: [BESUCHE[0]] });
+    try {
+        const texte = (await teilbild(p)).texte.map(x => x.t);
+        assert.ok(texte.includes('an einem Abend'));
+        assert.ok(texte.includes('MIT DEM WERK') && texte.includes('IM HAUS'));
+        assert.ok(!texte.includes('STAMMHAUS') && !texte.includes('BESTER ABEND'), texte.join(' | '));
+        assert.ok(texte.includes('KOMPONIST'));
+        assert.ok(texte.includes('bewertet mit 5,0 von 5 Sternen'));
     } finally { await ctx.close(); }
 });

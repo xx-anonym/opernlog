@@ -165,6 +165,13 @@ function reiseKilometer(halte) {
     return Math.round(summe);
 }
 
+/** [Wert, Anzahl], meiste zuerst; bei Gleichstand bleibt die Reihenfolge des Auftretens. */
+function rangliste(werte) {
+    const zaehler = new Map();
+    for (const w of werte) if (w) zaehler.set(w, (zaehler.get(w) || 0) + 1);
+    return [...zaehler].sort((a, b) => b[1] - a[1]);
+}
+
 /** Wie viele Abende auf jeden Wochentag fielen, Montag zuerst. */
 function abendeJeWochentag(besuche) {
     const zaehler = [0, 0, 0, 0, 0, 0, 0];
@@ -260,6 +267,15 @@ export function buildSeasonReview(alleBesuche, startYear) {
         avgRating: schnitt,
         // Die einzelnen Bewertungen, für die Verteilung in der Story.
         ratings: bewertungen.filter(n => n > 0),
+        // Ranglisten fürs Bild zum Teilen: meiste Abende zuerst, bei
+        // Gleichstand das, was in der Spielzeit zuerst kam.
+        haeuserRang: rangliste(besuche.map(v => v.houseId))
+            .map(([id, anzahl]) => ({ house: operaHouses.find(h => h.id === id), anzahl }))
+            .filter(x => x.house),
+        werkeRang: rangliste(besuche.map(v => v.operaId))
+            .map(([id, anzahl]) => ({ opera: operas.find(o => o.id === id), anzahl }))
+            .filter(x => x.opera),
+        komponistenRang: rangliste(werke.map(w => w.composer)).map(([wert, anzahl]) => ({ wert, anzahl })),
         bestVisit: bester
             ? {
                 visit: bester,
