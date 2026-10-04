@@ -2,11 +2,14 @@
 // Instagram- und WhatsApp-Status ungeschnitten zeigen.
 //
 // Gestaltet wie ein Theaterzettel (Jonas, 4.10.2026, nach zwei Entwürfen):
-// Papierton, schwarze und rote Druckfarbe, zentrierter Satz zwischen
-// Linien. "OpernLog präsentiert die Spielzeit 2025/26 in 6 Abenden, mit
-// den Werken …, in den Häusern …", darunter Stammhaus, Komponist und bester
-// Abend. Ein Entwurf davor – Glaskarten mit Goldrand und Leuchten – sah ihm
-// "nach AI slop" aus.
+// gekörntes Papier, schwarze und rote Druckfarbe, zentrierter Satz zwischen
+// Linien. "Meine Spielzeit 2025/26 in 6 Abenden, mit den Werken …, in den
+// Häusern …", darunter Stammhaus, Komponist und bester Abend. Ein Entwurf
+// davor – Glaskarten mit Goldrand und Leuchten – sah ihm "nach AI slop" aus.
+//
+// Alles Lesbare steht mindestens 250 px vom oberen und unteren Rand: dort
+// liegen in Instagram- und WhatsApp-Status Fortschrittsbalken, Profilname
+// und Antwortfeld. Nur der Rahmen reicht hinein.
 //
 // Keine Fotos: das Bild verlässt die App. Momentaufnahmen sind privat oder
 // nur für Freunde, und die Katalogbilder von Wikimedia verlangen eine
@@ -21,6 +24,8 @@ const TINTE = '#1c1915';
 const ROT = '#8b1a2b';
 const SERIF = '"Playfair Display", Georgia, serif';
 const SANS = '"DM Sans", sans-serif';
+// So viel bleibt oben und unten frei von Text (siehe oben).
+const SICHER = 250;
 
 const zahl = n => new Intl.NumberFormat('de-DE').format(n);
 
@@ -47,8 +52,7 @@ export async function zeichneTeilbild(r) {
         await document.fonts.ready;
     } catch { /* dann eben mit Ersatzschrift */ }
 
-    g.fillStyle = PAPIER;
-    g.fillRect(0, 0, B, H);
+    papier(g);
     // Doppelter Rahmen wie auf einem gedruckten Zettel.
     g.strokeStyle = TINTE;
     g.lineWidth = 6;
@@ -61,8 +65,8 @@ export async function zeichneTeilbild(r) {
 
     // Erst setzen, dann zeichnen: so lässt sich der Satz zwischen Kopf und
     // Fuß ausgewogen verteilen, ob die Spielzeit drei Abende hatte oder dreißig.
-    const oben = 140;
-    const unten = H - 170;
+    const oben = SICHER;
+    const unten = H - SICHER - 70;   // darunter die Adresse
     const kopf = kopfSatz(r);
     // Passt der Satz nicht, werden die Listen kürzer und zuletzt fallen die
     // Schlusszeilen weg – lieber weglassen als in den Fuß laufen.
@@ -77,9 +81,49 @@ export async function zeichneTeilbild(r) {
 
     g.fillStyle = 'rgba(28, 25, 21, 0.6)';
     g.font = `400 26px ${SANS}`;
-    g.fillText('opernlog.vercel.app', MITTE, H - 110);
+    g.fillText('opernlog.vercel.app', MITTE, H - SICHER - 12);
     g.textAlign = 'start';
     return c;
+}
+
+// ── Papier ────────────────────────────────────────────────────────────
+
+/**
+ * Papierton mit feiner Körnung und zu den Rändern hin eine Spur dunkler –
+ * damit es nach Druck aussieht und nicht nach Bildschirmfläche. Die Körnung
+ * ist eine kleine Kachel aus festem Zufall, als Muster wiederholt: so sieht
+ * jedes Bild gleich aus.
+ */
+function papier(g) {
+    g.fillStyle = PAPIER;
+    g.fillRect(0, 0, B, H);
+
+    const kachel = document.createElement('canvas');
+    kachel.width = kachel.height = 192;
+    const k = kachel.getContext('2d');
+    const punkte = k.createImageData(192, 192);
+    let zufall = 20261004;
+    for (let i = 0; i < punkte.data.length; i += 4) {
+        zufall = (zufall * 1103515245 + 12345) % 2147483648;
+        // Die oberen Bits: die unteren wiederholen sich in kurzen Abständen
+        // und zeichnen dann Streifen.
+        const wert = (zufall >>> 16) & 255;
+        punkte.data[i] = punkte.data[i + 1] = punkte.data[i + 2] = wert;
+        punkte.data[i + 3] = 255;
+    }
+    k.putImageData(punkte, 0, 0);
+    g.save();
+    g.globalAlpha = 0.07;
+    g.globalCompositeOperation = 'multiply';
+    g.fillStyle = g.createPattern(kachel, 'repeat');
+    g.fillRect(0, 0, B, H);
+    g.restore();
+
+    const rand = g.createRadialGradient(MITTE, H / 2, H * 0.3, MITTE, H / 2, H * 0.75);
+    rand.addColorStop(0, 'rgba(90, 60, 30, 0)');
+    rand.addColorStop(1, 'rgba(90, 60, 30, 0.10)');
+    g.fillStyle = rand;
+    g.fillRect(0, 0, B, H);
 }
 
 // ── Satz ──────────────────────────────────────────────────────────────
@@ -134,16 +178,16 @@ const raute = () => ({
     },
 });
 
-const rubrik = inhalt => text(inhalt.toUpperCase(), `700 24px ${SANS}`, ROT, 52, 24, 8);
+const rubrik = inhalt => text(inhalt.toUpperCase(), `700 22px ${SANS}`, ROT, 46, 22, 8);
 
 function kopfSatz(r) {
     return [
-        text('OPERNLOG', `700 30px ${SANS}`, ROT, 40, 30, 12),
-        linie(160, 44),
-        text('präsentiert', `italic 400 46px ${SERIF}`, TINTE, 74, 52),
-        text('DIE SPIELZEIT', `700 84px ${SERIF}`, TINTE, 100, 80, 6),
-        text(r.label, `700 236px ${SERIF}`, ROT, 230, 200),
-        text(r.visitCount === 1 ? 'an einem Abend' : `in ${zahl(r.visitCount)} Abenden`, `italic 400 54px ${SERIF}`, TINTE, 80, 52),
+        text('OPERNLOG', `700 28px ${SANS}`, ROT, 36, 28, 12),
+        linie(160, 36),
+        text('meine', `italic 400 46px ${SERIF}`, TINTE, 60, 46),
+        text('SPIELZEIT', `700 80px ${SERIF}`, TINTE, 92, 76, 8),
+        text(r.label, `700 214px ${SERIF}`, ROT, 206, 182),
+        text(r.visitCount === 1 ? 'an einem Abend' : `in ${zahl(r.visitCount)} Abenden`, `italic 400 50px ${SERIF}`, TINTE, 74, 50),
         raute(),
     ];
 }
@@ -190,20 +234,20 @@ const STUFEN = [
 ];
 
 function rumpfSatz(g, r, stufe) {
-    const satz = [luecke(24)];
+    const satz = [luecke(14)];
     const werke = (r.werkeRang || []).map(w => w.opera.title);
     if (werke.length) {
         satz.push(rubrik(werke.length === 1 ? 'mit dem Werk' : 'mit den Werken'));
-        satz.push(...aufzaehlung(g, werke, `400 52px ${SERIF}`, TINTE, 68, stufe.werke, weitere));
-        satz.push(luecke(34));
+        satz.push(...aufzaehlung(g, werke, `400 48px ${SERIF}`, TINTE, 62, stufe.werke, weitere));
+        satz.push(luecke(26));
     }
     const haeuser = (r.haeuserRang || []).map(h => h.house.name);
     if (haeuser.length) {
         satz.push(rubrik(haeuser.length === 1 ? 'im Haus' : 'in den Häusern'));
-        satz.push(...aufzaehlung(g, haeuser, `italic 400 42px ${SERIF}`, ROT, 58, stufe.haeuser, weitere));
-        satz.push(luecke(30));
+        satz.push(...aufzaehlung(g, haeuser, `italic 400 40px ${SERIF}`, ROT, 54, stufe.haeuser, weitere));
+        satz.push(luecke(20));
     }
-    satz.push(linie(820, 60));
+    satz.push(linie(820, 50));
 
     // Bei nur einem Haus oder Werk stünde in der Spalte nur, was oben schon steht.
     const spalten = [
@@ -211,13 +255,13 @@ function rumpfSatz(g, r, stufe) {
         r.topComposer && ['Komponist', r.topComposer.wert],
         werke.length > 1 && r.bestVisit?.opera && ['Bester Abend', r.bestVisit.opera.title],
     ].filter(Boolean);
-    if (spalten.length) satz.push(spaltenZeile(spalten), luecke(20));
+    if (spalten.length) satz.push(spaltenZeile(spalten), luecke(10));
 
     const zusatz = [
         r.travelKm > 0 && `${zahl(r.travelKm)} Kilometer zwischen den Häusern`,
         r.ratings?.length && `${r.ratings.length === 1 ? 'bewertet mit' : 'im Schnitt'} ${r.avgRating.toFixed(1).replace('.', ',')} von 5 Sternen`,
     ].filter(Boolean).slice(0, stufe.schluss);
-    for (const z of zusatz) satz.push(text(z, `italic 400 38px ${SERIF}`, TINTE, 56, 40));
+    for (const z of zusatz) satz.push(text(z, `italic 400 36px ${SERIF}`, TINTE, 52, 38));
     return satz;
 }
 
@@ -225,18 +269,18 @@ function rumpfSatz(g, r, stufe) {
 function spaltenZeile(spalten) {
     const breite = SATZBREITE / spalten.length;
     return {
-        hoehe: 170,
+        hoehe: 154,
         zeichne(g, y) {
             spalten.forEach(([label, wert], i) => {
                 const x = (B - SATZBREITE) / 2 + breite * (i + 0.5);
-                g.font = `700 22px ${SANS}`;
+                g.font = `700 20px ${SANS}`;
                 g.fillStyle = ROT;
                 sperren(g, 6);
-                g.fillText(label.toUpperCase(), x, y + 30);
+                g.fillText(label.toUpperCase(), x, y + 28);
                 sperren(g, 0);
-                g.font = `700 38px ${SERIF}`;
+                g.font = `700 36px ${SERIF}`;
                 g.fillStyle = TINTE;
-                umbrechen(g, wert, breite - 30, 2).forEach((z, k) => g.fillText(z, x, y + 86 + k * 46));
+                umbrechen(g, wert, breite - 30, 2).forEach((z, k) => g.fillText(z, x, y + 78 + k * 42));
             });
         },
     };

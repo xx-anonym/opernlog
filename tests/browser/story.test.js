@@ -420,10 +420,11 @@ test('Story: Opernabend als Wochenspalten, der Tag golden', { skip: fehltPlaywri
 });
 
 // Das Bild zum Teilen (src/components/Teilbild.js): ein Theaterzettel,
-// 1080 × 1920 (Jonas, 4.10.2026, nach zwei Entwürfen). Keine Fotos – das
-// Bild verlässt die App. Der Satz passt sich an: bei vielen Abenden werden
-// die Listen kürzer, statt in den Fuß zu laufen; bei einem Abend fehlt,
-// was nur wiederholte.
+// 1080 × 1920 (Jonas, 4.10.2026, nach zwei Entwürfen) – "meine Spielzeit",
+// auf gekörntem Papier, alles Lesbare außerhalb der Ränder, die Instagram
+// überdeckt. Keine Fotos – das Bild verlässt die App. Der Satz passt sich
+// an: bei vielen Abenden werden die Listen kürzer, statt in den Fuß zu
+// laufen; bei einem Abend fehlt, was nur wiederholte.
 async function teilbild(p) {
     return p.evaluate(async () => {
         const texte = [];
@@ -442,7 +443,13 @@ async function teilbild(p) {
             const { zeichneTeilbild } = await import('/src/components/Teilbild.js');
             const leinwand = await zeichneTeilbild(buildSeasonReview(store.getVisitsByUser('user-me'), 2025));
             const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
-            return { breite: leinwand.width, hoehe: leinwand.height, png: blob?.type, texte, bilder };
+            // Leeres Papier oben links im Rahmen: wie stark streut die Helligkeit?
+            const punkte = leinwand.getContext('2d').getImageData(120, 120, 100, 100).data;
+            const hell = [];
+            for (let i = 0; i < punkte.length; i += 4) hell.push((punkte[i] + punkte[i + 1] + punkte[i + 2]) / 3);
+            const mittel = hell.reduce((a, b) => a + b, 0) / hell.length;
+            const streuung = Math.sqrt(hell.reduce((a, b) => a + (b - mittel) ** 2, 0) / hell.length);
+            return { breite: leinwand.width, hoehe: leinwand.height, png: blob?.type, texte, bilder, streuung };
         } finally {
             proto.fillText = fillText;
             proto.drawImage = drawImage;
@@ -458,13 +465,18 @@ test('Teilbild: Theaterzettel im Hochformat, ohne Fotos, als PNG speicherbar', {
         assert.equal(bild.hoehe, 1920);
         assert.equal(bild.png, 'image/png');
         const texte = bild.texte.map(x => x.t);
-        for (const t of ['OPERNLOG', 'präsentiert', 'DIE SPIELZEIT', '2025/26', 'in 3 Abenden', 'MIT DEN WERKEN', 'Tosca  ·  Aida',
+        for (const t of ['OPERNLOG', 'meine', 'SPIELZEIT', '2025/26', 'in 3 Abenden', 'MIT DEN WERKEN', 'Tosca  ·  Aida',
             'IN DEN HÄUSERN', 'Semperoper  ·  Oper Leipzig', 'STAMMHAUS', 'KOMPONIST', 'BESTER ABEND',
             'im Schnitt 4,0 von 5 Sternen', 'opernlog.vercel.app']) {
             assert.ok(texte.includes(t), `fehlt im Bild: ${t}`);
         }
         assert.ok(texte.some(t => /Kilometer zwischen den Häusern$/.test(t)), 'fehlt: Kilometer');
         assert.deepEqual(bild.bilder, [], 'keine Bilder, keine Fotos');
+        // Oben und unten je 250 px frei: dort liegen in Instagram- und
+        // WhatsApp-Status Fortschrittsbalken, Profilname und Antwortfeld.
+        for (const x of bild.texte) assert.ok(x.y >= 275 && x.y <= 1920 - 250, `im verdeckten Rand: ${x.t} bei ${x.y}`);
+        // Gekörntes Papier statt glatter Fläche – aber nur eine Spur.
+        assert.ok(bild.streuung > 1.5 && bild.streuung < 12, `Streuung ${bild.streuung}`);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
@@ -484,6 +496,7 @@ test('Teilbild: viele Abende – kürzere Listen, nichts läuft in den Fuß', { 
         const fuss = bild.texte.find(x => x.t === 'opernlog.vercel.app');
         const tiefster = Math.max(...bild.texte.filter(x => x !== fuss).map(x => x.y));
         assert.ok(tiefster < fuss.y - 40, `Satz endet bei ${tiefster}, Fuß bei ${fuss.y}`);
+        for (const x of bild.texte) assert.ok(x.y >= 275 && x.y <= 1920 - 250, `im verdeckten Rand: ${x.t} bei ${x.y}`);
         assert.ok(bild.texte.some(x => /^und \d+ weiteren$/.test(x.t)), 'die Liste zählt den Rest');
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
