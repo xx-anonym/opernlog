@@ -396,3 +396,25 @@ test('Story: dichtester Monat als Kalenderblatt, die Abende eingekreist', { skip
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
+
+// "Dein Opernabend" (Jonas, 4.10.2026: "langweilig"): je Wochentag eine
+// Spalte aus Punkten, die des Tages golden.
+test('Story: Opernabend als Wochenspalten, der Tag golden', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    // 2025-10-12 ist ein Sonntag, 2026-02-01 und 2026-05-01: Sonntag und Freitag.
+    const { ctx, p, fehler } = await rueckblick();
+    try {
+        await p.click('#storyBtn');
+        while (!(await p.textContent('.story__kicker')).includes('Dein Opernabend')) await p.keyboard.press('ArrowRight');
+        assert.equal((await p.textContent('.story__wert')).trim(), 'Sonntag');
+        const spalten = await p.$$eval('.wochenpunkte__spalte', els => els.map(e => [e.dataset.tag, e.querySelectorAll('i').length, e.classList.contains('wochenpunkte__spalte--sieger')]));
+        assert.deepEqual(spalten, [
+            ['Mo', 0, false], ['Di', 0, false], ['Mi', 0, false], ['Do', 0, false],
+            ['Fr', 1, false], ['Sa', 0, false], ['So', 2, true],
+        ]);
+        assert.equal(await p.textContent('.wochenpunkte__sieger'), 'So');
+        // Die Punkte stehen unter dem Text, auf der Achse.
+        assert.equal(await p.evaluate(() => document.querySelector('.wochenpunkte').getBoundingClientRect().top
+            > document.querySelector('.story__notiz').getBoundingClientRect().bottom), true);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});

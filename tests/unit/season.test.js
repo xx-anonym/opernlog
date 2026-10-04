@@ -159,3 +159,13 @@ test('dichtester Monat: mit Jahr, Monat und den Tagen der Abende', () => {
     assert.equal(r.topMonth.monat, 2);
     assert.deepEqual(r.topMonth.tage, [7, 28]);
 });
+
+// Für die Story: die Abende je Wochentag, Montag zuerst.
+test('Opernabend: die Abende je Wochentag, Montag zuerst', () => {
+    const abend = date => ({ houseId: 'semperoper', operaId: 'tosca', date, rating: 4 });
+    // 2025-10-04 und 2025-10-11 sind Samstage, 2025-10-06 ein Montag, 2025-10-12 ein Sonntag.
+    const r = buildSeasonReview([abend('2025-10-04'), abend('2025-10-11'), abend('2025-10-06'), abend('2025-10-12')], 2025);
+    assert.equal(r.topWeekday.wert, 'Samstag');
+    assert.equal(r.topWeekday.anzahl, 2);
+    assert.deepEqual(r.topWeekday.jeTag, [1, 0, 0, 0, 0, 2, 1]);
+});

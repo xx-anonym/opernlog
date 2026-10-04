@@ -165,6 +165,16 @@ function reiseKilometer(halte) {
     return Math.round(summe);
 }
 
+/** Wie viele Abende auf jeden Wochentag fielen, Montag zuerst. */
+function abendeJeWochentag(besuche) {
+    const zaehler = [0, 0, 0, 0, 0, 0, 0];
+    for (const v of besuche) {
+        const d = toDate(v.date);
+        if (d) zaehler[(d.getDay() + 6) % 7]++;
+    }
+    return zaehler;
+}
+
 /**
  * Stellt den Rückblick auf eine Spielzeit zusammen.
  *
@@ -267,7 +277,8 @@ export function buildSeasonReview(alleBesuche, startYear) {
         topMonth: monatName
             ? { name: monatName, anzahl: topMonat.anzahl, jahr: topJahr, monat: topMonatNr, tage: topTage }
             : null,
-        topWeekday: topWochentag,
+        // Dazu die Abende je Wochentag, Montag zuerst – für die Story.
+        topWeekday: topWochentag ? { ...topWochentag, jeTag: abendeJeWochentag(besuche) } : null,
         repeats: wiederholungen,
         travelKm: reiseKilometer(reiseweg(besuche)),
         route: reiseweg(besuche),

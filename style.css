@@ -5982,6 +5982,76 @@ html.story-offen body {
     from { stroke-dashoffset: 1; }
 }
 
+/* "Dein Opernabend": je Wochentag eine Spalte, je Abend ein Punkt, der
+   herabfällt und sich stapelt. Danach leuchtet die Spalte des Tages
+   golden auf. --punkt, --puls und --fall setzt SeasonReview.js. */
+.wochenpunkte {
+    width: min(100%, 320px);
+    margin-top: 12px;
+}
+
+.wochenpunkte__spalten {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: end;
+    height: 112px;
+}
+
+.wochenpunkte__spalte {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 4px;
+}
+
+.wochenpunkte__spalte i {
+    width: var(--punkt, 12px);
+    height: var(--punkt, 12px);
+    border-radius: 50%;
+    background: rgba(240, 230, 210, 0.38);
+    animation: storyPunktFall 0.7s cubic-bezier(0.3, 0, 0.4, 1.4) var(--fall, 0s) backwards;
+}
+
+@keyframes storyPunktFall {
+    from { opacity: 0; transform: translateY(-90px); }
+    60% { opacity: 1; }
+}
+
+.wochenpunkte__spalte--sieger i {
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(201, 168, 76, 0.55);
+    animation:
+        storyPunktFall 0.7s cubic-bezier(0.3, 0, 0.4, 1.4) var(--fall, 0s) backwards,
+        storyPunktGold 0.6s ease var(--puls, 0s) backwards;
+}
+
+@keyframes storyPunktGold {
+    from { background: rgba(240, 230, 210, 0.38); box-shadow: none; }
+}
+
+.wochenpunkte__achse {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgba(240, 230, 210, 0.45);
+}
+
+.wochenpunkte__sieger {
+    font-weight: 600;
+    color: var(--gold);
+    animation: storyPunktGoldText 0.6s ease var(--puls, 0s) backwards;
+}
+
+@keyframes storyPunktGoldText {
+    from { color: rgba(240, 230, 210, 0.45); font-weight: 400; }
+}
+
 /* Schlussfolie: Der Vorhang schließt sich wie beim Ladebildschirm, nur
    andersherum (Samt und Bogen wie .splash__curtain in index.html). Danach
    erscheinen Text und Knöpfe auf dem geschlossenen Vorhang. */

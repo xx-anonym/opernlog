@@ -345,6 +345,37 @@ function kalenderblatt({ jahr, monat, tage }) {
       </div>`;
 }
 
+const WOCHENTAGE_KURZ = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+const WOCHENTAGE_LANG = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+
+/**
+ * Für "Dein Opernabend" (Jonas, 4.10.2026: "langweilig"): die Woche von
+ * Montag bis Sonntag. Über jedem Tag fällt je Abend ein Punkt herab und
+ * stapelt sich; danach leuchtet die Spalte des Tages golden auf, die
+ * übrigen bleiben blass. Bei vielen Abenden werden die Punkte kleiner,
+ * damit die höchste Spalte ins Bild passt. Nur Zahlen.
+ */
+function wochenpunkte({ wert, jeTag }) {
+    if (!Array.isArray(jeTag) || !jeTag.some(Boolean)) return '';
+    const sieger = WOCHENTAGE_LANG.indexOf(wert);
+    const meiste = Math.max(...jeTag);
+    const punkt = Math.max(5, Math.min(12, Math.floor(104 / meiste) - 4));
+    const summe = jeTag.reduce((s, n) => s + n, 0);
+    // Alle Punkte fallen in höchstens 1,8 Sekunden.
+    const takt = Math.min(0.09, 1.8 / summe);
+    let fallNr = 0;
+    const spalten = jeTag.map((anzahl, i) => {
+        const punkte = Array.from({ length: anzahl }, () => `<i style="--fall: ${(1.3 + fallNr++ * takt).toFixed(2)}s"></i>`).join('');
+        return `<span class="wochenpunkte__spalte${i === sieger ? ' wochenpunkte__spalte--sieger' : ''}" data-tag="${WOCHENTAGE_KURZ[i]}" data-anzahl="${anzahl}">${punkte}</span>`;
+    }).join('');
+    const achse = WOCHENTAGE_KURZ.map((t, i) => `<span${i === sieger ? ' class="wochenpunkte__sieger"' : ''}>${t}</span>`).join('');
+    return `
+      <div class="wochenpunkte" style="--punkt: ${punkt}px; --puls: ${(1.3 + summe * takt + 0.5).toFixed(2)}s" aria-hidden="true">
+        <div class="wochenpunkte__spalten">${spalten}</div>
+        <div class="wochenpunkte__achse">${achse}</div>
+      </div>`;
+}
+
 // ── Die einzelnen Kacheln ─────────────────────────────────────────────
 // Nur was Inhalt hat, wird gebaut: wer keine Dirigenten einträgt, bekommt
 // keine leere Kachel „Dirigent der Saison“ vorgesetzt.
@@ -476,6 +507,7 @@ function karten(r) {
             label: 'Dein Opernabend',
             wert: r.topWeekday.wert,
             zusatz: `${r.topWeekday.anzahl}× in dieser Spielzeit`,
+            unten: wochenpunkte(r.topWeekday),
         });
     }
 
