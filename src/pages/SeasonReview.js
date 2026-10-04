@@ -306,14 +306,16 @@ function schnittGrafik(schnitt, bewertungen) {
       <div class="story-verteilung__achse" aria-hidden="true">${achse}</div>`;
 }
 
-// Ein von Hand gezogener Kreis: etwas schief und über den Anfang hinaus.
-const HANDKREIS = 'M29 7C38 11 41 24 35 32C28 40 13 39 7 31C1 23 4 11 13 6C19 3 27 4 33 9';
+// Ein Kreis um die Tageszahl, oben beginnend und im Uhrzeigersinn – so
+// zieht er sich beim Zeichnen wie die Reiselinie.
+const KREIS = 'M18 2a16 16 0 1 1 0 32a16 16 0 1 1 0-32';
 
 /**
- * Für "Dein dichtester Monat" (Jonas, 3.10.2026: "etwas leer"): das
- * Kalenderblatt des Monats. Es schwingt herein wie ein aufgehängtes Blatt,
- * dann werden die Tage mit Abenden nacheinander rot eingekreist. Die Woche
- * beginnt am Montag. Nur Zahlen, nichts aus Eingaben.
+ * Für "Dein dichtester Monat" (Jonas, 3.10.2026: "etwas leer"): der Monat
+ * als Raster in der Sprache der übrigen Folien (style.css). Die Tage
+ * erscheinen als Welle von links oben, dann bekommen die Abende
+ * nacheinander einen goldenen Kreis. Die Woche beginnt am Montag. Nur
+ * Zahlen, nichts aus Eingaben.
  */
 function kalenderblatt({ jahr, monat, tage }) {
     if (!Number.isInteger(jahr) || !Number.isInteger(monat)) return '';
@@ -323,20 +325,22 @@ function kalenderblatt({ jahr, monat, tage }) {
     let nr = 0;
     const zellen = Array.from({ length: anzahlTage }, (_, i) => {
         const tag = i + 1;
-        const stil = tag === 1 ? `grid-column-start: ${ersterWochentag + 1}` : '';
-        if (!abende.has(tag)) return `<span class="kalenderblatt__tag"${stil ? ` style="${stil}"` : ''}>${tag}</span>`;
-        // Jeder Kreis etwas anders gedreht, wie mit der Hand gezogen.
-        const dreh = [-8, 14, -20, 6, 22, -14][nr % 6];
-        return `<span class="kalenderblatt__tag kalenderblatt__tag--abend" data-tag="${tag}" style="${stil ? `${stil}; ` : ''}--nr: ${nr++}; --dreh: ${dreh}deg">${tag}<svg viewBox="0 0 42 42"><path pathLength="1" d="${HANDKREIS}"/></svg></span>`;
+        const platz = ersterWochentag + i;
+        // Welle: Zeile plus Spalte, so läuft sie schräg von links oben.
+        const stil = [
+            tag === 1 ? `grid-column-start: ${ersterWochentag + 1}` : '',
+            `--welle: ${Math.floor(platz / 7) + (platz % 7)}`,
+            abende.has(tag) ? `--nr: ${nr}` : '',
+        ].filter(Boolean).join('; ');
+        if (!abende.has(tag)) return `<span class="kalenderblatt__tag" style="${stil}">${tag}</span>`;
+        nr++;
+        return `<span class="kalenderblatt__tag kalenderblatt__tag--abend" data-tag="${tag}" style="${stil}">${tag}<svg viewBox="0 0 36 36"><path pathLength="1" d="${KREIS}"/></svg></span>`;
     }).join('');
     return `
       <div class="kalenderblatt" aria-hidden="true">
-        <div class="kalenderblatt__blatt">
-          <div class="kalenderblatt__kopf"><i></i><i></i></div>
-          <div class="kalenderblatt__tage">
-            ${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="kalenderblatt__wt">${w}</span>`).join('')}
-            ${zellen}
-          </div>
+        <div class="kalenderblatt__tage">
+          ${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="kalenderblatt__wt">${w}</span>`).join('')}
+          ${zellen}
         </div>
       </div>`;
 }
