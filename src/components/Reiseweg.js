@@ -22,11 +22,15 @@ const BOGEN = 0.18;       // Ausbuchtung je Strecke, Anteil ihrer Länge
 const zahl = n => n.toFixed(1);
 
 /**
+ * Die Geometrie im Feld BREITE × HOEHE: Grenzen und Linie als Pfaddaten
+ * (für SVG und Path2D), die Häuser als Punkte. Die Story zeichnet sie als
+ * SVG, das Bild zum Teilen auf eine Leinwand (src/components/Teilbild.js).
  * @param {Array<{id: string, lat: number, lon: number}>} halte  in Reihenfolge
- * @returns {string} SVG, leer bei weniger als zwei Halten
+ * @returns {{breite: number, hoehe: number, laender: string[], linie: string, halte: Array<{id: string, x: number, y: number}>}|null}
+ *          null bei weniger als zwei Halten
  */
-export function reisewegSVG(halte) {
-    if (!halte || halte.length < 2) return '';
+export function reisewegGeometrie(halte) {
+    if (!halte || halte.length < 2) return null;
 
     const lats = halte.map(h => h.lat);
     const kosinus = Math.cos(((Math.min(...lats) + Math.max(...lats)) / 2) * Math.PI / 180);
@@ -38,14 +42,14 @@ export function reisewegSVG(halte) {
     const mass = Math.min((BREITE - 2 * RAND) / spanneX, (HOEHE - 2 * RAND) / spanneY);
     const punkt = (lon, lat) => [BREITE / 2 + (lon * kosinus - mitteX) * mass, HOEHE / 2 - (lat - mitteY) * mass];
 
-    const laender = LAENDER.map(land => `<path class="reiseweg__land" d="${land.ringe.map((ring) => {
+    const laender = LAENDER.map(land => land.ringe.map((ring) => {
         let d = '';
         for (let i = 0; i < ring.length; i += 2) {
             const [x, y] = punkt(ring[i], ring[i + 1]);
             d += `${i ? 'L' : 'M'}${zahl(x)} ${zahl(y)}`;
         }
         return `${d}Z`;
-    }).join('')}"/>`).join('');
+    }).join(''));
 
     const p = halte.map(h => punkt(h.lon, h.lat));
     let linie = `M${zahl(p[0][0])} ${zahl(p[0][1])}`;
@@ -61,8 +65,23 @@ export function reisewegSVG(halte) {
     // Je Haus ein Punkt, auch wenn man mehrmals dort war.
     const punkte = [...new Map(halte.map(h => [h.id, h])).values()].map((h) => {
         const [x, y] = punkt(h.lon, h.lat);
-        return `<circle class="reiseweg__halt" data-haus="${escapeHTML(h.id)}" cx="${zahl(x)}" cy="${zahl(y)}" r="4.5"/>`;
-    }).join('');
+        return { id: h.id, x: Number(zahl(x)), y: Number(zahl(y)) };
+    });
+
+    return { breite: BREITE, hoehe: HOEHE, laender, linie, halte: punkte };
+}
+
+/**
+ * @param {Array<{id: string, lat: number, lon: number}>} halte  in Reihenfolge
+ * @returns {string} SVG, leer bei weniger als zwei Halten
+ */
+export function reisewegSVG(halte) {
+    const geo = reisewegGeometrie(halte);
+    if (!geo) return '';
+    const laender = geo.laender.map(d => `<path class="reiseweg__land" d="${d}"/>`).join('');
+    const linie = geo.linie;
+    const punkte = geo.halte.map(h =>
+        `<circle class="reiseweg__halt" data-haus="${escapeHTML(h.id)}" cx="${zahl(h.x)}" cy="${zahl(h.y)}" r="4.5"/>`).join('');
 
     // Die Grenzen laufen zum Rand hin aus – sonst enden sie hart an der
     // Kante der Grafik, und man sieht einen Kasten. Nur die Grenzen: die

@@ -18,6 +18,7 @@ import { storyOeffnen } from '../components/Story.js';
 import { STORY_MUSIK } from '../data/musik.js';
 import { composerByName } from '../data/composers.js';
 import { reisewegSVG } from '../components/Reiseweg.js';
+import { zeichneTeilbild } from '../components/Teilbild.js';
 import {
     buildSeasonReview,
     seasonLabel,
@@ -158,7 +159,7 @@ export function SeasonReviewPage(param) {
     let bildVersprechen = null;
     function bild() {
         if (!bildVersprechen) {
-            bildVersprechen = zeichneKarte(review).then(leinwand => alsDatei(leinwand, review));
+            bildVersprechen = zeichneTeilbild(review).then(leinwand => alsDatei(leinwand, review));
         }
         return bildVersprechen;
     }
@@ -695,97 +696,4 @@ async function teilen(r, datei) {
     }
 
     return await copyToClipboard(text) ? 'kopiert' : 'fehlgeschlagen';
-}
-
-// ── Das Bild ──────────────────────────────────────────────────────────
-// 1080x1920 – das Hochformat, das Instagram- und WhatsApp-Status
-// ungeschnitten zeigen. Die Höhe ist reichlich bemessen, damit auch sechs
-// Zeilen samt Fußnote hineinpassen; ein erster Entwurf mit 1350 lief unten
-// über und schob die Fußnote in die letzte Zeile.
-async function zeichneKarte(r) {
-    const B = 1080, H = 1920, RAND = 80;
-    const c = document.createElement('canvas');
-    c.width = B; c.height = H;
-    const g = c.getContext('2d');
-
-    // Ohne das Warten zeichnet Chrome die Überschrift in der Ersatzschrift,
-    // weil Playfair Display beim ersten Aufruf noch nicht geladen ist.
-    try { await document.fonts.ready; } catch (e) { /* dann eben ohne */ }
-
-    const verlauf = g.createLinearGradient(0, 0, B, H);
-    verlauf.addColorStop(0, '#1a1f26');
-    verlauf.addColorStop(0.55, '#14181c');
-    verlauf.addColorStop(1, '#2a1015');
-    g.fillStyle = verlauf;
-    g.fillRect(0, 0, B, H);
-
-    g.fillStyle = '#c9a84c';
-    g.font = '600 32px "DM Sans", sans-serif';
-    g.fillText('OPERNLOG', RAND, 150);
-
-    g.fillStyle = '#9ab';
-    g.font = '400 38px "DM Sans", sans-serif';
-    g.fillText('Saisonrückblick', RAND, 265);
-
-    g.fillStyle = '#f0e6d2';
-    g.font = '700 130px "Playfair Display", Georgia, serif';
-    g.fillText(r.label, RAND, 400);
-
-    g.fillStyle = '#b22d40';
-    g.fillRect(RAND, 455, 150, 7);
-
-    g.fillStyle = '#f0e6d2';
-    g.font = '700 220px "Playfair Display", Georgia, serif';
-    g.fillText(String(r.visitCount), RAND, 700);
-    const breite = g.measureText(String(r.visitCount)).width;
-    g.fillStyle = '#9ab';
-    g.font = '400 46px "DM Sans", sans-serif';
-    g.fillText(r.visitCount === 1 ? 'Abend' : 'Abende', RAND + breite + 26, 700);
-
-    const zeilen = [
-        [`${r.operaCount} ${r.operaCount === 1 ? 'Werk' : 'Werke'} in `
-            + `${r.houseCount} ${r.houseCount === 1 ? 'Haus' : 'Häusern'}`, null],
-        r.topHouse?.house ? ['Stammhaus', r.topHouse.house.name] : null,
-        r.topComposer ? ['Komponist der Saison', r.topComposer.wert] : null,
-        r.topConductor ? ['Dirigent der Saison', r.topConductor.wert] : null,
-        r.bestVisit?.opera ? ['Bester Abend', r.bestVisit.opera.title] : null,
-        r.travelKm > 0 ? ['Zwischen den Häusern', `${zahl(r.travelKm)} km`] : null,
-        // Zuletzt: reicht der Platz nicht, fällt sie als Erste weg.
-        r.topVoices?.length ? ['Meistgehörte Stimme', r.topVoices[0].name] : null,
-    ].filter(Boolean);
-
-    const untergrenze = H - 170;   // darunter beginnt die Fußzeile
-    let y = 850;
-    for (const [label, wert] of zeilen) {
-        const hoehe = wert === null ? 110 : 150;
-        if (y + hoehe > untergrenze) break;   // lieber weglassen als überlaufen
-
-        if (wert === null) {
-            g.fillStyle = '#e0e0e0';
-            g.font = '400 48px "DM Sans", sans-serif';
-            g.fillText(kuerze(g, label, B - 2 * RAND), RAND, y);
-        } else {
-            g.fillStyle = '#678';
-            g.font = '600 28px "DM Sans", sans-serif';
-            g.fillText(label.toUpperCase(), RAND, y);
-            g.fillStyle = '#e0e0e0';
-            g.font = '400 52px "DM Sans", sans-serif';
-            g.fillText(kuerze(g, wert, B - 2 * RAND), RAND, y + 62);
-        }
-        y += hoehe;
-    }
-
-    g.fillStyle = '#678';
-    g.font = '400 30px "DM Sans", sans-serif';
-    g.fillText('opernlog.vercel.app', RAND, H - 80);
-
-    return c;
-}
-
-// Zu lange Namen abschneiden, statt sie über den Rand laufen zu lassen.
-function kuerze(g, text, maxBreite) {
-    if (g.measureText(text).width <= maxBreite) return text;
-    let s = text;
-    while (s.length > 1 && g.measureText(s + '…').width > maxBreite) s = s.slice(0, -1);
-    return s + '…';
 }

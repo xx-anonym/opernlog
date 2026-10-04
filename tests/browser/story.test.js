@@ -418,3 +418,42 @@ test('Story: Opernabend als Wochenspalten, der Tag golden', { skip: fehltPlaywri
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
+
+// Das Bild zum Teilen (src/components/Teilbild.js; Jonas, 4.10.2026: das
+// alte sah "total billig" aus): 1080 × 1920, in der Sprache der Story, mit
+// Karten für Stammhaus, Komponist, Weg, besten Abend und Schnitt. Keine
+// Fotos – das Bild verlässt die App; gezeichnet werden nur eigene Leinwände.
+test('Teilbild: Hochformat mit Karten, ohne Fotos, als PNG speicherbar', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await rueckblick();
+    try {
+        const ergebnis = await p.evaluate(async () => {
+            const texte = [];
+            const bilder = [];
+            const proto = CanvasRenderingContext2D.prototype;
+            const fillText = proto.fillText;
+            const drawImage = proto.drawImage;
+            proto.fillText = function (t, ...rest) { texte.push(String(t)); return fillText.call(this, t, ...rest); };
+            proto.drawImage = function (quelle, ...rest) { bilder.push(quelle.constructor.name); return drawImage.call(this, quelle, ...rest); };
+            try {
+                const { buildSeasonReview } = await import('/src/data/season.js');
+                const { store } = await import('/src/store/store.js');
+                const { zeichneTeilbild } = await import('/src/components/Teilbild.js');
+                const leinwand = await zeichneTeilbild(buildSeasonReview(store.getVisitsByUser('user-me'), 2025));
+                const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
+                return { breite: leinwand.width, hoehe: leinwand.height, png: blob?.type, texte, bilder };
+            } finally {
+                proto.fillText = fillText;
+                proto.drawImage = drawImage;
+            }
+        });
+        assert.equal(ergebnis.breite, 1080);
+        assert.equal(ergebnis.hoehe, 1920);
+        assert.equal(ergebnis.png, 'image/png');
+        for (const t of ['2025/26', 'STAMMHAUS', 'Semperoper', 'KOMPONIST DER SAISON', 'Giacomo Puccini',
+            'ZWISCHEN DEN HÄUSERN', 'BESTER ABEND', 'Tosca', 'DEIN SCHNITT', '4,0', 'Bis zur nächsten Spielzeit']) {
+            assert.ok(ergebnis.texte.includes(t), `fehlt im Bild: ${t}`);
+        }
+        assert.deepEqual([...new Set(ergebnis.bilder)], ['HTMLCanvasElement'], 'nur eigene Leinwände, keine Fotos');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
