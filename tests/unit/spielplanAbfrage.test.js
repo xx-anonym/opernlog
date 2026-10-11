@@ -156,7 +156,7 @@ test('Werke aus der Datenbank zählen, wenn der Lauf sie kannte', () => {
 test('ein Nachtrag ersetzt nur die gesuchten Werke', () => {
     const bestehend = { stand: '2026-09-23', zeilen: [
         { werk: 'aida', haus: 'semperoper', url: 'https://a.example/', termine: ['2026-10-01'] },
-        { werk: 'tosca', haus: 'semperoper', url: 'https://t.example/', termine: ['2026-10-02'] },
+        { werk: 'tosca', haus: 'semperoper', url: 'https://t.example/', termine: ['2026-11-20'] },
     ] };
     const nachtrag = { stand: '2026-11-05', zeilen: [
         { werk: 'tosca', haus: 'oper-frankfurt', url: 'https://f.example/', termine: ['2026-12-01'] },
@@ -247,6 +247,28 @@ test('ein Nachtrag behält Uhrzeiten, die er selbst nicht gelesen hat', () => {
     const [zeile] = dazunehmen(bestehend, nachtrag, { haeuser: ['deutsche-oper-berlin'] }).zeilen;
     assert.deepEqual(zeile.termine, ['2027-01-13', '2027-01-16', '2027-01-20']);
     assert.deepEqual(zeile.zeiten, { '2027-01-13': '19:30', '2027-01-16': '18:00' });
+});
+
+test('ein Nachtrag behält die schon gespielten Tage (Log-Formular)', () => {
+    const bestehend = { stand: '2026-09-23', zeilen: [
+        { werk: 'eugen-onegin', haus: 'oper-leipzig', url: 'https://l.example/onegin',
+          termine: ['2026-10-10', '2026-10-16'], zeiten: { '2026-10-10': '19:00', '2026-10-16': '19:30' } },
+        // Ganz vorbei: der Lauf findet es nicht mehr.
+        { werk: 'fliegender-hollaender', haus: 'oper-leipzig', url: 'https://l.example/hollaender',
+          termine: ['2026-09-27', '2026-10-03'], zeiten: { '2026-09-27': '17:00' } },
+        // Falsch gelesen und noch nicht gespielt: geht.
+        { werk: 'carmen', haus: 'oper-leipzig', url: 'https://l.example/carmen', termine: ['2027-01-22'] },
+    ] };
+    // Der Lauf am 11.10. liest nur, was danach kommt.
+    const nachtrag = { stand: '2026-10-11', zeilen: [
+        { werk: 'eugen-onegin', haus: 'oper-leipzig', url: 'https://l.example/onegin',
+          termine: ['2026-10-16', '2026-11-08'], zeiten: { '2026-10-16': '19:30', '2026-11-08': '17:00' } },
+    ] };
+    const { zeilen } = dazunehmen(bestehend, nachtrag, { haeuser: ['oper-leipzig'] });
+    assert.deepEqual(zeilen.map(z => [z.werk, z.termine, z.zeiten]), [
+        ['eugen-onegin', ['2026-10-10', '2026-10-16', '2026-11-08'], { '2026-10-10': '19:00', '2026-10-16': '19:30', '2026-11-08': '17:00' }],
+        ['fliegender-hollaender', ['2026-09-27', '2026-10-03'], { '2026-09-27': '17:00' }],
+    ]);
 });
 
 test('aus dem Menü zählt nur, was ganz eine Übersicht benennt', () => {
@@ -569,6 +591,25 @@ test('bekannte Kinderfassungen sind nicht das Werk (Halle, Salzburg)', async () 
     assert.ok(KINDERFASSUNG.test('papageno spielt auf der zauberflote'));
     assert.ok(KINDERFASSUNG.test('Die kleine Zauberflöte'));
     assert.ok(!KINDERFASSUNG.test('Die Zauberflöte'));
+});
+
+test('ein Ballett nach der Oper ist nicht die Oper (Leipzig, Carmen)', async () => {
+    const { ballettFassung } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const s = 'https://www.oper-leipzig.de/de/programm/';
+    assert.ok(ballettFassung('carmen (ballett) - oper leipzig carmen', `${s}carmen-ballett/439`, ['carmen']));
+    // Nur die Adresse verrät es.
+    assert.ok(ballettFassung('carmen - oper leipzig carmen', `${s}carmen-ballett/439`, ['carmen']));
+    assert.ok(!ballettFassung('carmen - oper leipzig carmen', `${s}carmen/44`, ['carmen']));
+    // Eine Sparte "Oper & Ballett" in der Adresse macht die Oper nicht zum Ballett.
+    assert.ok(!ballettFassung('carmen', 'https://theater.example/oper-ballett/carmen/', ['carmen']));
+});
+
+test('im Programm zählt der Eintrag des Balletts nicht für die Oper (Leipzig, 22. Januar)', async () => {
+    const { werkeImEintrag } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const s = 'https://www.oper-leipzig.de/de/programm/';
+    const block = sparte => `Fr.\n22\nJan.\nGeorges Bizet\nCarmen\n${sparte}\nFr. 22.01.2027 |\n19:30\n|\nOpernhaus`;
+    assert.deepEqual(werkeImEintrag({ text: 'Carmen', href: `${s}carmen-ballett/439`, block: block('Ballett') }), []);
+    assert.deepEqual(werkeImEintrag({ text: 'Carmen', href: `${s}carmen/44`, block: block('Oper') }), ['carmen']);
 });
 
 test('eine "Preview" ist eine Nebenveranstaltung (Zürich)', async () => {

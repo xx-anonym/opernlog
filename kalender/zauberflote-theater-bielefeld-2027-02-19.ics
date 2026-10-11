@@ -21,20 +21,19 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:midsummer-nights-dream-theater-bielefeld-2026-11-23@opernlog.vercel.app
+UID:zauberflote-theater-bielefeld-2027-02-19@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20261123T190000
-DTEND;TZID=Europe/Berlin:20261123T220000
-SUMMARY:A Midsummer Night's Dream – Theater Bielefeld
+DTSTART;TZID=Europe/Berlin:20270219T193000
+DTEND;TZID=Europe/Berlin:20270219T223000
+SUMMARY:Die Zauberflöte – Theater Bielefeld
 LOCATION:Theater Bielefeld\, Deutschland
 GEO:52.02074;8.53496
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Theater Bielefeld, Deutschland":geo:52.02074,8.53496
-URL:https://www.buo-bielefeld.de/theater/veranstaltung/ein-sommernachtstrau
- m-a-midsummer-nights-dream
-DESCRIPTION:Benjamin Britten: A Midsummer Night's Dream\nTermine und Karten
- : https://www.buo-bielefeld.de/theater/veranstaltung/ein-sommernachtstraum
- -a-midsummer-nights-dream\nDas Ende ist geschätzt (3 Stunden).\nAus Opern
- Log – maßgeblich ist die Seite des Hauses.
+URL:https://www.buo-bielefeld.de/theater/veranstaltung/die-zauberfloete
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://www.buo-bielefeld.de/theater/veranstaltung/die-zauberfloete\nDas E
+ nde ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seit
+ e des Hauses.
 END:VEVENT
 END:VCALENDAR

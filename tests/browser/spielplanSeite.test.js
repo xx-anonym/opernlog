@@ -145,6 +145,27 @@ test('Nachlade-Knopf in einem <div> mit demselben Text: der Knopf wird geklickt 
     } finally { await ctx.close(); }
 });
 
+test('"Mehr anzeigen": der sichtbare Knopf, nicht der versteckte davor (Bielefeld)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    // Bielefeld hat die Terminliste zweimal: für schmale Bildschirme
+    // (versteckt) und daneben die sichtbare. Beide zeigen erst fünf Termine.
+    const liste = id => `<div id="${id}"><ul><li>Di 20.10.2026 19:30</li></ul><ul class="rest" hidden><li>Fr 26.02.2027 19:30</li></ul>`
+        + `<button aria-expanded="false">Mehr anzeigen</button></div>`;
+    const SEITE = '<!doctype html><html><body><main><h1>Die Zauberflöte</h1>'
+        + `<div style="display: none">${liste('schmal')}</div>${liste('breit')}</main><script>`
+        + 'for (const k of document.querySelectorAll("button")) k.addEventListener("click", () => {'
+        + '  k.parentElement.querySelector(".rest").hidden = false;'
+        + '  k.setAttribute("aria-expanded", "true");'
+        + '  k.textContent = "Weniger anzeigen";'
+        + '});'
+        + '</script></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/zauberfloete', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        const d = await seite(ctx, 'https://theater.example/zauberfloete');
+        assert.match(d.text, /26\.02\.2027/);
+    } finally { await ctx.close(); }
+});
+
 test('"Weitere Termine" als Schalter wird nur einmal aufgeklappt (Karlsruhe)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const SEITE = '<!doctype html><html><body><main><h1>Il Trittico</h1>'
         + '<div>Samstag, 3.7.2027, 18:00</div>'

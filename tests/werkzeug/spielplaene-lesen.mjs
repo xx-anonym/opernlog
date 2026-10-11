@@ -147,6 +147,20 @@ const norm = s => String(s || '').toLowerCase().normalize('NFC').replace(/[\u00a
 // Dazu die bekannten Bearbeitungen: "Papageno spielt auf der Zauberflöte"
 // (Halle), "Die kleine Zauberflöte" (Salzburg).
 export const KINDERFASSUNG = /für kinder|kinderfassung|kinderoper|kinderkonzert|familienkonzert|für kids|gekürzte fassung|kurzfassung|papageno spielt|kleine zauberfl/i;
+/**
+ * Ein Ballett nach der Oper ist nicht die Oper. Die Oper Leipzig spielt
+ * "Carmen (Ballett)" neben Bizets Carmen, und weil die Ballettseite Bizet
+ * nennt, landeten ihre Termine bei der Oper. Erkennbar am Titel oder an dem
+ * Teil der Adresse, der das Werk nennt ("carmen-ballett") – nicht an einer
+ * Sparte "oper-ballett" weiter vorn.
+ */
+export function ballettFassung(kopf, href, slugs) {
+    if (/\(\s*ballett?\s*\)/i.test(kopf)) return true;
+    let teile = [];
+    try { teile = new URL(href).pathname.split('/').map(t => slug(entschluesselt(t))); } catch { /* keine Adresse */ }
+    return teile.some(t => /ballet/.test(t) && slugs.some(sl => t.includes(sl)));
+}
+
 const slug = s => norm(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // Wie Häuser dieselben Komponisten sonst schreiben (Schlüssel ohne Akzente).
@@ -607,7 +621,9 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         for (let i = 0; i < 8; i++) {
             const vorher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)).catch(() => {});
-            const knopf = p.locator('button, a[role="button"]').filter({ hasText: NACHLADEN }).first();
+            // Der erste sichtbare: Bielefeld hat denselben Knopf für schmale
+            // Bildschirme versteckt davor, und unter ihm blieb es bei fünf Terminen.
+            const knopf = p.locator('button, a[role="button"]').filter({ hasText: NACHLADEN, visible: true }).first();
             if (await knopf.isVisible().catch(() => false)) {
                 await knopf.click({ timeout: 3000 }).catch(() => {});
                 nachgeladen = true;
@@ -844,6 +860,18 @@ export function fremderKomponist(text, id) {
 }
 
 /**
+ * Die Werke eines Eintrags in einer Terminliste. Ohne die gleichnamigen
+ * anderer Komponisten und ohne Ballette: Leipzigs Programm führt das Ballett
+ * schlicht als "Carmen", nur die Adresse sagt "carmen-ballett".
+ * @param {{text: string, href: string, block: string}} b
+ * @returns {string[]}
+ */
+export function werkeImEintrag(b) {
+    return werkeImLink(b.text, b.href).filter(id => !fremderKomponist(b.block, id)
+        && !ballettFassung(norm(b.text), b.href, WERKE.find(w => w.id === id)?.slugs || []));
+}
+
+/**
  * Werke, deren Komponist schon im Link steht: Kassel verlinkt im Spielplan
  * "L’elisir d’amore Oper von Gaetano Donizetti", die Seite des Stücks nennt
  * Donizetti nicht.
@@ -876,7 +904,7 @@ async function lesen(kontext, hausId, fenster) {
     const sammleBloecke = (daten) => {
         for (const b of daten.bloecke || []) {
             if (NEBENHER.test(b.block) || !enthaeltOrt(b.block, q.ort)) continue;
-            const ids = werkeImLink(b.text, b.href).filter(id => !fremderKomponist(b.block, id));
+            const ids = werkeImEintrag(b);
             if (!ids.length) continue;
             const { termine: mit, zeiten } = termineMitZeiten(b.block, fenster, { ort: q.ortJeTermin });
             // Mehr als drei Termine in einem Eintrag: das ist kein Eintrag,
@@ -1017,7 +1045,8 @@ async function lesen(kontext, hausId, fenster) {
                 const pfad = seitenPfad(d.endUrl);
                 const titelOben = ((trifft(w, kopf) || w.slugs.some(sl => slug(kopf).includes(sl) || pfad.includes(sl)))
                     || (zugeordnet.get(url) === id && trifft(w, d.text)))
-                    && !KINDERFASSUNG.test(kopf) && !KINDERFASSUNG.test(pfad.replace(/-/g, ' '));
+                    && !KINDERFASSUNG.test(kopf) && !KINDERFASSUNG.test(pfad.replace(/-/g, ' '))
+                    && !ballettFassung(kopf, d.endUrl, w.slugs);
                 erg.treffer.push({
                     titelOben,
                     // Im Hauptteil, nicht im Kopf der Seite: dort steht bei einem

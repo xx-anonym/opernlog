@@ -126,17 +126,29 @@ const zusatzhaeuser = zeilen => [...new Set(zeilen.map(z => z.haus).filter(h => 
  * Vorverkauf beginnt, und nehmen sie danach nicht wieder weg. Fehlt sie im
  * Nachtrag für einen Termin, der schon eine hatte, lag es am Lesen – der
  * Kalender der Deutschen Oper lädt mal nur halb –, und die alte bleibt.
+ *
+ * Ebenso bleiben die Tage bis zum Stand des Nachtrags: der Lauf liest nur
+ * kommende Termine, und das Log-Formular schlägt die gespielten vor
+ * (gespielteTage). Ohne sie fehlte nach jeder Nachlese der Abend von gestern.
  */
 export function dazunehmen(bestehend, nachtrag, { werke, haeuser } = {}) {
     const nurWerke = werke?.length ? new Set(werke) : null;
     const nurHaeuser = haeuser?.length ? new Set(haeuser) : null;
     const gelesen = z => (!nurWerke || nurWerke.has(z.werk)) && (!nurHaeuser || nurHaeuser.has(z.haus));
-    const alteZeiten = new Map(bestehend.zeilen.map(z => [`${z.werk}|${z.haus}`, z.zeiten || {}]));
-    const zeitenBehalten = (z) => {
-        const alt = alteZeiten.get(`${z.werk}|${z.haus}`) || {};
-        return mitZeiten(z, { ...alt, ...(z.zeiten || {}) });
+    const schluessel = z => `${z.werk}|${z.haus}`;
+    const alt = new Map(bestehend.zeilen.map(z => [schluessel(z), z]));
+    const gespielt = z => (z?.termine || []).filter(t => t <= (nachtrag.stand || ''));
+    const mitAltem = (z) => {
+        const a = alt.get(schluessel(z));
+        const termine = [...new Set([...gespielt(a), ...z.termine])].sort();
+        return mitZeiten({ ...z, termine }, { ...(a?.zeiten || {}), ...(z.zeiten || {}) });
     };
-    const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...nachtrag.zeilen.filter(gelesen).map(zeitenBehalten)];
+    const neu = nachtrag.zeilen.filter(gelesen).map(mitAltem);
+    const gefunden = new Set(neu.map(schluessel));
+    // Was der Lauf nicht mehr findet, weil es vorbei ist.
+    const vorbei = bestehend.zeilen.filter(z => gelesen(z) && !gefunden.has(schluessel(z)) && gespielt(z).length)
+        .map(z => mitZeiten({ ...z, termine: gespielt(z) }, z.zeiten));
+    const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...neu, ...vorbei];
     zeilen.sort((a, b) => a.werk.localeCompare(b.werk) || a.haus.localeCompare(b.haus));
     const stand = [bestehend.stand, nachtrag.stand].filter(Boolean).sort()[0] || '';
     return { zeilen, stand, zusatzwerke: zusatzwerke(zeilen), zusatzhaeuser: zusatzhaeuser(zeilen) };
