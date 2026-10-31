@@ -7,6 +7,7 @@ import { profileIcons } from '../data/profileIcons.js';
 import { passwortEinwand, MINDESTLAENGE } from '../passwort.js';
 import { passkeyAnmeldungAnbieten, passkeyVermerken, passkeyFehlertext } from '../passkey.js';
 import { icon } from '../components/Icon.js';
+import { authFehlertext } from '../utils.js';
 
 // ── E-Mail-Validierung ──────────────────────────────────
 const BLOCKED_DOMAINS = [
@@ -242,9 +243,7 @@ export function AuthPage(onSuccess) {
       if (onSuccess) onSuccess();
       else window.location.hash = '#/';
     } catch (err) {
-      errorEl.textContent = err.message === 'Invalid login credentials'
-        ? 'Ungültige Anmeldedaten'
-        : err.message;
+      errorEl.textContent = authFehlertext(err);
       errorEl.style.display = 'block';
       btnText.style.display = 'inline';
       btnLoading.style.display = 'none';
@@ -273,7 +272,7 @@ export function AuthPage(onSuccess) {
       successEl.textContent = 'Falls ein Konto mit dieser E-Mail existiert, haben wir dir einen Link zum Zurücksetzen gesendet.';
       successEl.style.display = 'block';
     } catch (err) {
-      errorEl.textContent = err.message;
+      errorEl.textContent = authFehlertext(err);
       errorEl.style.display = 'block';
     }
   });
@@ -337,9 +336,7 @@ export function AuthPage(onSuccess) {
         }, 2000);
       }
     } catch (err) {
-      errorEl.textContent = err.message.includes('already registered')
-        ? 'Diese E-Mail ist bereits registriert'
-        : err.message;
+      errorEl.textContent = authFehlertext(err);
       errorEl.style.display = 'block';
       submitBtn.textContent = 'Registrieren';
       submitBtn.disabled = false;

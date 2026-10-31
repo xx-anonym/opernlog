@@ -27,6 +27,7 @@ node --test "tests/**/*.test.js"
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen, Kurzfassung der Besetzung |
 | `passkey.test.js` | wann es Passkeys gibt, welcher Fehler welchen Satz bekommt |
 | `sterne.test.js` | Sterne als Text, auch bei Noten außerhalb von 0 bis 5 |
+| `authFehlertext.test.js` | Fehler beim Anmelden, Registrieren und Zurücksetzen als deutscher Satz: Postausgang, Stundenlimit, Wartezeit, unbestätigte E-Mail; Unbekanntes bleibt stehen |
 | `webpush.test.js` | Verschlüsselung Byte für Byte gegen RFC 8291, VAPID-Ausweis, nur bekannte Push-Dienste |
 | `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
@@ -69,6 +70,7 @@ Datenbank.
 | `tagebuchSortierung.test.js` | nach Bewertung sortiert stehen Noten über den Blöcken, keine Monate |
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
 | `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
+| `mailFehler.test.js` | scheitert der Mailversand (Postausgang, Stundenlimit), stehen in „Passwort vergessen“ und in der Registrierung deutsche Sätze |
 | `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
 | `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster und die Frage beim ersten Start neuer Konten |
 | `installHinweis.test.js` | der Hinweis in der Leiste bleibt oben und verdeckt weder Inhalt noch Menü noch Fenster |
