@@ -467,3 +467,40 @@ export function sterneText(note) {
     const n = Math.min(5, Math.max(0, Math.round(Number(note) || 0)));
     return '★'.repeat(n) + '☆'.repeat(5 - n);
 }
+
+/**
+ * Ein Fehler beim Anmelden, Registrieren oder Zurücksetzen des Passworts als
+ * deutscher Satz.
+ *
+ * Supabase meldet auf Englisch, und die App zeigte das bisher roh an. Seit die
+ * Mails über einen eigenen Postausgang (Gmail) gehen, kann der Versand selbst
+ * scheitern – dann stand "Error sending recovery email" im Formular. Erkannt
+ * wird am Code, den supabase-js mitliefert; der Text ist nur der Rückfall.
+ * Was hier nicht steht, bleibt, wie Supabase es schreibt.
+ */
+export function authFehlertext(err) {
+    const code = err?.code || '';
+    const text = String(err?.message || err || '');
+    // Dieselbe Adresse zu schnell hintereinander: Supabase nennt die Wartezeit.
+    const warten = text.match(/after (\d+) seconds?/i);
+    if (warten) return `Bitte warte noch ${warten[1]} Sekunden und versuche es dann noch einmal.`;
+    if (code === 'over_email_send_rate_limit' || /email rate limit/i.test(text)) {
+        return 'Gerade wurden zu viele E-Mails verschickt. Bitte versuche es etwas später noch einmal.';
+    }
+    if (code === 'over_request_rate_limit') {
+        return 'Zu viele Versuche in kurzer Zeit. Bitte warte ein paar Minuten.';
+    }
+    if (/error sending .*e-?mail/i.test(text)) {
+        return 'Die E-Mail konnte gerade nicht verschickt werden. Bitte versuche es später noch einmal.';
+    }
+    if (code === 'email_not_confirmed' || /email not confirmed/i.test(text)) {
+        return 'Bitte bestätige zuerst deine E-Mail-Adresse – den Link haben wir dir nach der Registrierung geschickt.';
+    }
+    if (code === 'invalid_credentials' || text === 'Invalid login credentials') {
+        return 'Ungültige Anmeldedaten';
+    }
+    if (code === 'user_already_exists' || /already registered/i.test(text)) {
+        return 'Diese E-Mail ist bereits registriert';
+    }
+    return text;
+}

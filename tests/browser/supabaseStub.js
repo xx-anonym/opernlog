@@ -331,12 +331,19 @@ window.supabase = { createClient: () => ({
     signOut: async (optionen) => { window.__ablauf.push('signOut'); window.__abgemeldet++; window.__abmeldeArt = optionen?.scope; return { error: null }; },
     signUp: async (angaben) => {
       window.__registriert.push(angaben);
+      if (window.__registrierFehler) return { data: { user: null, session: null }, error: window.__registrierFehler };
       return { data: {
         user: { id: UID },
         session: window.__signUpMitSitzung ? SESSION : null,
       }, error: null };
     },
     signInWithPassword: async () => ({ data: { session: SESSION }, error: null }),
+    // "Passwort vergessen": __resetFehler gesetzt heißt, Supabase antwortet mit
+    // diesem Fehler – etwa wenn der Postausgang (SMTP) die Mail nicht annimmt.
+    resetPasswordForEmail: async (email, optionen) => {
+      window.__resetAngefragt = [...(window.__resetAngefragt || []), { email, optionen }];
+      return window.__resetFehler ? { data: null, error: window.__resetFehler } : { data: {}, error: null };
+    },
     signInWithPasskey: async () => {
       if (window.__passkeyFehler) return { data: null, error: window.__passkeyFehler };
       window.__passkeyAnmeldungen++;

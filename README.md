@@ -53,6 +53,21 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Party ID unter Authentication → Passkeys im Supabase-Dashboard). **Zieht die
   App auf eine andere Domain, taugt kein einziger Passkey mehr**, und jeder muss
   einen neuen anlegen.
+- **E-Mails** – Bestätigung der Registrierung, Passwort zurücksetzen – schickt
+  Supabase seit Oktober 2026 nicht mehr selbst, sondern über einen eigenen
+  Postausgang: Gmail per SMTP, eingetragen im Supabase-Dashboard unter
+  Authentication → Emails → SMTP Settings. Damit fällt das Limit des
+  eingebauten Versands (2 Mails pro Stunde für das ganze Projekt); das eigene
+  steht auf 30 pro Stunde (Authentication → Rate Limits), Gmail selbst lässt
+  etwa 500 am Tag zu.
+
+  Supabase meldet sich bei Gmail mit einem App-Passwort an. **Ändert sich das
+  Google-Passwort oder wird die Bestätigung in zwei Schritten abgeschaltet,
+  verfällt es** – dann geht keine Mail mehr hinaus, und niemand kann sich mehr
+  registrieren oder sein Passwort zurücksetzen. Abhilfe: neues App-Passwort
+  anlegen und in den SMTP-Einstellungen eintragen. Scheitert der Versand, steht
+  im Formular ein deutscher Satz statt der englischen Meldung von Supabase
+  (`authFehlertext()` in `src/utils.js`).
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil
