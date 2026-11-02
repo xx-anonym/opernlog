@@ -68,6 +68,14 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   anlegen und in den SMTP-Einstellungen eintragen. Scheitert der Versand, steht
   im Formular ein deutscher Satz statt der englischen Meldung von Supabase
   (`authFehlertext()` in `src/utils.js`).
+
+  Die Registrierungsmail ist gestaltet wie die App – Vorhang, goldene Kante,
+  bordeauxroter Knopf – und liegt unter `supabase/templates/registrierung.html`.
+  Supabase liest sie nicht von dort: nach einer Änderung den ganzen Inhalt unter
+  Authentication → Emails → Templates → Confirm signup einfügen, Betreff
+  „Vorhang auf – bestätige deine E-Mail für OpernLog“. Logo und Schriften lädt
+  die Mail von `opernlog.vercel.app`; `tests/checks/mailvorlagen.test.js` prüft,
+  dass es sie dort gibt und der Knopf auf den Bestätigungslink führt.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil

@@ -55,6 +55,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `push.test.js` | Datenbank und Edge Function erlauben dieselben Push-Dienste; jeder Anlass hat einen Auslöser |
 | `spielplan.test.js` | die erzeugte Spielplandatei passt zum Katalog: Werke, Häuser, Daten, Links |
 | `kalenderDateien.test.js` | unter `kalender/` liegt zu jedem Termin im Spielplan genau eine Kalenderdatei, mit dem Inhalt, den die App selbst erzeugen würde; auch für Werke, die nur in der Datenbank stehen |
+| `mailvorlagen.test.js` | die Mailvorlagen unter `supabase/templates/`: Knopf mit Bestätigungslink, nur Variablen, die Supabase kennt, Bilder und Schriften nur von der eigenen Seite und dort vorhanden, klein genug für Gmail |
 | `spielplanDaten.test.js` | `daten/spielplan.json` passt zum Spielplan; die Datenbank holt genau diese Datei, jeden Morgen erst holen, dann abgleichen; der erste Abgleich meldet nichts, eine kaputte Datei ändert nichts |
 
 **`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel

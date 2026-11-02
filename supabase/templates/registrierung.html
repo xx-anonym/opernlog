@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+  Registrierungsmail ("Confirm signup") für OpernLog.
+
+  Eingespielt von Hand im Supabase-Dashboard: Authentication → Emails →
+  Templates → Confirm signup. Betreff: Vorhang auf – bestätige deine E-Mail
+  für OpernLog. Ändert sich diese Datei, dort neu einfügen; Supabase liest sie
+  nicht von hier. tests/checks/mailvorlagen.test.js hält sie im Rahmen.
+
+  Gebaut für Mailprogramme, nicht für Browser: Tabellen statt Flexbox, alles
+  Wichtige als Inline-Style (Gmail wirft vieles aus <style> weg), Breite
+  höchstens 600 px, Farben auch als bgcolor für Outlook. Die Schriften der App
+  laden nur Programme, die das können (Apple Mail, iOS); die anderen nehmen
+  Georgia und Helvetica. Bild und Schriften kommen von der eigenen Seite, nicht
+  von Dritten.
+
+  Variablen (Go-Template, von Supabase gefüllt; hier im Kommentar bewusst ohne
+  geschweifte Klammern, sonst versuchte Supabase auch sie auszuwerten):
+    .ConfirmationURL  der Bestätigungslink
+    .Data.username    der Name aus der Registrierung (user_metadata)
+    .SiteURL          die Adresse der App
+-->
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<!-- Schon dunkel gestaltet: Mailprogramme sollen die Farben nicht umkehren. -->
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<title>Vorhang auf – bestätige deine E-Mail für OpernLog</title>
+<style>
+  @font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400 900;
+    src: url('https://opernlog.vercel.app/fonts/playfair-display-normal-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300 800;
+    src: url('https://opernlog.vercel.app/fonts/dm-sans-normal-latin.woff2') format('woff2');
+  }
+  :root { color-scheme: dark; supported-color-schemes: dark; }
+  body { margin: 0; padding: 0; }
+  a.knopf:hover { background-color: #b22d40 !important; }
+  @media (max-width: 620px) {
+    .rahmen { padding: 16px 10px !important; }
+    .innen { padding-left: 24px !important; padding-right: 24px !important; }
+    .titel { font-size: 28px !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background-color:#0e1114;">
+
+<!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. -->
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#0e1114; opacity:0;">
+  Ein Klick, dann hebt sich der Vorhang für dein Operntagebuch.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0e1114" style="background-color:#0e1114;">
+  <tr>
+    <td class="rahmen" align="center" style="padding:32px 16px;">
+
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px; border-collapse:separate; border-radius:16px; overflow:hidden; background-color:#1c2228;" bgcolor="#1c2228">
+
+        <!-- Kopf: der Vorhang -->
+        <tr>
+          <td align="center" bgcolor="#5c111c" style="background-color:#5c111c; background-image:repeating-linear-gradient(90deg, #5c111c 0px, #7a1626 14px, #8b1a2b 22px, #6a1422 32px, #5c111c 44px); padding:36px 24px 30px;">
+            <img src="https://opernlog.vercel.app/icons/icon-any-192.png" width="72" height="72" alt="" style="display:block; width:72px; height:72px; border:0; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.45);">
+            <div style="margin-top:14px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:30px; font-weight:700; letter-spacing:1px; color:#dfc06a;">OpernLog</div>
+            <div style="margin-top:4px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; letter-spacing:0.5px; color:#e8d6d9;">Dein persönliches Operntagebuch</div>
+          </td>
+        </tr>
+        <!-- Goldene Kante unter dem Vorhang -->
+        <tr>
+          <td height="3" bgcolor="#c9a84c" style="height:3px; line-height:3px; font-size:3px; background-color:#c9a84c; background-image:linear-gradient(90deg, #a08030, #dfc06a, #a08030);">&nbsp;</td>
+        </tr>
+
+        <!-- Inhalt -->
+        <tr>
+          <td class="innen" style="padding:40px 48px 12px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; color:#e0e0e0;">
+            <h1 class="titel" style="margin:0 0 16px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:32px; line-height:1.2; font-weight:700; color:#ffffff;">
+              {{ if .Data.username }}Vorhang auf, {{ .Data.username }}!{{ else }}Vorhang auf!{{ end }}
+            </h1>
+            <p style="margin:0 0 28px; font-size:16px; line-height:1.6; color:#c8cdd2;">
+              Schön, dass du dabei bist. Bestätige noch kurz deine E-Mail-Adresse – dann kannst du deinen ersten Opernabend loggen.
+            </p>
+
+            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+              <tr>
+                <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
+                  <a class="knopf" href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">E-Mail bestätigen</a>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Was wartet -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
+              <tr><td style="padding:22px 0 6px; font-family:'Playfair Display', Georgia, serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#c9a84c;">Was dich erwartet</td></tr>
+              <tr><td style="padding:6px 0;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td valign="top" width="24" style="width:24px; font-size:15px; line-height:1.5; color:#c9a84c;">&#10022;</td>
+                  <td valign="top" style="font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.5; color:#c8cdd2;">Jeden Opernabend festhalten, bewerten und wiederfinden</td>
+                </tr></table>
+              </td></tr>
+              <tr><td style="padding:6px 0;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td valign="top" width="24" style="width:24px; font-size:15px; line-height:1.5; color:#c9a84c;">&#10022;</td>
+                  <td valign="top" style="font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.5; color:#c8cdd2;">Sehen, was in deiner Nähe demnächst gespielt wird</td>
+                </tr></table>
+              </td></tr>
+              <tr><td style="padding:6px 0 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td valign="top" width="24" style="width:24px; font-size:15px; line-height:1.5; color:#c9a84c;">&#10022;</td>
+                  <td valign="top" style="font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.5; color:#c8cdd2;">Mit Freunden teilen, was ihr gehört habt</td>
+                </tr></table>
+              </td></tr>
+            </table>
+
+            <!-- Rückfall, falls der Knopf nicht geht -->
+            <p style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
+              Geht der Knopf nicht? Dann öffne diesen Link:
+            </p>
+            <p style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
+              <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#c9a84c; text-decoration:underline;">{{ .ConfirmationURL }}</a>
+            </p>
+          </td>
+        </tr>
+
+        <!-- Fuß -->
+        <tr>
+          <td class="innen" bgcolor="#161b20" style="padding:22px 48px 26px; background-color:#161b20; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:12px; line-height:1.6; color:#7b8794;">
+            Du hast dich nicht bei OpernLog registriert? Dann kannst du diese Mail einfach ignorieren – ohne Bestätigung wird kein Konto aktiv, und nach 30 Tagen ist die Anmeldung wieder gelöscht.
+          </td>
+        </tr>
+      </table>
+
+      <!-- Unter der Karte -->
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;">
+        <tr>
+          <td align="center" style="padding:20px 16px 0; font-family:'Playfair Display', Georgia, serif; font-size:13px; font-style:italic; color:#5d6873;">
+            <a href="{{ .SiteURL }}" target="_blank" style="color:#8a7a4a; text-decoration:none;">OpernLog</a> · Wie Letterboxd, nur für Oper
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
+</body>
+</html>
