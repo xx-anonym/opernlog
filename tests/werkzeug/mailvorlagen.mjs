@@ -8,6 +8,11 @@
 // liefen drei Kopien desselben Gerüsts irgendwann auseinander; deshalb steht
 // es nur hier, und je Mail nur, was sie sagt.
 //
+// Dazu eine Mail, die nicht Supabase verschickt, sondern die Edge Function
+// mail-senden: die bei einer Freundschaftsanfrage. Sie landet als Modul in
+// supabase/functions/mail-senden/vorlage.js; den Namen des Absenders setzt
+// die Funktion für %%NAME%% ein.
+//
 // Supabase liest die Dateien nicht aus dem Repo. Nach jedem Lauf den Inhalt
 // der geänderten Datei im Dashboard einfügen (Authentication → Emails →
 // Templates, Name und Betreff stehen im Kopf jeder Datei).
@@ -35,6 +40,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const MAIL_ORDNER = path.join(WURZEL, 'supabase/templates');
+export const FUNKTIONS_VORLAGE = path.join(WURZEL, 'supabase/functions/mail-senden/vorlage.js');
 
 const SEITE = 'https://opernlog.vercel.app';
 const SANS = `'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif`;
@@ -192,11 +198,58 @@ export const MAILS = [
     },
 ];
 
+const APP = 'https://opernlog.vercel.app';
+
+/**
+ * Mails der Edge Function mail-senden. Keine Go-Template-Variablen: die
+ * Funktion ersetzt %%NAME%% durch den Namen des Absenders, im HTML schon
+ * maskiert. `klartext` ist der Teil für Programme, die kein HTML zeigen.
+ */
+export const FUNKTIONS_MAILS = [
+    {
+        name: 'anfrage',
+        betreff: '%%NAME%% möchte mit dir befreundet sein',
+        vorschau: '%%NAME%% möchte auf OpernLog mit dir befreundet sein.',
+        ueberschrift: 'Neue Freundschaftsanfrage',
+        text: '<strong style="color:#ffffff;">%%NAME%%</strong> möchte auf OpernLog mit dir befreundet sein. Als Freunde seht ihr eure Abende im Feed und die Fotos, die ihr für Freunde freigebt.',
+        knopf: 'Anfrage ansehen',
+        ziel: `${APP}/#/`,
+        seite: APP,
+        mehr: '',
+        fuss: `Du bekommst diese Mail, weil dir jemand auf OpernLog eine Freundschaftsanfrage geschickt hat. Abschalten kannst du solche Mails in der App unter <a href="${APP}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a>.`,
+        klartext: [
+            '%%NAME%% möchte auf OpernLog mit dir befreundet sein.',
+            '',
+            `Anfrage ansehen: ${APP}/#/`,
+            '',
+            'Du bekommst diese Mail, weil dir jemand auf OpernLog eine Freundschaftsanfrage geschickt hat.',
+            'Abschalten kannst du solche Mails in der App unter Profil → Profil bearbeiten → E-Mails.',
+        ].join('\n'),
+    },
+];
+
+/** Das Modul mit den Funktions-Mails, so wie es unter supabase/functions/ liegt. */
+export function vorlageModul() {
+    const vorlagen = Object.fromEntries(FUNKTIONS_MAILS.map(m => [m.name, {
+        betreff: m.betreff,
+        text: m.klartext,
+        html: mailHtml(m),
+    }]));
+    return `// Erzeugt von tests/werkzeug/mailvorlagen.mjs – NICHT von Hand bearbeiten,
+// sondern dort ändern und neu erzeugen.
+//
+// %%NAME%% ersetzt index.ts durch den Namen des Absenders – im HTML maskiert.
+
+export const VORLAGEN = ${JSON.stringify(vorlagen, null, 4)};
+`;
+}
+
 /** Die ganze Vorlage für eine Mail. */
 export function mailHtml(m) {
-    return `<!DOCTYPE html>
-<!--
-  ${m.dashboard} – Mailvorlage für OpernLog.
+    const ziel = m.ziel ?? '{{ .ConfirmationURL }}';
+    const seite = m.seite ?? '{{ .SiteURL }}';
+    const herkunft = m.dashboard
+        ? `${m.dashboard} – Mailvorlage für OpernLog.
 
   Erzeugt von tests/werkzeug/mailvorlagen.mjs – NICHT von Hand bearbeiten,
   sondern dort ändern und neu erzeugen.
@@ -204,7 +257,13 @@ export function mailHtml(m) {
   Eingespielt von Hand im Supabase-Dashboard: Authentication → Emails →
   Templates → ${m.dashboard}. Betreff: ${m.betreff}
   Supabase liest die Datei nicht von hier; nach jeder Änderung dort neu
-  einfügen.
+  einfügen.`
+        : `Mail "${m.name}" der Edge Function mail-senden.
+
+  Erzeugt von tests/werkzeug/mailvorlagen.mjs – NICHT von Hand bearbeiten.`;
+    return `<!DOCTYPE html>
+<!--
+  ${herkunft}
 -->
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -282,7 +341,7 @@ export function mailHtml(m) {
             <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
               <tr>
                 <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
-                  <a class="knopf" href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:${SANS}; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">${m.knopf}</a>
+                  <a class="knopf" href="${ziel}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:${SANS}; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">${m.knopf}</a>
                 </td>
               </tr>
             </table>
@@ -292,7 +351,7 @@ ${m.mehr}
               Geht der Knopf nicht? Dann öffne diesen Link:
             </p>
             <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
-              <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#c9a84c; text-decoration:underline;">{{ .ConfirmationURL }}</a>
+              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${ziel}</a>
             </p>
           </td>
         </tr>
@@ -309,7 +368,7 @@ ${m.mehr}
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;">
         <tr>
           <td align="center" style="padding:20px 16px 0; font-family:${SERIF}; font-size:13px; font-style:italic; color:#5d6873;">
-            <a href="{{ .SiteURL }}" target="_blank" style="color:#8a7a4a; text-decoration:none;">OpernLog</a> · Wie Letterboxd, nur für Oper
+            <a href="${seite}" target="_blank" style="color:#8a7a4a; text-decoration:none;">OpernLog</a> · Wie Letterboxd, nur für Oper
           </td>
         </tr>
       </table>
@@ -328,4 +387,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
         fs.writeFileSync(path.join(MAIL_ORDNER, m.datei), mailHtml(m));
         console.log(`${m.datei}  →  ${m.dashboard}  ·  Betreff: ${m.betreff}`);
     }
+    fs.writeFileSync(FUNKTIONS_VORLAGE, vorlageModul());
+    console.log(`${path.relative(WURZEL, FUNKTIONS_VORLAGE)}  →  Edge Function mail-senden`);
 }

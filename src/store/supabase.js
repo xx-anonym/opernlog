@@ -343,6 +343,30 @@ export async function pushTest() {
     return data === true;
 }
 
+// ── Mail bei Freundschaftsanfragen ───────────────────────────────────────
+// Eine Zeile je Konto in mail_einstellungen, nur für den Inhaber lesbar.
+// Keine Zeile heißt eingeschaltet (supabase/migrations/mail_anfrage_migration.sql).
+
+export async function mailBeiAnfrage() {
+    const session = await getSession();
+    if (!session) return true;
+    const sb = getSupabase();
+    const zeile = await retryRead(
+        () => sb.from('mail_einstellungen').select('bei_anfrage').eq('user_id', session.user.id).maybeSingle(),
+        'Mail-Einstellung lesen');
+    return zeile ? zeile.bei_anfrage !== false : true;
+}
+
+export async function mailBeiAnfrageSetzen(an) {
+    const session = await getSession();
+    if (!session) throw new SupabaseError('Mail-Einstellung speichern', { message: 'Nicht eingeloggt' });
+    const sb = getSupabase();
+    const result = await sb.from('mail_einstellungen')
+        .upsert({ user_id: session.user.id, bei_anfrage: !!an, geaendert_am: new Date().toISOString() }, { onConflict: 'user_id' })
+        .select();
+    return unwrapWritten(result, 'Mail-Einstellung speichern');
+}
+
 export async function signOut() {
     const sb = getSupabase();
     // Nur dieses Gerät. Ohne Angabe meldet Supabase überall ab: wer sich am
@@ -1252,7 +1276,8 @@ export async function meineDatenCloud() {
     const lesen = (tabelle, abfrage) => retryRead(() => abfrage(sb.from(tabelle)), `Datenexport: ${tabelle}`);
 
     const [profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
-        einladungen, vorschlaege, pushAbos, admin, werke, haeuser, komponisten, bildausschnitte, geplant] = await Promise.all([
+        einladungen, vorschlaege, pushAbos, admin, werke, haeuser, komponisten, bildausschnitte, geplant,
+        mailEinstellung] = await Promise.all([
         lesen('profiles', q => q.select('*').eq('id', ich).maybeSingle()),
         lesen('visits', q => q.select('*').eq('user_id', ich).order('date')),
         lesen('lists', q => q.select('*').eq('user_id', ich).order('created_at')),
@@ -1272,6 +1297,7 @@ export async function meineDatenCloud() {
         lesen('catalog_composers', q => q.select('*').eq('created_by', ich)),
         lesen('bild_ausschnitte', q => q.select('*').eq('geaendert_von', ich)),
         lesen('geplante_besuche', q => q.select('*').eq('user_id', ich).order('datum')),
+        lesen('mail_einstellungen', q => q.select('bei_anfrage, geaendert_am').eq('user_id', ich).maybeSingle()),
     ]);
 
     // Namen der anderen Seite von Freundschaften und Anfragen. profiles ist
@@ -1304,7 +1330,7 @@ export async function meineDatenCloud() {
             admin: !!admin,
         },
         profil, abende, listen, gesehen, kommentare, likes, ichFolge, folgenMir, anfragen,
-        einladungen, vorschlaege, pushAbos, passkeys, personen, geplant, andenken,
+        einladungen, vorschlaege, pushAbos, passkeys, personen, geplant, andenken, mailEinstellung,
         katalog: { werke, haeuser, komponisten, bildausschnitte },
     };
 }

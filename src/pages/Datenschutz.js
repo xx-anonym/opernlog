@@ -14,7 +14,7 @@
 import { escapeHTML } from '../utils.js';
 
 export const KONTAKT = 'uwematthias@icloud.com';
-export const STAND = '1. Oktober 2026';
+export const STAND = '2. November 2026';
 
 export function DatenschutzPage() {
     const page = document.createElement('div');
@@ -46,9 +46,17 @@ export function DatenschutzPage() {
           und andere Angaben der Kamera.</li>
         <li><strong>Mitteilungen:</strong> wenn du sie einschaltest, die Push-Adresse deines Geräts und wann
           welche Mitteilung verschickt wurde.</li>
+        <li><strong>E-Mails:</strong> ob du bei Freundschaftsanfragen eine Mail bekommen möchtest und wann
+          eine verschickt wurde.</li>
       </ul>
       <p>Rechtsgrundlage ist die Nutzung der App, um die du bittest (Art. 6 Abs. 1 lit. b DSGVO);
       Mitteilungen und Standort nur mit deiner Erlaubnis (lit. a).</p>
+
+      <h2>E-Mails</h2>
+      <p>OpernLog schickt dir Mails zur Anmeldung (Adresse bestätigen, Passwort zurücksetzen) und, solange
+      du es nicht abschaltest, eine Mail, wenn dir jemand eine Freundschaftsanfrage schickt. Abschalten
+      kannst du das jederzeit unter „Profil bearbeiten“ → <em>E-Mails</em>. Werbung oder Newsletter
+      verschickt OpernLog nicht.</p>
 
       <h2>Wer was sehen kann</h2>
       <p>OpernLog ist ein offenes Tagebuch: dein Profil, deine Abende mit Bewertungen und Reviews,
@@ -74,7 +82,9 @@ export function DatenschutzPage() {
         <li><strong>Wikimedia Commons</strong> (Wikimedia Foundation, USA): Bilder von Werken, Häusern und
           Komponisten lädt dein Browser direkt von dort, bei neuen Bildern auch ihren
           <a href="#/bildnachweise">Bildnachweis</a>; Wikimedia sieht dabei deine IP-Adresse.</li>
-        <li><strong>Google</strong>, nur wenn du dich mit Google anmeldest.</li>
+        <li><strong>Google</strong>, wenn du dich mit Google anmeldest. Außerdem verschickt OpernLog seine
+          Mails über ein Gmail-Konto (Google Ireland Ltd.); Google sieht dabei deine E-Mail-Adresse und den
+          Inhalt der Mail.</li>
         <li><strong>Push-Dienste</strong> von Apple, Google oder Mozilla (je nach Browser) stellen
           Mitteilungen zu, wenn du sie eingeschaltet hast.</li>
         <li><strong>Have I Been Pwned:</strong> Beim Registrieren und beim Ändern des Passworts prüft die App, ob es aus

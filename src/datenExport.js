@@ -73,6 +73,8 @@ export function datenExport(roh, { werke = [], haeuser = [], version = '', jetzt
         // null: die Liste ließ sich nicht laden – nicht dasselbe wie keine.
         passkeys: roh.passkeys ?? null,
         mitteilungen_geraete: (roh.pushAbos ?? []).map(({ p256dh, auth, ...rest }) => rest),
+        // Keine Zeile heißt: nie umgestellt, also eingeschaltet.
+        mail_bei_freundschaftsanfragen: roh.mailEinstellung ? roh.mailEinstellung.bei_anfrage !== false : true,
     };
 
     // Abende, die ohne Netz geloggt wurden und nur auf diesem Gerät liegen.

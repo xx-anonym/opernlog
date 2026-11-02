@@ -8,7 +8,7 @@
 //
 // Von Hand nachgeführt, weil ein klassischer Worker kein ES-Modul importieren
 // kann. tests/checks/version.test.js hält beide Stellen zusammen.
-const CACHE_NAME = 'opernlog-2026.10.31';
+const CACHE_NAME = 'opernlog-2026.11.02';
 
 // Getrennter Cache für Bilder: er überlebt eine Versionserhöhung der App-Shell,
 // damit ein Code-Update nicht 175 mühsam geladene Bilder wegwirft.
@@ -155,6 +155,7 @@ const APP_SHELL = [
     './src/kalender.js',
     './src/neuigkeiten.js',
     './src/components/Mitteilungen.js',
+    './src/components/MailEinstellungen.js',
     './src/components/MitteilungenFrage.js',
     './src/components/InstallHinweis.js',
     './src/pages/Naehe.js',

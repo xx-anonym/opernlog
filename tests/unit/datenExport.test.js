@@ -57,6 +57,7 @@ test('Freunde und Anfragen nennen die andere Person beim Namen', () => {
 test('die Schlüssel der Push-Abos kommen nicht in die Datei', () => {
     const e = datenExport(roh());
     assert.deepEqual(e.mitteilungen_geraete, [{ id: 'p1', endpoint: 'https://push.example/1' }]);
+    assert.equal(e.mail_bei_freundschaftsanfragen, true, 'ohne Zeile eingeschaltet');
     assert.doesNotMatch(JSON.stringify(e), /GEHEIM/);
 });
 
@@ -88,4 +89,10 @@ test('der Dateiname trägt das lokale Datum', () => {
     // nächste, je nach Zeitzone. Gebaut aus lokalen Angaben, passt es immer.
     assert.equal(exportDateiname(new Date(2026, 8, 27, 23, 59)), 'opernlog-daten-2026-09-27.json');
     assert.equal(exportDateiname(new Date(2027, 0, 5, 0, 1)), 'opernlog-daten-2027-01-05.json');
+});
+
+test('die Mail bei Freundschaftsanfragen: ohne Zeile an, abgeschaltet aus', () => {
+    assert.equal(datenExport(roh(), { werke: WERKE, haeuser: HAEUSER }).mail_bei_freundschaftsanfragen, true);
+    const aus = datenExport(roh({ mailEinstellung: { bei_anfrage: false, geaendert_am: '2026-11-02' } }), { werke: WERKE, haeuser: HAEUSER });
+    assert.equal(aus.mail_bei_freundschaftsanfragen, false);
 });
