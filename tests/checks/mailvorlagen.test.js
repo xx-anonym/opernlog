@@ -75,3 +75,47 @@ for (const datei of vorlagen) {
         assert.match(html, /<html lang="de"/);
     });
 }
+
+// ── Die Animation für Apple Mail ───────────────────────────────────────
+//
+// Sie darf nichts kosten, wo sie nicht läuft: Gmail und Outlook kennen
+// @keyframes nicht und müssen die Mail trotzdem vollständig zeigen.
+
+const styleBloecke = (html) => [...html.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(m => m[1]);
+const ohneKeyframes = (css) => css.replace(/@keyframes\s+\w+\s*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
+
+for (const datei of vorlagen) {
+    const html = lies(datei);
+    const bloecke = styleBloecke(html);
+    const auftritt = bloecke.find(b => b.includes('@keyframes'));
+
+    test(`${datei}: die Animation steht in einem eigenen <style>-Block`, () => {
+        assert.ok(auftritt, 'keine Animation gefunden');
+        assert.equal(bloecke.filter(b => b.includes('@keyframes')).length, 1);
+        assert.ok(!auftritt.includes('@font-face') && !auftritt.includes('.innen'),
+            'Schriften oder Grundgerüst im selben Block – verwirft ein Programm ihn, wären sie mit weg');
+    });
+
+    test(`${datei}: animiert wird nur, wo niemand "Bewegung reduzieren" eingeschaltet hat`, () => {
+        const rest = ohneKeyframes(auftritt);
+        const media = rest.match(/@media \(prefers-reduced-motion: no-preference\) \{([\s\S]*)\}\s*$/);
+        assert.ok(media, 'kein Block für prefers-reduced-motion');
+        const draussen = rest.replace(media[0], '');
+        assert.ok(!/animation\s*:/.test(draussen), `animation außerhalb des Blocks:\n${draussen}`);
+    });
+
+    test(`${datei}: nach dem Auftritt gilt wieder der eigene Stil (Füllmodus backwards)`, () => {
+        // An Kommas trennen, aber nicht an denen in cubic-bezier(…).
+        const angaben = [...auftritt.matchAll(/animation\s*:([^;]+);/g)].flatMap(m => m[1].split(/,(?![^(]*\))/));
+        assert.ok(angaben.length >= 8);
+        for (const a of angaben) assert.match(a, /\bbackwards\b/, a.trim());
+    });
+
+    test(`${datei}: unsichtbar ist etwas nur innerhalb der @keyframes`, () => {
+        // Sonst bliebe es in einem Programm ohne Animation für immer unsichtbar.
+        const ohne = ohneKeyframes(html)
+            .replace(/<div style="display:none;[^"]*"/, '');   // die Vorschauzeile – sie soll unsichtbar sein
+        assert.ok(!/opacity\s*:\s*0(?![.\d])/.test(ohne), 'opacity:0 außerhalb der Keyframes');
+        assert.ok(!/visibility\s*:\s*hidden/.test(ohne));
+    });
+}
