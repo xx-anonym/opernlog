@@ -19,6 +19,15 @@
 // höchstens 600 px, Farben auch als bgcolor für Outlook. Die Schriften der App
 // laden nur Programme, die das können (Apple Mail, iOS); die anderen nehmen
 // Georgia und Helvetica. Bild und Schriften kommen von der eigenen Seite.
+//
+// Apple Mail (iPhone, iPad, Mac) spielt beim Öffnen eine kurze Animation:
+// der Vorhang geht auf, die Masken schweben ein, die Rampe leuchtet, Text und
+// Knopf treten auf. Sie ist reine Zugabe. Jede Animation endet genau beim
+// unbewegten Bild, und versteckt wird nur innerhalb der @keyframes – ein
+// Programm, das sie nicht kennt (Gmail, Outlook), zeigt die Mail wie sie ist.
+// Wer "Bewegung reduzieren" eingeschaltet hat, bekommt sie ebenfalls ruhig.
+// Sie steht in einem eigenen <style>-Block: verwirft ein Programm ihn, bleibt
+// der Rest der Gestaltung.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -45,7 +54,7 @@ function liste(titel, zeilen) {
                 </tr></table>
               </td></tr>`;
     return `
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
+            <table class="mehr" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
               ${zwischentitel(titel)}${zeilen.map((z, i) => zeile(z, i === zeilen.length - 1)).join('')}
             </table>`;
 }
@@ -53,11 +62,87 @@ function liste(titel, zeilen) {
 /** Ein Hinweis unter dem Knopf, etwa ein Tipp. */
 function hinweis(titel, text) {
     return `
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
+            <table class="mehr" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
               ${zwischentitel(titel)}
               <tr><td style="padding:6px 0 24px; font-family:${SANS}; font-size:15px; line-height:1.6; color:#c8cdd2;">${text}</td></tr>
             </table>`;
 }
+
+/**
+ * Der Auftritt in Apple Mail, gut zwei Sekunden, einmal beim Öffnen.
+ *
+ * Der Vorhang ist kein eigenes Element – zusätzliche Ebenen bräuchten
+ * position:absolute, und das verwirft Gmail; dort stünden sie mitten in der
+ * Mail. Stattdessen sind es zwei Schatten innen am Kopf, die von beiden
+ * Seiten zur Mitte reichen und auseinanderfahren. Sie sind halb durchsichtig:
+ * die Falten schimmern durch wie bei einem Vorhang im Dunkeln. min(50vw,
+ * 300px) ist die halbe Breite der Karte: am Handy die halbe Bildschirmbreite,
+ * sonst 300 px.
+ *
+ * Füllmodus backwards, nicht both: während der Wartezeit gilt der Anfang der
+ * Animation, danach wieder genau der eigene Stil der Mail – nichts bleibt als
+ * Schlusswert der Animation hängen.
+ *
+ * Der Knopf tritt als ganze Tabelle auf: sein Rot liegt auf der Zelle, nicht
+ * auf dem Link – bewegte sich nur der Link, stünde vorher ein leerer Kasten da.
+ */
+const AUFTRITT = `
+  @keyframes vorhang {
+    0%, 12% {
+      box-shadow:
+        inset min(50vw, 300px) 0 0 rgba(22,3,7,0.8),
+        inset calc(-1 * min(50vw, 300px)) 0 0 rgba(22,3,7,0.8),
+        inset calc(min(50vw, 300px) + 18px) 0 18px -8px rgba(0,0,0,0.65),
+        inset calc(-1 * min(50vw, 300px) - 18px) 0 18px -8px rgba(0,0,0,0.65);
+    }
+    100% {
+      box-shadow:
+        inset 0 0 0 rgba(22,3,7,0),
+        inset 0 0 0 rgba(22,3,7,0),
+        inset 0 0 0 rgba(0,0,0,0),
+        inset 0 0 0 rgba(0,0,0,0);
+    }
+  }
+  @keyframes falten {
+    0% { background-position: -22px 0; }
+    45% { background-position: 9px 0; }
+    75% { background-position: -3px 0; }
+    100% { background-position: 0 0; }
+  }
+  @keyframes schweben {
+    0% { opacity: 0; transform: translateY(-16px) scale(0.9); box-shadow: 0 0 0 rgba(223,192,106,0); }
+    60% { opacity: 1; transform: none; box-shadow: 0 0 36px rgba(223,192,106,0.55); }
+    100% { opacity: 1; transform: none; box-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+  }
+  @keyframes einblenden {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes auftreten {
+    0% { opacity: 0; transform: translateY(14px); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes rampenlicht {
+    0%, 100% { filter: brightness(1); }
+    40% { filter: brightness(1.9) saturate(1.2); }
+  }
+  @keyframes leuchten {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0), 0 0 0 rgba(223,192,106,0); }
+    40% { box-shadow: 0 0 0 7px rgba(201,168,76,0.28), 0 0 28px rgba(223,192,106,0.4); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .vorhang { animation: vorhang 1.5s 0.15s cubic-bezier(0.7, 0, 0.3, 1) backwards, falten 2s 0.2s ease-out backwards; }
+    .logo { animation: schweben 1.1s 0.55s ease-out backwards; }
+    .marke { animation: einblenden 0.8s 0.85s ease-out backwards; }
+    .motto { animation: einblenden 0.8s 1s ease-out backwards; }
+    .kante { animation: rampenlicht 1.2s 1.1s ease-in-out backwards; }
+    .titel { animation: auftreten 0.8s 1.2s cubic-bezier(0.2, 0.7, 0.3, 1) backwards; }
+    .einleitung { animation: auftreten 0.8s 1.35s cubic-bezier(0.2, 0.7, 0.3, 1) backwards; }
+    .knopftabelle { animation: auftreten 0.8s 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) backwards; }
+    .knopf { animation: leuchten 1.4s 2.3s ease-in-out backwards; }
+    .mehr { animation: einblenden 1s 1.8s ease-out backwards; }
+  }
+`;
 
 /**
  * Die Mails. `dashboard` ist der Name der Vorlage im Supabase-Dashboard,
@@ -143,6 +228,8 @@ export function mailHtml(m) {
     font-weight: 300 800;
     src: url('${SEITE}/fonts/dm-sans-normal-latin.woff2') format('woff2');
   }
+</style>
+<style>
   :root { color-scheme: dark; supported-color-schemes: dark; }
   body { margin: 0; padding: 0; }
   a.knopf:hover { background-color: #b22d40 !important; }
@@ -152,6 +239,8 @@ export function mailHtml(m) {
     .titel { font-size: 28px !important; }
   }
 </style>
+<!-- Der Auftritt, nur wo Animationen laufen (Apple Mail). -->
+<style>${AUFTRITT}</style>
 </head>
 <body style="margin:0; padding:0; background-color:#0e1114;">
 
@@ -168,15 +257,15 @@ export function mailHtml(m) {
 
         <!-- Kopf: der Vorhang -->
         <tr>
-          <td align="center" bgcolor="#5c111c" style="background-color:#5c111c; background-image:repeating-linear-gradient(90deg, #5c111c 0px, #7a1626 14px, #8b1a2b 22px, #6a1422 32px, #5c111c 44px); padding:36px 24px 30px;">
-            <img src="${SEITE}/icons/icon-any-192.png" width="72" height="72" alt="" style="display:block; width:72px; height:72px; border:0; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.45);">
-            <div style="margin-top:14px; font-family:${SERIF}; font-size:30px; font-weight:700; letter-spacing:1px; color:#dfc06a;">OpernLog</div>
-            <div style="margin-top:4px; font-family:${SANS}; font-size:13px; letter-spacing:0.5px; color:#e8d6d9;">Dein persönliches Operntagebuch</div>
+          <td class="vorhang" align="center" bgcolor="#5c111c" style="background-color:#5c111c; background-image:repeating-linear-gradient(90deg, #5c111c 0px, #7a1626 14px, #8b1a2b 22px, #6a1422 32px, #5c111c 44px); padding:36px 24px 30px;">
+            <img class="logo" src="${SEITE}/icons/icon-any-192.png" width="72" height="72" alt="" style="display:block; width:72px; height:72px; border:0; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.45);">
+            <div class="marke" style="margin-top:14px; font-family:${SERIF}; font-size:30px; font-weight:700; letter-spacing:1px; color:#dfc06a;">OpernLog</div>
+            <div class="motto" style="margin-top:4px; font-family:${SANS}; font-size:13px; letter-spacing:0.5px; color:#e8d6d9;">Dein persönliches Operntagebuch</div>
           </td>
         </tr>
         <!-- Goldene Kante unter dem Vorhang -->
         <tr>
-          <td height="3" bgcolor="#c9a84c" style="height:3px; line-height:3px; font-size:3px; background-color:#c9a84c; background-image:linear-gradient(90deg, #a08030, #dfc06a, #a08030);">&nbsp;</td>
+          <td class="kante" height="3" bgcolor="#c9a84c" style="height:3px; line-height:3px; font-size:3px; background-color:#c9a84c; background-image:linear-gradient(90deg, #a08030, #dfc06a, #a08030);">&nbsp;</td>
         </tr>
 
         <!-- Inhalt -->
@@ -185,12 +274,12 @@ export function mailHtml(m) {
             <h1 class="titel" style="margin:0 0 16px; font-family:${SERIF}; font-size:32px; line-height:1.2; font-weight:700; color:#ffffff;">
               ${m.ueberschrift}
             </h1>
-            <p style="margin:0 0 28px; font-size:16px; line-height:1.6; color:#c8cdd2;">
+            <p class="einleitung" style="margin:0 0 28px; font-size:16px; line-height:1.6; color:#c8cdd2;">
               ${m.text}
             </p>
 
             <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
               <tr>
                 <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
                   <a class="knopf" href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:${SANS}; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">${m.knopf}</a>
@@ -199,10 +288,10 @@ export function mailHtml(m) {
             </table>
 ${m.mehr}
             <!-- Rückfall, falls der Knopf nicht geht -->
-            <p style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
+            <p class="mehr" style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
               Geht der Knopf nicht? Dann öffne diesen Link:
             </p>
-            <p style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
+            <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
               <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#c9a84c; text-decoration:underline;">{{ .ConfirmationURL }}</a>
             </p>
           </td>
@@ -210,7 +299,7 @@ ${m.mehr}
 
         <!-- Fuß -->
         <tr>
-          <td class="innen" bgcolor="#161b20" style="padding:22px 48px 26px; background-color:#161b20; font-family:${SANS}; font-size:12px; line-height:1.6; color:#7b8794;">
+          <td class="innen mehr" bgcolor="#161b20" style="padding:22px 48px 26px; background-color:#161b20; font-family:${SANS}; font-size:12px; line-height:1.6; color:#7b8794;">
             ${m.fuss}
           </td>
         </tr>

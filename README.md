@@ -82,6 +82,14 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   | `passwort.html` | Reset Password | Ein neues Passwort für OpernLog |
   | `email-aendern.html` | Change Email Address | Bestätige deine neue E-Mail-Adresse für OpernLog |
 
+  In Apple Mail (iPhone, iPad, Mac) haben die Mails einen kurzen Auftritt:
+  der Vorhang geht auf, die Masken schweben ein, Text und Knopf folgen. Gmail
+  und Outlook kennen keine CSS-Animationen und zeigen die Mail unbewegt, ebenso
+  jedes Gerät mit „Bewegung reduzieren“. Die Animation endet genau beim
+  unbewegten Bild und versteckt nur innerhalb der `@keyframes` etwas – sonst
+  bliebe es in Gmail für immer unsichtbar; `tests/browser/mailAnimation.test.js`
+  prüft das.
+
   „E-Mail ändern“ bietet die App selbst nicht an; die Mail geht nur hinaus,
   wenn die Adresse im Dashboard oder über die Schnittstelle geändert wird.
   Logo und Schriften laden die Mails von `opernlog.vercel.app`;
