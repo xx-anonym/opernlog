@@ -68,6 +68,26 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   anlegen und in den SMTP-Einstellungen eintragen. Scheitert der Versand, steht
   im Formular ein deutscher Satz statt der englischen Meldung von Supabase
   (`authFehlertext()` in `src/utils.js`).
+
+  Die Mails sind gestaltet wie die App – Vorhang, goldene Kante,
+  bordeauxroter Knopf – und liegen unter `supabase/templates/`. Erzeugt werden
+  alle drei aus einem Gerüst (`node tests/werkzeug/mailvorlagen.mjs`); dort
+  ändern, nicht in den Dateien. Supabase liest sie nicht aus dem Repo: nach
+  einer Änderung den ganzen Inhalt unter Authentication → Emails → Templates
+  einfügen, mit dem Betreff, der im Kopf jeder Datei steht.
+
+  | Datei | Vorlage im Dashboard | Betreff |
+  | --- | --- | --- |
+  | `registrierung.html` | Confirm signup | Vorhang auf – bestätige deine E-Mail für OpernLog |
+  | `passwort.html` | Reset Password | Ein neues Passwort für OpernLog |
+  | `email-aendern.html` | Change Email Address | Bestätige deine neue E-Mail-Adresse für OpernLog |
+
+  „E-Mail ändern“ bietet die App selbst nicht an; die Mail geht nur hinaus,
+  wenn die Adresse im Dashboard oder über die Schnittstelle geändert wird.
+  Logo und Schriften laden die Mails von `opernlog.vercel.app`;
+  `tests/checks/mailvorlagen.test.js` prüft, dass es sie dort gibt, dass jeder
+  Knopf auf den Bestätigungslink führt und dass die Dateien dem Werkzeug
+  entsprechen.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil
