@@ -5,12 +5,17 @@
 // erst auf, wenn eine echte Mail kaputt ankommt: ein Knopf ohne Link, ein Bild
 // von einer Adresse, die es nicht mehr gibt, eine Mail, die Gmail abschneidet.
 // Diese Prüfungen fangen das vorher.
+//
+// Die Dateien erzeugt tests/werkzeug/mailvorlagen.mjs aus einem gemeinsamen
+// Gerüst; von Hand geändert, liefen sie auseinander.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { MAILS, mailHtml } from '../werkzeug/mailvorlagen.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ORDNER = path.join(WURZEL, 'supabase/templates');
@@ -19,8 +24,13 @@ const SEITE = 'https://opernlog.vercel.app/';
 const vorlagen = fs.readdirSync(ORDNER).filter(d => d.endsWith('.html'));
 const lies = (datei) => fs.readFileSync(path.join(ORDNER, datei), 'utf8');
 
-test('es gibt die Registrierungsmail', () => {
-    assert.ok(vorlagen.includes('registrierung.html'), vorlagen.join(', '));
+test('je Mail genau eine Datei, so wie das Werkzeug sie erzeugt', () => {
+    assert.deepEqual([...vorlagen].sort(), MAILS.map(m => m.datei).sort());
+    for (const m of MAILS) {
+        assert.equal(lies(m.datei), mailHtml(m),
+            `${m.datei} weicht ab – node tests/werkzeug/mailvorlagen.mjs laufen lassen`);
+    }
+    assert.deepEqual(MAILS.map(m => m.dashboard).sort(), ['Change Email Address', 'Confirm signup', 'Reset Password']);
 });
 
 for (const datei of vorlagen) {
@@ -32,7 +42,7 @@ for (const datei of vorlagen) {
 
     test(`${datei}: nur Variablen, die Supabase kennt, und jedes if hat sein end`, () => {
         const aktionen = [...html.matchAll(/\{\{\s*(.*?)\s*\}\}/g)].map(m => m[1]);
-        const bekannt = /^(\.ConfirmationURL|\.SiteURL|\.RedirectTo|\.Email|\.Token|\.TokenHash|\.Data\.\w+|if \.Data\.\w+|else|end)$/;
+        const bekannt = /^(\.ConfirmationURL|\.SiteURL|\.RedirectTo|\.Email|\.NewEmail|\.Token|\.TokenHash|\.Data\.\w+|if \.Data\.\w+|else|end)$/;
         for (const a of aktionen) assert.match(a, bekannt, `unbekannt: {{ ${a} }}`);
         const ifs = aktionen.filter(a => a.startsWith('if ')).length;
         assert.equal(aktionen.filter(a => a === 'end').length, ifs);

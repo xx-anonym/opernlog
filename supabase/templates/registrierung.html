@@ -1,24 +1,14 @@
 <!DOCTYPE html>
 <!--
-  Registrierungsmail ("Confirm signup") für OpernLog.
+  Confirm signup – Mailvorlage für OpernLog.
+
+  Erzeugt von tests/werkzeug/mailvorlagen.mjs – NICHT von Hand bearbeiten,
+  sondern dort ändern und neu erzeugen.
 
   Eingespielt von Hand im Supabase-Dashboard: Authentication → Emails →
-  Templates → Confirm signup. Betreff: Vorhang auf – bestätige deine E-Mail
-  für OpernLog. Ändert sich diese Datei, dort neu einfügen; Supabase liest sie
-  nicht von hier. tests/checks/mailvorlagen.test.js hält sie im Rahmen.
-
-  Gebaut für Mailprogramme, nicht für Browser: Tabellen statt Flexbox, alles
-  Wichtige als Inline-Style (Gmail wirft vieles aus <style> weg), Breite
-  höchstens 600 px, Farben auch als bgcolor für Outlook. Die Schriften der App
-  laden nur Programme, die das können (Apple Mail, iOS); die anderen nehmen
-  Georgia und Helvetica. Bild und Schriften kommen von der eigenen Seite, nicht
-  von Dritten.
-
-  Variablen (Go-Template, von Supabase gefüllt; hier im Kommentar bewusst ohne
-  geschweifte Klammern, sonst versuchte Supabase auch sie auszuwerten):
-    .ConfirmationURL  der Bestätigungslink
-    .Data.username    der Name aus der Registrierung (user_metadata)
-    .SiteURL          die Adresse der App
+  Templates → Confirm signup. Betreff: Vorhang auf – bestätige deine E-Mail für OpernLog
+  Supabase liest die Datei nicht von hier; nach jeder Änderung dort neu
+  einfügen.
 -->
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -97,9 +87,8 @@
               </tr>
             </table>
 
-            <!-- Was wartet -->
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
-              <tr><td style="padding:22px 0 6px; font-family:'Playfair Display', Georgia, serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#c9a84c;">Was dich erwartet</td></tr>
+              <tr><td style="padding:22px 0 6px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#c9a84c;">Was dich erwartet</td></tr>
               <tr><td style="padding:6px 0;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
                   <td valign="top" width="24" style="width:24px; font-size:15px; line-height:1.5; color:#c9a84c;">&#10022;</td>
@@ -119,7 +108,6 @@
                 </tr></table>
               </td></tr>
             </table>
-
             <!-- Rückfall, falls der Knopf nicht geht -->
             <p style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
               Geht der Knopf nicht? Dann öffne diesen Link:
@@ -141,7 +129,7 @@
       <!-- Unter der Karte -->
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;">
         <tr>
-          <td align="center" style="padding:20px 16px 0; font-family:'Playfair Display', Georgia, serif; font-size:13px; font-style:italic; color:#5d6873;">
+          <td align="center" style="padding:20px 16px 0; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:13px; font-style:italic; color:#5d6873;">
             <a href="{{ .SiteURL }}" target="_blank" style="color:#8a7a4a; text-decoration:none;">OpernLog</a> · Wie Letterboxd, nur für Oper
           </td>
         </tr>
