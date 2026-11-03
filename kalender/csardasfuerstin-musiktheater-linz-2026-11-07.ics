@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:csardasfuerstin-musiktheater-linz-2026-11-07@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Vienna:20261107T193000
-DTEND;TZID=Europe/Vienna:20261107T223000
+DTEND;TZID=Europe/Vienna:20261107T222000
 SUMMARY:Die Csárdásfürstin – Musiktheater Linz
 LOCATION:Musiktheater Linz\, Österreich
 GEO:48.2965;14.2931

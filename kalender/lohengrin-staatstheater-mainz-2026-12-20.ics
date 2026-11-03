@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:lohengrin-staatstheater-mainz-2026-12-20@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261220T150000
-DTEND;TZID=Europe/Berlin:20261220T192000
+DTEND;TZID=Europe/Berlin:20261220T193000
 SUMMARY:Lohengrin – Staatstheater Mainz
 LOCATION:Staatstheater Mainz\, Deutschland
 GEO:50;8.272

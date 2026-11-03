@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:elisir-opernhaus-zuerich-2027-05-12@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Zurich:20270512T193000
-DTEND;TZID=Europe/Zurich:20270512T222000
+DTEND;TZID=Europe/Zurich:20270512T221000
 SUMMARY:L'elisir d'amore – Opernhaus Zürich
 LOCATION:Opernhaus Zürich\, Schweiz
 GEO:47.365;8.546

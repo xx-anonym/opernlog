@@ -21,20 +21,19 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:fledermaus-theater-hagen-2027-04-17@opernlog.vercel.app
+UID:fledermaus-theater-bielefeld-2027-03-28@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270417T193000
-DTEND;TZID=Europe/Berlin:20270417T223000
-SUMMARY:Die Fledermaus – Theater Hagen
-LOCATION:Theater Hagen\, Deutschland
-GEO:51.36;7.47
+DTSTART;TZID=Europe/Berlin:20270328T193000
+DTEND;TZID=Europe/Berlin:20270328T223000
+SUMMARY:Die Fledermaus – Theater Bielefeld
+LOCATION:Theater Bielefeld\, Deutschland
+GEO:52.02074;8.53496
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Hagen, Deutschland":geo:51.36,7.47
-URL:https://www.theaterhagen.de/veranstaltung/die-fledermaus-2033/0/show/Pl
- ay/
+ AME=1;X-TITLE="Theater Bielefeld, Deutschland":geo:52.02074,8.53496
+URL:https://www.buo-bielefeld.de/theater/veranstaltung/die-fledermaus
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
- www.theaterhagen.de/veranstaltung/die-fledermaus-2033/0/show/Play/\nDas En
- de ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite
-  des Hauses.
+ www.buo-bielefeld.de/theater/veranstaltung/die-fledermaus\nDas Ende ist ge
+ schätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Haus
+ es.
 END:VEVENT
 END:VCALENDAR

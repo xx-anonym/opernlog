@@ -21,18 +21,19 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:samson-dalila-theater-bremerhaven-2027-04-03@opernlog.vercel.app
+UID:fledermaus-theater-bielefeld-2027-04-03@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20270403T193000
 DTEND;TZID=Europe/Berlin:20270403T223000
-SUMMARY:Samson et Dalila – Stadttheater Bremerhaven
-LOCATION:Stadttheater Bremerhaven\, Deutschland
-GEO:53.544;8.582
+SUMMARY:Die Fledermaus – Theater Bielefeld
+LOCATION:Theater Bielefeld\, Deutschland
+GEO:52.02074;8.53496
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Stadttheater Bremerhaven, Deutschland":geo:53.544,8.582
-URL:https://stadttheaterbremerhaven.de/samson-et-dalila/
-DESCRIPTION:Camille Saint-Saëns: Samson et Dalila\nTermine und Karten: htt
- ps://stadttheaterbremerhaven.de/samson-et-dalila/\nDas Ende ist geschätzt
-  (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ AME=1;X-TITLE="Theater Bielefeld, Deutschland":geo:52.02074,8.53496
+URL:https://www.buo-bielefeld.de/theater/veranstaltung/die-fledermaus
+DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
+ www.buo-bielefeld.de/theater/veranstaltung/die-fledermaus\nDas Ende ist ge
+ schätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Haus
+ es.
 END:VEVENT
 END:VCALENDAR

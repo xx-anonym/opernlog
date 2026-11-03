@@ -57,6 +57,12 @@
       "werk": "pagliacci",
       "url": "der-bajazzo-pagliacci",
       "grund": "Produktion von 2021; die Seite nennt nur „hat am 30. Oktober Premiere“ aus einem Probenbericht ohne Jahr – kein Termin der laufenden Spielzeit"
+    },
+    {
+      "haus": "nationaltheater-mannheim",
+      "werk": "fliegender-hollaender",
+      "url": "oper-im-kino",
+      "grund": "„Oper im Kino“ – Übertragung im Kino, keine Vorstellung im Haus"
     }
   ],
   "aufnehmen": [
@@ -221,6 +227,14 @@
         "2027-01-30"
       ],
       "grund": "Workshop, Treffpunkt Bühnenpforte"
+    },
+    {
+      "haus": "theater-ulm",
+      "werk": "cosi-fan-tutte",
+      "termine": [
+        "2026-12-13"
+      ],
+      "grund": "Matinée im Hauptfoyer"
     },
     {
       "haus": "theater-krefeld-mg",

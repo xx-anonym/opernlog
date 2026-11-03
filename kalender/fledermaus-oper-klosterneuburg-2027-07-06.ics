@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fledermaus-oper-klosterneuburg-2027-07-06@opernlog.vercel.app
+DTSTAMP:20260923T000000Z
+DTSTART;VALUE=DATE:20270706
+DTEND;VALUE=DATE:20270707
+SUMMARY:Die Fledermaus – Oper Klosterneuburg
+LOCATION:Oper Klosterneuburg\, Österreich
+GEO:48.3055;16.3253
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Oper Klosterneuburg, Österreich":geo:48.3055,16.3253
+URL:https://www.operklosterneuburg.at/?kat=21&Die%20Fledermaus
+DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
+ www.operklosterneuburg.at/?kat=21&Die%20Fledermaus\nDie Uhrzeit steht auf 
+ der Seite des Hauses.\nAus OpernLog – maßgeblich ist die Seite des Haus
+ es.
+END:VEVENT
+END:VCALENDAR
