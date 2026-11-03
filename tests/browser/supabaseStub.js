@@ -96,6 +96,10 @@ window.__fehlerMeldungen = [];  // was ins Fehlerprotokoll geschrieben wurde
 // Geplante Besuche: Zeilen wie in der Datenbank. __geplantVorgabe per
 // addInitScript setzen, wenn beim Start schon welche da sein sollen.
 window.__geplant = window.__geplantVorgabe || [];
+// Mail bei Freundschaftsanfragen: null heißt keine Zeile (= eingeschaltet).
+window.__mailEinstellung = window.__mailEinstellungVorgabe || null;
+window.__mailSchreiben = [];
+window.__mailFehler = null;
 window.__geplantFehler = null;   // gesetzt: jedes Anlegen scheitert damit
 // Andenken: Zeilen wie in der Datenbank (__andenkenVorgabe), die Dateien im
 // Speicher als { pfad: { typ, groesse, cache } }. Gelesen wird wie unter RLS:
@@ -134,6 +138,17 @@ function builder(table) {
           if (!window.__lists.includes(zeile)) window.__lists.push(zeile);
         }
         return Promise.resolve({ data: single ? zeile : [zeile], error: null }).then(res, rej);
+      }
+      if (table === 'mail_einstellungen') {
+        // Wie die Regeln: nur die eigene Zeile, lesen und schreiben.
+        if (op === 'upsert') {
+          if (window.__mailFehler) return Promise.resolve({ data: null, error: { message: window.__mailFehler } }).then(res, rej);
+          window.__mailEinstellung = { user_id: UID, bei_anfrage: nutzlast.bei_anfrage };
+          window.__mailSchreiben.push(nutzlast);
+          return Promise.resolve({ data: [window.__mailEinstellung], error: null }).then(res, rej);
+        }
+        const zeile = window.__mailEinstellung;
+        return Promise.resolve({ data: single ? zeile : (zeile ? [zeile] : []), error: null }).then(res, rej);
       }
       if (table === 'admins') {
         // Die Regel in der Datenbank zeigt jedem nur die eigene Zeile.

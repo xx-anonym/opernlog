@@ -20,6 +20,7 @@ import { kontoLoeschModal } from '../components/KontoLoeschen.js';
 import { passkeyBereich } from '../components/Passkeys.js';
 import { datenExportBereich } from '../components/DatenExport.js';
 import { mitteilungenBereich } from '../components/Mitteilungen.js';
+import { mailBereich } from '../components/MailEinstellungen.js';
 import { passkeysMoeglich } from '../passkey.js';
 import { eigeneSammlungen, begonnen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
 import { fortschritt } from '../data/sammlungen.js';
@@ -908,6 +909,10 @@ function renderLocalProfile(page, userId, isMe) {
     // braucht man selten. Kann der Browser keine, bleibt der Bereich weg.
     const mitteilungen = mitteilungenBereich();
     if (mitteilungen) ziel.appendChild(mitteilungen);
+
+    // Mails gelten fürs Konto, nicht fürs Gerät – deshalb gleich darunter,
+    // aber auch dann, wenn der Browser keine Push-Mitteilungen kann.
+    ziel.appendChild(mailBereich());
 
     // Passkeys nur in Browsern, die WebAuthn können. Sonst stünde da ein
     // Knopf, der beim Drücken bloß "geht nicht" sagt.

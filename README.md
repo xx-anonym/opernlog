@@ -96,6 +96,27 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   `tests/checks/mailvorlagen.test.js` prüft, dass es sie dort gibt, dass jeder
   Knopf auf den Bestätigungslink führt und dass die Dateien dem Werkzeug
   entsprechen.
+- **Mail bei Freundschaftsanfragen:** Wem jemand eine Anfrage schickt, der
+  bekommt eine Mail im Stil der übrigen („*Name* möchte mit dir befreundet
+  sein“), höchstens eine je Absender in sieben Tagen. Alle bekommen sie, bis
+  sie sie unter „Profil bearbeiten“ → E-Mails abschalten; die Einstellung
+  liegt in `mail_einstellungen`, für niemanden sonst lesbar.
+
+  Der Weg ist der der Push-Mitteilungen: der Auslöser `mail_bei_anfrage`
+  (`supabase/migrations/mail_anfrage_migration.sql`) ruft über pg_net die Edge
+  Function `mail-senden`, ausgewiesen mit demselben Geheimnis aus dem Vault.
+  Die Funktion bekommt nur zwei Kennungen; Adresse und Name holt sie selbst,
+  und nur, wenn wirklich eine offene Anfrage besteht. Verschickt wird über
+  Gmail per SMTP auf Port 465 (Supabase sperrt für Edge Functions 25 und 587),
+  ohne Fremdbibliothek (`smtp.js`, `nachricht.js`, geprüft in
+  `tests/unit/smtp.test.js`). Die Mail selbst erzeugt
+  `tests/werkzeug/mailvorlagen.mjs` nach `vorlage.js`.
+
+  Gmail-Adresse und ein **eigenes App-Passwort** stehen in den Secrets der
+  Edge Functions (`MAIL_ADRESSE`, `MAIL_APP_PASSWORT`), nicht im Repo. Für das
+  App-Passwort gilt dasselbe wie für das des Postausgangs: ändert sich das
+  Google-Passwort, verfällt es, und es geht keine Mail mehr hinaus – die
+  Funktion protokolliert dann einen Fehler bei der Anmeldung.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil

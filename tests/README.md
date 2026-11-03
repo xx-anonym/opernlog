@@ -29,6 +29,7 @@ node --test "tests/**/*.test.js"
 | `sterne.test.js` | Sterne als Text, auch bei Noten außerhalb von 0 bis 5 |
 | `authFehlertext.test.js` | Fehler beim Anmelden, Registrieren und Zurücksetzen als deutscher Satz: Postausgang, Stundenlimit, Wartezeit, unbestätigte E-Mail; Unbekanntes bleibt stehen |
 | `webpush.test.js` | Verschlüsselung Byte für Byte gegen RFC 8291, VAPID-Ausweis, nur bekannte Push-Dienste |
+| `smtp.test.js` | Mailversand der Edge Function mail-senden: SMTP-Ablauf gegen einen gespielten Server, Anmeldung ohne Passwort im Fehler, Punkte am Zeilenanfang, keine eingeschleusten Befehle oder Kopfzeilen; Betreff und MIME-Teile verlustfrei |
 | `push.test.js` | Push auf dem Gerät: iPhone im Safari-Tab, Ein- und Ausschalten, Abmelden |
 | `swPush.test.js` | der Service Worker zeigt Mitteilungen an und führt beim Tippen an die richtige Stelle |
 | `swBilder.test.js` | der Service Worker holt Bilder mit CORS (echte Größe statt rund 7 MB je Bild) und zeigt sie auch, wenn das Speichern scheitert |
@@ -53,6 +54,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `rls.test.js` | nur die bewusst öffentlichen Tabellen sind für jeden lesbar |
 | `visitsPruefungen.test.js` | Datenbank und App prüfen Werk- und Hauskennungen gleich |
 | `push.test.js` | Datenbank und Edge Function erlauben dieselben Push-Dienste; jeder Anlass hat einen Auslöser |
+| `mail.test.js` | Mail bei Freundschaftsanfragen: Vorlage in der Funktion = Werkzeug, Auslöser nur für neue offene Anfragen, abschaltbar, höchstens eine in sieben Tagen; Adresse nur für die Funktion; Gmail auf Port 465 |
 | `spielplan.test.js` | die erzeugte Spielplandatei passt zum Katalog: Werke, Häuser, Daten, Links |
 | `kalenderDateien.test.js` | unter `kalender/` liegt zu jedem Termin im Spielplan genau eine Kalenderdatei, mit dem Inhalt, den die App selbst erzeugen würde; auch für Werke, die nur in der Datenbank stehen |
 | `mailvorlagen.test.js` | die drei Mailvorlagen unter `supabase/templates/` entsprechen dem Werkzeug `mailvorlagen.mjs`; Knopf mit Bestätigungslink, nur Variablen, die Supabase kennt, Bilder und Schriften nur von der eigenen Seite und dort vorhanden, klein genug für Gmail; die Animation im eigenen `<style>`-Block, nur ohne „Bewegung reduzieren“, Füllmodus `backwards`, unsichtbar nur in den `@keyframes` |
@@ -74,6 +76,7 @@ Datenbank.
 | `mailFehler.test.js` | scheitert der Mailversand (Postausgang, Stundenlimit), stehen in „Passwort vergessen“ und in der Registrierung deutsche Sätze |
 | `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
 | `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster und die Frage beim ersten Start neuer Konten |
+| `mailEinstellungen.test.js` | „E-Mails“ im Bearbeiten-Fenster: ohne Einstellung an, Aus- und Einschalten wird gespeichert, auch ohne Push im Browser; Fehler beim Speichern lässt den Stand stehen |
 | `installHinweis.test.js` | der Hinweis in der Leiste bleibt oben und verdeckt weder Inhalt noch Menü noch Fenster |
 | `zurueckGeste.test.js` | Zurück schließt das oberste Fenster; kein toter Schritt, kein Zurückwerfen nach einem Seitenwechsel |
 | `wunschlisteSpielplan.test.js` | „Läuft demnächst“ auf der Wunschliste: nur Kommendes, Links aufs Haus, nichts als HTML, Ordnung nach dem Standort |
