@@ -58,6 +58,7 @@ Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.
 | `spielplan.test.js` | die erzeugte Spielplandatei passt zum Katalog: Werke, Häuser, Daten, Links |
 | `kalenderDateien.test.js` | unter `kalender/` liegt zu jedem Termin im Spielplan genau eine Kalenderdatei, mit dem Inhalt, den die App selbst erzeugen würde; auch für Werke, die nur in der Datenbank stehen |
 | `mailvorlagen.test.js` | die drei Mailvorlagen unter `supabase/templates/` entsprechen dem Werkzeug `mailvorlagen.mjs`; Knopf mit Bestätigungslink, nur Variablen, die Supabase kennt, Bilder und Schriften nur von der eigenen Seite und dort vorhanden, klein genug für Gmail; die Animation im eigenen `<style>`-Block, nur ohne „Bewegung reduzieren“, Füllmodus `backwards`, unsichtbar nur in den `@keyframes` |
+| `versionPruefen.test.js` | der Versions-Wächter, der nur auf `main` läuft: hält an, wenn ausgelieferte Dateien sich ändern und die Version weder steigt noch so neu ist wie der Commit; lässt durch, was am Vortag erhöht und erst heute gemergt wurde |
 | `spielplanDaten.test.js` | `daten/spielplan.json` passt zum Spielplan; die Datenbank holt genau diese Datei, jeden Morgen erst holen, dann abgleichen; der erste Abgleich meldet nichts, eine kaputte Datei ändert nichts |
 
 **`browser/`** – die Stellen, an denen ein Fehler erst im Zusammenspiel
