@@ -293,8 +293,10 @@ Ladebildschirm. Erhöhen heißt: **zwei** Stellen anfassen.
 
 Vergessen fällt auf: bei jedem Push auf `main` prüft
 `tests/werkzeug/version-pruefen.mjs`, ob ausgelieferte Dateien geändert wurden,
-während die Version älter ist als der Commit. Ändern sich nur Tests, README
-oder Workflows, darf sie stehen bleiben.
+ohne dass die Version in diesem Push gestiegen ist – und sie zugleich älter
+ist als der Commit. Ein Zweig, der die Version am 2. auf den 2. setzt und am 3.
+gemergt wird, geht also durch: der Cache bekommt trotzdem einen neuen Namen.
+Ändern sich nur Tests, README oder Workflows, darf sie stehen bleiben.
 
 Der Cache-Name ist kein Beiwerk: `activate` löscht jeden Cache, der anders
 heißt, und ist damit der einzige Hebel, mit dem eine neue App-Shell bei den
