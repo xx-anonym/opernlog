@@ -30,10 +30,9 @@ LOCATION:Staatstheater Nürnberg\, Deutschland
 GEO:49.4472;11.0797
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Nürnberg, Deutschland":geo:49.4472,11.0797
-URL:https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel/1
- 9-12-2026/1800
+URL:https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
- https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel/19-1
- 2-2026/1800\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel\nAus
+  OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

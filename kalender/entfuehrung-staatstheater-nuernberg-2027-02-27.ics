@@ -31,10 +31,10 @@ GEO:49.4472;11.0797
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Nürnberg, Deutschland":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/die-entfuehrung-aus-
- dem-serail/27-02-2027/1900
+ dem-serail
 DESCRIPTION:Wolfgang Amadeus Mozart: Die Entführung aus dem Serail\nTermin
  e und Karten: https://staatstheater-nuernberg.de/spielplan-26-27/die-entfu
- ehrung-aus-dem-serail/27-02-2027/1900\nAus OpernLog – maßgeblich ist di
- e Seite des Hauses.
+ ehrung-aus-dem-serail\nAus OpernLog – maßgeblich ist die Seite des Haus
+ es.
 END:VEVENT
 END:VCALENDAR

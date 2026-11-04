@@ -470,6 +470,30 @@
       "zeiten": {
         "2027-02-13": "19:00-22:00"
       }
+    },
+    {
+      "haus": "landestheater-detmold",
+      "werk": "don-pasquale",
+      "url": "https://www.landestheater-detmold.de/de/programm/don-pasquale/41607666",
+      "termine": [
+        "2026-12-18"
+      ],
+      "zeiten": {
+        "2026-12-18": "19:30"
+      },
+      "quelle": "Premiere – steht auf der Seite nur im Kopf (Detmold, Sommertheater), nicht in der Terminliste; geprüft 04.11.2026"
+    },
+    {
+      "haus": "landestheater-detmold",
+      "werk": "clemenza-di-tito",
+      "url": "https://www.landestheater-detmold.de/de/programm/la-clemenza-di-tito/41870059",
+      "termine": [
+        "2027-06-25"
+      ],
+      "zeiten": {
+        "2027-06-25": "19:30"
+      },
+      "quelle": "Premiere (Opernschule der Hochschule für Musik Detmold im Landestheater) – steht auf der Seite nur im Kopf, nicht in der Terminliste; geprüft 04.11.2026"
     }
   ]
 }

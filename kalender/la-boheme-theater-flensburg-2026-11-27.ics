@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:la-boheme-theater-flensburg-2026-11-27@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261127T200000
-DTEND;TZID=Europe/Berlin:20261127T230000
+DTEND;TZID=Europe/Berlin:20261127T223000
 SUMMARY:La Bohème – Schleswig-Holsteinisches Landestheater
 LOCATION:Schleswig-Holsteinisches Landestheater\, Flensburg / Rendsburg\, D
  eutschland

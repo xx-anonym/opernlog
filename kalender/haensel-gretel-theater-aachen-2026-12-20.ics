@@ -21,19 +21,19 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:haensel-gretel-theater-trier-2026-12-25@opernlog.vercel.app
+UID:haensel-gretel-theater-aachen-2026-12-20@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20261225T180000
-DTEND;TZID=Europe/Berlin:20261225T210000
-SUMMARY:Hänsel und Gretel – Theater Trier
-LOCATION:Theater Trier\, Deutschland
-GEO:49.756;6.642
+DTSTART;TZID=Europe/Berlin:20261220T180000
+DTEND;TZID=Europe/Berlin:20261220T210000
+SUMMARY:Hänsel und Gretel – Theater Aachen
+LOCATION:Theater Aachen\, Deutschland
+GEO:50.774;6.09
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Trier, Deutschland":geo:49.756,6.642
-URL:https://www.theater-trier.de/produktionen/haensel-und-gretel.html
+ AME=1;X-TITLE="Theater Aachen, Deutschland":geo:50.774,6.09
+URL:https://www.theateraachen.de/de/produktionen/weihnachtskonzert-3.html
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
- https://www.theater-trier.de/produktionen/haensel-und-gretel.html\nDas End
- e ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite 
- des Hauses.
+ https://www.theateraachen.de/de/produktionen/weihnachtskonzert-3.html\nDas
+  Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Se
+ ite des Hauses.
 END:VEVENT
 END:VCALENDAR

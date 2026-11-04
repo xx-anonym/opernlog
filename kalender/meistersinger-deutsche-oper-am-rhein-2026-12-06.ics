@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:meistersinger-deutsche-oper-am-rhein-2026-12-06@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261206T170000
-DTEND;TZID=Europe/Berlin:20261206T220000
+DTEND;TZID=Europe/Berlin:20261206T222000
 SUMMARY:Die Meistersinger von Nürnberg – Deutsche Oper am Rhein
 LOCATION:Deutsche Oper am Rhein\, Düsseldorf / Duisburg\, Deutschland
 GEO:51.227;6.776

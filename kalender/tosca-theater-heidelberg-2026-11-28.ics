@@ -24,7 +24,7 @@ BEGIN:VEVENT
 UID:tosca-theater-heidelberg-2026-11-28@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
 DTSTART;TZID=Europe/Berlin:20261128T193000
-DTEND;TZID=Europe/Berlin:20261128T223000
+DTEND;TZID=Europe/Berlin:20261128T220000
 SUMMARY:Tosca – Theater Heidelberg
 LOCATION:Theater Heidelberg\, Deutschland
 GEO:49.411;8.705
@@ -32,7 +32,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Theater Heidelberg, Deutschland":geo:49.411,8.705
 URL:https://www.theaterheidelberg.de/de/programm/22129-tosca
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://www.theater
- heidelberg.de/de/programm/22129-tosca\nDas Ende ist geschätzt (3 Stunden)
- .\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ heidelberg.de/de/programm/22129-tosca\nAus OpernLog – maßgeblich ist di
+ e Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

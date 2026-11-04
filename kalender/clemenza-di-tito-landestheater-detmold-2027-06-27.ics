@@ -21,19 +21,20 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:don-pasquale-landestheater-detmold-2027-04-25@opernlog.vercel.app
+UID:clemenza-di-tito-landestheater-detmold-2027-06-27@opernlog.vercel.app
 DTSTAMP:20260923T000000Z
-DTSTART;TZID=Europe/Berlin:20270425T160000
-DTEND;TZID=Europe/Berlin:20270425T190000
-SUMMARY:Don Pasquale – Landestheater Detmold
+DTSTART;TZID=Europe/Berlin:20270627T180000
+DTEND;TZID=Europe/Berlin:20270627T210000
+SUMMARY:La clemenza di Tito – Landestheater Detmold
 LOCATION:Landestheater Detmold\, Deutschland
 GEO:51.937;8.879
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Landestheater Detmold, Deutschland":geo:51.937,8.879
-URL:https://www.landestheater-detmold.de/de/programm/don-pasquale/41607666
-DESCRIPTION:Gaetano Donizetti: Don Pasquale\nTermine und Karten: https://ww
- w.landestheater-detmold.de/de/programm/don-pasquale/41607666\nDas Ende ist
-  geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des H
- auses.
+URL:https://www.landestheater-detmold.de/de/programm/la-clemenza-di-tito/41
+ 870059
+DESCRIPTION:Wolfgang Amadeus Mozart: La clemenza di Tito\nTermine und Karte
+ n: https://www.landestheater-detmold.de/de/programm/la-clemenza-di-tito/41
+ 870059\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich
+  ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
