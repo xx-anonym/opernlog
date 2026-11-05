@@ -859,14 +859,23 @@ export function fremderKomponist(text, id) {
     return WERKE.some(x => x.nachname !== w.nachname && x.komponist.test(text));
 }
 
+// Eine Einführung mit eigener Uhrzeit ist ein Hinweis zur Vorstellung, keine
+// eigene Veranstaltung: Nürnberg schreibt "17.30 Uhr Einführung" in jeden
+// Eintrag des Tannhäuser, und alle vier Abende fielen als Nebenher weg.
+const EINFUEHRUNG_ZUR_VORSTELLUNG = /^\s*(\d{1,2}[.:]\d{2}\s*(uhr\s*)?(werk)?einführung|(werk)?einführung\s*(um|ab|:)?\s*\d{1,2}[.:]\d{2}(\s*uhr)?)\s*$/gim;
+
 /**
- * Die Werke eines Eintrags in einer Terminliste. Ohne die gleichnamigen
- * anderer Komponisten und ohne Ballette: Leipzigs Programm führt das Ballett
- * schlicht als "Carmen", nur die Adresse sagt "carmen-ballett".
+ * Die Werke eines Eintrags in einer Terminliste. Keine, wenn der Eintrag eine
+ * Nebenveranstaltung ist oder an einem anderen Ort spielt. Ohne die
+ * gleichnamigen anderer Komponisten und ohne Ballette: Leipzigs Programm
+ * führt das Ballett schlicht als "Carmen", nur die Adresse sagt
+ * "carmen-ballett".
  * @param {{text: string, href: string, block: string}} b
+ * @param {{ort?: string|null}} [q]
  * @returns {string[]}
  */
-export function werkeImEintrag(b) {
+export function werkeImEintrag(b, q = {}) {
+    if (NEBENHER.test(b.block.replace(EINFUEHRUNG_ZUR_VORSTELLUNG, '')) || !enthaeltOrt(b.block, q.ort)) return [];
     return werkeImLink(b.text, b.href).filter(id => !fremderKomponist(b.block, id)
         && !ballettFassung(norm(b.text), b.href, WERKE.find(w => w.id === id)?.slugs || []));
 }
@@ -903,8 +912,7 @@ async function lesen(kontext, hausId, fenster) {
     const listenZeiten = new Map(); // operaId -> {Datum: Zeit}
     const sammleBloecke = (daten) => {
         for (const b of daten.bloecke || []) {
-            if (NEBENHER.test(b.block) || !enthaeltOrt(b.block, q.ort)) continue;
-            const ids = werkeImEintrag(b);
+            const ids = werkeImEintrag(b, q);
             if (!ids.length) continue;
             const { termine: mit, zeiten } = termineMitZeiten(b.block, fenster, { ort: q.ortJeTermin });
             // Mehr als drei Termine in einem Eintrag: das ist kein Eintrag,

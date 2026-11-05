@@ -612,6 +612,22 @@ test('im Programm zählt der Eintrag des Balletts nicht für die Oper (Leipzig, 
     assert.deepEqual(werkeImEintrag({ text: 'Carmen', href: `${s}carmen/44`, block: block('Oper') }), ['carmen']);
 });
 
+test('eine Einführung mit Uhrzeit macht die Vorstellung nicht zur Nebenveranstaltung (Nürnberg)', async () => {
+    const { werkeImEintrag } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const s = 'https://staatstheater-nuernberg.de/spielplan-26-27/';
+    // So steht es in der Liste, mit weichen Trennstrichen im Titel.
+    const titel = 'Tann­häu­ser und der Sän­ger­krieg auf Wart­burg';
+    const eintrag = (zeilen, tag) => ({ text: titel, href: `${s}tannhaeuser-und-der-saengerkrieg-auf-wartburg/${tag}`,
+        block: ['OPER', titel.toUpperCase(), 'Oper von Richard Wagner', ...zeilen, 'Opernhaus', 'Tickets'].join('\n') });
+    assert.deepEqual(werkeImEintrag(eintrag(['Samstag, 14.11.2026', '18.00 - 22.00 Uhr', '17.30 Uhr Einführung'], '14-11-2026/1800')), ['tannhaeuser']);
+    assert.deepEqual(werkeImEintrag(eintrag(['Samstag, 14.11.2026', '18.00 Uhr', 'Einführung um 17.30 Uhr'], '14-11-2026/1800')), ['tannhaeuser']);
+    // Was ganz Nebenveranstaltung ist, bleibt draußen.
+    assert.deepEqual(werkeImEintrag(eintrag(['Öffentliche Probe', 'Dienstag, 23.02.2027', '18.15 - 20.30 Uhr'], '23-02-2027/1815')), []);
+    assert.deepEqual(werkeImEintrag(eintrag(['Einführungsmatinee', 'Sonntag, 01.11.2026', '11.00 Uhr'], '01-11-2026/1100')), []);
+    assert.deepEqual(werkeImEintrag(eintrag(['Werkeinführung', 'Sonntag, 01.11.2026', '11.00 Uhr'], '01-11-2026/1100')), []);
+    assert.deepEqual(werkeImEintrag(eintrag(['Einführung', 'Sonntag, 01.11.2026', '11.00 Uhr'], '01-11-2026/1100')), []);
+});
+
 test('eine "Preview" ist eine Nebenveranstaltung (Zürich)', async () => {
     const { NEBENHER } = await import('../werkzeug/spielplaene-lesen.mjs');
     assert.ok(NEBENHER.test('Sa 14 Nov\n\n11.30\n\nBernhard Theater\nPreview «Elektra»\nTICKETS'));
