@@ -31,10 +31,9 @@ GEO:49.4472;11.0797
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Nürnberg, Deutschland":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/tannhaeuser-und-der-
- saengerkrieg-auf-wartburg/10-10-2026/1800
+ saengerkrieg-auf-wartburg
 DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://staats
  theater-nuernberg.de/spielplan-26-27/tannhaeuser-und-der-saengerkrieg-auf-
- wartburg/10-10-2026/1800\nAus OpernLog – maßgeblich ist die Seite des H
- auses.
+ wartburg\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
