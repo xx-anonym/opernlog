@@ -687,7 +687,22 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
             const attribute = [...document.querySelectorAll('[datetime],[content],[data-date],[data-datetime],[data-start]')]
                 .map(e => e.getAttribute('datetime') || e.getAttribute('data-date') || e.getAttribute('data-datetime') || e.getAttribute('data-start') || e.getAttribute('content'))
                 .filter(v => /20\d\d-\d\d-\d\d/.test(v || '')).join(' ');
-            const ld = [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent).join(' ');
+            // Daten aus ld+json, ohne die Öffnungszeiten der Kasse und ohne das
+            // Datum der Seite selbst: die Volksoper führt die Feiertage mit
+            // besonderen Kassenzeiten als specialOpeningHoursSpecification,
+            // und La Bohème bekam zehn Feiertage als Termine.
+            const ldDaten = [];
+            const keinTermin = /^(validFrom|validThrough|datePublished|dateModified|dateCreated|uploadDate|(special)?openingHoursSpecification)$/i;
+            const sammleDaten = (o) => {
+                if (!o || typeof o !== 'object') return;
+                if (Array.isArray(o)) { o.forEach(sammleDaten); return; }
+                if (/OpeningHoursSpecification/.test([].concat(o['@type'] || []).join(' '))) return;
+                for (const [k, v] of Object.entries(o)) {
+                    if (keinTermin.test(k)) continue;
+                    if (typeof v === 'string') ldDaten.push(...(v.match(/20\d\d-\d\d-\d\dT?/g) || []));
+                    else sammleDaten(v);
+                }
+            };
             // Vorstellungen als schema.org Event, mit Uhrzeit (Zürich, Wiesbaden, Gelsenkirchen)
             const ereignisse = [];
             const sammleLd = (o) => {
@@ -699,7 +714,11 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 Object.values(o).forEach(sammleLd);
             };
             for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
-                try { sammleLd(JSON.parse(s.textContent)); } catch { /* kaputtes JSON: dann eben nicht */ }
+                let json;
+                // Kaputtes JSON: keine Ereignisse, aber die Daten darin wie bisher.
+                try { json = JSON.parse(s.textContent); } catch { ldDaten.push(...(s.textContent.match(/20\d\d-\d\d-\d\dT?/g) || [])); continue; }
+                sammleLd(json);
+                sammleDaten(json);
             }
             // Dasselbe als Mikrodaten: <meta itemprop="startDate" content="2026-11-01T18:00:00"> (Wiesbaden)
             const wert = e => (e && (e.getAttribute('content') || e.getAttribute('datetime'))) || '';
@@ -716,7 +735,7 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 h1: [...document.querySelectorAll('h1, h2')].slice(0, 3).map(h => h.innerText).join(' | '),
                 text: haupt.innerText,
                 ganzerText: document.body.innerText,
-                zusatz: attribute + ' ' + (ld.match(/20\d\d-\d\d-\d\dT?/g) || []).join(' '),
+                zusatz: attribute + ' ' + ldDaten.join(' '),
                 ereignisse,
                 // Links im zugeklappten Menü haben keinen sichtbaren Text. Für
                 // Übersichtsseiten zählt ihr Text trotzdem (menueText): in

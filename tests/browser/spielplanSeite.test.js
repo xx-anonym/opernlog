@@ -166,6 +166,33 @@ test('"Mehr anzeigen": der sichtbare Knopf, nicht der versteckte davor (Bielefel
     } finally { await ctx.close(); }
 });
 
+test('Öffnungszeiten der Kasse in ld+json sind keine Termine (Volksoper)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    // Die Volksoper führt die Feiertage mit besonderen Kassenzeiten als
+    // specialOpeningHoursSpecification. La Bohème hatte nur noch vergangene
+    // Vorstellungen und bekam die Feiertage als Termine.
+    const ld = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            { '@type': 'PerformingArtsTheater', name: 'Volksoper', datePublished: '2026-08-01',
+              specialOpeningHoursSpecification: [
+                  { '@type': 'OpeningHoursSpecification', validFrom: '2026-12-24', validThrough: '2026-12-24', opens: '10:00', closes: '13:00' },
+                  { '@type': 'OpeningHoursSpecification', validFrom: '2027-05-27', validThrough: '2027-05-27', opens: '10:00', closes: '13:00' },
+              ] },
+            { '@type': 'TheaterEvent', name: 'La bohème', startDate: '2027-02-12T19:00:00+01:00' },
+        ],
+    };
+    const SEITE = '<!doctype html><html><head><script type="application/ld+json">' + JSON.stringify(ld) + '</script></head>'
+        + '<body><main><h1>La bohème</h1><p>Freitag 23. Oktober 2026, 19:00</p></main></body></html>';
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/boheme', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
+        const d = await seite(ctx, 'https://theater.example/boheme');
+        assert.doesNotMatch(d.zusatz, /2026-12-24|2027-05-27|2026-08-01/);
+        // Das Datum einer Vorstellung bleibt.
+        assert.match(d.zusatz, /2027-02-12/);
+    } finally { await ctx.close(); }
+});
+
 test('"Weitere Termine" als Schalter wird nur einmal aufgeklappt (Karlsruhe)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const SEITE = '<!doctype html><html><body><main><h1>Il Trittico</h1>'
         + '<div>Samstag, 3.7.2027, 18:00</div>'
