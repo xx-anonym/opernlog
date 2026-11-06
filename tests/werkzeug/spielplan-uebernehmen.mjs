@@ -3,6 +3,12 @@
 //
 //   node tests/werkzeug/spielplan-uebernehmen.mjs vorschlag.json
 //   node tests/werkzeug/spielplan-uebernehmen.mjs nachtrag.json --dazu
+//   node tests/werkzeug/spielplan-uebernehmen.mjs nachtrag.json --dazu --stand 2026-11-03
+//
+// --stand setzt den Stand, den die App unter "Läuft demnächst" nennt: den
+// Tag des zuletzt ganz durchgesehenen Monatslaufs. Ohne die Angabe bleibt
+// bei --dazu der ältere Stand stehen – nach Nachträgen hieß es sonst
+// wochenlang "Stand 23.9.", obwohl jedes Haus seither abgeglichen war.
 //
 // Mit --dazu (nach einem Lauf mit --werke oder für einzelne Häuser) ändern
 // sich nur die Einträge der gesuchten Werke bzw. dieser Häuser; alles andere
@@ -196,7 +202,24 @@ export function alsModul({ zeilen, stand, zusatzwerke = [], zusatzhaeuser = [] }
         + `export const spielplan = [\n${eintraege}\n];\n`;
 }
 
+/**
+ * Der Wert von --stand, oder null. Nur ein Tag, der schon war: der Stand
+ * sagt, wann abgeglichen wurde.
+ * @param {string[]} argv
+ * @param {string} heute  JJJJ-MM-TT
+ */
+export function standAusOption(argv, heute = new Date().toISOString().slice(0, 10)) {
+    const i = argv.indexOf('--stand');
+    if (i < 0) return null;
+    const wert = argv[i + 1] || '';
+    if (!/^20\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(wert) || wert > heute) {
+        throw new Error(`--stand braucht einen vergangenen Tag als JJJJ-MM-TT, nicht "${wert}"`);
+    }
+    return wert;
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+    const stand = standAusOption(process.argv);
     const vorschlag = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
     let erg = uebernehmen(vorschlag);
     if (process.argv.includes('--dazu')) {
@@ -209,6 +232,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
         erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, umfang), weggelassen: erg.weggelassen };
         console.log(`Nachtrag für ${[...(umfang.werke || []), ...(umfang.haeuser || [])].join(', ')}.`);
     }
+    if (stand) erg = { ...erg, stand };
     fs.writeFileSync(path.join(WURZEL, 'src/data/spielplan.js'), alsModul(erg));
     console.log(`${await kalenderOrdnerSchreiben(erg.zeilen, erg.stand)} Kalenderdateien in kalender/.`);
     console.log(`${await spielplanDatenSchreiben(erg.zeilen, erg.stand)} Einträge in daten/spielplan.json (für die Mitteilungen zur Wunschliste).`);

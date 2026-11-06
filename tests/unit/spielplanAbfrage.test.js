@@ -136,7 +136,7 @@ test('Termine aus einem Spielzeitheft kommen dazu und veralten von selbst', () =
     assert.ok(weggelassen.some(w => w.werk === 'unbekanntes-werk' && w.grund === 'nicht im Katalog'));
 });
 
-import { dazunehmen, nachtragsUmfang } from '../werkzeug/spielplan-uebernehmen.mjs';
+import { dazunehmen, nachtragsUmfang, standAusOption } from '../werkzeug/spielplan-uebernehmen.mjs';
 import { uebersichtsSeiten, seitenAuswahl, seitenTermine, unnoetig, dateiLink } from '../werkzeug/spielplaene-lesen.mjs';
 import { zeitenAusLd } from '../werkzeug/spielplan-termine.mjs';
 
@@ -247,6 +247,16 @@ test('ein Nachtrag behält Uhrzeiten, die er selbst nicht gelesen hat', () => {
     const [zeile] = dazunehmen(bestehend, nachtrag, { haeuser: ['deutsche-oper-berlin'] }).zeilen;
     assert.deepEqual(zeile.termine, ['2027-01-13', '2027-01-16', '2027-01-20']);
     assert.deepEqual(zeile.zeiten, { '2027-01-13': '19:30', '2027-01-16': '18:00' });
+});
+
+test('--stand setzt den Tag des letzten Abgleichs, nur einen gewesenen', () => {
+    const heute = '2026-11-06';
+    assert.equal(standAusOption(['node', 'x.mjs', 'n.json', '--dazu'], heute), null);
+    assert.equal(standAusOption(['node', 'x.mjs', 'n.json', '--dazu', '--stand', '2026-11-03'], heute), '2026-11-03');
+    assert.equal(standAusOption(['node', 'x.mjs', 'n.json', '--stand', '2026-11-06'], heute), '2026-11-06');
+    assert.throws(() => standAusOption(['node', 'x.mjs', 'n.json', '--stand', '2026-11-07'], heute), /vergangenen Tag/);
+    assert.throws(() => standAusOption(['node', 'x.mjs', 'n.json', '--stand', '3.11.2026'], heute), /JJJJ-MM-TT/);
+    assert.throws(() => standAusOption(['node', 'x.mjs', 'n.json', '--stand'], heute), /JJJJ-MM-TT/);
 });
 
 test('ein Nachtrag behält die schon gespielten Tage (Log-Formular)', () => {
@@ -610,6 +620,23 @@ test('im Programm zählt der Eintrag des Balletts nicht für die Oper (Leipzig, 
     const block = sparte => `Fr.\n22\nJan.\nGeorges Bizet\nCarmen\n${sparte}\nFr. 22.01.2027 |\n19:30\n|\nOpernhaus`;
     assert.deepEqual(werkeImEintrag({ text: 'Carmen', href: `${s}carmen-ballett/439`, block: block('Ballett') }), []);
     assert.deepEqual(werkeImEintrag({ text: 'Carmen', href: `${s}carmen/44`, block: block('Oper') }), ['carmen']);
+});
+
+test('der Link eines Werks: die lebende Seite, sonst die erste Vorstellung der Liste (Nürnberg)', async () => {
+    const { werkAdresse } = await import('../werkzeug/spielplaene-lesen.mjs');
+    const s = 'https://staatstheater-nuernberg.de/spielplan-26-27/';
+    const tot = { url: `${s}rigoletto`, status: 404 };
+    const probe = { url: `${s}rigoletto/23-03-2027/1830`, status: 200 };
+    // In der Liste steht die Öffentliche Probe vor der Premiere; sie ist kein Termin.
+    const links = new Map([['2027-03-23', probe.url], ['2027-04-04', `${s}rigoletto/04-04-2027/1800`], ['2027-04-08', `${s}rigoletto/08-04-2027/1900`]]);
+    const termine = ['2027-04-04', '2027-04-08'];
+    assert.equal(werkAdresse(tot, termine, links, [tot, probe]), `${s}rigoletto/04-04-2027/1800`);
+    // Eine lebende Seite geht vor.
+    assert.equal(werkAdresse({ url: 'https://oper.example/rigoletto', status: 200 }, termine, links), 'https://oper.example/rigoletto');
+    // Ohne Liste: eine andere gelesene Seite, die lebt.
+    assert.equal(werkAdresse(tot, termine, new Map(), [tot, probe]), probe.url);
+    // Gar nichts Lebendes: dann eben die alte Adresse.
+    assert.equal(werkAdresse(tot, termine), tot.url);
 });
 
 test('eine Einführung mit Uhrzeit macht die Vorstellung nicht zur Nebenveranstaltung (Nürnberg)', async () => {

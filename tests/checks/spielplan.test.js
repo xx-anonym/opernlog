@@ -50,15 +50,19 @@ test('jedes Werk steht je Haus nur einmal', () => {
     assert.equal(new Set(paare).size, paare.length);
 });
 
-test('Termine: gültig, sortiert, ohne Doppelte, innerhalb eines Jahres ab Stand', () => {
-    const bis = `${Number(SPIELPLAN_STAND.slice(0, 4)) + 1}-09-30`;
+test('Termine: gültig, sortiert, ohne Doppelte, innerhalb der Spielzeit des Stands', () => {
+    // Nicht erst ab dem Stand: gespielte Tage bleiben stehen, das
+    // Log-Formular schlägt sie vor (gespielteTage).
+    const jahr = Number(SPIELPLAN_STAND.slice(0, 4)) - (Number(SPIELPLAN_STAND.slice(5, 7)) >= 8 ? 0 : 1);
+    const von = `${jahr}-08-01`;
+    const bis = `${jahr + 1}-09-30`;
     for (const e of spielplan) {
         assert.ok(e.termine.length > 0, `${e.werk}@${e.haus} ohne Termine`);
         assert.deepEqual([...new Set(e.termine)].sort(), e.termine, `${e.werk}@${e.haus} unsortiert oder doppelt`);
         for (const t of e.termine) {
             assert.match(t, /^20\d\d-\d\d-\d\d$/);
             assert.ok(!Number.isNaN(Date.parse(t)), `${t} ist kein Tag`);
-            assert.ok(t >= SPIELPLAN_STAND && t <= bis, `${e.werk}@${e.haus}: ${t} außerhalb der Spielzeit`);
+            assert.ok(t >= von && t <= bis, `${e.werk}@${e.haus}: ${t} außerhalb der Spielzeit`);
         }
     }
 });

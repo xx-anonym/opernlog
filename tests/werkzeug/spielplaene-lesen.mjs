@@ -576,6 +576,32 @@ export async function sparsam(kontext) {
 
 export const FEHLERSEITE = /^\s*(network error|too many requests|service unavailable|429\b|503\b)/i;
 
+/**
+ * Ob eine geladene Seite als Link für eine Produktion taugt. Eine Fehlerseite
+ * nicht: Nürnberg hat die Seiten seiner Produktionen abgeschafft, die alten
+ * Adressen geben 404 – und weil dort der Titel oben stand, wurde die tote
+ * Seite der Link in der App.
+ */
+export function produktionsseiteTaugt(d) {
+    return !(d.status >= 400);
+}
+
+/**
+ * Der Link eines Werks in der App. Die beste Seite, wenn sie lebt. Sonst die
+ * Seite der ersten Vorstellung aus der Terminliste – nicht irgendeine
+ * gelesene Seite: in Nürnberg wäre das die der Öffentlichen Probe, die in
+ * der Liste vor der Premiere steht.
+ * @param {{url: string, status?: number}|undefined} beste
+ * @param {string[]} termine  sortiert
+ * @param {Map<string, string>} [listenLinks]  Datum -> Link aus der Terminliste
+ * @param {{url: string, status?: number}[]} [weitere]  andere gelesene Seiten des Werks
+ */
+export function werkAdresse(beste, termine, listenLinks = new Map(), weitere = []) {
+    if (beste && produktionsseiteTaugt(beste)) return beste.url;
+    const ausListe = termine.map(t => listenLinks.get(t)).find(Boolean);
+    return ausListe || weitere.find(produktionsseiteTaugt)?.url || beste?.url || weitere[0]?.url || null;
+}
+
 export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
     const p = await kontext.newPage();
     try {
@@ -929,6 +955,7 @@ async function lesen(kontext, hausId, fenster) {
 
     const ausListen = new Map(); // operaId -> Set(Datum)
     const listenZeiten = new Map(); // operaId -> {Datum: Zeit}
+    const listenLinks = new Map(); // operaId -> Map(Datum -> Link)
     const sammleBloecke = (daten) => {
         for (const b of daten.bloecke || []) {
             const ids = werkeImEintrag(b, q);
@@ -941,6 +968,8 @@ async function lesen(kontext, hausId, fenster) {
                 if (!ausListen.has(id)) ausListen.set(id, new Set());
                 mit.forEach(t => ausListen.get(id).add(t));
                 listenZeiten.set(id, { ...zeiten, ...(listenZeiten.get(id) || {}) });
+                if (!listenLinks.has(id)) listenLinks.set(id, new Map());
+                mit.forEach(t => { if (!listenLinks.get(id).has(t)) listenLinks.get(id).set(t, b.href); });
             }
         }
     };
@@ -1075,6 +1104,7 @@ async function lesen(kontext, hausId, fenster) {
                     && !KINDERFASSUNG.test(kopf) && !KINDERFASSUNG.test(pfad.replace(/-/g, ' '))
                     && !ballettFassung(kopf, d.endUrl, w.slugs);
                 erg.treffer.push({
+                    status: d.status,
                     titelOben,
                     // Im Hauptteil, nicht im Kopf der Seite: dort steht bei einem
                     // gemeinsamen Auftritt oft jede Bühne.
@@ -1108,7 +1138,8 @@ async function lesen(kontext, hausId, fenster) {
         const zusatz = gueltig.filter(t => t !== beste && /zusatzvorstellung/i.test(t.url));
         const liste = [...(ausListen.get(id) || [])];
         erg.werke[id] = {
-            url: beste?.url || erg.treffer.find(t => t.werk === id)?.url || null,
+            url: werkAdresse(beste, [...new Set([...(beste?.termine || []), ...zusatz.flatMap(t => t.termine), ...liste])].sort(),
+                listenLinks.get(id), erg.treffer.filter(t => t.werk === id)),
             komponistGenannt: erg.treffer.some(t => t.werk === id && t.komponistGenannt) || komponistAusLinks.has(id),
             ausSeite: [...new Set([...(beste?.termine || []), ...zusatz.flatMap(t => t.termine)])].sort(),
             ohneUhrzeit: beste ? beste.ohneUhrzeit : false,

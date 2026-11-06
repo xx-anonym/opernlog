@@ -11,7 +11,7 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { ladePlaywright, starteBrowser } from './umgebung.js';
-import { seite } from '../werkzeug/spielplaene-lesen.mjs';
+import { seite, produktionsseiteTaugt } from '../werkzeug/spielplaene-lesen.mjs';
 
 const pw = await ladePlaywright();
 const fehltPlaywright = pw ? false : 'Playwright ist nicht installiert';
@@ -163,6 +163,20 @@ test('"Mehr anzeigen": der sichtbare Knopf, nicht der versteckte davor (Bielefel
         await ctx.route('https://theater.example/zauberfloete', r => r.fulfill({ body: SEITE, contentType: 'text/html; charset=utf-8' }));
         const d = await seite(ctx, 'https://theater.example/zauberfloete');
         assert.match(d.text, /26\.02\.2027/);
+    } finally { await ctx.close(); }
+});
+
+test('eine Seite mit 404 ist keine Produktionsseite, die einer Vorstellung schon (Nürnberg)', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    // Nürnberg gibt für die alten Adressen der Produktionen 404, mit dem
+    // Titel des Werks im Pfad. Die Seite der einzelnen Vorstellung lebt.
+    const ctx = await browser.newContext();
+    try {
+        await ctx.route('https://theater.example/spielplan-26-27/tannhaeuser', r => r.fulfill({ status: 404,
+            body: '<!doctype html><html><head><title>404 | Staatstheater</title></head><body><main>Die angeforderte Seite existiert leider nicht.</main></body></html>', contentType: 'text/html; charset=utf-8' }));
+        await ctx.route('https://theater.example/spielplan-26-27/tannhaeuser/08-11-2026/1700', r => r.fulfill({
+            body: '<!doctype html><html><head><title>Tannhäuser</title></head><body><main><h1>Tannhäuser</h1><p>Sonntag, 08.11.2026, 17.00 Uhr</p></main></body></html>', contentType: 'text/html; charset=utf-8' }));
+        assert.equal(produktionsseiteTaugt(await seite(ctx, 'https://theater.example/spielplan-26-27/tannhaeuser')), false);
+        assert.equal(produktionsseiteTaugt(await seite(ctx, 'https://theater.example/spielplan-26-27/tannhaeuser/08-11-2026/1700')), true);
     } finally { await ctx.close(); }
 });
 
