@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:ring-siegfried-nordharzer-staedtebundtheater-2027-02-13@opernlog.vercel
  .app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270213T150000
 DTEND;TZID=Europe/Berlin:20270213T180000
 SUMMARY:Siegfried – Nordharzer Städtebundtheater

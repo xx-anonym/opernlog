@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:cavalleria-rusticana-staatstheater-darmstadt-2026-12-30@opernlog.vercel
  .app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20261230T193000
 DTEND;TZID=Europe/Berlin:20261230T223000
 SUMMARY:Cavalleria rusticana – Staatstheater Darmstadt

@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:tosca-staatstheater-nuernberg-2027-07-17@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270717T190000
 DTEND;TZID=Europe/Berlin:20270717T213000
 SUMMARY:Tosca – Staatstheater Nürnberg
@@ -30,9 +30,10 @@ LOCATION:Staatstheater Nürnberg\, Deutschland
 GEO:49.4472;11.0797
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Nürnberg, Deutschland":geo:49.4472,11.0797
-URL:https://staatstheater-nuernberg.de/spielplan-26-27/tosca
+URL:https://staatstheater-nuernberg.de/spielplan-26-27/tosca/19-06-2027/190
+ 0
 DESCRIPTION:Giacomo Puccini: Tosca\nTermine und Karten: https://staatstheat
- er-nuernberg.de/spielplan-26-27/tosca\nAus OpernLog – maßgeblich ist di
- e Seite des Hauses.
+ er-nuernberg.de/spielplan-26-27/tosca/19-06-2027/1900\nAus OpernLog – ma
+ ßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

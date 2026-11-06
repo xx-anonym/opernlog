@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:barbiere-wuerttembergische-staatstheater-2027-01-31@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270131T180000
 DTEND;TZID=Europe/Berlin:20270131T210000
 SUMMARY:Il barbiere di Siviglia – Staatstheater Wiesbaden

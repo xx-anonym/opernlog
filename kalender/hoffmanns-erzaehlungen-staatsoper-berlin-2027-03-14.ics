@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:hoffmanns-erzaehlungen-staatsoper-berlin-2027-03-14@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270314T180000
 DTEND;TZID=Europe/Berlin:20270314T210000
 SUMMARY:Hoffmanns Erzählungen – Staatsoper Unter den Linden

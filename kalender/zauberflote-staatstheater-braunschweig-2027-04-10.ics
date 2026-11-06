@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:zauberflote-staatstheater-braunschweig-2027-04-10@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270410T193000
 DTEND;TZID=Europe/Berlin:20270410T223000
 SUMMARY:Die Zauberflöte – Staatstheater Braunschweig

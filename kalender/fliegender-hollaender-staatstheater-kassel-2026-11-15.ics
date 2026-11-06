@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:fliegender-hollaender-staatstheater-kassel-2026-11-15@opernlog.vercel.a
  pp
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20261115T160000
 DTEND;TZID=Europe/Berlin:20261115T184000
 SUMMARY:Der fliegende Holländer – Staatstheater Kassel

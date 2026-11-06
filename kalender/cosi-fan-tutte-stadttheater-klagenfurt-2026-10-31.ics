@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:cosi-fan-tutte-stadttheater-klagenfurt-2026-10-31@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Vienna:20261031T193000
 DTEND;TZID=Europe/Vienna:20261031T223000
 SUMMARY:Così fan tutte – Stadttheater Klagenfurt

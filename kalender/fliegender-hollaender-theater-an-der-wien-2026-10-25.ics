@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:fliegender-hollaender-theater-an-der-wien-2026-10-25@opernlog.vercel.ap
  p
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Vienna:20261025T190000
 DTEND;TZID=Europe/Vienna:20261025T223000
 SUMMARY:Der fliegende Holländer – Theater an der Wien

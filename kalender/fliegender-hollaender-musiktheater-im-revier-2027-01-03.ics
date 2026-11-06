@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:fliegender-hollaender-musiktheater-im-revier-2027-01-03@opernlog.vercel
  .app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270103T180000
 DTEND;TZID=Europe/Berlin:20270103T210000
 SUMMARY:Der fliegende Holländer – Musiktheater im Revier

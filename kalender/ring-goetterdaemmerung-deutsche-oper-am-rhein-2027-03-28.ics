@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:ring-goetterdaemmerung-deutsche-oper-am-rhein-2027-03-28@opernlog.verce
  l.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270328T170000
 DTEND;TZID=Europe/Berlin:20270328T223000
 SUMMARY:Götterdämmerung – Deutsche Oper am Rhein

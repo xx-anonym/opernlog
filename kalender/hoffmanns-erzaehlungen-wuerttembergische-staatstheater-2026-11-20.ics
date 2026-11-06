@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:hoffmanns-erzaehlungen-wuerttembergische-staatstheater-2026-11-20@opern
  log.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20261120T193000
 DTEND;TZID=Europe/Berlin:20261120T223000
 SUMMARY:Hoffmanns Erzählungen – Staatstheater Wiesbaden

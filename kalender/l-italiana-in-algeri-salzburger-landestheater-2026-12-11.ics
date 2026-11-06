@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:l-italiana-in-algeri-salzburger-landestheater-2026-12-11@opernlog.verce
+ l.app
+DTSTAMP:20261103T000000Z
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261212
+SUMMARY:L'italiana in Algeri – Salzburger Landestheater
+LOCATION:Salzburger Landestheater\, Salzburg\, Österreich
+GEO:47.8046;13.0448
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Salzburger Landestheater, Salzburg, Österreich":geo:47.804
+ 6,13.0448
+URL:https://www.salzburger-landestheater.at/de/produktionen/litaliana-in-al
+ geri.html
+DESCRIPTION:Gioachino Rossini: L'italiana in Algeri\nTermine und Karten: ht
+ tps://www.salzburger-landestheater.at/de/produktionen/litaliana-in-algeri.
+ html\nDie Uhrzeit steht auf der Seite des Hauses.\nAus OpernLog – maßge
+ blich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

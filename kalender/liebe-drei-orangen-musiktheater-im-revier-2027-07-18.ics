@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:liebe-drei-orangen-musiktheater-im-revier-2027-07-18@opernlog.vercel.ap
  p
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270718T160000
 DTEND;TZID=Europe/Berlin:20270718T190000
 SUMMARY:Die Liebe zu den drei Orangen – Musiktheater im Revier

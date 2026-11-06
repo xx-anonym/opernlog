@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:un-ballo-in-maschera-tiroler-landestheater-2026-11-20@opernlog.vercel.a
  pp
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Vienna:20261120T193000
 DTEND;TZID=Europe/Vienna:20261120T221500
 SUMMARY:Un ballo in maschera – Tiroler Landestheater

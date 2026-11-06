@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:liebe-drei-orangen-saarlaendisches-staatstheater-2026-12-27@opernlog.ve
  rcel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20261227T180000
 DTEND;TZID=Europe/Berlin:20261227T210000
 SUMMARY:Die Liebe zu den drei Orangen – Saarländisches Staatstheater

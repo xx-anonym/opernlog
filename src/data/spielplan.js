@@ -3,12 +3,16 @@
 // Erzeugt von tests/werkzeug/spielplan-uebernehmen.mjs aus einem Lauf von
 // tests/werkzeug/spielplaene-lesen.mjs – NICHT von Hand bearbeiten, sondern
 // dort Korrekturen eintragen (tests/werkzeug/spielplan-korrekturen.json) und
-// neu erzeugen. Läuft einmal zu Saisonbeginn, dazu ein kleiner Lauf im Januar.
+// neu erzeugen. Ein großer Lauf zu Saisonbeginn, dazu jeden Monat ein Abgleich
+// auf GitHub (spielplan-monatlich.yml), dessen Meldungen nachgelesen werden.
+//
+// Der Stand ist der Tag des zuletzt ganz durchgesehenen Abgleichs. Häuser,
+// die sich dabei nicht lesen ließen, können ältere Daten haben.
 //
 // Die Termine sind ein Auszug. Maßgeblich ist die Seite des Hauses, auf die
 // jede Zeile verlinkt.
 
-export const SPIELPLAN_STAND = '2026-09-23';
+export const SPIELPLAN_STAND = '2026-11-03';
 
 // Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.
 export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-trittico', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi', 'the-greek-passion'];
@@ -99,7 +103,7 @@ export const spielplan = [
     { werk: 'barbiere', haus: 'oldenburgisches-staatstheater', url: "https://staatstheater.de/programm/musiktheater/spielzeit-25/26/il-barbiere-di-siviglia",
       termine: ['2026-10-17', '2026-10-24', '2026-11-13', '2026-11-22', '2026-12-11', '2026-12-27', '2027-01-13', '2027-01-28'],
       zeiten: { '2026-10-17': '19:30', '2026-10-24': '19:30', '2026-11-13': '19:30', '2026-11-22': '15:00', '2026-12-11': '19:30', '2026-12-27': '18:00', '2027-01-13': '19:30', '2027-01-28': '19:30' } },
-    { werk: 'barbiere', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/der-barbier-von-sevilla",
+    { werk: 'barbiere', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/der-barbier-von-sevilla/04-07-2027/1800",
       termine: ['2027-07-04', '2027-07-10', '2027-07-15', '2027-07-18', '2027-07-20', '2027-07-27'],
       zeiten: { '2027-07-04': '18:00-21:00', '2027-07-10': '19:00-22:00', '2027-07-15': '19:00-22:00', '2027-07-18': '15:30-18:30', '2027-07-20': '19:00-22:00', '2027-07-27': '19:00-22:00' } },
     { werk: 'barbiere', haus: 'theater-augsburg', url: "https://staatstheater-augsburg.de/il_barbiere_di_siviglia_der_barbier_von_sevilla",
@@ -216,7 +220,7 @@ export const spielplan = [
     { werk: 'cenerentola', haus: 'niedersaechsische-staatsoper', url: "https://staatstheater-hannover.de/de_DE/programm/la-cenerentola.1399477",
       termine: ['2027-01-22', '2027-01-29', '2027-02-06', '2027-02-10', '2027-02-26', '2027-03-06', '2027-04-03', '2027-04-11', '2027-04-23'],
       zeiten: { '2027-01-22': '19:30', '2027-01-29': '19:30', '2027-02-06': '19:30', '2027-02-10': '19:30', '2027-02-26': '19:30', '2027-03-06': '19:30', '2027-04-03': '19:30', '2027-04-11': '16:00', '2027-04-23': '19:30' } },
-    { werk: 'cenerentola', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/la-cenerentola-das-aschenputtel",
+    { werk: 'cenerentola', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/la-cenerentola-das-aschenputtel/13-03-2027/1900",
       termine: ['2027-03-13', '2027-03-20', '2027-03-28', '2027-04-10', '2027-04-16'],
       zeiten: { '2027-03-13': '19:00-22:05', '2027-03-20': '19:00-22:05', '2027-03-28': '18:00-21:05', '2027-04-10': '19:00-22:05', '2027-04-16': '19:00-22:05' } },
     { werk: 'cenerentola', haus: 'staatstheater-stuttgart', url: "https://www.staatsoper-stuttgart.de/spielplan/kalender/la-cenerentola/9566/",
@@ -284,6 +288,9 @@ export const spielplan = [
     { werk: 'csardasfuerstin', haus: 'oper-leipzig', url: "https://www.oper-leipzig.de/de/programm/die-csardasfurstin/54",
       termine: ['2026-12-11', '2026-12-19', '2026-12-20', '2026-12-25', '2027-01-23', '2027-01-24'],
       zeiten: { '2026-12-11': '19:30', '2026-12-19': '19:00', '2026-12-20': '15:00', '2026-12-25': '18:00', '2027-01-23': '19:00', '2027-01-24': '15:00' } },
+    { werk: 'csardasfuerstin', haus: 'staatstheater-braunschweig', url: "https://staatstheater-braunschweig.de/produktion/die-csardasfuerstin",
+      termine: ['2027-08-21'],
+      zeiten: { '2027-08-21': '19:30' } },
     { werk: 'csardasfuerstin', haus: 'staatstheater-meiningen', url: "https://www.staatstheater-meiningen.de/produktionen/die-csrdsfuerstin.html?m=615",
       termine: ['2026-11-03', '2026-11-13', '2026-11-14', '2026-11-18', '2026-12-28', '2027-04-20'],
       zeiten: { '2026-11-03': '19:30-22:00', '2026-11-13': '19:30-22:00', '2026-11-14': '19:30-22:00', '2026-11-18': '20:00-22:30', '2026-12-28': '19:30-22:00', '2027-04-20': '15:00-17:30' } },
@@ -350,6 +357,9 @@ export const spielplan = [
     { werk: 'don-giovanni', haus: 'staatstheater-mainz', url: "https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/don-giovanni",
       termine: ['2027-04-30', '2027-05-14', '2027-05-23', '2027-06-05', '2027-06-19'],
       zeiten: { '2027-04-30': '19:30', '2027-05-14': '19:30', '2027-05-23': '18:00', '2027-06-05': '19:30', '2027-06-19': '19:30' } },
+    { werk: 'don-giovanni', haus: 'staatstheater-meiningen', url: "https://www.staatstheater-meiningen.de/produktionen/don-giovanni.html?m=615",
+      termine: ['2027-01-09', '2027-01-14', '2027-01-31'],
+      zeiten: { '2027-01-09': '19:30-23:00', '2027-01-14': '19:30-23:00', '2027-01-31': '15:00-18:30' } },
     { werk: 'don-giovanni', haus: 'theater-aachen', url: "https://www.theateraachen.de/de/produktionen/don-giovanni.html",
       termine: ['2027-04-10', '2027-04-16', '2027-04-22', '2027-04-30', '2027-05-17', '2027-05-30', '2027-06-11', '2027-07-02', '2027-07-06', '2027-07-16'],
       zeiten: { '2027-04-10': '19:00', '2027-04-16': '19:00', '2027-04-22': '19:00', '2027-04-30': '19:00', '2027-05-17': '17:00', '2027-05-30': '17:00', '2027-06-11': '19:00', '2027-07-02': '19:00', '2027-07-06': '19:00', '2027-07-16': '19:00' } },
@@ -416,7 +426,7 @@ export const spielplan = [
     { werk: 'entfuehrung', haus: 'hamburgische-staatsoper', url: "https://www.die-hamburgische-staatsoper.de/de/programm/oper/783-die-entfuehrung-aus-dem-serail#tickets",
       termine: ['2027-01-10', '2027-01-15', '2027-01-22'],
       zeiten: { '2027-01-10': '18:00', '2027-01-15': '19:30', '2027-01-22': '19:30' } },
-    { werk: 'entfuehrung', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/die-entfuehrung-aus-dem-serail",
+    { werk: 'entfuehrung', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/die-entfuehrung-aus-dem-serail/27-02-2027/1900",
       termine: ['2027-02-27', '2027-03-07', '2027-03-12', '2027-03-25', '2027-04-07', '2027-04-25', '2027-04-29', '2027-05-09', '2027-05-11'],
       zeiten: { '2027-02-27': '19:00-22:00', '2027-03-07': '19:00-22:00', '2027-03-12': '19:00-22:00', '2027-03-25': '19:00-22:00', '2027-04-07': '19:00-22:00', '2027-04-25': '18:00-21:00', '2027-04-29': '19:00-22:00', '2027-05-09': '15:30-18:30', '2027-05-11': '19:00-22:00' } },
     { werk: 'entfuehrung', haus: 'wiener-staatsoper', url: "https://www.wiener-staatsoper.at/kalender/detail/die-entfuehrung-aus-dem-serail/#dates",
@@ -648,7 +658,7 @@ export const spielplan = [
     { werk: 'haensel-gretel', haus: 'staatstheater-kassel', url: "https://www.staatstheater-kassel.de/play/haenselundgretel-3260",
       termine: ['2026-10-02', '2026-11-01', '2026-11-02', '2026-11-07', '2026-11-21', '2026-12-20', '2026-12-26'],
       zeiten: { '2026-10-02': '19:00-21:00', '2026-11-01': '17:00-19:00', '2026-11-02': '11:00-13:00', '2026-11-07': '18:00-20:00', '2026-11-21': '19:00-21:00', '2026-12-20': '18:00-20:00', '2026-12-26': '18:00-20:00' } },
-    { werk: 'haensel-gretel', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel",
+    { werk: 'haensel-gretel', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/haensel-und-gretel/19-12-2026/1800",
       termine: ['2026-12-19', '2026-12-21', '2026-12-26', '2026-12-28', '2026-12-30'],
       zeiten: { '2026-12-19': '18:00-20:20', '2026-12-21': '19:00-21:20', '2026-12-26': '18:00-20:20', '2026-12-28': '18:00-20:20', '2026-12-30': '15:00-17:20' } },
     { werk: 'haensel-gretel', haus: 'staatstheater-stuttgart', url: "https://www.staatsoper-stuttgart.de/spielplan/kalender/haensel-und-gretel/9611/",
@@ -784,7 +794,7 @@ export const spielplan = [
       termine: ['2027-01-27', '2027-01-30', '2027-02-02'],
       zeiten: { '2027-01-27': '19:30', '2027-01-30': '19:00', '2027-02-02': '19:00' } },
     { werk: 'l-italiana-in-algeri', haus: 'salzburger-landestheater', url: "https://www.salzburger-landestheater.at/de/produktionen/litaliana-in-algeri.html",
-      termine: ['2026-09-27', '2026-10-04', '2026-10-07', '2026-10-13', '2026-10-16', '2026-10-22', '2026-10-29', '2026-11-03'],
+      termine: ['2026-09-27', '2026-10-04', '2026-10-07', '2026-10-13', '2026-10-16', '2026-10-22', '2026-10-29', '2026-11-03', '2026-12-11'],
       zeiten: { '2026-09-27': '15:00', '2026-10-04': '15:00', '2026-10-07': '19:30', '2026-10-13': '19:30', '2026-10-16': '19:30', '2026-10-22': '19:30', '2026-10-29': '19:30', '2026-11-03': '19:30' } },
     { werk: 'la-boheme', haus: 'bayerische-staatsoper', url: "https://www.staatsoper.de/stuecke/la-boheme/2026-11-13-1900-16136",
       termine: ['2026-11-13', '2026-11-15', '2026-11-17', '2026-11-21', '2026-11-24'],
@@ -1330,7 +1340,7 @@ export const spielplan = [
     { werk: 'rigoletto', haus: 'staatsoper-berlin', url: "https://www.staatsoper-berlin.de/de/veranstaltungen/rigoletto.2774/",
       termine: ['2027-04-24', '2027-04-28', '2027-05-02'],
       zeiten: { '2027-04-24': '19:30', '2027-04-28': '19:30', '2027-05-02': '18:00' } },
-    { werk: 'rigoletto', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/rigoletto",
+    { werk: 'rigoletto', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/rigoletto/04-04-2027/1800",
       termine: ['2027-04-04', '2027-04-08', '2027-04-11', '2027-04-18', '2027-04-27', '2027-05-12', '2027-05-15', '2027-05-17', '2027-06-03', '2027-06-06'],
       zeiten: { '2027-04-04': '18:00-20:40', '2027-04-08': '19:00-21:40', '2027-04-11': '19:30-22:10', '2027-04-18': '15:30-18:10', '2027-04-27': '19:00-21:40', '2027-05-12': '19:00-21:40', '2027-05-15': '19:00-21:40', '2027-05-17': '18:00-20:40', '2027-06-03': '19:30-22:10', '2027-06-06': '19:30-22:10' } },
     { werk: 'rigoletto', haus: 'theater-essen', url: "https://www.theater-essen.de/programm/spielzeit-26-27/rigoletto/",
@@ -1488,7 +1498,7 @@ export const spielplan = [
     { werk: 'tannhaeuser', haus: 'staatstheater-meiningen', url: "https://www.staatstheater-meiningen.de/produktionen/tannhaeuser-und-der-saengerkrieg-auf-wartburg.html",
       termine: ['2026-09-30', '2026-10-11'],
       zeiten: { '2026-09-30': '18:30-22:30', '2026-10-11': '18:30-22:30' } },
-    { werk: 'tannhaeuser', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/tannhaeuser-und-der-saengerkrieg-auf-wartburg",
+    { werk: 'tannhaeuser', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/tannhaeuser-und-der-saengerkrieg-auf-wartburg/08-11-2026/1700",
       termine: ['2026-10-10', '2026-11-08', '2026-11-10', '2026-11-14', '2026-11-21'],
       zeiten: { '2026-10-10': '18:00-22:00', '2026-11-08': '17:00-21:00', '2026-11-10': '18:00-22:00', '2026-11-14': '18:00-22:00', '2026-11-21': '18:00-22:00' } },
     { werk: 'tannhaeuser', haus: 'theater-kiel', url: "https://theater-kiel.de/produktionen/tannhaeuser.html?m=40",
@@ -1536,7 +1546,7 @@ export const spielplan = [
     { werk: 'tosca', haus: 'staatsoper-berlin', url: "https://www.staatsoper-berlin.de/de/veranstaltungen/tosca.23/",
       termine: ['2026-10-25', '2026-10-28', '2026-10-31', '2026-11-28', '2026-12-02', '2027-01-08', '2027-01-15', '2027-01-20', '2027-01-24', '2027-01-30', '2027-02-05'],
       zeiten: { '2026-10-25': '18:00', '2026-10-28': '19:30', '2026-10-31': '18:00', '2026-11-28': '19:30', '2026-12-02': '19:30', '2027-01-08': '19:30', '2027-01-15': '19:30', '2027-01-20': '19:30', '2027-01-24': '18:00', '2027-01-30': '19:30', '2027-02-05': '19:30' } },
-    { werk: 'tosca', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/tosca",
+    { werk: 'tosca', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/tosca/19-06-2027/1900",
       termine: ['2027-06-19', '2027-06-27', '2027-07-03', '2027-07-11', '2027-07-17', '2027-07-29'],
       zeiten: { '2027-06-19': '19:00-21:30', '2027-06-27': '19:00-21:30', '2027-07-03': '19:00-21:30', '2027-07-11': '18:00-20:30', '2027-07-17': '19:00-21:30', '2027-07-29': '19:00-21:30' } },
     { werk: 'tosca', haus: 'staatstheater-stuttgart', url: "https://www.staatsoper-stuttgart.de/spielplan/a-z/tosca/",
@@ -1640,7 +1650,7 @@ export const spielplan = [
     { werk: 'werther', haus: 'bayerische-staatsoper', url: "https://www.staatsoper.de/stuecke/werther",
       termine: ['2027-05-15', '2027-05-18', '2027-05-22', '2027-05-26', '2027-05-29', '2027-06-29'],
       zeiten: { '2027-05-15': '18:00', '2027-05-18': '19:00', '2027-05-22': '18:00', '2027-05-26': '19:00', '2027-05-29': '18:00', '2027-06-29': '19:00' } },
-    { werk: 'werther', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/werther",
+    { werk: 'werther', haus: 'staatstheater-nuernberg', url: "https://staatstheater-nuernberg.de/spielplan-26-27/werther/16-01-2027/1900",
       termine: ['2027-01-16', '2027-02-03', '2027-03-02'],
       zeiten: { '2027-01-16': '19:00', '2027-02-03': '19:00', '2027-03-02': '19:00' } },
     { werk: 'werther', haus: 'theater-freiburg', url: "https://theater.freiburg.de/de_DE/programm/werther.1404971",

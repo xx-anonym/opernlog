@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:hoffmanns-erzaehlungen-theater-giessen-2027-04-16@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270416T193000
 DTEND;TZID=Europe/Berlin:20270416T223000
 SUMMARY:Hoffmanns Erzählungen – Stadttheater Gießen

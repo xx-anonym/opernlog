@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:barbiere-staatstheater-nuernberg-2027-07-18@opernlog.vercel.app
-DTSTAMP:20260923T000000Z
+DTSTAMP:20261103T000000Z
 DTSTART;TZID=Europe/Berlin:20270718T153000
 DTEND;TZID=Europe/Berlin:20270718T183000
 SUMMARY:Il barbiere di Siviglia – Staatstheater Nürnberg
@@ -31,9 +31,9 @@ GEO:49.4472;11.0797
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Nürnberg, Deutschland":geo:49.4472,11.0797
 URL:https://staatstheater-nuernberg.de/spielplan-26-27/der-barbier-von-sevi
- lla
+ lla/04-07-2027/1800
 DESCRIPTION:Gioachino Rossini: Il barbiere di Siviglia\nTermine und Karten:
   https://staatstheater-nuernberg.de/spielplan-26-27/der-barbier-von-sevill
- a\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+ a/04-07-2027/1800\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR
