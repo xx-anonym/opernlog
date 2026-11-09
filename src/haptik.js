@@ -1,8 +1,8 @@
 // Haptisches Feedback: ein kurzes Klicken an wenigen Stellen, wo eine
 // Bestätigung guttut – Stern gesetzt, Abend gespeichert, Gefällt mir,
 // Vormerken, Wunschliste, nächster Termin unter "Demnächst" (Jonas,
-// 3.10.2026). Nicht bei gewöhnlicher Navigation. Die Stellen tragen
-// data-haptik.
+// 3.10.2026). Nicht bei gewöhnlicher Navigation – mit einer Ausnahme: die
+// Leiste unten am Handy (9.11.2026). Die Stellen tragen data-haptik.
 //
 // Android: tippen() ruft die Vibrationsschnittstelle des Browsers.
 //

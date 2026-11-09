@@ -4,11 +4,17 @@ import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { installHinweis } from './InstallHinweis.js';
+import { tippen } from '../haptik.js';
 
 // Die Leiste unten am Handy: die vier meistbenutzten Seiten und in der Mitte
 // das Loggen. Vorher lag alles hinter dem Menüknopf oben rechts – der
 // wichtigste Weg der App war zwei Tipps lang und oben, wo der Daumen nicht
 // hinkommt. Das Menü bleibt für den Rest.
+//
+// Jeder Tipp auf die Leiste klickt haptisch (Jonas, 9.11.2026) – anders als
+// die übrige Navigation: die Leiste ist die Tastatur der App, und ohne
+// Rückmeldung weiß der Daumen nicht, ob er getroffen hat. data-haptik fürs
+// iPhone, tippen() für Android (siehe src/haptik.js).
 const SVG = {
   home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
   operas: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
@@ -18,7 +24,7 @@ const SVG = {
 };
 
 const tabPunkt = (seite, ziel, text, extra = '') => `
-      <a class="tab-leiste__punkt${extra}" data-nav="${ziel}" data-page="${seite}" href="${ziel}"${seite === 'log' ? ' aria-label="Besuch loggen"' : ''}>
+      <a class="tab-leiste__punkt${extra}" data-nav="${ziel}" data-page="${seite}" data-haptik href="${ziel}"${seite === 'log' ? ' aria-label="Besuch loggen"' : ''}>
         <span class="tab-leiste__zeichen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${SVG[seite]}</svg></span>
         <span class="tab-leiste__text">${text}</span>
       </a>`;
@@ -106,6 +112,7 @@ export function Navigation() {
     const link = e.target.closest('[data-nav]');
     if (link) {
       e.preventDefault();
+      if (link.classList.contains('tab-leiste__punkt')) tippen();
       window.location.hash = link.dataset.nav;
       // Close mobile menu
       nav.querySelector('.nav-links').classList.remove('nav-links--open');

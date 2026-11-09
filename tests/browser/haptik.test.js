@@ -197,6 +197,45 @@ test('iPhone: Wunschliste, Gefällt mir, Vormerken, Demnächst – je genau einm
     } finally { await ctx.close(); }
 });
 
+test('Android: jeder Tipp auf die Leiste unten vibriert, das Menü oben nicht', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/');
+    try {
+        await p.waitForSelector('.tab-leiste__punkt');
+        assert.equal(await vibriert(p), 0);
+        await p.click('.tab-leiste__punkt[data-page="diary"]');
+        await p.waitForFunction(() => location.hash === '#/diary');
+        assert.equal(await vibriert(p), 1);
+        await p.click('.tab-leiste__punkt--loggen');
+        await p.waitForFunction(() => location.hash === '#/log');
+        assert.equal(await vibriert(p), 2);
+        // Die übrige Navigation bleibt still.
+        await p.click('#mobileMenuToggle');
+        await p.click('.nav-links--open .nav-link[data-page="houses"]');
+        await p.waitForFunction(() => location.hash === '#/houses');
+        assert.equal(await vibriert(p), 2);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('iPhone: die Leiste unten – Fläche getroffen, Schalter umgelegt, genau ein Seitenwechsel', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/', { iphone: true });
+    try {
+        await p.waitForFunction(() => document.querySelectorAll('.tab-leiste__punkt > .haptik-flaeche').length === 5);
+        await umgelegtZaehlen(p);
+        await p.evaluate(() => { window.__wechsel = 0; addEventListener('hashchange', () => { window.__wechsel++; }); });
+        await p.click('.tab-leiste__punkt[data-page="diary"]');
+        await p.waitForFunction(() => location.hash === '#/diary');
+        await p.waitForFunction(() => document.querySelector('.tab-leiste__punkt--aktiv')?.dataset.page === 'diary');
+        await p.click('.tab-leiste__punkt--loggen');
+        await p.waitForFunction(() => location.hash === '#/log');
+        await p.waitForTimeout(300);
+        assert.equal(await umgelegt(p), 2);
+        assert.equal(await p.evaluate(() => window.__wechsel), 2);
+        assert.equal(await vibriert(p), 0);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
 test('ohne iPhone keine Flächen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p } = await oeffne('#/log?house=semperoper&opera=tosca');
     try {
