@@ -69,12 +69,16 @@ function pushNachbau({ push = true, erlaubnis = 'default', antwort = 'granted', 
     };
 }
 
-async function starte({ nachbau = {}, userAgent, neuesKonto = false } = {}) {
+async function starte({ nachbau = {}, userAgent, neuesKonto = false, willkommen = false } = {}) {
     const ctx = await browser.newContext({ viewport: HANDY, ...(userAgent ? { userAgent } : {}) });
     await ctx.addInitScript(pushNachbau, nachbau);
     // Die Frage nach Mitteilungen bekommen nur neue Konten. Das Testprofil ist
     // von 2024; neuesKonto macht es zwei Tage alt.
     if (neuesKonto) await ctx.addInitScript(() => { window.__profilErstellt = new Date(Date.now() - 2 * 864e5).toISOString(); });
+    // Ein neues, leeres Konto sieht zuerst das Karussell "Was hast du schon
+    // gesehen?" (tests/browser/einstieg.test.js); die Frage kommt danach.
+    // Hier gilt es als schon gesehen – außer der Test will genau die Abfolge.
+    if (!willkommen) await ctx.addInitScript(() => { try { localStorage.setItem('opernlog:willkommenGesehen', '1'); } catch { /* egal */ } });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
@@ -233,6 +237,18 @@ test('ein neues Konto wird beim ersten Start gefragt', { skip: fehltPlaywright }
         // Die Erlaubnisfrage des Systems kommt erst nach dem Tippen.
         assert.equal(await p.evaluate(() => window.__pushLog.gefragt), 0);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('erst das Willkommen, dann die Frage – nie beide übereinander', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p } = await starte({ neuesKonto: true, willkommen: true });
+    try {
+        await p.waitForSelector('.willkommen .willkommen__karte--mitte', { timeout: 8000 });
+        await p.waitForTimeout(600);
+        assert.equal(await p.locator(frage).count(), 0, 'die Frage liegt über dem Willkommen');
+        await p.click('.willkommen__fertig');
+        await p.waitForSelector('.willkommen', { state: 'detached' });
+        await p.waitForSelector(frage, { timeout: 5000 });
     } finally { await ctx.close(); }
 });
 

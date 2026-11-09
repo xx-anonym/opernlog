@@ -171,7 +171,10 @@ test('ohne Netz steht das eigene Tagebuch da, nicht die Anmeldemaske', { skip: f
     // vollständig lokal.
     const { ctx, p } = await imFlugmodus('#/diary');
     try {
-        assert.equal(await p.$('.auth-page'), null, 'Anmeldemaske trotz angemeldetem Nutzer');
+        // Als Wahrheitswert, nie das ElementHandle selbst: scheitert die
+        // Zusicherung, schreibt Node es samt Browser-Verbindung in die Meldung
+        // und braucht dafür über 100 GB Speicher (9.11.2026).
+        assert.equal(!!(await p.$('.auth-page')), false, 'Anmeldemaske trotz angemeldetem Nutzer');
         const text = await p.evaluate(() => document.querySelector('main').innerText);
         assert.match(text, /2 Besuche/);
         assert.match(text, /Tristan/);
@@ -206,6 +209,6 @@ test('ohne Netz bietet das Loggen das Formular an und sagt, dass es später übe
     try {
         assert.ok(await p.$('#logForm'), 'das Formular fehlt ohne Netz');
         assert.ok(await p.$('.log-offline'), 'kein Hinweis, dass der Besuch erst später übertragen wird');
-        assert.equal(await p.$('.auth-page'), null);
+        assert.equal(!!(await p.$('.auth-page')), false);
     } finally { await ctx.close(); }
 });

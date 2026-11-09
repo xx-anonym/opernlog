@@ -66,6 +66,10 @@ class Store {
         this._session = null;
         this._profile = null;
         this._cloudMode = false;
+        // Ob Abende und Markierungen seit dem Laden der Seite einmal frisch
+        // aus der Cloud kamen. Vorher weiß niemand, ob ein Konto leer ist
+        // oder nur noch nicht geladen – das Willkommen (main.js) wartet darauf.
+        this.abgeglichen = false;
         this.pendingSuggestions = { opera: false, house: false };
 
 
@@ -331,6 +335,7 @@ class Store {
                         }),
                 ]);
                 failures.push(...bereiche.filter(Boolean));
+                if (!bereiche.includes('Besuche') && !bereiche.includes('Gesehene Werke')) this.abgeglichen = true;
 
                 this.save();
             } else {
@@ -372,6 +377,7 @@ class Store {
             this._session = null;
             this._profile = null;
             this._cloudMode = false;
+            this.abgeglichen = false;
             // Nie angemeldet gewesen: was hier an Listen und Markierungen
             // liegt, stammt aus der Zeit, als das abgemeldet noch ging, und
             // gehört zu keinem Konto.
@@ -1202,6 +1208,7 @@ class Store {
         this._session = null;
         this._profile = null;
         this._cloudMode = false;
+        this.abgeglichen = false;
         
         // Ensure no cross-account data bleeding
         this.data = getDefaultData();

@@ -121,6 +121,10 @@ function builder(table) {
         return Promise.resolve({ data: null, error: { message: window.__lesefehler[table] } }).then(res, rej);
       }
       if (table === 'seen_operas' && op) {
+        // __seenFehler gesetzt: jedes Schreiben der Markierungen scheitert damit.
+        if (window.__seenFehler) {
+          return Promise.resolve({ data: null, error: { message: window.__seenFehler } }).then(res, rej);
+        }
         if (op === 'upsert' && nutzlast && !window.__seen.includes(nutzlast.opera_id)) {
           window.__seen.push(nutzlast.opera_id);
         }

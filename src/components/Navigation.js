@@ -5,6 +5,24 @@ import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { installHinweis } from './InstallHinweis.js';
 
+// Die Leiste unten am Handy: die vier meistbenutzten Seiten und in der Mitte
+// das Loggen. Vorher lag alles hinter dem Menüknopf oben rechts – der
+// wichtigste Weg der App war zwei Tipps lang und oben, wo der Daumen nicht
+// hinkommt. Das Menü bleibt für den Rest.
+const SVG = {
+  home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  operas: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  log: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  diary: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  profile: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+};
+
+const tabPunkt = (seite, ziel, text, extra = '') => `
+      <a class="tab-leiste__punkt${extra}" data-nav="${ziel}" data-page="${seite}" href="${ziel}"${seite === 'log' ? ' aria-label="Besuch loggen"' : ''}>
+        <span class="tab-leiste__zeichen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${SVG[seite]}</svg></span>
+        <span class="tab-leiste__text">${text}</span>
+      </a>`;
+
 export function Navigation() {
   const nav = document.createElement('nav');
   nav.className = 'main-nav';
@@ -58,6 +76,13 @@ export function Navigation() {
     <div class="nav-mobile-toggle" id="mobileMenuToggle">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </div>
+    <div class="tab-leiste">
+      ${tabPunkt('home', '#/', 'Feed')}
+      ${tabPunkt('operas', '#/operas', 'Opern')}
+      ${tabPunkt('log', '#/log', 'Loggen', ' tab-leiste__punkt--loggen')}
+      ${tabPunkt('diary', '#/diary', 'Tagebuch')}
+      ${tabPunkt('profile', '#/profile/user-me', 'Profil')}
+    </div>
   `;
 
   // Auf dem Handy im Browser: der Hinweis aufs Installieren, als letzte Zeile
@@ -96,16 +121,18 @@ export function Navigation() {
   // Highlight active
   function updateActive() {
     const hash = window.location.hash || '#/';
-    nav.querySelectorAll('.nav-link').forEach(link => {
+    nav.querySelectorAll('.nav-link, .tab-leiste__punkt').forEach(link => {
       const page = link.dataset.page;
-      if (page === 'home' && (hash === '#/' || hash === '')) {
-        link.classList.add('nav-link--active');
-      } else if (page === 'profile' && hash.startsWith('#/profile')) {
-        link.classList.add('nav-link--active');
-      } else if (page && hash.startsWith(`#/${page}`)) {
-        link.classList.add('nav-link--active');
-      } else {
-        link.classList.remove('nav-link--active');
+      const aktiv = page === 'home' ? (hash === '#/' || hash === '')
+        // Nur das eigene Profil: auf dem eines Freundes ist man nicht "bei sich".
+        : page === 'profile' && link.classList.contains('tab-leiste__punkt') ? /^#\/profile(\/user-me)?$/.test(hash)
+        : page === 'profile' ? hash.startsWith('#/profile')
+        // "#/opera/tosca" gehört zu "Opern", "#/operas" sowieso.
+        : page === 'operas' && link.classList.contains('tab-leiste__punkt') ? /^#\/operas?(\/|$|\?)/.test(hash)
+        : !!page && hash.startsWith(`#/${page}`);
+      link.classList.toggle(link.classList.contains('tab-leiste__punkt') ? 'tab-leiste__punkt--aktiv' : 'nav-link--active', aktiv);
+      if (link.classList.contains('tab-leiste__punkt')) {
+        if (aktiv) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
       }
     });
   }
@@ -119,12 +146,12 @@ export function Navigation() {
       try {
         const requests = await sb.getPendingRequestsReceived();
         if (requests.length > 0) {
-          const homeLink = nav.querySelector('[data-page="home"]');
-          if (homeLink && !homeLink.querySelector('.notification-dot')) {
+          nav.querySelectorAll('[data-page="home"]').forEach((homeLink) => {
+            if (homeLink.querySelector('.notification-dot')) return;
             const dot = document.createElement('span');
             dot.className = 'notification-dot';
             homeLink.appendChild(dot);
-          }
+          });
         }
       } catch (e) {
         // Silently fail – notification dot is not critical

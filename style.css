@@ -7960,3 +7960,596 @@ html.story-offen body {
     animation: none;
     opacity: 0;
 }
+
+/* ============================================================
+   Willkommen: "Was hast du schon gesehen?" (components/Willkommen.js)
+   Das Karussell beim ersten Anmelden. Samt, Gold, Playfair – dieselbe
+   Sprache wie Vorhang und Theaterzettel, weil es der erste Eindruck ist.
+   ============================================================ */
+html.willkommen-offen,
+html.willkommen-offen body {
+    overflow: hidden;
+}
+
+.willkommen {
+    padding: 0;
+    overflow: hidden;
+    background: #0b0709;
+    animation: willkommenAuf 0.5s ease both;
+}
+
+.willkommen .modal__overlay {
+    background:
+        radial-gradient(ellipse 90% 55% at 50% 0%, rgba(139, 26, 43, 0.42), transparent 70%),
+        radial-gradient(ellipse 70% 40% at 50% 100%, rgba(201, 168, 76, 0.08), transparent 70%),
+        #0b0709;
+    backdrop-filter: none;
+}
+
+.willkommen--geht {
+    animation: willkommenZu 0.32s ease both;
+}
+
+@keyframes willkommenAuf {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes willkommenZu {
+    to { opacity: 0; transform: scale(1.02); }
+}
+
+.willkommen__buehne {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    padding: calc(28px + env(safe-area-inset-top, 0px)) 0 calc(18px + env(safe-area-inset-bottom, 0px));
+    outline: none;
+}
+
+.willkommen__kopf {
+    flex-shrink: 0;
+    padding: 0 28px;
+    text-align: center;
+    animation: willkommenHoch 0.7s 0.1s ease both;
+}
+
+.willkommen__kicker {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.willkommen__titel {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 7vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: #f4ead8;
+    margin: 0;
+}
+
+.willkommen__titel em {
+    font-style: italic;
+    color: var(--gold-light);
+}
+
+.willkommen__zeile {
+    margin: 10px 0 0;
+    font-size: 0.95rem;
+    color: rgba(244, 234, 216, 0.62);
+}
+
+.willkommen__mitte {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+}
+
+.willkommen__reihe {
+    --karte-h: min(52vh, 440px);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    /* Erste und letzte Karte sollen mittig stehen können. */
+    padding: 0 calc(50% - var(--karte-h) / 3);
+}
+
+@supports (height: 1dvh) {
+    .willkommen__reihe {
+        --karte-h: min(52dvh, 440px);
+    }
+}
+
+/* Die Karte so hoch, wie zwischen Kopf und Fuß wirklich Platz ist – auf
+   einem kleinen Handy ragte sie sonst unter den Zähler. */
+@supports (height: 1cqh) {
+    .willkommen__mitte {
+        container-type: size;
+    }
+
+    .willkommen__reihe {
+        --karte-h: min(94cqh, 440px);
+    }
+}
+
+@media (max-height: 640px) {
+    .willkommen__buehne {
+        padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    }
+
+    .willkommen__kicker {
+        margin-bottom: 6px;
+    }
+
+    .willkommen__zeile {
+        margin-top: 6px;
+        font-size: 0.85rem;
+    }
+
+    .willkommen__stand {
+        margin: 8px 0 10px;
+    }
+
+    .willkommen__klein {
+        margin-top: 8px;
+    }
+}
+
+.willkommen__reihe::-webkit-scrollbar {
+    display: none;
+}
+
+.willkommen__karte {
+    position: relative;
+    flex: 0 0 auto;
+    height: var(--karte-h);
+    aspect-ratio: 2 / 3;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #14181c;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transform: scale(0.9);
+    opacity: 0.45;
+    transition: transform 0.35s ease, opacity 0.35s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+    animation: willkommenKarte 0.6s ease both;
+}
+
+.willkommen__karte:nth-child(2) { animation-delay: 0.08s; }
+.willkommen__karte:nth-child(3) { animation-delay: 0.16s; }
+
+.willkommen__karte--mitte {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+}
+
+.willkommen__karte:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.willkommen__bild {
+    position: absolute;
+    inset: 0;
+    transition: filter 0.3s ease;
+}
+
+.willkommen__text {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.willkommen__komponist {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.willkommen__werk {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 5vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: #f7f0e2;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* Gesehen: goldener Rahmen und ein Siegel oben rechts. */
+.willkommen__karte--gesehen {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px var(--gold), 0 18px 50px rgba(0, 0, 0, 0.6), 0 0 34px rgba(201, 168, 76, 0.22);
+}
+
+.willkommen__siegel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+    color: #1a1206;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+
+.willkommen__siegel svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 3;
+}
+
+.willkommen__karte--gesehen .willkommen__siegel {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.willkommen__pfeil {
+    display: none;
+}
+
+.willkommen__stand {
+    flex-shrink: 0;
+    margin: 0 0 14px;
+    text-align: center;
+    font-size: 0.82rem;
+    letter-spacing: 0.6px;
+    color: rgba(244, 234, 216, 0.5);
+    font-variant-numeric: tabular-nums;
+}
+
+.willkommen__stand strong {
+    color: var(--gold-light);
+    font-weight: 600;
+}
+
+.willkommen__fuss {
+    flex-shrink: 0;
+    padding: 0 28px;
+    text-align: center;
+    animation: willkommenHoch 0.7s 0.3s ease both;
+}
+
+.willkommen__fertig {
+    width: 100%;
+    max-width: 360px;
+}
+
+.willkommen__klein {
+    margin: 12px 0 0;
+    font-size: 0.72rem;
+    color: rgba(244, 234, 216, 0.38);
+}
+
+.willkommen__nachweis {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+@keyframes willkommenHoch {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes willkommenKarte {
+    from { opacity: 0; translate: 0 26px; }
+    to { translate: 0 0; }
+}
+
+/* Mit Maus: Pfeile links und rechts, die Reihe in der Mitte begrenzt. */
+@media (hover: hover) and (pointer: fine) {
+    .willkommen__pfeil {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+        width: 46px;
+        height: 46px;
+        margin-top: -23px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 168, 76, 0.4);
+        background: rgba(11, 7, 9, 0.7);
+        color: var(--gold-light);
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .willkommen__pfeil:hover {
+        background: rgba(139, 26, 43, 0.6);
+        border-color: var(--gold);
+    }
+
+    .willkommen__pfeil--zurueck { left: max(20px, calc(50% - 560px)); }
+    .willkommen__pfeil--weiter { right: max(20px, calc(50% - 560px)); }
+
+    .willkommen__karte:not(.willkommen__karte--mitte):hover {
+        opacity: 0.7;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .willkommen,
+    .willkommen__kopf,
+    .willkommen__fuss,
+    .willkommen__karte {
+        animation: none;
+    }
+
+    .willkommen__karte,
+    .willkommen__siegel {
+        transition: none;
+    }
+}
+
+/* ============================================================
+   Die Leiste unten am Handy (components/Navigation.js)
+   Feed, Opern, Loggen, Tagebuch, Profil – das Loggen in der Mitte und
+   angehoben, weil es der wichtigste Weg der App ist. Am Rechner gibt es die
+   Seitenleiste; dort bleibt diese Leiste aus.
+   ============================================================ */
+.tab-leiste {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --tab-hoehe: 58px;
+    }
+
+    .tab-leiste {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: stretch;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 110;
+        height: calc(var(--tab-hoehe) + env(safe-area-inset-bottom, 0px));
+        padding: 0 6px env(safe-area-inset-bottom, 0px);
+        background: rgba(24, 29, 35, 0.94);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-top: 1px solid var(--border);
+    }
+
+    .tab-leiste__punkt {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        min-width: 0;
+        color: var(--text-muted);
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        -webkit-user-select: none;
+        transition: color 0.2s ease;
+    }
+
+    .tab-leiste__zeichen {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tab-leiste__zeichen svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .tab-leiste__text {
+        font-size: 0.64rem;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+        line-height: 1;
+    }
+
+    .tab-leiste__punkt--aktiv {
+        color: var(--gold-light);
+    }
+
+    /* Loggen: ein Knopf, kein Reiter – rund, bordeauxrot, mit Goldkante,
+       halb über die Leiste gehoben. */
+    .tab-leiste__punkt--loggen {
+        color: var(--text-secondary);
+    }
+
+    .tab-leiste__punkt--loggen .tab-leiste__zeichen {
+        width: 50px;
+        height: 50px;
+        margin-top: -22px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, var(--accent-light), var(--accent-dark));
+        color: #fff;
+        box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.55), 0 0 0 5px var(--bg-primary), 0 8px 20px rgba(0, 0, 0, 0.5);
+        transition: transform 0.15s ease;
+    }
+
+    .tab-leiste__punkt--loggen .tab-leiste__zeichen svg {
+        width: 24px;
+        height: 24px;
+        stroke-width: 2.4;
+    }
+
+    .tab-leiste__punkt--loggen:active .tab-leiste__zeichen {
+        transform: scale(0.94);
+    }
+
+    .tab-leiste__punkt--loggen.tab-leiste__punkt--aktiv {
+        color: var(--gold-light);
+    }
+
+    .tab-leiste .notification-dot {
+        top: 8px;
+        right: calc(50% - 16px);
+    }
+
+    /* Platz für die Leiste: unter dem Inhalt, unter dem aufgeklappten Menü,
+       unter den Meldungen. Die Seite selbst endet mit 80px Luft (.page), das
+       reicht für die Leiste; dazu kommt nur der Rand des Geräts. */
+    .main-content {
+        padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .nav-links {
+        bottom: calc(var(--tab-hoehe) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .toast {
+        bottom: calc(var(--tab-hoehe) + 18px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Mit der Tastatur im Bild nimmt die Leiste nur Platz weg – auf Android
+       steht sie sonst direkt über den Tasten. */
+    body:has(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus, textarea:focus, select:focus) .tab-leiste {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) and (display-mode: standalone) {
+    .main-content {
+        padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ============================================================
+   "In deiner Nähe" auf der leeren Startseite (pages/Home.js)
+   ============================================================ */
+.start-naehe__frage {
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background:
+        radial-gradient(ellipse 90% 120% at 0% 0%, rgba(201, 168, 76, 0.07), transparent 60%),
+        var(--card-bg);
+}
+
+.start-naehe__text {
+    margin: 0 0 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 54ch;
+}
+
+.start-naehe__hinweis {
+    margin: -6px 0 16px;
+    font-size: 0.85rem;
+    color: var(--gold);
+    line-height: 1.5;
+}
+
+.start-naehe__aktionen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.start-naehe__aktionen .btn .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+.start-naehe__liste {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card-bg);
+    overflow: hidden;
+}
+
+.start-naehe__abend {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 14px 18px;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease;
+}
+
+.start-naehe__abend:last-child {
+    border-bottom: none;
+}
+
+.start-naehe__abend:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.start-naehe__wann {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+}
+
+.start-naehe__werk {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.start-naehe__wo {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.start-naehe__mehr {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    color: var(--gold);
+    text-decoration: none;
+}
+
+.start-naehe__mehr .icon {
+    width: 14px;
+    height: 14px;
+}

@@ -17,7 +17,7 @@
 // "meistgesehen", fünf Bewertungen für "am besten bewertet"), sonst gewinnt
 // ein einzelner Fünf-Sterne-Abend die Tabelle.
 
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, getCachedPosition, requestPosition, standortHinweis } from '../utils.js';
 import { icon } from '../components/Icon.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { showError, showToast, runWithFeedback } from '../components/Toast.js';
@@ -29,7 +29,8 @@ import { store } from '../store/store.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kommendePlaene, offenePlaene, wannText } from '../data/geplant.js';
-import { heuteIso, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
+import { heuteIso, terminMitWochentag, zeitText, abendeInDerNaehe, tagePlus } from '../data/spielplanAbfrage.js';
+import { spielplan } from '../data/spielplan.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
 import { tippen } from '../haptik.js';
@@ -57,6 +58,19 @@ export function HomePage() {
 
   page.appendChild(kopf(eigene));
   geplanteAbende(page, eigene);
+  if (!eigene.length) {
+    // Wer neu ist, hat meist noch keine Freunde hier – der leere Feed ganz
+    // oben sagte ihm als Erstes, was fehlt. Stattdessen zuerst, was es für
+    // ihn schon gibt: was in seiner Nähe läuft, und was ihm nach dem
+    // Willkommen noch fehlt. Der leere Feed rückt ans Ende. Hat er doch schon
+    // Freunde mit Abenden, bleibt deren Feed oben – dafür ist die Seite da.
+    freundschaftsanfragen(page);
+    page.appendChild(feedAbschnitt({ leerNach: el => page.appendChild(el) }));
+    inDeinerNaehe(page);
+    empfehlungen(page, eigene);
+    speicherHinweis(page);
+    return page;
+  }
   saisonBanner(page, eigene);
   jahrestag(page, eigene);
   freundschaftsanfragen(page);
@@ -322,12 +336,16 @@ function jahrestag(page, eigene) {
  * Deutlich abgesetzt und eigens überschrieben: das sind keine Freunde, und es
  * soll nicht so aussehen.
  */
-function feedAbschnitt() {
+function feedAbschnitt({ leerNach = null } = {}) {
   const el = document.createElement('section');
   el.className = 'section';
   el.innerHTML = `
     <h2 class="section__title">${icon('feed')}Von deinen Freunden</h2>
     <div class="loading-spinner"><div class="spinner"></div></div>`;
+  // Mit leerNach (leere Startseite): unsichtbar, bis feststeht, ob es etwas
+  // zu zeigen gibt. Ein leerer Feed wird erst verschoben und dann gezeigt –
+  // so springt nichts, was schon dasteht.
+  if (leerNach) el.hidden = true;
 
   (async () => {
     // Hier standen früher die eigenen Besuche, wenn keine Cloud da war –
@@ -354,6 +372,10 @@ function feedAbschnitt() {
     }
 
     el.innerHTML = `<h2 class="section__title">${icon('feed')}Von deinen Freunden</h2>`;
+    if (leerNach) {
+      if (!feed.length && el.isConnected) leerNach(el);
+      el.hidden = false;
+    }
 
     if (feed.length) {
       abendListe(el, feed, { mitFotos: true });
@@ -468,6 +490,79 @@ function empfehlungen(page, eigene) {
   el.innerHTML = `<h2 class="section__title">${icon('trending')}Was dir noch fehlt</h2>`;
   el.appendChild(blinde);
   page.appendChild(el);
+}
+
+// "In deiner Nähe" auf der leeren Startseite: so weit, so viele Tage, so
+// viele Abende. Mehr steht unter "In der Nähe".
+const NAEHE_KM = 100;
+const NAEHE_TAGE = 21;
+const NAEHE_ABENDE = 3;
+
+/** Die nächsten Abende um einen Standort – für die Startseite und ihre Tests. */
+export function naechsteAbende(position, { heute = heuteIso(), daten } = {}) {
+  return abendeInDerNaehe({ heute, bis: tagePlus(heute, NAEHE_TAGE), position, radiusKm: NAEHE_KM, ...(daten ? { daten } : {}) })
+    .filter(a => operas.some(o => o.id === a.werk))
+    .slice(0, NAEHE_ABENDE);
+}
+
+/**
+ * Was in der Nähe demnächst läuft – nur auf der leeren Startseite.
+ *
+ * Ist ein Standort vom letzten Mal bekannt, stehen die Abende gleich da.
+ * Sonst ein Knopf: gefragt wird erst auf Antippen, nie von selbst – eine
+ * Standortfrage beim allerersten Bildschirm lehnt man ab, ohne sie zu lesen.
+ */
+function inDeinerNaehe(page) {
+  const el = document.createElement('section');
+  el.className = 'section start-naehe';
+  page.appendChild(el);
+
+  const zeile = (a) => {
+    const werk = operas.find(o => o.id === a.werk);
+    const zeit = zeitText(a.zeit);
+    return `
+      <a class="start-naehe__abend" href="#/opera/${escapeHTML(a.werk)}">
+        <span class="start-naehe__wann">${escapeHTML(terminMitWochentag(a.datum))}${zeit ? ` · ${escapeHTML(zeit.slice(0, 5))}` : ''}</span>
+        <span class="start-naehe__werk">${escapeHTML(werk.title)}</span>
+        <span class="start-naehe__wo">${escapeHTML(a.haus.name)}${a.km !== null ? ` · ${a.km} km` : ''}</span>
+      </a>`;
+  };
+
+  const zeichne = (position, hinweis = '') => {
+    const kopf = `<h2 class="section__title">${icon('pin')}In deiner Nähe</h2>`;
+    if (!position) {
+      const haeuser = new Set(spielplan.map(e => e.haus)).size;
+      el.innerHTML = `${kopf}
+        <div class="start-naehe__frage">
+          <p class="start-naehe__text">OpernLog kennt die Spielpläne von ${haeuser} Häusern. Mit deinem Standort steht hier, was in den nächsten Wochen bei dir läuft.</p>
+          ${hinweis ? `<p class="start-naehe__hinweis">${escapeHTML(hinweis)}</p>` : ''}
+          <div class="start-naehe__aktionen">
+            <button type="button" class="btn btn--primary" id="startNaeheOrten">${icon('pin')}Standort verwenden</button>
+            <a href="#/naehe" class="btn btn--outline">Alle Häuser ansehen</a>
+          </div>
+        </div>`;
+      el.querySelector('#startNaeheOrten').addEventListener('click', async (e) => {
+        const knopf = e.currentTarget;
+        knopf.disabled = true;
+        const neu = await requestPosition({ nachfragen: true });
+        if (!el.isConnected) return;
+        zeichne(neu, neu ? '' : standortHinweis());
+      });
+      return;
+    }
+    const abende = naechsteAbende(position);
+    el.innerHTML = abende.length
+      ? `${kopf}
+        <div class="start-naehe__liste">${abende.map(zeile).join('')}</div>
+        <a href="#/naehe" class="start-naehe__mehr">Alles in der Nähe${icon('chevronRight')}</a>`
+      : `${kopf}
+        <div class="start-naehe__frage">
+          <p class="start-naehe__text">In den nächsten drei Wochen läuft im Umkreis von ${NAEHE_KM} km nichts aus dem Katalog.</p>
+          <div class="start-naehe__aktionen"><a href="#/naehe" class="btn btn--outline">Weiter weg suchen</a></div>
+        </div>`;
+  };
+
+  zeichne(getCachedPosition());
 }
 
 /** Freundschaftsanfragen – ganz oben, weil sie auf eine Antwort warten. */

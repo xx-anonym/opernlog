@@ -27,6 +27,8 @@ import { mitteilungenFrage } from './components/MitteilungenFrage.js';
 import { mitteilungenFrageFaellig } from './push.js';
 import { neuigkeitFenster } from './components/Neuigkeit.js';
 import { neuigkeitFaellig } from './neuigkeiten.js';
+import { willkommenFenster } from './components/Willkommen.js';
+import { willkommenFaellig } from './willkommen.js';
 import { zurueckGesteEinrichten } from './zurueckGeste.js';
 import { haptikEinrichten } from './haptik.js';
 import { InvitePage } from './pages/Invite.js';
@@ -679,6 +681,7 @@ class App {
         }
 
         this.content.appendChild(page);
+        this.vielleichtWillkommenZeigen(path);
         this.vielleichtNachMitteilungenFragen(path);
         this.vielleichtNeuigkeitZeigen(path);
 
@@ -687,6 +690,37 @@ class App {
         if (navLinks) navLinks.classList.remove('nav-links--open');
 
         this.stellePositionWiederher(zielPosition);
+    }
+
+    /**
+     * Beim ersten Anmelden eines neuen, noch leeren Kontos: das Karussell
+     * "Was hast du schon gesehen?" (components/Willkommen.js). Es kommt vor
+     * der Frage nach Mitteilungen – die wartet, bis es zu ist. Danach wird
+     * die Seite neu gezeichnet: auf der Startseite steht dann, was noch fehlt.
+     */
+    vielleichtWillkommenZeigen(path) {
+        if (!store.isCloud || ['auth', 'invite'].includes(path)) return;
+        const profil = store._profile;
+        // Erst wenn die Abende aus der Cloud da sind: bis dahin sieht jedes
+        // Konto leer aus. Der nächste Aufruf kommt mit dem Neuzeichnen danach.
+        if (!profil?.id || !store.abgeglichen || this._willkommenGeprueft === profil.id) return;
+        this._willkommenGeprueft = profil.id;
+        try {
+            const faellig = willkommenFaellig({
+                profilErstellt: profil.created_at,
+                abende: (store.getVisitsByUser('user-me') || []).length,
+                gesehen: store.getSeenOperas().length,
+            });
+            if (!faellig || document.querySelector('.modal.modal--active')) return;
+            willkommenFenster({
+                onFertig: () => {
+                    if (!ungesicherteEingabe()) this.route();
+                    else this.vielleichtNachMitteilungenFragen(this.currentPath());
+                },
+            });
+        } catch (e) {
+            console.warn('[Willkommen] nicht gezeigt', e);
+        }
     }
 
     /**
@@ -700,6 +734,8 @@ class App {
         if (!store.isCloud || ['auth', 'invite'].includes(path)) return;
         const profil = store._profile;
         if (!profil?.id || this._mitteilungenGeprueft === profil.id) return;
+        // Solange das Willkommen offen ist, wird nicht gefragt – erst danach.
+        if (document.querySelector('.willkommen')) return;
         this._mitteilungenGeprueft = profil.id;
         try {
             // Wer schon abonniert hat, hat die Erlaubnis erteilt – und dann
