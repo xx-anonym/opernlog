@@ -144,8 +144,23 @@ export function Navigation() {
     });
   }
 
-  window.addEventListener('hashchange', updateActive);
+  // Die Leiste gehört zur App, nicht zur Anmeldung: wer abgemeldet ist, kann
+  // mit keinem ihrer Punkte etwas anfangen, und über der Anmeldemaske sah sie
+  // aus wie ein Fehler (Jonas, 9.11.2026).
+  const leiste = nav.querySelector('.tab-leiste');
+  function leisteZeigen() {
+    const hash = window.location.hash || '#/';
+    leiste.hidden = !store.hatKonto || /^#\/(auth|invite)(\/|\?|$)/.test(hash);
+  }
+
+  window.addEventListener('hashchange', () => { updateActive(); leisteZeigen(); });
   updateActive();
+  leisteZeigen();
+  // An- und Abmelden ändert nicht immer die Adresse.
+  const abbestellen = store.subscribe(() => {
+    if (!nav.isConnected) { abbestellen(); return; }
+    leisteZeigen();
+  });
 
   // Notification dot for pending friend requests
   if (store.isCloud && isSupabaseConfigured()) {

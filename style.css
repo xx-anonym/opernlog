@@ -8355,6 +8355,11 @@ html.willkommen-offen body {
         border-top: 1px solid var(--border);
     }
 
+    /* display: grid überstimmt sonst das hidden-Attribut. */
+    .tab-leiste[hidden] {
+        display: none;
+    }
+
     .tab-leiste__punkt {
         position: relative;
         display: flex;

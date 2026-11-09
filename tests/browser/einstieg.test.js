@@ -279,6 +279,37 @@ test('am Rechner gibt es die Leiste nicht, mit der Tastatur im Bild auch am Hand
     } finally { await ctx.close(); }
 });
 
+test('abgemeldet und auf der Anmeldeseite gibt es keine Leiste – nach dem Anmelden wieder', { skip: fehltPlaywright, timeout: 90000 }, async () => {
+    const sichtbar = p => p.$eval('.tab-leiste', e => getComputedStyle(e).display !== 'none');
+    const { ctx, p } = await oeffne('#/', { besuche: EIN_ABEND });
+    try {
+        await gezeichnet(p);
+        assert.equal(await sichtbar(p), true);
+        // Die Anmeldeseite, auch wenn die Sitzung noch steht.
+        await p.evaluate(() => { location.hash = '#/auth'; });
+        await p.waitForFunction(() => document.querySelector('.tab-leiste').hidden);
+        assert.equal(await sichtbar(p), false);
+        await p.evaluate(() => { location.hash = '#/'; });
+        await p.waitForFunction(() => !document.querySelector('.tab-leiste').hidden);
+
+        // Abgemeldet, ohne dass sich die Adresse ändert: die Leiste geht mit.
+        await p.evaluate(async () => {
+            const { store } = await import('/src/store/store.js');
+            store._session = null;
+            store._cloudMode = false;
+            store.data.currentUser = { ...store.data.currentUser, id: 'user-me' };
+            store.notify();
+        });
+        assert.equal(await sichtbar(p), false);
+        await p.evaluate(async () => {
+            const { store } = await import('/src/store/store.js');
+            await store.refreshSession();
+        });
+        await p.waitForFunction(() => !document.querySelector('.tab-leiste').hidden);
+        assert.equal(await sichtbar(p), true);
+    } finally { await ctx.close(); }
+});
+
 test('das aufgeklappte Menü endet über der Leiste', { skip: fehltPlaywright, timeout: 90000 }, async () => {
     const { ctx, p } = await oeffne('#/', { besuche: EIN_ABEND });
     try {
