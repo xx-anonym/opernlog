@@ -213,6 +213,31 @@ test('auf einem kleinen Handy ragt keine Karte unter den Zähler', { skip: fehlt
     } finally { await ctx.close(); }
 });
 
+test('im Safari-Tab mit dem Hinweis aufs Installieren: das Karussell füllt das Bild, der Knopf ist ganz zu sehen', { skip: fehltPlaywright, timeout: 90000 }, async () => {
+    // Mit dem Hinweis rücken alle Fenster unter die höhere Kopfzeile. Das
+    // Karussell ist aber so hoch wie das Bild – der Abstand schob seinen Knopf
+    // unten hinaus (Jonas' iPhone, 9.11.2026).
+    const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.7 Mobile/15E148 Safari/604.1';
+    const ctx = await browser.newContext({ viewport: HANDY, userAgent: IPHONE, serviceWorkers: 'block', reducedMotion: 'reduce' });
+    try {
+        const p = await ctx.newPage();
+        await p.addInitScript(() => { window.__profilErstellt = new Date().toISOString(); });
+        await ersetzeSupabase(p);
+        await p.goto(`${server.url}/index.html#/`);
+        await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
+        await vorhangAuf(p);
+        await p.waitForSelector('.willkommen .willkommen__karte--mitte');
+        assert.equal(await gibtEs(p, '.installhinweis'), true, 'der Hinweis aufs Installieren fehlt – der Test prüft sonst nichts');
+        const m = await p.evaluate(() => {
+            const r = s => document.querySelector(s).getBoundingClientRect();
+            return { oben: Math.round(r('.willkommen__buehne').top), unten: Math.round(r('.willkommen__buehne').bottom), knopf: Math.round(r('.willkommen__fertig').bottom), klein: Math.round(r('.willkommen__klein').bottom) };
+        });
+        assert.equal(m.oben, 0, 'das Karussell beginnt nicht am oberen Rand');
+        assert.equal(m.unten, HANDY.height);
+        assert.ok(m.knopf <= HANDY.height && m.klein <= HANDY.height, `Knopf bis ${m.knopf}, Zeile darunter bis ${m.klein}, das Bild endet bei ${HANDY.height}`);
+    } finally { await ctx.close(); }
+});
+
 // ── Leiste unten ──────────────────────────────────────────
 
 test('am Handy: fünf Punkte unten, Loggen in der Mitte führt zum Formular', { skip: fehltPlaywright, timeout: 90000 }, async () => {

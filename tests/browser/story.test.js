@@ -35,8 +35,8 @@ const BESUCHE = [
     { id: 'aaaaaaaa-1111-4000-8000-000000000003', user_id: UID, opera_id: 'tosca', house_id: 'semperoper', date: '2026-05-01', rating: 3 },
 ];
 
-async function rueckblick({ dauer = '60s', bewegung = 'no-preference', teilen = false, besuche = BESUCHE } = {}) {
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block', reducedMotion: bewegung });
+async function rueckblick({ dauer = '60s', bewegung = 'no-preference', teilen = false, besuche = BESUCHE, userAgent } = {}) {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block', reducedMotion: bewegung, ...(userAgent ? { userAgent } : {}) });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
@@ -115,6 +115,20 @@ test('Story: Anfang, je Kachel eine Folie, blättern per Tippen und Pfeiltaste, 
         await p.waitForSelector('.story', { state: 'detached' });
         assert.equal(await p.evaluate(() => document.documentElement.classList.contains('story-offen')), false);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Story im Safari-Tab mit dem Hinweis aufs Installieren: die Bühne füllt das Bild', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    // Wie beim Willkommen (tests/browser/einstieg.test.js): der Abstand für
+    // gewöhnliche Fenster schob die bildschirmhohe Bühne unten hinaus.
+    const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.7 Mobile/15E148 Safari/604.1';
+    const { ctx, p } = await rueckblick({ userAgent: IPHONE });
+    try {
+        assert.equal(await p.locator('.installhinweis').count(), 1, 'der Hinweis aufs Installieren fehlt – der Test prüft sonst nichts');
+        await p.click('#storyBtn');
+        await p.waitForSelector('.story .story__folie');
+        const b = await p.$eval('.story__buehne', e => { const r = e.getBoundingClientRect(); return { oben: Math.round(r.top), unten: Math.round(r.bottom) }; });
+        assert.deepEqual(b, { oben: 0, unten: 844 });
     } finally { await ctx.close(); }
 });
 

@@ -7675,7 +7675,10 @@ html.story-offen body {
         top: var(--kopfhoehe, 110px);
     }
 
-    .mit-installhinweis .modal {
+    /* Nicht für Fenster, die den ganzen Bildschirm füllen: Willkommen und
+       Story sind genau so hoch wie das Bild, und mit dem Abstand oben rutschte
+       ihr unterer Rand – beim Willkommen der Knopf – aus dem Bild. */
+    .mit-installhinweis .modal:not(.willkommen):not(.story) {
         padding-top: calc(var(--kopfhoehe, 110px) + 16px);
     }
 }
