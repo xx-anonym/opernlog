@@ -32,9 +32,11 @@ test('Anführungszeichen in der Adresse brechen nicht aus dem src-Attribut aus',
 });
 
 test('Instrumente funktionieren wie bisher', () => {
-    const html = renderAvatarHTML('AB', 'violin');
-    assert.match(html, /class="avatar-icon"/);
-    assert.doesNotMatch(html, /<img/);
+    for (const instrument of ['violin', 'piano']) {
+        const html = renderAvatarHTML('AB', instrument);
+        assert.match(html, /class="avatar-icon"/, instrument);
+        assert.doesNotMatch(html, /<img/, instrument);
+    }
 });
 
 test('die Harfe ergänzt die Instrument-Auswahl im selben Linien-Stil', () => {

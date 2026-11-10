@@ -91,32 +91,21 @@ export const profileIcons = {
   piano: {
     label: 'Piano',
     svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Grand piano body outline (top view / side silhouette) -->
-      <!-- Lid -->
-      <path d="M10 20h44c2 0 3 1 3 3v4H7v-4c0-2 1-3 3-3z"/>
-      <!-- Main body -->
-      <rect x="7" y="27" width="50" height="20" rx="1"/>
-      <!-- White keys -->
-      <line x1="14" y1="27" x2="14" y2="47"/>
-      <line x1="21" y1="27" x2="21" y2="47"/>
-      <line x1="28" y1="27" x2="28" y2="47"/>
-      <line x1="35" y1="27" x2="35" y2="47"/>
-      <line x1="42" y1="27" x2="42" y2="47"/>
-      <line x1="49" y1="27" x2="49" y2="47"/>
-      <!-- Black keys -->
-      <rect x="11" y="27" width="4" height="12" rx="0.5" fill="currentColor" stroke="none"/>
-      <rect x="18" y="27" width="4" height="12" rx="0.5" fill="currentColor" stroke="none"/>
-      <rect x="31" y="27" width="4" height="12" rx="0.5" fill="currentColor" stroke="none"/>
-      <rect x="38" y="27" width="4" height="12" rx="0.5" fill="currentColor" stroke="none"/>
-      <rect x="45" y="27" width="4" height="12" rx="0.5" fill="currentColor" stroke="none"/>
-      <!-- Legs -->
-      <line x1="12" y1="47" x2="12" y2="54"/>
-      <line x1="52" y1="47" x2="52" y2="54"/>
-      <!-- Pedals -->
-      <line x1="29" y1="54" x2="35" y2="54"/>
-      <line x1="30" y1="47" x2="30" y2="54" stroke-width="0.8"/>
-      <line x1="32" y1="47" x2="32" y2="54" stroke-width="0.8"/>
-      <line x1="34" y1="47" x2="34" y2="54" stroke-width="0.8"/>
+      <!-- Grand-piano silhouette: a broad lid, curved rim and compact keyboard -->
+      <path d="M10 18h27c11 0 18 7 18 17v3c0 8-6 14-15 14H10z"/>
+      <!-- Raised lid and its prop make the shape readable at avatar size -->
+      <path d="M10 18h29c8 0 14 5 16 12"/>
+      <line x1="45" y1="23" x2="50" y2="38"/>
+      <!-- Keyboard stays deliberately simple instead of becoming visual noise -->
+      <path d="M10 36h27v14H10z"/>
+      <line x1="16" y1="36" x2="16" y2="50"/>
+      <line x1="22" y1="36" x2="22" y2="50"/>
+      <line x1="28" y1="36" x2="28" y2="50"/>
+      <line x1="34" y1="36" x2="34" y2="50"/>
+      <!-- Legs and pedals finish the instrument without crowding the keys -->
+      <line x1="14" y1="50" x2="14" y2="56"/>
+      <line x1="43" y1="50" x2="47" y2="56"/>
+      <path d="M27 51v4h6" stroke-width="1.1"/>
     </svg>`
   },
   harp: {
