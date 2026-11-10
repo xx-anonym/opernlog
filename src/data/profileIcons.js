@@ -91,27 +91,21 @@ export const profileIcons = {
   piano: {
     label: 'Klavier',
     svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Upright piano: its front view remains unmistakable in a small avatar -->
-      <path d="M11 12h42v6H11z"/>
-      <path d="M15 18h34v16H15z"/>
-      <!-- The inset panel gives the cabinet depth without adding decoration -->
-      <path d="M20 22h24v8H20z" stroke-width="1.1"/>
-      <!-- A broad, front-facing keyboard is more legible than a tiny grand-piano outline -->
-      <path d="M11 34h42v16H11z"/>
-      <line x1="18" y1="34" x2="18" y2="50"/>
-      <line x1="25" y1="34" x2="25" y2="50"/>
-      <line x1="32" y1="34" x2="32" y2="50"/>
-      <line x1="39" y1="34" x2="39" y2="50"/>
-      <line x1="46" y1="34" x2="46" y2="50"/>
-      <!-- Short, stronger strokes suggest the black keys without crowding the white ones -->
-      <line x1="21.5" y1="34" x2="21.5" y2="41" stroke-width="2.5"/>
-      <line x1="28.5" y1="34" x2="28.5" y2="41" stroke-width="2.5"/>
-      <line x1="36" y1="34" x2="36" y2="41" stroke-width="2.5"/>
-      <line x1="43" y1="34" x2="43" y2="41" stroke-width="2.5"/>
-      <!-- Legs and a compact pedal bar complete the familiar silhouette -->
-      <line x1="16" y1="50" x2="16" y2="56"/>
-      <line x1="48" y1="50" x2="48" y2="56"/>
-      <path d="M28 50v5h8v-5" stroke-width="1.1"/>
+      <!-- Pure keyboard: no case or ornament competes with the familiar key pattern -->
+      <path d="M8 17h48v30H8z"/>
+      <!-- Seven white keys -->
+      <line x1="14.9" y1="17" x2="14.9" y2="47"/>
+      <line x1="21.7" y1="17" x2="21.7" y2="47"/>
+      <line x1="28.6" y1="17" x2="28.6" y2="47"/>
+      <line x1="35.4" y1="17" x2="35.4" y2="47"/>
+      <line x1="42.3" y1="17" x2="42.3" y2="47"/>
+      <line x1="49.1" y1="17" x2="49.1" y2="47"/>
+      <!-- The 2–3 rhythm makes it recognisably a piano keyboard -->
+      <line x1="14.9" y1="17" x2="14.9" y2="31" stroke-width="3"/>
+      <line x1="21.7" y1="17" x2="21.7" y2="31" stroke-width="3"/>
+      <line x1="35.4" y1="17" x2="35.4" y2="31" stroke-width="3"/>
+      <line x1="42.3" y1="17" x2="42.3" y2="31" stroke-width="3"/>
+      <line x1="49.1" y1="17" x2="49.1" y2="31" stroke-width="3"/>
     </svg>`
   },
   harp: {
