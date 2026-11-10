@@ -704,14 +704,18 @@ class App {
         // Erst wenn die Abende aus der Cloud da sind: bis dahin sieht jedes
         // Konto leer aus. Der nächste Aufruf kommt mit dem Neuzeichnen danach.
         if (!profil?.id || !store.abgeglichen || this._willkommenGeprueft === profil.id) return;
+        // Liegt gerade ein anderes Fenster obenauf, wird beim nächsten
+        // Zeichnen wieder geprüft – nicht für diesen Seitenaufruf aufgegeben.
+        if (document.querySelector('.modal.modal--active')) return;
         this._willkommenGeprueft = profil.id;
         try {
             const faellig = willkommenFaellig({
+                profilId: profil.id,
                 profilErstellt: profil.created_at,
                 abende: (store.getVisitsByUser('user-me') || []).length,
                 gesehen: store.getSeenOperas().length,
             });
-            if (!faellig || document.querySelector('.modal.modal--active')) return;
+            if (!faellig) return;
             willkommenFenster({
                 onFertig: () => {
                     if (!ungesicherteEingabe()) this.route();
@@ -734,8 +738,12 @@ class App {
         if (!store.isCloud || ['auth', 'invite'].includes(path)) return;
         const profil = store._profile;
         if (!profil?.id || this._mitteilungenGeprueft === profil.id) return;
-        // Solange das Willkommen offen ist, wird nicht gefragt – erst danach.
-        if (document.querySelector('.willkommen')) return;
+        // Erst das Willkommen: solange es offen ist oder noch nicht feststeht,
+        // ob es kommt (die Abende sind noch unterwegs), wird nicht gefragt.
+        // Sonst läge bei langsamem Netz die Frage zuerst da, und das
+        // Willkommen käme in diesem Seitenaufruf gar nicht mehr. Ohne Netz
+        // bleibt die Frage damit aus – sie braucht es ohnehin.
+        if (document.querySelector('.willkommen') || this._willkommenGeprueft !== profil.id) return;
         this._mitteilungenGeprueft = profil.id;
         try {
             // Wer schon abonniert hat, hat die Erlaubnis erteilt – und dann

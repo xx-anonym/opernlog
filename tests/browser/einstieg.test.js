@@ -119,7 +119,7 @@ test('nach "Weiter" ist das Fenster weg, die Startseite zeigt "Was dir noch fehl
         await p.waitForSelector('.willkommen', { state: 'detached' });
         await p.waitForSelector('.page--home .blindspots, .page--home [class*="blind"]');
         assert.match(await p.textContent('.page--home'), /Was dir noch fehlt/);
-        assert.ok(await p.evaluate(() => !!localStorage.getItem('opernlog:willkommenGesehen')));
+        assert.ok(await p.evaluate(id => !!localStorage.getItem(`opernlog:willkommenGesehen:${id}`), UID));
 
         await p.evaluate(() => new Promise(r => setTimeout(r, 300)));   // die Zurück-Geste räumt ihren Eintrag weg
         await p.reload();
@@ -128,6 +128,24 @@ test('nach "Weiter" ist das Fenster weg, die Startseite zeigt "Was dir noch fehl
         await gezeichnet(p);
         assert.equal(await gibtEs(p, '.willkommen'), false);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('hat auf dem Gerät schon ein anderes Konto das Karussell gesehen, bekommt das neue es trotzdem', { skip: fehltPlaywright, timeout: 90000 }, async () => {
+    // Jonas' iPhone, 10.11.2026: Testkonto am Vorabend, neues Konto am Morgen – und kein Karussell.
+    const ctx = await browser.newContext({ viewport: HANDY, serviceWorkers: 'block', reducedMotion: 'reduce' });
+    try {
+        const p = await ctx.newPage();
+        await p.addInitScript(() => {
+            window.__profilErstellt = new Date().toISOString();
+            localStorage.setItem('opernlog:willkommenGesehen:99999999-9999-9999-9999-999999999999', '2026-11-09T22:22:00Z');
+            localStorage.setItem('opernlog:willkommenGesehen', '2026-11-09T22:22:00Z');   // der Schlüssel bis 9.11., ohne Konto
+        });
+        await ersetzeSupabase(p);
+        await p.goto(`${server.url}/index.html#/`);
+        await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
+        await vorhangAuf(p);
+        await p.waitForSelector('.willkommen .willkommen__karte--mitte');
     } finally { await ctx.close(); }
 });
 
@@ -194,7 +212,7 @@ test('die Zurück-Geste schließt das Karussell wie "Überspringen"', { skip: fe
         await p.waitForFunction(() => Number(history.state?.opernlogFenster) >= 1);
         await p.goBack();
         await p.waitForSelector('.willkommen', { state: 'detached' });
-        assert.ok(await p.evaluate(() => !!localStorage.getItem('opernlog:willkommenGesehen')));
+        assert.ok(await p.evaluate(id => !!localStorage.getItem(`opernlog:willkommenGesehen:${id}`), UID));
         assert.equal(new URL(p.url()).hash, '#/');
     } finally { await ctx.close(); }
 });

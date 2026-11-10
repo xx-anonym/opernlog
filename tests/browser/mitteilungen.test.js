@@ -78,7 +78,8 @@ async function starte({ nachbau = {}, userAgent, neuesKonto = false, willkommen 
     // Ein neues, leeres Konto sieht zuerst das Karussell "Was hast du schon
     // gesehen?" (tests/browser/einstieg.test.js); die Frage kommt danach.
     // Hier gilt es als schon gesehen – außer der Test will genau die Abfolge.
-    if (!willkommen) await ctx.addInitScript(() => { try { localStorage.setItem('opernlog:willkommenGesehen', '1'); } catch { /* egal */ } });
+    // Gemerkt wird je Konto; das ist die Kennung des Testnutzers aus supabaseStub.js.
+    if (!willkommen) await ctx.addInitScript(() => { try { localStorage.setItem('opernlog:willkommenGesehen:11111111-1111-1111-1111-111111111111', '1'); } catch { /* egal */ } });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
@@ -246,6 +247,35 @@ test('erst das Willkommen, dann die Frage – nie beide übereinander', { skip: 
         await p.waitForSelector('.willkommen .willkommen__karte--mitte', { timeout: 8000 });
         await p.waitForTimeout(600);
         assert.equal(await p.locator(frage).count(), 0, 'die Frage liegt über dem Willkommen');
+        await p.click('.willkommen__fertig');
+        await p.waitForSelector('.willkommen', { state: 'detached' });
+        await p.waitForSelector(frage, { timeout: 5000 });
+    } finally { await ctx.close(); }
+});
+
+test('langsames Netz: die Frage drängt sich nicht vor – erst das Willkommen, dann sie', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    // Die Oberfläche steht nach drei Sekunden auch ohne die Abende. Fragte sie
+    // dann schon nach Mitteilungen, läge ein Fenster obenauf, wenn die Abende
+    // kommen – und das Willkommen fiele für diesen Seitenaufruf aus.
+    const ctx = await browser.newContext({ viewport: HANDY });
+    try {
+        await ctx.addInitScript(pushNachbau, {});
+        await ctx.addInitScript(() => { window.__profilErstellt = new Date(Date.now() - 2 * 864e5).toISOString(); });
+        const p = await ctx.newPage();
+        await ersetzeSupabase(p);
+        await p.addInitScript(() => {
+            const warte = setInterval(() => { if (window.__anhalten) { window.__anhalten.visits = 'lesen'; clearInterval(warte); } }, 1);
+        });
+        await p.goto(`${server.url}/index.html`);
+        await p.waitForFunction(() => !!window.supabase, null, { timeout: 15000 });
+        await p.waitForSelector('#splash', { state: 'detached' }).catch(() => {});
+        await p.waitForSelector('.page--home .feedkopf');
+        assert.ok(await p.evaluate(() => window.__angehalten > 0), 'das Lesen der Abende wurde nicht aufgehalten');
+        await p.waitForTimeout(400);
+        assert.equal(await p.locator(frage).count(), 0, 'gefragt, bevor feststand, ob das Willkommen kommt');
+        await p.evaluate(() => { window.__anhalten = {}; window.__freigeben(); });
+        await p.waitForSelector('.willkommen .willkommen__karte--mitte', { timeout: 8000 });
+        assert.equal(await p.locator(frage).count(), 0);
         await p.click('.willkommen__fertig');
         await p.waitForSelector('.willkommen', { state: 'detached' });
         await p.waitForSelector(frage, { timeout: 5000 });

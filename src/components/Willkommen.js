@@ -28,7 +28,7 @@ const STANDARD = {
     istGesehen: id => store.isSeenOpera(id),
     merken: id => store.markSeenOpera(id),
     vergessen: id => store.unmarkSeenOpera(id),
-    erledigt: () => willkommenErledigt(),
+    erledigt: () => willkommenErledigt(store._profile?.id),
     name: () => store._profile?.username || '',
 };
 
