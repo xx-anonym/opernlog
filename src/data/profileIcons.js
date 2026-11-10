@@ -90,22 +90,27 @@ export const profileIcons = {
   },
   piano: {
     label: 'Klavier',
-    svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Pure keyboard: no case or ornament competes with the familiar key pattern -->
-      <path d="M8 17h48v30H8z"/>
-      <!-- Seven white keys -->
-      <line x1="14.9" y1="17" x2="14.9" y2="47"/>
-      <line x1="21.7" y1="17" x2="21.7" y2="47"/>
-      <line x1="28.6" y1="17" x2="28.6" y2="47"/>
-      <line x1="35.4" y1="17" x2="35.4" y2="47"/>
-      <line x1="42.3" y1="17" x2="42.3" y2="47"/>
-      <line x1="49.1" y1="17" x2="49.1" y2="47"/>
-      <!-- The 2–3 rhythm makes it recognisably a piano keyboard -->
-      <line x1="14.9" y1="17" x2="14.9" y2="31" stroke-width="3"/>
-      <line x1="21.7" y1="17" x2="21.7" y2="31" stroke-width="3"/>
-      <line x1="35.4" y1="17" x2="35.4" y2="31" stroke-width="3"/>
-      <line x1="42.3" y1="17" x2="42.3" y2="31" stroke-width="3"/>
-      <line x1="49.1" y1="17" x2="49.1" y2="31" stroke-width="3"/>
+    svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <!-- The key field is the whole motif – no piano case or second colour. -->
+      <rect x="8" y="16" width="48" height="32" rx="1" stroke-width="1.5"/>
+      <!-- Eight outlined keys -->
+      <g stroke="currentColor" stroke-width="1.2">
+        <line x1="14" y1="16" x2="14" y2="48"/>
+        <line x1="20" y1="16" x2="20" y2="48"/>
+        <line x1="26" y1="16" x2="26" y2="48"/>
+        <line x1="32" y1="16" x2="32" y2="48"/>
+        <line x1="38" y1="16" x2="38" y2="48"/>
+        <line x1="44" y1="16" x2="44" y2="48"/>
+        <line x1="50" y1="16" x2="50" y2="48"/>
+      </g>
+      <!-- Filled keys preserve the recognisable 2–3 pattern in the same accent colour. -->
+      <g fill="currentColor" stroke="none">
+        <rect x="12.25" y="16" width="3.5" height="19" rx=".45"/>
+        <rect x="18.25" y="16" width="3.5" height="19" rx=".45"/>
+        <rect x="30.25" y="16" width="3.5" height="19" rx=".45"/>
+        <rect x="36.25" y="16" width="3.5" height="19" rx=".45"/>
+        <rect x="42.25" y="16" width="3.5" height="19" rx=".45"/>
+      </g>
     </svg>`
   },
   harp: {
