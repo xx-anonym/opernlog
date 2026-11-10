@@ -106,7 +106,8 @@ test('ein Abbruch im Dialog des Systems zeigt nichts an', () => {
 
 test('ein unbekannter Passkey sagt, was jetzt zu tun ist', () => {
     const text = passkeyFehlertext({ code: 'webauthn_credential_not_found' });
-    assert.match(text, /E-Mail und Passwort/);
+    assert.match(text, /Code aus der E-Mail/);
+    assert.doesNotMatch(text, /Passwort/);
     assert.match(text, /Profil/);
 });
 

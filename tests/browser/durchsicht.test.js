@@ -47,7 +47,7 @@ async function oeffne(hash = '', optionen = {}) {
 test('die Felder der Anmeldeseite sind gestaltet und füllen die Breite', { skip: fehltPlaywright }, async () => {
     const { ctx, p } = await oeffne();
     try {
-        // Direkt einhängen wie in passwort.test.js: der Stub ist immer angemeldet.
+        // Direkt einhängen wie in anmeldung.test.js: der Stub ist immer angemeldet.
         await p.evaluate(async () => {
             const m = await import('/src/pages/Auth.js');
             document.body.innerHTML = '';
@@ -67,9 +67,10 @@ test('die Felder der Anmeldeseite sind gestaltet und füllen die Breite', { skip
         assert.ok(mass.feld > mass.form * 0.95, `Feld ${mass.feld}px bei Formular ${mass.form}px`);
         assert.equal(mass.labelDisplay, 'block', 'das Label steht neben statt über dem Feld');
         assert.equal(mass.radius, '10px');
-        // Damit Schlüsselbund und Passwortmanager wissen, was wohin gehört.
-        assert.equal(await p.getAttribute('#loginPassword', 'autocomplete'), 'current-password');
-        assert.equal(await p.getAttribute('#regPassword', 'autocomplete'), 'new-password');
+        // Damit das Gerät weiß, was wohin gehört: die Adresse aus dem
+        // Schlüsselbund, der Code aus der eben eingetroffenen Mail.
+        assert.equal(await p.getAttribute('#loginEmail', 'autocomplete'), 'email');
+        assert.equal(await p.getAttribute('#codeInput', 'autocomplete'), 'one-time-code');
     } finally { await ctx.close(); }
 });
 

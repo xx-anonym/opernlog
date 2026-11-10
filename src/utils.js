@@ -469,8 +469,7 @@ export function sterneText(note) {
 }
 
 /**
- * Ein Fehler beim Anmelden, Registrieren oder Zurücksetzen des Passworts als
- * deutscher Satz.
+ * Ein Fehler beim Anmelden oder Registrieren als deutscher Satz.
  *
  * Supabase meldet auf Englisch, und die App zeigte das bisher roh an. Seit die
  * Mails über einen eigenen Postausgang (Gmail) gehen, kann der Versand selbst
@@ -493,8 +492,20 @@ export function authFehlertext(err) {
     if (/error sending .*e-?mail/i.test(text)) {
         return 'Die E-Mail konnte gerade nicht verschickt werden. Bitte versuche es später noch einmal.';
     }
+    // Der Einmalcode: falsch getippt, schon benutzt oder zu alt – Supabase
+    // unterscheidet das nicht, damit sich Codes nicht erraten lassen.
+    if (code === 'otp_expired' || /token has expired or is invalid/i.test(text)) {
+        return 'Der Code stimmt nicht oder ist abgelaufen. Prüfe ihn noch einmal oder lass dir einen neuen schicken.';
+    }
+    // Anmelden mit einer Adresse, zu der es kein Konto gibt.
+    if (code === 'otp_disabled' || /signups not allowed for otp/i.test(text)) {
+        return 'Zu dieser E-Mail-Adresse gibt es kein Konto. Unter „Registrieren“ legst du eines an.';
+    }
+    if (code === 'signup_disabled' || /signups not allowed/i.test(text)) {
+        return 'Neue Konten lassen sich gerade nicht anlegen.';
+    }
     if (code === 'email_not_confirmed' || /email not confirmed/i.test(text)) {
-        return 'Bitte bestätige zuerst deine E-Mail-Adresse – den Link haben wir dir nach der Registrierung geschickt.';
+        return 'Bitte bestätige zuerst deine E-Mail-Adresse – den Code haben wir dir geschickt.';
     }
     if (code === 'invalid_credentials' || text === 'Invalid login credentials') {
         return 'Ungültige Anmeldedaten';

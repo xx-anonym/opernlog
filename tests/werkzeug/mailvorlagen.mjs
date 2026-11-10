@@ -2,9 +2,15 @@
 //
 //   node tests/werkzeug/mailvorlagen.mjs
 //
-// Drei Mails verschickt Supabase im Namen der App: Registrierung, Passwort
-// zurücksetzen, E-Mail ändern. Sie sollen aussehen wie die App und wie
-// einander – Vorhang, goldene Kante, bordeauxroter Knopf. Von Hand gepflegt
+// Drei Mails verschickt Supabase im Namen der App: Registrierung,
+// Anmeldecode, E-Mail ändern. Sie sollen aussehen wie die App und wie
+// einander – Vorhang, goldene Kante, bordeauxroter Knopf.
+//
+// Registrierung und Anmeldung tragen keinen Link, sondern einen Einmalcode
+// (seit 10.11.2026, `code: true`): OpernLog kennt kein Passwort mehr. Ein
+// Link aus der Mail öffnete am iPhone Safari statt der installierten App,
+// und manche Postfächer rufen Links zur Prüfung selbst auf und verbrauchen
+// sie dabei. Den Code tippt man dort ein, wo man ihn angefordert hat. Von Hand gepflegt
 // liefen drei Kopien desselben Gerüsts irgendwann auseinander; deshalb steht
 // es nur hier, und je Mail nur, was sie sagt.
 //
@@ -159,29 +165,29 @@ export const MAILS = [
     {
         datei: 'registrierung.html',
         dashboard: 'Confirm signup',
-        betreff: 'Vorhang auf – bestätige deine E-Mail für OpernLog',
-        vorschau: 'Ein Klick, dann hebt sich der Vorhang für dein Operntagebuch.',
+        betreff: 'Vorhang auf – dein Code für OpernLog',
+        vorschau: '{{ .Token }} ist dein Code. Eintippen, dann hebt sich der Vorhang für dein Operntagebuch.',
         ueberschrift: '{{ if .Data.username }}Vorhang auf, {{ .Data.username }}!{{ else }}Vorhang auf!{{ end }}',
-        text: 'Schön, dass du dabei bist. Bestätige noch kurz deine E-Mail-Adresse – dann kannst du deinen ersten Opernabend loggen.',
-        knopf: 'E-Mail bestätigen',
+        text: 'Schön, dass du dabei bist. Gib diesen Code in OpernLog ein – damit ist deine E-Mail-Adresse bestätigt, und du kannst deinen ersten Opernabend loggen.',
+        code: true,
         mehr: liste('Was dich erwartet', [
             'Jeden Opernabend festhalten, bewerten und wiederfinden',
             'Sehen, was in deiner Nähe demnächst gespielt wird',
             'Mit Freunden teilen, was ihr gehört habt',
         ]),
-        fuss: 'Du hast dich nicht bei OpernLog registriert? Dann kannst du diese Mail einfach ignorieren – ohne Bestätigung wird kein Konto aktiv, und nach 30 Tagen ist die Anmeldung wieder gelöscht.',
+        fuss: 'Du hast dich nicht bei OpernLog registriert? Dann kannst du diese Mail einfach ignorieren – ohne den Code wird kein Konto aktiv, und nach 30 Tagen ist die Anmeldung wieder gelöscht.',
     },
     {
-        datei: 'passwort.html',
-        dashboard: 'Reset Password',
-        betreff: 'Ein neues Passwort für OpernLog',
-        vorschau: 'Ein Klick, dann wählst du ein neues Passwort.',
-        ueberschrift: '{{ if .Data.username }}Neues Passwort, {{ .Data.username }}?{{ else }}Neues Passwort?{{ end }}',
-        text: 'Für dein Konto {{ .Email }} wurde ein neues Passwort angefordert. Mit dem Knopf wählst du eins – der Link gilt nur einmal und nur für kurze Zeit.',
-        knopf: 'Neues Passwort wählen',
+        datei: 'anmeldecode.html',
+        dashboard: 'Magic Link',
+        betreff: 'Dein Anmeldecode für OpernLog',
+        vorschau: '{{ .Token }} ist dein Code für die Anmeldung. Er gilt nur einmal.',
+        ueberschrift: '{{ if .Data.username }}Willkommen zurück, {{ .Data.username }}!{{ else }}Willkommen zurück!{{ end }}',
+        text: 'Mit diesem Code meldest du dich bei OpernLog an. Gib ihn dort ein, wo du ihn angefordert hast.',
+        code: true,
         mehr: hinweis('Tipp',
-            'Mit einem Passkey meldest du dich künftig ganz ohne Passwort an – mit Face ID, Fingerabdruck oder der PIN deines Geräts. Anlegen kannst du ihn in der App unter „Profil bearbeiten“.'),
-        fuss: 'Du hast kein neues Passwort angefordert? Dann ignoriere diese Mail einfach – dein bisheriges Passwort bleibt gültig.',
+            'Mit einem Passkey meldest du dich künftig ohne Code an – mit Face ID, Fingerabdruck oder der PIN deines Geräts. Anlegen kannst du ihn in der App unter „Profil bearbeiten“.'),
+        fuss: 'Du wolltest dich nicht anmelden? Dann ignoriere diese Mail – ohne den Code kommt niemand in dein Konto. Gib ihn an niemanden weiter; OpernLog fragt nie danach.',
     },
     {
         datei: 'email-aendern.html',
@@ -194,7 +200,7 @@ export const MAILS = [
         text: 'Für dein OpernLog-Konto soll die E-Mail-Adresse von {{ .Email }} zu {{ .NewEmail }} wechseln. Bestätige die Änderung mit dem Knopf – Tagebuch, Listen und Freunde bleiben, wie sie sind.',
         knopf: 'Änderung bestätigen',
         mehr: '',
-        fuss: 'Du wolltest deine Adresse nicht ändern? Dann ignoriere diese Mail und ändere zur Sicherheit dein Passwort.',
+        fuss: 'Du wolltest deine Adresse nicht ändern? Dann ignoriere diese Mail – ohne Bestätigung bleibt alles, wie es ist.',
     },
 ];
 
@@ -241,6 +247,45 @@ export function vorlageModul() {
 // %%NAME%% ersetzt index.ts durch den Namen des Absenders – im HTML maskiert.
 
 export const VORLAGEN = ${JSON.stringify(vorlagen, null, 4)};
+`;
+}
+
+/** Knopf mit Link, darunter der Link noch einmal zum Kopieren. */
+function knopfTeil(m, ziel) {
+    return `            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
+            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+              <tr>
+                <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
+                  <a class="knopf" href="${ziel}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:${SANS}; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">${m.knopf}</a>
+                </td>
+              </tr>
+            </table>
+${m.mehr}
+            <!-- Rückfall, falls der Knopf nicht geht -->
+            <p class="mehr" style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
+              Geht der Knopf nicht? Dann öffne diesen Link:
+            </p>
+            <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
+              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${ziel}</a>
+            </p>
+`;
+}
+
+/**
+ * Der Einmalcode, groß und zum Abtippen – kein Link. Dieselben Klassen wie
+ * beim Knopf, damit der Auftritt in Apple Mail derselbe bleibt.
+ */
+function codeTeil(m) {
+    return `            <!-- Der Code: als Tabelle, damit der Rahmen auch in Outlook hält -->
+            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px;">
+              <tr>
+                <td align="center" bgcolor="#14181c" style="border-radius:12px; background-color:#14181c; border:1px solid #c9a84c; padding:16px 30px; font-family:'SF Mono', Menlo, Consolas, 'Courier New', monospace; font-size:34px; line-height:1.2; font-weight:700; letter-spacing:8px; color:#dfc06a;">{{ .Token }}</td>
+              </tr>
+            </table>
+            <p class="mehr" style="margin:0 0 32px; font-size:13px; line-height:1.5; color:#8a96a3;">
+              Der Code gilt nur einmal und nur für kurze Zeit.
+            </p>
+${m.mehr}
 `;
 }
 
@@ -337,23 +382,7 @@ export function mailHtml(m) {
               ${m.text}
             </p>
 
-            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
-            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
-              <tr>
-                <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
-                  <a class="knopf" href="${ziel}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:${SANS}; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">${m.knopf}</a>
-                </td>
-              </tr>
-            </table>
-${m.mehr}
-            <!-- Rückfall, falls der Knopf nicht geht -->
-            <p class="mehr" style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
-              Geht der Knopf nicht? Dann öffne diesen Link:
-            </p>
-            <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
-              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${ziel}</a>
-            </p>
-          </td>
+${m.code ? codeTeil(m) : knopfTeil(m, ziel)}          </td>
         </tr>
 
         <!-- Fuß -->

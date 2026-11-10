@@ -1,4 +1,4 @@
-// Fehler beim Anmelden, Registrieren und Zurücksetzen als deutscher Satz.
+// Fehler beim Anmelden und Registrieren als deutscher Satz.
 //
 // Die Fehler sind so gebaut, wie supabase-js sie liefert (AuthApiError:
 // message, status, code). Die Texte stammen von Supabase Auth.
@@ -41,8 +41,13 @@ test('Anmelden vor der Bestätigung, falsche Daten, schon registriert', () => {
     assert.equal(authFehlertext(fehler('User already registered', 'user_already_exists', 422)), 'Diese E-Mail ist bereits registriert');
 });
 
+test('sind neue Konten im Projekt abgeschaltet, steht das da – nicht verwechselt mit "kein Konto"', () => {
+    assert.equal(authFehlertext(fehler('Signups not allowed for this instance', 'signup_disabled', 422)), 'Neue Konten lassen sich gerade nicht anlegen.');
+    assert.match(authFehlertext(fehler('Signups not allowed for otp', 'otp_disabled', 422)), /gibt es kein Konto/);
+});
+
 test('Unbekanntes bleibt, wie Supabase es schreibt; nichts wirft', () => {
-    assert.equal(authFehlertext(fehler('Signups not allowed for this instance', 'signup_disabled', 422)), 'Signups not allowed for this instance');
+    assert.equal(authFehlertext(fehler('Database error saving new user', 'unexpected_failure', 500)), 'Database error saving new user');
     assert.equal(authFehlertext('nur ein Text'), 'nur ein Text');
     assert.equal(authFehlertext(null), '');
     assert.equal(authFehlertext(undefined), '');

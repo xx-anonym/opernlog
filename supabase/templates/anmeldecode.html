@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--
-  Reset Password – Mailvorlage für OpernLog.
+  Magic Link – Mailvorlage für OpernLog.
 
   Erzeugt von tests/werkzeug/mailvorlagen.mjs – NICHT von Hand bearbeiten,
   sondern dort ändern und neu erzeugen.
 
   Eingespielt von Hand im Supabase-Dashboard: Authentication → Emails →
-  Templates → Reset Password. Betreff: Ein neues Passwort für OpernLog
+  Templates → Magic Link. Betreff: Dein Anmeldecode für OpernLog
   Supabase liest die Datei nicht von hier; nach jeder Änderung dort neu
   einfügen.
 -->
@@ -18,7 +18,7 @@
 <!-- Schon dunkel gestaltet: Mailprogramme sollen die Farben nicht umkehren. -->
 <meta name="color-scheme" content="dark">
 <meta name="supported-color-schemes" content="dark">
-<title>Ein neues Passwort für OpernLog</title>
+<title>Dein Anmeldecode für OpernLog</title>
 <style>
   @font-face {
     font-family: 'Playfair Display';
@@ -106,7 +106,7 @@
 
 <!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. -->
 <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#0e1114; opacity:0;">
-  Ein Klick, dann wählst du ein neues Passwort.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
+  {{ .Token }} ist dein Code für die Anmeldung. Er gilt nur einmal.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
 </div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0e1114" style="background-color:#0e1114;">
@@ -132,39 +132,33 @@
         <tr>
           <td class="innen" style="padding:40px 48px 12px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; color:#e0e0e0;">
             <h1 class="titel" style="margin:0 0 16px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:32px; line-height:1.2; font-weight:700; color:#ffffff;">
-              {{ if .Data.username }}Neues Passwort, {{ .Data.username }}?{{ else }}Neues Passwort?{{ end }}
+              {{ if .Data.username }}Willkommen zurück, {{ .Data.username }}!{{ else }}Willkommen zurück!{{ end }}
             </h1>
             <p class="einleitung" style="margin:0 0 28px; font-size:16px; line-height:1.6; color:#c8cdd2;">
-              Für dein Konto {{ .Email }} wurde ein neues Passwort angefordert. Mit dem Knopf wählst du eins – der Link gilt nur einmal und nur für kurze Zeit.
+              Mit diesem Code meldest du dich bei OpernLog an. Gib ihn dort ein, wo du ihn angefordert hast.
             </p>
 
-            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
-            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+            <!-- Der Code: als Tabelle, damit der Rahmen auch in Outlook hält -->
+            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px;">
               <tr>
-                <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
-                  <a class="knopf" href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">Neues Passwort wählen</a>
-                </td>
+                <td align="center" bgcolor="#14181c" style="border-radius:12px; background-color:#14181c; border:1px solid #c9a84c; padding:16px 30px; font-family:'SF Mono', Menlo, Consolas, 'Courier New', monospace; font-size:34px; line-height:1.2; font-weight:700; letter-spacing:8px; color:#dfc06a;">{{ .Token }}</td>
               </tr>
             </table>
+            <p class="mehr" style="margin:0 0 32px; font-size:13px; line-height:1.5; color:#8a96a3;">
+              Der Code gilt nur einmal und nur für kurze Zeit.
+            </p>
 
             <table class="mehr" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
               <tr><td style="padding:22px 0 6px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#c9a84c;">Tipp</td></tr>
-              <tr><td style="padding:6px 0 24px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.6; color:#c8cdd2;">Mit einem Passkey meldest du dich künftig ganz ohne Passwort an – mit Face ID, Fingerabdruck oder der PIN deines Geräts. Anlegen kannst du ihn in der App unter „Profil bearbeiten“.</td></tr>
+              <tr><td style="padding:6px 0 24px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.6; color:#c8cdd2;">Mit einem Passkey meldest du dich künftig ohne Code an – mit Face ID, Fingerabdruck oder der PIN deines Geräts. Anlegen kannst du ihn in der App unter „Profil bearbeiten“.</td></tr>
             </table>
-            <!-- Rückfall, falls der Knopf nicht geht -->
-            <p class="mehr" style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
-              Geht der Knopf nicht? Dann öffne diesen Link:
-            </p>
-            <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
-              <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#c9a84c; text-decoration:underline;">{{ .ConfirmationURL }}</a>
-            </p>
           </td>
         </tr>
 
         <!-- Fuß -->
         <tr>
           <td class="innen mehr" bgcolor="#161b20" style="padding:22px 48px 26px; background-color:#161b20; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:12px; line-height:1.6; color:#7b8794;">
-            Du hast kein neues Passwort angefordert? Dann ignoriere diese Mail einfach – dein bisheriges Passwort bleibt gültig.
+            Du wolltest dich nicht anmelden? Dann ignoriere diese Mail – ohne den Code kommt niemand in dein Konto. Gib ihn an niemanden weiter; OpernLog fragt nie danach.
           </td>
         </tr>
       </table>

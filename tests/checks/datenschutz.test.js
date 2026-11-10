@@ -27,8 +27,8 @@ test('jeder fremde Dienst, den die App im Browser anspricht, steht auf der Seite
     assert.ok(hosts.length > 0);
     for (const host of hosts) assert.ok(seite.includes(host), `${host} fehlt auf der Datenschutzseite`);
 
-    // Dauerhaft angesprochen: Hosting, Datenbank, Bilder, Google-Anmeldung, Push, Passwortprüfung.
-    for (const name of ['Vercel', 'Supabase', 'Wikimedia', 'Google', 'Push-Dienste', 'Have I Been Pwned']) {
+    // Dauerhaft angesprochen: Hosting, Datenbank, Bilder, Google-Anmeldung, Push.
+    for (const name of ['Vercel', 'Supabase', 'Wikimedia', 'Google', 'Push-Dienste']) {
         assert.ok(seite.includes(name), `${name} fehlt auf der Datenschutzseite`);
     }
 });

@@ -101,8 +101,8 @@ export function passkeyBereich(nutzerId, dienste = {}) {
         if (!knopf) return;
         const name = knopf.closest('.passkeys__zeile').querySelector('.passkeys__name').textContent;
         // Ohne Rückfrage wäre ein verrutschter Finger auf dem Handy genug, um
-        // die einzige Anmeldung ohne Passwort zu verlieren.
-        if (!d.bestaetigen(`Passkey „${name}" löschen? Auf diesem Gerät kannst du dich dann nicht mehr ohne Passwort anmelden.`)) return;
+        // die schnellste Anmeldung auf diesem Gerät zu verlieren.
+        if (!d.bestaetigen(`Passkey „${name}" löschen? Auf diesem Gerät meldest du dich dann wieder mit dem Code aus der E-Mail an.`)) return;
 
         zeigeFehler('');
         knopf.disabled = true;

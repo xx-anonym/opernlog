@@ -100,12 +100,12 @@ export function passkeyFehlertext(fehler, vorgang = 'anmelden') {
         case 'too_many_passkeys':
             return 'Du hast schon die größtmögliche Zahl an Passkeys. Lösche zuerst einen alten.';
         case 'webauthn_credential_not_found':
-            return 'Diesen Passkey kennt OpernLog nicht mehr. Melde dich mit E-Mail und Passwort an und lege im Profil einen neuen an.';
+            return 'Diesen Passkey kennt OpernLog nicht mehr. Melde dich mit dem Code aus der E-Mail an und lege im Profil einen neuen an.';
         case 'webauthn_challenge_expired':
         case 'webauthn_challenge_not_found':
             return 'Das hat zu lange gedauert. Bitte versuch es noch einmal.';
         case 'passkey_disabled':
-            return 'Passkeys sind gerade abgeschaltet. Melde dich mit E-Mail und Passwort an.';
+            return 'Passkeys sind gerade abgeschaltet. Melde dich mit dem Code aus der E-Mail an.';
         case 'email_not_confirmed':
             return 'Bitte bestätige zuerst deine E-Mail-Adresse.';
         case 'user_banned':

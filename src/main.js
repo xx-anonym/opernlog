@@ -36,7 +36,6 @@ import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
 import { showError, showToast } from './components/Toast.js';
-import { passwortEinwand, MINDESTLAENGE } from './passwort.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden } from './store/supabase.js';
 import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
@@ -247,103 +246,25 @@ class App {
             return false;
         }
 
-        // Check for recovery tokens (access_token + type=recovery)
+        // Ein alter Link "Passwort zurücksetzen" (bis 9.11.2026 verschickt).
+        // Passwörter gibt es nicht mehr; der Link meldet nur noch an – die
+        // Sitzung daraus liest die Bibliothek beim Start selbst. Hier wird
+        // nur die Adresse aufgeräumt, damit der Router nicht daran hängt.
         if (hash.includes('access_token=') && hash.includes('type=recovery')) {
             const params = new URLSearchParams(hash.substring(1));
             const accessToken = params.get('access_token');
             const refreshToken = params.get('refresh_token');
-
             if (accessToken && refreshToken) {
                 try {
-                    const sb = getSupabase();
-                    await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
-                    // Clear the hash
-                    window.location.hash = '';
-                    // Show password update UI
-                    this.showPasswordUpdate();
-                    return true;
+                    await getSupabase().auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
                 } catch (e) {
-                    console.error('[Passwort-Wiederherstellung]', e);
-                    window.location.hash = '#/auth';
+                    console.error('[Anmeldung über alten Link]', e);
                 }
             }
+            window.location.hash = '#/';
         }
 
         return false;
-    }
-
-    showPasswordUpdate() {
-        this.root.innerHTML = `
-            <div class="page auth-page fade-in" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;">
-                <div class="auth-container">
-                    <div class="auth-header">
-                        <span class="auth-logo">${icon('user')}</span>
-                        <h1>Neues Passwort</h1>
-                        <p class="auth-subtitle">Gib dein neues Passwort ein.</p>
-                    </div>
-                    <form id="updatePasswordForm" class="auth-form">
-                        <div class="form-group">
-                            <label class="form-label" for="newPassword">Neues Passwort</label>
-                            <input type="password" class="input" id="newPassword" autocomplete="new-password" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
-                            <p class="form-hint">Ein Satz, den nur du kennst, ist sicherer als ein kurzes Kunstwort mit Sonderzeichen.</p>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="confirmPassword">Passwort bestätigen</label>
-                            <input type="password" class="input" id="confirmPassword" autocomplete="new-password" placeholder="Passwort wiederholen" required minlength="${MINDESTLAENGE}" />
-                        </div>
-                        <div id="updateError" class="auth-error" style="display:none"></div>
-                        <div id="updateSuccess" class="auth-success" style="display:none"></div>
-                        <button type="submit" class="btn btn--primary btn--lg btn--full">Passwort ändern</button>
-                    </form>
-                </div>
-            </div>
-        `;
-
-        this.root.querySelector('#updatePasswordForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const password = this.root.querySelector('#newPassword').value;
-            const confirm = this.root.querySelector('#confirmPassword').value;
-            const errorEl = this.root.querySelector('#updateError');
-            const successEl = this.root.querySelector('#updateSuccess');
-            errorEl.style.display = 'none';
-            successEl.style.display = 'none';
-
-            if (password !== confirm) {
-                errorEl.textContent = 'Die Passwörter stimmen nicht überein.';
-                errorEl.style.display = 'block';
-                return;
-            }
-
-            const knopf = this.root.querySelector('button[type="submit"]');
-            knopf.disabled = true;
-            const einwand = await passwortEinwand(password);
-            if (einwand) {
-                errorEl.textContent = einwand;
-                errorEl.style.display = 'block';
-                knopf.disabled = false;
-                return;
-            }
-
-            try {
-                const sb = getSupabase();
-                const { error } = await sb.auth.updateUser({ password });
-                if (error) throw error;
-
-                successEl.textContent = 'Passwort erfolgreich geändert! Du wirst weitergeleitet...';
-                successEl.style.display = 'block';
-
-                setTimeout(() => {
-                    window.location.hash = '#/';
-                    window.location.reload();
-                }, 2000);
-            } catch (err) {
-                errorEl.textContent = err.message;
-                errorEl.style.display = 'block';
-                // Ohne das bliebe die Schaltfläche nach einem Fehlschlag
-                // gesperrt: gesperrt wird jetzt schon vor dem Leak-Abgleich.
-                knopf.disabled = false;
-            }
-        });
     }
 
     showProfileSetup(session) {

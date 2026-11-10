@@ -203,59 +203,55 @@ export function waitForInitialSession() {
 }
 
 // ── Auth ─────────────────────────────────────────────────
-export async function signUp(email, password, username, avatarIcon = '') {
+//
+// Anmelden und Registrieren gehen ohne Passwort (seit 10.11.2026): OpernLog
+// schickt einen Einmalcode an die E-Mail-Adresse, und wer ihn eintippt, ist
+// angemeldet. Ein Code statt eines Links, aus zwei Gründen: ein Link aus der
+// Mail öffnet am iPhone Safari und nicht die installierte App – angemeldet
+// wäre dann der falsche Ort –, und manche Postfächer rufen Links zur Prüfung
+// selbst auf und verbrauchen sie dabei.
+
+/**
+ * Einen Einmalcode an die Adresse schicken lassen.
+ *
+ * Ohne `neu` nur für ein bestehendes Konto: sonst legte jeder Tippfehler in
+ * der Adresse ein leeres Konto an. Mit `neu` (Registrieren) entsteht das
+ * Konto, falls es die Adresse noch nicht gibt; gibt es sie schon, kommt
+ * schlicht ein Anmeldecode.
+ *
+ * @param {string} email
+ * @param {{neu?: {username: string, avatarIcon?: string}}} [o]
+ */
+export async function codeAnfordern(email, { neu = null } = {}) {
     const sb = getSupabase();
-    const { data, error } = await sb.auth.signUp({
-        email,
-        password,
+    const { data, error } = await sb.auth.signInWithOtp({
+        email: String(email || '').trim(),
         options: {
-            // Name und Bild gehören in die Metadaten, nicht in ein eigenes
-            // Schreiben danach: verlangt das Projekt eine E-Mail-Bestätigung,
-            // gibt signUp() keine Sitzung zurück. Ein upsert liefe dann als
-            // anon und scheiterte an der Regel "auth.uid() = id" – genau das
-            // war der Fehler "new row violates row-level security policy".
-            //
-            // Der Trigger handle_new_user() liest sie von hier und legt das
-            // Profil an. Er läuft als SECURITY DEFINER und braucht keine
-            // Sitzung.
-            data: { username, avatar_icon: avatarIcon || '' },
-            // Ohne diese Zeile nimmt der Bestätigungslink die Site URL aus den
-            // Projekteinstellungen – eine zweite Stelle, an der die Adresse
-            // stimmen muss, und die einzige, die niemand sieht. Anmeldung über
-            // Google und das Zurücksetzen des Passworts geben ihr Ziel längst
-            // ausdrücklich mit; die Registrierung war die Ausnahme.
+            shouldCreateUser: !!neu,
+            // Name und Bild gehören in die Metadaten: bis der Code eingelöst
+            // ist, gibt es keine Sitzung, und ein eigenes Schreiben ins Profil
+            // scheiterte an der Regel "auth.uid() = id". Der Trigger
+            // handle_new_user() liest sie von hier und legt das Profil an.
+            ...(neu ? { data: { username: neu.username, avatar_icon: neu.avatarIcon || '' } } : {}),
+            // Die Mail enthält keinen Link mehr. Stünde in einer alten Vorlage
+            // doch noch einer, soll er wenigstens hierher zurückführen statt
+            // zur Site URL aus den Projekteinstellungen.
             emailRedirectTo: window.location.origin,
-        }
+        },
     });
     if (error) throw error;
-
-    // Das Profil hat der Trigger schon angelegt. Hier wird nur noch
-    // nachgezogen – und ausschließlich dann, wenn es wirklich eine Sitzung
-    // gibt. Ohne sie würde der Aufruf an der Regel scheitern und eine
-    // gelungene Registrierung als Fehler erscheinen lassen.
-    //
-    // Wann es eine Sitzung gibt: wenn die E-Mail-Bestätigung im Projekt
-    // abgeschaltet ist. Dann ist man sofort angemeldet.
-    if (data.session && data.user) {
-        const initials = username.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-        const profileData = {
-            id: data.user.id,
-            username,
-            avatar_initials: initials,
-            profile_complete: true,
-        };
-        if (avatarIcon) profileData.avatar_icon = avatarIcon;
-        const { error: profileError } = await sb.from('profiles').upsert(profileData, { onConflict: 'id' });
-        // Kein Wurf mehr: das Profil steht bereits, dies ist die Kür. Ein
-        // Fehler hier soll keine gelungene Registrierung zunichtemachen.
-        if (profileError) console.error('[Supabase] Profil nachziehen', profileError);
-    }
     return data;
 }
 
-export async function signIn(email, password) {
+/** Den Code aus der Mail einlösen; danach steht die Sitzung. */
+export async function codeEinloesen(email, code) {
     const sb = getSupabase();
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    const { data, error } = await sb.auth.verifyOtp({
+        email: String(email || '').trim(),
+        token: String(code || '').replace(/\D/g, ''),
+        // 'email' gilt für beides: den Code zur Registrierung und den zur Anmeldung.
+        type: 'email',
+    });
     if (error) throw error;
     return data;
 }
@@ -374,14 +370,6 @@ export async function signOut() {
     // die Sitzung dort nicht mehr verlängert werden konnte ("Refresh Token
     // Not Found").
     const { error } = await sb.auth.signOut({ scope: 'local' });
-    if (error) throw error;
-}
-
-export async function resetPassword(email) {
-    const sb = getSupabase();
-    const { error } = await sb.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin,
-    });
     if (error) throw error;
 }
 

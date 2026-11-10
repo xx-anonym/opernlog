@@ -46,24 +46,3 @@ test('jede aufgerufene Edge Function liegt auch im Projekt', () => {
         'Diese Edge Functions werden aufgerufen, liegen aber nicht unter '
         + `supabase/functions/:\n  ${fehlend.map(a => `${a.name} (aus ${a.datei})`).join('\n  ')}`);
 });
-
-test('der Passwort-Abgleich nimmt serverseitig nur ein fünfstelliges Präfix an', () => {
-    // Die ganze Begründung, warum der Abgleich stattfinden darf, hängt daran:
-    // aus fünf Zeichen eines SHA-1 lässt sich kein Passwort rekonstruieren.
-    // Nähme die Funktion mehr entgegen, läge irgendwann der volle Hash auf
-    // einem fremden Rechner – und ohne diese Prüfung wäre sie zusätzlich ein
-    // offener Weiterleiter zu HaveIBeenPwned.
-    const quelle = fs.readFileSync(path.join(FUNKTIONEN, 'passwort-pruefen/index.ts'), 'utf8');
-    const muster = quelle.match(/const PRAEFIX = \/([^/]+)\/;/);
-    assert.ok(muster, 'PRAEFIX-Muster nicht gefunden');
-
-    const regex = new RegExp(muster[1]);
-    assert.ok(regex.test('5BAA6'), 'ein gültiges Präfix wird abgelehnt');
-    assert.ok(!regex.test('5BAA61E4C9B93F3F0682250B6CF8331B7EE68FD8'), 'der volle Hash käme durch');
-    assert.ok(!regex.test('5BAA6X'), 'sechs Zeichen kämen durch');
-    assert.ok(!regex.test('5baa6'), 'Kleinschreibung käme durch');
-    assert.ok(!regex.test('../../etc'), 'ein Pfad käme durch');
-
-    assert.match(quelle, /Add-Padding/,
-        'ohne Polsterung verrät schon die Länge der Antwort die Zahl der Treffer');
-});

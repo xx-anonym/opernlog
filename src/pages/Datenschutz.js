@@ -34,9 +34,11 @@ export function DatenschutzPage() {
       <h2>Was gespeichert wird</h2>
       <p>Mit einem Konto:</p>
       <ul>
-        <li><strong>Konto:</strong> E-Mail-Adresse und Passwort (nur als verschlüsselter Hash). Wer sich mit
-          Google anmeldet, dazu die Angaben, die Google dabei übermittelt. Angelegte Passkeys (öffentlicher
-          Schlüssel, Name des Passwortmanagers, Datum der Nutzung).</li>
+        <li><strong>Konto:</strong> deine E-Mail-Adresse. Ein Passwort gibt es nicht: zum Anmelden schickt
+          OpernLog einen Einmalcode an diese Adresse. Wer sich vor dem 10. November 2026 mit Passwort
+          registriert hat: dessen verschlüsselter Hash ist noch gespeichert, wird aber nicht mehr benutzt.
+          Wer sich mit Google anmeldet, dazu die Angaben, die Google dabei übermittelt. Angelegte Passkeys
+          (öffentlicher Schlüssel, Name des Passwortmanagers, Datum der Nutzung).</li>
         <li><strong>Profil:</strong> Benutzername, Kürzel, Profilbild-Symbol, Beschreibung und wer dir
           Freundschaftsanfragen schicken darf.</li>
         <li><strong>Inhalte:</strong> deine Abende (Werk, Haus, Datum, Bewertung, Review, Dirigent, Regie,
@@ -53,7 +55,7 @@ export function DatenschutzPage() {
       Mitteilungen und Standort nur mit deiner Erlaubnis (lit. a).</p>
 
       <h2>E-Mails</h2>
-      <p>OpernLog schickt dir Mails zur Anmeldung (Adresse bestätigen, Passwort zurücksetzen) und, solange
+      <p>OpernLog schickt dir Mails zur Anmeldung (den Einmalcode, mit dem du dich anmeldest oder registrierst) und, solange
       du es nicht abschaltest, eine Mail, wenn dir jemand eine Freundschaftsanfrage schickt. Abschalten
       kannst du das jederzeit unter „Profil bearbeiten“ → <em>E-Mails</em>. Werbung oder Newsletter
       verschickt OpernLog nicht.</p>
@@ -87,9 +89,6 @@ export function DatenschutzPage() {
           Inhalt der Mail.</li>
         <li><strong>Push-Dienste</strong> von Apple, Google oder Mozilla (je nach Browser) stellen
           Mitteilungen zu, wenn du sie eingeschaltet hast.</li>
-        <li><strong>Have I Been Pwned:</strong> Beim Registrieren und beim Ändern des Passworts prüft die App, ob es aus
-          bekannten Datenlecks stammt. Dorthin geht nur ein fünfstelliges Bruchstück seines Hash-Werts,
-          nie das Passwort und nicht deine IP-Adresse.</li>
         <li><strong>Standort:</strong> Den Standort deines Geräts nutzt die App nur mit deiner Erlaubnis
           und nur auf dem Gerät, um nahe Häuser zu zeigen. Ohne Erlaubnis und ohne Einträge im Tagebuch
           fragt „Besuch loggen“ einmal ipwho.is oder geojs.io nach der ungefähren Lage deiner IP-Adresse,

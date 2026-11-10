@@ -29,12 +29,13 @@ function funktion(name) {
     return quelle.slice(anfang, naechste === -1 ? undefined : naechste);
 }
 
-// Der Feldname unterscheidet sich je nach Aufruf – signUp nennt es
-// emailRedirectTo, die anderen beiden redirectTo.
+// Der Feldname unterscheidet sich je nach Aufruf – der Einmalcode nennt es
+// emailRedirectTo, Google redirectTo. Die Mail mit dem Code trägt zwar
+// keinen Link mehr; stünde in einer alten Vorlage im Dashboard doch noch
+// einer, soll er trotzdem hierher führen.
 const WEGE = [
-    ['signUp', 'emailRedirectTo'],
+    ['codeAnfordern', 'emailRedirectTo'],
     ['signInWithGoogle', 'redirectTo'],
-    ['resetPassword', 'redirectTo'],
 ];
 
 for (const [name, feld] of WEGE) {

@@ -30,15 +30,38 @@ test('je Mail genau eine Datei, so wie das Werkzeug sie erzeugt', () => {
         assert.equal(lies(m.datei), mailHtml(m),
             `${m.datei} weicht ab – node tests/werkzeug/mailvorlagen.mjs laufen lassen`);
     }
-    assert.deepEqual(MAILS.map(m => m.dashboard).sort(), ['Change Email Address', 'Confirm signup', 'Reset Password']);
+    assert.deepEqual(MAILS.map(m => m.dashboard).sort(), ['Change Email Address', 'Confirm signup', 'Magic Link']);
+});
+
+// Anmelden und Registrieren gehen über einen Einmalcode (seit 10.11.2026).
+// Diese Mails dürfen keinen Link zum Anmelden tragen: am iPhone öffnete er
+// Safari statt der installierten App, und Postfächer, die Links zur Prüfung
+// selbst aufrufen, verbrauchten ihn.
+const MIT_CODE = new Set(MAILS.filter(m => m.code).map(m => m.datei));
+
+test('Registrierung und Anmeldung tragen einen Code, die Adressänderung einen Link', () => {
+    assert.deepEqual([...MIT_CODE].sort(), ['anmeldecode.html', 'registrierung.html']);
 });
 
 for (const datei of vorlagen) {
     const html = lies(datei);
 
-    test(`${datei}: der Knopf führt zum Bestätigungslink`, () => {
-        assert.match(html, /<a [^>]*class="knopf"[^>]*href="\{\{ \.ConfirmationURL \}\}"/);
-    });
+    if (MIT_CODE.has(datei)) {
+        test(`${datei}: der Code steht groß da, und es gibt keinen Link zum Anmelden`, () => {
+            // Einmal sichtbar im Text, einmal in der Vorschauzeile des Postfachs.
+            const sichtbar = html.replace(/<div style="display:none;[\s\S]*?<\/div>/, '');
+            assert.equal((sichtbar.match(/\{\{ \.Token \}\}/g) || []).length, 1);
+            assert.match(sichtbar, /<td [^>]*font-size:34px[^>]*>\{\{ \.Token \}\}<\/td>/);
+            assert.ok(!html.includes('.ConfirmationURL'), 'die Mail trägt noch einen Anmeldelink');
+            assert.ok(!html.includes('.TokenHash'));
+            assert.ok(!/class="knopf"/.test(html.replace(/<style>[\s\S]*?<\/style>/g, '')), 'ein Knopf ohne Ziel');
+        });
+    } else {
+        test(`${datei}: der Knopf führt zum Bestätigungslink`, () => {
+            assert.match(html, /<a [^>]*class="knopf"[^>]*href="\{\{ \.ConfirmationURL \}\}"/);
+            assert.ok(!html.includes('.Token }}'));
+        });
+    }
 
     test(`${datei}: nur Variablen, die Supabase kennt, und jedes if hat sein end`, () => {
         const aktionen = [...html.matchAll(/\{\{\s*(.*?)\s*\}\}/g)].map(m => m[1]);

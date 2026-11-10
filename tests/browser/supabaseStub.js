@@ -27,13 +27,8 @@ window.__besuchVersuche = [];
 window.__besuchFehler = [];
 window.__likeFehler = null;     // gesetzt: jeder Zugriff auf likes scheitert damit
 
-// Fuer die Passwortpruefung: was die Edge Function antworten soll, und was der
-// Browser ihr geschickt hat. Letzteres darf nur ein fuenfstelliges Praefix
-// sein – siehe tests/browser/passwort.test.js.
-window.__leakAntwort = '';      // Text im Format SUFFIX:ANZAHL je Zeile
-window.__leakFehler = false;    // true: Dienst antwortet nicht
-window.__leakGefragt = [];      // die Rumpfobjekte, die invoke() gesehen hat
-window.__registriert = [];      // was signUp() entgegengenommen hat
+// Edge Functions: was invoke() gesehen hat ({ name, body }), ausser push-senden.
+window.__funktionGerufen = [];
 
 // Fuer das Admin-Katalogformular.
 window.__istAdmin = !!window.__istAdminVorgabe;      // steht der Testnutzer in admins?
@@ -52,9 +47,6 @@ window.__ausschnittFehler = null;   // gesetzt: jedes Schreiben scheitert damit
 window.__kontoGeloescht = 0;    // wie oft konto_loeschen() gerufen wurde
 window.__kontoFehler = null;    // gesetzt: Loeschen scheitert damit
 window.__abgemeldet = 0;        // wie oft signOut() gerufen wurde
-// Verlangt das Projekt eine E-Mail-Bestaetigung, gibt signUp() KEINE Sitzung
-// zurueck. Dann darf die App nicht mehr selbst ins Profil schreiben.
-window.__signUpMitSitzung = false;
 window.__profilSchreibfehler = null;  // was ein upsert auf profiles liefert
 window.__profilUpsert = [];     // jedes upsert auf profiles
 window.__profilUpdate = [];     // jedes update auf profiles (Profil bearbeiten)
@@ -348,20 +340,22 @@ window.supabase = { createClient: () => ({
     getSession: async () => ({ data: { session: SESSION }, error: null }),
     onAuthStateChange: () => {},
     signOut: async (optionen) => { window.__ablauf.push('signOut'); window.__abgemeldet++; window.__abmeldeArt = optionen?.scope; return { error: null }; },
-    signUp: async (angaben) => {
-      window.__registriert.push(angaben);
-      if (window.__registrierFehler) return { data: { user: null, session: null }, error: window.__registrierFehler };
-      return { data: {
-        user: { id: UID },
-        session: window.__signUpMitSitzung ? SESSION : null,
-      }, error: null };
+    // Der Einmalcode. __codeAngefordert: jeder Auftrag ({ email, options }).
+    // __codeFehler gesetzt: Supabase antwortet damit – etwa wenn der
+    // Postausgang (SMTP) die Mail nicht annimmt. Gültig ist __code ('123456');
+    // jeder andere wird wie von Supabase als falsch oder abgelaufen abgelehnt.
+    // __codeEingeloest: was verifyOtp() bekommen hat.
+    signInWithOtp: async (angaben) => {
+      window.__codeAngefordert = [...(window.__codeAngefordert || []), angaben];
+      if (window.__codeFehler) return { data: { user: null, session: null }, error: window.__codeFehler };
+      return { data: { user: null, session: null }, error: null };
     },
-    signInWithPassword: async () => ({ data: { session: SESSION }, error: null }),
-    // "Passwort vergessen": __resetFehler gesetzt heißt, Supabase antwortet mit
-    // diesem Fehler – etwa wenn der Postausgang (SMTP) die Mail nicht annimmt.
-    resetPasswordForEmail: async (email, optionen) => {
-      window.__resetAngefragt = [...(window.__resetAngefragt || []), { email, optionen }];
-      return window.__resetFehler ? { data: null, error: window.__resetFehler } : { data: {}, error: null };
+    verifyOtp: async (angaben) => {
+      window.__codeEingeloest = [...(window.__codeEingeloest || []), angaben];
+      if (angaben.token !== (window.__code || '123456')) {
+        return { data: { user: null, session: null }, error: { message: 'Token has expired or is invalid', code: 'otp_expired', status: 403 } };
+      }
+      return { data: { session: SESSION, user: SESSION.user }, error: null };
     },
     signInWithPasskey: async () => {
       if (window.__passkeyFehler) return { data: null, error: window.__passkeyFehler };
@@ -422,9 +416,8 @@ window.supabase = { createClient: () => ({
       if (name === 'push-senden') {
         return { data: { schluessel: 'BJjAqw6svCgTxnYuAjvx6g2GzSFlqdeBl4v-uIwfl-9597T6bg3pP02CqBV9EZsfpCVtg6PGSa2tzrekGxi3jnI' }, error: null };
       }
-      window.__leakGefragt.push({ name, body: optionen?.body });
-      if (window.__leakFehler) return { data: null, error: new Error('Dienst antwortet nicht') };
-      return { data: window.__leakAntwort, error: null };
+      window.__funktionGerufen.push({ name, body: optionen?.body });
+      return { data: null, error: null };
     },
   },
   from: builder,

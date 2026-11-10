@@ -1,13 +1,17 @@
-// Auth-Seite – Login & Registrierung
+// Auth-Seite – Anmelden & Registrieren, beides ohne Passwort.
+//
+// Wer sich anmeldet oder registriert, bekommt einen Einmalcode per E-Mail
+// und tippt ihn hier ein (siehe src/anmeldecode.js und codeAnfordern() in
+// src/store/supabase.js). Daneben bleiben Google und Passkey.
 import { isSupabaseConfigured } from '../config.js';
 import { brandMarkSVG } from '../data/brandMark.js';
 import * as sb from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { profileIcons } from '../data/profileIcons.js';
-import { passwortEinwand, MINDESTLAENGE } from '../passwort.js';
+import { codeLesen, codeVollstaendig, codeOffen, codeOffenMerken, codeOffenVergessen, NEU_SENDEN_NACH_MS } from '../anmeldecode.js';
 import { passkeyAnmeldungAnbieten, passkeyVermerken, passkeyFehlertext } from '../passkey.js';
 import { icon } from '../components/Icon.js';
-import { authFehlertext } from '../utils.js';
+import { authFehlertext, escapeHTML } from '../utils.js';
 
 // ── E-Mail-Validierung ──────────────────────────────────
 const BLOCKED_DOMAINS = [
@@ -68,14 +72,11 @@ export function AuthPage(onSuccess) {
             <label class="form-label" for="loginEmail">E-Mail</label>
             <input type="email" class="input" id="loginEmail" autocomplete="email" placeholder="deine@email.de" required />
           </div>
-          <div class="form-group">
-            <label class="form-label" for="loginPassword">Passwort</label>
-            <input type="password" class="input" id="loginPassword" autocomplete="current-password" placeholder="••••••••" required minlength="6" />
-          </div>
+          <p class="form-hint auth-code-hinweis">Ohne Passwort: du bekommst einen Code per E-Mail.</p>
           <div id="loginError" class="auth-error" style="display:none"></div>
           <button type="submit" class="btn btn--primary btn--lg btn--full" id="loginSubmitBtn">
-            <span class="btn__text">Anmelden</span>
-            <span class="btn__loading" style="display:none"><span class="spinner--sm"></span> Wird angemeldet…</span>
+            <span class="btn__text">Code zuschicken</span>
+            <span class="btn__loading" style="display:none"><span class="spinner--sm"></span> Code wird verschickt…</span>
           </button>
           <div class="auth-divider"><span>oder</span></div>
           <button type="button" class="btn btn--google btn--lg btn--full" id="googleSignInBtn">
@@ -87,19 +88,22 @@ export function AuthPage(onSuccess) {
             ${icon('key')}Mit Passkey anmelden
           </button>
           ` : ''}
-          <button type="button" class="auth-forgot-link" id="forgotPasswordLink">Passwort vergessen?</button>
         </form>
 
-        <form id="resetForm" class="auth-form" style="display:none">
-          <p class="auth-reset-info">Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.</p>
+        <form id="codeForm" class="auth-form" style="display:none">
+          <p class="auth-reset-info" id="codeInfo"></p>
           <div class="form-group">
-            <label class="form-label" for="resetEmail">E-Mail</label>
-            <input type="email" class="input" id="resetEmail" autocomplete="email" placeholder="deine@email.de" required />
+            <label class="form-label" for="codeInput">Code aus der E-Mail</label>
+            <input type="text" class="input auth-code" id="codeInput" inputmode="numeric" pattern="[0-9 ]*"
+              autocomplete="one-time-code" maxlength="12" placeholder="••••••" required />
           </div>
-          <div id="resetError" class="auth-error" style="display:none"></div>
-          <div id="resetSuccess" class="auth-success" style="display:none"></div>
-          <button type="submit" class="btn btn--primary btn--lg btn--full">Link senden</button>
-          <button type="button" class="auth-forgot-link" id="backToLoginLink">← Zurück zur Anmeldung</button>
+          <div id="codeError" class="auth-error" style="display:none"></div>
+          <button type="submit" class="btn btn--primary btn--lg btn--full" id="codeSubmitBtn">
+            <span class="btn__text">Anmelden</span>
+            <span class="btn__loading" style="display:none"><span class="spinner--sm"></span> Wird geprüft…</span>
+          </button>
+          <button type="button" class="auth-forgot-link" id="codeNeuBtn">Neuen Code senden</button>
+          <button type="button" class="auth-forgot-link" id="codeZurueckBtn">← Andere E-Mail-Adresse</button>
         </form>
 
         <form id="registerForm" class="auth-form" style="display:none">
@@ -111,11 +115,7 @@ export function AuthPage(onSuccess) {
             <label class="form-label" for="regEmail">E-Mail</label>
             <input type="email" class="input" id="regEmail" autocomplete="email" placeholder="deine@email.de" required />
           </div>
-          <div class="form-group">
-            <label class="form-label" for="regPassword">Passwort</label>
-            <input type="password" class="input" id="regPassword" autocomplete="new-password" placeholder="Mind. ${MINDESTLAENGE} Zeichen" required minlength="${MINDESTLAENGE}" />
-            <p class="form-hint">Ein Satz, den nur du kennst, ist sicherer als ein kurzes Kunstwort mit Sonderzeichen.</p>
-          </div>
+          <p class="form-hint auth-code-hinweis">Ein Passwort brauchst du nicht: zur Bestätigung schicken wir dir einen Code.</p>
           <div class="form-group">
             <label class="form-label">Profilbild wählen</label>
             <div class="icon-picker" id="regIconPicker">
@@ -141,10 +141,10 @@ export function AuthPage(onSuccess) {
   const showForm = (formName) => {
     page.querySelector('#loginForm').style.display = formName === 'login' ? 'flex' : 'none';
     page.querySelector('#registerForm').style.display = formName === 'register' ? 'flex' : 'none';
-    page.querySelector('#resetForm').style.display = formName === 'reset' ? 'flex' : 'none';
-    // Hide tabs when showing reset form
+    page.querySelector('#codeForm').style.display = formName === 'code' ? 'flex' : 'none';
+    // Beim Code geht es nur noch um den Code – die Reiter lenkten davon ab.
     const tabBar = page.querySelector('.auth-tabs');
-    if (tabBar) tabBar.style.display = formName === 'reset' ? 'none' : 'flex';
+    if (tabBar) tabBar.style.display = formName === 'code' ? 'none' : 'flex';
   };
 
   page.querySelectorAll('.auth-tab').forEach(tab => {
@@ -155,13 +155,131 @@ export function AuthPage(onSuccess) {
     });
   });
 
-  // Forgot password links
-  page.querySelector('#forgotPasswordLink').addEventListener('click', () => showForm('reset'));
-  page.querySelector('#backToLoginLink').addEventListener('click', () => {
-    showForm('login');
-    page.querySelector('[data-tab="login"]').classList.add('auth-tab--active');
-    page.querySelector('[data-tab="register"]').classList.remove('auth-tab--active');
+  // ── Der Schritt mit dem Code ────────────────────────────────────────
+  //
+  // Nach "Code zuschicken" oder "Registrieren". `offen` sagt, an welche
+  // Adresse der Code ging und ob dabei ein Konto entstehen sollte – für
+  // "Neuen Code senden" und für die Beschriftung.
+  const codeInput = page.querySelector('#codeInput');
+  const codeError = page.querySelector('#codeError');
+  const codeSubmit = page.querySelector('#codeSubmitBtn');
+  const codeNeu = page.querySelector('#codeNeuBtn');
+  let offen = null;
+  let neuTimer = null;
+
+  const zeigeCodeFehler = (text) => {
+    codeError.textContent = text;
+    codeError.style.display = text ? 'block' : 'none';
+  };
+
+  /** "Neuen Code senden" erst wieder nach einer Minute – so lange nimmt Supabase keinen Auftrag an. */
+  function neuSendenSperren(seit) {
+    clearInterval(neuTimer);
+    const zeige = () => {
+      const rest = Math.ceil((seit + NEU_SENDEN_NACH_MS - Date.now()) / 1000);
+      if (rest <= 0 || !page.isConnected) {
+        clearInterval(neuTimer);
+        codeNeu.disabled = false;
+        codeNeu.textContent = 'Neuen Code senden';
+        return;
+      }
+      codeNeu.disabled = true;
+      codeNeu.textContent = `Neuen Code senden (in ${rest} s)`;
+    };
+    // Erst anzeigen, dann takten: beim ersten Aufruf hängt die Seite noch nicht im Dokument.
+    const rest = Math.ceil((seit + NEU_SENDEN_NACH_MS - Date.now()) / 1000);
+    codeNeu.disabled = rest > 0;
+    codeNeu.textContent = rest > 0 ? `Neuen Code senden (in ${rest} s)` : 'Neuen Code senden';
+    if (rest > 0) neuTimer = setInterval(zeige, 1000);
+  }
+
+  function zeigeCodeSchritt(stand) {
+    offen = stand;
+    page.querySelector('#codeInfo').innerHTML =
+      `Wir haben einen Code an <strong>${escapeHTML(stand.email)}</strong> geschickt. Gib ihn hier ein.`;
+    codeSubmit.querySelector('.btn__text').textContent = stand.neu ? 'Konto bestätigen' : 'Anmelden';
+    codeInput.value = '';
+    zeigeCodeFehler('');
+    neuSendenSperren(stand.seit);
+    showForm('code');
+    codeInput.focus({ preventScroll: true });
+  }
+
+  async function codeEinloesen() {
+    const code = codeLesen(codeInput.value);
+    if (!codeVollstaendig(code)) {
+      zeigeCodeFehler('Der Code besteht aus mindestens sechs Ziffern.');
+      return;
+    }
+    if (codeSubmit.disabled) return;
+    zeigeCodeFehler('');
+    const btnText = codeSubmit.querySelector('.btn__text');
+    const btnLoading = codeSubmit.querySelector('.btn__loading');
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline-flex';
+    codeSubmit.disabled = true;
+    try {
+      await sb.codeEinloesen(offen.email, code);
+      codeOffenVergessen();
+      await store.refreshSession();
+      if (onSuccess) onSuccess();
+      else window.location.hash = '#/';
+    } catch (err) {
+      zeigeCodeFehler(authFehlertext(err));
+      btnText.style.display = 'inline';
+      btnLoading.style.display = 'none';
+      codeSubmit.disabled = false;
+      codeInput.select();
+    }
+  }
+
+  page.querySelector('#codeForm').addEventListener('submit', (e) => { e.preventDefault(); codeEinloesen(); });
+
+  // Eingefügt oder vom iPhone aus der Mail vorgeschlagen: dann ist der Code
+  // vollständig und wird gleich eingelöst. Beim Tippen nicht – wie viele
+  // Ziffern der Code hat, legt das Projekt fest, und ein zu früh
+  // abgeschickter Teil wäre ein Fehlversuch.
+  let vorher = 0;
+  codeInput.addEventListener('input', () => {
+    const jetzt = codeLesen(codeInput.value).length;
+    const aufEinmal = jetzt - vorher > 1;
+    vorher = jetzt;
+    if (aufEinmal && codeVollstaendig(codeInput.value)) codeEinloesen();
   });
+
+  codeNeu.addEventListener('click', async () => {
+    if (!offen || codeNeu.disabled) return;
+    codeNeu.disabled = true;
+    zeigeCodeFehler('');
+    try {
+      await sb.codeAnfordern(offen.email, offen.neu ? { neu: offen.neu } : {});
+      const stand = { ...offen, seit: Date.now() };
+      codeOffenMerken(stand.email, { neu: stand.neu, jetzt: stand.seit });
+      offen = stand;
+      neuSendenSperren(stand.seit);
+    } catch (err) {
+      zeigeCodeFehler(authFehlertext(err));
+      codeNeu.disabled = false;
+    }
+  });
+
+  page.querySelector('#codeZurueckBtn').addEventListener('click', () => {
+    clearInterval(neuTimer);
+    const war = offen;
+    offen = null;
+    codeOffenVergessen();
+    const tab = war?.neu ? 'register' : 'login';
+    page.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('auth-tab--active', t.dataset.tab === tab));
+    showForm(tab);
+  });
+
+  /** Den Code anfordern und zum Schritt mit dem Code wechseln. */
+  async function codeSchicken(email, neu) {
+    await sb.codeAnfordern(email, neu ? { neu } : {});
+    const stand = { email: email.trim(), neu: neu || null, seit: Date.now() };
+    codeOffenMerken(stand.email, { neu: stand.neu, jetzt: stand.seit });
+    zeigeCodeSchritt(stand);
+  }
 
   // Google sign-in
   page.querySelector('#googleSignInBtn').addEventListener('click', async () => {
@@ -218,7 +336,6 @@ export function AuthPage(onSuccess) {
   page.querySelector('#loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = page.querySelector('#loginEmail').value;
-    const password = page.querySelector('#loginPassword').value;
     const errorEl = page.querySelector('#loginError');
     const submitBtn = page.querySelector('#loginSubmitBtn');
     const btnText = submitBtn.querySelector('.btn__text');
@@ -238,42 +355,14 @@ export function AuthPage(onSuccess) {
     submitBtn.disabled = true;
 
     try {
-      await sb.signIn(email, password);
-      await store.refreshSession();
-      if (onSuccess) onSuccess();
-      else window.location.hash = '#/';
+      await codeSchicken(email, null);
     } catch (err) {
       errorEl.textContent = authFehlertext(err);
       errorEl.style.display = 'block';
+    } finally {
       btnText.style.display = 'inline';
       btnLoading.style.display = 'none';
       submitBtn.disabled = false;
-    }
-  });
-
-  // Password reset
-  page.querySelector('#resetForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = page.querySelector('#resetEmail').value;
-    const errorEl = page.querySelector('#resetError');
-    const successEl = page.querySelector('#resetSuccess');
-    errorEl.style.display = 'none';
-    successEl.style.display = 'none';
-
-    const check = validateEmail(email);
-    if (!check.valid) {
-      errorEl.textContent = check.error;
-      errorEl.style.display = 'block';
-      return;
-    }
-
-    try {
-      await sb.resetPassword(email);
-      successEl.textContent = 'Falls ein Konto mit dieser E-Mail existiert, haben wir dir einen Link zum Zurücksetzen gesendet.';
-      successEl.style.display = 'block';
-    } catch (err) {
-      errorEl.textContent = authFehlertext(err);
-      errorEl.style.display = 'block';
     }
   });
 
@@ -282,7 +371,6 @@ export function AuthPage(onSuccess) {
     e.preventDefault();
     const username = page.querySelector('#regUsername').value;
     const email = page.querySelector('#regEmail').value;
-    const password = page.querySelector('#regPassword').value;
     const errorEl = page.querySelector('#regError');
     const submitBtn = page.querySelector('#registerForm button[type="submit"]');
     errorEl.style.display = 'none';
@@ -295,53 +383,32 @@ export function AuthPage(onSuccess) {
       return;
     }
 
-    // Das Nachfragen beim Leak-Abgleich dauert einen Moment, deshalb schon
-    // hier die Schaltfläche sperren – sonst schickt ein zweiter Klick das
-    // Formular ein zweites Mal ab.
-    submitBtn.textContent = 'Passwort wird geprüft…';
-    submitBtn.disabled = true;
-
-    const einwand = await passwortEinwand(password, { email, benutzername: username });
-    if (einwand) {
-      errorEl.textContent = einwand;
+    if (username.trim().length < 3) {
+      errorEl.textContent = 'Bitte wähle einen Benutzernamen mit mindestens 3 Zeichen.';
       errorEl.style.display = 'block';
-      submitBtn.textContent = 'Registrieren';
-      submitBtn.disabled = false;
       return;
     }
 
-    // Show loading state
-    submitBtn.textContent = 'Wird registriert…';
+    submitBtn.textContent = 'Code wird verschickt…';
+    submitBtn.disabled = true;
 
     try {
       const activeIconBtn = page.querySelector('#regIconPicker .icon-picker__option--active');
       const avatarIcon = activeIconBtn ? activeIconBtn.dataset.icon : '';
-      const data = await sb.signUp(email, password, username, avatarIcon);
-      // Auto-login after successful registration
-      try {
-        await sb.signIn(email, password);
-        await store.refreshSession();
-        if (onSuccess) onSuccess();
-        else window.location.hash = '#/';
-      } catch (loginErr) {
-        // If auto-login fails (e.g. email confirmation required), show success message
-        errorEl.style.display = 'block';
-        errorEl.style.color = 'var(--accent)';
-        errorEl.textContent = 'Registrierung erfolgreich! Bitte bestätige deine E-Mail und melde dich dann an.';
-        submitBtn.textContent = 'Registrieren';
-        submitBtn.disabled = false;
-        setTimeout(() => {
-          page.querySelector('[data-tab="login"]').click();
-          page.querySelector('#loginEmail').value = email;
-        }, 2000);
-      }
+      await codeSchicken(email, { username: username.trim(), avatarIcon });
     } catch (err) {
       errorEl.textContent = authFehlertext(err);
       errorEl.style.display = 'block';
+    } finally {
       submitBtn.textContent = 'Registrieren';
       submitBtn.disabled = false;
     }
   });
+
+  // Aus dem Mailprogramm zurück, und die App hat neu geladen: der Code von
+  // eben braucht sein Feld wieder.
+  const nochOffen = codeOffen();
+  if (nochOffen) zeigeCodeSchritt(nochOffen);
 
   return page;
 }

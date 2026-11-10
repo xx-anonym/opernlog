@@ -8561,3 +8561,34 @@ html.willkommen-offen body {
     width: 14px;
     height: 14px;
 }
+
+/* ============================================================
+   Anmelden mit Einmalcode (pages/Auth.js)
+   ============================================================ */
+/* Der Code: groß, mittig, mit Abstand zwischen den Ziffern – man tippt ihn
+   aus einer Mail ab. */
+.auth-code {
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    /* Der Abstand hängt auch hinter der letzten Ziffer; so steht der Code trotzdem mittig. */
+    padding-left: calc(16px + 0.35em);
+    font-variant-numeric: tabular-nums;
+    color: var(--gold-light);
+}
+
+.auth-code::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.auth-code-hinweis {
+    margin: -6px 0 0;
+}
+
+.auth-forgot-link:disabled {
+    opacity: 0.55;
+    cursor: default;
+    text-decoration: none;
+}

@@ -150,7 +150,7 @@ test('ein unbekannter Passkey sagt, wie es weitergeht', { skip: fehltPlaywright 
         await p.click('#passkeySignInBtn');
         await p.waitForTimeout(300);
         const text = await p.textContent('#loginError');
-        assert.match(text, /E-Mail und Passwort/);
+        assert.match(text, /Code aus der E-Mail/);
         assert.doesNotMatch(text, /credential not found/, 'die Rohmeldung gehört in die Konsole');
         assert.equal(await p.evaluate(() => window.__erfolg), 0);
     } finally { await ctx.close(); }

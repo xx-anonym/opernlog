@@ -16,10 +16,6 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Problem: der Service Worker überspringt sie, also fehlten sie offline – und
   jeder Aufruf von fonts.googleapis.com überträgt die IP des Besuchers an
   Google. Nachzuholen mit `tests/werkzeug/schriften-holen.mjs`.
-
-  Der Abgleich gegen geleakte Passwörter braucht zwangsläufig einen Dritten.
-  Deshalb fragt nicht der Browser bei HaveIBeenPwned nach, sondern die Edge
-  Function `passwort-pruefen` – der Browser spricht weiter nur mit Supabase.
 - **Der Katalog steht an zwei Orten.** Die 121 Werke, 92 Häuser und 55
   Komponisten liegen als Dateien unter `src/data/`; was der Admin aus der App
   heraus anlegt, liegt in drei Supabase-Tabellen und wird beim Start
@@ -40,6 +36,31 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Ausschnitt steht in `bild_ausschnitte` (Prozentwerte für
   `background-position`) und gilt für beide Quellen und überall, wo das Bild
   erscheint – Kopf, Karten, Listen.
+- **Kein Passwort.** Seit dem 10. November 2026 meldet man sich mit einem
+  Einmalcode an: Adresse eingeben, OpernLog schickt einen Code per E-Mail, den
+  tippt man ein (`codeAnfordern()` und `codeEinloesen()` in
+  `src/store/supabase.js`, die Seite in `src/pages/Auth.js`). Registrieren
+  geht genauso; der Code bestätigt dabei die Adresse. Daneben bleiben Google
+  und Passkeys. Ein Passwortfeld, „Passwort vergessen“ und der Abgleich gegen
+  geleakte Passwörter sind weg – `tests/checks/keinPasswort.test.js` hält das
+  fest.
+
+  Ein Code und kein Link, aus zwei Gründen: ein Link aus der Mail öffnet am
+  iPhone Safari statt der installierten App, und manche Postfächer rufen Links
+  zur Prüfung selbst auf und verbrauchen sie dabei.
+
+  Im Supabase-Dashboard gehört dazu (Authentication → Sign In / Providers →
+  Email): „Email OTP Length“ und „Email OTP Expiration“. Die App nimmt Codes
+  mit sechs bis zehn Ziffern an; das Feld für den Code hält sie eine Stunde
+  offen (`src/anmeldecode.js`), länger sollte ein Code also nicht gelten. Die
+  beiden Mails mit dem Code sind die Vorlagen „Confirm signup“ und „Magic
+  Link“, siehe unten. **Jede Anmeldung per Code hängt am Postausgang**: geht
+  keine Mail hinaus, kommt nur noch herein, wer Google oder einen Passkey
+  benutzt.
+
+  Wer sich früher mit Passwort registriert hat, meldet sich mit derselben
+  Adresse per Code an. Der Hash des alten Passworts steht noch in
+  `auth.users`, die App benutzt ihn nicht mehr.
 - **Passkeys** melden mit Face ID, Fingerabdruck oder Geräte-PIN an. Anlegen
   kann einen nur, wer schon angemeldet ist – im Fenster „Profil bearbeiten“;
   registriert wird weiter per E-Mail oder Google. Supabase führt die Funktion
@@ -53,7 +74,7 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Party ID unter Authentication → Passkeys im Supabase-Dashboard). **Zieht die
   App auf eine andere Domain, taugt kein einziger Passkey mehr**, und jeder muss
   einen neuen anlegen.
-- **E-Mails** – Bestätigung der Registrierung, Passwort zurücksetzen – schickt
+- **E-Mails** – der Einmalcode zum Registrieren und zum Anmelden – schickt
   Supabase seit Oktober 2026 nicht mehr selbst, sondern über einen eigenen
   Postausgang: Gmail per SMTP, eingetragen im Supabase-Dashboard unter
   Authentication → Emails → SMTP Settings. Damit fällt das Limit des
@@ -64,7 +85,7 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Supabase meldet sich bei Gmail mit einem App-Passwort an. **Ändert sich das
   Google-Passwort oder wird die Bestätigung in zwei Schritten abgeschaltet,
   verfällt es** – dann geht keine Mail mehr hinaus, und niemand kann sich mehr
-  registrieren oder sein Passwort zurücksetzen. Abhilfe: neues App-Passwort
+  registrieren oder per Code anmelden. Abhilfe: neues App-Passwort
   anlegen und in den SMTP-Einstellungen eintragen. Scheitert der Versand, steht
   im Formular ein deutscher Satz statt der englischen Meldung von Supabase
   (`authFehlertext()` in `src/utils.js`).
@@ -78,8 +99,8 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
 
   | Datei | Vorlage im Dashboard | Betreff |
   | --- | --- | --- |
-  | `registrierung.html` | Confirm signup | Vorhang auf – bestätige deine E-Mail für OpernLog |
-  | `passwort.html` | Reset Password | Ein neues Passwort für OpernLog |
+  | `registrierung.html` | Confirm signup | Vorhang auf – dein Code für OpernLog |
+  | `anmeldecode.html` | Magic Link | Dein Anmeldecode für OpernLog |
   | `email-aendern.html` | Change Email Address | Bestätige deine neue E-Mail-Adresse für OpernLog |
 
   In Apple Mail (iPhone, iPad, Mac) haben die Mails einen kurzen Auftritt:

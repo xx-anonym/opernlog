@@ -26,6 +26,7 @@ node --test "tests/**/*.test.js"
 | `geo.test.js` | Entfernung und Vorauswahl des nächsten Opernhauses |
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen, Kurzfassung der Besetzung |
 | `passkey.test.js` | wann es Passkeys gibt, welcher Fehler welchen Satz bekommt |
+| `anmeldecode.test.js` | der Einmalcode: nur Ziffern zählen, sechs bis zehn; der Merker für einen verschickten Code gilt eine Stunde; Supabases Meldungen als deutsche Sätze |
 | `sterne.test.js` | Sterne als Text, auch bei Noten außerhalb von 0 bis 5 |
 | `authFehlertext.test.js` | Fehler beim Anmelden, Registrieren und Zurücksetzen als deutscher Satz: Postausgang, Stundenlimit, Wartezeit, unbestätigte E-Mail; Unbekanntes bleibt stehen |
 | `webpush.test.js` | Verschlüsselung Byte für Byte gegen RFC 8291, VAPID-Ausweis, nur bekannte Push-Dienste |
@@ -73,8 +74,9 @@ Datenbank.
 | `offline.test.js` | im Flugmodus kommt die App hoch und zeigt lokale Daten |
 | `tagebuchSortierung.test.js` | nach Bewertung sortiert stehen Noten über den Blöcken, keine Monate |
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
+| `anmeldung.test.js` | Anmelden und Registrieren ohne Passwort: Code anfordern und einlösen, falscher Code, Einfügen löst ein, „Neuen Code senden“ erst nach einer Minute, das Feld übersteht ein Neuladen; Google bleibt |
 | `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
-| `mailFehler.test.js` | scheitert der Mailversand (Postausgang, Stundenlimit), stehen in „Passwort vergessen“ und in der Registrierung deutsche Sätze |
+| `mailFehler.test.js` | scheitert der Mailversand (Postausgang, Stundenlimit), stehen beim Anmelden und in der Registrierung deutsche Sätze |
 | `fremdeDaten.test.js` | fremde Namen, Werke und Noten richten nichts an; Abmelden gilt nur für dieses Gerät |
 | `mitteilungen.test.js` | Mitteilungen im Bearbeiten-Fenster und die Frage beim ersten Start neuer Konten |
 | `mailEinstellungen.test.js` | „E-Mails“ im Bearbeiten-Fenster: ohne Einstellung an, Aus- und Einschalten wird gespeichert, auch ohne Push im Browser; Fehler beim Speichern lässt den Stand stehen |

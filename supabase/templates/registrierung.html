@@ -6,7 +6,7 @@
   sondern dort ändern und neu erzeugen.
 
   Eingespielt von Hand im Supabase-Dashboard: Authentication → Emails →
-  Templates → Confirm signup. Betreff: Vorhang auf – bestätige deine E-Mail für OpernLog
+  Templates → Confirm signup. Betreff: Vorhang auf – dein Code für OpernLog
   Supabase liest die Datei nicht von hier; nach jeder Änderung dort neu
   einfügen.
 -->
@@ -18,7 +18,7 @@
 <!-- Schon dunkel gestaltet: Mailprogramme sollen die Farben nicht umkehren. -->
 <meta name="color-scheme" content="dark">
 <meta name="supported-color-schemes" content="dark">
-<title>Vorhang auf – bestätige deine E-Mail für OpernLog</title>
+<title>Vorhang auf – dein Code für OpernLog</title>
 <style>
   @font-face {
     font-family: 'Playfair Display';
@@ -106,7 +106,7 @@
 
 <!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. -->
 <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#0e1114; opacity:0;">
-  Ein Klick, dann hebt sich der Vorhang für dein Operntagebuch.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
+  {{ .Token }} ist dein Code. Eintippen, dann hebt sich der Vorhang für dein Operntagebuch.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
 </div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0e1114" style="background-color:#0e1114;">
@@ -135,17 +135,18 @@
               {{ if .Data.username }}Vorhang auf, {{ .Data.username }}!{{ else }}Vorhang auf!{{ end }}
             </h1>
             <p class="einleitung" style="margin:0 0 28px; font-size:16px; line-height:1.6; color:#c8cdd2;">
-              Schön, dass du dabei bist. Bestätige noch kurz deine E-Mail-Adresse – dann kannst du deinen ersten Opernabend loggen.
+              Schön, dass du dabei bist. Gib diesen Code in OpernLog ein – damit ist deine E-Mail-Adresse bestätigt, und du kannst deinen ersten Opernabend loggen.
             </p>
 
-            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
-            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+            <!-- Der Code: als Tabelle, damit der Rahmen auch in Outlook hält -->
+            <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px;">
               <tr>
-                <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
-                  <a class="knopf" href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block; padding:15px 34px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px; border:1px solid #c9a84c;">E-Mail bestätigen</a>
-                </td>
+                <td align="center" bgcolor="#14181c" style="border-radius:12px; background-color:#14181c; border:1px solid #c9a84c; padding:16px 30px; font-family:'SF Mono', Menlo, Consolas, 'Courier New', monospace; font-size:34px; line-height:1.2; font-weight:700; letter-spacing:8px; color:#dfc06a;">{{ .Token }}</td>
               </tr>
             </table>
+            <p class="mehr" style="margin:0 0 32px; font-size:13px; line-height:1.5; color:#8a96a3;">
+              Der Code gilt nur einmal und nur für kurze Zeit.
+            </p>
 
             <table class="mehr" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #2c343c;">
               <tr><td style="padding:22px 0 6px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#c9a84c;">Was dich erwartet</td></tr>
@@ -168,20 +169,13 @@
                 </tr></table>
               </td></tr>
             </table>
-            <!-- Rückfall, falls der Knopf nicht geht -->
-            <p class="mehr" style="margin:0 0 6px; font-size:13px; line-height:1.5; color:#8a96a3;">
-              Geht der Knopf nicht? Dann öffne diesen Link:
-            </p>
-            <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
-              <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#c9a84c; text-decoration:underline;">{{ .ConfirmationURL }}</a>
-            </p>
           </td>
         </tr>
 
         <!-- Fuß -->
         <tr>
           <td class="innen mehr" bgcolor="#161b20" style="padding:22px 48px 26px; background-color:#161b20; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:12px; line-height:1.6; color:#7b8794;">
-            Du hast dich nicht bei OpernLog registriert? Dann kannst du diese Mail einfach ignorieren – ohne Bestätigung wird kein Konto aktiv, und nach 30 Tagen ist die Anmeldung wieder gelöscht.
+            Du hast dich nicht bei OpernLog registriert? Dann kannst du diese Mail einfach ignorieren – ohne den Code wird kein Konto aktiv, und nach 30 Tagen ist die Anmeldung wieder gelöscht.
           </td>
         </tr>
       </table>
