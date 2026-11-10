@@ -119,9 +119,9 @@ export function AuthPage(onSuccess) {
           <div class="form-group">
             <label class="form-label">Profilbild wählen</label>
             <div class="icon-picker" id="regIconPicker">
-              <button type="button" class="icon-picker__option icon-picker__option--none icon-picker__option--active" data-icon="" title="Kein Icon">✕</button>
+              <button type="button" class="icon-picker__option icon-picker__option--none icon-picker__option--active" data-icon="" title="Kein Icon" aria-label="Kein Icon">✕</button>
               ${Object.entries(profileIcons).map(([key, icon]) => `
-                <button type="button" class="icon-picker__option" data-icon="${key}" title="${icon.label}">
+                <button type="button" class="icon-picker__option" data-icon="${key}" title="${icon.label}" aria-label="${icon.label}">
                   ${icon.svg}
                 </button>
               `).join('')}

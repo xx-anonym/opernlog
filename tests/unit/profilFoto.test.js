@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderAvatarHTML, profilFoto, FOTO_BREITE, WIKIMEDIA_BREITEN } from '../../src/data/profileIcons.js';
+import { profileIcons, renderAvatarHTML, profilFoto, FOTO_BREITE, WIKIMEDIA_BREITEN } from '../../src/data/profileIcons.js';
 import { BILD_BREITE } from '../../src/data/katalogRegeln.js';
 
 const ORIGINAL = 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Maria_Callas.jpg';
@@ -35,6 +35,13 @@ test('Instrumente funktionieren wie bisher', () => {
     const html = renderAvatarHTML('AB', 'violin');
     assert.match(html, /class="avatar-icon"/);
     assert.doesNotMatch(html, /<img/);
+});
+
+test('die Harfe ergänzt die Instrument-Auswahl im selben Linien-Stil', () => {
+    assert.equal(profileIcons.harp.label, 'Harfe');
+    assert.match(profileIcons.harp.svg, /viewBox="0 0 64 64"/);
+    assert.match(profileIcons.harp.svg, /stroke="currentColor"/);
+    assert.match(renderAvatarHTML('AB', 'harp'), /class="avatar-icon"/);
 });
 
 test('die Vorschaubreiten sind solche, die Wikimedia auch ausliefert', () => {

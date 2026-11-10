@@ -118,6 +118,26 @@ export const profileIcons = {
       <line x1="32" y1="47" x2="32" y2="54" stroke-width="0.8"/>
       <line x1="34" y1="47" x2="34" y2="54" stroke-width="0.8"/>
     </svg>`
+  },
+  harp: {
+    label: 'Harfe',
+    svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Curved pillar and neck of a concert harp -->
+      <path d="M17 54c9-10 13-24 12-41"/>
+      <path d="M29 13c12 2 18 12 18 27 0 7-2 12-5 15"/>
+      <!-- Sound box and base -->
+      <path d="M17 54h30"/>
+      <path d="M42 54c5-9 6-21 5-32"/>
+      <!-- Strings become shorter towards the neck -->
+      <line x1="22" y1="51" x2="29" y2="17" stroke-width="1.1"/>
+      <line x1="27" y1="52" x2="33" y2="18" stroke-width="1.1"/>
+      <line x1="32" y1="52" x2="37" y2="20" stroke-width="1.1"/>
+      <line x1="37" y1="52" x2="41" y2="24" stroke-width="1.1"/>
+      <!-- A few tuning pins give the outline its instrument character -->
+      <line x1="28" y1="14" x2="31" y2="11" stroke-width="1"/>
+      <line x1="32" y1="15" x2="35" y2="12" stroke-width="1"/>
+      <line x1="36" y1="17" x2="39" y2="14" stroke-width="1"/>
+    </svg>`
   }
 };
 

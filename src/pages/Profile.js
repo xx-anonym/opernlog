@@ -670,13 +670,13 @@ function renderLocalProfile(page, userId, isMe) {
         <div class="form-group">
           <label class="form-label">Profilbild</label>
           <div class="icon-picker" id="iconPicker">
-            <button type="button" class="icon-picker__option icon-picker__option--none${!user.avatarIcon ? ' icon-picker__option--active' : ''}" data-icon="" title="Kein Icon">✕</button>
+            <button type="button" class="icon-picker__option icon-picker__option--none${!user.avatarIcon ? ' icon-picker__option--active' : ''}" data-icon="" title="Kein Icon" aria-label="Kein Icon">✕</button>
             ${profilFoto(user.avatarIcon) ? `
-              <button type="button" class="icon-picker__option icon-picker__option--active" data-icon="${escapeHTML(user.avatarIcon)}" title="Profilfoto">
+              <button type="button" class="icon-picker__option icon-picker__option--active" data-icon="${escapeHTML(user.avatarIcon)}" title="Profilfoto" aria-label="Profilfoto">
                 <img src="${escapeHTML(profilFoto(user.avatarIcon))}" alt="">
               </button>` : ''}
             ${Object.entries(profileIcons).map(([key, icon]) => `
-              <button type="button" class="icon-picker__option${user.avatarIcon === key ? ' icon-picker__option--active' : ''}" data-icon="${key}" title="${icon.label}">
+              <button type="button" class="icon-picker__option${user.avatarIcon === key ? ' icon-picker__option--active' : ''}" data-icon="${key}" title="${icon.label}" aria-label="${icon.label}">
                 ${icon.svg}
               </button>
             `).join('')}
