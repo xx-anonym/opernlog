@@ -208,7 +208,7 @@ export function AuthPage(onSuccess) {
   async function codeEinloesen() {
     const code = codeLesen(codeInput.value);
     if (!codeVollstaendig(code)) {
-      zeigeCodeFehler('Der Code besteht aus mindestens sechs Ziffern.');
+      zeigeCodeFehler('Der Code hat sechs Ziffern.');
       return;
     }
     if (codeSubmit.disabled) return;
@@ -235,16 +235,11 @@ export function AuthPage(onSuccess) {
 
   page.querySelector('#codeForm').addEventListener('submit', (e) => { e.preventDefault(); codeEinloesen(); });
 
-  // Eingefügt oder vom iPhone aus der Mail vorgeschlagen: dann ist der Code
-  // vollständig und wird gleich eingelöst. Beim Tippen nicht – wie viele
-  // Ziffern der Code hat, legt das Projekt fest, und ein zu früh
-  // abgeschickter Teil wäre ein Fehlversuch.
-  let vorher = 0;
+  // Mit der sechsten Ziffer ist der Code vollständig und wird gleich
+  // eingelöst – getippt, eingefügt oder vom iPhone aus der Mail
+  // vorgeschlagen. Der Knopf bleibt für alle, die lieber selbst abschicken.
   codeInput.addEventListener('input', () => {
-    const jetzt = codeLesen(codeInput.value).length;
-    const aufEinmal = jetzt - vorher > 1;
-    vorher = jetzt;
-    if (aufEinmal && codeVollstaendig(codeInput.value)) codeEinloesen();
+    if (codeVollstaendig(codeInput.value)) codeEinloesen();
   });
 
   codeNeu.addEventListener('click', async () => {

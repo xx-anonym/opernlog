@@ -44,6 +44,8 @@ test('angemeldet wird mit einem Einmalcode: anfordern und einlösen', () => {
     const quelle = fs.readFileSync(path.join(WURZEL, 'src/store/supabase.js'), 'utf8');
     assert.match(quelle, /signInWithOtp\s*\(/);
     assert.match(quelle, /verifyOtp\s*\(/);
+    // Sechs Ziffern, wie im Dashboard eingestellt: mit der sechsten schickt die Seite ab.
+    assert.match(fs.readFileSync(path.join(WURZEL, 'src/anmeldecode.js'), 'utf8'), /export const CODE_LAENGE = 6;/);
     // Anmelden darf kein Konto anlegen – sonst entstünde aus jedem Tippfehler eines.
     assert.match(quelle, /shouldCreateUser:\s*!!neu/);
     // Das Feld für den Code: Ziffern, und so benannt, dass das Telefon ihn aus der Mail vorschlägt.

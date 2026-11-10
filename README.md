@@ -50,9 +50,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   zur Prüfung selbst auf und verbrauchen sie dabei.
 
   Im Supabase-Dashboard gehört dazu (Authentication → Sign In / Providers →
-  Email): „Email OTP Length“ und „Email OTP Expiration“. Die App nimmt Codes
-  mit sechs bis zehn Ziffern an; das Feld für den Code hält sie eine Stunde
-  offen (`src/anmeldecode.js`), länger sollte ein Code also nicht gelten. Die
+  Email): „Email OTP Length“ steht auf **6**, und genau so viele Ziffern
+  erwartet die App (`CODE_LAENGE` in `src/anmeldecode.js`) – mit der sechsten
+  schickt sie den Code von selbst ab. **Wer die Länge im Dashboard ändert,
+  muss sie auch dort ändern.** „Email OTP Expiration“: das Feld für den Code
+  hält die App eine Stunde offen, länger sollte ein Code also nicht gelten. Die
   beiden Mails mit dem Code sind die Vorlagen „Confirm signup“ und „Magic
   Link“, siehe unten. **Jede Anmeldung per Code hängt am Postausgang**: geht
   keine Mail hinaus, kommt nur noch herein, wer Google oder einen Passkey

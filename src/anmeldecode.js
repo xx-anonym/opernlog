@@ -19,14 +19,21 @@ export const GUELTIG_MS = 60 * 60 * 1000;
 // Supabase verschickt je Adresse höchstens einen Code pro Minute.
 export const NEU_SENDEN_NACH_MS = 60 * 1000;
 
+// So viele Ziffern hat ein Code. Im Supabase-Dashboard eingestellt
+// (Authentication → Sign In / Providers → Email → "Email OTP Length"), von
+// Jonas am 10.11.2026 auf 6 gesetzt. Die Zahl lässt sich von außen nicht
+// auslesen: wer sie dort ändert, muss sie auch hier ändern – sonst schickt
+// die Seite den Code zu früh ab oder nimmt ihn nie an.
+export const CODE_LAENGE = 6;
+
 /** Nur die Ziffern, höchstens zehn – Leerzeichen und Striche aus der Mail fallen weg. */
 export function codeLesen(text) {
     return String(text || '').replace(/\D/g, '').slice(0, 10);
 }
 
-/** Ein Code hat sechs bis zehn Ziffern, je nach Einstellung des Projekts. */
+/** Genau so viele Ziffern, wie ein Code hat. */
 export function codeVollstaendig(text) {
-    return /^\d{6,10}$/.test(codeLesen(text));
+    return codeLesen(text).length === CODE_LAENGE;
 }
 
 /** Name und Bild einer Registrierung, auf das Nötige gestutzt – oder null. */

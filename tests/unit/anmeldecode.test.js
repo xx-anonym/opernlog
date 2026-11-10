@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { codeLesen, codeVollstaendig, codeOffen, codeOffenMerken, codeOffenVergessen, CODE_OFFEN, GUELTIG_MS } from '../../src/anmeldecode.js';
+import { codeLesen, codeVollstaendig, codeOffen, codeOffenMerken, codeOffenVergessen, CODE_OFFEN, CODE_LAENGE, GUELTIG_MS } from '../../src/anmeldecode.js';
 import { authFehlertext } from '../../src/utils.js';
 
 function geraet(start = {}) {
@@ -26,11 +26,13 @@ test('aus der Mail abgetippt oder eingefügt: nur die Ziffern zählen', () => {
     assert.equal(codeLesen(null), '');
 });
 
-test('vollständig ist ein Code mit sechs bis zehn Ziffern', () => {
+test('vollständig ist ein Code mit genau sechs Ziffern – so steht es im Dashboard', () => {
+    assert.equal(CODE_LAENGE, 6);
     assert.equal(codeVollstaendig('48392'), false);
     assert.equal(codeVollstaendig('483920'), true);
     assert.equal(codeVollstaendig('483 920'), true);
-    assert.equal(codeVollstaendig('48392044'), true);
+    // Zu viele Ziffern sind kein Code: abgeschnitten würde ein falscher eingelöst.
+    assert.equal(codeVollstaendig('4839204'), false);
     assert.equal(codeVollstaendig(''), false);
 });
 

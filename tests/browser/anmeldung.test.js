@@ -96,12 +96,14 @@ test('Anmelden: Adresse, Code zuschicken, Code eintippen – angemeldet', { skip
         assert.match(await p.textContent('#codeSubmitBtn'), /Anmelden/);
         assert.equal(await p.evaluate(() => document.activeElement?.id), 'codeInput');
 
-        // Getippt wird Ziffer für Ziffer – abgeschickt erst mit dem Knopf.
-        await p.type('#codeInput', '123456');
+        // Getippt wird Ziffer für Ziffer: fünf Ziffern schicken nichts ab,
+        // die sechste löst den Code ein – ohne Knopf.
+        await p.type('#codeInput', '12345');
         await p.waitForTimeout(250);
-        assert.deepEqual(await p.evaluate(() => window.__codeEingeloest), [], 'beim Tippen von selbst abgeschickt');
-        await p.click('#codeSubmitBtn');
+        assert.deepEqual(await p.evaluate(() => window.__codeEingeloest), [], 'vor der sechsten Ziffer abgeschickt');
+        await p.type('#codeInput', '6');
         await p.waitForFunction(() => window.__erfolg === 1);
+        assert.equal((await p.evaluate(() => window.__codeEingeloest)).length, 1, 'doppelt eingelöst');
         const [eingeloest] = await p.evaluate(() => window.__codeEingeloest);
         assert.deepEqual(eingeloest, { email: 'fan@opernlog.de', token: '123456', type: 'email' });
         // Eingelöst: der Merker ist weg.
@@ -118,22 +120,21 @@ test('ein falscher Code: deutscher Satz, das Feld bleibt, der zweite Versuch gel
         await p.waitForSelector('#codeForm', { state: 'visible' });
         await p.fill('#codeInput', '12345');
         await p.click('#codeSubmitBtn');
-        assert.match(await p.textContent('#codeError'), /mindestens sechs Ziffern/);
+        assert.match(await p.textContent('#codeError'), /sechs Ziffern/);
         assert.deepEqual(await p.evaluate(() => window.__codeEingeloest), [], 'ein zu kurzer Code ging hinaus');
 
         await p.fill('#codeInput', '');
         await p.type('#codeInput', '654321');
-        await p.click('#codeSubmitBtn');
         await p.waitForFunction(() => /abgelaufen/.test(document.querySelector('#codeError').textContent));
         assert.equal(await p.textContent('#codeError'),
             'Der Code stimmt nicht oder ist abgelaufen. Prüfe ihn noch einmal oder lass dir einen neuen schicken.');
         assert.equal(await p.isDisabled('#codeSubmitBtn'), false, 'Knopf bleibt gesperrt');
         assert.equal(await p.evaluate(() => window.__erfolg), 0);
 
-        await p.fill('#codeInput', '');
+        // Nach dem Fehlversuch ist der falsche Code markiert: der neue ersetzt ihn beim Tippen.
         await p.type('#codeInput', '123456');
-        await p.click('#codeSubmitBtn');
         await p.waitForFunction(() => window.__erfolg === 1);
+        assert.equal((await p.evaluate(() => window.__codeEingeloest)).length, 2);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
@@ -172,7 +173,6 @@ test('Registrieren: Name, Adresse, Bild – der Code bestätigt das Konto', { sk
         assert.match(await p.textContent('#codeSubmitBtn'), /Konto bestätigen/);
 
         await p.type('#codeInput', '123456');
-        await p.click('#codeSubmitBtn');
         await p.waitForFunction(() => window.__erfolg === 1);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
@@ -215,7 +215,6 @@ test('aus dem Mailprogramm zurück und neu geladen: das Feld für den Code steht
         assert.equal(await sichtbar(p, '#loginForm'), false);
         assert.match(await p.textContent('#codeInfo'), /fan@opernlog\.de/);
         await p.type('#codeInput', '123456');
-        await p.click('#codeSubmitBtn');
         await p.waitForFunction(() => window.__erfolg === 1);
         assert.equal((await p.evaluate(() => window.__codeEingeloest))[0].email, 'fan@opernlog.de');
     } finally { await ctx.close(); }
