@@ -89,23 +89,29 @@ export const profileIcons = {
     </svg>`
   },
   piano: {
-    label: 'Piano',
+    label: 'Klavier',
     svg: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Grand-piano silhouette: a broad lid, curved rim and compact keyboard -->
-      <path d="M10 18h27c11 0 18 7 18 17v3c0 8-6 14-15 14H10z"/>
-      <!-- Raised lid and its prop make the shape readable at avatar size -->
-      <path d="M10 18h29c8 0 14 5 16 12"/>
-      <line x1="45" y1="23" x2="50" y2="38"/>
-      <!-- Keyboard stays deliberately simple instead of becoming visual noise -->
-      <path d="M10 36h27v14H10z"/>
-      <line x1="16" y1="36" x2="16" y2="50"/>
-      <line x1="22" y1="36" x2="22" y2="50"/>
-      <line x1="28" y1="36" x2="28" y2="50"/>
-      <line x1="34" y1="36" x2="34" y2="50"/>
-      <!-- Legs and pedals finish the instrument without crowding the keys -->
-      <line x1="14" y1="50" x2="14" y2="56"/>
-      <line x1="43" y1="50" x2="47" y2="56"/>
-      <path d="M27 51v4h6" stroke-width="1.1"/>
+      <!-- Upright piano: its front view remains unmistakable in a small avatar -->
+      <path d="M11 12h42v6H11z"/>
+      <path d="M15 18h34v16H15z"/>
+      <!-- The inset panel gives the cabinet depth without adding decoration -->
+      <path d="M20 22h24v8H20z" stroke-width="1.1"/>
+      <!-- A broad, front-facing keyboard is more legible than a tiny grand-piano outline -->
+      <path d="M11 34h42v16H11z"/>
+      <line x1="18" y1="34" x2="18" y2="50"/>
+      <line x1="25" y1="34" x2="25" y2="50"/>
+      <line x1="32" y1="34" x2="32" y2="50"/>
+      <line x1="39" y1="34" x2="39" y2="50"/>
+      <line x1="46" y1="34" x2="46" y2="50"/>
+      <!-- Short, stronger strokes suggest the black keys without crowding the white ones -->
+      <line x1="21.5" y1="34" x2="21.5" y2="41" stroke-width="2.5"/>
+      <line x1="28.5" y1="34" x2="28.5" y2="41" stroke-width="2.5"/>
+      <line x1="36" y1="34" x2="36" y2="41" stroke-width="2.5"/>
+      <line x1="43" y1="34" x2="43" y2="41" stroke-width="2.5"/>
+      <!-- Legs and a compact pedal bar complete the familiar silhouette -->
+      <line x1="16" y1="50" x2="16" y2="56"/>
+      <line x1="48" y1="50" x2="48" y2="56"/>
+      <path d="M28 50v5h8v-5" stroke-width="1.1"/>
     </svg>`
   },
   harp: {

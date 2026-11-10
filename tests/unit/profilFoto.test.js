@@ -32,6 +32,7 @@ test('Anführungszeichen in der Adresse brechen nicht aus dem src-Attribut aus',
 });
 
 test('Instrumente funktionieren wie bisher', () => {
+    assert.equal(profileIcons.piano.label, 'Klavier');
     for (const instrument of ['violin', 'piano']) {
         const html = renderAvatarHTML('AB', instrument);
         assert.match(html, /class="avatar-icon"/, instrument);
