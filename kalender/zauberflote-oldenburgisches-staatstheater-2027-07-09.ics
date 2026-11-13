@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:zauberflote-oldenburgisches-staatstheater-2027-07-09@opernlog.vercel.ap
  p
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270709T193000
 DTEND;TZID=Europe/Berlin:20270709T223000
 SUMMARY:Die Zauberflöte – Oldenburgisches Staatstheater

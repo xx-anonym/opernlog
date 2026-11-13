@@ -254,6 +254,35 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Browser nicht), bekommen ihre Termine aus dem Spielzeitheft: von Hand unter
   `ergaenzen` in den Korrekturen, mit Quelle. Diese Termine veralten von
   selbst und müssen jede Spielzeit neu eingetragen werden.
+
+  Zwischen den großen Läufen liest `.github/workflows/spielplan-monatlich.yml`
+  am 3. jedes Monats alle Häuser und legt die Unterschiede zur App als Issue
+  an (`spielplan-vergleich.mjs`). Damit dort nur steht, was sich wirklich
+  geändert hat:
+
+  - Antwortet eine Seite mit 403, 429 oder 5xx oder gar nicht, wartet der Lauf
+    und fragt noch zweimal; Häuser mit solchen Seiten liest er am Ende ein
+    zweites Mal.
+  - Die Seiten, auf die die App schon verlinkt, liest er immer mit. Ob eine
+    Produktion noch läuft, steht dort – auch wenn der Kalender des Hauses nur
+    halb lud.
+  - Bleibt ein Haus lückenhaft (`spielplan-lesequalitaet.mjs`), fällt dort
+    nichts weg, was an den fehlenden Seiten hängt – weder im Bericht noch bei
+    `--dazu`: alles, wenn eine Einstiegsseite fehlte; die Termine eines
+    Monats, wenn dessen Kalenderseite fehlte; die Termine eines Werks, wenn
+    dessen Seite fehlte. Das Issue nennt diese Häuser unter „Lückenhaft
+    gelesen“ und die gar nicht lesbaren unter „Nicht gelesen“, je mit dem
+    Grund.
+  - Häuser mit `"ausgesperrt": true` in den Quellen fragt der Lauf nicht an
+    (Basel sperrt Spielplan und Produktionsseiten); ihre Termine stehen unter
+    `ergaenzen`.
+  - Eine Uhrzeit verliert ihr Ende nicht, nur weil die Seite es bei einem
+    Abruf nicht zeigt.
+
+  Übernommen wird nach Durchsicht mit dem Befehl aus dem Issue; `--stand`
+  setzt dabei den Tag, den die App unter „Läuft demnächst“ nennt. Die
+  Bayerische Staatsoper sperrt Abrufe aus Rechenzentren oft ganz – dann
+  bleiben ihre Einträge, bis ein Lauf vom eigenen Rechner sie erneuert.
 - **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte

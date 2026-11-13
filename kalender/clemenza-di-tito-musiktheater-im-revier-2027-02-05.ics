@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:clemenza-di-tito-musiktheater-im-revier-2027-02-05@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270205T190000
 DTEND;TZID=Europe/Berlin:20270205T220000
 SUMMARY:La clemenza di Tito – Musiktheater im Revier

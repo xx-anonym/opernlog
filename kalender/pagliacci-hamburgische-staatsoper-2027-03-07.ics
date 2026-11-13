@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:pagliacci-hamburgische-staatsoper-2027-03-07@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270307T170000
 DTEND;TZID=Europe/Berlin:20270307T200000
 SUMMARY:Pagliacci – Hamburgische Staatsoper
@@ -32,10 +32,10 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Hamburgische Staatsoper, Hamburg, Deutschland":geo:53.5566,
  9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/130-cavalle
- ria-rusticana-pagliacci#tickets
+ ria-rusticana-amp-pagliacci#tickets
 DESCRIPTION:Ruggero Leoncavallo: Pagliacci\nTermine und Karten: https://www
  .die-hamburgische-staatsoper.de/de/programm/oper/130-cavalleria-rusticana-
- pagliacci#tickets\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – 
- maßgeblich ist die Seite des Hauses.
+ amp-pagliacci#tickets\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog 
+ – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

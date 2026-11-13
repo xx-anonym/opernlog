@@ -21,19 +21,21 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:la-traviata-wuerttembergische-staatstheater-2027-04-11@opernlog.vercel.
- app
-DTSTAMP:20261103T000000Z
-DTSTART;TZID=Europe/Berlin:20270411T193000
-DTEND;TZID=Europe/Berlin:20270411T223000
-SUMMARY:La Traviata – Staatstheater Wiesbaden
+UID:hoffmanns-erzaehlungen-wuerttembergische-staatstheater-2027-02-07@opern
+ log.vercel.app
+DTSTAMP:20261113T000000Z
+DTSTART;TZID=Europe/Berlin:20270207T180000
+DTEND;TZID=Europe/Berlin:20270207T210000
+SUMMARY:Hoffmanns Erzählungen – Staatstheater Wiesbaden
 LOCATION:Staatstheater Wiesbaden\, Deutschland
 GEO:50.0857;8.2478
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatstheater Wiesbaden, Deutschland":geo:50.0857,8.2478
-URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/la-traviata/
-DESCRIPTION:Giuseppe Verdi: La Traviata\nTermine und Karten: https://www.st
- aatstheater-wiesbaden.de/spielplan/a-z/la-traviata/\nDas Ende ist geschät
- zt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des Hauses.
+URL:https://www.staatstheater-wiesbaden.de/spielplan/a-z/hoffmanns-erzaehlu
+ ngen-26-27/
+DESCRIPTION:Jacques Offenbach: Hoffmanns Erzählungen\nTermine und Karten: 
+ https://www.staatstheater-wiesbaden.de/spielplan/a-z/hoffmanns-erzaehlunge
+ n-26-27/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgebli
+ ch ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

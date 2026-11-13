@@ -41,8 +41,9 @@ node --test "tests/**/*.test.js"
 | `installHinweis.test.js` | wann der Hinweis aufs Installieren steht und wann die Frage nach Mitteilungen kommt |
 | `kalender.test.js` | Kalenderdatei zu einem Termin: Zeitzone, Ende nach Mitternacht, ganztägig ohne Uhrzeit, Maskierung und Faltung; wohin sie auf iPhone und iPad geht (Safari-Tab: eigenes Fenster, installierte App: echtes Safari) |
 | `neuigkeiten.test.js` | wann „Neu in OpernLog“ fällig ist: Konten von vorher, einmal je Gerät, ohne Speicher lieber nicht |
-| `spielplanTermine.test.js` | Termine aus Spielplantexten: Schreibweisen, Jahr aus dem Zusammenhang, Kalender über mehrere Zeilen, Uhrzeit, Monatsnavigation; was kein Termin ist (Uraufführung, Spanne, Matinee, Vorverkauf, Gastspiel) |
+| `spielplanTermine.test.js` | Termine aus Spielplantexten: Schreibweisen, Jahr aus dem Zusammenhang, Kalender über mehrere Zeilen, Uhrzeit, Monatsnavigation, „Heute“ und „Morgen“ statt eines Datums, Monatskopf mit zweistelligem Jahr; was kein Termin ist (Uraufführung, Spanne, Matinee, Vorverkauf, Gastspiel, ein Jahr mitten im Absatz) |
 | `spielplanAbfrage.test.js` | welche Häuser ein Werk demnächst spielen, nach Nähe oder Datum; was an einem Haus an einem Tag lief und an welchen Tagen ein Werk dort schon lief (Vorschläge beim Loggen); Übernahme eines Laufs ohne Daten, die zur Seite gehören statt zum Stück |
+| `spielplanLesequalitaet.test.js` | der Monatslauf meldet nichts Falsches: welche Seiten als gesperrt gelten, wann ein Haus lückenhaft gelesen ist und dass dort nichts wegfällt; zweiter Versuch; die Seiten, auf die die App verlinkt, liest der Lauf immer mit; eine Uhrzeit behält ihr Ende |
 
 **`checks/`** – nicht die Logik, sondern der Zustand des Projekts. Diese
 Prüfungen fangen die Art Fehler, die sich in keinem Modul zeigt.

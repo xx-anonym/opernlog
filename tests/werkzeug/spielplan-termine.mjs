@@ -24,6 +24,9 @@ const MONATE = {
 };
 const MONATSMUSTER = Object.keys(MONATE).sort((a, b) => b.length - a.length).join('|');
 
+// Ab so vielen Zeichen gilt eine Zeile als Absatz, nicht als Überschrift.
+const ABSATZ_AB = 160;
+
 const zwei = n => String(n).padStart(2, '0');
 
 function gueltig(j, m, t) {
@@ -108,6 +111,11 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
     for (const m of s.matchAll(/(?<![\d./-])(20\d\d)(?![\d./:-])/g)) {
         const j = +m[1];
         if (j < jahrVon - 1 || j > jahrBis + 1 || inDatum(m.index)) continue;
+        // Ein vergangenes Jahr mitten in einem Absatz ist Erzähltes, keine
+        // Überschrift: Chemnitz schreibt über Don Giovanni "… inszenierte
+        // Dennis Krauß, der hier 2024 … und 2025 …", und der "12. JUNI"
+        // darunter landete im Jahr 2025 – am 13.11.2026 als entfallen gemeldet.
+        if (j < jahrVon && s.length > ABSATZ_AB) continue;
         if (funde.some(f => f.art === 'saison' && m.index >= f.index && m.index < f.ende)) continue;
         // "November 2026": ein Monat ohne Tag
         const monat = s.slice(Math.max(0, m.index - 14), m.index).match(monatVorJahr);
@@ -125,6 +133,7 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
         const b = daten[i + 1];
         if (b && b.index >= a.ende && /^\s*(?:[-–—]|bis)\s*(?:[a-zäöü]{2,10}\.?,?\s*)?$/i.test(s.slice(a.ende, b.index))) {
             a.spanne = b.spanne = true;
+            b.spannenEnde = true;
             // Nennt der Anfang sein Jahr, geht es danach von dort aus weiter:
             // Zürich schreibt "Von 20. September 2026 bis 23. April 2027",
             // darunter "20, 25 Sept. / 06, 18 … Okt." – nicht im Jahr 2027.
@@ -194,7 +203,10 @@ export function termineLesen(text, { von, bis }, kontext = null, { nurMitJahr = 
         // Ein Jahr weit außerhalb (die Uraufführung 1900) gibt keinen Kontext.
         const jahr = f.j < 100 ? 2000 + f.j : f.j;
         if (f.ohneKontext) continue;
-        if (f.j && jahr >= jahrVon - 1 && jahr <= jahrBis + 1) kontext = { jahr, monat: f.m };
+        // Das Ende einer Spanne ("21. Juli — 23. August 2027" über dem
+        // Bregenzer Spielplan) nennt das Jahr, aber nicht den Monat, in dem
+        // die Liste darunter beginnt – sonst sprang der Juli ins Jahr 2028.
+        if (f.j && jahr >= jahrVon - 1 && jahr <= jahrBis + 1) kontext = f.spannenEnde ? { jahr } : { jahr, monat: f.m };
         else if (!f.j && jahre.length && kontext?.jahr && kontext.monat !== undefined) kontext = { jahr: gewaehlt, monat: f.m };
     }
     if (geraten && ohneEchtenKontext()) kontext = { geraten };
@@ -211,8 +223,43 @@ const NUR_WOCHENTAG = new RegExp(`^(${WOCHENTAG})\\.?,?$`, 'i');
 const WOCHENTAG_TAG = new RegExp(`^(${WOCHENTAG})\\.?,?\\s*(\\d{1,2})\\.?$`, 'i');
 const VOLLES_DATUM = new RegExp(`(?<![\\d.])\\d{1,2}\\.\\s*(?:\\d{1,2}\\.|(?:${MONATSMUSTER})(?![a-zäöüéû]))`, 'i');
 const MONATSKOPF = new RegExp(`^(${MONATSMUSTER})\\.?\\s*(20\\d\\d)$`, 'i');
+// "JULI 27" als Kopf über "22.07." (Bregenz): Monat und zweistelliges Jahr,
+// nicht der 27. Juli. Nur wenn gleich darunter ein Tag dieses Monats steht.
+const MONATSKOPF_KURZ = new RegExp(`^(${MONATSMUSTER})\\.?\\s+(\\d\\d)$`, 'i');
+function kurzerMonatskopf(roh, i) {
+    const m = roh[i].match(MONATSKOPF_KURZ);
+    if (!m) return null;
+    const monat = MONATE[m[1].toLowerCase()];
+    const folgt = roh.slice(i + 1, i + 4).some((z) => { const d = z.match(/^(\d{1,2})\.\s?(\d{1,2})\.$/); return d && Number(d[2]) === monat; });
+    return folgt ? `${MONATSNAME[monat]} 20${m[2]}` : null;
+}
 // "8 Fr" – Tag vor Wochentag in einer Zeile (Mainz, unter dem Monat der Seite)
 const TAG_WOCHENTAG = new RegExp(`^(\\d{1,2})\\.?\\s+(${WOCHENTAG})\\.?,?$`, 'i');
+
+// "MORGEN | 19:30 — 21:20 UHR" (Cottbus), "Heute, 19:30 Uhr": manche Häuser
+// nennen den nächsten Abend beim Wort statt beim Datum. Am 13.11.2026 fehlte
+// deshalb der Don Pasquale vom 14.11., und der Bericht meldete ihn als
+// entfallen. Nur am Zeilenanfang und nur, wenn gleich ein Trennzeichen, eine
+// Uhrzeit oder nichts mehr folgt – "Morgen wird alles besser" ist kein Termin.
+const RELATIVER_TAG = /^(heute|morgen|übermorgen|today|tomorrow)(?=\s*(?:$|[|,·•:–—-]|\d{1,2}[:.]\d{2}|\d{1,2}\s*uhr|um\s+\d))/i;
+const TAGE_VORAUS = { heute: 0, today: 0, morgen: 1, tomorrow: 1, übermorgen: 2 };
+
+/**
+ * Setzt für "Heute", "Morgen" und "Übermorgen" am Anfang einer Zeile das
+ * Datum ein, gerechnet vom Tag des Laufs.
+ * @param {string} text
+ * @param {string} heute  JJJJ-MM-TT
+ */
+export function relativeTage(text, heute) {
+    if (!/^20\d\d-\d\d-\d\d$/.test(heute || '')) return String(text || '');
+    return String(text || '').split('\n').map((zeile) => {
+        const z = zeile.trimStart();
+        const m = z.match(RELATIVER_TAG);
+        if (!m) return zeile;
+        const tag = new Date(Date.parse(`${heute}T00:00:00Z`) + TAGE_VORAUS[m[1].toLowerCase()] * 864e5).toISOString().slice(0, 10);
+        return `${tag.slice(8, 10)}.${tag.slice(5, 7)}.${tag.slice(0, 4)}${z.slice(m[1].length)}`;
+    }).join('\n');
+}
 
 /**
  * Zerlegt den Text in Zeilen und setzt Kalenderdaten zusammen, die über
@@ -247,6 +294,8 @@ function ordnen(text) {
         const n = roh[i + 1] || '';
         let m;
         if (VERKAUF_ZEILE.test(z)) continue;
+        const kurz = kurzerMonatskopf(roh, i);
+        if (kurz) { kopfEnde(); kopf = kurz; aus.push(kurz); continue; }
         if ((m = z.match(MONATSKOPF))) { kopfEnde(); kopf = `${MONATSNAME[MONATE[m[1].toLowerCase()]]} ${m[2]}`; aus.push(z); continue; }
         if (NUR_TAG.test(z) && NUR_MONAT.test(n)) { aus.push(tagUndMonat(z.match(NUR_TAG)[1], n)); i++; continue; }
         if (NUR_MONAT.test(z) && NUR_TAG.test(n)) { aus.push(tagUndMonat(n.match(NUR_TAG)[1], z)); i++; continue; }
@@ -311,12 +360,21 @@ const VERKAUF_ZEILE = /^(vorverkaufs?(start|beginn)?|verkaufsstart|kartenverkauf
 // sie mit, lag die Uhrzeit außer Reichweite.
 const FUELLZEILE = new RegExp(`^([/|·–—-]|\\d{1,2}\\.?|(${WOCHENTAG})\\.?)$`, 'i');
 
+const IRGENDWANN = { von: '1900-01-01', bis: '2999-12-31' };
+
 function eintrag(zeilen, i, fenster, kontext, hoechstens) {
     const teile = [zeilen[i]];
+    const eigene = new Set(termineLesen(zeilen[i], fenster, kontext).termine.map(t => t.slice(5)));
     let gezaehlt = 0;
     for (let j = i + 1; j < zeilen.length && gezaehlt < hoechstens; j++) {
         if (VERKAUF_DAVOR.test(zeilen[j])) { j++; continue; }
         if (termineLesen(zeilen[j], fenster, kontext).termine.length) break;
+        // Auch ein Datum außerhalb des Fensters beginnt einen neuen Eintrag:
+        // das Salzburger Landestheater schreibt "DERNIÈRE: 14. November 2026"
+        // über die Terminliste, die mit "Sa. 31.10.2026 19.00" beginnt – am
+        // 13.11. vorbei, und ihre Uhrzeit landete bei der Dernière (15 Uhr).
+        // Derselbe Tag mit anderem Jahr bleibt im Eintrag (jahrWiderspricht).
+        if (termineLesen(zeilen[j], IRGENDWANN, null, { nurMitJahr: true }).termine.some(t => !eigene.has(t.slice(5)))) break;
         teile.push(zeilen[j]);
         if (!FUELLZEILE.test(zeilen[j])) gezaehlt++;
     }
@@ -370,7 +428,7 @@ export function saisonAusAdresse(url) {
 }
 
 export function termineAusText(text, fenster, { ort, saison } = {}) {
-    const zeilen = zeilenOrdnen(text);
+    const zeilen = zeilenOrdnen(relativeTage(text, fenster.von));
     const gefunden = new Set();
     let kontext = saison ? { saison } : null;
     zeilen.forEach((z, i) => {
@@ -468,7 +526,7 @@ function zeitInZeile(teile, i) {
  * @returns {{termine: string[], zeiten: Object<string, string>, abgesagt: string[]}}
  */
 export function termineMitZeiten(text, fenster, { ort, saison } = {}) {
-    const { zeilen, kalender } = ordnen(text);
+    const { zeilen, kalender } = ordnen(relativeTage(text, fenster.von));
     const gefunden = new Set();
     const abgesagt = new Set();
     const zeiten = {};

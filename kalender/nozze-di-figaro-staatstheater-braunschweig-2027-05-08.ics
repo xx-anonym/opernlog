@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:nozze-di-figaro-staatstheater-braunschweig-2027-05-08@opernlog.vercel.a
  pp
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270508T193000
 DTEND;TZID=Europe/Berlin:20270508T223000
 SUMMARY:Le nozze di Figaro – Staatstheater Braunschweig

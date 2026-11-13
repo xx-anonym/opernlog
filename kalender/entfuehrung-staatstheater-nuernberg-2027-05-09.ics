@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:entfuehrung-staatstheater-nuernberg-2027-05-09@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270509T153000
 DTEND;TZID=Europe/Berlin:20270509T183000
 SUMMARY:Die Entführung aus dem Serail – Staatstheater Nürnberg

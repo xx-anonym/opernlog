@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:meistersinger-staatstheater-stuttgart-2027-03-07@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270307T160000
 DTEND;TZID=Europe/Berlin:20270307T220000
 SUMMARY:Die Meistersinger von Nürnberg – Staatsoper Stuttgart
@@ -30,11 +30,10 @@ LOCATION:Staatsoper Stuttgart\, Deutschland
 GEO:48.7808;9.1837
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Staatsoper Stuttgart, Deutschland":geo:48.7808,9.1837
-URL:https://www.staatsoper-stuttgart.de/spielplan/kalender/die-meistersinge
- r-von-nuernberg/9675/
+URL:https://www.staatsoper-stuttgart.de/spielplan/a-z/die-meistersinger-von
+ -nuernberg/
 DESCRIPTION:Richard Wagner: Die Meistersinger von Nürnberg\nTermine und Ka
- rten: https://www.staatsoper-stuttgart.de/spielplan/kalender/die-meistersi
- nger-von-nuernberg/9675/\nAus OpernLog – maßgeblich ist die Seite des H
- auses.
+ rten: https://www.staatsoper-stuttgart.de/spielplan/a-z/die-meistersinger-
+ von-nuernberg/\nAus OpernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:forza-del-destino-oldenburgisches-staatstheater-2026-11-21@opernlog.ver
  cel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20261121T193000
 DTEND;TZID=Europe/Berlin:20261121T223000
 SUMMARY:La forza del destino – Oldenburgisches Staatstheater

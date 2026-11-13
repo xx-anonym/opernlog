@@ -21,18 +21,18 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:freischuetz-theater-heidelberg-2027-07-08@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
-DTSTART;TZID=Europe/Berlin:20270708T203000
-DTEND;TZID=Europe/Berlin:20270708T233000
-SUMMARY:Der Freischütz – Theater Heidelberg
-LOCATION:Theater Heidelberg\, Deutschland
-GEO:49.411;8.705
+UID:zauberflote-theater-bonn-2027-01-29@opernlog.vercel.app
+DTSTAMP:20261113T000000Z
+DTSTART;TZID=Europe/Berlin:20270129T193000
+DTEND;TZID=Europe/Berlin:20270129T223000
+SUMMARY:Die Zauberflöte – Theater Bonn
+LOCATION:Theater Bonn\, Deutschland
+GEO:50.741;7.103
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
- AME=1;X-TITLE="Theater Heidelberg, Deutschland":geo:49.411,8.705
-URL:https://www.theaterheidelberg.de/de/programm/22206-der-freischuetz
-DESCRIPTION:Carl Maria von Weber: Der Freischütz\nTermine und Karten: http
- s://www.theaterheidelberg.de/de/programm/22206-der-freischuetz\nDas Ende i
+ AME=1;X-TITLE="Theater Bonn, Deutschland":geo:50.741,7.103
+URL:https://www.theater-bonn.de/de/programm/die-zauberflote/234665
+DESCRIPTION:Wolfgang Amadeus Mozart: Die Zauberflöte\nTermine und Karten: 
+ https://www.theater-bonn.de/de/programm/die-zauberflote/234665\nDas Ende i
  st geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des
   Hauses.
 END:VEVENT

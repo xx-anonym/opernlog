@@ -22,9 +22,9 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:la-boheme-dnt-weimar-2027-05-23@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270523T160000
-DTEND;TZID=Europe/Berlin:20270523T182000
+DTEND;TZID=Europe/Berlin:20270523T183000
 SUMMARY:La Bohème – Deutsches Nationaltheater Weimar
 LOCATION:Deutsches Nationaltheater Weimar\, Deutschland
 GEO:50.98;11.327

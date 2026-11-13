@@ -674,3 +674,64 @@ test('eine Liste ohne Jahr, schon im nächsten Jahr: der Sommer ist nicht "kurz 
     // Allein, ohne Liste davor, bleibt ein Tag kurz nach dem Sommer vorbei.
     assert.deepEqual(termineAusText('Mo 7.9.', fenster), []);
 });
+
+import { relativeTage, termineMitZeiten as mitZeiten, zeilenOrdnen as ordne } from '../werkzeug/spielplan-termine.mjs';
+
+test('"Morgen" und "Heute" statt eines Datums', () => {
+    // Staatstheater Cottbus, 13.11.2026: der Don Pasquale vom 14.11. stand
+    // als "MORGEN | 19:30 — 21:20 UHR" da, wurde nicht gelesen, und das Issue
+    // meldete ihn als entfallen.
+    const fenster = { von: '2026-11-13', bis: '2027-09-30' };
+    const text = 'Die nächsten Termine\nMORGEN | 19:30 — 21:20 UHR\nKAMMERBÜHNE\nTICKETS\nDO 19. NOV 2026 | 19:30 — 21:20 UHR\nKAMMERBÜHNE';
+    const erg = mitZeiten(text, fenster);
+    assert.deepEqual(erg.termine, ['2026-11-14', '2026-11-19']);
+    assert.equal(erg.zeiten['2026-11-14'], '19:30-21:20');
+    assert.deepEqual(termineAusText('Heute, 19:30 Uhr\nÜbermorgen um 18 Uhr', fenster), ['2026-11-13', '2026-11-15']);
+    // Über den Jahreswechsel
+    assert.equal(relativeTage('morgen, 18 Uhr', '2026-12-31'), '01.01.2027, 18 Uhr');
+    // Kein Termin: das Wort im Satz, als Teil eines Wortes, mitten in der Zeile.
+    for (const satz of ['Morgen wird alles besser', 'Morgenstern | 19:30', 'Heute Abend spielen wir nicht', 'Bis morgen | 19:30']) {
+        assert.equal(relativeTage(satz, '2026-11-13'), satz);
+    }
+    assert.deepEqual(mitZeiten('Morgen wird alles besser\n19:30 Uhr', fenster).termine, []);
+});
+
+test('"JULI 27" über "22.07." ist ein Monatskopf, nicht der 27. Juli (Bregenz)', () => {
+    // Der Spielplan der Bregenzer Festspiele, 13.11.2026: über der Liste
+    // steht die Spanne der Festspiele, darunter je Monat ein Kopf mit
+    // zweistelligem Jahr. Der Juli landete im Jahr 2028 und fiel weg.
+    const fenster = { von: '2026-11-13', bis: '2027-09-30' };
+    const text = ['21. Juli — 23. August 2027', 'Spielplan', 'JULI 27', 'Rahmenprogramm zeigen', '22.07.', 'Do', '21:15', 'La traviata, Premiere', 'Seebühne',
+        'Rahmenprogramm zeigen', '23.07.', 'Fr', '21:15', 'La traviata', 'Seebühne',
+        'AUGUST 27', 'Rahmenprogramm zeigen', '01.08.', 'So', '21:00', 'La traviata', 'Seebühne'].join('\n');
+    const erg = mitZeiten(text, fenster);
+    assert.deepEqual(erg.termine, ['2027-07-22', '2027-07-23', '2027-08-01']);
+    assert.equal(erg.zeiten['2027-07-22'], '21:15');
+    // Der Kopf wird nur umgeschrieben, wenn ein Tag dieses Monats folgt.
+    assert.deepEqual(ordne('JULI 27\n22.07.\nDo'), ['Juli 2027', '22.07.', 'Do']);
+    assert.deepEqual(ordne('Juli 27\n19:30 Uhr'), ['Juli 27', '19:30 Uhr']);
+    assert.deepEqual(ordne('JULI 27\n03.08.'), ['JULI 27', '03.08.']);
+});
+
+test('ein vergangenes Jahr in einem Absatz gibt den Terminen darunter kein Jahr (Chemnitz)', () => {
+    // Don Giovanni in Chemnitz, 13.11.2026: der Absatz über der Terminliste
+    // erzählt von 2024 und 2025; der "12. / JUNI" darunter wurde der
+    // 12.6.2025, und das Issue meldete den 12.6.2027 als entfallen.
+    const fenster = { von: '2026-11-13', bis: '2027-09-30' };
+    const absatz = 'Die Chemnitzer Neuproduktion dieses Stückes inszenierte Dennis Krauß, der hier 2024 mit Peter Eötvös’ Oper Sleepless bereits ein ebenso leidenschaftliches wie präzises Regiedebüt gab und 2025 dafür ausgezeichnet wurde.';
+    const liste = '12.\nJUNI\nSamstag\n19.30 Uhr\nOpernhaus - Saal\nWeitere Termine\nDonnerstag, 01. Juli 2027\n19.30 Uhr';
+    assert.deepEqual(mitZeiten(`${absatz}\n${liste}`, fenster).termine, ['2027-06-12', '2027-07-01']);
+    // Als Überschrift gilt das Jahr weiter: der vergangene Sommer bleibt vergangen.
+    assert.deepEqual(mitZeiten(`Festspiele 2025\n${liste}`, fenster).termine, ['2027-07-01']);
+});
+
+test('die Uhrzeit eines vergangenen Termins gehört nicht zum Datum davor (Salzburg)', () => {
+    // Tosca im Großen Festspielhaus, 13.11.2026: die Dernière am 14.11. um
+    // 15 Uhr bekam 19:00 – die Zeit der Premiere vom 31.10., die in der
+    // Liste darunter als Erstes steht und schon vorbei war.
+    const fenster = { von: '2026-11-13', bis: '2027-09-30' };
+    const text = 'DERNIÈRE:\n14. November 2026\nDie Werkeinführung findet 30 Minuten vor Beginn der Abendvorstellung statt.\nTERMINE & TICKETS\nSa. 31.10.2026 19.00\nDo. 05.11.2026 19.30\nSa. 14.11.2026 15.00 TICKETS';
+    const erg = mitZeiten(text, fenster);
+    assert.deepEqual(erg.termine, ['2026-11-14']);
+    assert.equal(erg.zeiten['2026-11-14'], '15:00');
+});

@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:madama-butterfly-niedersaechsische-staatsoper-2027-07-03@opernlog.verce
  l.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270703T193000
 DTEND;TZID=Europe/Berlin:20270703T223000
 SUMMARY:Madama Butterfly – Staatsoper Hannover

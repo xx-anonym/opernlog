@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:cavalleria-rusticana-hamburgische-staatsoper-2027-03-17@opernlog.vercel
  .app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270317T190000
 DTEND;TZID=Europe/Berlin:20270317T220000
 SUMMARY:Cavalleria rusticana – Hamburgische Staatsoper
@@ -33,10 +33,10 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Hamburgische Staatsoper, Hamburg, Deutschland":geo:53.5566,
  9.9887
 URL:https://www.die-hamburgische-staatsoper.de/de/programm/oper/130-cavalle
- ria-rusticana-pagliacci#tickets
+ ria-rusticana-amp-pagliacci#tickets
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http
  s://www.die-hamburgische-staatsoper.de/de/programm/oper/130-cavalleria-rus
- ticana-pagliacci#tickets\nDas Ende ist geschätzt (3 Stunden).\nAus OpernL
- og – maßgeblich ist die Seite des Hauses.
+ ticana-amp-pagliacci#tickets\nDas Ende ist geschätzt (3 Stunden).\nAus Op
+ ernLog – maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -42,6 +42,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { heuteIso } from '../../src/data/spielplanAbfrage.js';
 import { werkeAusDatenbank, haeuserAusDatenbank } from './datenbank-werke.mjs';
+import { gesperrt, gesperrteSeiten, zweiterVersuchLohnt, besseresErgebnis } from './spielplan-lesequalitaet.mjs';
 import { termineAusText, termineMitZeiten, termineLesen, beginnFinden, saisonAusAdresse, zeitenAusKalender, monatAusAdresse, zeitenAusLd } from './spielplan-termine.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -540,6 +541,45 @@ export function besteSeite(seiten, haupt = null) {
     return [...seiten].sort((a, b) => stufe(a) - stufe(b) || abseits(a) - abseits(b) || rang(a.url) - rang(b.url) || b.termine.length - a.termine.length)[0];
 }
 
+/** Hat das Haus keine einzige Einstiegsseite herausgegeben? */
+export function ganzGesperrt(erg) {
+    const versucht = (erg.besucht || []).length + (erg.fehler || []).length;
+    return versucht > 0 && (erg.besucht || []).every(b => gesperrt(b.status ?? 0));
+}
+
+/**
+ * Die Seiten, auf die die App für ein Haus schon verlinkt, soweit dort noch
+ * etwas kommt. Der Lauf liest sie immer mit: findet er eine Produktion über
+ * den Kalender nicht mehr – weil der nur halb lud oder eine Monatsseite
+ * gesperrt war –, steht auf ihrer eigenen Seite, ob sie noch läuft. Erst
+ * wenn auch dort nichts mehr steht, ist sie "nicht mehr gefunden".
+ *
+ * @param {{werk: string, haus: string, url: string, termine: string[]}[]} zeilen  src/data/spielplan.js
+ * @param {string} hausId
+ * @param {string} heute
+ * @returns {{werk: string, url: string}[]}
+ */
+export function bekannteSeiten(zeilen, hausId, heute) {
+    return zeilen.filter(z => z.haus === hausId && /^https?:/.test(z.url || '') && z.termine.some(t => t >= heute))
+        .map(z => ({ werk: z.werk, url: z.url.split('#')[0] }));
+}
+
+/**
+ * Nimmt die bekannten Seiten in die Auswahl auf, soweit sie fehlen und nicht
+ * schon als Übersicht gelesen sind. Nur für Werke, nach denen gesucht wird.
+ * @param {Map<string, Set<string>>} auswahl
+ * @param {{werk: string, url: string}[]} bekannt
+ * @param {Set<string>} gesehen
+ */
+export function mitBekannten(auswahl, bekannt, gesehen = new Set(), suche = SUCHE) {
+    for (const { werk, url } of bekannt) {
+        if (gesehen.has(url) || !WERKE.some(w => w.id === werk) || (suche && !suche.has(werk))) continue;
+        if (!auswahl.has(url)) auswahl.set(url, new Set());
+        auswahl.get(url).add(werk);
+    }
+    return auswahl;
+}
+
 async function ladePlaywright() {
     const weg = pathToFileURL(path.join(WURZEL, 'tests/browser/node_modules/playwright/index.js')).href;
     const m = await import(weg);
@@ -602,11 +642,67 @@ export function werkAdresse(beste, termine, listenLinks = new Map(), weitere = [
     return ausListe || weitere.find(produktionsseiteTaugt)?.url || beste?.url || weitere[0]?.url || null;
 }
 
-export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
+// Wartezeiten vor dem zweiten und dritten Versuch einer gesperrten Seite.
+const WARTEN_VOR_VERSUCH = [6000, 15000];
+
+/**
+ * Wartet, bis die Seite nichts mehr nachlädt. waitForLoadState('networkidle')
+ * taugt dafür nur einmal je Seite: ist der Zustand erreicht, kehrt jeder
+ * weitere Aufruf sofort zurück. Der Kalender der Staatsoper Berlin lädt beim
+ * Rollen Woche um Woche nach; auf GitHub dauerte eine Antwort länger als die
+ * feste Pause, die Schleife hielt die Liste für fertig, und Salome, Ariadne
+ * und Tannhäuser galten am 13.11.2026 als "nicht mehr gefunden".
+ * @returns {(hoechstens?: number, stille?: number) => Promise<void>}
+ */
+function netzwaechter(p) {
+    const zaehlt = r => ['xhr', 'fetch', 'document'].includes(r.resourceType());
+    let offen = 0;
+    let zuletzt = Date.now();
+    p.on('request', (r) => { if (zaehlt(r)) { offen++; zuletzt = Date.now(); } });
+    const fertig = (r) => { if (zaehlt(r)) { offen = Math.max(0, offen - 1); zuletzt = Date.now(); } };
+    p.on('requestfinished', fertig);
+    p.on('requestfailed', fertig);
+    return async (hoechstens = 6000, stille = 400) => {
+        const ende = Date.now() + hoechstens;
+        while (Date.now() < ende) {
+            if (!offen && Date.now() - zuletzt >= stille) return;
+            await p.waitForTimeout(100);
+        }
+    };
+}
+
+/**
+ * @param {object} [o]
+ * @param {{wiederholungen: number}} [o.geduld]  wie oft das Haus insgesamt noch
+ *   einen zweiten Versuch bekommt – sperrt es alles, soll der Lauf dort nicht
+ *   für jede Seite warten
+ */
+export { seiteLaden as seite };
+async function seiteLaden(kontext, url, { terminSelektor, hauptteil, geduld = { wiederholungen: 2 } } = {}) {
     const p = await kontext.newPage();
     try {
-        let antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        const ruhe = netzwaechter(p);
+        let antwort;
+        try {
+            antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        } catch (e) {
+            // Keine Antwort in 30 Sekunden (Gärtnerplatztheater auf GitHub,
+            // 13.11.2026): einmal mit mehr Zeit, dann aufgeben.
+            if (geduld.wiederholungen <= 0) throw e;
+            geduld.wiederholungen--;
+            await p.waitForTimeout(WARTEN_VOR_VERSUCH[0]);
+            antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
+        }
         await p.waitForLoadState('networkidle', { timeout: 12000 }).catch(() => {});
+        // 403, 429 oder 503 heißt oft nur "zu schnell": die Bayerische
+        // Staatsoper gab auf GitHub jede zweite Monatsseite mit 403 zurück,
+        // und 23 Produktionen fehlten im Lauf. Warten, noch einmal fragen.
+        for (let i = 0; i < WARTEN_VOR_VERSUCH.length && gesperrt(antwort?.status() ?? 0) && geduld.wiederholungen > 0; i++) {
+            geduld.wiederholungen--;
+            await p.waitForTimeout(WARTEN_VOR_VERSUCH[i]);
+            antwort = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => antwort);
+            await p.waitForLoadState('networkidle', { timeout: 12000 }).catch(() => {});
+        }
         // Seiten, die ihren Inhalt nachladen, melden unter Last "Network
         // Error" (Kassel nach einigen Abrufen in Folge): kurz warten, noch einmal.
         for (let i = 0; i < 2 && FEHLERSEITE.test(await p.title().catch(() => '')); i++) {
@@ -643,8 +739,10 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
         if (aufgeklappt) await p.waitForTimeout(600);
         // Nachgeladene Listen: ans Ende rollen und "Mehr laden" drücken, bis
         // nichts mehr dazukommt – höchstens achtmal.
+        // Fertig ist die Seite erst, wenn sie nach dem Rollen nicht mehr
+        // wächst, obwohl alle Anfragen beantwortet sind (ruhe).
         let nachgeladen = false;
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 10; i++) {
             const vorher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)).catch(() => {});
             // Der erste sichtbare: Bielefeld hat denselben Knopf für schmale
@@ -655,6 +753,7 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 nachgeladen = true;
             }
             await p.waitForTimeout(900);
+            await ruhe();
             const nachher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
             if (nachher <= vorher) break;
         }
@@ -687,8 +786,8 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
             }, { quelle: NACHLADEN_DIREKT.source, flags: NACHLADEN_DIREKT.flags }).catch(() => false);
             if (!geklickt) break;
             nachgeladen = true;
-            await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
             await p.waitForTimeout(600);
+            await ruhe(8000);
         }
         // Nach dem Klick laden manche Listen beim Rollen weiter. Der Kalender
         // der Deutschen Oper Berlin endet nach "weitere Spieltage anzeigen"
@@ -700,8 +799,8 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
                 const vorher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
                 await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight)).catch(() => {});
                 await p.mouse.wheel(0, 2000).catch(() => {});
-                await p.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
                 await p.waitForTimeout(900);
+                await ruhe(8000);
                 const nachher = await p.evaluate(() => document.body.scrollHeight).catch(() => 0);
                 if (nachher <= vorher) break;
             }
@@ -809,16 +908,27 @@ export async function seite(kontext, url, { terminSelektor, hauptteil } = {}) {
  * Spielzeit.
  */
 export function monatsAdressen(vorlage, fenster) {
-    if (!/\{JJJJ\}|\{MM\}/.test(vorlage)) return [vorlage];
-    const adressen = [];
+    return monatsSeiten(vorlage, fenster).map(s => s.url);
+}
+
+/**
+ * Wie monatsAdressen(), dazu der Monat, für den jede Adresse steht (null bei
+ * einer Adresse ohne Platzhalter). Fehlt später eine dieser Seiten, sind nur
+ * die Termine dieses Monats unsicher – siehe luecken().
+ * @returns {{url: string, monat: string|null}[]}
+ */
+export function monatsSeiten(vorlage, fenster) {
+    if (!/\{JJJJ\}|\{MM\}/.test(vorlage)) return [{ url: vorlage, monat: null }];
+    const seiten = [];
     let [j, m] = fenster.von.split('-').map(Number);
     const [bj, bm] = fenster.bis.split('-').map(Number);
     while (j < bj || (j === bj && m <= bm)) {
-        adressen.push(vorlage.replaceAll('{JJJJ}', String(j)).replaceAll('{MM}', String(m).padStart(2, '0')));
+        const mm = String(m).padStart(2, '0');
+        seiten.push({ url: vorlage.replaceAll('{JJJJ}', String(j)).replaceAll('{MM}', mm), monat: `${j}-${mm}` });
         m += 1;
         if (m > 12) { m = 1; j += 1; }
     }
-    return adressen;
+    return seiten;
 }
 
 /**
@@ -884,13 +994,22 @@ export function monatsVorlage(hrefs, fenster) {
  * (siehe zeitenAusKalender) – nur für Häuser, deren Kalender dafür geprüft ist.
  * terminLinks ist ein Stück der Adresse, an dem die Links einer Produktionsseite
  * auf ihre einzelnen Termine zu erkennen sind (siehe terminAnsichten).
+ * Mit ausgesperrt liest der Lauf das Haus gar nicht: es sperrt Programme aus
+ * (Basel antwortet auf jede Seite mit 403), und das zu achten heißt, nicht
+ * jeden Monat wieder anzuklopfen. Seine Termine kommen aus dem Spielzeitheft
+ * (ergaenzen in den Korrekturen).
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false, terminLinks: null }
-        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false, terminLinks: null, ausgesperrt: false }
+        : { ausgesperrt: q.ausgesperrt === true, start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
             terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null, kalenderZeiten: q.kalenderZeiten === true,
             terminLinks: q.terminLinks || null };
+}
+
+/** Liest der Lauf dieses Haus gar nicht, weil es Programme aussperrt? */
+export function hausAusgesperrt(hausId) {
+    return quelle(hausId).ausgesperrt;
 }
 
 /**
@@ -946,9 +1065,34 @@ const entschluesselt = s => { try { return decodeURIComponent(s); } catch { retu
 
 const enthaeltOrt = (text, ort) => !ort || norm(text).includes(norm(ort));
 
-async function lesen(kontext, hausId, fenster) {
+/**
+ * @param {{werk: string, url: string}[]} [bekannt]  Seiten, auf die die App
+ *   für dieses Haus schon verlinkt (siehe bekannteSeiten)
+ * @param {{wiederholungen?: number}} [o]
+ */
+async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 8 } = {}) {
     const q = quelle(hausId);
     const erg = { haus: hausId, start: q.start.flatMap(u => monatsAdressen(u, fenster)), ort: q.ort, besucht: [], fehler: [], treffer: [] };
+    // Je Haus höchstens so viele zweite Versuche; nach der ersten Sperre
+    // geht es langsamer weiter – wer "zu schnell" sagt, bekommt Pausen.
+    const geduld = { wiederholungen };
+    let bremse = 0;
+    const seite = async (k, url, o = {}) => {
+        if (bremse) await new Promise(r => setTimeout(r, bremse));
+        const d = await seiteLaden(k, url, { ...o, geduld });
+        // Nur bei "zu schnell" – ein 500 für einen Monat ohne Kalender
+        // (Detmold, Luzern) wird durch Warten nicht besser.
+        if (d.status === 403 || d.status === 429) bremse = 3000;
+        return d;
+    };
+    // Der Monat, für den eine Einstiegsadresse steht.
+    const monatVon = new Map(q.start.flatMap(u => monatsSeiten(u, fenster)).map(s => [s.url, s.monat]));
+    // Eine Einstiegsseite, die nicht kam: bei den besuchten festhalten, mit
+    // Status 0 – luecken() weiß dann, ob das Haus oder nur ein Monat fehlt.
+    const nichtGekommen = (url, e) => {
+        erg.fehler.push(`${url}: ${e.message.split('\n')[0]}`);
+        erg.besucht.push({ url, status: 0, ...(monatVon.get(url) ? { monat: monatVon.get(url) } : {}) });
+    };
     const gesehen = new Set();
     const kandidaten = new Map(); // url -> Set(operaId)
     const uebersichten = [];
@@ -1010,7 +1154,7 @@ async function lesen(kontext, hausId, fenster) {
         try {
             const d = await seite(kontext, start);
             gesehen.add(start);
-            erg.besucht.push({ url: start, status: d.status, endUrl: d.endUrl, links: d.links.length });
+            erg.besucht.push({ url: start, status: d.status, endUrl: d.endUrl, links: d.links.length, ...(monatVon.get(start) ? { monat: monatVon.get(start) } : {}) });
             sammle(d);
             sammleZeiten(d, start);
             // Eine erkannte Monatsnavigation einmal je Haus durchgehen.
@@ -1018,7 +1162,10 @@ async function lesen(kontext, hausId, fenster) {
                 const vorlage = monatsVorlage(d.links.map(l => l.href), fenster);
                 if (vorlage) {
                     erg.monatsVorlage = vorlage;
-                    monatsseiten.push(...monatsAdressen(vorlage, fenster).filter(u => !gesehen.has(u)));
+                    for (const s of monatsSeiten(vorlage, fenster)) {
+                        if (!monatVon.has(s.url)) monatVon.set(s.url, s.monat);
+                        if (!gesehen.has(s.url)) monatsseiten.push(s.url);
+                    }
                 }
             }
             for (const u of uebersichtsSeiten(d.links, d.endUrl)) {
@@ -1026,29 +1173,36 @@ async function lesen(kontext, hausId, fenster) {
                 if (!gesehen.has(u) && !uebersichten.includes(u)) uebersichten.push(u);
             }
         } catch (e) {
-            erg.fehler.push(`${start}: ${e.message.split('\n')[0]}`);
+            nichtGekommen(start, e);
         }
+    }
+    // Sperrt das Haus schon alle Einstiegsseiten, ist hier nichts zu holen:
+    // nicht noch jede Produktionsseite einzeln anfragen (Bayerische
+    // Staatsoper aus manchen Netzen: 40 Seiten, jede 403, sieben Minuten).
+    if (ganzGesperrt(erg)) {
+        erg.werke = {};
+        return erg;
     }
     for (const u of monatsseiten) {
         try {
             const d = await seite(kontext, u);
             gesehen.add(u);
-            erg.besucht.push({ url: u, status: d.status, links: d.links.length });
+            erg.besucht.push({ url: u, status: d.status, links: d.links.length, ...(monatVon.get(u) ? { monat: monatVon.get(u) } : {}) });
             sammle(d);
             sammleZeiten(d, u);
         } catch (e) {
-            erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
+            nichtGekommen(u, e);
         }
     }
     for (const u of uebersichten) {
         try {
             const d = await seite(kontext, u);
             gesehen.add(u);
-            erg.besucht.push({ url: u, status: d.status, links: d.links.length });
+            erg.besucht.push({ url: u, status: d.status, links: d.links.length, ...(monatVon.get(u) ? { monat: monatVon.get(u) } : {}) });
             sammle(d);
             sammleZeiten(d, u);
         } catch (e) {
-            erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
+            nichtGekommen(u, e);
         }
     }
 
@@ -1068,7 +1222,14 @@ async function lesen(kontext, hausId, fenster) {
 
     // Übersichts- und Monatsseiten sind keine Seiten einer Produktion:
     // dort stehen die Termine aller Stücke.
-    const auswahl = seitenAuswahl(kandidaten, gesehen);
+    const auswahl = mitBekannten(seitenAuswahl(kandidaten, gesehen), bekannt, gesehen);
+    // Was die Quellen ausdrücklich nennen, wird gelesen – auch wenn schon
+    // zwei andere Seiten des Werks gewählt sind (Bregenz: die Seite des
+    // Stücks und eine Ankündigung verdrängten die Suche mit allen Terminen).
+    for (const u of q.stuecke) {
+        const url = typeof u === 'string' ? u : u.url;
+        if (kandidaten.has(url) && !auswahl.has(url) && !gesehen.has(url)) auswahl.set(url, new Set(kandidaten.get(url)));
+    }
     const haupt = hauptVerzeichnis(kandidaten);
     for (const [url, ids] of auswahl) {
         try {
@@ -1122,6 +1283,9 @@ async function lesen(kontext, hausId, fenster) {
             }
         } catch (e) {
             erg.fehler.push(`${url}: ${e.message.split('\n')[0]}`);
+            // Als Treffer ohne Antwort festhalten: so weiß luecken(), welche
+            // Werke an dieser Seite hingen.
+            for (const id of ids) erg.treffer.push({ status: 0, titelOben: false, ortGenannt: false, werk: id, url, komponistGenannt: false, termine: [], zeiten: {}, ohneUhrzeit: true });
         }
     }
     // Je Werk die eine Produktionsseite mit den meisten Terminen – nicht die
@@ -1194,6 +1358,8 @@ async function main() {
     if (SUCHE) bisher._suche = [...SUCHE];
     // Nur einzelne Häuser gelesen: die Übernahme mit --dazu ersetzt nur deren Einträge.
     if (nur.length) bisher._haeuser = [...new Set([...(bisher._haeuser || []), ...nur])];
+    // Was die App schon zeigt – für bekannteSeiten() und den zweiten Versuch.
+    const { spielplan: inDerApp } = await import(pathToFileURL(path.join(WURZEL, 'src/data/spielplan.js')).href);
     const pw = await ladePlaywright();
     const browser = await pw.chromium.launch();
     const kontext = await browser.newContext({
@@ -1208,18 +1374,47 @@ async function main() {
     await sparsam(kontext);
     // Mehrere Häuser gleichzeitig, je Haus eine Seite nach der anderen.
     const warteschlange = [...haeuser];
+    const nochmal = [];
+    const melden = (id, erg, t0, zusatz = '') => {
+        const werke = Object.values(erg.werke);
+        const zu = gesperrteSeiten(erg).length;
+        console.log(`${id.padEnd(36)} ${String(werke.length).padStart(3)} Werke, ${String(werke.filter(w => w.termine.length).length).padStart(3)} mit Terminen, ${erg.fehler.length} Fehler${zu ? `, ${zu} Seiten gesperrt` : ''}, ${Math.round((Date.now() - t0) / 1000)}s${zusatz}`);
+    };
     const strang = async () => {
         while (warteschlange.length) {
             const id = warteschlange.shift();
             const t0 = Date.now();
-            const erg = await lesen(kontext, id, fenster);
+            if (hausAusgesperrt(id)) {
+                bisher[id] = { haus: id, ausgesperrt: true, start: [], besucht: [], fehler: [], treffer: [], werke: {}, fenster, stand: heute };
+                fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
+                console.log(`${id.padEnd(36)} nicht versucht – sperrt Programme aus (spielplan-quellen.json)`);
+                continue;
+            }
+            const erg = await lesen(kontext, id, fenster, bekannteSeiten(inDerApp, id, heute));
             bisher[id] = { ...erg, fenster, stand: heute };
             fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
-            const werke = Object.values(erg.werke);
-            console.log(`${id.padEnd(36)} ${String(werke.length).padStart(3)} Werke, ${String(werke.filter(w => w.termine.length).length).padStart(3)} mit Terminen, ${erg.fehler.length} Fehler, ${Math.round((Date.now() - t0) / 1000)}s`);
+            melden(id, erg, t0);
+            if (zweiterVersuchLohnt(erg, inDerApp.filter(z => z.haus === id), heute)) nochmal.push(id);
         }
     };
     await Promise.all(Array.from({ length: Math.min(straenge, haeuser.length) }, strang));
+    // Häuser, die sperrten oder nichts hergaben, am Ende noch einmal – eines
+    // nach dem anderen und mit Abstand zum ersten Versuch. Das bessere
+    // Ergebnis bleibt.
+    for (const id of nochmal) {
+        const t0 = Date.now();
+        try {
+            const erg = await lesen(kontext, id, fenster, bekannteSeiten(inDerApp, id, heute), { wiederholungen: 3 });
+            const besser = besseresErgebnis(bisher[id], erg) === erg;
+            if (besser) {
+                bisher[id] = { ...erg, fenster, stand: heute, zweiterVersuch: true };
+                fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
+            }
+            melden(id, erg, t0, besser ? ' – zweiter Versuch, übernommen' : ' – zweiter Versuch, nicht besser');
+        } catch (e) {
+            console.log(`${id.padEnd(36)} zweiter Versuch gescheitert: ${e.message.split('\n')[0]}`);
+        }
+    }
     await browser.close();
 }
 

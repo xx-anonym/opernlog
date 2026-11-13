@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:haensel-gretel-wuerttembergische-staatstheater-2026-12-29@opernlog.verc
  el.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20261229T193000
 DTEND;TZID=Europe/Berlin:20261229T223000
 SUMMARY:Hänsel und Gretel – Staatstheater Wiesbaden
