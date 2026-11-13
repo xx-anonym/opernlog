@@ -392,7 +392,13 @@
       "https://bregenzerfestspiele.com/de/oper-und-musiktheater",
       "https://bregenzerfestspiele.com/de"
     ],
-    "ort": "Seebühne"
+    "ort": "Seebühne",
+    "stuecke": [
+      {
+        "url": "https://bregenzerfestspiele.com/de/karten-besuch/spielplan?search=La%20traviata",
+        "werk": "la-traviata"
+      }
+    ]
   },
   "oper-graz": [
     "https://oper-graz.buehnen-graz.com/spielplan"

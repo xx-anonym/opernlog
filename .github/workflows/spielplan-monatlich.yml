@@ -7,11 +7,19 @@ name: Spielplan monatlich lesen
 # legt die Unterschiede zur App als Issue an
 # (tests/werkzeug/spielplan-vergleich.mjs).
 #
-# Er meldet nur. Auf GitHub liest er unzuverlässiger als am eigenen Rechner
-# – beim ersten Lauf fehlten in Leipzig Termine, die auf den Seiten standen,
-# und die Bayerische Staatsoper lieferte leere Seiten. Übernommen wird erst
-# nach lokalem Neulesen der gemeldeten Häuser; den Befehl nennt das Issue.
-# Den Lauf selbst hebt er zum Nachsehen als Artefakt auf.
+# Er meldet nur; übernommen wird nach Durchsicht, den Befehl nennt das Issue.
+# Den Lauf selbst hebt er als Artefakt auf.
+#
+# Auf GitHub sperren manche Häuser den Lauf oder antworten zu langsam. Damit
+# daraus keine falschen Meldungen werden (13.11.2026: 23 Produktionen der
+# Bayerischen Staatsoper "nicht mehr gefunden", weil ihre Seiten 403 gaben):
+#   - eine gesperrte Seite bekommt nach einer Pause weitere Versuche, und
+#     Häuser mit Sperren liest der Lauf am Ende noch einmal;
+#   - die Seiten, auf die die App schon verlinkt, liest er immer mit – ob
+#     eine Produktion noch läuft, steht dort, auch wenn der Kalender nur halb
+#     lud;
+#   - bleibt ein Haus trotzdem lückenhaft, meldet der Bericht dort nichts als
+#     entfallen und nennt das Haus mit dem Grund.
 #
 # Wie bei den anderen Prüfläufen: immer höchstens ein offenes Issue. Ein
 # neuer Lauf ersetzt seinen Text; ohne Unterschiede schließt es sich.
@@ -71,7 +79,9 @@ jobs:
 
       - name: Mit der App vergleichen
         id: vergleich
-        run: node tests/werkzeug/spielplan-vergleich.mjs lauf.json bericht.md
+        run: |
+          node tests/werkzeug/spielplan-vergleich.mjs lauf.json bericht.md
+          cat bericht.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Lauf aufheben
         uses: actions/upload-artifact@v7

@@ -253,7 +253,14 @@
       "grund": "„Schönheit vergeht nicht“ in der TheaterFABRIK – Begleitveranstaltung auf der Traviata-Seite, keine Vorstellung"
     }
   ],
-  "adressen": [],
+  "adressen": [
+    {
+      "haus": "seebuehne-bregenz",
+      "werk": "la-traviata",
+      "url": "https://bregenzerfestspiele.com/de/oper-und-musiktheater/la-traviata",
+      "grund": "Die Seite des Stücks zeigt nur die ersten drei Abende; alle stehen in der Suche des Spielplans (spielplan-quellen.json). Verlinkt wird trotzdem das Stück."
+    }
+  ],
   "ergaenzen": [
     {
       "haus": "badisches-staatstheater",

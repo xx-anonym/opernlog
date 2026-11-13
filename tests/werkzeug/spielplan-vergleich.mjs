@@ -25,6 +25,12 @@
 // Als nicht gelesen gilt ein Haus, von dem keine Seite lud, und eines, das
 // Einträge in der App hat, bei dem der Lauf aber kein einziges Werk fand –
 // dann sperrt es eher, als dass es nichts mehr spielt.
+//
+// Als lückenhaft gelesen gilt ein Haus, von dem einzelne Seiten gesperrt
+// waren (spielplan-lesequalitaet.mjs). Dort meldet der Bericht, was dazukam,
+// aber nichts als entfallen oder "nicht mehr gefunden": am 13.11.2026 standen
+// so 23 Produktionen der Bayerischen Staatsoper im Issue, deren Seiten nur
+// 403 geantwortet hatten.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -32,7 +38,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
-import { uebernehmen, dazunehmen, leerGelesen } from './spielplan-uebernehmen.mjs';
+import { uebernehmen, dazunehmen, leerGelesen, lueckenhafteHaeuser } from './spielplan-uebernehmen.mjs';
+import { leseGrund } from './spielplan-lesequalitaet.mjs';
 
 export { leerGelesen };
 
@@ -94,7 +101,7 @@ const mitZeit = (t, zeiten) => (zeiten?.[t] ? `${datum(t)} (${zeiten[t]})` : dat
  * Der Bericht in Markdown, fürs Issue.
  * @param {object} namen  werk(id) und haus(id) → Anzeigename
  */
-export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelesen = [], fuss = '' }) {
+export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelesen = [], gruende = {}, lueckenhaft = {}, fuss = '' }) {
     const titel = z => `**${namen.werk(z.werk)}** – ${namen.haus(z.haus)}`;
     const link = z => (z.url ? ` · [Seite](${z.url})` : '');
     const ladefehler = z => (fehlerJeHaus[z.haus] ? ` · _${fehlerJeHaus[z.haus]} Seiten des Hauses ließen sich nicht laden_` : '');
@@ -124,10 +131,18 @@ export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelese
         teile.push('', '### Nur Uhrzeiten', '');
         for (const z of v.uhrzeiten) teile.push(`- ${titel(z)}: ${aenderung(z)}`);
     }
+    const luecken = Object.keys(lueckenhaft).filter(h => !nichtGelesen.includes(h)).sort();
+    if (luecken.length) {
+        teile.push('', '### Lückenhaft gelesen', '',
+            'Von diesen Häusern waren einzelne Seiten gesperrt, auch beim zweiten Versuch. Was der Lauf dort nicht fand, '
+                + 'steht deshalb nicht unter „entfallen“ oder „nicht mehr gefunden“ – gemeldet ist nur, was dazukam:', '');
+        for (const h of luecken) teile.push(`- ${namen.haus(h)}: ${lueckenhaft[h]}`);
+    }
     if (nichtGelesen.length) {
         teile.push('', '### Nicht gelesen', '',
-            `Von diesen Häusern lud keine Seite, oder der Lauf fand dort kein einziges Werk – eher eine Sperre als ein leerer Spielplan. `
-                + `Ihre Einträge bleiben, wie sie sind: ${nichtGelesen.map(namen.haus).join(', ')}.`);
+            'Von diesen Häusern lud keine Seite, oder der Lauf fand dort kein einziges Werk – eher eine Sperre als ein leerer Spielplan. '
+                + 'Ihre Einträge bleiben, wie sie sind:', '');
+        for (const h of nichtGelesen) teile.push(`- ${namen.haus(h)}${gruende[h] ? `: ${gruende[h]}` : ''}`);
     }
     let text = teile.join('\n');
     if (text.length > HOECHSTLAENGE) {
@@ -162,15 +177,20 @@ async function main() {
     const heute = haeuser.map(h => lauf[h].stand).filter(Boolean).sort().at(-1) || new Date().toISOString().slice(0, 10);
     const nachtrag = uebernehmen(lauf);
     for (const h of leerGelesen(live.spielplan, nachtrag.zeilen, heute)) lesbar.delete(h);
-    const nachher = dazunehmen({ zeilen: live.spielplan, stand: live.SPIELPLAN_STAND }, nachtrag, { haeuser: [...lesbar] });
+    const luecken = lueckenhafteHaeuser(lauf);
+    const nachher = dazunehmen({ zeilen: live.spielplan, stand: live.SPIELPLAN_STAND }, nachtrag, { haeuser: [...lesbar], lueckenhaft: [...luecken.keys()] });
     const v = vergleichen(live.spielplan, nachher.zeilen, { heute });
-    const nichtGelesen = [...new Set(live.spielplan.filter(z => !lesbar.has(z.haus) && z.termine.some(t => t > heute)).map(z => z.haus))].sort();
+    // Bei einem Lauf für einzelne Häuser geht es nur um diese.
+    const gefragt = lauf._haeuser?.length ? new Set(lauf._haeuser) : null;
+    const nichtGelesen = [...new Set(live.spielplan.filter(z => !lesbar.has(z.haus) && (!gefragt || gefragt.has(z.haus)) && z.termine.some(t => t > heute)).map(z => z.haus))].sort();
 
     const werkNamen = new Map([...operas.map(o => [o.id, o.title]), ...(lauf._werke || []).map(w => [w.id, w.title])]);
     const hausNamen = new Map([...operaHouses.map(h => [h.id, h.name]), ...(lauf._haeuserKatalog || []).map(h => [h.id, h.name])]);
     const namen = { werk: id => werkNamen.get(id) || id, haus: id => hausNamen.get(id) || id };
     const fehlerJeHaus = Object.fromEntries(haeuser.filter(h => lauf[h].fehler?.length).map(h => [h, lauf[h].fehler.length]));
 
+    // Ein Haus, das im Lauf ganz fehlt, kam nicht mehr dran: der Lauf brach vorher ab.
+    const gruende = Object.fromEntries(nichtGelesen.map(h => [h, lauf[h] ? leseGrund(lauf[h]) : 'der Lauf brach ab, bevor das Haus an der Reihe war']));
     const aenderungen = geaenderteHaeuser(v);
     const lauflink = process.env.GITHUB_RUN_ID
         ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : null;
@@ -178,22 +198,23 @@ async function main() {
         ...(aenderungen.length ? [
             '---',
             [
-                'Nicht diesen Lauf übernehmen – auf GitHub fehlen manchmal Termine, die auf den Seiten stehen. '
-                    + `${aenderungen.length === 1 ? 'Das gemeldete Haus' : `Die ${aenderungen.length} gemeldeten Häuser`} lokal neu lesen, `
-                    + 'jede Zeile gegen ihre Seite prüfen (Fehler gehören in `tests/werkzeug/spielplan-korrekturen.json`) und dann übernehmen:',
+                'Jede Zeile gegen ihre Seite prüfen; was das Werkzeug falsch liest, gehört in `tests/werkzeug/spielplan-korrekturen.json`. '
+                    + `Dann ${aenderungen.length === 1 ? 'das gemeldete Haus' : `die ${aenderungen.length} gemeldeten Häuser`} neu lesen und übernehmen `
+                    + '– der Lauf selbst liegt als `lauf.json` im Artefakt, falls ein Haus sich lokal nicht lesen lässt:',
                 '```',
                 `node tests/werkzeug/spielplaene-lesen.mjs nachlese.json ${aenderungen.join(' ')}`,
-                'node tests/werkzeug/spielplan-uebernehmen.mjs nachlese.json --dazu',
+                `node tests/werkzeug/spielplan-uebernehmen.mjs nachlese.json --dazu --stand ${heute}`,
                 '```',
             ].join('\n'),
         ] : []),
         lauflink ? `<sub>Automatisch erstellt von \`.github/workflows/spielplan-monatlich.yml\` – [Lauf](${lauflink}).</sub>` : '',
     ].filter(Boolean).join('\n\n');
 
-    fs.writeFileSync(berichtDatei, bericht(v, { heute, stand: live.SPIELPLAN_STAND, namen, fehlerJeHaus, nichtGelesen, fuss }));
+    fs.writeFileSync(berichtDatei, bericht(v, { heute, stand: live.SPIELPLAN_STAND, namen, fehlerJeHaus, nichtGelesen, gruende, lueckenhaft: Object.fromEntries(luecken), fuss }));
 
     const anzahl = v.neu.length + v.weg.length + v.geaendert.length + v.uhrzeiten.length;
-    console.log(`${zusammenfassung(v)}. ${lesbar.size} von ${haeuser.length} Häusern gelesen.`);
+    const ganz = [...lesbar].filter(h => !luecken.has(h)).length;
+    console.log(`${zusammenfassung(v)}. ${lesbar.size} von ${haeuser.length} Häusern gelesen, ${ganz} davon vollständig.`);
     if (process.env.GITHUB_OUTPUT) {
         fs.appendFileSync(process.env.GITHUB_OUTPUT,
             `anzahl=${anzahl}\nzusammenfassung=${zusammenfassung(v)}\ngelesen=${lesbar.size}\nhaeuser=${haeuser.length}\n`);

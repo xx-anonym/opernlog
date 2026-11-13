@@ -37,6 +37,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderOrdnerSchreiben } from './kalender-dateien.mjs';
 import { spielplanDatenSchreiben } from './spielplan-daten.mjs';
+import { lueckenhaft, leseGrund } from './spielplan-lesequalitaet.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KORREKTUREN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-korrekturen.json'), 'utf8'));
@@ -118,6 +119,30 @@ function mitZeiten(zeile, zeiten = {}) {
     return Object.keys(aus).length ? { ...ohne, zeiten: aus } : ohne;
 }
 
+/**
+ * Alte und neue Uhrzeiten eines Eintrags. Die neue gilt – außer sie nennt
+ * denselben Beginn nur ohne das Ende, das schon bekannt war: Koblenz,
+ * Freiburg und Bremen zeigen die Dauer nicht bei jedem Abruf, und der
+ * Bericht meldete "18:00-21:20 → 18:00" als Änderung.
+ */
+export function zeitenZusammen(alt = {}, neu = {}) {
+    const aus = { ...(alt || {}), ...(neu || {}) };
+    for (const [t, zeit] of Object.entries(neu || {})) {
+        const vorher = alt?.[t];
+        if (vorher && !zeit.includes('-') && vorher.startsWith(`${zeit}-`)) aus[t] = vorher;
+    }
+    return aus;
+}
+
+/**
+ * Die Häuser eines Laufs, von denen Seiten gesperrt waren, mit dem Grund.
+ * @param {object} lauf  Ausgabe von spielplaene-lesen.mjs
+ * @returns {Map<string, string>} Haus -> Grund
+ */
+export function lueckenhafteHaeuser(lauf) {
+    return new Map(Object.entries(lauf).filter(([k, erg]) => !k.startsWith('_') && lueckenhaft(erg)).map(([k, erg]) => [k, leseGrund(erg)]));
+}
+
 // Werke aus der Datenbank, die in den Zeilen vorkommen – damit die Prüfung
 // ohne Netz weiß, dass es sie gibt.
 const zusatzwerke = zeilen => [...new Set(zeilen.map(z => z.werk).filter(w => !ausRepo.has(w)))].sort();
@@ -136,22 +161,29 @@ const zusatzhaeuser = zeilen => [...new Set(zeilen.map(z => z.haus).filter(h => 
  * Ebenso bleiben die Tage bis zum Stand des Nachtrags: der Lauf liest nur
  * kommende Termine, und das Log-Formular schlägt die gespielten vor
  * (gespielteTage). Ohne sie fehlte nach jeder Nachlese der Abend von gestern.
+ *
+ * Bei Häusern unter `lueckenhaft` fällt gar nichts weg: dort bekam der Lauf
+ * nicht alle Seiten (siehe spielplan-lesequalitaet.mjs), und was er nicht
+ * fand, hat er vielleicht nur nicht gesehen. Neues und neue Uhrzeiten kommen
+ * trotzdem dazu.
  */
-export function dazunehmen(bestehend, nachtrag, { werke, haeuser } = {}) {
+export function dazunehmen(bestehend, nachtrag, { werke, haeuser, lueckenhaft: luecken } = {}) {
     const nurWerke = werke?.length ? new Set(werke) : null;
     const nurHaeuser = haeuser?.length ? new Set(haeuser) : null;
+    const unsicher = new Set(luecken || []);
     const gelesen = z => (!nurWerke || nurWerke.has(z.werk)) && (!nurHaeuser || nurHaeuser.has(z.haus));
     const schluessel = z => `${z.werk}|${z.haus}`;
     const alt = new Map(bestehend.zeilen.map(z => [schluessel(z), z]));
-    const gespielt = z => (z?.termine || []).filter(t => t <= (nachtrag.stand || ''));
+    const gespielt = z => (z?.termine || []).filter(t => unsicher.has(z.haus) || t <= (nachtrag.stand || ''));
     const mitAltem = (z) => {
         const a = alt.get(schluessel(z));
         const termine = [...new Set([...gespielt(a), ...z.termine])].sort();
-        return mitZeiten({ ...z, termine }, { ...(a?.zeiten || {}), ...(z.zeiten || {}) });
+        return mitZeiten({ ...z, termine }, zeitenZusammen(a?.zeiten, z.zeiten));
     };
     const neu = nachtrag.zeilen.filter(gelesen).map(mitAltem);
     const gefunden = new Set(neu.map(schluessel));
-    // Was der Lauf nicht mehr findet, weil es vorbei ist.
+    // Was der Lauf nicht mehr findet, weil es vorbei ist – oder, an einem
+    // lückenhaft gelesenen Haus, weil er nicht hinkam.
     const vorbei = bestehend.zeilen.filter(z => gelesen(z) && !gefunden.has(schluessel(z)) && gespielt(z).length)
         .map(z => mitZeiten({ ...z, termine: gespielt(z) }, z.zeiten));
     const zeilen = [...bestehend.zeilen.filter(z => !gelesen(z)), ...neu, ...vorbei];
@@ -229,7 +261,9 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
         const { umfang, bleiben } = nachtragsUmfang(gewuenscht, alt.spielplan, erg.zeilen, erg.stand);
         if (bleiben.length) console.warn(`Nichts gefunden, bleibt wie es ist: ${bleiben.join(', ')}.`);
         if (!umfang) { console.error('Kein Haus mit Ergebnis – nichts übernommen.'); process.exit(1); }
-        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, umfang), weggelassen: erg.weggelassen };
+        const luecken = lueckenhafteHaeuser(vorschlag);
+        for (const [haus, grund] of luecken) console.warn(`Lückenhaft gelesen, dort fällt nichts weg: ${haus} – ${grund}.`);
+        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, { ...umfang, lueckenhaft: [...luecken.keys()] }), weggelassen: erg.weggelassen };
         console.log(`Nachtrag für ${[...(umfang.werke || []), ...(umfang.haeuser || [])].join(', ')}.`);
     }
     if (stand) erg = { ...erg, stand };
