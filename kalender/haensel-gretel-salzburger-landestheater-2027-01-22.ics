@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:haensel-gretel-salzburger-landestheater-2027-01-22@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Vienna:20270122T193000
 DTEND;TZID=Europe/Vienna:20270122T223000
 SUMMARY:Hänsel und Gretel – Salzburger Landestheater
@@ -32,10 +32,10 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Salzburger Landestheater, Salzburg, Österreich":geo:47.804
  6,13.0448
 URL:https://www.salzburger-landestheater.at/de/produktionen/haensel-und-gre
- tel-2.html?m=663
+ tel-2.html
 DESCRIPTION:Engelbert Humperdinck: Hänsel und Gretel\nTermine und Karten: 
  https://www.salzburger-landestheater.at/de/produktionen/haensel-und-gretel
- -2.html?m=663\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maß
- geblich ist die Seite des Hauses.
+ -2.html\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblic
+ h ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

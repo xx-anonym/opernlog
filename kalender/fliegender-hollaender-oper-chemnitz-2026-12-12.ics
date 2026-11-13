@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:fliegender-hollaender-oper-chemnitz-2026-12-12@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20261212T160000
 DTEND;TZID=Europe/Berlin:20261212T190000
 SUMMARY:Der fliegende Holländer – Oper Chemnitz
@@ -31,10 +31,10 @@ GEO:50.836;12.928
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Oper Chemnitz, Deutschland":geo:50.836,12.928
 URL:https://www.theater-chemnitz.de/spielplan/detailseite/der-fliegende-hol
- laender/12725
+ laender
 DESCRIPTION:Richard Wagner: Der fliegende Holländer\nTermine und Karten: h
  ttps://www.theater-chemnitz.de/spielplan/detailseite/der-fliegende-hollaen
- der/12725\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgebl
- ich ist die Seite des Hauses.
+ der\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – maßgeblich is
+ t die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:werther-theater-nordhausen-2027-04-17@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270417T193000
 DTEND;TZID=Europe/Berlin:20270417T223000
 SUMMARY:Werther – Theater Nordhausen / Loh-Orchester Sondershausen

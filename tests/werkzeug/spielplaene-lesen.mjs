@@ -1223,6 +1223,13 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
     // Übersichts- und Monatsseiten sind keine Seiten einer Produktion:
     // dort stehen die Termine aller Stücke.
     const auswahl = mitBekannten(seitenAuswahl(kandidaten, gesehen), bekannt, gesehen);
+    // Was die Quellen ausdrücklich nennen, wird gelesen – auch wenn schon
+    // zwei andere Seiten des Werks gewählt sind (Bregenz: die Seite des
+    // Stücks und eine Ankündigung verdrängten die Suche mit allen Terminen).
+    for (const u of q.stuecke) {
+        const url = typeof u === 'string' ? u : u.url;
+        if (kandidaten.has(url) && !auswahl.has(url) && !gesehen.has(url)) auswahl.set(url, new Set(kandidaten.get(url)));
+    }
     const haupt = hauptVerzeichnis(kandidaten);
     for (const [url, ids] of auswahl) {
         try {

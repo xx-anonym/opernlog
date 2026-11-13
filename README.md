@@ -267,9 +267,15 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
     Produktion noch läuft, steht dort – auch wenn der Kalender des Hauses nur
     halb lud.
   - Bleibt ein Haus lückenhaft (`spielplan-lesequalitaet.mjs`), fällt dort
-    nichts weg, weder im Bericht noch bei `--dazu`. Das Issue nennt diese
-    Häuser unter „Lückenhaft gelesen“ und die gar nicht lesbaren unter „Nicht
-    gelesen“, je mit dem Grund.
+    nichts weg, was an den fehlenden Seiten hängt – weder im Bericht noch bei
+    `--dazu`: alles, wenn eine Einstiegsseite fehlte; die Termine eines
+    Monats, wenn dessen Kalenderseite fehlte; die Termine eines Werks, wenn
+    dessen Seite fehlte. Das Issue nennt diese Häuser unter „Lückenhaft
+    gelesen“ und die gar nicht lesbaren unter „Nicht gelesen“, je mit dem
+    Grund.
+  - Häuser mit `"ausgesperrt": true` in den Quellen fragt der Lauf nicht an
+    (Basel sperrt Spielplan und Produktionsseiten); ihre Termine stehen unter
+    `ergaenzen`.
   - Eine Uhrzeit verliert ihr Ende nicht, nur weil die Seite es bei einem
     Abruf nicht zeigt.
 

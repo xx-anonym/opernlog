@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:fliegender-hollaender-deutsche-oper-am-rhein-2027-06-05@opernlog.vercel
  .app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270605T193000
 DTEND;TZID=Europe/Berlin:20270605T214500
 SUMMARY:Der fliegende Holländer – Deutsche Oper am Rhein

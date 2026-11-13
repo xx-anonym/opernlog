@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:eugen-onegin-wuerttembergische-staatstheater-2027-04-12@opernlog.vercel
  .app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270412T193000
 DTEND;TZID=Europe/Berlin:20270412T223000
 SUMMARY:Eugen Onegin – Staatstheater Wiesbaden

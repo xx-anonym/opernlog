@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:cavalleria-rusticana-theater-hagen-2026-12-18@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20261218T193000
 DTEND;TZID=Europe/Berlin:20261218T223000
 SUMMARY:Cavalleria rusticana – Theater Hagen
@@ -31,10 +31,10 @@ GEO:51.36;7.47
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Theater Hagen, Deutschland":geo:51.36,7.47
 URL:https://www.theaterhagen.de/veranstaltung/cavalleria-rusticana-i-paglia
- cci-2030/0/show/Play/
+ cci-2030/9934/show/Play/
 DESCRIPTION:Pietro Mascagni: Cavalleria rusticana\nTermine und Karten: http
  s://www.theaterhagen.de/veranstaltung/cavalleria-rusticana-i-pagliacci-203
- 0/0/show/Play/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – ma
- ßgeblich ist die Seite des Hauses.
+ 0/9934/show/Play/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – 
+ maßgeblich ist die Seite des Hauses.
 END:VEVENT
 END:VCALENDAR

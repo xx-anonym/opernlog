@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:midsummer-nights-dream-theater-bielefeld-2027-02-21@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270221T150000
 DTEND;TZID=Europe/Berlin:20270221T180000
 SUMMARY:A Midsummer Night's Dream – Theater Bielefeld

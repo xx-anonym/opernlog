@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:hoffmanns-erzaehlungen-theater-vorpommern-2027-05-23@opernlog.vercel.ap
  p
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270523T160000
 DTEND;TZID=Europe/Berlin:20270523T190000
 SUMMARY:Hoffmanns Erzählungen – Theater Vorpommern

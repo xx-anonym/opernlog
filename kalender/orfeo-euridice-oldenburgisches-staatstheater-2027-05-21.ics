@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:orfeo-euridice-oldenburgisches-staatstheater-2027-05-21@opernlog.vercel
  .app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270521T193000
 DTEND;TZID=Europe/Berlin:20270521T223000
 SUMMARY:Orfeo ed Euridice – Oldenburgisches Staatstheater

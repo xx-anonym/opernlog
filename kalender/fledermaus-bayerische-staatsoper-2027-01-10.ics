@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:fledermaus-bayerische-staatsoper-2027-01-10@opernlog.vercel.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270110T170000
 DTEND;TZID=Europe/Berlin:20270110T200000
 SUMMARY:Die Fledermaus – Bayerische Staatsoper
@@ -31,9 +31,9 @@ GEO:48.1397;11.5794
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
  AME=1;X-TITLE="Bayerische Staatsoper, München, Deutschland":geo:48.1397,1
  1.5794
-URL:https://www.staatsoper.de/stuecke/die-fledermaus/2026-12-31-1800-16178
+URL:https://www.staatsoper.de/stuecke/die-fledermaus/2027-01-03-1700-16181
 DESCRIPTION:Johann Strauss II: Die Fledermaus\nTermine und Karten: https://
- www.staatsoper.de/stuecke/die-fledermaus/2026-12-31-1800-16178\nDas Ende i
+ www.staatsoper.de/stuecke/die-fledermaus/2027-01-03-1700-16181\nDas Ende i
  st geschätzt (3 Stunden).\nAus OpernLog – maßgeblich ist die Seite des
   Hauses.
 END:VEVENT

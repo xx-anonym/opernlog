@@ -6,7 +6,7 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:l-italiana-in-algeri-salzburger-landestheater-2026-12-11@opernlog.verce
  l.app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;VALUE=DATE:20261211
 DTEND;VALUE=DATE:20261212
 SUMMARY:L'italiana in Algeri – Salzburger Landestheater

@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:dido-aeneas-wuerttembergische-staatstheater-2027-01-29@opernlog.vercel.
  app
-DTSTAMP:20261103T000000Z
+DTSTAMP:20261113T000000Z
 DTSTART;TZID=Europe/Berlin:20270129T193000
 DTEND;TZID=Europe/Berlin:20270129T223000
 SUMMARY:Dido and Aeneas – Staatstheater Wiesbaden
