@@ -908,16 +908,27 @@ async function seiteLaden(kontext, url, { terminSelektor, hauptteil, geduld = { 
  * Spielzeit.
  */
 export function monatsAdressen(vorlage, fenster) {
-    if (!/\{JJJJ\}|\{MM\}/.test(vorlage)) return [vorlage];
-    const adressen = [];
+    return monatsSeiten(vorlage, fenster).map(s => s.url);
+}
+
+/**
+ * Wie monatsAdressen(), dazu der Monat, für den jede Adresse steht (null bei
+ * einer Adresse ohne Platzhalter). Fehlt später eine dieser Seiten, sind nur
+ * die Termine dieses Monats unsicher – siehe luecken().
+ * @returns {{url: string, monat: string|null}[]}
+ */
+export function monatsSeiten(vorlage, fenster) {
+    if (!/\{JJJJ\}|\{MM\}/.test(vorlage)) return [{ url: vorlage, monat: null }];
+    const seiten = [];
     let [j, m] = fenster.von.split('-').map(Number);
     const [bj, bm] = fenster.bis.split('-').map(Number);
     while (j < bj || (j === bj && m <= bm)) {
-        adressen.push(vorlage.replaceAll('{JJJJ}', String(j)).replaceAll('{MM}', String(m).padStart(2, '0')));
+        const mm = String(m).padStart(2, '0');
+        seiten.push({ url: vorlage.replaceAll('{JJJJ}', String(j)).replaceAll('{MM}', mm), monat: `${j}-${mm}` });
         m += 1;
         if (m > 12) { m = 1; j += 1; }
     }
-    return adressen;
+    return seiten;
 }
 
 /**
@@ -983,13 +994,22 @@ export function monatsVorlage(hrefs, fenster) {
  * (siehe zeitenAusKalender) – nur für Häuser, deren Kalender dafür geprüft ist.
  * terminLinks ist ein Stück der Adresse, an dem die Links einer Produktionsseite
  * auf ihre einzelnen Termine zu erkennen sind (siehe terminAnsichten).
+ * Mit ausgesperrt liest der Lauf das Haus gar nicht: es sperrt Programme aus
+ * (Basel antwortet auf jede Seite mit 403), und das zu achten heißt, nicht
+ * jeden Monat wieder anzuklopfen. Seine Termine kommen aus dem Spielzeitheft
+ * (ergaenzen in den Korrekturen).
  */
 function quelle(hausId) {
     const q = QUELLEN[hausId] || [];
-    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false, terminLinks: null }
-        : { start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
+    return Array.isArray(q) ? { start: q, ort: null, ortJeTermin: null, stuecke: [], terminSelektor: null, hauptteil: null, kalenderZeiten: false, terminLinks: null, ausgesperrt: false }
+        : { ausgesperrt: q.ausgesperrt === true, start: q.start || [], ort: q.ort || null, ortJeTermin: q.ortJeTermin || null, stuecke: q.stuecke || [],
             terminSelektor: q.terminSelektor || null, hauptteil: q.hauptteil || null, kalenderZeiten: q.kalenderZeiten === true,
             terminLinks: q.terminLinks || null };
+}
+
+/** Liest der Lauf dieses Haus gar nicht, weil es Programme aussperrt? */
+export function hausAusgesperrt(hausId) {
+    return quelle(hausId).ausgesperrt;
 }
 
 /**
@@ -1060,8 +1080,18 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
     const seite = async (k, url, o = {}) => {
         if (bremse) await new Promise(r => setTimeout(r, bremse));
         const d = await seiteLaden(k, url, { ...o, geduld });
-        if (gesperrt(d.status)) bremse = 3000;
+        // Nur bei "zu schnell" – ein 500 für einen Monat ohne Kalender
+        // (Detmold, Luzern) wird durch Warten nicht besser.
+        if (d.status === 403 || d.status === 429) bremse = 3000;
         return d;
+    };
+    // Der Monat, für den eine Einstiegsadresse steht.
+    const monatVon = new Map(q.start.flatMap(u => monatsSeiten(u, fenster)).map(s => [s.url, s.monat]));
+    // Eine Einstiegsseite, die nicht kam: bei den besuchten festhalten, mit
+    // Status 0 – luecken() weiß dann, ob das Haus oder nur ein Monat fehlt.
+    const nichtGekommen = (url, e) => {
+        erg.fehler.push(`${url}: ${e.message.split('\n')[0]}`);
+        erg.besucht.push({ url, status: 0, ...(monatVon.get(url) ? { monat: monatVon.get(url) } : {}) });
     };
     const gesehen = new Set();
     const kandidaten = new Map(); // url -> Set(operaId)
@@ -1124,7 +1154,7 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
         try {
             const d = await seite(kontext, start);
             gesehen.add(start);
-            erg.besucht.push({ url: start, status: d.status, endUrl: d.endUrl, links: d.links.length });
+            erg.besucht.push({ url: start, status: d.status, endUrl: d.endUrl, links: d.links.length, ...(monatVon.get(start) ? { monat: monatVon.get(start) } : {}) });
             sammle(d);
             sammleZeiten(d, start);
             // Eine erkannte Monatsnavigation einmal je Haus durchgehen.
@@ -1132,7 +1162,10 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
                 const vorlage = monatsVorlage(d.links.map(l => l.href), fenster);
                 if (vorlage) {
                     erg.monatsVorlage = vorlage;
-                    monatsseiten.push(...monatsAdressen(vorlage, fenster).filter(u => !gesehen.has(u)));
+                    for (const s of monatsSeiten(vorlage, fenster)) {
+                        if (!monatVon.has(s.url)) monatVon.set(s.url, s.monat);
+                        if (!gesehen.has(s.url)) monatsseiten.push(s.url);
+                    }
                 }
             }
             for (const u of uebersichtsSeiten(d.links, d.endUrl)) {
@@ -1140,7 +1173,7 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
                 if (!gesehen.has(u) && !uebersichten.includes(u)) uebersichten.push(u);
             }
         } catch (e) {
-            erg.fehler.push(`${start}: ${e.message.split('\n')[0]}`);
+            nichtGekommen(start, e);
         }
     }
     // Sperrt das Haus schon alle Einstiegsseiten, ist hier nichts zu holen:
@@ -1154,22 +1187,22 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
         try {
             const d = await seite(kontext, u);
             gesehen.add(u);
-            erg.besucht.push({ url: u, status: d.status, links: d.links.length });
+            erg.besucht.push({ url: u, status: d.status, links: d.links.length, ...(monatVon.get(u) ? { monat: monatVon.get(u) } : {}) });
             sammle(d);
             sammleZeiten(d, u);
         } catch (e) {
-            erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
+            nichtGekommen(u, e);
         }
     }
     for (const u of uebersichten) {
         try {
             const d = await seite(kontext, u);
             gesehen.add(u);
-            erg.besucht.push({ url: u, status: d.status, links: d.links.length });
+            erg.besucht.push({ url: u, status: d.status, links: d.links.length, ...(monatVon.get(u) ? { monat: monatVon.get(u) } : {}) });
             sammle(d);
             sammleZeiten(d, u);
         } catch (e) {
-            erg.fehler.push(`${u}: ${e.message.split('\n')[0]}`);
+            nichtGekommen(u, e);
         }
     }
 
@@ -1243,6 +1276,9 @@ async function lesen(kontext, hausId, fenster, bekannt = [], { wiederholungen = 
             }
         } catch (e) {
             erg.fehler.push(`${url}: ${e.message.split('\n')[0]}`);
+            // Als Treffer ohne Antwort festhalten: so weiß luecken(), welche
+            // Werke an dieser Seite hingen.
+            for (const id of ids) erg.treffer.push({ status: 0, titelOben: false, ortGenannt: false, werk: id, url, komponistGenannt: false, termine: [], zeiten: {}, ohneUhrzeit: true });
         }
     }
     // Je Werk die eine Produktionsseite mit den meisten Terminen – nicht die
@@ -1341,11 +1377,17 @@ async function main() {
         while (warteschlange.length) {
             const id = warteschlange.shift();
             const t0 = Date.now();
+            if (hausAusgesperrt(id)) {
+                bisher[id] = { haus: id, ausgesperrt: true, start: [], besucht: [], fehler: [], treffer: [], werke: {}, fenster, stand: heute };
+                fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
+                console.log(`${id.padEnd(36)} nicht versucht – sperrt Programme aus (spielplan-quellen.json)`);
+                continue;
+            }
             const erg = await lesen(kontext, id, fenster, bekannteSeiten(inDerApp, id, heute));
             bisher[id] = { ...erg, fenster, stand: heute };
             fs.writeFileSync(ausgabe, JSON.stringify(bisher, null, 1));
             melden(id, erg, t0);
-            if (zweiterVersuchLohnt(erg, bekannteSeiten(inDerApp, id, heute))) nochmal.push(id);
+            if (zweiterVersuchLohnt(erg, inDerApp.filter(z => z.haus === id), heute)) nochmal.push(id);
         }
     };
     await Promise.all(Array.from({ length: Math.min(straenge, haeuser.length) }, strang));

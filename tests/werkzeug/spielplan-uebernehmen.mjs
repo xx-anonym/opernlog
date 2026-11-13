@@ -37,7 +37,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderOrdnerSchreiben } from './kalender-dateien.mjs';
 import { spielplanDatenSchreiben } from './spielplan-daten.mjs';
-import { lueckenhaft, leseGrund } from './spielplan-lesequalitaet.mjs';
+import { luecken, unsicher, lueckeZaehlt, leseGrund } from './spielplan-lesequalitaet.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KORREKTUREN = JSON.parse(fs.readFileSync(path.join(WURZEL, 'tests/werkzeug/spielplan-korrekturen.json'), 'utf8'));
@@ -135,12 +135,17 @@ export function zeitenZusammen(alt = {}, neu = {}) {
 }
 
 /**
- * Die Häuser eines Laufs, von denen Seiten gesperrt waren, mit dem Grund.
+ * Die Häuser eines Laufs, von denen Seiten gesperrt waren: was fehlt und warum.
  * @param {object} lauf  Ausgabe von spielplaene-lesen.mjs
- * @returns {Map<string, string>} Haus -> Grund
+ * @returns {Map<string, {ganz: boolean, monate: string[], werke: string[], grund: string}>}
  */
 export function lueckenhafteHaeuser(lauf) {
-    return new Map(Object.entries(lauf).filter(([k, erg]) => !k.startsWith('_') && lueckenhaft(erg)).map(([k, erg]) => [k, leseGrund(erg)]));
+    const aus = new Map();
+    for (const [haus, erg] of Object.entries(lauf)) {
+        const l = haus.startsWith('_') ? null : luecken(erg);
+        if (l) aus.set(haus, { ...l, grund: leseGrund(erg) });
+    }
+    return aus;
 }
 
 // Werke aus der Datenbank, die in den Zeilen vorkommen – damit die Prüfung
@@ -162,19 +167,20 @@ const zusatzhaeuser = zeilen => [...new Set(zeilen.map(z => z.haus).filter(h => 
  * kommende Termine, und das Log-Formular schlägt die gespielten vor
  * (gespielteTage). Ohne sie fehlte nach jeder Nachlese der Abend von gestern.
  *
- * Bei Häusern unter `lueckenhaft` fällt gar nichts weg: dort bekam der Lauf
- * nicht alle Seiten (siehe spielplan-lesequalitaet.mjs), und was er nicht
- * fand, hat er vielleicht nur nicht gesehen. Neues und neue Uhrzeiten kommen
- * trotzdem dazu.
+ * Bei Häusern unter `lueckenhaft` (Haus -> Lücke, siehe luecken() in
+ * spielplan-lesequalitaet.mjs) bleibt, was der Lauf vielleicht nur nicht
+ * gesehen hat: alles, wenn eine Einstiegsseite fehlte; die Termine eines
+ * Monats, wenn dessen Kalenderseite fehlte; die Termine eines Werks, wenn
+ * dessen Seite fehlte. Neues und neue Uhrzeiten kommen trotzdem dazu.
  */
-export function dazunehmen(bestehend, nachtrag, { werke, haeuser, lueckenhaft: luecken } = {}) {
+export function dazunehmen(bestehend, nachtrag, { werke, haeuser, lueckenhaft: fehlend } = {}) {
     const nurWerke = werke?.length ? new Set(werke) : null;
     const nurHaeuser = haeuser?.length ? new Set(haeuser) : null;
-    const unsicher = new Set(luecken || []);
+    const fehlt = fehlend instanceof Map ? fehlend : new Map(Object.entries(fehlend || {}));
     const gelesen = z => (!nurWerke || nurWerke.has(z.werk)) && (!nurHaeuser || nurHaeuser.has(z.haus));
     const schluessel = z => `${z.werk}|${z.haus}`;
     const alt = new Map(bestehend.zeilen.map(z => [schluessel(z), z]));
-    const gespielt = z => (z?.termine || []).filter(t => unsicher.has(z.haus) || t <= (nachtrag.stand || ''));
+    const gespielt = z => (z?.termine || []).filter(t => t <= (nachtrag.stand || '') || unsicher(fehlt.get(z.haus), z.werk, t));
     const mitAltem = (z) => {
         const a = alt.get(schluessel(z));
         const termine = [...new Set([...gespielt(a), ...z.termine])].sort();
@@ -261,9 +267,13 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
         const { umfang, bleiben } = nachtragsUmfang(gewuenscht, alt.spielplan, erg.zeilen, erg.stand);
         if (bleiben.length) console.warn(`Nichts gefunden, bleibt wie es ist: ${bleiben.join(', ')}.`);
         if (!umfang) { console.error('Kein Haus mit Ergebnis – nichts übernommen.'); process.exit(1); }
-        const luecken = lueckenhafteHaeuser(vorschlag);
-        for (const [haus, grund] of luecken) console.warn(`Lückenhaft gelesen, dort fällt nichts weg: ${haus} – ${grund}.`);
-        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, { ...umfang, lueckenhaft: [...luecken.keys()] }), weggelassen: erg.weggelassen };
+        const fehlt = lueckenhafteHaeuser(vorschlag);
+        for (const [haus, l] of fehlt) {
+            if (!lueckeZaehlt(l, alt.spielplan.filter(z => z.haus === haus), erg.stand)) continue;
+            const was = l.ganz ? 'dort fällt nichts weg' : `dort bleiben ${[l.monate.length ? `die Termine in ${l.monate.join(', ')}` : '', l.werke.length ? `die Termine von ${l.werke.join(', ')}` : ''].filter(Boolean).join(' und ')}`;
+            console.warn(`Lückenhaft gelesen, ${was}: ${haus} – ${l.grund}.`);
+        }
+        erg = { ...dazunehmen({ zeilen: alt.spielplan, stand: alt.SPIELPLAN_STAND }, erg, { ...umfang, lueckenhaft: fehlt }), weggelassen: erg.weggelassen };
         console.log(`Nachtrag für ${[...(umfang.werke || []), ...(umfang.haeuser || [])].join(', ')}.`);
     }
     if (stand) erg = { ...erg, stand };

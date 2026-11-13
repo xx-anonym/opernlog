@@ -360,12 +360,21 @@ const VERKAUF_ZEILE = /^(vorverkaufs?(start|beginn)?|verkaufsstart|kartenverkauf
 // sie mit, lag die Uhrzeit außer Reichweite.
 const FUELLZEILE = new RegExp(`^([/|·–—-]|\\d{1,2}\\.?|(${WOCHENTAG})\\.?)$`, 'i');
 
+const IRGENDWANN = { von: '1900-01-01', bis: '2999-12-31' };
+
 function eintrag(zeilen, i, fenster, kontext, hoechstens) {
     const teile = [zeilen[i]];
+    const eigene = new Set(termineLesen(zeilen[i], fenster, kontext).termine.map(t => t.slice(5)));
     let gezaehlt = 0;
     for (let j = i + 1; j < zeilen.length && gezaehlt < hoechstens; j++) {
         if (VERKAUF_DAVOR.test(zeilen[j])) { j++; continue; }
         if (termineLesen(zeilen[j], fenster, kontext).termine.length) break;
+        // Auch ein Datum außerhalb des Fensters beginnt einen neuen Eintrag:
+        // das Salzburger Landestheater schreibt "DERNIÈRE: 14. November 2026"
+        // über die Terminliste, die mit "Sa. 31.10.2026 19.00" beginnt – am
+        // 13.11. vorbei, und ihre Uhrzeit landete bei der Dernière (15 Uhr).
+        // Derselbe Tag mit anderem Jahr bleibt im Eintrag (jahrWiderspricht).
+        if (termineLesen(zeilen[j], IRGENDWANN, null, { nurMitJahr: true }).termine.some(t => !eigene.has(t.slice(5)))) break;
         teile.push(zeilen[j]);
         if (!FUELLZEILE.test(zeilen[j])) gezaehlt++;
     }

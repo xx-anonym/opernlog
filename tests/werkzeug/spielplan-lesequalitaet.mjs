@@ -41,9 +41,64 @@ export function geleseneSeiten(erg) {
     return new Set([...(erg?.besucht || []).map(b => b.url), ...(erg?.treffer || []).map(t => t.url), ...gesperrteSeiten(erg)]).size;
 }
 
-/** Fehlen dem Lauf Seiten dieses Hauses? Dann ist, was er dort nicht fand, kein Befund. */
+/**
+ * Was dem Lauf an einem Haus fehlt, so genau wie möglich – denn manche
+ * Lücken sind harmlos und kehren jeden Monat wieder: Detmold und Luzern
+ * antworten für Kalendermonate nach Ende der Spielzeit mit 500 statt 404.
+ *
+ *   ganz    eine Einstiegs- oder Übersichtsseite fehlt: was der Lauf an dem
+ *           Haus nicht fand, hat er vielleicht nur nicht gesehen
+ *   monate  die Kalenderseite dieser Monate fehlt: unsicher sind nur Termine
+ *           in diesen Monaten
+ *   werke   die Seite dieser Produktionen fehlt: unsicher sind nur ihre Termine
+ *
+ * Ältere Läufe nennen den Monat einer Kalenderseite nicht; dort zählt jede
+ * gesperrte Einstiegsseite fürs ganze Haus.
+ *
+ * @returns {{ganz: boolean, monate: string[], werke: string[]}|null}  null: nichts fehlt
+ */
+export function luecken(erg) {
+    const zu = new Set(gesperrteSeiten(erg));
+    if (!zu.size) return null;
+    const einstieg = new Map((erg?.besucht || []).map(b => [b.url, b.monat || null]));
+    const produktion = new Map();
+    for (const t of erg?.treffer || []) if (gesperrt(t.status ?? 0)) produktion.set(t.url, [...(produktion.get(t.url) || []), t.werk]);
+    const aus = { ganz: false, monate: new Set(), werke: new Set() };
+    for (const u of zu) {
+        if (produktion.has(u)) produktion.get(u).forEach(w => aus.werke.add(w));
+        else if (einstieg.get(u)) aus.monate.add(einstieg.get(u));
+        else if (einstieg.has(u)) aus.ganz = true;
+        // Sonst: die Ansicht eines einzelnen Termins (Frankfurt). Dort fehlt
+        // höchstens eine Uhrzeit, kein Termin.
+    }
+    if (!aus.ganz && !aus.monate.size && !aus.werke.size) return null;
+    return { ganz: aus.ganz, monate: [...aus.monate].sort(), werke: [...aus.werke].sort() };
+}
+
+/** Fehlen dem Lauf Seiten dieses Hauses? */
 export function lueckenhaft(erg) {
-    return gesperrteSeiten(erg).length > 0;
+    return luecken(erg) !== null;
+}
+
+/**
+ * Ist unsicher, ob dieser Termin wirklich entfallen ist?
+ * @param {{ganz: boolean, monate: string[], werke: string[]}|null|undefined} l  von luecken()
+ */
+export function unsicher(l, werk, termin) {
+    return !!l && (l.ganz || l.werke.includes(werk) || l.monate.includes(termin.slice(0, 7)));
+}
+
+/**
+ * Trifft die Lücke etwas, das die App zeigt? Eine gesperrte Kalenderseite
+ * für einen Monat, in dem das Haus nichts spielt, ist keine Meldung wert.
+ * @param {object|null} l  von luecken()
+ * @param {{termine: string[]}[]} zeilen  die Einträge des Hauses in der App
+ * @param {string} heute
+ */
+export function lueckeZaehlt(l, zeilen, heute) {
+    if (!l) return false;
+    if (l.ganz || l.werke.length) return true;
+    return zeilen.some(z => z.termine.some(t => t > heute && l.monate.includes(t.slice(0, 7))));
 }
 
 /**
@@ -66,13 +121,15 @@ export function leseGrund(erg) {
 const mitTerminen = erg => Object.values(erg?.werke || {}).filter(w => w.termine?.length).length;
 
 /**
- * Ein zweiter Versuch lohnt, wenn Seiten gesperrt waren oder der Lauf an
- * einem Haus nichts fand, das in der App noch Termine hat.
+ * Ein zweiter Versuch lohnt, wenn Seiten fehlen, auf die es ankommt, oder
+ * der Lauf an einem Haus nichts fand, das in der App noch Termine hat.
  * @param {object} erg
- * @param {object[]} [bekannt]  Seiten des Hauses, auf die die App verlinkt
+ * @param {{termine: string[]}[]} [zeilen]  die Einträge des Hauses in der App
+ * @param {string} [heute]
  */
-export function zweiterVersuchLohnt(erg, bekannt = []) {
-    return lueckenhaft(erg) || (bekannt.length > 0 && mitTerminen(erg) === 0);
+export function zweiterVersuchLohnt(erg, zeilen = [], heute = '') {
+    const kommt = zeilen.some(z => z.termine.some(t => t > heute));
+    return lueckeZaehlt(luecken(erg), zeilen, heute) || (kommt && mitTerminen(erg) === 0);
 }
 
 /** Von zwei Läufen desselben Hauses der mit mehr Werken, bei Gleichstand der mit weniger gesperrten Seiten. */

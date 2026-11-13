@@ -9,7 +9,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { gesperrt, gesperrteSeiten, geleseneSeiten, lueckenhaft, leseGrund, zweiterVersuchLohnt, besseresErgebnis } from '../werkzeug/spielplan-lesequalitaet.mjs';
+import { gesperrt, gesperrteSeiten, geleseneSeiten, lueckenhaft, luecken, unsicher, lueckeZaehlt, leseGrund, zweiterVersuchLohnt, besseresErgebnis } from '../werkzeug/spielplan-lesequalitaet.mjs';
 import { dazunehmen, zeitenZusammen, lueckenhafteHaeuser } from '../werkzeug/spielplan-uebernehmen.mjs';
 import { vergleichen, bericht, zusammenfassung } from '../werkzeug/spielplan-vergleich.mjs';
 import { bekannteSeiten, mitBekannten } from '../werkzeug/spielplaene-lesen.mjs';
@@ -55,14 +55,57 @@ test('gesperrte Seiten zählen aus Einstieg, Produktionsseiten und Ladefehlern, 
 });
 
 test('ein zweiter Versuch lohnt nach Sperren und nach einem leeren Ergebnis', () => {
-    const bekannt = [{ werk: 'carmen', url: 'x' }];
-    assert.equal(zweiterVersuchLohnt(MUENCHEN, bekannt), true);
+    const inDerApp = [zeile('carmen', 'x', ['2027-04-21'])];
+    assert.equal(zweiterVersuchLohnt(MUENCHEN, inDerApp, HEUTE), true);
     const leer = { besucht: [{ url: 'a', status: 200 }], treffer: [], fehler: [], werke: {} };
-    assert.equal(zweiterVersuchLohnt(leer, bekannt), true);
-    // Ein Haus, das die App gar nicht führt, darf leer sein.
-    assert.equal(zweiterVersuchLohnt(leer, []), false);
+    assert.equal(zweiterVersuchLohnt(leer, inDerApp, HEUTE), true);
+    // Ein Haus, das die App gar nicht führt oder das nur Vergangenes hat, darf leer sein.
+    assert.equal(zweiterVersuchLohnt(leer, [], HEUTE), false);
+    assert.equal(zweiterVersuchLohnt(leer, [zeile('carmen', 'x', ['2026-10-01'])], HEUTE), false);
     const gut = { besucht: [{ url: 'a', status: 200 }], treffer: [], fehler: [], werke: { tosca: { termine: ['2027-01-01'] } } };
-    assert.equal(zweiterVersuchLohnt(gut, bekannt), false);
+    assert.equal(zweiterVersuchLohnt(gut, inDerApp, HEUTE), false);
+    // Detmold: nur die Kalenderseiten nach Ende der Spielzeit fehlen – kein Grund.
+    assert.equal(zweiterVersuchLohnt(DETMOLD, [zeile('alcina', 'landestheater-detmold', ['2027-01-13'])], HEUTE), false);
+    assert.equal(zweiterVersuchLohnt(DETMOLD, [zeile('alcina', 'landestheater-detmold', ['2027-08-13'])], HEUTE), true);
+});
+
+// Detmold und Luzern antworten für Monate ohne Kalender mit 500 statt 404.
+const DETMOLD = {
+    besucht: [
+        { url: 'https://www.landestheater-detmold.de/de/programm/01-05-2027', status: 200, monat: '2027-05' },
+        { url: 'https://www.landestheater-detmold.de/de/programm/01-08-2027', status: 500, monat: '2027-08' },
+        { url: 'https://www.landestheater-detmold.de/de/programm/01-09-2027', status: 0, monat: '2027-09' },
+    ],
+    treffer: [{ url: 'https://www.landestheater-detmold.de/de/programm/alcina/41725783', status: 200, werk: 'alcina' }],
+    fehler: ['https://www.landestheater-detmold.de/de/programm/01-09-2027: page.goto: Timeout 30000ms exceeded.'],
+    werke: { alcina: { termine: ['2027-01-13'] } },
+};
+
+test('was fehlt: das ganze Haus, einzelne Monate oder einzelne Werke', () => {
+    // München: Monatsseiten ohne Monatsangabe (alter Lauf) zählen fürs ganze
+    // Haus, die gesperrte Produktionsseite für ihr Werk.
+    assert.deepEqual(luecken(MUENCHEN), { ganz: true, monate: [], werke: ['carmen'] });
+    assert.deepEqual(luecken(DETMOLD), { ganz: false, monate: ['2027-08', '2027-09'], werke: [] });
+    assert.equal(luecken({ besucht: [{ url: 'a', status: 200 }, { url: 'b', status: 404 }], treffer: [], fehler: [] }), null);
+    // Nur die Seite einer Produktion fehlt.
+    const eine = { besucht: [{ url: 'a', status: 200 }], treffer: [{ url: 'c', status: 503, werk: 'tosca' }, { url: 'd', status: 200, werk: 'aida' }], fehler: [] };
+    assert.deepEqual(luecken(eine), { ganz: false, monate: [], werke: ['tosca'] });
+    // Die Ansicht eines einzelnen Termins (Frankfurt) kostet höchstens eine Uhrzeit.
+    assert.equal(luecken({ besucht: [{ url: 'a', status: 200 }], treffer: [], fehler: ['https://oper-frankfurt.de/de/spielplan/aida_3/?id_datum=4972: page.goto: Timeout 30000ms exceeded.'] }), null);
+
+    const l = luecken(DETMOLD);
+    assert.equal(unsicher(l, 'alcina', '2027-08-20'), true);
+    assert.equal(unsicher(l, 'alcina', '2027-05-11'), false);
+    assert.equal(unsicher(luecken(eine), 'tosca', '2027-05-11'), true);
+    assert.equal(unsicher(luecken(eine), 'aida', '2027-05-11'), false);
+    assert.equal(unsicher(luecken(MUENCHEN), 'aida', '2027-05-11'), true);
+    assert.equal(unsicher(null, 'aida', '2027-05-11'), false);
+
+    // Gemeldet wird eine Lücke nur, wenn sie etwas trifft, das die App zeigt.
+    assert.equal(lueckeZaehlt(l, [zeile('alcina', 'landestheater-detmold', ['2027-01-13'])], HEUTE), false);
+    assert.equal(lueckeZaehlt(l, [zeile('alcina', 'landestheater-detmold', ['2027-08-13'])], HEUTE), true);
+    assert.equal(lueckeZaehlt(luecken(eine), [], HEUTE), true);
+    assert.equal(lueckeZaehlt(null, [], HEUTE), false);
 });
 
 test('von zwei Versuchen bleibt der mit mehr Werken, sonst der mit weniger Sperren', () => {
@@ -87,7 +130,7 @@ test('an einem lückenhaft gelesenen Haus fällt nichts weg, Neues kommt dazu', 
         zeile('tosca', 'semperoper', ['2026-12-09']),
     ] };
     const haeuser = ['bayerische-staatsoper', 'semperoper'];
-    const mit = dazunehmen(bestehend, nachtrag, { haeuser, lueckenhaft: ['bayerische-staatsoper'] }).zeilen;
+    const mit = dazunehmen(bestehend, nachtrag, { haeuser, lueckenhaft: { 'bayerische-staatsoper': luecken(MUENCHEN) } }).zeilen;
     const finde = (zeilen, werk) => zeilen.find(z => z.werk === werk);
     assert.deepEqual(finde(mit, 'carmen').termine, ['2026-11-01', '2027-04-21', '2027-04-24']);
     assert.deepEqual(finde(mit, 'la-traviata').termine, ['2026-12-05', '2026-12-08', '2026-12-11']);
@@ -108,7 +151,20 @@ test('an einem lückenhaft gelesenen Haus fällt nichts weg, Neues kommt dazu', 
 
 test('lückenhafte Häuser eines Laufs, mit Grund', () => {
     const lauf = { _werke: [], 'bayerische-staatsoper': MUENCHEN, semperoper: { besucht: [{ url: 'a', status: 200 }], treffer: [], fehler: [] } };
-    assert.deepEqual([...lueckenhafteHaeuser(lauf)], [['bayerische-staatsoper', '3 von 5 Seiten gesperrt (HTTP 403)']]);
+    assert.deepEqual([...lueckenhafteHaeuser(lauf)], [['bayerische-staatsoper', { ganz: true, monate: [], werke: ['carmen'], grund: '3 von 5 Seiten gesperrt (HTTP 403)' }]]);
+});
+
+test('fehlt nur die Kalenderseite eines Monats, bleiben nur dessen Termine', () => {
+    // La Traviata in Detmold, 13.11.2026: der 11.5. ist jetzt ein Gastspiel
+    // in Viersen und fällt weg – obwohl die Seiten für August und September
+    // 500 gaben. Ein Termin im August bliebe.
+    const bestehend = { stand: '2026-11-03', zeilen: [
+        zeile('la-traviata', 'landestheater-detmold', ['2027-05-11']),
+        zeile('alcina', 'landestheater-detmold', ['2027-01-13', '2027-08-20']),
+    ] };
+    const nachtrag = { stand: HEUTE, zeilen: [zeile('alcina', 'landestheater-detmold', ['2027-01-13'])] };
+    const nachher = dazunehmen(bestehend, nachtrag, { haeuser: ['landestheater-detmold'], lueckenhaft: lueckenhafteHaeuser({ 'landestheater-detmold': DETMOLD }) }).zeilen;
+    assert.deepEqual(nachher.map(z => [z.werk, z.termine]), [['alcina', ['2027-01-13', '2027-08-20']]]);
 });
 
 test('der Bericht nennt lückenhaft gelesene Häuser und den Grund für nicht gelesene', () => {

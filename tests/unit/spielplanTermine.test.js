@@ -724,3 +724,14 @@ test('ein vergangenes Jahr in einem Absatz gibt den Terminen darunter kein Jahr 
     // Als Überschrift gilt das Jahr weiter: der vergangene Sommer bleibt vergangen.
     assert.deepEqual(mitZeiten(`Festspiele 2025\n${liste}`, fenster).termine, ['2027-07-01']);
 });
+
+test('die Uhrzeit eines vergangenen Termins gehört nicht zum Datum davor (Salzburg)', () => {
+    // Tosca im Großen Festspielhaus, 13.11.2026: die Dernière am 14.11. um
+    // 15 Uhr bekam 19:00 – die Zeit der Premiere vom 31.10., die in der
+    // Liste darunter als Erstes steht und schon vorbei war.
+    const fenster = { von: '2026-11-13', bis: '2027-09-30' };
+    const text = 'DERNIÈRE:\n14. November 2026\nDie Werkeinführung findet 30 Minuten vor Beginn der Abendvorstellung statt.\nTERMINE & TICKETS\nSa. 31.10.2026 19.00\nDo. 05.11.2026 19.30\nSa. 14.11.2026 15.00 TICKETS';
+    const erg = mitZeiten(text, fenster);
+    assert.deepEqual(erg.termine, ['2026-11-14']);
+    assert.equal(erg.zeiten['2026-11-14'], '15:00');
+});

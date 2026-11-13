@@ -59,3 +59,14 @@ test('kalenderZeiten ist ein Schalter', () => {
         if (!Array.isArray(q) && 'kalenderZeiten' in q) assert.equal(q.kalenderZeiten, true, `${id}.kalenderZeiten`);
     }
 });
+
+test('ein ausgesperrtes Haus hat seine Termine aus dem Spielzeitheft', () => {
+    // Der Lauf fragt diese Häuser nicht an. Stünde für sie nichts unter
+    // ergaenzen, verschwänden sie beim nächsten großen Lauf aus der App.
+    const korrekturen = JSON.parse(fs.readFileSync(new URL('../werkzeug/spielplan-korrekturen.json', import.meta.url), 'utf8'));
+    for (const [id, q] of haeuser) {
+        if (Array.isArray(q) || !('ausgesperrt' in q)) continue;
+        assert.equal(q.ausgesperrt, true, `${id}.ausgesperrt`);
+        assert.ok(korrekturen.ergaenzen.some(e => e.haus === id), `${id}: ausgesperrt, aber ohne Termine unter ergaenzen`);
+    }
+});
