@@ -12,6 +12,7 @@ import { personen, personSchluessel } from '../data/besetzung.js';
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
 import { escapeHTML, datumKurz, einblendVerzoegerung } from '../utils.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 /** "als Rigoletto und Macbeth", "am Pult", "Regie" – was jemand an einem Abend war. */
 export function alsText(als) {
@@ -45,7 +46,7 @@ export function PersonDetailPage(param) {
 
     page.innerHTML = `
       <div class="composer-hero">
-        <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
+        ${zurueckLink('#/')}
         <h1 class="composer-hero__name">${escapeHTML(anzeigeName)}</h1>
         <div class="composer-hero__zahlen">
           ${abende.length ? `<span>${icon('calendar', { className: 'icon--meta' })}${mal(abende.length)} von dir</span>` : ''}

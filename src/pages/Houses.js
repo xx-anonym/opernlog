@@ -8,6 +8,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { istAdmin } from '../store/supabase.js';
 import { besuchteIds } from '../data/visitedHouses.js';
 import { katalogModal } from '../components/KatalogFormular.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export function HousesPage() {
   const page = document.createElement('div');
@@ -20,6 +21,7 @@ export function HousesPage() {
   const savedBesucht = sessionStorage.getItem('houses_besucht') || '';
 
   page.innerHTML = `
+    ${zurueckLink('#/')}
     <div class="page-header">
       <h1 class="page-header__title">${icon('building')}Opernhäuser</h1>
       <p class="page-header__subtitle">${operaHouses.length} Häuser entdecken</p>

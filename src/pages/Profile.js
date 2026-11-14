@@ -24,6 +24,7 @@ import { mailBereich } from '../components/MailEinstellungen.js';
 import { passkeysMoeglich } from '../passkey.js';
 import { eigeneSammlungen, begonnen, sammlungKopf, teilChip } from '../components/SammlungBalken.js';
 import { fortschritt } from '../data/sammlungen.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 /**
  * Die Kachel "Meistbesuchtes Haus". Ist das Haus bekannt, ist sie ein Link
@@ -254,6 +255,7 @@ async function renderCloudProfile(page, userId) {
     }
 
     page.innerHTML = `
+      ${zurueckLink('#/community')}
       <div class="profile-hero">
         <div class="profile-hero__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">
           ${renderAvatarHTML(user.avatar, user.avatarIcon)}
@@ -580,6 +582,7 @@ function renderLocalProfile(page, userId, isMe) {
   const isFollowing = !isMe && store.isFollowing(userId);
 
   page.innerHTML = `
+    ${isMe ? '' : zurueckLink('#/community')}
     <div class="profile-hero">
       <div class="profile-hero__avatar" style="background: linear-gradient(135deg, #8b1a2b, #c9a84c)">
         ${renderAvatarHTML(user.avatar, user.avatarIcon)}

@@ -26,6 +26,7 @@ import {
     lastCompletedSeasonStartYear,
     seasonsWithVisits,
 } from '../data/season.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 // Liegt seit dem Werkverlauf in utils.js – dort braucht es dieselbe Ausgabe,
 // und zwei Fassungen desselben Formats laufen erfahrungsgemäß auseinander.
@@ -63,6 +64,7 @@ export function SeasonReviewPage(param) {
 
     if (review.leer) {
         page.innerHTML = `
+      ${zurueckLink('#/profile/user-me')}
       <div class="season__hero season__hero--empty">
         <span class="season__kicker">Saisonrückblick</span>
         <h1 class="season__title">${seasonLabel(startYear)}</h1>
@@ -77,6 +79,7 @@ export function SeasonReviewPage(param) {
     }
 
     page.innerHTML = `
+      ${zurueckLink('#/profile/user-me')}
     <div class="season__hero">
       <span class="season__kicker">${ausweichend ? 'Dein letzter Rückblick' : 'Saisonrückblick'}</span>
       <h1 class="season__title">${review.label}</h1>

@@ -19,6 +19,7 @@ import { RatingsHistogram } from '../components/RatingsHistogram.js';
 import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
 import { tippen } from '../haptik.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 /** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
 function note(n) {
@@ -126,7 +127,7 @@ export function OperaDetailPage(operaId) {
 
   page.innerHTML = `
     <div class="detail-hero" style="${coverBackground(opera.image, `linear-gradient(135deg, ${color}, #14181c)`, 'rgba(0,0,0,0.25), rgba(20,24,28,0.95)', opera.bildAusschnitt)}">
-      <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
+      ${zurueckLink('#/operas')}
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${opera.title}</h1>
         <div class="detail-hero__meta">

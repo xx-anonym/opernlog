@@ -10,6 +10,7 @@ import { escapeHTML } from '../utils.js';
 import { nachweisZeile } from '../data/bildnachweisRegeln.js';
 import { nachweisFuer, commonsSeite } from '../components/Bildnachweis.js';
 import { STORY_MUSIK } from '../data/musik.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 const nachName = (a, b) => a.name.localeCompare(b.name, 'de');
 
@@ -56,6 +57,7 @@ export function BildnachweisePage() {
     const page = document.createElement('div');
     page.className = 'page page--nachweise';
     page.innerHTML = `
+      ${zurueckLink('#/profile/user-me')}
       <div class="page-header">
         <h1 class="page-header__title">Bildnachweise</h1>
         <p class="page-header__subtitle">Alle Bilder und die Musik stammen von Wikimedia Commons.</p>

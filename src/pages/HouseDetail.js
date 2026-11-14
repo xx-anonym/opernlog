@@ -19,6 +19,7 @@ import { abendeImHaus, terminMitWochentag, zeitText, heuteIso } from '../data/sp
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
 import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 // Die nächsten zwei Abende stehen da, der Rest klappt auf (Jonas'
 // Vorgabe: die Seite soll das Haus zeigen, nicht einen ganzen Spielplan).
@@ -142,7 +143,7 @@ export function HouseDetailPage(houseId) {
 
   page.innerHTML = `
     <div class="detail-hero" style="${heroStyle}">
-      <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
+      ${zurueckLink('#/houses')}
       <div class="detail-hero__content">
         <h1 class="detail-hero__title">${house.name}</h1>
         <div class="detail-hero__meta">

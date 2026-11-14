@@ -8,7 +8,7 @@
 //   Deine Komponisten der Stand je Komponist als Balken; aufgeklappt die
 //                     fehlenden Werke, die laufenden markiert.
 //
-// Auf der Startseite steht das offen da. Auf der Seite "Opern" über dem
+// Auf der Startseite steht das offen da. Auf der Seite "Opernwerke" über dem
 // Katalog zugeklappt: dort will die Mehrheit den Katalog sehen. Wer es dort
 // einmal aufklappt, findet es beim nächsten Mal offen vor.
 
@@ -121,7 +121,7 @@ function inhalt(daten, heute) {
  * @param {Array} visits    eigene Besuche
  * @param {Array} [seenIds] ohne Besuchseintrag als gesehen markierte Werke
  * @param {object} [o]
- * @param {boolean} [o.eingeklappt]  als aufklappbare Zeile (Seite "Opern")
+ * @param {boolean} [o.eingeklappt]  als aufklappbare Zeile (Seite "Opernwerke")
  */
 export function BlindSpots(visits, seenIds = [], { eingeklappt = false } = {}) {
     const heute = heuteIso();

@@ -6,6 +6,7 @@ import { runWithFeedback } from '../components/Toast.js';
 import { operas } from '../data/operas.js';
 import { composerFarbe } from '../data/composerFarben.js';
 import { leerHTML } from '../components/Leer.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export function WishlistPage() {
     const page = document.createElement('div');
@@ -16,6 +17,7 @@ export function WishlistPage() {
         const items = wl ? wl.items.map(id => operas.find(o => o.id === id)).filter(Boolean) : [];
 
         page.innerHTML = `
+      ${zurueckLink('#/')}
       <div class="page-header">
         <h1 class="page-header__title">${icon('star')}Wunschliste</h1>
         <p class="page-header__subtitle">Opern, die du noch sehen möchtest</p>

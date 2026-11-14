@@ -11,9 +11,10 @@ import { tippen } from '../haptik.js';
 // wichtigste Weg der App war zwei Tipps lang und oben, wo der Daumen nicht
 // hinkommt. Das Menü bleibt für den Rest.
 //
-// Jeder Tipp auf die Leiste klickt haptisch (Jonas, 9.11.2026) – anders als
-// die übrige Navigation: die Leiste ist die Tastatur der App, und ohne
-// Rückmeldung weiß der Daumen nicht, ob er getroffen hat. data-haptik fürs
+// Jeder Tipp auf die Leiste klickt haptisch (Jonas, 9.11.2026), ebenso der
+// Menüknopf (14.11.2026) – anders als die übrige Navigation: Leiste und
+// Knopf sind die Tastatur der App, und ohne Rückmeldung weiß der Daumen
+// nicht, ob er getroffen hat. data-haptik fürs
 // iPhone, tippen() für Android (siehe src/haptik.js).
 const SVG = {
   home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
@@ -37,7 +38,7 @@ export function Navigation() {
       <div class="nav-brand__logo">${brandMarkSVG()}</div>
       <span class="nav-brand__name">OpernLog</span>
     </div>
-    <div class="nav-links">
+    <div class="nav-links" id="hauptmenue">
       <a class="nav-link" data-nav="#/" data-page="home">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>Feed</span>
@@ -48,7 +49,7 @@ export function Navigation() {
       </a>
       <a class="nav-link" data-nav="#/operas" data-page="operas">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-        <span>Opern</span>
+        <span>Opernwerke</span>
       </a>
       <a class="nav-link" data-nav="#/wishlist" data-page="wishlist">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -79,12 +80,12 @@ export function Navigation() {
         <span>Profil</span>
       </a>
     </div>
-    <div class="nav-mobile-toggle" id="mobileMenuToggle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </div>
+    <button type="button" class="nav-mobile-toggle" id="mobileMenuToggle" data-haptik aria-label="Menü" aria-expanded="false" aria-controls="hauptmenue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line class="nav-mobile-toggle__strich nav-mobile-toggle__strich--oben" x1="3" y1="6" x2="21" y2="6"/><line class="nav-mobile-toggle__strich nav-mobile-toggle__strich--mitte" x1="3" y1="12" x2="21" y2="12"/><line class="nav-mobile-toggle__strich nav-mobile-toggle__strich--unten" x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="tab-leiste">
       ${tabPunkt('home', '#/', 'Feed')}
-      ${tabPunkt('operas', '#/operas', 'Opern')}
+      ${tabPunkt('operas', '#/operas', 'Opernwerke')}
       ${tabPunkt('log', '#/log', 'Loggen', ' tab-leiste__punkt--loggen')}
       ${tabPunkt('diary', '#/diary', 'Tagebuch')}
       ${tabPunkt('profile', '#/profile/user-me', 'Profil')}
@@ -107,6 +108,21 @@ export function Navigation() {
     }
   }
 
+  // Das Menü auf dem Handy. Der Knopf klickt haptisch und wird beim Öffnen
+  // zum Kreuz, das Menü gleitet herein (Rückmeldung eines neuen Mitglieds,
+  // 14.11.2026: vorher sprang es ohne jede Regung auf). Der Zustand hängt an
+  // der Klasse nav-links--open; main.js nimmt sie beim Seitenwechsel weg,
+  // der MutationObserver hält Knopf und aria-expanded mit.
+  const menue = nav.querySelector('.nav-links');
+  const toggle = nav.querySelector('#mobileMenuToggle');
+  const knopfNachziehen = () => {
+    const offen = menue.classList.contains('nav-links--open');
+    toggle.classList.toggle('nav-mobile-toggle--offen', offen);
+    toggle.setAttribute('aria-expanded', String(offen));
+    toggle.setAttribute('aria-label', offen ? 'Menü schließen' : 'Menü');
+  };
+  new MutationObserver(knopfNachziehen).observe(menue, { attributes: true, attributeFilter: ['class'] });
+
   // Click handlers
   nav.addEventListener('click', (e) => {
     const link = e.target.closest('[data-nav]');
@@ -114,15 +130,13 @@ export function Navigation() {
       e.preventDefault();
       if (link.classList.contains('tab-leiste__punkt')) tippen();
       window.location.hash = link.dataset.nav;
-      // Close mobile menu
-      nav.querySelector('.nav-links').classList.remove('nav-links--open');
+      menue.classList.remove('nav-links--open');
     }
   });
 
-  // Mobile toggle
-  const toggle = nav.querySelector('#mobileMenuToggle');
   toggle.addEventListener('click', () => {
-    nav.querySelector('.nav-links').classList.toggle('nav-links--open');
+    tippen();
+    menue.classList.toggle('nav-links--open');
   });
 
   // Highlight active
@@ -134,7 +148,7 @@ export function Navigation() {
         // Nur das eigene Profil: auf dem eines Freundes ist man nicht "bei sich".
         : page === 'profile' && link.classList.contains('tab-leiste__punkt') ? /^#\/profile(\/user-me)?$/.test(hash)
         : page === 'profile' ? hash.startsWith('#/profile')
-        // "#/opera/tosca" gehört zu "Opern", "#/operas" sowieso.
+        // "#/opera/tosca" gehört zu "Opernwerke", "#/operas" sowieso.
         : page === 'operas' && link.classList.contains('tab-leiste__punkt') ? /^#\/operas?(\/|$|\?)/.test(hash)
         : !!page && hash.startsWith(`#/${page}`);
       link.classList.toggle(link.classList.contains('tab-leiste__punkt') ? 'tab-leiste__punkt--aktiv' : 'nav-link--active', aktiv);

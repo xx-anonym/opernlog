@@ -19,6 +19,7 @@ import { HouseMap } from '../components/HouseMap.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
 import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export { UMKREIS_STUFEN };
 const ZEITRAEUME = [
@@ -76,6 +77,7 @@ export function NaehePage() {
     const wunschliste = () => new Set(store.getWishlist()?.items || []);
 
     page.innerHTML = `
+      ${zurueckLink('#/')}
       <div class="page-header">
         <h1 class="page-header__title">${icon('pin')}In der Nähe</h1>
         <p class="page-header__subtitle">Was an den Häusern im Katalog demnächst läuft</p>

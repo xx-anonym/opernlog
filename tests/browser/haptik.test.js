@@ -197,7 +197,7 @@ test('iPhone: Wunschliste, Gefällt mir, Vormerken, Demnächst – je genau einm
     } finally { await ctx.close(); }
 });
 
-test('Android: jeder Tipp auf die Leiste unten vibriert, das Menü oben nicht', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+test('Android: jeder Tipp auf die Leiste unten vibriert, der Menüknopf auch, die Menüpunkte nicht', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler } = await oeffne('#/');
     try {
         await p.waitForSelector('.tab-leiste__punkt');
@@ -208,11 +208,12 @@ test('Android: jeder Tipp auf die Leiste unten vibriert, das Menü oben nicht', 
         await p.click('.tab-leiste__punkt--loggen');
         await p.waitForFunction(() => location.hash === '#/log');
         assert.equal(await vibriert(p), 2);
-        // Die übrige Navigation bleibt still.
+        // Der Menüknopf klickt (14.11.2026), die Punkte darin bleiben still.
         await p.click('#mobileMenuToggle');
+        assert.equal(await vibriert(p), 3);
         await p.click('.nav-links--open .nav-link[data-page="houses"]');
         await p.waitForFunction(() => location.hash === '#/houses');
-        assert.equal(await vibriert(p), 2);
+        assert.equal(await vibriert(p), 3);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });

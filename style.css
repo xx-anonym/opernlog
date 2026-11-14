@@ -254,6 +254,45 @@ h3 {
 .nav-mobile-toggle svg {
     width: 24px;
     height: 24px;
+    overflow: visible;
+}
+
+/* Der Menüknopf ist ein <button>: ohne eigene Polsterung, Schrift und
+   Tipp-Aufhellung des Browsers. Beim Öffnen werden die drei Striche zum
+   Kreuz (src/components/Navigation.js). */
+.nav-mobile-toggle {
+    padding: 0;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: background var(--transition), border-color var(--transition), transform 0.12s ease;
+}
+
+.nav-mobile-toggle:active {
+    transform: scale(0.92);
+}
+
+.nav-mobile-toggle--offen {
+    border-color: rgba(201, 168, 76, 0.45);
+    color: var(--gold-light, #e0c47a);
+}
+
+.nav-mobile-toggle__strich {
+    transform-box: view-box;
+    transform-origin: 12px 12px;
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.18s ease;
+}
+
+.nav-mobile-toggle--offen .nav-mobile-toggle__strich--oben {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.nav-mobile-toggle--offen .nav-mobile-toggle__strich--mitte {
+    opacity: 0;
+    transform: scaleX(0.2);
+}
+
+.nav-mobile-toggle--offen .nav-mobile-toggle__strich--unten {
+    transform: translateY(-6px) rotate(-45deg);
 }
 
 /* --- Page Header --- */
@@ -3035,8 +3074,11 @@ h3 {
         padding: 8px;
     }
 
+    /* Das Menü gleitet von oben herein und blendet auf, die Punkte folgen
+       einer nach dem anderen. Geschlossen ist es unsichtbar und nicht
+       erreichbar (visibility), nicht bloß durchsichtig. */
     .nav-links {
-        display: none;
+        display: flex;
         position: fixed;
         top: 60px;
         left: 0;
@@ -3047,11 +3089,41 @@ h3 {
         flex-direction: column;
         overflow-y: auto;
         z-index: 100;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-12px);
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.26s;
     }
 
     .nav-links--open {
-        display: flex;
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        transition: opacity 0.2s ease, transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s;
     }
+
+    .nav-links .nav-link {
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.18s ease, transform 0.22s ease;
+    }
+
+    .nav-links--open .nav-link {
+        opacity: 1;
+        transform: none;
+    }
+
+    .nav-links--open .nav-link:nth-child(2) { transition-delay: 0.02s; }
+    .nav-links--open .nav-link:nth-child(3) { transition-delay: 0.04s; }
+    .nav-links--open .nav-link:nth-child(4) { transition-delay: 0.06s; }
+    .nav-links--open .nav-link:nth-child(5) { transition-delay: 0.08s; }
+    .nav-links--open .nav-link:nth-child(6) { transition-delay: 0.10s; }
+    .nav-links--open .nav-link:nth-child(7) { transition-delay: 0.12s; }
+    .nav-links--open .nav-link:nth-child(8) { transition-delay: 0.14s; }
+    .nav-links--open .nav-link:nth-child(9) { transition-delay: 0.16s; }
+    .nav-links--open .nav-link:nth-child(n+10) { transition-delay: 0.18s; }
 
     .nav-mobile-toggle {
         display: flex;
@@ -8597,4 +8669,88 @@ html.willkommen-offen body {
     opacity: 0.55;
     cursor: default;
     text-decoration: none;
+}
+
+/* Menü und Menüknopf ohne Bewegung, wer das so eingestellt hat. */
+@media (prefers-reduced-motion: reduce) {
+    .nav-links,
+    .nav-links--open,
+    .nav-links .nav-link,
+    .nav-mobile-toggle,
+    .nav-mobile-toggle__strich {
+        transition: none !important;
+    }
+
+    .nav-links,
+    .nav-links .nav-link {
+        transform: none;
+    }
+}
+
+/* Feed von Hand aktualisieren: oben ziehen (src/ziehenZumAktualisieren.js,
+   nur in der installierten App). Die Anzeige wächst mit dem Finger und
+   schiebt die Seite vor sich her; --ziehen läuft von 0 bis 1 (Schwelle). */
+.ziehen {
+    --ziehen: 0;
+    height: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -4px;
+}
+
+.ziehen--zurueck {
+    transition: height 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ziehen__kreis {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    opacity: var(--ziehen, 0);
+    transform: scale(calc(0.6 + 0.4 * var(--ziehen, 0)));
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.ziehen__kreis svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+}
+
+.ziehen--bereit .ziehen__kreis {
+    color: var(--gold-light);
+    border-color: rgba(201, 168, 76, 0.5);
+}
+
+.ziehen--bereit .ziehen__kreis svg {
+    transform: rotate(180deg);
+}
+
+.ziehen--laeuft .ziehen__kreis {
+    opacity: 1;
+    transform: none;
+    border-color: rgba(201, 168, 76, 0.25);
+    border-top-color: var(--gold);
+    animation: ziehen-dreht 0.8s linear infinite;
+}
+
+.ziehen--laeuft .ziehen__kreis svg {
+    display: none;
+}
+
+@keyframes ziehen-dreht {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ziehen--zurueck { transition: none; }
+    .ziehen--laeuft .ziehen__kreis { animation-duration: 2.4s; }
 }

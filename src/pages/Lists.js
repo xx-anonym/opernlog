@@ -7,12 +7,14 @@ import { escapeHTML, passtZurSuche } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { leerHTML } from '../components/Leer.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export function ListsPage() {
   const page = document.createElement('div');
   page.className = 'page page--lists';
 
   page.innerHTML = `
+    ${zurueckLink('#/')}
     <div class="page-header">
       <h1 class="page-header__title">${icon('list')}Listen</h1>
       <p class="page-header__subtitle">Werke und Häuser, von dir zusammengestellt</p>

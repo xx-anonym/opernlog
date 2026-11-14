@@ -11,6 +11,7 @@ import { composers } from '../data/composers.js';
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
 import { coverBackground, escapeHTML, einblendVerzoegerung } from '../utils.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 /** Eine Bewertung als "4,2". */
 function note(n) {
@@ -86,7 +87,7 @@ export function ComposerDetailPage(composerId) {
 
     page.innerHTML = `
       <div class="composer-hero">
-        <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
+        ${zurueckLink('#/operas')}
         <div class="composer-hero__row">
           ${portraetHTML}
           <div class="composer-hero__text">

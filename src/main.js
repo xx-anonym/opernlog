@@ -32,6 +32,8 @@ import { willkommenFaellig } from './willkommen.js';
 import { offeneEinladung, einladungVergessen, endgueltigGescheitert } from './einladung.js';
 import { zurueckGesteEinrichten } from './zurueckGeste.js';
 import { haptikEinrichten } from './haptik.js';
+import { zurueckEinrichten } from './components/ZurueckLink.js';
+import { ziehenZumAktualisieren } from './ziehenZumAktualisieren.js';
 import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
@@ -68,6 +70,7 @@ class App {
         // "Zurück" schließt ein offenes Fenster, statt die Seite zu verlassen.
         zurueckGesteEinrichten();
         haptikEinrichten();
+        zurueckEinrichten();
         this.init();
     }
 
@@ -372,12 +375,17 @@ class App {
         return (window.location.hash || '#/').slice(2).split('?')[0].split('/')[0];
     }
 
-    async refreshFromCloud() {
+    /**
+     * @param {object} [o]
+     * @param {boolean} [o.erzwingen]  von Hand angestoßen (Ziehen im Feed):
+     *   ohne die 30-Sekunden-Sperre
+     */
+    async refreshFromCloud({ erzwingen = false } = {}) {
         // Never blow away a half-filled form or an auth flow in progress
         if (['log', 'auth'].includes(this.currentPath())) return;
         if (this._refreshing) return;
         // Throttle so quick app switches don't cause a burst of requests
-        if (Date.now() - (this._lastRefresh || 0) < 30000) return;
+        if (!erzwingen && Date.now() - (this._lastRefresh || 0) < 30000) return;
 
         this._refreshing = true;
         try {
@@ -516,6 +524,8 @@ class App {
             case '':
             case 'home':
                 page = HomePage();
+                // Von Hand aktualisieren: oben ziehen (nur installiert).
+                ziehenZumAktualisieren(page, () => this.refreshFromCloud({ erzwingen: true }));
                 break;
             case 'houses':
                 page = HousesPage();

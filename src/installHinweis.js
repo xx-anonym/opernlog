@@ -9,12 +9,16 @@
  * @returns {null|'ios'|'android'} welcher Weg zum Installieren beschrieben wird
  */
 export function installHinweisArt(umgebung = globalThis) {
-    const nav = umgebung.navigator || {};
-    const installiert = nav.standalone === true
-        || !!umgebung.matchMedia?.('(display-mode: standalone)')?.matches;
-    if (installiert) return null;
+    if (istInstalliert(umgebung)) return null;
     const art = geraetArt(umgebung);
     return art === 'ios' || art === 'android' ? art : null;
+}
+
+/** Ob OpernLog als App vom Home-Bildschirm läuft, nicht in einem Browser-Tab. */
+export function istInstalliert(umgebung = globalThis) {
+    const nav = umgebung.navigator || {};
+    return nav.standalone === true
+        || !!umgebung.matchMedia?.('(display-mode: standalone)')?.matches;
 }
 
 /**

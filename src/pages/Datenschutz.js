@@ -12,6 +12,7 @@
 // Ohne Namen des Betreibers (sein Wunsch); erreichbar ist er über KONTAKT.
 
 import { escapeHTML } from '../utils.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export const KONTAKT = 'uwematthias@icloud.com';
 export const STAND = '2. November 2026';
@@ -21,7 +22,7 @@ export function DatenschutzPage() {
     page.className = 'page rechtstext fade-in';
     const mail = escapeHTML(KONTAKT);
     page.innerHTML = `
-      <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
+      ${zurueckLink('#/profile/user-me')}
       <h1>Datenschutz</h1>
       <p class="rechtstext__stand">Stand: ${STAND}</p>
 

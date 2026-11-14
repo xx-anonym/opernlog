@@ -12,6 +12,7 @@ import { leerHTML } from '../components/Leer.js';
 import { escapeHTML, getCachedPosition } from '../utils.js';
 import { operas } from '../data/operas.js';
 import { kommendeAuffuehrungen, abendeImHaus, terminKurz } from '../data/spielplanAbfrage.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 /** Das Nächste zu einem fehlenden Teil, als kurzer Text – oder null. */
 function naechstes(sammlung, teil, position) {
@@ -51,6 +52,7 @@ export function SammlungenPage(sprungZu = null) {
     const sichtbar = alle.filter(s => begonnen(s) || s.sammlung.id === sprungZu);
     const weitere = alle.length - sichtbar.length;
     page.innerHTML = `
+      ${zurueckLink('#/profile/user-me')}
       <div class="page-header">
         <h1 class="page-header__title">${icon('layers')}Sammlungen</h1>
         <p class="page-header__subtitle">Geloggt oder als gesehen markiert</p>

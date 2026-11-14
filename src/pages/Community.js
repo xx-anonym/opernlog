@@ -9,12 +9,14 @@ import { operas } from '../data/operas.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
 import { escapeHTML, copyToClipboard, sterneText } from '../utils.js';
 import { leerHTML } from '../components/Leer.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
   page.className = 'page page--community';
 
   page.innerHTML = `
+    ${zurueckLink('#/')}
     <div class="page-header">
       <h1 class="page-header__title">${icon('users')}Freunde</h1>
       <p class="page-header__subtitle">${store.isCloud ? 'Verwalte deine Opernfreunde und Freundschaftsanfragen' : 'Verwalte deine Opernfreunde'}</p>

@@ -9,6 +9,7 @@ import { operaHouses } from '../data/operaHouses.js';
 import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export function ListDetailPage(listId) {
   const page = document.createElement('div');
@@ -52,7 +53,7 @@ export function ListDetailPage(listId) {
 
     page.innerHTML = `
       <div class="page-header">
-        <a href="javascript:void(0)" class="back-link" onclick="history.back()">← Zurück</a>
+        ${zurueckLink('#/lists')}
         <h1 class="page-header__title">${isWishlist ? icon('star') : icon('list')}${escapeHTML(list.name)}</h1>
         ${list.description ? `<p class="page-header__subtitle">${escapeHTML(list.description)}</p>` : ''}
         <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem">
@@ -111,7 +112,7 @@ export function ListDetailPage(listId) {
         <div class="empty-state">
           <p>Diese Liste ist noch leer.</p>
           ${isWishlist && isOwner
-          ? '<p class="text-muted">Stöbere durch die <a href="#/operas" class="link">Opern</a> und füge Werke hinzu!</p>'
+          ? '<p class="text-muted">Stöbere durch die <a href="#/operas" class="link">Opernwerke</a> und füge Werke hinzu!</p>'
           : ''}
         </div>
       `;
