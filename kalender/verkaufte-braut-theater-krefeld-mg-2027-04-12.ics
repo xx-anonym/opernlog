@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:verkaufte-braut-theater-krefeld-mg-2027-04-12@opernlog.vercel.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270412T184500
 DTEND;TZID=Europe/Berlin:20270412T214500
 SUMMARY:Die verkaufte Braut – Theater Krefeld und Mönchengladbach

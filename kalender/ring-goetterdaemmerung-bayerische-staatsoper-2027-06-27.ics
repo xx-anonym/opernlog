@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:ring-goetterdaemmerung-bayerische-staatsoper-2027-06-27@opernlog.vercel
  .app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270627T160000
 DTEND;TZID=Europe/Berlin:20270627T190000
 SUMMARY:Götterdämmerung – Bayerische Staatsoper

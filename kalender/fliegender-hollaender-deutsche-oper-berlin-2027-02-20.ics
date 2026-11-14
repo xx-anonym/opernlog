@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:fliegender-hollaender-deutsche-oper-berlin-2027-02-20@opernlog.vercel.a
  pp
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270220T193000
 DTEND;TZID=Europe/Berlin:20270220T223000
 SUMMARY:Der fliegende Holländer – Deutsche Oper Berlin

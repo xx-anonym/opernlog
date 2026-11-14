@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:orpheus-in-der-unterwelt-komische-oper-berlin-2026-11-20@opernlog.verce
  l.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20261120T190000
 DTEND;TZID=Europe/Berlin:20261120T220000
 SUMMARY:Orpheus in der Unterwelt – Komische Oper Berlin

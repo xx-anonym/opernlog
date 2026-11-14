@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:hoffmanns-erzaehlungen-theater-st-gallen-2026-10-18@opernlog.vercel.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Zurich:20261018T190000
 DTEND;TZID=Europe/Zurich:20261018T220000
 SUMMARY:Hoffmanns Erzählungen – Theater St. Gallen

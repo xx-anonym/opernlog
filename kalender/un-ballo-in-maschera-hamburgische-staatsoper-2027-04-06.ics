@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:un-ballo-in-maschera-hamburgische-staatsoper-2027-04-06@opernlog.vercel
  .app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270406T193000
 DTEND;TZID=Europe/Berlin:20270406T223000
 SUMMARY:Un ballo in maschera – Hamburgische Staatsoper
