@@ -29,6 +29,7 @@ import { neuigkeitFenster } from './components/Neuigkeit.js';
 import { neuigkeitFaellig } from './neuigkeiten.js';
 import { willkommenFenster } from './components/Willkommen.js';
 import { willkommenFaellig } from './willkommen.js';
+import { offeneEinladung, einladungVergessen, endgueltigGescheitert } from './einladung.js';
 import { zurueckGesteEinrichten } from './zurueckGeste.js';
 import { haptikEinrichten } from './haptik.js';
 import { InvitePage } from './pages/Invite.js';
@@ -37,7 +38,7 @@ import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
 import { showError, showToast } from './components/Toast.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden } from './store/supabase.js';
+import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden, acceptInvite } from './store/supabase.js';
 import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 
 /**
@@ -602,6 +603,7 @@ class App {
         }
 
         this.content.appendChild(page);
+        this.vielleichtEinladungEinloesen(path);
         this.vielleichtWillkommenZeigen(path);
         this.vielleichtNachMitteilungenFragen(path);
         this.vielleichtNeuigkeitZeigen(path);
@@ -611,6 +613,36 @@ class App {
         if (navLinks) navLinks.classList.remove('nav-links--open');
 
         this.stellePositionWiederher(zielPosition);
+    }
+
+    /**
+     * Eine Einladung, die auf ihr Konto wartet (src/einladung.js), annehmen –
+     * sobald jemand angemeldet ist, egal auf welcher Seite er ankommt. Auf
+     * der Einladungsseite selbst nimmt die Seite sie an. Einmal je
+     * Seitenaufruf und Konto; ohne Netz beim nächsten Start.
+     */
+    vielleichtEinladungEinloesen(path) {
+        if (!store.isCloud || store.isOffline || ['auth', 'invite'].includes(path)) return;
+        const profil = store._profile;
+        if (!profil?.id || this._einladungGeprueft === profil.id) return;
+        const code = offeneEinladung();
+        if (!code) return;
+        this._einladungGeprueft = profil.id;
+        acceptInvite(code).then((ergebnis) => {
+            if (ergebnis.success) {
+                einladungVergessen();
+                const name = ergebnis.friend?.username;
+                showToast(name ? `Du und ${name} seid jetzt befreundet.` : 'Die Einladung ist angenommen – ihr seid jetzt befreundet.');
+                // Auf Startseite und Freunde-Seite gehören die neuen Freunde gleich dazu.
+                if (['', 'home', 'community'].includes(this.currentPath()) && !ungesicherteEingabe()) this.route();
+                return;
+            }
+            if (endgueltigGescheitert(ergebnis.error)) {
+                einladungVergessen();
+                // Den eigenen Link geöffnet: das ist kein Fehler, den man sehen muss.
+                if (!/eigenen/i.test(ergebnis.error)) showError(`Einladung: ${ergebnis.error}`);
+            }
+        }).catch((e) => console.warn('[Einladung] nicht angenommen', e));
     }
 
     /**

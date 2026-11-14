@@ -7,6 +7,7 @@ import { getSession } from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { AuthPage } from './Auth.js';
 import { escapeHTML, copyToClipboard} from '../utils.js';
+import { einladungMerken, einladungVergessen, endgueltigGescheitert } from '../einladung.js';
 
 export function InvitePage(code) {
   const page = document.createElement('div');
@@ -30,7 +31,10 @@ async function initAcceptFlow(page, code) {
     // Logged in → accept directly
     renderAcceptInvite(page, code);
   } else {
-    // Not logged in → show auth form with invite context, then accept
+    // Erst anmelden oder registrieren. Der Code wird gemerkt: endet die
+    // Anmeldung woanders – Google, ein Neuladen, die App am iPhone –, nimmt
+    // main.js die Einladung dort an (src/einladung.js).
+    einladungMerken(code);
     renderAuthThenAccept(page, code);
   }
 }
@@ -82,6 +86,7 @@ async function renderAcceptInvite(page, code) {
     // <img onerror="…"> hier im Browser des Eingeladenen als Code.
     const result = await sb.acceptInvite(code);
     const statusEl = page.querySelector('.invite-status');
+    if (result.success || endgueltigGescheitert(result.error)) einladungVergessen();
 
     if (result.success) {
       statusEl.innerHTML = `

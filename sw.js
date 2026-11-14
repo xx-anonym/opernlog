@@ -116,6 +116,7 @@ const APP_SHELL = [
     './src/data/brandMark.js',
     './src/utils.js',
     './src/anmeldecode.js',
+    './src/einladung.js',
     './src/passkey.js',
     './src/push.js',
     './src/installHinweis.js',

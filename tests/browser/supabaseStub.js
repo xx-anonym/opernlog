@@ -58,8 +58,14 @@ window.__pushProben = [];       // Antworten für push_test, der Reihe nach (Sta
 window.__pushProbeGerufen = 0;
 window.__pushSpeichernFehler = null;
 window.__ablauf = [];            // Reihenfolge von push_abo_loeschen und signOut
-window.__einlader = null;       // wessen Einladung accept_invite annimmt
-window.__fremderName = null;    // Benutzername fremder Profile, sonst 'Andere Person'
+window.__einlader = window.__einladerVorgabe ?? null; // wessen Einladung accept_invite annimmt
+window.__einladungAngenommen = []; // die Codes, mit denen accept_invite gerufen wurde
+window.__einladungFehler = window.__einladungFehlerVorgabe ?? null; // gesetzt: accept_invite scheitert mit dieser Meldung
+// Abgemeldet starten: getSession() liefert nichts, bis ein Einmalcode
+// eingelöst ist (verifyOtp). Die ...Vorgabe-Werte setzt ein Test per
+// addInitScript, bevor diese Datei geladen ist.
+window.__ohneSitzung = !!window.__ohneSitzungVorgabe;
+window.__fremderName = window.__fremderNameVorgabe ?? null;    // Benutzername fremder Profile, sonst 'Andere Person'
 window.__abmeldeArt = undefined; // scope, mit dem signOut() gerufen wurde
 window.__passkeys = [];         // { id, friendly_name, created_at, last_used_at }
 window.__passkeyFehler = null;  // gesetzt: signInWithPasskey/registerPasskey liefern diesen Fehler
@@ -337,7 +343,7 @@ function builder(table) {
 
 window.supabase = { createClient: () => ({
   auth: {
-    getSession: async () => ({ data: { session: SESSION }, error: null }),
+    getSession: async () => ({ data: { session: window.__ohneSitzung ? null : SESSION }, error: null }),
     onAuthStateChange: () => {},
     signOut: async (optionen) => { window.__ablauf.push('signOut'); window.__abgemeldet++; window.__abmeldeArt = optionen?.scope; return { error: null }; },
     // Der Einmalcode. __codeAngefordert: jeder Auftrag ({ email, options }).
@@ -355,6 +361,7 @@ window.supabase = { createClient: () => ({
       if (angaben.token !== (window.__code || '123456')) {
         return { data: { user: null, session: null }, error: { message: 'Token has expired or is invalid', code: 'otp_expired', status: 403 } };
       }
+      window.__ohneSitzung = false;
       return { data: { session: SESSION, user: SESSION.user }, error: null };
     },
     signInWithPasskey: async () => {
@@ -385,7 +392,11 @@ window.supabase = { createClient: () => ({
     },
   },
   rpc: async (name, args) => {
-    if (name === 'accept_invite') return { data: window.__einlader, error: null };
+    if (name === 'accept_invite') {
+      window.__einladungAngenommen.push(args?.invite_code);
+      if (window.__einladungFehler) return { data: null, error: { message: window.__einladungFehler } };
+      return { data: window.__einlader, error: null };
+    }
     // Belegter Speicher in Bytes (__speicherBelegt); wie in der Datenbank nur für Admins.
     if (name === 'speicher_belegt') {
       window.__speicherGefragt = (window.__speicherGefragt || 0) + 1;
