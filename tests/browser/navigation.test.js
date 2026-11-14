@@ -90,6 +90,17 @@ test('der Menüknopf: Kreuz, aria-expanded, Haptik, und das Menü gleitet auf un
         assert.match(bewegt.menue, /opacity/);
         await p.waitForTimeout(400);
         assert.equal(await p.isVisible('.nav-links .nav-link[data-page="houses"]'), true);
+        // Ein symmetrisches Kreuz: beide Striche haben ihre Mitte in der Mitte
+        // des Zeichens (14.11.2026 stand es schief – falsche Reihenfolge von
+        // Schieben und Drehen).
+        const mitten = await p.evaluate(() => {
+            const svg = document.querySelector('#mobileMenuToggle svg').getBoundingClientRect();
+            return [...document.querySelectorAll('.nav-mobile-toggle__strich--oben, .nav-mobile-toggle__strich--unten')].map((l) => {
+                const b = l.getBoundingClientRect();
+                return [b.x + b.width / 2 - svg.x - svg.width / 2, b.y + b.height / 2 - svg.y - svg.height / 2];
+            });
+        });
+        for (const [dx, dy] of mitten) assert.ok(Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5, `Strich neben der Mitte: ${dx}, ${dy}`);
 
         await p.click('#mobileMenuToggle');
         await p.waitForFunction(() => document.querySelector('#mobileMenuToggle').getAttribute('aria-expanded') === 'false');

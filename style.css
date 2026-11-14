@@ -282,8 +282,11 @@ h3 {
     transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.18s ease;
 }
 
+/* Erst auf die Mitte schieben, dann um die Mitte drehen. In CSS wirkt die
+   rechte Angabe zuerst – umgekehrt kreuzten sich die Striche neben der
+   Mitte, und das Kreuz stand schief (14.11.2026). */
 .nav-mobile-toggle--offen .nav-mobile-toggle__strich--oben {
-    transform: translateY(6px) rotate(45deg);
+    transform: rotate(45deg) translateY(6px);
 }
 
 .nav-mobile-toggle--offen .nav-mobile-toggle__strich--mitte {
@@ -292,7 +295,7 @@ h3 {
 }
 
 .nav-mobile-toggle--offen .nav-mobile-toggle__strich--unten {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: rotate(-45deg) translateY(-6px);
 }
 
 /* --- Page Header --- */
