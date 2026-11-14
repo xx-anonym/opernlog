@@ -1,5 +1,7 @@
 // Utility functions shared across OpernLog
 
+import { geraetArt } from './installHinweis.js';
+
 /**
  * Baut den Hintergrund für Karten- und Kopfbilder aus drei Ebenen:
  * Abdunklung, Foto, farbiger Verlauf.
@@ -314,18 +316,33 @@ export async function requestPosition({ timeout = 8000, maximumAge = 10 * 60 * 1
     });
 }
 
-/** Was jemand tun kann, wenn der Standort nicht kam – je nach Grund. */
-export function standortHinweis(grund = letzterStandortFehler) {
+// Wo man den Standort wieder freigibt – nur für das Gerät, auf dem man
+// gerade ist. Bis 14.11.2026 stand hier für alle der Weg am Mac, auch auf
+// dem iPhone. Die Home-Bildschirm-App auf dem iPhone hängt an derselben
+// Freigabe wie Safari.
+const FREIGEBEN = {
+    ios: 'Am iPhone: Einstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari-Websites → „Beim Verwenden der App“.',
+    android: 'Am Android-Handy: in Chrome auf das Symbol links neben der Adresse tippen → Berechtigungen → Standort erlauben.',
+    mac: 'Am Mac: Systemeinstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari einschalten.',
+};
+
+/**
+ * Was jemand tun kann, wenn der Standort nicht kam – je nach Grund und Gerät.
+ * @param {string} [grund]
+ * @param {'ios'|'android'|'mac'|'andere'} [geraet]
+ */
+export function standortHinweis(grund = letzterStandortFehler, geraet = geraetArt()) {
     switch (grund) {
         case 'verweigert':
-            return 'Der Standort ist gesperrt – im Browser für diese Seite oder in den Ortungsdiensten des Geräts. '
-                + 'Am Mac: Systemeinstellungen → Datenschutz & Sicherheit → Ortungsdienste → Safari einschalten.';
+            return 'Der Standort ist gesperrt – im Browser für diese Seite oder in den Ortungsdiensten des Geräts.'
+                + (FREIGEBEN[geraet] ? ` ${FREIGEBEN[geraet]}` : '');
         case 'zeit':
             return 'Die Standortabfrage hat zu lange gedauert. Bitte noch einmal versuchen.';
         case 'nicht-verfuegbar':
             return 'Dieser Browser gibt keinen Standort heraus.';
         default:
-            return 'Der Standort ließ sich gerade nicht ermitteln. Am Mac braucht das eingeschaltetes WLAN.';
+            return 'Der Standort ließ sich gerade nicht ermitteln.'
+                + (geraet === 'mac' ? ' Am Mac braucht das eingeschaltetes WLAN.' : ' Bitte gleich noch einmal versuchen.');
     }
 }
 

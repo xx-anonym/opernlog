@@ -4,7 +4,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { installHinweisArt } from '../../src/installHinweis.js';
+import { installHinweisArt, geraetArt } from '../../src/installHinweis.js';
 import { mitteilungenFrageFaellig, mitteilungenFrageErledigt } from '../../src/push.js';
 
 const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 Version/18.7 Mobile/15E148 Safari/604.1';
@@ -80,4 +80,14 @@ test('ohne Speicher lieber gar nicht fragen als bei jedem Start', () => {
     u.localStorage = { getItem() { throw new Error('SecurityError'); }, setItem() { throw new Error('SecurityError'); } };
     assert.equal(mitteilungenFrageFaellig({ umgebung: u, profilErstellt: '2026-09-20', jetzt: JETZT }), false);
     assert.doesNotThrow(() => mitteilungenFrageErledigt(u));
+});
+
+test('geraetArt unterscheidet iPhone, iPad, Android, Mac und den Rest', () => {
+    assert.equal(geraetArt(geraet(IPHONE)), 'ios');
+    // Auch installiert: der Weg zur Standortfreigabe ist derselbe.
+    assert.equal(geraetArt(geraet(IPHONE, { standalone: true })), 'ios');
+    assert.equal(geraetArt(geraet(MAC, { platform: 'MacIntel', maxTouchPoints: 5 })), 'ios');
+    assert.equal(geraetArt(geraet(ANDROID)), 'android');
+    assert.equal(geraetArt(geraet(MAC, { platform: 'MacIntel', maxTouchPoints: 0 })), 'mac');
+    assert.equal(geraetArt(geraet('Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0', { platform: 'Win32' })), 'andere');
 });

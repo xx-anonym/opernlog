@@ -84,7 +84,29 @@ test('der Grund unterscheidet gesperrt, nicht ermittelbar und Zeit', async () =>
         assert.equal(await requestPosition(), null);
         assert.equal(standortFehler(), grund, `Code ${code}`);
     }
-    assert.match(standortHinweis('verweigert'), /Ortungsdienste/);
-    assert.match(standortHinweis('zeit'), /noch einmal/);
-    assert.match(standortHinweis('nicht-ermittelbar'), /WLAN/);
+    assert.match(standortHinweis('verweigert', 'mac'), /Ortungsdienste/);
+    assert.match(standortHinweis('zeit', 'mac'), /noch einmal/);
+    assert.match(standortHinweis('nicht-ermittelbar', 'mac'), /WLAN/);
+});
+
+// Anlass (14.11.2026, am iPhone): der Hinweis beschrieb die
+// Systemeinstellungen am Mac. Er soll nur das Gerät nennen, auf dem man ist.
+test('der Weg zur Freigabe passt zum Gerät', () => {
+    const iphone = standortHinweis('verweigert', 'ios');
+    assert.match(iphone, /Am iPhone: Einstellungen → .*Safari-Websites/);
+    assert.doesNotMatch(iphone, /Mac|Android/);
+
+    const android = standortHinweis('verweigert', 'android');
+    assert.match(android, /Chrome/);
+    assert.doesNotMatch(android, /Mac|iPhone/);
+
+    assert.match(standortHinweis('verweigert', 'mac'), /Am Mac: Systemeinstellungen/);
+
+    // Woanders kein Weg, den es dort nicht gibt.
+    const andere = standortHinweis('verweigert', 'andere');
+    assert.match(andere, /gesperrt/);
+    assert.doesNotMatch(andere, /Mac|iPhone|Android/);
+
+    // Das WLAN am Mac nur am Mac.
+    assert.doesNotMatch(standortHinweis('nicht-ermittelbar', 'ios'), /Mac|WLAN/);
 });
