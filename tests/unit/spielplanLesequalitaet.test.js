@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 
 import { gesperrt, gesperrteSeiten, geleseneSeiten, lueckenhaft, luecken, unsicher, lueckeZaehlt, leseGrund, zweiterVersuchLohnt, besseresErgebnis } from '../werkzeug/spielplan-lesequalitaet.mjs';
 import { dazunehmen, zeitenZusammen, lueckenhafteHaeuser } from '../werkzeug/spielplan-uebernehmen.mjs';
-import { vergleichen, bericht, zusammenfassung } from '../werkzeug/spielplan-vergleich.mjs';
+import { vergleichen, bericht, zusammenfassung, nachleseHaeuser } from '../werkzeug/spielplan-vergleich.mjs';
 import { bekannteSeiten, mitBekannten } from '../werkzeug/spielplaene-lesen.mjs';
 
 const HEUTE = '2026-11-13';
@@ -236,4 +236,20 @@ test('sperrt ein Haus schon alle Einstiegsseiten, liest der Lauf dort nicht weit
     // Ein 404 ist keine Sperre, und ohne Einstiegsseite gibt es nichts zu sperren.
     assert.equal(ganzGesperrt({ besucht: [{ url: 'a', status: 404 }], fehler: [] }), false);
     assert.equal(ganzGesperrt({ besucht: [], fehler: [] }), false);
+});
+
+test('der Bericht nennt den Befehl, mit dem sich gesperrte Häuser anderswo nachlesen lassen', () => {
+    // Bayerische Staatsoper, Gärtnerplatz und Pfalztheater sperren GitHub in
+    // jedem Lauf (September bis November 2026), aus anderen Netzen lesen sie sich.
+    assert.deepEqual(nachleseHaeuser(['pfalztheater', 'gaertnerplatztheater'], { 'bayerische-staatsoper': 'x', pfalztheater: 'y' }),
+        ['bayerische-staatsoper', 'gaertnerplatztheater', 'pfalztheater']);
+    assert.deepEqual(nachleseHaeuser(), []);
+    const namen = { werk: id => id, haus: id => id };
+    const mit = bericht(vergleichen([], [], { heute: HEUTE }), { heute: HEUTE, stand: '2026-11-13', namen,
+        nichtGelesen: ['gaertnerplatztheater'], lueckenhaft: { 'bayerische-staatsoper': '44 von 52 Seiten gesperrt (HTTP 403)' }, ausgesperrt: ['theater-basel'] });
+    assert.match(mit, /node tests\/werkzeug\/spielplaene-lesen\.mjs nachlese\.json bayerische-staatsoper gaertnerplatztheater\n/);
+    // Basel fragt niemand an, auch die Nachlese nicht.
+    assert.doesNotMatch(mit, /nachlese\.json[^\n]*theater-basel/);
+    const ohne = bericht(vergleichen([], [], { heute: HEUTE }), { heute: HEUTE, stand: '2026-11-13', namen });
+    assert.doesNotMatch(ohne, /nachlese\.json/);
 });
