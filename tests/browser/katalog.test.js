@@ -173,6 +173,11 @@ test('ein neuer Komponist wird mit angelegt und die Werkseite verlinkt ihn', { s
         const angelegt = await p.evaluate(() => window.__angelegt);
         assert.deepEqual(angelegt.map(a => a.tabelle), ['catalog_composers', 'catalog_operas']);
 
+        // Das Formular schließt per history.back(). Kam der Sprung zur
+        // Werkseite davor, holte dieses back() die Werkliste zurück – unter
+        // Last etwa jedes sechste Mal (Lauf zu d514b66e, 14.11.2026). Also
+        // erst warten, bis der Eintrag des Fensters weg ist.
+        await p.waitForFunction(() => !document.querySelector('#kfForm') && !history.state?.opernlogFenster);
         // Warten, bis die Werkseite steht, statt fest 700 ms: auf GitHub war
         // das unter Last zu kurz (Lauf zu a058bc4d, 3.10.2026).
         await p.evaluate(() => { window.location.hash = '#/opera/der-kaiser-von-atlantis'; });
