@@ -8708,45 +8708,60 @@ html.willkommen-offen body {
 }
 
 .ziehen__kreis {
-    width: 36px;
-    height: 36px;
+    position: relative;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
+    background:
+        radial-gradient(circle at 50% 35%, rgba(201, 168, 76, 0.16), rgba(201, 168, 76, 0.04) 70%),
+        var(--bg-secondary);
+    box-shadow: inset 0 0 0 1px var(--border);
+    color: rgba(223, 192, 106, 0.6);
     opacity: var(--ziehen, 0);
     transform: scale(calc(0.6 + 0.4 * var(--ziehen, 0)));
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition: color 0.15s ease;
+}
+
+/* Der Ring: ein Kegelverlauf, auf einen 2px-Rand ausgestanzt. Beim Ziehen
+   wächst er mit --ziehen, beim Laden dreht sich ein Viertelbogen. */
+.ziehen__kreis::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    padding: 2px;
+    background: conic-gradient(var(--gold) calc(var(--ziehen, 0) * 360deg), transparent 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
 
 .ziehen__kreis svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     transition: transform 0.2s ease;
 }
 
 .ziehen--bereit .ziehen__kreis {
     color: var(--gold-light);
-    border-color: rgba(201, 168, 76, 0.5);
 }
 
 .ziehen--bereit .ziehen__kreis svg {
-    transform: rotate(180deg);
+    transform: scale(1.12);
 }
 
 .ziehen--laeuft .ziehen__kreis {
     opacity: 1;
     transform: none;
-    border-color: rgba(201, 168, 76, 0.25);
-    border-top-color: var(--gold);
-    animation: ziehen-dreht 0.8s linear infinite;
+    color: var(--gold-light);
 }
 
-.ziehen--laeuft .ziehen__kreis svg {
-    display: none;
+.ziehen--laeuft .ziehen__kreis::before {
+    background: conic-gradient(var(--gold) 0 100deg, rgba(201, 168, 76, 0.15) 100deg);
+    animation: ziehen-dreht 0.9s linear infinite;
 }
 
 @keyframes ziehen-dreht {
@@ -8755,5 +8770,5 @@ html.willkommen-offen body {
 
 @media (prefers-reduced-motion: reduce) {
     .ziehen--zurueck { transition: none; }
-    .ziehen--laeuft .ziehen__kreis { animation-duration: 2.4s; }
+    .ziehen--laeuft .ziehen__kreis::before { animation-duration: 2.4s; }
 }
