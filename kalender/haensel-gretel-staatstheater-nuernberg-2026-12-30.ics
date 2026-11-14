@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:haensel-gretel-staatstheater-nuernberg-2026-12-30@opernlog.vercel.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20261230T150000
 DTEND;TZID=Europe/Berlin:20261230T172000
 SUMMARY:Hänsel und Gretel – Staatstheater Nürnberg

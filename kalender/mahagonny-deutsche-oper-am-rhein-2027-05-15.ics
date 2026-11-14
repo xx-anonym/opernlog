@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:mahagonny-deutsche-oper-am-rhein-2027-05-15@opernlog.vercel.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270515T193000
 DTEND;TZID=Europe/Berlin:20270515T220000
 SUMMARY:Aufstieg und Fall der Stadt Mahagonny – Deutsche Oper am Rhein

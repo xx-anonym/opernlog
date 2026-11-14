@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:haensel-gretel-niedersaechsische-staatsoper-2026-12-25@opernlog.vercel.
  app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20261225T160000
 DTEND;TZID=Europe/Berlin:20261225T180500
 SUMMARY:Hänsel und Gretel – Staatsoper Hannover

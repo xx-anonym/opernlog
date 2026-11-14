@@ -12,7 +12,7 @@
 // Die Termine sind ein Auszug. Maßgeblich ist die Seite des Hauses, auf die
 // jede Zeile verlinkt.
 
-export const SPIELPLAN_STAND = '2026-11-13';
+export const SPIELPLAN_STAND = '2026-11-14';
 
 // Werke aus der Datenbank (vom Admin angelegt), die nicht in operas.js stehen.
 export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-trittico', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi', 'the-greek-passion'];
@@ -928,8 +928,8 @@ export const spielplan = [
       termine: ['2026-10-11', '2026-10-16', '2026-10-30', '2026-11-07', '2026-11-29', '2027-01-24', '2027-02-14'],
       zeiten: { '2026-10-11': '18:00', '2026-10-16': '19:30', '2026-10-30': '19:30', '2026-11-07': '19:30', '2026-11-29': '18:00', '2027-01-24': '14:30', '2027-02-14': '18:00' } },
     { werk: 'la-traviata', haus: 'theater-giessen', url: "https://stadttheater-giessen.de/de/veranstaltungen/stuecke/la-traviata-2026-2027/",
-      termine: ['2026-10-10', '2026-11-01', '2026-11-12'],
-      zeiten: { '2026-10-10': '19:30', '2026-11-01': '18:00-20:30', '2026-11-12': '19:30-22:00' } },
+      termine: ['2026-10-10', '2026-11-01', '2026-11-12', '2027-01-09'],
+      zeiten: { '2026-10-10': '19:30', '2026-11-01': '18:00-20:30', '2026-11-12': '19:30-22:00', '2027-01-09': '19:30-22:00' } },
     { werk: 'la-traviata', haus: 'theater-kiel', url: "https://theater-kiel.de/produktionen/la-traviata.html?m=11",
       termine: ['2027-01-30', '2027-02-05', '2027-02-20', '2027-03-20', '2027-03-28', '2027-04-04', '2027-04-17', '2027-04-25', '2027-05-12', '2027-06-04'],
       zeiten: { '2027-01-30': '19:00', '2027-02-05': '19:00', '2027-02-20': '19:00', '2027-03-20': '19:00', '2027-03-28': '18:00', '2027-04-04': '18:00', '2027-04-17': '19:00', '2027-04-25': '16:00', '2027-05-12': '19:00', '2027-06-04': '19:00' } },

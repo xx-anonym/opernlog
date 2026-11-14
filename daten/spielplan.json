@@ -1,4 +1,4 @@
-{"stand":"2026-11-13","eintraege":[
+{"stand":"2026-11-14","eintraege":[
 {"werk":"aida","titel":"Aida","haus":"oper-frankfurt","hausName":"Oper Frankfurt","stadt":"Frankfurt am Main","termine":["2027-05-15","2027-05-22","2027-05-27","2027-06-14","2027-06-20","2027-06-25"]},
 {"werk":"aida","titel":"Aida","haus":"pfalztheater","hausName":"Pfalztheater Kaiserslautern","stadt":"Kaiserslautern","termine":["2027-04-10","2027-04-14","2027-04-30","2027-05-17","2027-05-21","2027-05-23","2027-05-27","2027-06-13","2027-06-23"]},
 {"werk":"aida","titel":"Aida","haus":"stadttheater-klagenfurt","hausName":"Stadttheater Klagenfurt","stadt":"Klagenfurt","termine":["2026-09-26","2026-09-29","2026-10-02","2026-10-09","2026-10-15","2026-10-21","2026-11-07","2026-11-11","2026-11-14"]},
@@ -303,7 +303,7 @@
 {"werk":"la-traviata","titel":"La Traviata","haus":"staatstheater-stuttgart","hausName":"Staatsoper Stuttgart","stadt":"Stuttgart","termine":["2026-12-13","2026-12-21","2027-01-02","2027-01-16","2027-03-15","2027-03-30","2027-04-02","2027-04-11","2027-04-25"]},
 {"werk":"la-traviata","titel":"La Traviata","haus":"theater-freiburg","hausName":"Theater Freiburg","stadt":"Freiburg","termine":["2026-11-18","2026-11-28","2026-12-03","2026-12-11","2026-12-31","2027-01-09","2027-02-07","2027-02-14","2027-03-07","2027-03-17","2027-04-03","2027-04-09","2027-05-23","2027-06-18","2027-07-11"]},
 {"werk":"la-traviata","titel":"La Traviata","haus":"theater-gera-altenburg","hausName":"Theater Altenburg Gera","stadt":"Gera / Altenburg","termine":["2026-10-11","2026-10-16","2026-10-30","2026-11-07","2026-11-29","2027-01-24","2027-02-14"]},
-{"werk":"la-traviata","titel":"La Traviata","haus":"theater-giessen","hausName":"Stadttheater Gießen","stadt":"Gießen","termine":["2026-10-10","2026-11-01","2026-11-12"]},
+{"werk":"la-traviata","titel":"La Traviata","haus":"theater-giessen","hausName":"Stadttheater Gießen","stadt":"Gießen","termine":["2026-10-10","2026-11-01","2026-11-12","2027-01-09"]},
 {"werk":"la-traviata","titel":"La Traviata","haus":"theater-kiel","hausName":"Theater Kiel","stadt":"Kiel","termine":["2027-01-30","2027-02-05","2027-02-20","2027-03-20","2027-03-28","2027-04-04","2027-04-17","2027-04-25","2027-05-12","2027-06-04"]},
 {"werk":"la-traviata","titel":"La Traviata","haus":"theater-krefeld-mg","hausName":"Theater Krefeld und Mönchengladbach","stadt":"Krefeld / Mönchengladbach","termine":["2027-03-28","2027-04-28","2027-05-23"]},
 {"werk":"la-traviata","titel":"La Traviata","haus":"wiener-staatsoper","hausName":"Wiener Staatsoper","stadt":"Wien","termine":["2027-03-11","2027-03-14","2027-03-17","2027-03-20"]},

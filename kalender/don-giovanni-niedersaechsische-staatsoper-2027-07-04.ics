@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:don-giovanni-niedersaechsische-staatsoper-2027-07-04@opernlog.vercel.ap
  p
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270704T160000
 DTEND;TZID=Europe/Berlin:20270704T190000
 SUMMARY:Don Giovanni – Staatsoper Hannover

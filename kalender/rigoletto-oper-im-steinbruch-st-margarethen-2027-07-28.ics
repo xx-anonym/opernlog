@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:rigoletto-oper-im-steinbruch-st-margarethen-2027-07-28@opernlog.vercel.
  app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Vienna:20270728T203000
 DTEND;TZID=Europe/Vienna:20270728T233000
 SUMMARY:Rigoletto – Oper im Steinbruch St. Margarethen

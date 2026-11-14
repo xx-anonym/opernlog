@@ -23,7 +23,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:un-ballo-in-maschera-mecklenburgisches-staatstheater-2027-06-24@opernlo
  g.vercel.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Berlin:20270624T193000
 DTEND;TZID=Europe/Berlin:20270624T223000
 SUMMARY:Un ballo in maschera – Mecklenburgisches Staatstheater

@@ -22,7 +22,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:un-ballo-in-maschera-wiener-staatsoper-2027-02-18@opernlog.vercel.app
-DTSTAMP:20261113T000000Z
+DTSTAMP:20261114T000000Z
 DTSTART;TZID=Europe/Vienna:20270218T110000
 DTEND;TZID=Europe/Vienna:20270218T140000
 SUMMARY:Un ballo in maschera – Wiener Staatsoper
