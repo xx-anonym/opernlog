@@ -280,9 +280,17 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
     Abruf nicht zeigt.
 
   Übernommen wird nach Durchsicht mit dem Befehl aus dem Issue; `--stand`
-  setzt dabei den Tag, den die App unter „Läuft demnächst“ nennt. Die
-  Bayerische Staatsoper sperrt Abrufe aus Rechenzentren oft ganz – dann
-  bleiben ihre Einträge, bis ein Lauf vom eigenen Rechner sie erneuert.
+  setzt dabei den Tag, den die App unter „Läuft demnächst“ nennt.
+
+  Die Nachlese übernimmt eine geplante Aufgabe in Claude Code („OpernLog:
+  Spielplan-Nachlese nach dem Monatslauf“, am 3. um 06:41 deutscher Zeit).
+  Sie liest aus der Cloud, was GitHub nicht lesen konnte, und die gemeldeten
+  Häuser, prüft jede Meldung an der Seite, übernimmt und stellt per Pull
+  Request online. Gärtnerplatztheater und Pfalztheater sperren GitHubs
+  Rechenzentrumsadressen, lassen sich von dort aber lesen. Die Bayerische
+  Staatsoper und das Mecklenburgische Staatstheater sperren auch dort – ihre
+  Einträge bleiben, bis ein Lauf vom eigenen Rechner sie erneuert; den
+  Befehl dafür nennt der Bericht.
 - **Konto löschen** geht aus dem Fenster „Profil bearbeiten“ heraus, endgültig und ohne Sicherung.
   `konto_loeschen()` nimmt keine Kennung entgegen, sondern die des Aufrufers –
   ein fremdes Konto lässt sich darüber nicht treffen. Selbst angelegte
