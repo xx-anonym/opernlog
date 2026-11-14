@@ -1,4 +1,5 @@
 // Den Feed von Hand aktualisieren: ganz oben nach unten ziehen und loslassen.
+// Auf der Startseite (main.js) und der Seite Freunde (pages/Community.js).
 //
 // Wunsch eines neuen Mitglieds (14.11.2026), "wie bei Letterboxd". Nur in der
 // installierten App: im Browser zieht man schon so, und Safari wie Chrome

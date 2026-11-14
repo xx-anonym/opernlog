@@ -10,6 +10,7 @@ import { renderAvatarHTML } from '../data/profileIcons.js';
 import { escapeHTML, copyToClipboard, sterneText } from '../utils.js';
 import { leerHTML } from '../components/Leer.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
+import { ziehenZumAktualisieren } from '../ziehenZumAktualisieren.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -345,6 +346,11 @@ export function CommunityPage() {
       renderContent();
     });
   });
+
+  // Von Hand aktualisieren wie im Feed (Jonas, 15.11.2026): oben ziehen.
+  // Die Tabs holen ihre Daten selbst; neu geladen wird nur der offene, und
+  // er bleibt offen – ein Neuzeichnen der ganzen Seite spränge auf "Freunde".
+  ziehenZumAktualisieren(page, () => renderContent());
 
   // Modal handlers
   const modal = page.querySelector('#addFriendModal');

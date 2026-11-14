@@ -249,6 +249,31 @@ test('installiert: im Feed oben ziehen aktualisiert, kurzes Ziehen nicht', { ski
     } finally { await ctx.close(); }
 });
 
+test('installiert: auch auf der Seite Freunde aktualisiert Ziehen – der offene Tab bleibt offen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/community', { installiert: true });
+    try {
+        await p.waitForSelector('.page--community .ziehen', { state: 'attached' });
+        await p.click('.community-tabs .tab[data-tab="feed"]');
+        await p.waitForFunction(() => !document.querySelector('#communityContent .loading-spinner'));
+        await p.evaluate(() => {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            window.__inhalt = document.querySelector('#communityContent').firstElementChild;
+            window.__seite = document.querySelector('.page--community');
+        });
+        await ziehe(p, 200, 400);
+        // Neu geladen: der Inhalt ist ein anderer, Seite und Tab sind dieselben.
+        await p.waitForFunction(() => {
+            const jetzt = document.querySelector('#communityContent').firstElementChild;
+            return jetzt && jetzt !== window.__inhalt && !jetzt.classList.contains('loading-spinner');
+        }, null, { timeout: 10000 });
+        assert.ok(await p.evaluate(() => window.__seite === document.querySelector('.page--community')));
+        assert.equal(await p.getAttribute('.community-tabs .tab--active', 'data-tab'), 'feed');
+        await p.waitForTimeout(400);
+        assert.equal(await p.$eval('.page--community .ziehen', el => el.offsetHeight), 0, 'der Kreis schnappte nicht zurück');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
 test('installiert: weiter unten gescrollt oder seitwärts gewischt wird nicht aktualisiert', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p } = await oeffne('#/', { installiert: true });
     try {
