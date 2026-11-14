@@ -303,7 +303,10 @@ export function ReviewCard(visit, options = {}) {
     const commentInput = card.querySelector('.comment-input');
     if (commentInput) {
       commentInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') submitBtn.click();
+        // Nicht mitten in einer Eingabe mit Zeichenauswahl (Japanisch,
+        // Chinesisch, Wortvorschläge mancher Tastaturen): dort bestätigt
+        // Enter erst das Wort, und der Kommentar ginge halb fertig ab.
+        if (e.key === 'Enter' && !e.isComposing && e.keyCode !== 229) submitBtn.click();
       });
     }
   }
