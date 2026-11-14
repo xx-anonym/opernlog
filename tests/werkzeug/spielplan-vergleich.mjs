@@ -106,6 +106,7 @@ const mitZeit = (t, zeiten) => (zeiten?.[t] ? `${datum(t)} (${zeiten[t]})` : dat
  * @param {object} namen  werk(id) und haus(id) → Anzeigename
  */
 export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelesen = [], gruende = {}, lueckenhaft = {}, ausgesperrt = [], fuss = '' }) {
+    const nachlese = nachleseHaeuser(nichtGelesen, lueckenhaft);
     const titel = z => `**${namen.werk(z.werk)}** – ${namen.haus(z.haus)}`;
     const link = z => (z.url ? ` · [Seite](${z.url})` : '');
     const ladefehler = z => (fehlerJeHaus[z.haus] ? ` · _${fehlerJeHaus[z.haus]} Seiten des Hauses ließen sich nicht laden_` : '');
@@ -148,6 +149,14 @@ export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelese
                 + 'Ihre Einträge bleiben, wie sie sind:', '');
         for (const h of nichtGelesen) teile.push(`- ${namen.haus(h)}${gruende[h] ? `: ${gruende[h]}` : ''}`);
     }
+    if (nachlese.length) {
+        // Die Häuser sperren Rechenzentren, nicht OpernLog: aus einem anderen
+        // Netz lesen sie sich meist (Gärtnerplatz und Pfalztheater aus der
+        // Cloud-Nachlese, die Bayerische Staatsoper vom eigenen Anschluss).
+        teile.push('', 'Diese Häuser sperren GitHub. Die monatliche Nachlese liest sie aus einem anderen Netz; was auch dort gesperrt ist, vom eigenen Rechner:',
+            '```', `node tests/werkzeug/spielplaene-lesen.mjs nachlese.json ${nachlese.join(' ')}`,
+            `node tests/werkzeug/spielplan-uebernehmen.mjs nachlese.json --dazu`, '```');
+    }
     if (ausgesperrt.length) {
         teile.push('', `Nicht versucht, weil das Haus Programme aussperrt (Termine aus dem Spielzeitheft): ${ausgesperrt.map(namen.haus).join(', ')}.`);
     }
@@ -156,6 +165,18 @@ export function bericht(v, { heute, stand, namen, fehlerJeHaus = {}, nichtGelese
         text = `${text.slice(0, HOECHSTLAENGE).replace(/\n[^\n]*$/, '')}\n\n_… gekürzt. Der ganze Bericht liegt als bericht.md im Artefakt des Laufs._`;
     }
     return fuss ? `${text}\n\n${fuss}` : text;
+}
+
+/**
+ * Die Häuser, die ein Lauf nicht oder nur lückenhaft lesen konnte – für die
+ * Nachlese aus einem anderen Netz. Ausgesperrte (Basel) nicht: die fragt
+ * niemand an.
+ * @param {string[]} nichtGelesen
+ * @param {Object<string, string>} lueckenhaft  Haus -> Grund
+ * @returns {string[]}
+ */
+export function nachleseHaeuser(nichtGelesen = [], lueckenhaft = {}) {
+    return [...new Set([...nichtGelesen, ...Object.keys(lueckenhaft)])].sort();
 }
 
 export function zusammenfassung(v) {
@@ -232,7 +253,8 @@ async function main() {
     console.log(`${zusammenfassung(v)}. ${lesbar.size} von ${haeuser.length} Häusern gelesen, ${ganz} davon vollständig.`);
     if (process.env.GITHUB_OUTPUT) {
         fs.appendFileSync(process.env.GITHUB_OUTPUT,
-            `anzahl=${anzahl}\nzusammenfassung=${zusammenfassung(v)}\ngelesen=${lesbar.size}\nhaeuser=${haeuser.length}\n`);
+            `anzahl=${anzahl}\nzusammenfassung=${zusammenfassung(v)}\ngelesen=${lesbar.size}\nhaeuser=${haeuser.length}\n`
+            + `nachlese=${nachleseHaeuser(nichtGelesen, lueckenText).join(' ')}\n`);
     }
 }
 
