@@ -141,7 +141,21 @@ test('iPhone: der Menüknopf klickt über seine Fläche und öffnet das Menü ge
     } finally { await ctx.close(); }
 });
 
-const UNTERSEITEN = ['#/houses', '#/wishlist', '#/naehe', '#/lists', '#/community', '#/sammlungen',
+test('Freunde einladen: Zurück-Pfeil zu den Freunden und die Leiste unten bleibt', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/community');
+    try {
+        await p.waitForSelector('#communityContent a[href="#/invite"]');
+        await p.click('#communityContent a[href="#/invite"]');
+        await p.waitForFunction(() => location.hash === '#/invite');
+        await p.waitForSelector('.main-content a[data-zurueck]');
+        assert.equal(await p.isVisible('.tab-leiste'), true, 'die Leiste fehlt');
+        await p.click('.main-content a[data-zurueck]');
+        await p.waitForFunction(() => location.hash === '#/community');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+const UNTERSEITEN = ['#/invite', '#/houses', '#/wishlist', '#/naehe', '#/lists', '#/community', '#/sammlungen',
     '#/bildnachweise', '#/datenschutz', '#/opera/tosca', '#/house/semperoper', '#/composer/giacomo-puccini',
     '#/profile/22222222-2222-2222-2222-222222222222'];
 const LEISTE = ['#/', '#/operas', '#/diary', '#/profile/user-me'];

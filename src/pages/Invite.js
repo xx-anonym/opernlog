@@ -8,6 +8,7 @@ import { store } from '../store/store.js';
 import { AuthPage } from './Auth.js';
 import { escapeHTML, copyToClipboard} from '../utils.js';
 import { einladungMerken, einladungVergessen, endgueltigGescheitert, einladungsLink } from '../einladung.js';
+import { zurueckLink } from '../components/ZurueckLink.js';
 
 export function InvitePage(code) {
   const page = document.createElement('div');
@@ -121,7 +122,10 @@ async function renderAcceptInvite(page, code) {
 }
 
 async function renderGenerateInvite(page) {
+  // Zurück führt zu den Freunden, von dort kommt man her ("Freunde
+  // einladen"). Fehlte bis 15.11.2026 – am Handy hing man hier fest.
   page.innerHTML = `
+    ${zurueckLink('#/community')}
     <div class="page-header">
       <h1 class="page-header__title">${icon('link')}Freunde einladen</h1>
       <p class="page-header__subtitle">Teile deinen persönlichen Einladungslink</p>

@@ -160,11 +160,13 @@ export function Navigation() {
 
   // Die Leiste gehört zur App, nicht zur Anmeldung: wer abgemeldet ist, kann
   // mit keinem ihrer Punkte etwas anfangen, und über der Anmeldemaske sah sie
-  // aus wie ein Fehler (Jonas, 9.11.2026).
+  // aus wie ein Fehler (Jonas, 9.11.2026). Eine angenommene Einladung
+  // (#/invite/CODE) gehört noch zur Anmeldung, das Erstellen eines
+  // Einladungslinks (#/invite) zur App – dort fehlte sie bis 15.11.2026.
   const leiste = nav.querySelector('.tab-leiste');
   function leisteZeigen() {
     const hash = window.location.hash || '#/';
-    leiste.hidden = !store.hatKonto || /^#\/(auth|invite)(\/|\?|$)/.test(hash);
+    leiste.hidden = !store.hatKonto || /^#\/(auth(\/|\?|$)|invite\/)/.test(hash);
   }
 
   window.addEventListener('hashchange', () => { updateActive(); leisteZeigen(); });
