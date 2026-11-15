@@ -481,7 +481,7 @@ test('Teilbild: Theaterzettel im Hochformat, ohne Fotos, als PNG speicherbar', {
         const texte = bild.texte.map(x => x.t);
         for (const t of ['OPERNLOG', 'meine', 'SPIELZEIT', '2025/26', 'in 3 Abenden', 'MIT DEN WERKEN', 'Tosca  ·  Aida',
             'IN DEN HÄUSERN', 'Semperoper  ·  Oper Leipzig', 'STAMMHAUS', 'KOMPONIST', 'BESTER ABEND',
-            'im Schnitt 4,0 von 5 Sternen', 'opernlog.vercel.app']) {
+            'im Schnitt 4,0 von 5 Sternen', 'opernlog.de']) {
             assert.ok(texte.includes(t), `fehlt im Bild: ${t}`);
         }
         assert.ok(texte.some(t => /Kilometer zwischen den Häusern$/.test(t)), 'fehlt: Kilometer');
@@ -507,7 +507,7 @@ test('Teilbild: viele Abende – kürzere Listen, nichts läuft in den Fuß', { 
     const { ctx, p, fehler } = await rueckblick({ besuche });
     try {
         const bild = await teilbild(p);
-        const fuss = bild.texte.find(x => x.t === 'opernlog.vercel.app');
+        const fuss = bild.texte.find(x => x.t === 'opernlog.de');
         const tiefster = Math.max(...bild.texte.filter(x => x !== fuss).map(x => x.y));
         assert.ok(tiefster < fuss.y - 40, `Satz endet bei ${tiefster}, Fuß bei ${fuss.y}`);
         for (const x of bild.texte) assert.ok(x.y >= 275 && x.y <= 1920 - 250, `im verdeckten Rand: ${x.t} bei ${x.y}`);

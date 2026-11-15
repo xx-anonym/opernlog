@@ -81,7 +81,8 @@ export async function zeichneTeilbild(r) {
 
     g.fillStyle = 'rgba(28, 25, 21, 0.6)';
     g.font = `400 26px ${SANS}`;
-    g.fillText('opernlog.vercel.app', MITTE, H - SICHER - 12);
+    // Seit 15.11.2026 die eigene Domain; sie leitet vorerst auf die App weiter.
+    g.fillText('opernlog.de', MITTE, H - SICHER - 12);
     g.textAlign = 'start';
     return c;
 }
