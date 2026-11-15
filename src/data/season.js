@@ -234,12 +234,12 @@ export function buildSeasonReview(alleBesuche, startYear) {
         .filter(w => w.opera);
 
     const topHaus = haeufigstes(besuche.map(v => v.houseId));
-    const topKomponist = haeufigstes(werke.map(w => w.composer));
-    // Ein Dirigent der Saison erst ab zwei Abenden am Pult (Jonas,
+    // Komponist und Dirigent der Saison erst ab zwei Abenden (Jonas,
     // 15.11.2026) – wie bei den Stimmen: bei einem Abend wäre jeder, der
-    // einmal dirigiert hat, "der" Dirigent der Saison.
-    const dirigent = haeufigstes(credits.map(c => c.conductor));
-    const topDirigent = dirigent?.anzahl >= 2 ? dirigent : null;
+    // einmal vorkam, "der" der Saison.
+    const abZwei = top => (top?.anzahl >= 2 ? top : null);
+    const topKomponist = abZwei(haeufigstes(werke.map(w => w.composer)));
+    const topDirigent = abZwei(haeufigstes(credits.map(c => c.conductor)));
     const topMonat = haeufigstes(besuche.map(v => {
         const d = toDate(v.date);
         return d ? `${d.getFullYear()}-${d.getMonth()}` : null;

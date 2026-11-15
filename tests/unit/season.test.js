@@ -155,6 +155,22 @@ test('Dirigent der Saison erst ab zwei Abenden am Pult', () => {
     assert.equal(r.topConductor, null);
 });
 
+test('Komponist der Saison erst ab zwei Abenden', () => {
+    const r = buildSeasonReview([
+        besuch({ date: '2025-09-01', operaId: 'tosca' }),
+        besuch({ date: '2025-10-01', operaId: 'la-traviata' }),
+        besuch({ date: '2025-11-01', operaId: 'don-giovanni' }),
+    ], 2025);
+    assert.equal(r.topComposer, null);
+    const zwei = buildSeasonReview([
+        besuch({ date: '2025-09-01', operaId: 'la-traviata' }),
+        besuch({ date: '2025-10-01', operaId: 'rigoletto' }),
+        besuch({ date: '2025-11-01', operaId: 'tosca' }),
+    ], 2025);
+    assert.equal(zwei.topComposer.wert, 'Giuseppe Verdi');
+    assert.equal(zwei.topComposer.anzahl, 2);
+});
+
 // Für das Kalenderblatt der Story: Jahr, Monat (0 = Januar) und die Tage
 // des dichtesten Monats, an denen Abende waren – jeder Tag einmal.
 test('dichtester Monat: mit Jahr, Monat und den Tagen der Abende', () => {

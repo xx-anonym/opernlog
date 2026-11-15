@@ -573,7 +573,9 @@ test('Teilbild: ein Abend – keine Spalte, die nur wiederholt', { skip: fehltPl
         assert.ok(texte.includes('an einem Abend'));
         assert.ok(texte.includes('MIT DEM WERK') && texte.includes('IM HAUS'));
         assert.ok(!texte.includes('STAMMHAUS') && !texte.includes('BESTER ABEND'), texte.join(' | '));
-        assert.ok(texte.includes('KOMPONIST'));
+        // Der Komponist eines einzigen Abends ist kein Komponist der Saison
+        // (ab zwei Abenden, 15.11.2026) – er stünde nur neben seinem Werk.
+        assert.ok(!texte.includes('KOMPONIST'), texte.join(' | '));
         assert.ok(texte.includes('bewertet mit 5,0 von 5 Sternen'));
     } finally { await ctx.close(); }
 });
