@@ -146,6 +146,15 @@ test('der häufigste Dirigent kommt aus den Mitwirkenden – in beiden Schreibwe
     assert.equal(r.topConductor.anzahl, 2);
 });
 
+test('Dirigent der Saison erst ab zwei Abenden am Pult', () => {
+    const r = buildSeasonReview([
+        besuch({ date: '2025-09-01', conductor: 'Domingo Hindoyan' }),
+        besuch({ date: '2025-10-01', operaId: 'la-traviata', conductor: 'Simone Young' }),
+        besuch({ date: '2025-11-01', operaId: 'don-giovanni' }),
+    ], 2025);
+    assert.equal(r.topConductor, null);
+});
+
 // Für das Kalenderblatt der Story: Jahr, Monat (0 = Januar) und die Tage
 // des dichtesten Monats, an denen Abende waren – jeder Tag einmal.
 test('dichtester Monat: mit Jahr, Monat und den Tagen der Abende', () => {
