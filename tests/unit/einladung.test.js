@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { einladungsCode, einladungMerken, offeneEinladung, einladungVergessen, endgueltigGescheitert, EINLADUNG_OFFEN, EINLADUNG_TAGE } from '../../src/einladung.js';
+import { einladungsLink, einladungsCode, einladungMerken, offeneEinladung, einladungVergessen, endgueltigGescheitert, EINLADUNG_OFFEN, EINLADUNG_TAGE } from '../../src/einladung.js';
 
 function geraet(start = {}) {
     const daten = { ...start };
@@ -50,4 +50,14 @@ test('endgültig ist nur, was accept_invite selbst ablehnt – kein Netz ist es 
     assert.equal(endgueltigGescheitert('Failed to fetch'), false);
     assert.equal(endgueltigGescheitert('Nicht eingeloggt'), false);
     assert.equal(endgueltigGescheitert(undefined), false);
+});
+
+test('einladungsLink: in der echten App auf opernlog.de, sonst auf der eigenen Adresse', () => {
+    const ort = (href) => { const u = new URL(href); return { location: { hostname: u.hostname, origin: u.origin, pathname: u.pathname } }; };
+    assert.equal(einladungsLink('AB3K9Z', ort('https://opernlog.vercel.app/')), 'https://opernlog.de/#/invite/AB3K9Z');
+    assert.equal(einladungsLink('AB3K9Z', ort('https://opernlog.vercel.app/index.html')), 'https://opernlog.de/#/invite/AB3K9Z');
+    assert.equal(einladungsLink('AB3K9Z', ort('https://opernlog.de/')), 'https://opernlog.de/#/invite/AB3K9Z');
+    // Tests, Entwickeln und Vorschauen führen nicht in die echte App.
+    assert.equal(einladungsLink('AB3K9Z', ort('http://localhost:5173/index.html')), 'http://localhost:5173/index.html#/invite/AB3K9Z');
+    assert.equal(einladungsLink('AB3K9Z', ort('https://opernlog-git-x-jonas.vercel.app/')), 'https://opernlog-git-x-jonas.vercel.app/#/invite/AB3K9Z');
 });

@@ -7,7 +7,7 @@ import { getSession } from '../store/supabase.js';
 import { store } from '../store/store.js';
 import { AuthPage } from './Auth.js';
 import { escapeHTML, copyToClipboard} from '../utils.js';
-import { einladungMerken, einladungVergessen, endgueltigGescheitert } from '../einladung.js';
+import { einladungMerken, einladungVergessen, endgueltigGescheitert, einladungsLink } from '../einladung.js';
 
 export function InvitePage(code) {
   const page = document.createElement('div');
@@ -173,8 +173,7 @@ async function renderGenerateInvite(page) {
         btn.disabled = false;
         return;
       }
-      const baseUrl = window.location.origin + window.location.pathname;
-      const link = `${baseUrl}#/invite/${code}`;
+      const link = einladungsLink(code);
 
       page.querySelector('#inviteLink').value = link;
       page.querySelector('#inviteResult').style.display = 'block';

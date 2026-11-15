@@ -11,6 +11,7 @@ import { escapeHTML, copyToClipboard, sterneText } from '../utils.js';
 import { leerHTML } from '../components/Leer.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 import { ziehenZumAktualisieren } from '../ziehenZumAktualisieren.js';
+import { einladungsLink } from '../einladung.js';
 
 export function CommunityPage() {
   const page = document.createElement('div');
@@ -314,8 +315,7 @@ export function CommunityPage() {
 
       try {
         const code = await sb.createInvite();
-        const baseUrl = window.location.origin + window.location.pathname;
-        const link = `${baseUrl}#/invite/${code}`;
+        const link = einladungsLink(code);
 
         content.querySelector('#inlineInviteLink').value = link;
         content.querySelector('#inlineInviteResult').style.display = 'block';

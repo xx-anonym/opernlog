@@ -66,3 +66,26 @@ export function einladungVergessen(umgebung = globalThis) {
 export function endgueltigGescheitert(fehlertext) {
     return /ungültig|abgelaufen|eigenen einladungslink/i.test(String(fehlertext || ''));
 }
+
+/** Die eigene Domain. Sie leitet vorerst auf opernlog.vercel.app weiter. */
+export const EIGENE_ADRESSE = 'https://opernlog.de/';
+
+/**
+ * Der Link, den man Freunden schickt.
+ *
+ * Seit 15.11.2026 auf opernlog.de statt opernlog.vercel.app – das sieht
+ * seriöser aus (Jonas). opernlog.de leitet mit 307 auf die App weiter, und
+ * der Browser nimmt das #/invite/CODE dabei mit (geprüft in Chromium; so
+ * steht es auch in RFC 9110). Nur die echte App nimmt die eigene Domain:
+ * unter localhost, in Tests und auf Vorschauadressen bleibt der Link auf der
+ * Adresse, unter der man gerade ist – sonst führte er in die echte App.
+ *
+ * @param {string} code
+ * @param {object} [umgebung]
+ */
+export function einladungsLink(code, umgebung = globalThis) {
+    const ort = umgebung.location;
+    const echt = ['opernlog.vercel.app', 'opernlog.de', 'www.opernlog.de'].includes(ort?.hostname);
+    const basis = echt ? EIGENE_ADRESSE : `${ort.origin}${ort.pathname}`;
+    return `${basis}#/invite/${code}`;
+}
