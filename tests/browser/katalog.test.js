@@ -230,6 +230,10 @@ test('ein Haus landet im Katalog', { skip: fehltPlaywright }, async () => {
         await p.fill('#kfFounded', '1852');
         await p.fill('#kfDescription', 'Ein Haus zum Prüfen.');
         await p.fill('#kfImageUrl', BILD);
+        // Die Spielplan-Seite für den monatlichen Lauf (16.11.2026); das
+        // Formular sagt, wann er ist.
+        assert.match(await p.textContent('#kfSpielplan + .form-hint'), /nächste monatliche Spielplan-Lauf \(3\. [A-Z][a-zä]+\)/);
+        await p.fill('#kfSpielplan', 'https://www.theater-regensburg.de/spielplan');
         await p.click('#kfSenden');
         await p.waitForFunction(() => window.__angelegt.length >= 1);
         await p.waitForTimeout(100);
@@ -238,6 +242,7 @@ test('ein Haus landet im Katalog', { skip: fehltPlaywright }, async () => {
         assert.equal(angelegt.length, 1);
         assert.equal(angelegt[0].tabelle, 'catalog_houses');
         assert.equal(angelegt[0].zeile.image_url, BILD, 'imageUrl wurde nicht auf image_url abgebildet');
+        assert.equal(angelegt[0].zeile.spielplan_seite, 'https://www.theater-regensburg.de/spielplan');
         assert.equal(angelegt[0].zeile.lat, 49.0195);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
@@ -455,5 +460,65 @@ test('lehnt die Datenbank das Löschen ab, bleibt der Eintrag im Katalog', { ski
         assert.match(await p.textContent('#klFehler'), /Entfernen fehlgeschlagen/);
         const nachher = await p.evaluate(async () => (await import('/src/data/operas.js')).operas.length);
         assert.equal(nachher, vorher, 'der Eintrag verschwand trotz Fehlschlag aus dem Katalog');
+    } finally { await ctx.close(); }
+});
+
+// Sammlungen (16.11.2026): ein neuer Eintrag kommt automatisch in die
+// richtigen; das Formular zeigt vorher, in welche.
+test('das Formular zeigt, in welche Sammlungen ein neues Werk kommt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.click('#suggestOperaBtn');
+        await p.waitForSelector('#kfForm');
+        assert.equal(await p.isVisible('#kfSammlungen'), false, 'vor jeder Eingabe schon eine Sammlung');
+        await p.fill('#kfTitle', 'Die ägyptische Helena');
+        await p.selectOption('#kfComposer', 'Richard Strauss');
+        await p.fill('#kfLibrettist', 'Hugo von Hofmannsthal');
+        await p.fill('#kfLanguage', 'Deutsch');
+        await p.fill('#kfYear', '1928');
+        const zeile = await p.textContent('#kfSammlungen');
+        assert.match(zeile, /^Kommt in die Sammlungen: /);
+        for (const t of ['Strauss & Hofmannsthal', 'Oper in sechs Sprachen', 'Fünf Jahrhunderte Oper']) assert.ok(zeile.includes(t), `${t} fehlt: ${zeile}`);
+        // Ändert sich ein Feld, ändert sich die Zeile mit.
+        await p.fill('#kfLibrettist', 'Joseph Gregor');
+        assert.ok(!(await p.textContent('#kfSammlungen')).includes('Hofmannsthal'));
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('das Formular zeigt, in welche Sammlungen ein neues Haus kommt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/houses', { admin: true });
+    try {
+        await p.click('#suggestHouseBtn');
+        await p.waitForSelector('#kfForm');
+        await p.fill('#kfName', 'La Monnaie / De Munt');
+        await p.selectOption('#kfState', 'Schweiz');
+        assert.equal(await p.textContent('#kfSammlungen'), 'Kommt in die Sammlung: Die Opernhäuser des Jahres');
+        await p.fill('#kfName', 'Theater Bielefeld');
+        await p.selectOption('#kfState', 'Nordrhein-Westfalen');
+        assert.equal(await p.textContent('#kfSammlungen'), 'Kommt in die Sammlung: Oper in allen 16 Bundesländern');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('das Werkformular sagt, dass der nächste monatliche Lauf das Werk mitsucht', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.click('#suggestOperaBtn');
+        await p.waitForSelector('#kfForm');
+        assert.match(await p.textContent('.modal__content > .form-hint'), /nächste monatliche Spielplan-Lauf \(3\. [A-Z][a-zä]+\) sucht das Werk/);
+    } finally { await ctx.close(); }
+});
+
+test('eine Spielplan-Seite ohne Adresse wird abgelehnt', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne('#/houses', { admin: true });
+    try {
+        await p.click('#suggestHouseBtn');
+        await p.waitForSelector('#kfForm');
+        await p.fill('#kfSpielplan', 'theater-regensburg.de/spielplan');
+        await p.click('#kfSenden');
+        await p.waitForSelector('#kfMaengel:visible');
+        assert.match(await p.textContent('#kfMaengel'), /Spielplan-Seite muss eine vollständige Adresse sein/);
+        assert.equal(await p.evaluate(() => window.__angelegt.length), 0);
     } finally { await ctx.close(); }
 });

@@ -42,6 +42,7 @@ const UMBENANNT = {
     image_url: 'imageUrl',
     bild_lizenz: 'bildLizenz',
     bild_urheber: 'bildUrheber',
+    spielplan_seite: 'spielplanSeite',
 };
 
 function alsKatalogEintrag(zeile) {

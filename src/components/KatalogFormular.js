@@ -18,6 +18,8 @@ import { composers } from '../data/composers.js';
 import { uebernehmen } from '../data/katalogZusatz.js';
 import { pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, thumbAdresse, BILD_BREITE } from '../data/katalogRegeln.js';
 import { addKatalogWerk, addKatalogHaus, addKatalogKomponist } from '../store/supabase.js';
+import { sammlungenFuer } from '../data/sammlungen.js';
+import { naechsterLaufText } from '../data/spielplanLauf.js';
 import { escapeHTML } from '../utils.js';
 
 /** Die Länderauswahl beim Haus: was im Katalog schon vorkommt. */
@@ -105,6 +107,7 @@ function hausFelder() {
         ${textfeld({ id: 'kfDescription', label: 'Beschreibung' })}
         ${feld({ id: 'kfColor', label: 'Farbe', typ: 'color', wert: '#1a3a5c', hinweis: 'Rückfallebene, wenn das Bild fehlt oder offline nicht da ist.' })}
         ${feld({ id: 'kfImageUrl', label: 'Bild', hinweis: BILD_HINWEIS })}
+        ${feld({ id: 'kfSpielplan', label: 'Spielplan-Seite', typ: 'url', hinweis: `Die Seite mit dem Spielplan oder der Übersicht der Spielzeit. Der nächste monatliche Spielplan-Lauf (${naechsterLaufText()}) liest das Haus dann mit. Leer: kein Spielplan.` })}
         ${feld({ id: 'kfId', label: 'Id', hinweis: 'Steht in der Adresse der Hausseite. Wird aus dem Namen vorgeschlagen.' })}`;
 }
 
@@ -128,10 +131,11 @@ export function katalogModal(art, fertig, dienste = {}) {
         <div class="modal__content" style="max-height:85vh;overflow-y:auto">
             <h2 class="modal__title">${werk ? 'Werk' : 'Haus'} zum Katalog hinzufügen</h2>
             <p class="form-hint" style="margin-bottom:1.25rem">
-                Der Eintrag steht sofort für alle im Katalog.
+                Der Eintrag steht sofort für alle im Katalog.${werk ? ` Der nächste monatliche Spielplan-Lauf (${naechsterLaufText()}) sucht das Werk an allen Häusern mit.` : ''}
             </p>
             <form id="kfForm" novalidate>
                 ${werk ? werkFelder() : hausFelder()}
+                <p class="form-hint katalog-sammlungen" id="kfSammlungen" aria-live="polite" hidden></p>
                 <div id="kfMaengel" class="auth-error" style="display:none"></div>
                 <div class="modal__actions" style="margin-top:1.5rem">
                     <button type="button" class="btn btn--secondary close-modal">Abbrechen</button>
@@ -201,7 +205,7 @@ export function katalogModal(art, fertig, dienste = {}) {
                 state: wert('kfState'), lat: wert('kfLat'), lon: wert('kfLon'),
                 capacity: wert('kfCapacity'), founded: wert('kfFounded'),
                 description: wert('kfDescription'), color: wert('kfColor'),
-                imageUrl: wert('kfImageUrl'),
+                imageUrl: wert('kfImageUrl'), spielplanSeite: wert('kfSpielplan'),
             };
         }
         const auswahlWert = q('#kfComposer').value;
@@ -224,6 +228,23 @@ export function katalogModal(art, fertig, dienste = {}) {
             neuerKomponist,
         };
     }
+
+    // In welche Sammlungen der Eintrag kommt. Gewählt wird das nicht: es
+    // folgt aus seinen Feldern und den Regeln in src/data/sammlungen.js. Der
+    // Admin sieht es, bevor er speichert.
+    function zeigeSammlungen() {
+        const eingabe = ausFormular();
+        const eintrag = werk ? eingabe.werk : eingabe;
+        const liste = sammlungenFuer(eintrag, werk ? 'werke' : 'haeuser');
+        const zeile = q('#kfSammlungen');
+        zeile.hidden = !liste.length;
+        zeile.textContent = liste.length
+            ? `${liste.length === 1 ? 'Kommt in die Sammlung' : 'Kommt in die Sammlungen'}: ${liste.map(x => x.titel).join(' · ')}`
+            : '';
+    }
+    q('#kfForm').addEventListener('input', zeigeSammlungen);
+    q('#kfForm').addEventListener('change', zeigeSammlungen);
+    zeigeSammlungen();
 
     q('#kfForm').addEventListener('submit', async (e) => {
         e.preventDefault();

@@ -29,8 +29,12 @@ async function tabelle(name, spalten) {
 /** [{id, title, composer}] */
 export const werkeAusDatenbank = () => tabelle('catalog_operas', 'id,title,composer');
 
-/** Die Häuser, die der Admin in der App angelegt hat (catalog_houses): [{id, name, city, state, lat, lon}] */
-export const haeuserAusDatenbank = () => tabelle('catalog_houses', 'id,name,city,state,lat,lon');
+/**
+ * Die Häuser, die der Admin in der App angelegt hat (catalog_houses):
+ * [{id, name, city, state, lat, lon, spielplan_seite}]. spielplan_seite gibt
+ * er im Formular an; der Spielplan-Lauf liest das Haus dort.
+ */
+export const haeuserAusDatenbank = () => tabelle('catalog_houses', 'id,name,city,state,lat,lon,spielplan_seite');
 
 /** Die Bilder der Einträge aus der Datenbank – für die Bildnachweise. [{id, bild}] */
 export async function bilderAusDatenbank() {

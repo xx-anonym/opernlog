@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { SAMMLUNGEN, bundeslaender, fortschritt, merkmalWerte } from '../../src/data/sammlungen.js';
+import { SAMMLUNGEN, bundeslaender, fortschritt, merkmalWerte, mitgliederVon, sammlungenFuer, ENTHAELT } from '../../src/data/sammlungen.js';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 
@@ -10,7 +10,7 @@ const stand = (liste, id) => liste.find(s => s.sammlung.id === id);
 test('jedes Mitglied einer Sammlung steht im Katalog', () => {
     for (const s of SAMMLUNGEN.filter(s => s.art !== 'merkmal')) {
         const katalog = s.art === 'werke' ? operas : operaHouses;
-        const fehlt = s.mitglieder.filter(id => !katalog.some(e => e.id === id));
+        const fehlt = mitgliederVon(s).filter(id => !katalog.some(e => e.id === id));
         assert.deepEqual(fehlt, [], `${s.id}: nicht im Katalog`);
     }
 });
@@ -27,7 +27,7 @@ test('jeden Wert eines Merkmals trägt mindestens ein Eintrag im Katalog', () =>
 
 // Die Regeln hinter den Werklisten, gegen den Katalog: kommt ein Werk hinzu,
 // das dazugehört, fällt das hier auf.
-const ids = id => SAMMLUNGEN.find(s => s.id === id).mitglieder.slice().sort();
+const ids = id => mitgliederVon(SAMMLUNGEN.find(s => s.id === id)).slice().sort();
 
 test('Mozart: alle seine Opern ab Idomeneo (1781)', () => {
     const regel = operas.filter(o => o.composer === 'Wolfgang Amadeus Mozart' && o.yearComposed >= 1781).map(o => o.id).sort();
@@ -108,4 +108,55 @@ test('begonnene zuerst, die vollständigen danach, unbegonnene zuletzt', () => {
     assert.ok(stand(liste, 'da-ponte').vollstaendig);
     // Unbegonnene: die kleinsten vorn.
     assert.equal(liste.at(-1).sammlung.id, 'bundeslaender');
+});
+
+// ── Neue Einträge des Admins (16.11.2026) ─────────────────────────────
+// Sie kommen automatisch in die richtigen Sammlungen; das Formular zeigt
+// vorher, in welche (sammlungenFuer()).
+
+const titel = (eintrag, art) => sammlungenFuer(eintrag, art).map(s => s.id).sort();
+
+test('ein neues Werk kommt über seine Felder in die Merkmal-Sammlungen', () => {
+    const italiana = { id: 'l-italiana-in-algeri', title: "L'italiana in Algeri", composer: 'Gioachino Rossini', language: 'Italienisch', yearComposed: 1813 };
+    assert.deepEqual(titel(italiana, 'werke'), ['belcanto', 'jahrhunderte', 'sprachen']);
+    // Ohne Jahr kein Jahrhundert, in einer seltenen Sprache keine Sprache.
+    assert.deepEqual(titel({ id: 'x', composer: 'Bohuslav Martinů', language: 'Griechisch' }, 'werke'), []);
+});
+
+test('Die ägyptische Helena kommt von selbst zu Strauss & Hofmannsthal', () => {
+    const helena = { id: 'aegyptische-helena', title: 'Die ägyptische Helena', composer: 'Richard Strauss', librettist: 'Hugo von Hofmannsthal', language: 'Deutsch', yearComposed: 1928 };
+    assert.ok(titel(helena, 'werke').includes('strauss-hofmannsthal'));
+    // Andere Strauss-Opern nicht: Salome hat ihr Libretto nach Wilde.
+    assert.ok(!titel({ id: 'y', composer: 'Richard Strauss', librettist: 'Hedwig Lachmann (nach Oscar Wilde)' }, 'werke').includes('strauss-hofmannsthal'));
+    // Und im Fortschritt zählt sie, sobald sie im Katalog steht.
+    operas.push(helena);
+    try {
+        assert.ok(ids('strauss-hofmannsthal').includes('aegyptische-helena'));
+        assert.equal(stand(fortschritt([], ['aegyptische-helena']), 'strauss-hofmannsthal').erledigt, 1);
+    } finally { operas.pop(); }
+});
+
+test('die fehlenden Opernhäuser des Jahres werden am Namen erkannt, andere nicht', () => {
+    for (const name of ['La Monnaie / De Munt', 'Théâtre royal de la Monnaie', 'Opéra de Lyon', 'Opéra national de Lyon', 'Opéra national du Rhin']) {
+        assert.ok(titel({ id: 'n', name, city: '', state: 'Belgien' }, 'haeuser').includes('opernhaus-des-jahres'), name);
+    }
+    for (const [name, city] of [['Opéra de Paris', 'Paris'], ['Théâtre des Célestins', 'Lyon'], ['Theater Bielefeld', 'Bielefeld']]) {
+        assert.ok(!titel({ id: 'n', name, city, state: 'Frankreich' }, 'haeuser').includes('opernhaus-des-jahres'), name);
+    }
+    // Und kein Haus aus dem Repo-Katalog fällt versehentlich unter die Regel.
+    const regel = SAMMLUNGEN.find(s => s.id === 'opernhaus-des-jahres').regel;
+    assert.deepEqual(operaHouses.filter(regel).map(h => h.id), []);
+});
+
+test('ein neues Haus kommt in sein Bundesland; ein Haus der festen Listen in seine Liste', () => {
+    assert.deepEqual(titel({ id: 'theater-bielefeld', name: 'Theater Bielefeld', state: 'Nordrhein-Westfalen' }, 'haeuser'), ['bundeslaender']);
+    assert.deepEqual(titel({ id: 'luzerner-theater', name: 'Luzerner Theater', state: 'Schweiz' }, 'haeuser'), []);
+    assert.ok(titel({ id: 'komische-oper-berlin', name: 'Komische Oper Berlin', state: 'Berlin' }, 'haeuser').includes('berlin'));
+});
+
+test('Il trittico als ganzer Abend zählt für alle drei Einakter', () => {
+    assert.deepEqual(ENTHAELT['il-trittico'], ['il-tabarro', 'suor-angelica', 'gianni-schicchi']);
+    const liste = fortschritt([{ operaId: 'il-trittico', houseId: 'x' }]);
+    assert.ok(stand(liste, 'trittico').vollstaendig);
+    assert.ok(titel({ id: 'il-trittico', title: 'Il trittico', composer: 'Giacomo Puccini', language: 'Italienisch', yearComposed: 1918 }, 'werke').includes('trittico'));
 });

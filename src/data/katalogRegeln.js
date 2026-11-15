@@ -199,6 +199,12 @@ export function pruefeHaus(haus = {}, bestand = {}) {
 
     maengel.push(...bildMaengel(haus.imageUrl, 'Das Bild'));
 
+    // Freiwillig, aber wenn, dann eine Adresse: der monatliche Spielplan-Lauf
+    // öffnet sie (tests/werkzeug/spielplaene-lesen.mjs).
+    if (!leer(haus.spielplanSeite) && !/^https?:\/\/[^\s/]+\.[^\s]+$/.test(String(haus.spielplanSeite).trim())) {
+        maengel.push('Die Spielplan-Seite muss eine vollständige Adresse sein, z. B. https://www.theater.de/spielplan.');
+    }
+
     return maengel;
 }
 

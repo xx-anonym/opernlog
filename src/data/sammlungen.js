@@ -10,10 +10,19 @@
 // tests/unit/sammlungen.test.js prüft, dass es sie gibt.
 //
 // Arten:
-//   werke, haeuser  feste Mitglieder aus dem Katalog
+//   werke, haeuser  feste Mitglieder aus dem Katalog (mitglieder), dazu oder
+//                   stattdessen eine Regel (regel), die neue Einträge
+//                   erkennt
 //   merkmal         je ein Werk (von: 'werke') oder Haus (von: 'haeuser')
 //                   für jeden Wert eines Merkmals – je eine Sprache, ein
 //                   Jahrhundert, ein Bundesland
+//
+// Neue Einträge des Admins (src/components/KatalogFormular.js) kommen
+// automatisch in die richtigen Sammlungen, nicht von Hand (Jonas,
+// 16.11.2026): bei Merkmalen über ihre Felder, bei festen Listen über die
+// Regel. Von Hand gewählt, könnte ein Eintrag in eine Sammlung geraten, deren
+// Quelle ihn nicht nennt. Das Formular zeigt vor dem Speichern, wohin er
+// kommt (sammlungenFuer()).
 
 import { operas } from './operas.js';
 import { operaHouses } from './operaHouses.js';
@@ -63,11 +72,12 @@ export const SAMMLUNGEN = [
             'zauberflote', 'clemenza-di-tito'],
     },
     {
-        // Strauss-Opern mit Libretto von Hugo von Hofmannsthal, soweit im
-        // Katalog – Die ägyptische Helena (1928) fehlt dort. Der Test prüft
-        // die Regel gegen den Katalog; kommt sie hinzu, schlägt er an.
+        // Strauss-Opern mit Libretto von Hugo von Hofmannsthal – als Regel,
+        // so kommt Die ägyptische Helena (1928), die im Katalog noch fehlt,
+        // von selbst dazu, sobald sie jemand anlegt.
         id: 'strauss-hofmannsthal', titel: 'Strauss & Hofmannsthal', art: 'werke',
-        mitglieder: ['elektra', 'rosenkavalier', 'ariadne-naxos', 'frau-ohne-schatten', 'arabella'],
+        mitglieder: [],
+        regel: werk => werk.composer === 'Richard Strauss' && /Hofmannsthal/.test(werk.librettist || ''),
     },
     {
         // Verdis Opern nach Dramen von Shakespeare.
@@ -111,15 +121,19 @@ export const SAMMLUNGEN = [
         // Die Häuser, die die Kritikerumfrage der Zeitschrift Opernwelt zum
         // "Opernhaus des Jahres" gewählt hat, 1992/93 bis 2025/26 – laut
         // de.wikipedia.org/wiki/Kritikerumfrage_der_Opernwelt, Stand 30.9.2026.
-        // Nicht im Katalog und deshalb nicht dabei: La Monnaie (2010/11),
-        // Opéra de Lyon (2016/17), Opéra national du Rhin (2018/19). 2003/04
-        // ging der Titel an "das deutsche Stadttheater", kein einzelnes Haus.
+        // Noch nicht im Katalog: La Monnaie (2010/11), Opéra de Lyon
+        // (2016/17), Opéra national du Rhin (2018/19) – die Regel erkennt sie
+        // am Namen, sobald jemand sie anlegt. 2003/04 ging der Titel an "das
+        // deutsche Stadttheater", kein einzelnes Haus.
         // Kommt ein neuer Preisträger dazu (jeden Herbst), hier ergänzen.
         id: 'opernhaus-des-jahres', titel: 'Die Opernhäuser des Jahres', art: 'haeuser',
         mitglieder: ['oper-leipzig', 'staatstheater-stuttgart', 'opernhaus-zuerich', 'oper-frankfurt',
             'hamburgische-staatsoper', 'oper-graz', 'theater-bremen', 'komische-oper-berlin', 'theater-essen',
             'theater-basel', 'oper-koeln', 'bayerische-staatsoper', 'nationaltheater-mannheim',
             'grand-theatre-geneve', 'staatstheater-mainz'],
+        regel: haus => /\bmonnaie\b|\bde munt\b/i.test(haus.name || '')
+            || (/\bop[ée]ra\b/i.test(haus.name || '') && /\blyon\b/i.test(`${haus.name} ${haus.city || ''}`))
+            || /\bop[ée]ra national du rhin\b/i.test(haus.name || ''),
     },
     {
         id: 'bundeslaender', titel: 'Oper in allen 16 Bundesländern', art: 'merkmal', von: 'haeuser',
@@ -139,13 +153,61 @@ export function merkmalWerte(sammlung) {
     return typeof sammlung.werte === 'function' ? sammlung.werte() : sammlung.werte;
 }
 
+/**
+ * Werke, die einen ganzen Abend aus anderen Werken bilden: wer sie gesehen
+ * hat, hat jeden Teil gesehen. Il trittico steht als eigener Eintrag in der
+ * Datenbank, seine drei Einakter im Repo.
+ */
+export const ENTHAELT = {
+    'il-trittico': ['il-tabarro', 'suor-angelica', 'gianni-schicchi'],
+};
+
+const katalogVon = art => (art === 'werke' ? operas : operaHouses);
+
+/**
+ * Die Mitglieder einer festen Sammlung: die genannten, dann die, die ihre
+ * Regel im Katalog findet – in der Reihenfolge des Katalogs.
+ * @returns {string[]} Kennungen
+ */
+export function mitgliederVon(sammlung) {
+    const katalog = katalogVon(sammlung.art);
+    const dazu = sammlung.regel ? katalog.filter(sammlung.regel).map(e => e.id) : [];
+    return [...new Set([...sammlung.mitglieder, ...dazu])];
+}
+
 function teile(sammlung) {
     if (sammlung.art === 'merkmal') return merkmalWerte(sammlung).map(w => ({ id: w, name: w }));
-    const katalog = sammlung.art === 'werke' ? operas : operaHouses;
-    return sammlung.mitglieder
+    const katalog = katalogVon(sammlung.art);
+    return mitgliederVon(sammlung)
         .map(id => katalog.find(e => e.id === id))
         .filter(Boolean)
         .map(e => ({ id: e.id, name: e.title || e.name }));
+}
+
+/**
+ * In welche Sammlungen ein Eintrag gehört – für das Formular des Admins,
+ * bevor er gespeichert ist. Ein Werk zählt auch über die Werke, die es
+ * enthält (ENTHAELT).
+ *
+ * @param {object} eintrag  ein Werk oder Haus mit den Feldern des Katalogs
+ * @param {'werke'|'haeuser'} art
+ * @returns {object[]} die Sammlungen
+ */
+export function sammlungenFuer(eintrag, art) {
+    if (!eintrag) return [];
+    const ids = new Set([eintrag.id, ...(art === 'werke' ? ENTHAELT[eintrag.id] || [] : [])].filter(Boolean));
+    return SAMMLUNGEN.filter((sammlung) => {
+        if (sammlung.art === 'merkmal') {
+            if (sammlung.von !== art) return false;
+            const werte = typeof sammlung.werte === 'function' ? null : new Set(sammlung.werte);
+            const eigene = sammlung.merkmal(eintrag).filter(Boolean);
+            // Bei Werten aus dem Katalog (Bundesländer) bringt der Eintrag
+            // seinen Wert selbst mit.
+            return werte ? eigene.some(w => werte.has(w)) : eigene.length > 0;
+        }
+        if (sammlung.art !== art) return false;
+        return sammlung.mitglieder.some(id => ids.has(id)) || !!sammlung.regel?.(eintrag);
+    });
 }
 
 /**
@@ -160,7 +222,8 @@ function teile(sammlung) {
  *   erledigt: number, gesamt: number, vollstaendig: boolean}>}
  */
 export function fortschritt(besuche, gesehen = []) {
-    const werke = new Set([...(besuche || []).map(b => b.operaId ?? b.opera_id), ...(gesehen || [])]);
+    const direkt = [...(besuche || []).map(b => b.operaId ?? b.opera_id), ...(gesehen || [])];
+    const werke = new Set([...direkt, ...direkt.flatMap(id => ENTHAELT[id] || [])]);
     const haeuser = new Set((besuche || []).map(b => b.houseId ?? b.house_id));
     const hat = { werke, haeuser };
     const katalog = { werke: operas, haeuser: operaHouses };

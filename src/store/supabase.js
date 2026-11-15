@@ -1723,6 +1723,8 @@ export const addKatalogHaus = (haus) => katalogAnlegen('catalog_houses', {
     description: haus.description,
     color: haus.color,
     image_url: haus.imageUrl,
+    // Wo der monatliche Spielplan-Lauf das Haus liest; leer: gar nicht.
+    spielplan_seite: String(haus.spielplanSeite || '').trim(),
 }, 'Haus zum Katalog hinzufügen');
 
 export const addKatalogKomponist = (k) => katalogAnlegen('catalog_composers', {

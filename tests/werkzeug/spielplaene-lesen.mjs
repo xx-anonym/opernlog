@@ -1007,6 +1007,27 @@ function quelle(hausId) {
             terminLinks: q.terminLinks || null };
 }
 
+/**
+ * Häuser aus der Datenbank mit Spielplan-Seite (aus dem Formular des Admins)
+ * bekommen sie als Einstiegsseite – nur, wenn spielplan-quellen.json für sie
+ * nichts hat. Die Datei gewinnt: dort können Feinheiten stehen (Spielstätte,
+ * Selektoren), die ein einzelnes Feld nicht kennt.
+ *
+ * @param {Array<{id: string, spielplan_seite?: string}>} haeuserDb
+ * @param {object} [quellen]  Standard: spielplan-quellen.json
+ * @returns {string[]} die Häuser, die so dazukamen
+ */
+export function quellenAusDatenbank(haeuserDb, quellen = QUELLEN) {
+    const dazu = [];
+    for (const h of haeuserDb || []) {
+        const seite = String(h.spielplan_seite || '').trim();
+        if (!seite || quellen[h.id]) continue;
+        quellen[h.id] = [seite];
+        dazu.push(h.id);
+    }
+    return dazu;
+}
+
 /** Liest der Lauf dieses Haus gar nicht, weil es Programme aussperrt? */
 export function hausAusgesperrt(hausId) {
     return quelle(hausId).ausgesperrt;
@@ -1331,10 +1352,13 @@ async function main() {
         console.warn(`Werke aus der Datenbank nicht geladen (${e.message}) – nur die aus operas.js.`);
     }
     // Häuser aus der Datenbank: gelesen werden sie, sobald
-    // spielplan-quellen.json Einstiegsseiten für sie hat.
+    // spielplan-quellen.json Einstiegsseiten für sie hat – oder der Admin im
+    // Formular eine Spielplan-Seite angegeben hat (quellenAusDatenbank()).
     let haeuserDb = [];
     try {
         haeuserDb = (await haeuserAusDatenbank()).filter(h => !operaHouses.some(o => o.id === h.id));
+        const dazu = quellenAusDatenbank(haeuserDb);
+        if (dazu.length) console.log(`Spielplan-Seite aus dem Formular: ${dazu.join(', ')}`);
     } catch (e) {
         console.warn(`Häuser aus der Datenbank nicht geladen (${e.message}) – nur die aus operaHouses.js.`);
     }
