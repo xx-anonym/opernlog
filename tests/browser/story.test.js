@@ -332,11 +332,61 @@ test('Story: Stammhaus und Komponist mit rundem Bild im Hintergrund, der Weg als
         assert.equal(stammhaus.bild.hinten, '-1');
         assert.ok(stammhaus.bild.breite <= 200, `nicht zu groß: ${stammhaus.bild.breite}px`);
         assert.match(gesehen['Komponist der Saison'].bild.url, /Puccini/i);
+        // Der Abend der Saison mit dem Werkbild (Jonas, 15.11.2026).
+        assert.ok(gesehen['Der Abend der Saison'].bild, 'kein Werkbild beim Abend der Saison');
+        assert.equal(gesehen['Der Abend der Saison'].bild.rund, '50%');
         assert.deepEqual(gesehen['Zwischen den Häusern'].halte.sort(), ['oper-leipzig', 'semperoper']);
         assert.equal(gesehen['Zwischen den Häusern'].boegen, 2);
         // Die übrigen Folien bleiben ohne Bild.
         assert.equal(gesehen['Dein Schnitt'].bild, null);
         assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+// "Meistgehörte Stimmen" (Jonas, 15.11.2026: "sehr leer"): alle Stimmen der
+// Spielzeit blitzen auf, bis die Walze bei der meistgehörten stehen bleibt.
+const MIT_BESETZUNG = [
+    { ...BESUCHE[0], cast_list: 'Ulrike Schneider (Tosca)\nJonas Kaufmann (Cavaradossi)\nLuca Salsi (Scarpia)' },
+    { ...BESUCHE[1], cast_list: 'Anna Netrebko (Aida)\nElīna Garanča (Amneris)\nPiotr Beczała (Radamès)' },
+    { ...BESUCHE[2], cast_list: 'Ulrike Schneider (Tosca)\nBenjamin Bernheim (Cavaradossi)\nLudovic Tézier (Scarpia)' },
+];
+
+async function zurFolie(p, kicker) {
+    for (let i = 0; i < 20 && !(await p.textContent('.story__kicker')).includes(kicker); i++) await p.keyboard.press('ArrowRight');
+}
+
+test('Story: Meistgehörte Stimmen – die Walze läuft durch alle Stimmen und bleibt bei der meistgehörten stehen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await rueckblick({ besuche: MIT_BESETZUNG });
+    try {
+        await p.click('#storyBtn');
+        await zurFolie(p, 'Meistgehörte Stimmen');
+        const walze = await p.evaluate(() => [...document.querySelectorAll('.story-walze__name')].map(n => n.textContent));
+        assert.equal(walze.at(-1), 'Ulrike Schneider');
+        // Die anderen sieben kommen vor, die meistgehörte erst am Ende.
+        assert.deepEqual([...new Set(walze.slice(0, -1))].sort(), ['Anna Netrebko', 'Benjamin Bernheim', 'Elīna Garanča', 'Jonas Kaufmann', 'Luca Salsi', 'Ludovic Tézier', 'Piotr Beczała'].sort());
+        // Am Anfang ist ein anderer Name zu sehen, das Ziel noch nicht.
+        const sichtbar = () => p.evaluate(() => [...document.querySelectorAll('.story-walze__name')]
+            .filter(n => Number(getComputedStyle(n).opacity) > 0.5).map(n => n.textContent));
+        await p.waitForTimeout(700);
+        const frueh = await sichtbar();
+        assert.equal(frueh.length, 1, `früh: ${frueh}`);
+        assert.notEqual(frueh[0], 'Ulrike Schneider');
+        // Danach steht nur noch sie da.
+        await p.waitForFunction(() => document.getAnimations().filter(a => a.effect?.target?.closest?.('.story-walze')).every(a => a.playState === 'finished'), null, { timeout: 8000 });
+        assert.deepEqual(await sichtbar(), ['Ulrike Schneider']);
+        assert.match(await p.textContent('.story__notiz'), /2 Abende · 8 Stimmen gehört/);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('Story: Meistgehörte Stimmen bei weniger Bewegung – gleich der Name, keine Walze', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p } = await rueckblick({ besuche: MIT_BESETZUNG, bewegung: 'reduce' });
+    try {
+        await p.click('#storyBtn');
+        await zurFolie(p, 'Meistgehörte Stimmen');
+        const sichtbar = await p.evaluate(() => [...document.querySelectorAll('.story-walze__name')]
+            .filter(n => Number(getComputedStyle(n).opacity) > 0.5).map(n => n.textContent));
+        assert.deepEqual(sichtbar, ['Ulrike Schneider']);
     } finally { await ctx.close(); }
 });
 

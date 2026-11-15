@@ -27,6 +27,7 @@ import {
     seasonsWithVisits,
 } from '../data/season.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
+import { stimmenWalze } from '../components/StimmenWalze.js';
 
 // Liegt seit dem Werkverlauf in utils.js – dort braucht es dieselbe Ausgabe,
 // und zwei Fassungen desselben Formats laufen erfahrungsgemäß auseinander.
@@ -224,11 +225,12 @@ const stilVon = karte => karte.stil || (karte.wert.length > 40 ? 'liste' : '');
 function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
     // bild: rund und blass im Hintergrund (Stammhaus, Komponist);
     // grafik: der Weg zwischen den Häusern; unten: unter dem Text (Schnitt).
-    const folie = ({ symbol, label, wert, zusatz, stil, bild, grafik, unten }) => `
+    // walze: statt des Werts die Namen, die durchlaufen (stimmenWalze()).
+    const folie = ({ symbol, label, wert, zusatz, stil, bild, grafik, unten, walze }) => `
       ${bild ? `<div class="story__bild" style="${coverBackground(bild.url, 'none', '', bild.ausschnitt)}"></div>` : ''}
       ${grafik ? `<div class="story__grafik">${grafik}</div>` : ''}
       <span class="story__kicker">${symbol ? icon(symbol) : ''}${label}</span>
-      <span class="story__wert${stil ? ` story__wert--${stil}` : ''}">${wert}</span>
+      <span class="story__wert${stil ? ` story__wert--${stil}` : ''}">${walze || wert}</span>
       ${zusatz ? `<span class="story__notiz">${zusatz}</span>` : ''}
       ${unten ? `<div class="story__unten">${unten}</div>` : ''}`;
 
@@ -433,20 +435,30 @@ function karten(r) {
     // stand – sonst wäre bei einem Abend jeder der sechs Namen "meistgehört".
     if (r.topVoices?.length) {
         const [erste, ...weitere] = r.topVoices;
+        const alle = r.alleStimmen?.length || 0;
         liste.push({
             symbol: 'users',
             label: 'Meistgehörte Stimmen',
             wert: erste.name,
-            zusatz: [`${erste.anzahl} Abende`, ...weitere.map(w => `${w.name} (${w.anzahl})`)].join(' · '),
+            zusatz: [
+                `${erste.anzahl} Abende`,
+                ...weitere.map(w => `${w.name} (${w.anzahl})`),
+                ...(alle > 1 ? [`${alle} Stimmen gehört`] : []),
+            ].join(' · '),
+            walze: stimmenWalze((r.alleStimmen || []).map(s => s.name), erste.name),
         });
     }
 
     if (r.bestVisit?.opera) {
+        const werk = r.bestVisit.opera;
         liste.push({
             groesse: 'gross',
             symbol: 'heart',
             label: 'Der Abend der Saison',
-            wert: r.bestVisit.opera.title,
+            wert: werk.title,
+            // Das Werkbild, rund und blass wie Stammhaus und Komponist
+            // (Jonas, 15.11.2026: "dezent eingeblendet").
+            bild: werk.image ? { url: werk.image, ausschnitt: werk.bildAusschnitt } : null,
             zusatz: [r.bestVisit.house?.name, datum(r.bestVisit.visit.date)].filter(Boolean).join(' · '),
             nachbau: (el) => {
                 const box = document.createElement('div');

@@ -89,6 +89,7 @@ const APP_SHELL = [
     './src/pages/Wishlist.js',
     './src/components/Navigation.js',
     './src/components/ZurueckLink.js',
+    './src/components/StimmenWalze.js',
     './src/components/ReviewCard.js',
     './src/components/BlindSpots.js',
     './src/components/HouseMap.js',

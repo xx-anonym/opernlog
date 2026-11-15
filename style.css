@@ -8772,3 +8772,45 @@ html.willkommen-offen body {
     .ziehen--zurueck { transition: none; }
     .ziehen--laeuft .ziehen__kreis::before { animation-duration: 2.4s; }
 }
+
+/* Die Stimmen-Walze im Saisonrückblick (SeasonReview.js, stimmenWalze()):
+   alle Namen liegen in derselben Zelle übereinander, jeder blitzt nur in
+   seinem Zeitfenster auf (--beginn, --dauer). Der letzte – die
+   meistgehörte Stimme – bleibt stehen und leuchtet kurz golden auf. */
+.story-walze {
+    display: grid;
+}
+
+.story-walze__name {
+    grid-area: 1 / 1;
+    opacity: 0;
+    /* forwards, nicht both: vor dem eigenen Fenster gilt opacity 0 von oben,
+       sonst stünden alle Namen gleich zu Beginn übereinander. */
+    animation: walzeBlitz var(--dauer, 0.1s) linear var(--beginn, 0s) forwards;
+}
+
+.story-walze__name--ziel {
+    animation: walzeStehen 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--beginn, 0s) both;
+}
+
+.story--angehalten .story-walze__name {
+    animation-play-state: paused;
+}
+
+/* An und am Ende hart aus. Nicht mit steps(1, end): damit behielt Chromium
+   nach dem Ende den Anfangswert, und Namen blieben stehen. */
+@keyframes walzeBlitz {
+    0%, 99.9% { opacity: 0.85; }
+    100% { opacity: 0; }
+}
+
+@keyframes walzeStehen {
+    0% { opacity: 0; transform: translateY(0.12em); color: var(--gold-light); text-shadow: 0 0 0.6em rgba(223, 192, 106, 0.55); }
+    35% { opacity: 1; transform: none; color: var(--gold-light); text-shadow: 0 0 0.6em rgba(223, 192, 106, 0.55); }
+    100% { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .story-walze__name { animation: none; }
+    .story-walze__name--ziel { opacity: 1; }
+}
