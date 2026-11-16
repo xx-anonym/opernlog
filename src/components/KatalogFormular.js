@@ -16,7 +16,7 @@ import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { composers } from '../data/composers.js';
 import { uebernehmen } from '../data/katalogZusatz.js';
-import { pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, thumbAdresse, BILD_BREITE } from '../data/katalogRegeln.js';
+import { pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, thumbAdresse, BILD_BREITE, andereTitelAusText } from '../data/katalogRegeln.js';
 import { addKatalogWerk, addKatalogHaus, addKatalogKomponist } from '../store/supabase.js';
 import { sammlungenFuer } from '../data/sammlungen.js';
 import { naechsterLaufText } from '../data/spielplanLauf.js';
@@ -58,6 +58,7 @@ function werkFelder() {
     const bekannte = [...composers].sort((a, b) => a.name.localeCompare(b.name, 'de'));
     return `
         ${feld({ id: 'kfTitle', label: 'Titel' })}
+        ${textfeld({ id: 'kfAndereTitel', label: 'Andere Titel (optional)', hinweis: 'Einer je Zeile, etwa „Le Tour d’écrou“ oder „Das Geheimnis von Bly“. Der Spielplan-Lauf sucht das Werk auch unter diesen Titeln.' })}
         ${auswahl({
             id: 'kfComposer',
             label: 'Komponist',
@@ -219,6 +220,7 @@ export function katalogModal(art, fertig, dienste = {}) {
         return {
             werk: {
                 id: wert('kfId'), title: wert('kfTitle'),
+                andereTitel: andereTitelAusText(wert('kfAndereTitel'), wert('kfTitle')),
                 composer: neuerKomponist ? neuerKomponist.name : auswahlWert,
                 yearComposed: wert('kfYear'), language: wert('kfLanguage'),
                 acts: wert('kfActs'), genre: wert('kfGenre'),

@@ -26,8 +26,8 @@ async function tabelle(name, spalten) {
     return r.json();
 }
 
-/** [{id, title, composer}] */
-export const werkeAusDatenbank = () => tabelle('catalog_operas', 'id,title,composer');
+/** [{id, title, composer, andere_titel}] – andere_titel aus dem Formular (16.11.2026) */
+export const werkeAusDatenbank = () => tabelle('catalog_operas', 'id,title,composer,andere_titel');
 
 /**
  * Die Häuser, die der Admin in der App angelegt hat (catalog_houses):

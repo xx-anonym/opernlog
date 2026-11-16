@@ -205,8 +205,11 @@ const adressFormen = t => [slug(t), slug(t.replace(/ä/g, 'ae').replace(/ö/g, '
 const ohneAkzente = s => norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 const trifft = (w, text) => { const t = ohneAkzente(text); return w.muster.some(m => m.test(t)); };
 
-function alsWerk(o) {
-    const titel = [...new Set([o.title, ...(ANDERE_TITEL[o.id] || [])].map(norm))];
+// Dazu die anderen Titel, die der Admin im Formular zum Werk eingetragen hat
+// (catalog_operas.andere_titel).
+export function alsWerk(o) {
+    const ausFormular = Array.isArray(o.andere_titel) ? o.andere_titel : [];
+    const titel = [...new Set([o.title, ...(ANDERE_TITEL[o.id] || []), ...ausFormular].filter(Boolean).map(norm))];
     const nachname = o.composer.replace(/\s+(II|I|Sohn|der Jüngere)$/i, '').split(' ').pop();
     return {
         id: o.id,

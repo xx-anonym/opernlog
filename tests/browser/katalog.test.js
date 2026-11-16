@@ -121,6 +121,8 @@ test('ein Werk landet im Katalog und ist sofort da', { skip: fehltPlaywright }, 
         await p.click('#suggestOperaBtn');
         await p.waitForSelector('#kfForm');
         await fuelleWerk(p);
+        // Andere Titel für den Spielplan-Lauf (16.11.2026), einer je Zeile.
+        await p.fill('#kfAndereTitel', "L'Empereur d'Atlantide\n\nDer Kaiser von Atlantis");
         await p.click('#kfSenden');
         // Warten, bis angelegt ist – eine feste Pause war unter Last zu kurz.
         await p.waitForFunction(() => window.__angelegt.length >= 1);
@@ -133,6 +135,8 @@ test('ein Werk landet im Katalog und ist sofort da', { skip: fehltPlaywright }, 
         assert.equal(angelegt[0].zeile.id, 'der-kaiser-von-atlantis');
         // Die Spalte heißt in der Datenbank anders als das Feld in der App.
         assert.equal(angelegt[0].zeile.year_composed, 1943);
+        // Der Haupttitel und die Leerzeile fallen weg.
+        assert.deepEqual(angelegt[0].zeile.andere_titel, ["L'Empereur d'Atlantide"]);
 
         const nachher = await p.evaluate(async () => (await import('/src/data/operas.js')).operas.length);
         assert.equal(nachher, vorher + 1, 'der Katalog wuchs nicht mit');

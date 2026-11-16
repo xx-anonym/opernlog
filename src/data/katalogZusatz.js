@@ -30,6 +30,7 @@ const UMBENANNT = {
     image_url: 'imageUrl',
     bild_lizenz: 'bildLizenz',
     bild_urheber: 'bildUrheber',
+    andere_titel: 'andereTitel',
 };
 
 /** Eine Datenbankzeile in die Form bringen, die der Katalog führt. */

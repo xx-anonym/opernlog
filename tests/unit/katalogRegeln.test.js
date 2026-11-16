@@ -9,7 +9,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-    pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, BILD_BREITE,
+    pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, BILD_BREITE, andereTitelAusText,
 } from '../../src/data/katalogRegeln.js';
 
 const BILD = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/P.jpg/500px-P.jpg';
@@ -283,4 +283,20 @@ test('ein Namensvetter statt des Komponisten fällt auf', () => {
         bio: 'John Adams war einer der Gründerväter der Vereinigten Staaten.' };
     assert.match(text(pruefeKomponist(praesident, { komponisten: [] })), /keinen Musiker/);
     assert.deepEqual(pruefeKomponist({ ...KOMPONIST, kurz: 'US-amerikanischer Komponist', bio: 'Er schrieb Nixon in China.' }, { komponisten: [] }), []);
+});
+
+// Andere Titel aus dem Formular (16.11.2026): unter ihnen sucht der
+// Spielplan-Lauf das Werk zusätzlich.
+test('andere Titel: einer je Zeile, ohne Leeres, Dubletten und den Haupttitel', () => {
+    assert.deepEqual(andereTitelAusText("Le Tour d’écrou\n\n  Das Geheimnis   von Bly ; le tour d'écrou\nThe Turn of the Screw", 'The Turn of the Screw'),
+        ['Le Tour d’écrou', 'Das Geheimnis von Bly']);
+    assert.deepEqual(andereTitelAusText(''), []);
+    assert.deepEqual(andereTitelAusText(undefined), []);
+});
+
+test('andere Titel sind freiwillig, aber keine Adressen und keine Absätze', () => {
+    assert.deepEqual(pruefeWerk({ ...WERK, andereTitel: [] }, BESTAND), []);
+    assert.deepEqual(pruefeWerk({ ...WERK, andereTitel: ['La Flûte enchantée'] }, BESTAND), []);
+    assert.match(text(pruefeWerk({ ...WERK, andereTitel: ['https://www.opera-lausanne.ch/show/x/'] }, BESTAND)), /Adresse, kein Titel/);
+    assert.match(text(pruefeWerk({ ...WERK, andereTitel: ['x'.repeat(121)] }, BESTAND)), /länger als 120 Zeichen/);
 });

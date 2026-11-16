@@ -96,6 +96,30 @@ function bildMaengel(adresse, feld) {
     return maengel;
 }
 
+/** So lang darf ein anderer Titel höchstens sein – länger ist es kein Titel mehr. */
+export const ANDERER_TITEL_LAENGE = 120;
+
+/**
+ * Die anderen Titel eines Werks aus dem Formularfeld: einer je Zeile (oder
+ * durch Semikolon getrennt), ohne Leerzeilen, Dubletten und den Haupttitel.
+ *
+ * Unter diesen Titeln sucht der Spielplan-Lauf das Werk zusätzlich. Genf und
+ * Lausanne etwa spielen "The Turn of the Screw" als "Le Tour d'écrou"; ohne
+ * den Titel fand der Lauf das Werk dort nicht (16.11.2026).
+ */
+export function andereTitelAusText(text, haupttitel = '') {
+    const gleich = (a) => a.toLocaleLowerCase('de').replace(/[’‘]/g, "'").replace(/\s+/g, ' ');
+    const gesehen = new Set([gleich(String(haupttitel).trim())]);
+    const titel = [];
+    for (const roh of String(text ?? '').split(/[\n;]/)) {
+        const t = roh.trim().replace(/\s+/g, ' ');
+        if (!t || gesehen.has(gleich(t))) continue;
+        gesehen.add(gleich(t));
+        titel.push(t);
+    }
+    return titel;
+}
+
 /** Id: vorhanden, url-tauglich, noch nicht vergeben. */
 function idMaengel(id, vergeben) {
     if (leer(id)) return ['Die Id fehlt.'];
@@ -152,6 +176,13 @@ export function pruefeWerk(werk = {}, bestand = {}) {
     maengel.push(...zahlMaengel(werk.yearComposed, 'Das Entstehungsjahr', { min: 1000, max: 2100 }));
     maengel.push(...zahlMaengel(werk.acts, 'Die Zahl der Akte', { min: 1, max: 12 }));
     maengel.push(...bildMaengel(werk.image, 'Das Bild'));
+
+    // Freiwillig. Eine Adresse oder ein Absatz im Feld wäre ein Versehen und
+    // ließe den Spielplan-Lauf nach Unsinn suchen.
+    for (const t of werk.andereTitel ?? []) {
+        if (/^https?:|www\./i.test(t)) maengel.push(`"${t}" ist eine Adresse, kein Titel.`);
+        else if (t.length > ANDERER_TITEL_LAENGE) maengel.push(`Ein anderer Titel ist länger als ${ANDERER_TITEL_LAENGE} Zeichen: "${t.slice(0, 40)}…".`);
+    }
 
     return maengel;
 }

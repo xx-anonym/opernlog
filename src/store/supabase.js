@@ -1709,6 +1709,8 @@ export const addKatalogWerk = (werk) => katalogAnlegen('catalog_operas', {
     librettist: werk.librettist,
     description: werk.description,
     image: werk.image,
+    // Weitere Titel, unter denen der Spielplan-Lauf das Werk sucht.
+    andere_titel: werk.andereTitel ?? [],
 }, 'Werk zum Katalog hinzufügen');
 
 export const addKatalogHaus = (haus) => katalogAnlegen('catalog_houses', {

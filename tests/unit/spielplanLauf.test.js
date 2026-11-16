@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 
 import { naechsterLauf, naechsterLaufText } from '../../src/data/spielplanLauf.js';
 import { pruefeHaus } from '../../src/data/katalogRegeln.js';
-import { quellenAusDatenbank } from '../werkzeug/spielplaene-lesen.mjs';
+import { quellenAusDatenbank, alsWerk } from '../werkzeug/spielplaene-lesen.mjs';
 
 test('der nächste Lauf: am 3., nach dem 3. im nächsten Monat, über den Jahreswechsel', () => {
     const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -44,4 +44,15 @@ test('die Spielplan-Seite ist freiwillig, aber wenn, dann eine Adresse', () => {
     assert.ok(!mangel(pruefeHaus({ ...haus, spielplanSeite: 'https://www.theater-neu.de/spielplan/oper' })));
     assert.ok(mangel(pruefeHaus({ ...haus, spielplanSeite: 'theater-neu.de/spielplan' })));
     assert.ok(mangel(pruefeHaus({ ...haus, spielplanSeite: 'https://spielplan' })));
+});
+
+test('der Lauf sucht ein Werk aus dem Formular auch unter seinen anderen Titeln', () => {
+    // So stand "The Turn of the Screw" in Lausanne auf dem Spielplan.
+    const werk = alsWerk({ id: 'neues-werk', title: 'Das neue Werk', composer: 'Benjamin Britten', andere_titel: ["Le Tour d’écrou"] });
+    const trifft = text => werk.muster.some(m => m.test(text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+    assert.ok(trifft("LE TOUR D'ÉCROU · Opéra de Lausanne"));
+    assert.ok(trifft('Das neue Werk'));
+    assert.ok(werk.slugs.some(s => 'le-tour-decrou'.includes(s)), werk.slugs.join(' '));
+    // Ohne die Spalte (ältere Zeilen, Werke aus operas.js) wie bisher.
+    assert.deepEqual(alsWerk({ id: 'neues-werk', title: 'Das neue Werk', composer: 'Benjamin Britten' }).titel, ['das neue werk']);
 });
