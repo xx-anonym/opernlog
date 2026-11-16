@@ -726,3 +726,29 @@ test('gespielteTage: steht ein Werk doppelt am Haus, zählt jeder Tag einmal', (
     ];
     assert.deepEqual(gespielteTage('semperoper', 'tosca', { heute: '2026-09-30', daten: doppelt }), ['2026-09-05', '2026-09-01']);
 });
+
+test('eine Datumsleiste ohne Uhrzeit zählt, wenn die Seite ihre Tage als Events mit Beginn führt', () => {
+    // Mainfranken Theater Würzburg (17.11.2026): oben alle Vorstellungen ohne
+    // Uhrzeit, im Text der Beginn nur für die gewählte, dazu jede Vorstellung
+    // als schema.org-Event. Vorher blieben nur die Tage mit Uhrzeit im Text.
+    const fenster = { von: '2026-11-17', bis: '2027-09-30' };
+    const tage = [['2026-10-17', '19:30'], ['2026-11-22', '18:00'], ['2026-12-15', '19:30'], ['2026-12-23', '19:30'],
+        ['2026-12-26', '15:00'], ['2027-01-09', '19:30'], ['2027-01-24', '15:00']];
+    const seite = {
+        text: 'Nabucco\nOper von Giuseppe Verdi\nPremiere am 17. Oktober 2026\nSa 17.10.\nSo 22.11.\nDi 15.12.\nMi 23.12.\nSa 26.12.\nSa 9.1.\nSo 24.1.\n'
+            + '22. November 2026\nNabucco\nTheaterfabrik Blaue Halle | 18:00 - 20:30\n17:20 Einführung',
+        zusatz: '',
+        ereignisse: tage.map(([t, z]) => ({ start: `${t}T${z}:00` })),
+    };
+    const erg = seitenTermine(seite, fenster);
+    assert.deepEqual(erg.termine, ['2026-11-22', '2026-12-15', '2026-12-23', '2026-12-26', '2027-01-09', '2027-01-24']);
+    assert.equal(erg.zeiten['2026-12-26'], '15:00');
+    assert.equal(erg.zeiten['2026-11-22'], '18:00-20:30');
+
+    // Ein Event, dessen Tag nicht im Text steht, kommt nicht dazu – etwa eine
+    // andere Produktion in den strukturierten Daten der Seite.
+    const fremd = { ...seite, ereignisse: [...seite.ereignisse, { start: '2027-03-05T19:30:00' }] };
+    assert.ok(!seitenTermine(fremd, fenster).termine.includes('2027-03-05'));
+    // Ohne Events bleibt es bei den Tagen mit Uhrzeit.
+    assert.deepEqual(seitenTermine({ ...seite, ereignisse: [] }, fenster).termine, ['2026-11-22']);
+});

@@ -380,6 +380,23 @@ export function seitenTermine(d, fenster, q = {}) {
     const strukturiert = new Set((d.ereignisse || []).map(e => /^20\d\d-\d\d-\d\d/.exec(e.start || '')?.[0])
         .filter(t => t && t >= fenster.von && t <= fenster.bis));
     if (strukturiert.size >= 3) erg.termine = erg.termine.filter(t => erg.zeiten[t] || strukturiert.has(t));
+    // Umgekehrt: Steht ein Tag im Text nur in einer Datumsleiste ohne
+    // Uhrzeit, die Seite führt ihn aber als Event mit Beginn, zählt er mit.
+    // Das Mainfranken Theater Würzburg nennt oben alle Vorstellungen ("Di
+    // 15.12. Mi 23.12. …"), den Beginn im Text nur für die gewählte – und die
+    // Termine mit Uhrzeit verdrängten die Leiste: Nabucco hatte zwei statt
+    // sechs Termine (17.11.2026). Beides muss stimmen, Text und Event.
+    if (!erg.ohneUhrzeit && strukturiert.size >= 3) {
+        const imText = new Set(termineAusText(d.text || '', fenster));
+        const abgesagt = new Set(erg.abgesagt || []);
+        for (const t of strukturiert) {
+            if (erg.termine.includes(t) || !imText.has(t) || !ausLd[t] || abgesagt.has(t)) continue;
+            erg.termine.push(t);
+            erg.zeiten[t] = ausLd[t];
+        }
+        erg.termine.sort();
+    }
+    delete erg.abgesagt;
     // Ein Tag ohne Jahr und ohne Uhrzeit, den die Seite anderswo mit einem
     // vergangenen Jahr nennt, ist jener Tag: Bonn titelt "PREMIERE AM
     // 3. OKTOBER IM OPERNHAUS" über "Premiere 3. Oktober 2024".
@@ -430,7 +447,7 @@ function termineDerSeite(d, fenster, q) {
             return { termine: ohneAbgesagte(termineAusText(`${d.text}\n${d.zusatz}`, fenster, { saison })), zeiten: {}, ohneUhrzeit: true };
         }
     }
-    if (mitUhrzeit.length) return { termine: mitUhrzeit, zeiten, ohneUhrzeit: false };
+    if (mitUhrzeit.length) return { termine: mitUhrzeit, zeiten, ohneUhrzeit: false, abgesagt };
     return { termine: termineAusText(`${d.text}\n${d.zusatz}`, fenster, { saison }), zeiten, ohneUhrzeit: true };
 }
 

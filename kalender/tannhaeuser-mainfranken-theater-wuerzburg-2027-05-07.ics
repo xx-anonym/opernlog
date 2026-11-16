@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OpernLog//Spielplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:tannhaeuser-mainfranken-theater-wuerzburg-2027-05-07@opernlog.vercel.ap
+ p
+DTSTAMP:20261114T000000Z
+DTSTART;TZID=Europe/Berlin:20270507T180000
+DTEND;TZID=Europe/Berlin:20270507T210000
+SUMMARY:Tannhäuser – Mainfranken Theater Würzburg
+LOCATION:Mainfranken Theater Würzburg\, Deutschland
+GEO:49.795;9.936667
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=70;X-APPLE-REFERENCEFR
+ AME=1;X-TITLE="Mainfranken Theater Würzburg, Deutschland":geo:49.795,9.93
+ 6667
+URL:https://www.mainfrankentheater.de/programm/spielplan/tannhaeuser-und-de
+ r-saengerkrieg-auf-wartburg/3032/
+DESCRIPTION:Richard Wagner: Tannhäuser\nTermine und Karten: https://www.ma
+ infrankentheater.de/programm/spielplan/tannhaeuser-und-der-saengerkrieg-au
+ f-wartburg/3032/\nDas Ende ist geschätzt (3 Stunden).\nAus OpernLog – m
+ aßgeblich ist die Seite des Hauses.
+END:VEVENT
+END:VCALENDAR

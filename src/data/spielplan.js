@@ -18,7 +18,7 @@ export const SPIELPLAN_STAND = '2026-11-14';
 export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-trittico', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi', 'the-greek-passion'];
 
 // Häuser aus der Datenbank, die nicht in operaHouses.js stehen.
-export const SPIELPLAN_ZUSATZHAEUSER = ['luzerner-theater', 'neubrandenburg-neustrelitz', 'staatstheater-meiningen', 'theater-bielefeld', 'theater-koblenz'];
+export const SPIELPLAN_ZUSATZHAEUSER = ['luzerner-theater', 'mainfranken-theater-wuerzburg', 'neubrandenburg-neustrelitz', 'staatstheater-meiningen', 'theater-bielefeld', 'theater-koblenz'];
 
 export const spielplan = [
     { werk: 'aida', haus: 'oper-frankfurt', url: "https://oper-frankfurt.de/de/spielplan/aida_3/",
@@ -1117,6 +1117,9 @@ export const spielplan = [
     { werk: 'nabucco', haus: 'festspielhaus-erl', url: "https://www.tiroler-festspiele.at/events/26_27_giuseppe-verdi-nabucco",
       termine: ['2026-12-13'],
       zeiten: { '2026-12-13': '18:00-21:00' } },
+    { werk: 'nabucco', haus: 'mainfranken-theater-wuerzburg', url: "https://www.mainfrankentheater.de/programm/a-z/nabucco/",
+      termine: ['2026-11-22', '2026-12-15', '2026-12-23', '2026-12-26', '2027-01-09', '2027-01-24'],
+      zeiten: { '2026-11-22': '18:00-20:30', '2026-12-15': '19:30', '2026-12-23': '19:30', '2026-12-26': '15:00', '2027-01-09': '19:30', '2027-01-24': '15:00' } },
     { werk: 'nabucco', haus: 'nationaltheater-mannheim', url: "https://www.nationaltheater-mannheim.de/spielplan/a-z/nabucco/",
       termine: ['2027-01-01', '2027-01-03', '2027-01-17', '2027-01-22', '2027-02-13', '2027-04-01', '2027-04-04', '2027-04-18', '2027-05-02'],
       zeiten: { '2027-01-01': '19:00', '2027-01-03': '18:00', '2027-01-17': '18:00', '2027-01-22': '19:30', '2027-02-13': '19:00', '2027-04-01': '19:30', '2027-04-04': '18:00', '2027-04-18': '19:00', '2027-05-02': '18:00' } },
@@ -1495,6 +1498,9 @@ export const spielplan = [
     { werk: 'tannhaeuser', haus: 'festspielhaus-bayreuth', url: "https://www.bayreuther-festspiele.de/programm/auffuehrungen/tannhaeuser/",
       termine: ['2027-07-27', '2027-08-01', '2027-08-05', '2027-08-11', '2027-08-16', '2027-08-21'],
       zeiten: { '2027-07-27': '16:00', '2027-08-01': '16:00', '2027-08-05': '16:00', '2027-08-11': '16:00', '2027-08-16': '16:00', '2027-08-21': '16:00' } },
+    { werk: 'tannhaeuser', haus: 'mainfranken-theater-wuerzburg', url: "https://www.mainfrankentheater.de/programm/spielplan/tannhaeuser-und-der-saengerkrieg-auf-wartburg/3032/",
+      termine: ['2027-02-06', '2027-02-21', '2027-03-05', '2027-03-27', '2027-05-02', '2027-05-07', '2027-05-28', '2027-06-06'],
+      zeiten: { '2027-02-06': '18:00', '2027-02-21': '15:00', '2027-03-05': '18:00', '2027-03-27': '18:00', '2027-05-02': '15:00', '2027-05-07': '18:00', '2027-05-28': '18:00', '2027-06-06': '15:00' } },
     { werk: 'tannhaeuser', haus: 'oper-chemnitz', url: "https://www.theater-chemnitz.de/spielplan/detailseite/tannhaeuser-und-der-saengerkrieg-auf-wartburg",
       termine: ['2027-04-24', '2027-05-01', '2027-05-17', '2027-05-30', '2027-06-19', '2027-06-27'],
       zeiten: { '2027-04-24': '18:00', '2027-05-01': '18:00', '2027-05-17': '18:00', '2027-05-30': '18:00', '2027-06-19': '18:00', '2027-06-27': '18:00' } },
