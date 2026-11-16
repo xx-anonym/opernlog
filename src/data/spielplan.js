@@ -18,7 +18,7 @@ export const SPIELPLAN_STAND = '2026-11-14';
 export const SPIELPLAN_ZUSATZWERKE = ['candide', 'il-trittico', 'il-viaggio-a-reims', 'l-italiana-in-algeri', 'orpheus-in-der-unterwelt', 'rienzi', 'the-greek-passion'];
 
 // Häuser aus der Datenbank, die nicht in operaHouses.js stehen.
-export const SPIELPLAN_ZUSATZHAEUSER = ['luzerner-theater', 'staatstheater-meiningen', 'theater-bielefeld', 'theater-koblenz'];
+export const SPIELPLAN_ZUSATZHAEUSER = ['luzerner-theater', 'neubrandenburg-neustrelitz', 'staatstheater-meiningen', 'theater-bielefeld', 'theater-koblenz'];
 
 export const spielplan = [
     { werk: 'aida', haus: 'oper-frankfurt', url: "https://oper-frankfurt.de/de/spielplan/aida_3/",
@@ -306,6 +306,9 @@ export const spielplan = [
     { werk: 'dido-aeneas', haus: 'hamburgische-staatsoper', url: "https://www.die-hamburgische-staatsoper.de/de/programm/oper/1935-dido-and-aeneas#tickets",
       termine: ['2026-11-06', '2026-11-08', '2026-11-10', '2026-11-13', '2026-11-15', '2026-11-16', '2026-11-17', '2026-11-19', '2026-11-21', '2026-11-22'],
       zeiten: { '2026-11-06': '20:00', '2026-11-08': '15:00', '2026-11-10': '19:00', '2026-11-13': '20:00', '2026-11-15': '18:00', '2026-11-16': '20:00', '2026-11-17': '19:00', '2026-11-19': '20:00', '2026-11-21': '19:00', '2026-11-22': '15:00' } },
+    { werk: 'dido-aeneas', haus: 'neubrandenburg-neustrelitz', url: "https://tog.de/projekte/dido-und-aeneas/",
+      termine: ['2026-11-27', '2026-12-05', '2026-12-07', '2026-12-26'],
+      zeiten: { '2026-11-27': '19:30', '2026-12-05': '19:30', '2026-12-07': '10:00', '2026-12-26': '18:00' } },
     { werk: 'dido-aeneas', haus: 'theater-koblenz', url: "https://theater-koblenz.de/dido-and-aeneas-waiting-for-you/",
       termine: ['2027-02-13', '2027-02-16', '2027-02-21', '2027-02-25', '2027-03-03', '2027-03-06', '2027-03-11', '2027-04-09', '2027-04-11'],
       zeiten: { '2027-02-13': '19:00', '2027-02-16': '19:00', '2027-02-21': '18:00', '2027-02-25': '19:00', '2027-03-03': '19:00', '2027-03-06': '19:00', '2027-03-11': '19:00', '2027-04-09': '19:00', '2027-04-11': '19:00' } },
@@ -498,7 +501,7 @@ export const spielplan = [
     { werk: 'fledermaus', haus: 'badisches-staatstheater', url: "https://staatstheater-karlsruhe.de/programm/info/3647/",
       termine: ['2027-05-02', '2027-05-08', '2027-05-28', '2027-06-02', '2027-06-11', '2027-06-23'],
       zeiten: { '2027-05-02': '18:30', '2027-05-08': '19:00', '2027-05-28': '19:30', '2027-06-02': '19:30', '2027-06-11': '19:30', '2027-06-23': '19:30' } },
-    { werk: 'fledermaus', haus: 'bayerische-staatsoper', url: "https://www.staatsoper.de/stuecke/die-fledermaus/2027-01-03-1700-16181",
+    { werk: 'fledermaus', haus: 'bayerische-staatsoper', url: "https://www.staatsoper.de/stuecke/die-fledermaus/2026-12-31-1800-16178",
       termine: ['2026-12-31', '2027-01-03', '2027-01-05', '2027-01-07', '2027-01-10'],
       zeiten: { '2026-12-31': '18:00', '2027-01-03': '17:00', '2027-01-05': '19:00', '2027-01-07': '19:00', '2027-01-10': '17:00' } },
     { werk: 'fledermaus', haus: 'gaertnerplatztheater', url: "https://www.gaertnerplatztheater.de/de/produktionen/die-fledermaus.html",
@@ -507,6 +510,9 @@ export const spielplan = [
     { werk: 'fledermaus', haus: 'landesbuehnen-sachsen', url: "https://www.landesbuehnen-sachsen.de/spielzeit/die-fledermaus/",
       termine: ['2026-10-16', '2026-11-20', '2027-02-26', '2027-05-09', '2027-05-21'],
       zeiten: { '2026-10-16': '19:30', '2026-11-20': '19:30', '2027-02-26': '19:30', '2027-05-09': '15:00', '2027-05-21': '19:30' } },
+    { werk: 'fledermaus', haus: 'neubrandenburg-neustrelitz', url: "https://tog.de/projekte/die-fledermaus-4/",
+      termine: ['2026-12-29', '2026-12-31', '2027-01-24'],
+      zeiten: { '2026-12-29': '19:30', '2026-12-31': '20:00', '2027-01-24': '16:00' } },
     { werk: 'fledermaus', haus: 'oper-klosterneuburg', url: "https://www.operklosterneuburg.at/?kat=21&Die%20Fledermaus",
       termine: ['2027-07-03', '2027-07-06', '2027-07-08', '2027-07-10', '2027-07-14', '2027-07-16', '2027-07-21', '2027-07-23', '2027-07-27', '2027-07-29', '2027-08-01'] },
     { werk: 'fledermaus', haus: 'oper-leipzig', url: "https://www.oper-leipzig.de/de/programm/die-fledermaus/657",
@@ -796,7 +802,7 @@ export const spielplan = [
     { werk: 'l-italiana-in-algeri', haus: 'salzburger-landestheater', url: "https://www.salzburger-landestheater.at/de/produktionen/litaliana-in-algeri.html",
       termine: ['2026-09-27', '2026-10-04', '2026-10-07', '2026-10-13', '2026-10-16', '2026-10-22', '2026-10-29', '2026-11-03', '2026-12-11'],
       zeiten: { '2026-09-27': '15:00', '2026-10-04': '15:00', '2026-10-07': '19:30', '2026-10-13': '19:30', '2026-10-16': '19:30', '2026-10-22': '19:30', '2026-10-29': '19:30', '2026-11-03': '19:30' } },
-    { werk: 'la-boheme', haus: 'bayerische-staatsoper', url: "https://www.staatsoper.de/stuecke/la-boheme/2026-11-13-1900-16136",
+    { werk: 'la-boheme', haus: 'bayerische-staatsoper', url: "https://www.staatsoper.de/stuecke/la-boheme/2026-11-15-1900-16139",
       termine: ['2026-11-13', '2026-11-15', '2026-11-17', '2026-11-21', '2026-11-24'],
       zeiten: { '2026-11-13': '19:00', '2026-11-15': '18:00', '2026-11-17': '19:00', '2026-11-21': '18:00', '2026-11-24': '19:00' } },
     { werk: 'la-boheme', haus: 'deutsche-oper-am-rhein', url: "https://www.operamrhein.de/spielplan/produktionen/la-boheme/?a=termine",
@@ -817,6 +823,9 @@ export const spielplan = [
     { werk: 'la-boheme', haus: 'nationaltheater-mannheim', url: "https://www.nationaltheater-mannheim.de/spielplan/la-bohme-6929/4519/",
       termine: ['2027-02-27', '2027-03-06', '2027-03-20', '2027-03-27', '2027-04-03', '2027-04-07', '2027-04-17', '2027-04-25', '2027-04-29', '2027-05-17', '2027-05-21', '2027-06-15'],
       zeiten: { '2027-02-27': '19:00', '2027-03-06': '19:30', '2027-03-20': '19:00', '2027-03-27': '18:00', '2027-04-03': '19:00', '2027-04-07': '19:30', '2027-04-17': '19:00', '2027-04-25': '18:00', '2027-04-29': '19:30', '2027-05-17': '18:00', '2027-05-21': '19:30', '2027-06-15': '19:30' } },
+    { werk: 'la-boheme', haus: 'neubrandenburg-neustrelitz', url: "https://tog.de/projekte/la-boheme/",
+      termine: ['2026-11-28', '2026-12-25', '2027-01-17'],
+      zeiten: { '2026-11-28': '19:30', '2026-12-25': '18:00', '2027-01-17': '16:00' } },
     { werk: 'la-boheme', haus: 'niedersaechsische-staatsoper', url: "https://staatstheater-hannover.de/de_DE/programm/la-boheme.1397722",
       termine: ['2026-10-17', '2026-10-24', '2026-10-31', '2026-11-21', '2026-12-09', '2026-12-12', '2026-12-27', '2027-01-03', '2027-01-09'],
       zeiten: { '2026-10-17': '19:30-21:45', '2026-10-24': '19:30-21:45', '2026-10-31': '18:30-20:45', '2026-11-21': '19:30-21:45', '2026-12-09': '19:30-21:45', '2026-12-12': '19:30-21:45', '2026-12-27': '16:00-18:15', '2027-01-03': '18:30-20:45', '2027-01-09': '19:30-21:45' } },
