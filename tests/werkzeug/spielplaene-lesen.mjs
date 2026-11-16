@@ -808,7 +808,13 @@ async function seiteLaden(kontext, url, { terminSelektor, hauptteil, geduld = { 
         const daten = await p.evaluate(({ terminSelektor, hauptteil }) => {
             // hauptteil (spielplan-quellen.json): wo der Inhalt steht, wenn
             // <main> etwas anderes ist – bei Burg Gars der Kontaktkasten.
-            const haupt = (hauptteil && document.querySelector(hauptteil)) || document.querySelector('main') || document.body;
+            // Ein fast leeres <main> ist nicht der Inhalt: bei Neubrandenburg
+            // (tog.de) hat es 136 Zeichen, die Termine stehen daneben, und
+            // die Premiere von Dido und Aeneas fehlte (16.11.2026).
+            const main = document.querySelector('main');
+            const haupt = (hauptteil && document.querySelector(hauptteil))
+                || (main && main.innerText.trim().length >= 400 ? main : null)
+                || document.body;
             const attribute = [...document.querySelectorAll('[datetime],[content],[data-date],[data-datetime],[data-start]')]
                 .map(e => e.getAttribute('datetime') || e.getAttribute('data-date') || e.getAttribute('data-datetime') || e.getAttribute('data-start') || e.getAttribute('content'))
                 .filter(v => /20\d\d-\d\d-\d\d/.test(v || '')).join(' ');
