@@ -145,6 +145,13 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   **eigener** API-Schlüssel von Resend. Wird er gelöscht, geht keine Mail
   mehr hinaus – die Funktion protokolliert dann einen Fehler bei der
   Anmeldung.
+
+  Antworten auf diese Mail gehen an `support@opernlog.de` (Reply-To; anders
+  einstellbar mit dem Secret `MAIL_ANTWORT`). Das Postfach liegt bei iCloud+:
+  seit 17.11.2026 zeigt der MX-Eintrag von opernlog.de auf
+  `mx01`/`mx02.mail.icloud.com`, und der SPF-Eintrag der Domain braucht
+  `include:icloud.com`. Resend prüft SPF an der Unterdomain `send`, die
+  beiden kommen sich also nicht in die Quere.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil

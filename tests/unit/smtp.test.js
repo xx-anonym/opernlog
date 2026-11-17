@@ -198,3 +198,11 @@ test('ungültige Adressen oder Message-ID lassen sich gar nicht erst bauen', () 
     assert.throws(() => nachrichtBauen({ ...NACHRICHT, id: 'a b@c' }), /Message-ID/);
     assert.throws(() => nachrichtBauen({ ...NACHRICHT, vonName: 'Opern\r\nLog' }), /Absendername/);
 });
+
+test('Antworten gehen an die Antwortadresse, nicht an das noreply-Postfach', () => {
+    const { kopf } = teile(nachrichtBauen({ ...NACHRICHT, antwortAn: 'support@opernlog.de' }));
+    assert.match(kopf, /^Reply-To: <support@opernlog\.de>$/m);
+    // Ohne Angabe keine Zeile – dann antwortet das Mailprogramm dem Absender.
+    assert.doesNotMatch(teile(nachrichtBauen(NACHRICHT)).kopf, /^Reply-To:/mi);
+    assert.throws(() => nachrichtBauen({ ...NACHRICHT, antwortAn: 'a@b.de\r\nBcc: x@y.de' }), /Antwortadresse/);
+});

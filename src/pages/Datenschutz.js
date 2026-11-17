@@ -10,11 +10,12 @@
 // gehört es hier nachgetragen, samt neuem Stand.
 //
 // Ohne Namen des Betreibers (sein Wunsch); erreichbar ist er über KONTAKT.
+// Seit 17.11.2026 die Adresse der eigenen Domain statt einer privaten.
 
 import { escapeHTML } from '../utils.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
-export const KONTAKT = 'uwematthias@icloud.com';
+export const KONTAKT = 'support@opernlog.de';
 export const STAND = '17. November 2026';
 
 export function DatenschutzPage() {

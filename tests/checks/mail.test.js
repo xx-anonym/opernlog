@@ -82,6 +82,9 @@ test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => 
     assert.match(FUNKTION, /const HOST = \(Deno\.env\.get\('MAIL_HOST'\) \|\| 'smtp\.gmail\.com'\)\.trim\(\);/);
     assert.match(FUNKTION, /Deno\.connectTls\(\{ hostname: HOST, port: 465 \}\)/);
     assert.match(FUNKTION, /benutzer: BENUTZER,/);
+    // Antworten gehen an support@opernlog.de (iCloud+), nicht ins noreply-Postfach.
+    assert.match(FUNKTION, /\|\| 'support@opernlog\.de';/);
+    assert.match(FUNKTION, /antwortAn: ANTWORT,/);
     // 25 und 587 sperrt Supabase für Edge Functions.
     assert.ok(!/port: (25|587)\b/.test(FUNKTION));
     assert.match(FUNKTION, /Deno\.env\.get\('MAIL_ADRESSE'\)/);

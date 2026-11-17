@@ -37,6 +37,8 @@ function datumKopf(datum) {
  * @param {string} o.von        Absenderadresse
  * @param {string} [o.vonName]  Anzeigename des Absenders, nur ASCII
  * @param {string} o.an         Empfängeradresse
+ * @param {string} [o.antwortAn] Adresse für Antworten (Reply-To); der
+ *                               Absender ist ein noreply-Postfach
  * @param {string} o.betreff
  * @param {string} o.text       Klartext
  * @param {string} o.html
@@ -44,8 +46,9 @@ function datumKopf(datum) {
  * @param {Date}   [o.datum]
  * @param {string} [o.grenze]   Trenner der MIME-Teile (für Tests festlegbar)
  */
-export function nachrichtBauen({ von, vonName = 'OpernLog', an, betreff, text, html, id, datum = new Date(), grenze }) {
+export function nachrichtBauen({ von, vonName = 'OpernLog', an, antwortAn, betreff, text, html, id, datum = new Date(), grenze }) {
     if (!adresseGueltig(von) || !adresseGueltig(an)) throw new Error('Ungültige Adresse');
+    if (antwortAn !== undefined && !adresseGueltig(antwortAn)) throw new Error('Ungültige Antwortadresse');
     if (!/^[A-Za-z0-9 .-]+$/.test(vonName)) throw new Error('Absendername nur aus Buchstaben, Ziffern, Leerzeichen');
     if (!/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+$/.test(id || '')) throw new Error('Ungültige Message-ID');
     const trenner = grenze || `opernlog-${id.split('@')[0]}`;
@@ -53,6 +56,7 @@ export function nachrichtBauen({ von, vonName = 'OpernLog', an, betreff, text, h
     return [
         `From: ${vonName} <${von}>`,
         `To: <${an}>`,
+        ...(antwortAn ? [`Reply-To: <${antwortAn}>`] : []),
         `Subject: ${betreffKodiert(betreff)}`,
         `Date: ${datumKopf(datum)}`,
         `Message-ID: <${id}>`,

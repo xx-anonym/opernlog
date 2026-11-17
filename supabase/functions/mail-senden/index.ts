@@ -21,6 +21,9 @@
 //   MAIL_APP_PASSWORT  Passwort beim Mailserver (bei Resend der API-Schlüssel)
 //   MAIL_HOST          Mailserver; ohne: smtp.gmail.com
 //   MAIL_BENUTZER      Anmeldename; ohne: die Adresse (so bei Gmail)
+//   MAIL_ANTWORT       Adresse für Antworten; ohne: support@opernlog.de
+//                      (iCloud+, seit 17.11.2026). Der Absender ist ein
+//                      noreply-Postfach, Antworten dorthin gingen verloren.
 // Fehlen Adresse oder Passwort, antwortet die Funktion 503 und schickt nichts.
 //
 // Bis 17.11.2026 lief alles über ein Gmail-Konto. Dessen Mails landeten bei
@@ -41,6 +44,7 @@ const ADRESSE = Deno.env.get('MAIL_ADRESSE') || '';
 const PASSWORT = (Deno.env.get('MAIL_APP_PASSWORT') || '').replace(/\s+/g, '');
 const HOST = (Deno.env.get('MAIL_HOST') || 'smtp.gmail.com').trim();
 const BENUTZER = (Deno.env.get('MAIL_BENUTZER') || '').trim() || ADRESSE;
+const ANTWORT = (Deno.env.get('MAIL_ANTWORT') || '').trim() || 'support@opernlog.de';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -113,6 +117,7 @@ Deno.serve(async (req) => {
         const nachricht = nachrichtBauen({
             von: ADRESSE,
             an: daten.adresse,
+            antwortAn: ANTWORT,
             betreff: einsetzen(vorlage.betreff, name),
             text: einsetzen(vorlage.text, name),
             html: einsetzen(vorlage.html, maskieren(name)),
