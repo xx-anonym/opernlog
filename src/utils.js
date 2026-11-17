@@ -1,6 +1,8 @@
 // Utility functions shared across OpernLog
 
 import { geraetArt } from './installHinweis.js';
+import { SUPPORT_ADRESSE } from './config.js';
+import { VERSION } from './version.js';
 
 /**
  * Baut den Hintergrund für Karten- und Kopfbilder aus drei Ebenen:
@@ -133,6 +135,28 @@ export function ausstehendMarke(visit) {
     return visit.uebertragungsfehler
         ? `<span class="ausstehend-marke ausstehend-marke--fehler">Nicht übertragen: ${escapeHTML(visit.uebertragungsfehler)}</span>`
         : '<span class="ausstehend-marke">Wartet auf Netz</span>';
+}
+
+/**
+ * Ein mailto-Link an support@, für Feedback und Fehler (seit 17.11.2026).
+ * Bewusst eine Mail aus dem eigenen Mailprogramm statt eines Formulars:
+ * kein neuer Datenspeicher, und man sieht genau, was man schickt.
+ *
+ * Unten im Text stehen Version, Seite und Gerät – das ist fast immer die
+ * erste Rückfrage. Bei einem Fehler auch die Meldung, die zu sehen war.
+ */
+export function supportMailLink({ fehler = '', umgebung = globalThis } = {}) {
+    const zeilen = [
+        fehler ? 'Was hast du gerade gemacht?' : '',
+        '', '', '---',
+        ...(fehler ? [`Fehler: ${fehler}`] : []),
+        `Version: ${VERSION}`,
+        `Seite: ${umgebung.location?.hash || '#/'}`,
+        `Gerät: ${String(umgebung.navigator?.userAgent || '?').slice(0, 200)}`,
+    ];
+    const betreff = fehler ? 'OpernLog: Fehler' : 'OpernLog: Feedback';
+    return `mailto:${SUPPORT_ADRESSE}?subject=${encodeURIComponent(betreff)}`
+        + `&body=${encodeURIComponent(zeilen.join('\r\n'))}`;
 }
 
 /** Das Ereignis, auf das main.js nach dem Abmelden die Oberfläche neu baut. */

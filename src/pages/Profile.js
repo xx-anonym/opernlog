@@ -1,5 +1,5 @@
 // Profile Page – Hybrid (local + cloud)
-import { escapeHTML, nachDemAbmelden } from '../utils.js';
+import { escapeHTML, nachDemAbmelden, supportMailLink } from '../utils.js';
 import { icon } from '../components/Icon.js';
 import { runWithFeedback, showToast } from '../components/Toast.js';
 import { store } from '../store/store.js';
@@ -935,8 +935,11 @@ function renderLocalProfile(page, userId, isMe) {
         Konto löschen
       </button>
       <p class="form-hint">Endgültig, mit allem, was du geloggt hast.</p>
-      <a class="rechtstext-link" href="#/datenschutz">Datenschutz</a>
-      <a class="rechtstext-link" href="#/bildnachweise">Bildnachweise</a>`;
+      <p class="rechtstext-zeile">
+        <a class="rechtstext-link" href="${escapeHTML(supportMailLink())}">Feedback</a>
+        <a class="rechtstext-link" href="#/datenschutz">Datenschutz</a>
+        <a class="rechtstext-link" href="#/bildnachweise">Bildnachweise</a>
+      </p>`;
 
     bereich.querySelector('#deleteAccountBtn').addEventListener('click', () => {
       document.body.appendChild(kontoLoeschModal(user.name || '', {

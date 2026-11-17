@@ -4,22 +4,39 @@
 // erreichen. Vorher landeten sie in console.warn, die Oberfläche meldete
 // Erfolg – und die Änderung war beim nächsten Laden verschwunden.
 
-export function showToast(msg, variant = 'info') {
+import { supportMailLink } from '../utils.js';
+
+export function showToast(msg, variant = 'info', { melden = false } = {}) {
   const toast = document.createElement('div');
   // bewusst ohne .fade-in – siehe Kommentar bei .toast in style.css
   toast.className = `toast toast--${variant}`;
   toast.setAttribute('role', variant === 'error' ? 'alert' : 'status');
   toast.textContent = msg;
+  // "Melden" öffnet eine Mail an support@ mit dieser Meldung, Version und
+  // Gerät (seit 17.11.2026). Dann steht der Toast länger, damit man ihn
+  // überhaupt erwischt.
+  if (melden) {
+    const link = document.createElement('a');
+    link.className = 'toast__melden';
+    link.href = supportMailLink({ fehler: msg });
+    link.textContent = 'Melden';
+    toast.append(' ', link);
+  }
   document.body.appendChild(toast);
 
   // Fehler stehen länger – man muss sie lesen können
-  const hold = variant === 'error' ? 4200 : 2000;
+  const hold = melden ? 8000 : variant === 'error' ? 4200 : 2000;
   setTimeout(() => toast.classList.add('toast--hide'), hold);
   setTimeout(() => toast.remove(), hold + 500);
 }
 
-export function showError(msg) {
-  showToast(msg, 'error');
+/**
+ * @param {object} [o]
+ * @param {boolean} [o.melden]  "Melden" anbieten. Aus bei Meldungen, die kein
+ *   Fehler der App sind – kein Netz, kein Standort, Browser blockiert.
+ */
+export function showError(msg, { melden = true } = {}) {
+  showToast(msg, 'error', { melden });
 }
 
 // Führt eine Aktion aus und meldet einen Fehlschlag sichtbar, statt ihn zu

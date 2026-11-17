@@ -53,7 +53,7 @@ test('"Profil bearbeiten" ganz unten: Datenschutz und Bildnachweise liegen über
             };
         });
         assert.ok(lage.fensterUnten <= lage.leisteOben, `Fenster endet bei ${lage.fensterUnten}, Leiste beginnt bei ${lage.leisteOben}`);
-        assert.deepEqual(lage.links.map(l => l.text), ['Datenschutz', 'Bildnachweise']);
+        assert.deepEqual(lage.links.map(l => l.text), ['Feedback', 'Datenschutz', 'Bildnachweise']);
         for (const l of lage.links) {
             assert.ok(l.unten <= lage.leisteOben, `${l.text} liegt unter der Leiste`);
             assert.ok(l.antippbar, `${l.text} lässt sich nicht antippen`);

@@ -188,7 +188,7 @@ function bearbeiten(kopf, knopf, art, eintrag, bildUrl, bild) {
         } catch (fehler) {
             console.error('[BildAusschnitt]', fehler);
             knoepfe.forEach(b => { b.disabled = false; });
-            showError('Der Ausschnitt ließ sich nicht speichern. Bist du noch als Admin angemeldet?');
+            showError('Der Ausschnitt ließ sich nicht speichern. Bist du noch als Admin angemeldet?', { melden: false });
         }
     }
 

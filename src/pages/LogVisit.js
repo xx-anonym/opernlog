@@ -578,7 +578,7 @@ export function LogVisitPage(params = {}) {
     // der Abend trotzdem – die Fotos lassen sich auf seiner Seite nachreichen.
     const fotos = auswahl ? auswahl.fotos() : [];
     if (fotos.length && ergebnis?.ausstehend) {
-      showError('Die Fotos gehen ohne Netz nicht mit – füge sie später auf der Seite des Abends hinzu.');
+      showError('Die Fotos gehen ohne Netz nicht mit – füge sie später auf der Seite des Abends hinzu.', { melden: false });
     } else if (fotos.length) {
       submitBtn.textContent = fotos.length === 1 ? 'Foto wird hochgeladen …' : 'Fotos werden hochgeladen …';
       let gescheitert = 0;

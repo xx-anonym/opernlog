@@ -188,7 +188,7 @@ async function renderGenerateInvite(page) {
         const copyBtn = page.querySelector('#copyBtn');
         const ok = await copyToClipboard(link, page.querySelector('#inviteLink'));
         if (!ok) {
-          showError('Kopieren nicht möglich – der Link ist markiert, kopiere ihn von Hand.');
+          showError('Kopieren nicht möglich – der Link ist markiert, kopiere ihn von Hand.', { melden: false });
           return;
         }
         copyBtn.innerHTML = icon('check') + ' Kopiert!';

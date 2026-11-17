@@ -325,7 +325,7 @@ export function CommunityPage() {
           const copyBtn = content.querySelector('#inlineCopyBtn');
           const ok = await copyToClipboard(link, content.querySelector('#inlineInviteLink'));
           if (!ok) {
-            showError('Kopieren nicht möglich – der Link ist markiert, kopiere ihn von Hand.');
+            showError('Kopieren nicht möglich – der Link ist markiert, kopiere ihn von Hand.', { melden: false });
             return;
           }
           copyBtn.innerHTML = icon('check') + ' Kopiert!';

@@ -150,7 +150,7 @@ export function NaehePage() {
             const neu = await requestPosition({ nachfragen: true, timeout: 15000 });
             knopf.disabled = false;
             if (!neu) {
-                showError(standortHinweis());
+                showError(standortHinweis(), { melden: false });
                 return;
             }
             position = neu;

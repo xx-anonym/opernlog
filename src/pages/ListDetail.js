@@ -73,7 +73,7 @@ export function ListDetailPage(listId) {
     if (likeBtn) {
       likeBtn.addEventListener('click', async () => {
         if (!store.isCloud || !isSupabaseConfigured()) {
-          showError('Zum Liken musst du angemeldet sein.');
+          showError('Zum Liken musst du angemeldet sein.', { melden: false });
           return;
         }
         if (likeBtn.disabled) return;

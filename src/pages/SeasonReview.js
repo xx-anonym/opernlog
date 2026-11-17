@@ -201,7 +201,7 @@ export function SeasonReviewPage(param) {
             // gar nichts gespeichert wurde.
             if (ergebnis === 'geladen') showToast('Bild wird heruntergeladen');
             else if (ergebnis === 'geoeffnet') showToast('Zum Sichern das Bild lange antippen');
-            else if (ergebnis === 'blockiert') showError('Der Browser hat das Fenster blockiert.');
+            else if (ergebnis === 'blockiert') showError('Der Browser hat das Fenster blockiert.', { melden: false });
             else if (ergebnis === 'fehlgeschlagen') showError('Das Bild konnte nicht gesichert werden.');
         } catch (e) {
             console.error('[Saisonrückblick] Bild', e);

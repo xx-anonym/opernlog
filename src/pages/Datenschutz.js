@@ -13,9 +13,10 @@
 // Seit 17.11.2026 die Adresse der eigenen Domain statt einer privaten.
 
 import { escapeHTML } from '../utils.js';
+import { SUPPORT_ADRESSE } from '../config.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
-export const KONTAKT = 'support@opernlog.de';
+export const KONTAKT = SUPPORT_ADRESSE;
 export const STAND = '17. November 2026';
 
 export function DatenschutzPage() {

@@ -2811,6 +2811,15 @@ h3 {
     font-weight: 500;
 }
 
+/* "Melden" in einer Fehlermeldung: schlicht unterstrichen, kein Knopf. */
+.toast__melden {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+}
+
 @keyframes toastIn {
     from {
         opacity: 0;
@@ -7663,6 +7672,34 @@ html.story-offen body {
 
 .rechtstext-link + .rechtstext-link {
     margin-top: 6px;
+}
+
+/* Mehrere solcher Links nebeneinander, mit Punkt dazwischen ("Feedback ·
+   Datenschutz · Bildnachweise" unten in "Profil bearbeiten"). Untereinander
+   nahmen sie zu viel Platz (Jonas, 17.11.2026). Wird es zu schmal, bricht die
+   Zeile um. */
+.rechtstext-zeile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 4px;
+    margin: 18px 0 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.rechtstext-zeile .rechtstext-link,
+.rechtstext-zeile .rechtstext-link + .rechtstext-link {
+    display: inline;
+    margin: 0;
+    font-size: inherit;
+}
+
+.rechtstext-zeile .rechtstext-link + .rechtstext-link::before {
+    content: '·';
+    display: inline-block;
+    margin: 0 8px;
+    color: var(--text-muted);
 }
 
 /* Meine Daten herunterladen – ein schlichter Knopf direkt über "Konto
