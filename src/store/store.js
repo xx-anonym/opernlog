@@ -1209,6 +1209,10 @@ class Store {
         this._profile = null;
         this._cloudMode = false;
         this.abgeglichen = false;
+        this.syncError = null;
+        // Ob Vorschläge offen sind, gilt für das abgemeldete Konto. Bis
+        // 17.11.2026 räumte das ein Neuladen der Seite weg.
+        this.pendingSuggestions = { opera: false, house: false };
         
         // Ensure no cross-account data bleeding
         this.data = getDefaultData();

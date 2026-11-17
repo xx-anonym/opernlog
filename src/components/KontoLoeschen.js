@@ -18,7 +18,7 @@
 
 import { kontoLoeschen } from '../store/supabase.js';
 import { store } from '../store/store.js';
-import { escapeHTML, abgemeldetNeuLaden } from '../utils.js';
+import { escapeHTML, nachDemAbmelden } from '../utils.js';
 
 /**
  * @param benutzername  muss abgetippt werden
@@ -32,7 +32,7 @@ import { escapeHTML, abgemeldetNeuLaden } from '../utils.js';
 export function kontoLoeschModal(benutzername, bestand = {}, dienste = {}) {
     const loeschen = dienste.kontoLoeschen ?? kontoLoeschen;
     const abmelden = dienste.abmelden ?? (() => store.logout());
-    const weiter = dienste.weiter ?? (() => abgemeldetNeuLaden());
+    const weiter = dienste.weiter ?? (() => nachDemAbmelden());
 
     const zeilen = [
         [bestand.abende, 'geloggter Abend', 'geloggte Abende'],

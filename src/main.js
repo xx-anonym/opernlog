@@ -38,6 +38,7 @@ import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
+import { ABGEMELDET } from './utils.js';
 import { showError, showToast } from './components/Toast.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden, acceptInvite } from './store/supabase.js';
@@ -71,6 +72,7 @@ class App {
         zurueckGesteEinrichten();
         haptikEinrichten();
         zurueckEinrichten();
+        window.addEventListener(ABGEMELDET, () => this.nachAbmeldung());
         this.init();
     }
 
@@ -88,17 +90,10 @@ class App {
         if (feld) feld.textContent = `Version ${VERSION}`;
     }
 
-    /** Gesetzt vom Skript im Kopf von index.html, nach dem Abmelden. */
-    ohneVorhang() {
-        return document.documentElement.classList.contains('ohne-vorhang');
-    }
-
     // Dismiss the opera curtain splash screen
     dismissSplash() {
         const splash = document.getElementById('splash');
         if (!splash || splash.classList.contains('splash--hidden')) return;
-        // Ausgeblendet ist er schon; die Farbe hat index.html gesetzt.
-        if (this.ohneVorhang()) { splash.remove(); return; }
 
         // The reveal (logo, title, subtitle) finishes around 0.9s. Hold long
         // enough after that for the subtitle to actually be readable – at 500ms
@@ -156,10 +151,8 @@ class App {
         // Dismiss splash first, then build layout with a slight delay
         // so content appears as the curtains open (synced reveal)
         this.dismissSplash();
-        // Wait 600ms for curtains to be mostly open before showing content.
-        // Ohne Vorhang (neu geladen nach dem Abmelden) gibt es nichts
-        // abzuwarten.
-        if (!this.ohneVorhang()) await new Promise(r => setTimeout(r, 600));
+        // Wait 600ms for curtains to be mostly open before showing content
+        await new Promise(r => setTimeout(r, 600));
         this.buildLayout();
 
         // Was beim letzten Mal ohne Netz geloggt wurde, geht jetzt hoch –
@@ -297,6 +290,32 @@ class App {
             });
         });
         this.root.appendChild(setupPage);
+    }
+
+    /**
+     * Nach dem Abmelden (nachDemAbmelden() in utils.js): die Oberfläche neu
+     * bauen statt die Seite neu zu laden. Das Neuladen zeigte einen dunklen
+     * Moment zwischen zwei Anmeldemasken.
+     *
+     * Die Daten des Kontos hat store.logout() schon geleert. Hier geht, was
+     * die Oberfläche selbst sich gemerkt hat: die Leiste (mit dem Punkt für
+     * offene Anfragen), die Scrollpositionen der besuchten Seiten und die
+     * Sperre für den nächsten Abgleich. Was je Konto gemerkt ist
+     * (_einladungGeprueft und Co., istAdmin), gilt für das nächste Konto
+     * ohnehin nicht.
+     *
+     * pushState statt location.hash: das löst kein hashchange aus, sonst
+     * würde die Anmeldung gleich zweimal gezeichnet. Ohne eigenen Zustand,
+     * wie ein Wechsel über location.hash auch.
+     */
+    nachAbmeldung() {
+        clearTimeout(this._positionsLauf);
+        this._positionen.clear();
+        this._aktuellerHash = null;
+        this._lastRefresh = 0;
+        history.pushState(null, '', '#/auth');
+        window.scrollTo(0, 0);
+        this.buildLayout();
     }
 
     buildLayout() {

@@ -135,18 +135,19 @@ export function ausstehendMarke(visit) {
         : '<span class="ausstehend-marke">Wartet auf Netz</span>';
 }
 
-/** Die Marke für index.html: beim nächsten Laden ohne Vorhang. */
-export const OHNE_VORHANG = 'opernlog-ohne-vorhang';
+/** Das Ereignis, auf das main.js nach dem Abmelden die Oberfläche neu baut. */
+export const ABGEMELDET = 'opernlog:abgemeldet';
 
 /**
- * Nach dem Abmelden (und nach "Konto löschen") neu laden, damit vom alten
- * Konto nichts im Speicher der Seite bleibt – aber ohne den Vorhang. Mit ihm
- * sah man die Anmeldung, dann den Ladebildschirm, dann wieder die Anmeldung.
+ * Nach dem Abmelden (und nach "Konto löschen"): zur Anmeldung, ohne die
+ * Seite neu zu laden. Bis 17.11.2026 lud die App hier neu, damit vom alten
+ * Konto nichts im Speicher blieb. Man sah dabei die Anmeldung, dann einen
+ * dunklen Moment oder den Ladebildschirm, dann wieder die Anmeldung. Was
+ * vom Konto im Speicher liegt, räumen jetzt store.logout() und
+ * App.nachAbmeldung() in main.js auf.
  */
-export function abgemeldetNeuLaden(umgebung = globalThis) {
-    try { umgebung.sessionStorage.setItem(OHNE_VORHANG, '1'); } catch { /* dann eben mit Vorhang */ }
-    umgebung.location.hash = '#/auth';
-    umgebung.location.reload();
+export function nachDemAbmelden(umgebung = globalThis) {
+    umgebung.dispatchEvent(new Event(ABGEMELDET));
 }
 
 export function escapeHTML(str) {
