@@ -2728,7 +2728,13 @@ h3 {
 @media (max-width: 900px) {
     .modal {
         padding-top: calc(80px + env(safe-area-inset-top, 0px));
-        padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        /* Unter 768px steht unten die Leiste (--tab-hoehe); das Fenster endet
+           über ihr. Bis 17.11.2026 lag sie über dem unteren Teil: in "Profil
+           bearbeiten" waren Datenschutz und Bildnachweise nicht zu erreichen
+           (tests/browser/fensterLeiste.test.js). Hier und nicht bei der
+           Leiste weiter unten: die Vollbildfenster (.story, .willkommen)
+           setzen padding: 0 und müssen diese Regel überschreiben können. */
+        padding-bottom: calc(24px + var(--tab-hoehe, 0px) + env(safe-area-inset-bottom, 0px));
     }
 }
 
@@ -8527,14 +8533,6 @@ html.willkommen-offen body {
 
     .nav-links {
         bottom: calc(var(--tab-hoehe) + env(safe-area-inset-bottom, 0px));
-    }
-
-    /* Fenster enden über der Leiste. Bis 17.11.2026 reichten sie bis an den
-       Rand, und die Leiste lag über ihrem unteren Teil: in "Profil
-       bearbeiten" waren Datenschutz und Bildnachweise ganz unten nicht mehr
-       zu erreichen (tests/browser/fensterLeiste.test.js). */
-    .modal {
-        padding-bottom: calc(var(--tab-hoehe, 58px) + 16px + env(safe-area-inset-bottom, 0px));
     }
 
     .toast {
