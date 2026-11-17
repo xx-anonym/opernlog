@@ -15,7 +15,7 @@ import { escapeHTML } from '../utils.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
 export const KONTAKT = 'uwematthias@icloud.com';
-export const STAND = '2. November 2026';
+export const STAND = '17. November 2026';
 
 export function DatenschutzPage() {
     const page = document.createElement('div');
@@ -85,9 +85,9 @@ export function DatenschutzPage() {
         <li><strong>Wikimedia Commons</strong> (Wikimedia Foundation, USA): Bilder von Werken, Häusern und
           Komponisten lädt dein Browser direkt von dort, bei neuen Bildern auch ihren
           <a href="#/bildnachweise">Bildnachweis</a>; Wikimedia sieht dabei deine IP-Adresse.</li>
-        <li><strong>Google</strong>, wenn du dich mit Google anmeldest. Außerdem verschickt OpernLog seine
-          Mails über ein Gmail-Konto (Google Ireland Ltd.); Google sieht dabei deine E-Mail-Adresse und den
-          Inhalt der Mail.</li>
+        <li><strong>Resend</strong> (USA; Versand aus Irland) verschickt die Mails von OpernLog und sieht
+          dabei deine E-Mail-Adresse und den Inhalt der Mail.</li>
+        <li><strong>Google</strong>, wenn du dich mit Google anmeldest.</li>
         <li><strong>Push-Dienste</strong> von Apple, Google oder Mozilla (je nach Browser) stellen
           Mitteilungen zu, wenn du sie eingeschaltet hast.</li>
         <li><strong>Standort:</strong> Den Standort deines Geräts nutzt die App nur mit deiner Erlaubnis

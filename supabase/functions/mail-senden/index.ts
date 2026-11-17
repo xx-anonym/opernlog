@@ -15,9 +15,18 @@
 // Nutzern der App genau diese Mail schicken – keine fremde Adresse, kein
 // eigener Text.
 //
-// Verschickt wird über Gmail per SMTP auf Port 465 (smtp.js). Adresse und
-// App-Passwort stehen in den Secrets der Edge Functions: MAIL_ADRESSE,
-// MAIL_APP_PASSWORT. Fehlen sie, antwortet die Funktion 503 und schickt nichts.
+// Verschickt wird per SMTP auf Port 465 (smtp.js). Die Zugangsdaten stehen in
+// den Secrets der Edge Functions:
+//   MAIL_ADRESSE       Absender, z. B. noreply@opernlog.de
+//   MAIL_APP_PASSWORT  Passwort beim Mailserver (bei Resend der API-Schlüssel)
+//   MAIL_HOST          Mailserver; ohne: smtp.gmail.com
+//   MAIL_BENUTZER      Anmeldename; ohne: die Adresse (so bei Gmail)
+// Fehlen Adresse oder Passwort, antwortet die Funktion 503 und schickt nichts.
+//
+// Bis 17.11.2026 lief alles über ein Gmail-Konto. Dessen Mails landeten bei
+// manchen Empfängern im Spam; seitdem geht der Versand über Resend mit der
+// eigenen Domain (MAIL_HOST=smtp.resend.com, MAIL_BENUTZER=resend), wie die
+// Anmeldemails von Supabase auch.
 //
 // Ohne JWT-Prüfung eingerichtet (verify_jwt: false) wie push-senden: die
 // Datenbank hat kein Nutzer-JWT.
@@ -30,6 +39,8 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const DIENST = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const ADRESSE = Deno.env.get('MAIL_ADRESSE') || '';
 const PASSWORT = (Deno.env.get('MAIL_APP_PASSWORT') || '').replace(/\s+/g, '');
+const HOST = (Deno.env.get('MAIL_HOST') || 'smtp.gmail.com').trim();
+const BENUTZER = (Deno.env.get('MAIL_BENUTZER') || '').trim() || ADRESSE;
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -105,12 +116,12 @@ Deno.serve(async (req) => {
             betreff: einsetzen(vorlage.betreff, name),
             text: einsetzen(vorlage.text, name),
             html: einsetzen(vorlage.html, maskieren(name)),
-            id: `${crypto.randomUUID()}@opernlog.vercel.app`,
+            id: `${crypto.randomUUID()}@${ADRESSE.split('@')[1] || 'opernlog.de'}`,
         });
 
-        const tls = await Deno.connectTls({ hostname: 'smtp.gmail.com', port: 465 });
+        const tls = await Deno.connectTls({ hostname: HOST, port: 465 });
         await smtpSenden(verbindung(tls), {
-            benutzer: ADRESSE, passwort: PASSWORT, von: ADRESSE, an: daten.adresse, nachricht,
+            benutzer: BENUTZER, passwort: PASSWORT, von: ADRESSE, an: daten.adresse, nachricht,
         });
         return json({ gesendet: true });
     } catch (e) {

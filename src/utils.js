@@ -489,7 +489,7 @@ export function sterneText(note) {
  * Ein Fehler beim Anmelden oder Registrieren als deutscher Satz.
  *
  * Supabase meldet auf Englisch, und die App zeigte das bisher roh an. Seit die
- * Mails über einen eigenen Postausgang (Gmail) gehen, kann der Versand selbst
+ * Mails über einen eigenen Postausgang gehen (Gmail, seit 17.11.2026 Resend), kann der Versand selbst
  * scheitern – dann stand "Error sending recovery email" im Formular. Erkannt
  * wird am Code, den supabase-js mitliefert; der Text ist nur der Rückfall.
  * Was hier nicht steht, bleibt, wie Supabase es schreibt.

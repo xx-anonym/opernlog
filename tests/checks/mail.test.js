@@ -73,11 +73,15 @@ test('die Einstellung ist für niemanden sonst lesbar', () => {
     assert.match(SQL, /REVOKE ALL ON mail_einstellungen FROM anon;/);
 });
 
-test('die Funktion: nur mit Geheimnis, nur Kennungen, Gmail auf Port 465', () => {
+test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => {
     assert.match(FUNKTION, /req\.headers\.get\('x-push-geheimnis'\)/);
     assert.match(FUNKTION, /art !== 'anfrage'/);
     assert.match(FUNKTION, /rpc\/mail_anfrage_daten/);
-    assert.match(FUNKTION, /Deno\.connectTls\(\{ hostname: 'smtp\.gmail\.com', port: 465 \}\)/);
+    // Der Mailserver kommt aus den Secrets (Resend seit 17.11.2026), ohne
+    // Angabe Gmail wie vorher.
+    assert.match(FUNKTION, /const HOST = \(Deno\.env\.get\('MAIL_HOST'\) \|\| 'smtp\.gmail\.com'\)\.trim\(\);/);
+    assert.match(FUNKTION, /Deno\.connectTls\(\{ hostname: HOST, port: 465 \}\)/);
+    assert.match(FUNKTION, /benutzer: BENUTZER,/);
     // 25 und 587 sperrt Supabase für Edge Functions.
     assert.ok(!/port: (25|587)\b/.test(FUNKTION));
     assert.match(FUNKTION, /Deno\.env\.get\('MAIL_ADRESSE'\)/);
