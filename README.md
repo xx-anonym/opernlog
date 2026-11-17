@@ -78,17 +78,21 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   einen neuen anlegen.
 - **E-Mails** – der Einmalcode zum Registrieren und zum Anmelden – schickt
   Supabase seit Oktober 2026 nicht mehr selbst, sondern über einen eigenen
-  Postausgang: Gmail per SMTP, eingetragen im Supabase-Dashboard unter
+  Postausgang, eingetragen im Supabase-Dashboard unter
   Authentication → Emails → SMTP Settings. Damit fällt das Limit des
   eingebauten Versands (2 Mails pro Stunde für das ganze Projekt); das eigene
-  steht auf 30 pro Stunde (Authentication → Rate Limits), Gmail selbst lässt
-  etwa 500 am Tag zu.
+  steht auf 30 pro Stunde (Authentication → Rate Limits).
 
-  Supabase meldet sich bei Gmail mit einem App-Passwort an. **Ändert sich das
-  Google-Passwort oder wird die Bestätigung in zwei Schritten abgeschaltet,
-  verfällt es** – dann geht keine Mail mehr hinaus, und niemand kann sich mehr
-  registrieren oder per Code anmelden. Abhilfe: neues App-Passwort
-  anlegen und in den SMTP-Einstellungen eintragen. Scheitert der Versand, steht
+  Seit 17.11.2026 ist das **Resend** mit der eigenen Domain: Absender
+  `noreply@opernlog.de`, Server `smtp.resend.com`, Port 465, Benutzer
+  `resend`, Passwort ein API-Schlüssel von Resend. Die Domain ist bei Resend
+  bestätigt (Region EU); dafür stehen bei STRATO ein TXT-Eintrag
+  `resend._domainkey` (DKIM) und die CNAMEs `rsend` und `send`. Vorher lief
+  der Versand über ein Gmail-Konto, und manche Empfänger fanden die Codes im
+  Spam. **Wird der API-Schlüssel gelöscht oder die Domain bei Resend
+  entfernt, geht keine Mail mehr hinaus** – dann kann sich niemand mehr
+  registrieren oder per Code anmelden. Abhilfe: neuen Schlüssel anlegen und in
+  den SMTP-Einstellungen eintragen. Scheitert der Versand, steht
   im Formular ein deutscher Satz statt der englischen Meldung von Supabase
   (`authFehlertext()` in `src/utils.js`).
 
@@ -129,17 +133,18 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   (`supabase/migrations/mail_anfrage_migration.sql`) ruft über pg_net die Edge
   Function `mail-senden`, ausgewiesen mit demselben Geheimnis aus dem Vault.
   Die Funktion bekommt nur zwei Kennungen; Adresse und Name holt sie selbst,
-  und nur, wenn wirklich eine offene Anfrage besteht. Verschickt wird über
-  Gmail per SMTP auf Port 465 (Supabase sperrt für Edge Functions 25 und 587),
-  ohne Fremdbibliothek (`smtp.js`, `nachricht.js`, geprüft in
-  `tests/unit/smtp.test.js`). Die Mail selbst erzeugt
+  und nur, wenn wirklich eine offene Anfrage besteht. Verschickt wird wie bei
+  den Anmeldemails über Resend, per SMTP auf Port 465 (Supabase sperrt für
+  Edge Functions 25 und 587), ohne Fremdbibliothek (`smtp.js`, `nachricht.js`,
+  geprüft in `tests/unit/smtp.test.js`). Die Mail selbst erzeugt
   `tests/werkzeug/mailvorlagen.mjs` nach `vorlage.js`.
 
-  Gmail-Adresse und ein **eigenes App-Passwort** stehen in den Secrets der
-  Edge Functions (`MAIL_ADRESSE`, `MAIL_APP_PASSWORT`), nicht im Repo. Für das
-  App-Passwort gilt dasselbe wie für das des Postausgangs: ändert sich das
-  Google-Passwort, verfällt es, und es geht keine Mail mehr hinaus – die
-  Funktion protokolliert dann einen Fehler bei der Anmeldung.
+  Die Zugangsdaten stehen in den Secrets der Edge Functions, nicht im Repo:
+  `MAIL_HOST=smtp.resend.com`, `MAIL_BENUTZER=resend`,
+  `MAIL_ADRESSE=noreply@opernlog.de` und in `MAIL_APP_PASSWORT` ein
+  **eigener** API-Schlüssel von Resend. Wird er gelöscht, geht keine Mail
+  mehr hinaus – die Funktion protokolliert dann einen Fehler bei der
+  Anmeldung.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil
