@@ -1,5 +1,5 @@
 // Profile Page – Hybrid (local + cloud)
-import { escapeHTML } from '../utils.js';
+import { escapeHTML, abgemeldetNeuLaden } from '../utils.js';
 import { icon } from '../components/Icon.js';
 import { runWithFeedback, showToast } from '../components/Toast.js';
 import { store } from '../store/store.js';
@@ -883,8 +883,7 @@ function renderLocalProfile(page, userId, isMe) {
       if (wartend && !confirm(`${wartend === 1 ? 'Ein Besuch ist' : `${wartend} Besuche sind`} noch nicht übertragen `
           + `und ${wartend === 1 ? 'ginge' : 'gingen'} beim Abmelden verloren. Trotzdem abmelden?`)) return;
       await store.logout();
-      window.location.hash = '#/auth';
-      window.location.reload();
+      abgemeldetNeuLaden();
     });
   }
 

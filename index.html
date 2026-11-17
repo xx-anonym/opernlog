@@ -571,6 +571,16 @@
                 opacity: 0.5;
             }
         }
+
+        /* Neu geladen nach dem Abmelden: kein Vorhang (siehe das Skript
+           darunter). Die Farbe ist die der App, nicht die des Samts. */
+        html.ohne-vorhang {
+            background: #14181c;
+        }
+
+        html.ohne-vorhang .splash {
+            display: none;
+        }
     </style>
     <link rel="stylesheet" href="style.css" />
     <!-- Fehler vor dem Start. src/fehlerprotokoll.js meldet Fehler erst, wenn
@@ -625,6 +635,20 @@
                 }, 4000);
             });
         })();
+    </script>
+    <!-- Nach dem Abmelden lädt die App neu, damit nichts vom alten Konto im
+         Speicher bleibt (abgemeldetNeuLaden() in src/utils.js). Dabei lief
+         der ganze Vorhang: erst die Anmeldung, dann der Ladebildschirm,
+         dann wieder die Anmeldung – das wirkte, als sei etwas schiefgegangen.
+         Die Marke im sessionStorage gilt für genau ein Neuladen. Im Kopf
+         und vor dem ersten Bild gesetzt, sonst blitzt der Vorhang auf. -->
+    <script>
+        try {
+            if (sessionStorage.getItem('opernlog-ohne-vorhang')) {
+                sessionStorage.removeItem('opernlog-ohne-vorhang');
+                document.documentElement.classList.add('ohne-vorhang');
+            }
+        } catch (e) { /* ohne sessionStorage eben mit Vorhang */ }
     </script>
     <!-- Aus dem Projekt, nicht vom CDN: der Service Worker überspringt fremde
          Hosts, die Bibliothek lag also in keinem Cache. Ohne Netz war

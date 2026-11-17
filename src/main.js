@@ -88,10 +88,17 @@ class App {
         if (feld) feld.textContent = `Version ${VERSION}`;
     }
 
+    /** Gesetzt vom Skript im Kopf von index.html, nach dem Abmelden. */
+    ohneVorhang() {
+        return document.documentElement.classList.contains('ohne-vorhang');
+    }
+
     // Dismiss the opera curtain splash screen
     dismissSplash() {
         const splash = document.getElementById('splash');
         if (!splash || splash.classList.contains('splash--hidden')) return;
+        // Ausgeblendet ist er schon; die Farbe hat index.html gesetzt.
+        if (this.ohneVorhang()) { splash.remove(); return; }
 
         // The reveal (logo, title, subtitle) finishes around 0.9s. Hold long
         // enough after that for the subtitle to actually be readable – at 500ms
@@ -149,8 +156,10 @@ class App {
         // Dismiss splash first, then build layout with a slight delay
         // so content appears as the curtains open (synced reveal)
         this.dismissSplash();
-        // Wait 600ms for curtains to be mostly open before showing content
-        await new Promise(r => setTimeout(r, 600));
+        // Wait 600ms for curtains to be mostly open before showing content.
+        // Ohne Vorhang (neu geladen nach dem Abmelden) gibt es nichts
+        // abzuwarten.
+        if (!this.ohneVorhang()) await new Promise(r => setTimeout(r, 600));
         this.buildLayout();
 
         // Was beim letzten Mal ohne Netz geloggt wurde, geht jetzt hoch –

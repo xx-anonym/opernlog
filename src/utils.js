@@ -135,6 +135,20 @@ export function ausstehendMarke(visit) {
         : '<span class="ausstehend-marke">Wartet auf Netz</span>';
 }
 
+/** Die Marke für index.html: beim nächsten Laden ohne Vorhang. */
+export const OHNE_VORHANG = 'opernlog-ohne-vorhang';
+
+/**
+ * Nach dem Abmelden (und nach "Konto löschen") neu laden, damit vom alten
+ * Konto nichts im Speicher der Seite bleibt – aber ohne den Vorhang. Mit ihm
+ * sah man die Anmeldung, dann den Ladebildschirm, dann wieder die Anmeldung.
+ */
+export function abgemeldetNeuLaden(umgebung = globalThis) {
+    try { umgebung.sessionStorage.setItem(OHNE_VORHANG, '1'); } catch { /* dann eben mit Vorhang */ }
+    umgebung.location.hash = '#/auth';
+    umgebung.location.reload();
+}
+
 export function escapeHTML(str) {
     if (str == null) return '';
     return String(str)
