@@ -114,3 +114,14 @@ test('Sommerzeit: der Abend im Juni trägt +02:00, im Dezember +01:00', () => {
         if (erwartet) assert.ok(start.endsWith(erwartet), start);
     }
 });
+
+test('der Knopf in die App steht in der mitlaufenden Leiste oben, auf jeder Seite', () => {
+    const css = lies('seiten/stil.css');
+    assert.match(css, /\.kopf \{[^}]*position: sticky;[^}]*top: 0;/);
+    for (const p of ALLE) {
+        const html = lies(p);
+        const kopf = html.match(/<header class="kopf">([\s\S]*?)<\/header>/)?.[1] || '';
+        assert.match(kopf, /<a class="knopf knopf--kopf" href="\/(#\/(opera|house|composer)\/[^"]+)?">In OpernLog öffnen<\/a>/, p);
+    }
+    assert.match(lies('oper/tosca/index.html'), /class="knopf knopf--kopf" href="\/#\/opera\/tosca"/);
+});

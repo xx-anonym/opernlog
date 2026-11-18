@@ -29,16 +29,38 @@ body {
 
 a { color: var(--gold-hell); }
 
+/* Die Leiste oben läuft beim Scrollen mit: der Knopf in die App ist immer
+   zu sehen, nicht erst unter einer langen Terminliste (Jonas, 18.11.2026). */
 .kopf {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 8px 20px;
-    padding: 14px 20px;
+    gap: 12px;
+    padding: 10px 16px;
+    padding-top: max(10px, env(safe-area-inset-top));
     background: linear-gradient(180deg, #5c111c, #3d0a15);
     border-bottom: 3px solid var(--gold);
 }
+
+.knopf--kopf {
+    padding: 9px 16px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.bereiche {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--linie);
+}
+.bereiche a { color: var(--leise); text-decoration: none; }
+.bereiche a:hover { color: var(--text); text-decoration: underline; }
 
 .marke {
     font-family: 'Playfair Display', Georgia, serif;
@@ -48,9 +70,6 @@ a { color: var(--gold-hell); }
     text-decoration: none;
 }
 
-.kopf nav { display: flex; gap: 16px; font-size: 15px; }
-.kopf nav a { color: #e8d6d9; text-decoration: none; }
-.kopf nav a:hover { text-decoration: underline; }
 
 main {
     max-width: 760px;

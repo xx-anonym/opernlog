@@ -119,8 +119,9 @@ function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app }) {
 <body>
   <header class="kopf">
     <a class="marke" href="/">OpernLog</a>
-    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+    <a class="knopf knopf--kopf" href="${maske(app)}">In OpernLog öffnen</a>
   </header>
+  <nav class="bereiche"><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
   <main>
 ${inhalt}
     <p class="weiter"><a class="knopf" href="${maske(app)}">In OpernLog öffnen</a></p>
@@ -234,8 +235,7 @@ ${meine.map(t => terminZeile(t, { werk, haus: haeuser.get(t.haus) }, 'haus')).jo
       <h1>${maske(werk.title)}</h1>
       ${werk.genre ? `<p class="unterzeile">${maske(werk.genre)}${werk.composer ? ` von ${maske(werk.composer)}` : ''}</p>` : (werk.composer ? `<p class="unterzeile">von ${maske(werk.composer)}</p>` : '')}${bildTeil(werk.image, werk.title)}
       ${werk.description ? `<p>${maske(werk.description)}</p>` : ''}
-      ${zeilen ? `<dl class="fakten">${zeilen}</dl>` : ''}
-      <p class="weiter"><a class="knopf" href="${maske(appAdresse.werk(werk.id))}">In OpernLog öffnen</a></p>${termineTeil}
+      ${zeilen ? `<dl class="fakten">${zeilen}</dl>` : ''}${termineTeil}
     </article>`,
     });
 }
@@ -287,8 +287,7 @@ ${meine.map(t => terminZeile(t, { werk: werke.get(t.werk), haus }, 'werk')).join
       <h1>${maske(haus.name)}</h1>
       <p class="unterzeile">${maske(ortText(haus))}</p>${bildTeil(haus.imageUrl, haus.name)}
       ${haus.description ? `<p>${maske(haus.description)}</p>` : ''}
-      <dl class="fakten">${zeilen}</dl>
-      <p class="weiter"><a class="knopf" href="${maske(appAdresse.haus(haus.id))}">In OpernLog öffnen</a></p>${termineTeil}
+      <dl class="fakten">${zeilen}</dl>${termineTeil}
     </article>`,
     });
 }
