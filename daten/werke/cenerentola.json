@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Aschenputtel ohne Zauber: Statt einer Fee hilft ein weiser Philosoph, statt eines gläsernen Schuhs gibt es einen Armreif, statt der Stiefmutter einen eitlen Stiefvater. Rossinis Märchenkomödie über Güte, die belohnt wird.",
+  "urauffuehrung": {
+    "datum": "1817-01-25",
+    "ort": "Teatro Valle, Rom"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Don Magnificos heruntergekommenes Schloss, Palast des Prinzen",
+      "text": "Angelina, genannt Cenerentola, dient ihrem Stiefvater und den Stiefschwestern als Magd. Prinz Ramiro sucht eine Braut und tauscht dazu mit seinem Diener Dandini die Rolle. Er verliebt sich in Angelina. Der Philosoph Alidoro bringt sie heimlich zum Fest, wo sie niemand erkennt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Palast des Prinzen, Don Magnificos Schloss",
+      "text": "Angelina gibt dem vermeintlichen Diener einen Armreif: finde er den zweiten, werde sie seine Frau. Ramiro sucht sie, ein Gewitter führt ihn zu Magnificos Haus. Er erkennt sie und macht sie zur Prinzessin. Angelina verzeiht ihrer Familie."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Una volta c’era un re",
+      "wer": "Angelina",
+      "akt": "1. Akt",
+      "was": "Das Lied vom König, der eine einfache Frau wählt."
+    },
+    {
+      "titel": "Miei rampolli femminini",
+      "wer": "Don Magnifico",
+      "akt": "1. Akt",
+      "was": "Magnifico erzählt seinen Töchtern einen absurden Traum."
+    },
+    {
+      "titel": "Sì, ritrovarla io giuro",
+      "wer": "Ramiro",
+      "akt": "2. Akt",
+      "was": "Ramiro schwört, die Unbekannte wiederzufinden."
+    },
+    {
+      "titel": "Nacqui all’affanno … Non più mesta",
+      "wer": "Angelina",
+      "akt": "2. Akt",
+      "was": "Das funkelnde Rondo-Finale."
+    }
+  ],
+  "wissen": [
+    "Die Titelpartie ist für eine tiefe Frauenstimme geschrieben, einen Alt oder Mezzosopran.",
+    "Die Uraufführung kam nur elf Monate nach der des „Barbier von Sevilla“, ebenfalls in Rom."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Paris um 1830. Der Dichter Rodolfo, der Maler Marcello und ihre Freunde leben arm, aber unbeschwert in einer Dachkammer. An einem Weihnachtsabend klopft die Nachbarin Mimì an – und eine große, zerbrechliche Liebe beginnt.",
+  "urauffuehrung": {
+    "datum": "1896-02-01",
+    "ort": "Teatro Regio, Turin"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Mansarde im Quartier Latin, Heiligabend",
+      "text": "Die vier Bohemiens frieren in ihrer Dachkammer. Als die Freunde ins Café ziehen, bleibt Rodolfo zurück – und die Nachbarin Mimì bittet um Feuer für ihre Kerze. Im Dunkeln suchen beide ihren verlorenen Schlüssel und verlieben sich."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Café Momus im Quartier Latin",
+      "text": "Im festlichen Trubel des Weihnachtsabends trifft Marcello auf seine frühere Geliebte Musetta, die mit einem reichen Verehrer auftaucht. Mit ihrem Walzer erobert sie Marcello zurück."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Zollschranke am Stadtrand, Winter",
+      "text": "Mimì ist schwer krank. Rodolfo gesteht Marcello, dass er sie verlassen will, weil er ihr in seiner Armut nicht helfen kann. Mimì hört alles; die beiden beschließen, sich im Frühling zu trennen."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Mansarde",
+      "text": "Monate später: Musetta bringt die sterbende Mimì zu Rodolfo. Die Freunde verkaufen, was sie haben, um Medizin zu holen. Umgeben von ihnen stirbt Mimì."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Che gelida manina",
+      "wer": "Rodolfo",
+      "akt": "1. Akt",
+      "was": "„Wie eiskalt ist dies Händchen“ – Rodolfo stellt sich Mimì vor."
+    },
+    {
+      "titel": "Sì, mi chiamano Mimì",
+      "wer": "Mimì",
+      "akt": "1. Akt",
+      "was": "Mimì erzählt von ihrem einfachen Leben als Stickerin."
+    },
+    {
+      "titel": "O soave fanciulla",
+      "wer": "Rodolfo und Mimì",
+      "akt": "1. Akt",
+      "was": "Das Liebesduett am Ende des ersten Akts."
+    },
+    {
+      "titel": "Quando m’en vo",
+      "wer": "Musetta",
+      "akt": "2. Akt",
+      "was": "Musettas Walzer, mit dem sie Marcello zurückgewinnt."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung dirigierte der damals 28-jährige Arturo Toscanini.",
+    "Vorlage sind die „Szenen aus dem Leben der Bohème“ von Henri Murger.",
+    "Fast gleichzeitig schrieb Ruggero Leoncavallo eine eigene „Bohème“ – Puccinis Fassung setzte sich durch."
+  ]
+}

@@ -20,7 +20,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
 import { tippen } from '../haptik.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
-import { ladeWerkText, arieZitat } from '../data/werkTexte.js';
+import { ladeWerkText, stelleZitat } from '../data/werkTexte.js';
 
 /** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
 function note(n) {
@@ -374,7 +374,7 @@ export function OperaDetailPage(operaId) {
 }
 
 /**
- * Handlung, Arien und Wissenswertes (src/data/werkTexte.js), sobald die Datei
+ * Handlung, bekannte Stellen und Wissenswertes (src/data/werkTexte.js), sobald die Datei
  * zum Werk geladen ist: die Dauer in den Kopf, der Rest hinter eine
  * zugeklappte Zeile direkt vor den Reviews. Zugeklappt, damit die Reviews
  * oben bleiben (Jonas, 19.11.2026, Variante A). Ohne Datei: nichts.
@@ -385,20 +385,20 @@ async function werkTextEinsetzen(page, operaId) {
 
   const meta = page.querySelector('.detail-hero__meta');
   const akte = meta?.querySelector('[data-meta="akte"]');
-  if (akte && t.dauer) akte.insertAdjacentHTML('afterend', `<span data-meta="dauer">${icon('clock', { className: 'icon--meta' })}${escapeHTML(t.dauer)}</span>`);
+  if (akte && t.dauer) akte.insertAdjacentHTML('afterend', `<span data-meta="dauer">${icon('clock', { className: 'icon--meta' })}${escapeHTML(t.dauer)} ohne Pausen</span>`);
 
   const reviews = page.querySelector('#reviewsHeading')?.closest('.detail-section');
   if (!reviews) return;
   const teil = (titel, inhalt) => inhalt ? `<p class="werk-text__unter">${titel}</p>${inhalt}` : '';
   reviews.insertAdjacentHTML('beforebegin', `
     <details class="werk-text">
-      <summary>Handlung, Arien &amp; Wissenswertes</summary>
+      <summary>Handlung, Musik &amp; Wissenswertes</summary>
       <div class="werk-text__innen">
         ${teil('Handlung <span class="werk-text__warnung">verrät das Ende</span>', `<ol class="werk-text__akte">${t.akte.map(a => `
           <li><span class="werk-text__akt">${escapeHTML(a.titel)}${a.ort ? ` · ${escapeHTML(a.ort)}` : ''}</span>${escapeHTML(a.text)}</li>`).join('')}
         </ol>`)}
-        ${teil('Bekannte Arien', t.arien.length ? `<ul class="werk-text__arien">${t.arien.map(a => `
-          <li><span class="werk-text__arie">${escapeHTML(arieZitat(a.titel))}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`).join('')}
+        ${teil('Bekannte Stellen', t.stellen.length ? `<ul class="werk-text__stellen">${t.stellen.map(a => `
+          <li><span class="werk-text__stelle">${escapeHTML(stelleZitat(a.titel))}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`).join('')}
         </ul>` : '')}
         ${teil('Gut zu wissen', t.wissen.length ? `<ul class="werk-text__wissen">${t.wissen.map(w => `<li>${escapeHTML(w)}</li>`).join('')}</ul>` : '')}
       </div>

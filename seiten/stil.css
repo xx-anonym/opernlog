@@ -182,7 +182,7 @@ h2 {
     white-space: pre-line;
 }
 
-/* Werktexte (daten/werke/<id>.json): Steckbrief, Anriss, Handlung, Arien,
+/* Werktexte (daten/werke/<id>.json): Steckbrief, Anriss, Handlung, bekannte Stellen,
    Wissenswertes. Dazu die eingeklappten weiteren Termine. */
 .steckbrief { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 4px 0 18px; }
 .steckbrief li { padding: 5px 12px; border: 1px solid var(--linie); border-radius: 999px; font-size: 14px; color: var(--leise); background: var(--karte); }
@@ -194,9 +194,9 @@ h2 {
 .akte { list-style: none; padding: 0; margin: 0; }
 .akte li { padding: 14px 16px 14px 18px; margin-bottom: 10px; background: var(--karte); border: 1px solid var(--linie); border-left: 3px solid var(--rot-hell); border-radius: 10px; }
 .akt { display: block; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; font-weight: 700; }
-.arien { list-style: none; padding: 0; margin: 0; }
-.arien li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--linie); }
-.arie { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 21px; color: #fff; }
+.stellen { list-style: none; padding: 0; margin: 0; }
+.stellen li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--linie); }
+.stelle { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 21px; color: #fff; }
 .wer { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); }
 .was { color: var(--leise); font-size: 15px; }
 .wissen { padding-left: 20px; margin: 0; }

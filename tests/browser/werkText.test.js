@@ -1,4 +1,4 @@
-// Handlung, Arien & Wissenswertes (daten/werke/<id>.json) auf der Werkseite
+// Handlung, Musik & Wissenswertes (daten/werke/<id>.json) auf der Werkseite
 // der App: eine zugeklappte Zeile direkt vor den Reviews, die Dauer im Kopf
 // (Jonas, 19.11.2026, Variante A). Werke ohne Datei zeigen nichts davon.
 // Dazu die Seite für Google: was vorbei ist, fällt weg, Termine rücken nach.
@@ -36,25 +36,26 @@ async function oeffne(hash) {
     return { ctx, p, fehler };
 }
 
-test('Tosca: zugeklappt vor den Reviews, Dauer im Kopf; aufgeklappt Handlung, Arien, Wissenswertes', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+test('Tosca: zugeklappt vor den Reviews, Dauer im Kopf; aufgeklappt Handlung, bekannte Stellen, Wissenswertes', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler } = await oeffne('#/opera/tosca');
     try {
         const block = p.locator('details.werk-text');
         await block.waitFor({ timeout: 15000 });
-        assert.equal((await p.textContent('.werk-text summary')).trim(), 'Handlung, Arien & Wissenswertes');
+        assert.equal((await p.textContent('.werk-text summary')).trim(), 'Handlung, Musik & Wissenswertes');
         assert.equal(await block.evaluate(d => d.open), false);
         // Direkt vor den Reviews.
         assert.equal(await block.evaluate(d => d.nextElementSibling?.querySelector('#reviewsHeading') !== null), true);
         // Die Dauer steht hinter den Akten im Kopf.
-        assert.equal(await p.evaluate(() => document.querySelector('[data-meta="akte"]').nextElementSibling?.textContent.trim()), 'ca. 2 Std.');
+        assert.equal(await p.evaluate(() => document.querySelector('[data-meta="akte"]').nextElementSibling?.textContent.trim()), 'ca. 2 Std. ohne Pausen');
         // Zugeklappt nimmt der Block kaum Platz.
         assert.ok((await block.boundingBox()).height < 80);
 
         await p.click('.werk-text summary');
         assert.equal(await p.locator('.werk-text__akte li').count(), 3);
         assert.match(await p.textContent('.werk-text__akte li:first-child .werk-text__akt'), /^1\. Akt · Kirche Sant’Andrea della Valle$/);
-        assert.equal(await p.locator('.werk-text__arien li').count(), 4);
-        assert.equal((await p.textContent('.werk-text__arien li:nth-child(3) .werk-text__arie')).trim(), '„Vissi d’arte“');
+        assert.equal(await p.locator('.werk-text__stellen li').count(), 4);
+        assert.equal((await p.textContent('.werk-text__stellen li:nth-child(3) .werk-text__stelle')).trim(), '„Vissi d’arte“');
+        assert.match(await p.textContent('.werk-text__innen'), /Bekannte Stellen/);
         assert.equal(await p.locator('.werk-text__wissen li').count(), 3);
         assert.match(await p.textContent('.werk-text__innen'), /verrät das Ende/);
         assert.deepEqual(fehler, []);

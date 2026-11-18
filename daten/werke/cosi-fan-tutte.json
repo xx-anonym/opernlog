@@ -1,0 +1,51 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Zwei junge Offiziere wetten mit dem spöttischen Don Alfonso, dass ihre Verlobten ihnen treu sind. Verkleidet umwerben sie jeweils die Braut des anderen – und die Wette geht anders aus als gedacht.",
+  "urauffuehrung": {
+    "datum": "1790-01-26",
+    "ort": "Burgtheater, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Neapel",
+      "text": "Ferrando und Guglielmo geben vor, in den Krieg zu ziehen. Ihre Verlobten, die Schwestern Fiordiligi und Dorabella, trauern. Kurz darauf stehen die beiden als „Albaner“ verkleidet vor der Tür und machen den Damen den Hof; die Zofe Despina hilft Alfonso beim Spiel."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Neapel",
+      "text": "Erst Dorabella, dann auch Fiordiligi geben den Fremden nach. Eine Scheinhochzeit wird vorbereitet – da kehren die Offiziere „aus dem Krieg“ zurück und decken alles auf. Alfonso empfiehlt Nachsicht: so machen es alle."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Soave sia il vento",
+      "wer": "Fiordiligi, Dorabella und Don Alfonso",
+      "akt": "1. Akt",
+      "was": "Das Abschiedsterzett: sanft sei der Wind."
+    },
+    {
+      "titel": "Come scoglio",
+      "wer": "Fiordiligi",
+      "akt": "1. Akt",
+      "was": "Fest wie ein Fels will Fiordiligi bleiben."
+    },
+    {
+      "titel": "Un’aura amorosa",
+      "wer": "Ferrando",
+      "akt": "1. Akt",
+      "was": "Ferrandos zärtliche Liebesarie."
+    },
+    {
+      "titel": "Per pietà, ben mio, perdona",
+      "wer": "Fiordiligi",
+      "akt": "2. Akt",
+      "was": "Fiordiligi ringt mit ihrer Versuchung."
+    }
+  ],
+  "wissen": [
+    "Der Titel bedeutet „So machen es alle (Frauen)“.",
+    "Es ist die dritte und letzte Oper von Mozart und Lorenzo Da Ponte.",
+    "Kaiser Joseph II. starb wenige Wochen nach der Uraufführung; die Aufführungsserie wurde wegen der Trauerzeit unterbrochen."
+  ]
+}

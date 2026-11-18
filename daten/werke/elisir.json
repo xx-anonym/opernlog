@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Der schüchterne Bauer Nemorino liebt die reiche Pächterin Adina, doch sie lacht ihn aus. Da kommt der Quacksalber Dulcamara ins Dorf und verkauft ihm einen Liebestrank – der in Wahrheit nichts als Rotwein ist.",
+  "urauffuehrung": {
+    "datum": "1832-05-12",
+    "ort": "Teatro della Canobbiana, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Ein Dorf auf dem Land",
+      "text": "Adina liest die Geschichte von Tristan und Isolde und spottet über Liebestränke. Der Sergeant Belcore macht ihr den Hof. Nemorino kauft bei Dulcamara ein „Elixier“, wird mutig und gleichgültig – und Adina sagt aus Trotz Belcore die Hochzeit noch am selben Tag zu."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Das Dorf, Hochzeitsfest",
+      "text": "Um mehr Elixier zu kaufen, lässt sich Nemorino als Soldat anwerben. Inzwischen hat er von einem Onkel geerbt, was alle außer ihm wissen – plötzlich umschwärmen ihn die Dorfmädchen. Adina erkennt ihre Liebe, kauft ihn vom Militär frei und gesteht ihm ihre Gefühle."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Quanto è bella, quanto è cara",
+      "wer": "Nemorino",
+      "akt": "1. Akt",
+      "was": "Nemorino schwärmt von der unerreichbaren Adina."
+    },
+    {
+      "titel": "Udite, udite, o rustici",
+      "wer": "Dulcamara",
+      "akt": "1. Akt",
+      "was": "Der Quacksalber preist sein Wundermittel an."
+    },
+    {
+      "titel": "Una furtiva lagrima",
+      "wer": "Nemorino",
+      "akt": "2. Akt",
+      "was": "„Eine heimliche Träne“ – eine der berühmtesten Tenorarien."
+    },
+    {
+      "titel": "Prendi, per me sei libero",
+      "wer": "Adina",
+      "akt": "2. Akt",
+      "was": "Adina gibt Nemorino seinen Anwerbevertrag zurück."
+    }
+  ],
+  "wissen": [
+    "Der Text von Felice Romani beruht auf dem Libretto „Le philtre“, das Eugène Scribe für Daniel-François-Esprit Auber geschrieben hatte.",
+    "Donizetti schrieb die Oper in nur wenigen Wochen."
+  ]
+}

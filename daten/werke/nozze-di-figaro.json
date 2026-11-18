@@ -1,0 +1,67 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Figaro und Susanna, Diener im Schloss des Grafen Almaviva, wollen heiraten. Doch der Graf hat selbst ein Auge auf Susanna geworfen. Mit Witz, Verkleidungen und der Hilfe der Gräfin drehen die Dienstboten den Spieß um – an einem einzigen „tollen Tag“.",
+  "urauffuehrung": {
+    "datum": "1786-05-01",
+    "ort": "Burgtheater, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Zimmer von Figaro und Susanna",
+      "text": "Susanna verrät Figaro, dass der Graf ihr nachstellt. Figaro schwört, ihm einen Strich durch die Rechnung zu machen. Zugleich fordert die ältere Marcellina, dass Figaro ein altes Eheversprechen einlöst, und der verliebte Page Cherubino soll zum Militär."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Zimmer der Gräfin",
+      "text": "Die Gräfin, Susanna und Figaro wollen den Grafen eifersüchtig machen und als Ehebrecher bloßstellen. Cherubino wird als Frau verkleidet, versteckt sich vor dem misstrauischen Grafen und springt schließlich aus dem Fenster."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Saal im Schloss",
+      "text": "Im Prozess um Marcellinas Forderung stellt sich heraus: sie und Dr. Bartolo sind Figaros Eltern. Die Gräfin diktiert Susanna einen Brief, der den Grafen zu einem nächtlichen Treffen im Garten lockt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Schlossgarten bei Nacht",
+      "text": "Im Dunkeln tauschen Gräfin und Susanna die Kleider. Der Graf umwirbt die vermeintliche Susanna – und steht am Ende vor seiner eigenen Frau. Er bittet sie um Verzeihung, und sie vergibt ihm."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Non più andrai",
+      "wer": "Figaro",
+      "akt": "1. Akt",
+      "was": "Figaro schickt Cherubino spöttisch in den Militärdienst."
+    },
+    {
+      "titel": "Voi che sapete",
+      "wer": "Cherubino",
+      "akt": "2. Akt",
+      "was": "Der Page singt von seinen verwirrten Gefühlen."
+    },
+    {
+      "titel": "Porgi, amor",
+      "wer": "Gräfin",
+      "akt": "2. Akt",
+      "was": "Die Gräfin trauert um die verlorene Liebe ihres Mannes."
+    },
+    {
+      "titel": "Dove sono",
+      "wer": "Gräfin",
+      "akt": "3. Akt",
+      "was": "Erinnerung an die glücklichen Tage ihrer Ehe."
+    },
+    {
+      "titel": "Deh vieni, non tardar",
+      "wer": "Susanna",
+      "akt": "4. Akt",
+      "was": "Susannas Gartenarie in der Nacht."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist Beaumarchais’ Komödie „Der tolle Tag oder Figaros Hochzeit“, die in Wien als Schauspiel verboten war.",
+    "Es ist die erste von drei Opern, die Mozart mit dem Textdichter Lorenzo Da Ponte schrieb.",
+    "Die Vorgeschichte erzählt Rossinis „Der Barbier von Sevilla“."
+  ]
+}

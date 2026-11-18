@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 3¼ Std.",
+  "anriss": "Der Sänger Tannhäuser ist zwischen zwei Welten gefangen: der sinnlichen Liebe der Göttin Venus und der reinen Liebe Elisabeths auf der Wartburg. Ein Sängerwettstreit bringt ihn an den Rand des Verderbens.",
+  "urauffuehrung": {
+    "datum": "1845-10-19",
+    "ort": "Königliches Hoftheater, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Venusberg, Tal vor der Wartburg",
+      "text": "Tannhäuser ist der Sinnenwelt im Venusberg überdrüssig und kehrt auf die Erde zurück. Im Tal vor der Wartburg treffen ihn der Landgraf und seine alten Sängerfreunde. Wolfram erinnert ihn an Elisabeth, die ihn liebt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Sängerhalle auf der Wartburg",
+      "text": "Elisabeth begrüßt Tannhäuser in der Halle. Beim Sängerwettstreit über das Wesen der Liebe preist er die Venus und verrät, wo er gewesen ist. Die Ritter wollen ihn töten; Elisabeth schützt ihn. Er muss nach Rom pilgern und um Vergebung bitten."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Tal vor der Wartburg",
+      "text": "Die Pilger kehren zurück, Tannhäuser ist nicht unter ihnen. Elisabeth betet und stirbt. Tannhäuser kommt verzweifelt: der Papst hat ihm die Vergebung verweigert. Er will zu Venus zurück, doch Wolfram ruft Elisabeths Namen. Elisabeths Leichnam wird in einer Prozession herbeigetragen, und Tannhäuser stirbt neben ihr. Die Pilger bringen den Stab des Papstes, der zum Zeichen der Vergebung erblüht ist."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Dich, teure Halle",
+      "wer": "Elisabeth",
+      "akt": "2. Akt",
+      "was": "Elisabeths jubelnder Gruß an die Sängerhalle."
+    },
+    {
+      "titel": "Freudig begrüßen wir die edle Halle",
+      "wer": "Chor",
+      "akt": "2. Akt",
+      "was": "Der Einzug der Gäste auf der Wartburg."
+    },
+    {
+      "titel": "Beglückt darf nun dich, o Heimat, ich schauen",
+      "wer": "Pilgerchor",
+      "akt": "3. Akt",
+      "was": "Der Pilgerchor."
+    },
+    {
+      "titel": "O du, mein holder Abendstern",
+      "wer": "Wolfram",
+      "akt": "3. Akt",
+      "was": "Das Lied an den Abendstern."
+    }
+  ],
+  "wissen": [
+    "Der Sängerkrieg auf der Wartburg ist eine mittelalterliche Sage; Tannhäuser war ein historischer Minnesänger.",
+    "Für Paris überarbeitete Wagner das Werk 1861 – die Aufführung endete in einem der größten Theaterskandale des Jahrhunderts."
+  ]
+}

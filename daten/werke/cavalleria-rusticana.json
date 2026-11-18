@@ -1,0 +1,46 @@
+{
+  "dauer": "ca. 70 Min.",
+  "anriss": "Ostersonntag in einem sizilianischen Dorf. Turiddu hat Santuzza verführt und kehrt doch zu seiner alten Liebe Lola zurück, die inzwischen den Fuhrmann Alfio geheiratet hat. Eifersucht und Ehre führen zum Duell.",
+  "urauffuehrung": {
+    "datum": "1890-05-17",
+    "ort": "Teatro Costanzi, Rom"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Dorfplatz in Sizilien, Ostersonntag",
+      "text": "Santuzza sucht Turiddu und erzählt seiner Mutter Lucia von ihrem Kummer. Turiddu weist Santuzza zurück und folgt Lola in die Kirche. Aus Verzweiflung verrät Santuzza Alfio die Affäre seiner Frau. Nach der Messe fordert Alfio Turiddu zum Messerkampf. Turiddu nimmt Abschied von seiner Mutter – kurz darauf schreit eine Frau: Turiddu ist tot."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "O Lola, ch’hai di latti la cammisa",
+      "wer": "Turiddu",
+      "akt": "Beginn",
+      "was": "Die Siciliana, hinter dem Vorhang gesungen."
+    },
+    {
+      "titel": "Voi lo sapete, o mamma",
+      "wer": "Santuzza",
+      "akt": "Mitte",
+      "was": "Santuzza klagt Lucia ihr Leid."
+    },
+    {
+      "titel": "Intermezzo",
+      "wer": "Orchester",
+      "akt": "Mitte",
+      "was": "Das berühmte Zwischenspiel, bekannt aus vielen Filmen."
+    },
+    {
+      "titel": "Viva il vino spumeggiante",
+      "wer": "Turiddu und Chor",
+      "akt": "gegen Ende",
+      "was": "Das Trinklied vor dem Duell."
+    }
+  ],
+  "wissen": [
+    "Mascagni gewann mit dem Einakter einen Wettbewerb des Verlegers Sonzogno – und wurde über Nacht berühmt.",
+    "Vorlage ist eine Novelle von Giovanni Verga.",
+    "Oft wird Cavalleria rusticana zusammen mit Leoncavallos „Pagliacci“ an einem Abend gespielt."
+  ]
+}

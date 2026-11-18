@@ -1,0 +1,67 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Sevilla, um 1820. Der Soldat Don José verfällt der freiheitsliebenden Carmen, gibt für sie Verlobte, Laufbahn und Ehre auf – und kann nicht ertragen, dass sie sich einem anderen zuwendet.",
+  "urauffuehrung": {
+    "datum": "1875-03-03",
+    "ort": "Opéra-Comique, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Platz in Sevilla vor der Zigarettenfabrik",
+      "text": "Don José bekommt Besuch von Micaëla, die ihm Grüße seiner Mutter bringt. Doch Carmen wirft ihm eine Blume zu. Nach einem Streit in der Fabrik wird sie verhaftet, und José lässt sie entkommen – dafür muss er selbst ins Gefängnis."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Lillas Pastias Schenke",
+      "text": "Carmen feiert mit Schmugglern; der Torero Escamillo macht ihr den Hof. José kommt aus der Haft, gerät mit seinem Vorgesetzten aneinander und muss nun mit Carmen zu den Schmugglern fliehen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Schmugglerlager in den Bergen",
+      "text": "Carmen ist José überdrüssig; die Karten sagen ihr den Tod voraus. Escamillo sucht sie, José fordert ihn zum Kampf. Micaëla bringt die Nachricht, dass Josés Mutter im Sterben liegt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Vor der Stierkampfarena",
+      "text": "Carmen erscheint an Escamillos Seite. José fleht sie an, zu ihm zurückzukehren. Sie weigert sich und wirft ihm seinen Ring vor die Füße – er ersticht sie, während in der Arena Escamillo gefeiert wird."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "L’amour est un oiseau rebelle",
+      "wer": "Carmen",
+      "akt": "1. Akt",
+      "was": "Die Habanera: Liebe ist ein wilder Vogel."
+    },
+    {
+      "titel": "Près des remparts de Séville",
+      "wer": "Carmen",
+      "akt": "1. Akt",
+      "was": "Die Seguidilla, mit der Carmen José verführt."
+    },
+    {
+      "titel": "Votre toast, je peux vous le rendre",
+      "wer": "Escamillo",
+      "akt": "2. Akt",
+      "was": "Das Torerolied."
+    },
+    {
+      "titel": "La fleur que tu m’avais jetée",
+      "wer": "Don José",
+      "akt": "2. Akt",
+      "was": "Die Blumenarie: José gesteht Carmen seine Liebe."
+    },
+    {
+      "titel": "Je dis que rien ne m’épouvante",
+      "wer": "Micaëla",
+      "akt": "3. Akt",
+      "was": "Micaëla sammelt Mut in der Wildnis der Berge."
+    }
+  ],
+  "wissen": [
+    "Bizet starb drei Monate nach der zunächst wenig erfolgreichen Uraufführung.",
+    "Vorlage ist eine Novelle von Prosper Mérimée.",
+    "Ursprünglich wurde zwischen den Musiknummern gesprochen; die oft gespielten Rezitative stammen von Ernest Guiraud."
+  ]
+}

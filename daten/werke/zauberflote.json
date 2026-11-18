@@ -1,0 +1,57 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Prinz Tamino soll Pamina, die Tochter der Königin der Nacht, aus der Gewalt Sarastros befreien – begleitet vom Vogelfänger Papageno und einer Zauberflöte. Doch wer hier gut ist und wer böse, ist ganz anders, als es zuerst scheint.",
+  "urauffuehrung": {
+    "datum": "1791-09-30",
+    "ort": "Freihaustheater auf der Wieden, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Felsige Gegend, Sarastros Reich",
+      "text": "Drei Damen der Königin der Nacht retten Tamino vor einer Schlange. Die Königin zeigt ihm ein Bild ihrer Tochter Pamina, die Sarastro entführt hat, und Tamino verliebt sich. Mit Papageno, einer Zauberflöte und einem Glockenspiel zieht er los. In Sarastros Tempel erfährt er, dass der Herrscher kein Tyrann, sondern ein weiser Priester ist. Tamino und Pamina begegnen sich zum ersten Mal – und Tamino muss sich Prüfungen stellen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Sarastros Tempelbezirk",
+      "text": "Tamino besteht die Prüfungen des Schweigens, des Feuers und des Wassers. Pamina hält sein Schweigen für Liebesentzug und will sich das Leben nehmen; drei Knaben retten sie, und gemeinsam gehen die beiden durch die letzten Prüfungen. Papageno findet seine Papagena. Der Angriff der Königin auf den Tempel scheitert, und Sarastros Reich des Lichts siegt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Der Vogelfänger bin ich ja",
+      "wer": "Papageno",
+      "akt": "1. Akt",
+      "was": "Papageno stellt sich vor – mit Panflöte und Vogelkäfig."
+    },
+    {
+      "titel": "Dies Bildnis ist bezaubernd schön",
+      "wer": "Tamino",
+      "akt": "1. Akt",
+      "was": "Tamino verliebt sich in Paminas Bild."
+    },
+    {
+      "titel": "Der Hölle Rache kocht in meinem Herzen",
+      "wer": "Königin der Nacht",
+      "akt": "2. Akt",
+      "was": "Die berühmte Koloraturarie bis zum dreigestrichenen F."
+    },
+    {
+      "titel": "In diesen heil’gen Hallen",
+      "wer": "Sarastro",
+      "akt": "2. Akt",
+      "was": "Sarastros ruhiges Bekenntnis zu Vergebung statt Rache."
+    },
+    {
+      "titel": "Pa-pa-pa",
+      "wer": "Papageno und Papagena",
+      "akt": "2. Akt",
+      "was": "Das stotternde Liebesduett der beiden Vogelmenschen."
+    }
+  ],
+  "wissen": [
+    "Mozart starb gut zwei Monate nach der Uraufführung, am 5. Dezember 1791.",
+    "Emanuel Schikaneder schrieb nicht nur den Text, er sang bei der Uraufführung auch selbst den Papageno.",
+    "Die Zauberflöte ist ein Singspiel: zwischen den Musiknummern wird gesprochen."
+  ]
+}

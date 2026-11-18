@@ -905,7 +905,7 @@ h3 {
     margin-bottom: 32px;
 }
 
-/* Handlung, Arien & Wissenswertes (src/data/werkTexte.js): eine zugeklappte
+/* Handlung, Musik & Wissenswertes (src/data/werkTexte.js): eine zugeklappte
    Zeile vor den Reviews, damit die oben bleiben. */
 .werk-text {
     margin: 0 0 32px;
@@ -960,8 +960,8 @@ h3 {
     text-transform: uppercase;
     color: var(--gold);
 }
-.werk-text__arien { list-style: none; margin: 0; padding: 0; }
-.werk-text__arien li {
+.werk-text__stellen { list-style: none; margin: 0; padding: 0; }
+.werk-text__stellen li {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -969,7 +969,7 @@ h3 {
     padding: 9px 0;
     border-bottom: 1px solid var(--border);
 }
-.werk-text__arie {
+.werk-text__stelle {
     font-family: var(--font-display);
     font-style: italic;
     font-size: 17px;

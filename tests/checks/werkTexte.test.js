@@ -1,4 +1,4 @@
-// Werktexte (daten/werke/<id>.json, src/data/werkTexte.js): Handlung, Arien,
+// Werktexte (daten/werke/<id>.json, src/data/werkTexte.js): Handlung, bekannte Stellen,
 // Wissenswertes. Jede Datei muss gültig sein und zu einem Werk gehören; die
 // Seite für Google zeigt sie, Werke ohne Datei behalten die alte Seite.
 
@@ -65,14 +65,14 @@ test('ohne Netz wird beim nächsten Öffnen noch einmal gefragt', async () => {
     assert.ok(await ladeWerkText('netz-weg', { abruf }));
 });
 
-test('Seite mit Text: Titel und Beschreibung nennen Handlung und Arien, alle Abschnitte da, maskiert', () => {
+test('Seite mit Text: Titel und Beschreibung nennen Handlung und Musik, alle Abschnitte da, maskiert', () => {
     const html = werkSeite(TOSCA, { termine: [termin('2027-01-01')], haeuser: new Map([[HAUS.id, HAUS]]), stand: '2026-11-01', text: TEXTE.get('tosca') });
-    assert.match(html, /<title>Tosca \(Puccini\) – Handlung, Arien und Termine \| OpernLog<\/title>/);
-    assert.match(html, /<meta name="description" content="Tosca von Giacomo Puccini: Handlung, bekannte Arien wie „Recondita armonia“ und 1 Termin an 1 Opernhaus/);
-    for (const teil of ['class="steckbrief"', 'class="anriss"', '<h2>Die Handlung</h2>', '<h2>Bekannte Arien</h2>', '<h2>Gut zu wissen</h2>']) assert.ok(html.includes(teil), teil);
-    assert.match(html, /<li>ca\. 2 Std\. Musik<\/li><li>3 Akte<\/li><li>Italienisch<\/li><li>Uraufführung 1900, Rom<\/li>/);
+    assert.match(html, /<title>Tosca \(Puccini\) – Handlung, Musik und Termine \| OpernLog<\/title>/);
+    assert.match(html, /<meta name="description" content="Tosca von Giacomo Puccini: Handlung, bekannte Stellen wie „Recondita armonia“ und 1 Termin an 1 Opernhaus/);
+    for (const teil of ['class="steckbrief"', 'class="anriss"', '<h2>Die Handlung</h2>', '<h2>Bekannte Stellen</h2>', '<h2>Gut zu wissen</h2>']) assert.ok(html.includes(teil), teil);
+    assert.match(html, /<li>ca\. 2 Std\. ohne Pausen<\/li><li>3 Akte<\/li><li>Italienisch<\/li><li>Uraufführung 1900, Rom<\/li>/);
     assert.match(html, /<dt>Uraufführung<\/dt><dd>14\. Januar 1900, Teatro Costanzi, Rom<\/dd>/);
-    assert.match(html, /<span class="arie">„Vissi d’arte“<\/span>/);
+    assert.match(html, /<span class="stelle">„Vissi d’arte“<\/span>/);
     // Reihenfolge: Anriss, Termine, Handlung.
     assert.ok(html.indexOf('class="anriss"') < html.indexOf('data-termine') && html.indexOf('data-termine') < html.indexOf('Die Handlung'));
 });

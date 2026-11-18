@@ -1,0 +1,66 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "In einer Weinstube erzählt der Dichter Hoffmann seinen Freunden von drei unglücklichen Lieben: zu einer Puppe, einer Sängerin und einer Kurtisane. Hinter jedem Unglück steckt derselbe dämonische Gegenspieler.",
+  "urauffuehrung": {
+    "datum": "1881-02-10",
+    "ort": "Opéra-Comique, Paris"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Lutters Weinstube",
+      "text": "Hoffmann wartet auf die Sängerin Stella, um die auch der Stadtrat Lindorf wirbt. Begleitet von seiner Muse in Gestalt des Freundes Nicklausse beginnt er, von seinen Lieben zu erzählen."
+    },
+    {
+      "titel": "Olympia",
+      "ort": "Spalanzanis Haus",
+      "text": "Durch eine Zauberbrille des Coppélius verliebt sich Hoffmann in Olympia – und merkt nicht, dass sie eine mechanische Puppe ist. Als Coppélius sie aus Rache zerstört, wird Hoffmann ausgelacht."
+    },
+    {
+      "titel": "Antonia",
+      "ort": "Crespels Haus",
+      "text": "Die kranke Sängerin Antonia darf nicht singen, weil es sie umbringen würde. Der unheimliche Doktor Miracle bringt sie dennoch dazu – sie singt sich zu Tode."
+    },
+    {
+      "titel": "Giulietta",
+      "ort": "Venedig",
+      "text": "Die Kurtisane Giulietta raubt Hoffmann im Auftrag des Dapertutto sein Spiegelbild. Hoffmann tötet seinen Rivalen Schlemihl, doch Giulietta fährt mit einem anderen davon."
+    },
+    {
+      "titel": "Epilog",
+      "ort": "Lutters Weinstube",
+      "text": "Hoffmann ist betrunken; Stella geht mit Lindorf fort. Zurück bleibt die Muse, die Hoffmann für die Kunst gewinnt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Il était une fois à la cour d’Eisenach",
+      "wer": "Hoffmann",
+      "akt": "Prolog",
+      "was": "Das Lied vom Klein-Zack."
+    },
+    {
+      "titel": "Les oiseaux dans la charmille",
+      "wer": "Olympia",
+      "akt": "Olympia-Akt",
+      "was": "Die Puppenarie mit halsbrecherischen Koloraturen."
+    },
+    {
+      "titel": "Elle a fui, la tourterelle",
+      "wer": "Antonia",
+      "akt": "Antonia-Akt",
+      "was": "Antonias schwermütige Romanze."
+    },
+    {
+      "titel": "Belle nuit, ô nuit d’amour",
+      "wer": "Giulietta und Nicklausse",
+      "akt": "Giulietta-Akt",
+      "was": "Die berühmte Barcarole."
+    }
+  ],
+  "wissen": [
+    "Offenbach starb im Oktober 1880, vier Monate vor der Uraufführung. Ernest Guiraud stellte das Werk anhand seiner hinterlassenen Entwürfe fertig.",
+    "Weil Offenbach keine endgültige Fassung hinterließ, unterscheiden sich Aufführungen oft stark – auch in der Reihenfolge der Akte.",
+    "Die Barcarole stammt ursprünglich aus Offenbachs Oper „Die Rheinnixen“."
+  ]
+}

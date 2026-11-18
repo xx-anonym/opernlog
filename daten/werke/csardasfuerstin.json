@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Die Varietésängerin Sylva Varescu und Edwin, Sohn eines Wiener Fürsten, lieben sich. Doch eine Chansonnette passt nicht in eine adelige Familie – oder doch? Kálmáns Operette über Liebe und Standesdünkel, voller Csárdás und Walzer.",
+  "urauffuehrung": {
+    "datum": "1915-11-17",
+    "ort": "Johann-Strauß-Theater, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Varieté in Budapest",
+      "text": "Sylva gibt ihre Abschiedsvorstellung vor einer Amerikatournee. Edwin will sie heiraten und lässt ein Eheversprechen aufsetzen – seine Eltern aber haben ihn längst mit seiner Cousine Stasi verlobt. Als Sylva die Verlobungsanzeige sieht, reist sie gekränkt ab."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Palais der Fürsten Lippert-Weylersheim in Wien",
+      "text": "Bei Edwins Verlobungsfest taucht Sylva mit Graf Boni auf und gibt sich als dessen Frau aus. Als Edwin sie als „geschiedene Gräfin“ standesgemäß heiraten will, gibt sie sich empört als die Csárdásfürstin zu erkennen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Hotel in Wien",
+      "text": "Im Hotel klärt sich alles: Edwins Mutter war selbst einmal eine Chansonnette und kam erst durch Heiraten zu ihrem Titel. Der Fürst gibt nach – Edwin bekommt Sylva, Boni seine Stasi."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Heia, heia, in den Bergen ist mein Heimatland",
+      "wer": "Sylva, Boni, Feri und Chor",
+      "akt": "1. Akt",
+      "was": "Sylvas Auftrittslied mit ungarischem Feuer."
+    },
+    {
+      "titel": "Ganz ohne Weiber geht die Chose nicht",
+      "wer": "Boni und Chor",
+      "akt": "1. Akt",
+      "was": "Boni stellt fest, dass es ohne Frauen nicht geht."
+    },
+    {
+      "titel": "Machen wir’s den Schwalben nach",
+      "wer": "Stasi und Edwin",
+      "akt": "2. Akt",
+      "was": "Ein verliebtes Duett über das Nestbauen."
+    },
+    {
+      "titel": "Das ist die Liebe, die dumme Liebe",
+      "wer": "Stasi und Boni",
+      "akt": "2. Akt",
+      "was": "Das Duett, das im 3. Akt noch einmal anklingt."
+    },
+    {
+      "titel": "Tanzen möcht’ ich",
+      "wer": "Sylva und Edwin",
+      "akt": "2. Akt",
+      "was": "Der berühmte Walzer der beiden Liebenden."
+    }
+  ],
+  "wissen": [
+    "Die Csárdásfürstin wurde mitten im Ersten Weltkrieg uraufgeführt und war sofort ein großer Erfolg.",
+    "Der Text stammt von Leo Stein und Béla Jenbach."
+  ]
+}

@@ -1,7 +1,10 @@
 {
   "dauer": "ca. 2 Std.",
   "anriss": "Rom, Juni 1800. Die Sängerin Floria Tosca liebt den Maler Cavaradossi – und der Polizeichef Scarpia begehrt sie. Als Cavaradossi einem geflohenen Häftling hilft, beginnt ein Machtspiel um Liebe, Verrat und Leben, das in weniger als einem Tag entschieden ist.",
-  "urauffuehrung": { "datum": "1900-01-14", "ort": "Teatro Costanzi, Rom" },
+  "urauffuehrung": {
+    "datum": "1900-01-14",
+    "ort": "Teatro Costanzi, Rom"
+  },
   "akte": [
     {
       "titel": "1. Akt",
@@ -19,15 +22,35 @@
       "text": "Im Morgengrauen soll Cavaradossi zum Schein erschossen werden. Doch Scarpia hat Tosca betrogen: die Kugeln sind echt. Als der Mord an Scarpia entdeckt wird, stürzt sich Tosca von der Brüstung der Engelsburg."
     }
   ],
-  "arien": [
-    { "titel": "Recondita armonia", "wer": "Cavaradossi", "akt": "1. Akt", "was": "Der Maler vergleicht die dunkle Tosca mit der blonden Unbekannten auf seinem Bild." },
-    { "titel": "Te Deum", "wer": "Scarpia und Chor", "akt": "1. Akt", "was": "Während in der Kirche gebetet wird, schmiedet Scarpia seinen Plan." },
-    { "titel": "Vissi d’arte", "wer": "Tosca", "akt": "2. Akt", "was": "„Ich lebte für die Kunst“ – Toscas Gebet in höchster Not." },
-    { "titel": "E lucevan le stelle", "wer": "Cavaradossi", "akt": "3. Akt", "was": "Abschied vom Leben in der Nacht vor der Hinrichtung." }
+  "stellen": [
+    {
+      "titel": "Recondita armonia",
+      "wer": "Cavaradossi",
+      "akt": "1. Akt",
+      "was": "Der Maler vergleicht die dunkle Tosca mit der blonden Unbekannten auf seinem Bild."
+    },
+    {
+      "titel": "Te Deum",
+      "wer": "Scarpia und Chor",
+      "akt": "1. Akt",
+      "was": "Während in der Kirche gebetet wird, schmiedet Scarpia seinen Plan."
+    },
+    {
+      "titel": "Vissi d’arte",
+      "wer": "Tosca",
+      "akt": "2. Akt",
+      "was": "„Ich lebte für die Kunst“ – Toscas Gebet in höchster Not."
+    },
+    {
+      "titel": "E lucevan le stelle",
+      "wer": "Cavaradossi",
+      "akt": "3. Akt",
+      "was": "Abschied vom Leben in der Nacht vor der Hinrichtung."
+    }
   ],
   "wissen": [
     "Alle drei Schauplätze gibt es in Rom bis heute – man kann die Oper zu Fuß nachgehen.",
-    "Die Handlung spielt am 17. und 18. Juni 1800, kurz nach der Schlacht bei Marengo, deren Nachricht im 2. Akt eintrifft.",
+    "Die Handlung spielt am 17. und 18. Juni 1800, drei Tage nach der Schlacht bei Marengo. Im 1. Akt wird irrtümlich ein österreichischer Sieg gemeldet, im 2. Akt trifft die Nachricht von Napoleons tatsächlichem Sieg ein.",
     "Vorlage ist das Schauspiel „La Tosca“ von Victorien Sardou (1887), geschrieben für Sarah Bernhardt."
   ]
 }

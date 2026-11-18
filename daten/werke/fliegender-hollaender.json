@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Ein verfluchter Seefahrer muss ewig über die Meere segeln. Nur alle sieben Jahre darf er an Land, um eine Frau zu finden, die ihm bis in den Tod treu ist. In Norwegen trifft er auf Senta, die von ihm schon lange träumt.",
+  "urauffuehrung": {
+    "datum": "1843-01-02",
+    "ort": "Königliches Hoftheater, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Norwegische Küste",
+      "text": "Ein Sturm treibt den Kapitän Daland in eine Bucht. Daneben ankert ein unheimliches Schiff: der Holländer. Er bietet Daland Schätze für eine Unterkunft – und für die Hand seiner Tochter Senta. Daland willigt ein."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Stube in Dalands Haus",
+      "text": "Die Mädchen spinnen, Senta singt die Ballade vom fliegenden Holländer und will ihn erlösen. Der Jäger Erik, der Senta liebt, warnt vergeblich. Daland bringt den Fremden mit; Senta erkennt ihn und schwört ihm Treue."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Bucht vor Dalands Haus",
+      "text": "Die Matrosen feiern, das Schiff des Holländers bleibt gespenstisch still. Erik erinnert Senta an ihr früheres Versprechen. Der Holländer hört es, glaubt sich verraten und sticht in See. Senta stürzt sich ins Meer – und erlöst ihn durch ihre Treue bis in den Tod."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Die Frist ist um",
+      "wer": "Holländer",
+      "akt": "1. Akt",
+      "was": "Der Monolog des ruhelosen Seefahrers."
+    },
+    {
+      "titel": "Summ und brumm, du gutes Rädchen",
+      "wer": "Chor der Mädchen",
+      "akt": "2. Akt",
+      "was": "Der Spinnerchor."
+    },
+    {
+      "titel": "Johohoe! Traft ihr das Schiff im Meere an",
+      "wer": "Senta",
+      "akt": "2. Akt",
+      "was": "Sentas Ballade vom fliegenden Holländer."
+    },
+    {
+      "titel": "Steuermann, lass die Wacht",
+      "wer": "Matrosenchor",
+      "akt": "3. Akt",
+      "was": "Das ausgelassene Fest der norwegischen Seeleute."
+    }
+  ],
+  "wissen": [
+    "Die Idee kam Wagner auf einer stürmischen Schiffsreise von Riga nach London im Jahr 1839.",
+    "Vorlage ist eine Erzählung von Heinrich Heine.",
+    "Wagner dachte das Werk ursprünglich als Einakter; viele Häuser spielen es ohne Pause."
+  ]
+}

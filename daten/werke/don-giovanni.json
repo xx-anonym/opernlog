@@ -1,0 +1,57 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Don Giovanni verführt jede Frau, die ihm begegnet, und schreckt auch vor Mord nicht zurück. Doch die Frauen, die er betrogen hat, verfolgen ihn – und am Ende kommt ein unheimlicher Gast zum Abendessen.",
+  "urauffuehrung": {
+    "datum": "1787-10-29",
+    "ort": "Gräflich Nostitzsches Nationaltheater (Ständetheater), Prag"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Sevilla",
+      "text": "Don Giovanni dringt nachts bei Donna Anna ein; ihr Vater, der Komtur, stellt ihn und wird von ihm im Duell getötet. Leporello zählt der verlassenen Donna Elvira die Liste der Eroberungen seines Herrn vor. Auf einer Bauernhochzeit macht Giovanni sich an die Braut Zerlina heran. Auf seinem Fest wird er von seinen Opfern entlarvt, entkommt aber."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Sevilla, Friedhof, Giovannis Palast",
+      "text": "Giovanni tauscht die Kleider mit Leporello, um Elviras Zofe zu verführen; Masetto bekommt Prügel. Auf dem Friedhof spricht die Statue des Komturs – Giovanni lädt sie spöttisch zum Abendessen ein. Der steinerne Gast erscheint und fordert ihn auf, zu bereuen. Giovanni weigert sich und fährt zur Hölle."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Madamina, il catalogo è questo",
+      "wer": "Leporello",
+      "akt": "1. Akt",
+      "was": "Die Registerarie: Liste aller Eroberungen."
+    },
+    {
+      "titel": "Là ci darem la mano",
+      "wer": "Don Giovanni und Zerlina",
+      "akt": "1. Akt",
+      "was": "Das Verführungsduett."
+    },
+    {
+      "titel": "Fin ch’han dal vino",
+      "wer": "Don Giovanni",
+      "akt": "1. Akt",
+      "was": "Die „Champagnerarie“ – kaum eineinhalb Minuten Rausch."
+    },
+    {
+      "titel": "Deh, vieni alla finestra",
+      "wer": "Don Giovanni",
+      "akt": "2. Akt",
+      "was": "Das Ständchen mit Mandolinenbegleitung."
+    },
+    {
+      "titel": "Il mio tesoro",
+      "wer": "Don Ottavio",
+      "akt": "2. Akt",
+      "was": "Ottavios Treueschwur für Donna Anna."
+    }
+  ],
+  "wissen": [
+    "In Leporellos Register stehen 2065 Frauen – allein 1003 davon in Spanien.",
+    "Der Überlieferung nach schrieb Mozart die Ouvertüre erst in der Nacht vor der Uraufführung.",
+    "Mozart nannte das Werk ein „dramma giocoso“, also ein heiteres Drama."
+  ]
+}

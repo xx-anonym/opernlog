@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Paris, Mitte des 19. Jahrhunderts. Die gefeierte Kurtisane Violetta Valéry verliebt sich in den jungen Alfredo und wagt ein neues Leben – bis die bürgerliche Moral seiner Familie sich zwischen die beiden stellt.",
+  "urauffuehrung": {
+    "datum": "1853-03-06",
+    "ort": "Teatro La Fenice, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Violettas Salon in Paris",
+      "text": "Auf einem Fest in Violettas Haus gesteht ihr Alfredo Germont seine Liebe. Die lebenslustige, aber kranke Violetta zögert: soll sie ihre Freiheit für ein ernsthaftes Gefühl aufgeben?"
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Landhaus bei Paris, Floras Palais",
+      "text": "Violetta und Alfredo leben glücklich auf dem Land. Alfredos Vater Giorgio Germont verlangt von Violetta, die Verbindung zu lösen, weil der gesellschaftliche Skandal die geplante Heirat seiner Tochter gefährdet. Violetta gibt nach und verlässt Alfredo ohne Erklärung. Auf einem Fest bei Flora demütigt der eifersüchtige Alfredo sie vor allen Gästen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Violettas Schlafzimmer",
+      "text": "Violetta ist todkrank und verarmt. Alfredo, der inzwischen die Wahrheit kennt, kehrt zu ihr zurück, auch sein Vater bittet um Verzeihung. Die Versöhnung kommt zu spät: Violetta stirbt in Alfredos Armen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Libiamo ne’ lieti calici",
+      "wer": "Alfredo, Violetta und Chor",
+      "akt": "1. Akt",
+      "was": "Das berühmte Trinklied auf Violettas Fest."
+    },
+    {
+      "titel": "Sempre libera",
+      "wer": "Violetta",
+      "akt": "1. Akt",
+      "was": "„Immer frei“ – Violetta beschwört ihr freies Leben."
+    },
+    {
+      "titel": "Di Provenza il mar, il suol",
+      "wer": "Germont",
+      "akt": "2. Akt",
+      "was": "Der Vater erinnert Alfredo an die Heimat in der Provence."
+    },
+    {
+      "titel": "Addio del passato",
+      "wer": "Violetta",
+      "akt": "3. Akt",
+      "was": "Violettas Abschied von ihren Träumen."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist der Roman „Die Kameliendame“ von Alexandre Dumas dem Jüngeren, der darin die Pariser Kurtisane Marie Duplessis porträtierte.",
+    "Die Uraufführung wurde ungünstig aufgenommen; die überarbeitete Fassung von 1854 war dann ein großer Erfolg.",
+    "Verdi wollte die Oper in seiner Gegenwart spielen lassen. Die venezianischen Behörden lehnten das ab, die Uraufführung spielte um 1700."
+  ]
+}

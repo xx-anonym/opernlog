@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Gabriel von Eisenstein soll eine achttägige Arreststrafe antreten – geht aber lieber auf den Ball des Prinzen Orlofsky. Dort flirtet er mit einer maskierten ungarischen Gräfin, die in Wahrheit seine eigene Frau ist. Die „Rache der Fledermaus“ nimmt ihren Lauf.",
+  "urauffuehrung": {
+    "datum": "1874-04-05",
+    "ort": "Theater an der Wien, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Eisensteins Wohnung",
+      "text": "Eisenstein muss für acht Tage in Arrest. Sein Freund Dr. Falke, den er einst im Fledermauskostüm bloßgestellt hat, überredet ihn, vorher noch auf Orlofskys Fest zu gehen. Kaum ist er fort, besucht Rosalinde ihr früherer Verehrer Alfred – und der wird vom Gefängnisdirektor Frank für Eisenstein gehalten und abgeführt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Fest beim Prinzen Orlofsky",
+      "text": "Auf dem Ball treffen alle verkleidet aufeinander: das Stubenmädchen Adele als Schauspielerin, Eisenstein als französischer Marquis, Frank als Chevalier. Rosalinde erscheint als maskierte ungarische Gräfin, ihr eigener Mann macht ihr den Hof – und sie nimmt ihm seine Uhr ab."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Gefängnis",
+      "text": "Am Morgen nach dem Fest kommen alle im Gefängnis an, wo der betrunkene Wärter Frosch für Chaos sorgt. Eisenstein findet „sich selbst“ in seiner Zelle und will Rosalinde der Untreue überführen – bis sie ihm die Uhr zeigt. Falke klärt auf: alles war seine Rache, und der Champagner ist an allem schuld."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Mein Herr Marquis",
+      "wer": "Adele",
+      "akt": "2. Akt",
+      "was": "Das Lachcouplet: Adele weist Eisensteins Verdacht kokett zurück."
+    },
+    {
+      "titel": "Klänge der Heimat",
+      "wer": "Rosalinde",
+      "akt": "2. Akt",
+      "was": "Der Csárdás, mit dem sie ihre „ungarische Herkunft“ beweist."
+    },
+    {
+      "titel": "Ich lade gern mir Gäste ein",
+      "wer": "Orlofsky",
+      "akt": "2. Akt",
+      "was": "Das Couplet des blasierten Gastgebers: „Chacun à son goût“."
+    },
+    {
+      "titel": "Brüderlein und Schwesterlein",
+      "wer": "Ensemble",
+      "akt": "2. Akt",
+      "was": "Die selige Verbrüderung zu später Stunde."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist die französische Komödie „Le Réveillon“ von Henri Meilhac und Ludovic Halévy.",
+    "Der Gefängniswärter Frosch ist eine Sprechrolle; seine Szene wird oft mit aktuellen Anspielungen ausgeschmückt.",
+    "An der Wiener Staatsoper steht Die Fledermaus traditionell an Silvester auf dem Spielplan."
+  ]
+}

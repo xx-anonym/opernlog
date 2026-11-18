@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Mantua im 16. Jahrhundert. Der bucklige Hofnarr Rigoletto verspottet die Höflinge seines skrupellosen Herzogs – und versteckt vor ihnen das Einzige, was er liebt: seine Tochter Gilda. Ein Fluch liegt auf ihm.",
+  "urauffuehrung": {
+    "datum": "1851-03-11",
+    "ort": "Teatro La Fenice, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Palast des Herzogs, Gasse vor Rigolettos Haus",
+      "text": "Der Graf Monterone verflucht Rigoletto, weil dieser über die entehrte Tochter des Grafen spottet. Rigoletto hält Gilda versteckt, doch der Herzog hat sie, als armer Student verkleidet, längst umworben. Die Höflinge entführen Gilda – und Rigoletto hilft ihnen unwissentlich dabei."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Palast des Herzogs",
+      "text": "Rigoletto sucht verzweifelt nach seiner Tochter. Gilda gesteht ihm, was geschehen ist. Rigoletto schwört dem Herzog Rache."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Sparafuciles Schenke am Mincio",
+      "text": "Rigoletto beauftragt den Mörder Sparafucile, den Herzog zu töten. Dessen Schwester Maddalena bittet um das Leben des Herzogs; ein anderer soll an seiner Stelle sterben. Gilda, die den Herzog noch immer liebt, opfert sich. Rigoletto erhält den Sack mit der Leiche – und findet darin seine sterbende Tochter."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Questa o quella",
+      "wer": "Herzog",
+      "akt": "1. Akt",
+      "was": "Ob diese oder jene – dem Herzog sind alle Frauen gleich."
+    },
+    {
+      "titel": "Caro nome",
+      "wer": "Gilda",
+      "akt": "1. Akt",
+      "was": "Gilda träumt von dem Namen des vermeintlichen Studenten."
+    },
+    {
+      "titel": "Cortigiani, vil razza dannata",
+      "wer": "Rigoletto",
+      "akt": "2. Akt",
+      "was": "Rigolettos Wut und Flehen gegenüber den Höflingen."
+    },
+    {
+      "titel": "La donna è mobile",
+      "wer": "Herzog",
+      "akt": "3. Akt",
+      "was": "„O wie so trügerisch sind Weiberherzen“ – der Ohrwurm der Oper."
+    },
+    {
+      "titel": "Bella figlia dell’amore",
+      "wer": "Herzog, Maddalena, Gilda, Rigoletto",
+      "akt": "3. Akt",
+      "was": "Das Quartett: vier Gefühle zugleich."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist Victor Hugos Drama „Le roi s’amuse“; die Zensur verlangte, dass aus dem französischen König ein Herzog von Mantua wird.",
+    "Verdi soll „La donna è mobile“ bis kurz vor der Premiere geheim gehalten haben, damit die Melodie nicht vorher in Venedig die Runde macht."
+  ]
+}

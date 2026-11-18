@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Hänsel und Gretel sollen arbeiten, spielen aber lieber – und werden zur Strafe zum Beerensammeln in den Wald geschickt. Dort verirren sie sich, und am Ende wartet ein Haus aus Lebkuchen. Das Märchen der Brüder Grimm, mit einer Musik voller volksliedhafter Melodien.",
+  "urauffuehrung": {
+    "datum": "1893-12-23",
+    "ort": "Hoftheater, Weimar"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Daheim",
+      "text": "In der ärmlichen Stube des Besenbinders tanzen die Geschwister, statt zu arbeiten. Die Mutter schimpft, zerbricht dabei den Milchtopf und schickt die Kinder zum Erdbeerensammeln in den Wald. Der Vater kommt heim und erschrickt: im Wald wohnt die Knusperhexe."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Walde",
+      "text": "Die Kinder essen die Beeren auf und verirren sich. Das Sandmännchen bringt ihnen den Schlaf; nach ihrem Abendgebet wachen vierzehn Engel über sie."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Das Knusperhäuschen",
+      "text": "Das Taumännchen weckt die Kinder. Sie entdecken das Lebkuchenhaus und naschen davon – die Hexe fängt Hänsel, um ihn zu mästen. Gretel überlistet sie und stößt sie in den Ofen. Die verzauberten Lebkuchenkinder erwachen, und die Eltern finden ihre Kinder wieder."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Brüderchen, komm tanz mit mir",
+      "wer": "Gretel und Hänsel",
+      "akt": "1. Akt",
+      "was": "Das Tanzlied, das jedes Kind kennt."
+    },
+    {
+      "titel": "Ein Männlein steht im Walde",
+      "wer": "Gretel",
+      "akt": "2. Akt",
+      "was": "Gretel singt beim Kranzflechten im Wald."
+    },
+    {
+      "titel": "Abends will ich schlafen gehn",
+      "wer": "Hänsel und Gretel",
+      "akt": "2. Akt",
+      "was": "Der Abendsegen vor dem Einschlafen."
+    },
+    {
+      "titel": "Hurr hopp hopp hopp",
+      "wer": "Knusperhexe",
+      "akt": "3. Akt",
+      "was": "Der wilde Hexenritt auf dem Besen."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung dirigierte Richard Strauss.",
+    "Den Text schrieb Humperdincks Schwester Adelheid Wette; am Anfang standen ein paar Lieder für ein Kinder-Hausspiel.",
+    "Die Hexe wird oft von einem Mezzosopran, manchmal auch von einem Tenor gesungen."
+  ]
+}

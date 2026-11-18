@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 3½ Std.",
+  "anriss": "Elsa von Brabant wird beschuldigt, ihren Bruder ermordet zu haben. Ein unbekannter Ritter erscheint in einem von einem Schwan gezogenen Boot und verteidigt sie – unter einer Bedingung: sie darf nie nach seinem Namen fragen.",
+  "urauffuehrung": {
+    "datum": "1850-08-28",
+    "ort": "Hoftheater, Weimar"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Am Ufer der Schelde bei Antwerpen",
+      "text": "Graf Telramund klagt Elsa vor König Heinrich an, ihren Bruder Gottfried getötet zu haben. Ein Gottesgericht soll entscheiden. Elsa erzählt von einem Ritter aus ihrem Traum – und er kommt, im Schwanenboot. Er besiegt Telramund und nimmt Elsa zur Frau, verbietet ihr aber jede Frage nach Name und Herkunft."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Burg von Antwerpen",
+      "text": "Telramunds Frau Ortrud, eine Anhängerin der alten Götter, sät Zweifel in Elsas Herz. Vor dem Münster wirft sie dem Fremden Zauberei vor, auch Telramund klagt ihn an. Elsa hält noch zu ihrem Retter."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Brautgemach, Ufer der Schelde",
+      "text": "Im Brautgemach stellt Elsa doch die verbotene Frage. Telramund dringt ein und wird getötet. Vor dem König offenbart der Ritter sich als Lohengrin, Gralsritter und Sohn Parsifals, und muss nun gehen. Der Schwan verwandelt sich zurück in Elsas Bruder Gottfried; Elsa bricht tot zusammen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Einsam in trüben Tagen",
+      "wer": "Elsa",
+      "akt": "1. Akt",
+      "was": "Elsas Traum vom rettenden Ritter."
+    },
+    {
+      "titel": "Nie sollst du mich befragen",
+      "wer": "Lohengrin",
+      "akt": "1. Akt",
+      "was": "Das Frageverbot."
+    },
+    {
+      "titel": "Treulich geführt",
+      "wer": "Chor",
+      "akt": "3. Akt",
+      "was": "Der Brautchor – heute auf Hochzeiten in aller Welt zu hören."
+    },
+    {
+      "titel": "In fernem Land",
+      "wer": "Lohengrin",
+      "akt": "3. Akt",
+      "was": "Die Gralserzählung: Lohengrin gibt sich zu erkennen."
+    },
+    {
+      "titel": "Mein lieber Schwan",
+      "wer": "Lohengrin",
+      "akt": "3. Akt",
+      "was": "Abschied vom Schwan."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung dirigierte Franz Liszt. Wagner konnte nicht dabei sein, weil er nach der Revolution von 1848/49 steckbrieflich gesucht wurde.",
+    "Lohengrin war die Lieblingsoper des bayerischen Königs Ludwig II.; der Schwan taucht in Schloss Neuschwanstein immer wieder auf."
+  ]
+}

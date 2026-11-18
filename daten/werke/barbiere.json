@@ -1,0 +1,51 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Graf Almaviva liebt die junge Rosina, die ihr alter Vormund Dr. Bartolo selbst heiraten will. Mit Hilfe des gerissenen Barbiers Figaro, vielen Verkleidungen und noch mehr Tempo kommt das Paar zusammen.",
+  "urauffuehrung": {
+    "datum": "1816-02-20",
+    "ort": "Teatro Argentina, Rom"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Sevilla, vor und in Bartolos Haus",
+      "text": "Almaviva bringt Rosina ein Ständchen und gibt sich als armer Student Lindoro aus. Figaro schlägt vor, dass er als betrunkener Soldat ins Haus kommt. Der Musiklehrer Basilio rät Bartolo, den Nebenbuhler zu verleumden. Der Auftritt des „Soldaten“ endet in heillosem Durcheinander."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In Bartolos Haus",
+      "text": "Almaviva kommt erneut, diesmal als Musiklehrer. Während Figaro Bartolo rasiert, planen die Liebenden die Flucht. Bartolo will Rosina rasch heiraten – doch der bestellte Notar traut am Ende Almaviva und Rosina."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ecco, ridente in cielo",
+      "wer": "Almaviva",
+      "akt": "1. Akt",
+      "was": "Das Morgenständchen für Rosina."
+    },
+    {
+      "titel": "Largo al factotum",
+      "wer": "Figaro",
+      "akt": "1. Akt",
+      "was": "„Figaro hier, Figaro da“ – der Auftritt des Barbiers."
+    },
+    {
+      "titel": "Una voce poco fa",
+      "wer": "Rosina",
+      "akt": "1. Akt",
+      "was": "Rosina ist sanft – aber nur, solange man ihr nicht widerspricht."
+    },
+    {
+      "titel": "La calunnia è un venticello",
+      "wer": "Basilio",
+      "akt": "1. Akt",
+      "was": "Die Verleumdungsarie: vom Lüftchen zum Kanonenschlag."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung war ein Fiasko, schon die zweite Vorstellung ein Triumph.",
+    "Die Ouvertüre hatte Rossini schon vorher für andere Opern verwendet.",
+    "Die Geschichte ist die Vorgeschichte zu Mozarts „Hochzeit des Figaro“; beide beruhen auf Komödien von Beaumarchais."
+  ]
+}

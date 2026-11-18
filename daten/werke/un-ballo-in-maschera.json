@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Ein Herrscher liebt die Frau seines besten Freundes. Eine Wahrsagerin prophezeit ihm den Tod durch die Hand dieses Freundes – und auf einem Maskenball erfüllt sich die Weissagung.",
+  "urauffuehrung": {
+    "datum": "1859-02-17",
+    "ort": "Teatro Apollo, Rom"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Palast des Gouverneurs, Hütte der Wahrsagerin",
+      "text": "Gouverneur Riccardo liebt Amelia, die Frau seines Sekretärs und Freundes Renato. Verkleidet besucht er die Wahrsagerin Ulrica; sie sagt ihm, er werde durch die Hand dessen sterben, der ihm als Nächster die Hand gibt – das ist Renato."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Galgenfeld vor der Stadt, um Mitternacht",
+      "text": "Amelia sucht ein Kraut, das sie von ihrer Liebe heilen soll. Riccardo folgt ihr, beide gestehen ihre Gefühle. Renato warnt Riccardo vor Verschwörern und begleitet die verschleierte Frau zurück in die Stadt – bis der Schleier fällt und er seine eigene Frau erkennt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Renatos Haus, Maskenball im Palast",
+      "text": "Renato schließt sich den Verschwörern an; das Los bestimmt ihn zum Mörder. Riccardo will entsagen und Renato mit Amelia fortschicken. Auf dem Maskenball ersticht Renato ihn. Sterbend beteuert Riccardo Amelias Unschuld und vergibt allen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "La rivedrà nell’estasi",
+      "wer": "Riccardo",
+      "akt": "1. Akt",
+      "was": "Riccardo freut sich, Amelia wiederzusehen."
+    },
+    {
+      "titel": "Re dell’abisso, affrettati",
+      "wer": "Ulrica",
+      "akt": "1. Akt",
+      "was": "Die Beschwörung der Wahrsagerin."
+    },
+    {
+      "titel": "Ma dall’arido stelo divulsa",
+      "wer": "Amelia",
+      "akt": "2. Akt",
+      "was": "Amelia auf dem nächtlichen Galgenfeld."
+    },
+    {
+      "titel": "Eri tu",
+      "wer": "Renato",
+      "akt": "3. Akt",
+      "was": "Renatos bittere Abrechnung mit dem Freund."
+    }
+  ],
+  "wissen": [
+    "Die Handlung geht auf die Ermordung des schwedischen Königs Gustav III. auf einem Maskenball 1792 zurück; die Zensur zwang Verdi, sie nach Boston zu verlegen.",
+    "Viele Inszenierungen spielen heute wieder am schwedischen Hof – dann heißt Riccardo Gustavo."
+  ]
+}
