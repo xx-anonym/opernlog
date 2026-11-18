@@ -1,0 +1,7 @@
+# Suchmaschinen dürfen alles lesen, was die Website ausliefert. Was nicht
+# hingehört (Schema, Tests, Workflows), schließt schon .vercelignore aus.
+# opernlog.vercel.app sagt per Kopfzeile "nicht aufnehmen" (vercel.json).
+User-agent: *
+Allow: /
+
+Sitemap: https://opernlog.de/sitemap.xml

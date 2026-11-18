@@ -8,6 +8,24 @@
     <meta name="description"
         content="OpernLog – Logge, bewerte und teile deine Opernbesuche in Deutschland, Österreich und der Schweiz. Wie Letterboxd, nur für Oper." />
 
+    <!-- Für Suchmaschinen und Linkvorschauen (seit 18.11.2026). Die Adresse ist
+         immer opernlog.de – auch wenn die Seite unter opernlog.vercel.app
+         läuft, die Google ohnehin nicht aufnehmen soll (vercel.json).
+         Das Bild erzeugt tests/werkzeug/vorschaubild.mjs. -->
+    <link rel="canonical" href="https://opernlog.de/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OpernLog" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content="https://opernlog.de/" />
+    <meta property="og:title" content="OpernLog – Dein Operntagebuch" />
+    <meta property="og:description"
+        content="Opernabende festhalten und bewerten, Spielpläne von über 90 Häusern in Deutschland, Österreich und der Schweiz, mit Freunden teilen." />
+    <meta property="og:image" content="https://opernlog.de/icons/vorschau.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="OpernLog – Dein Operntagebuch" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#8b1a2b" />
@@ -631,6 +649,23 @@
          window.supabase undefined und die App startete gar nicht.
          Siehe den Kopf von vendor/supabase-js.js. -->
     <script src="vendor/supabase-js.js"></script>
+    <!-- Strukturdaten für Google: was OpernLog ist. Hinter dem Stück für
+         Fehler vor dem Start, das das erste Skript sein muss. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "OpernLog",
+        "alternateName": "OpernLog – Dein Operntagebuch",
+        "url": "https://opernlog.de/",
+        "description": "Opernabende festhalten und bewerten, Spielpläne von über 90 Häusern in Deutschland, Österreich und der Schweiz, mit Freunden teilen.",
+        "inLanguage": "de",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web",
+        "image": "https://opernlog.de/icons/vorschau.png",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+    }
+    </script>
 </head>
 
 <body>

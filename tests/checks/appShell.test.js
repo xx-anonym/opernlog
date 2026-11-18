@@ -69,7 +69,9 @@ test('die Seite holt nichts von einem fremden Host', () => {
     //
     // Bilder sind ausgenommen: die kommen bewusst von Wikimedia, dafür gibt es
     // IMAGE_HOSTS im Service Worker und eine eigene Prüfung im Katalog.
-    const html = fs.readFileSync(path.join(WURZEL, 'index.html'), 'utf8');
+    // rel="canonical" lädt nichts; es sagt Suchmaschinen nur die Hauptadresse.
+    const html = fs.readFileSync(path.join(WURZEL, 'index.html'), 'utf8')
+        .replace(/<link rel="canonical" href="https:\/\/opernlog\.de\/" \/>/, '');
     const fremd = [...html.matchAll(/(?:href|src)="(https?:)?\/\/([^/"]+)/g)]
         .map(m => m[2])
         .filter(host => host !== 'upload.wikimedia.org');
