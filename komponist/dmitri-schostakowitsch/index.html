@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dmitri Schostakowitsch – Opern und Termine | OpernLog</title>
+  <meta name="description" content="Dmitri Schostakowitsch, russischer Komponist, Pianist und Pädagoge der Sowjetzeit: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <link rel="canonical" href="https://opernlog.de/komponist/dmitri-schostakowitsch/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/komponist/dmitri-schostakowitsch/">
+  <meta property="og:title" content="Dmitri Schostakowitsch – Opern und Termine | OpernLog">
+  <meta property="og:description" content="Dmitri Schostakowitsch, russischer Komponist, Pianist und Pädagoge der Sowjetzeit: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg/500px-Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Dmitri Schostakowitsch","url":"https://opernlog.de/komponist/dmitri-schostakowitsch/","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg/500px-Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Dmitri Schostakowitsch</h1>
+      <p class="unterzeile">russischer Komponist, Pianist und Pädagoge der Sowjetzeit</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg/500px-Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg" alt="Dmitri Schostakowitsch" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Dmitri_Shostakovich_credit_Deutsche_Fotothek_adjusted.jpg" rel="nofollow noopener" target="_blank">Bild: Wikimedia Commons</a></figcaption>
+      </figure>
+      <p>Dmitri Dmitrijewitsch Schostakowitsch war ein russischer Komponist, Pianist und Pädagoge der Sowjetzeit. Neben 15 Sinfonien, Instrumentalkonzerten, Bühnenwerken und Filmmusik komponierte er 15 Streichquartette, die zu den Hauptwerken des Kammermusikrepertoires im 20. Jahrhundert zählen.</p>
+      <section>
+        <h2>Opern</h2>
+        <ul class="liste">
+          <li><a href="https://opernlog.de/oper/lady-macbeth/">Lady Macbeth von Mzensk</a> <span class="ort">1934</span> <span class="anzahl">5 Termine</span></li>
+        </ul>
+      </section>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/composer/dmitri-schostakowitsch">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

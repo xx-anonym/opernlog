@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camille Saint-Saëns – Opern und Termine | OpernLog</title>
+  <meta name="description" content="Camille Saint-Saëns, französischer Pianist, Organist und Komponist: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <link rel="canonical" href="https://opernlog.de/komponist/camille-saint-saens/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/komponist/camille-saint-saens/">
+  <meta property="og:title" content="Camille Saint-Saëns – Opern und Termine | OpernLog">
+  <meta property="og:description" content="Camille Saint-Saëns, französischer Pianist, Organist und Komponist: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Saintsaens.jpg/500px-Saintsaens.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Camille Saint-Saëns","url":"https://opernlog.de/komponist/camille-saint-saens/","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Saintsaens.jpg/500px-Saintsaens.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Camille Saint-Saëns</h1>
+      <p class="unterzeile">französischer Pianist, Organist und Komponist</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Saintsaens.jpg/500px-Saintsaens.jpg" alt="Camille Saint-Saëns" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Saintsaens.jpg" rel="nofollow noopener" target="_blank">Bild: Wikimedia Commons</a></figcaption>
+      </figure>
+      <p>Charles Camille Saint-Saëns [ʃaʁl kamij sɛ̃sɑ̃ː(s)] war ein französischer Pianist, Dirigent, Organist, Musikwissenschaftler, Musikpädagoge und Komponist der Romantik. Er wurde vor allem durch seine „große zoologische Fantasie“ Karneval der Tiere und die Oper Samson et Dalila bekannt.</p>
+      <section>
+        <h2>Opern</h2>
+        <ul class="liste">
+          <li><a href="https://opernlog.de/oper/samson-dalila/">Samson et Dalila</a> <span class="ort">1877</span> <span class="anzahl">16 Termine</span></li>
+        </ul>
+      </section>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/composer/camille-saint-saens">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

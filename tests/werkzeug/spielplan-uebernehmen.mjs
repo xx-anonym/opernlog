@@ -27,7 +27,9 @@
 // nicht in die erzeugte Datei – sonst ist es beim nächsten Lauf weg.
 // Zuletzt entstehen die Kalenderdateien unter kalender/ neu
 // (kalender-dateien.mjs) und daten/spielplan.json, aus der die Datenbank
-// die Mitteilungen zur Wunschliste macht (spielplan-daten.mjs).
+// die Mitteilungen zur Wunschliste macht (spielplan-daten.mjs),
+// und die Seiten für Suchmaschinen unter /oper/, /haus/, /komponist/ samt
+// sitemap.xml (seiten-erzeugen.mjs).
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -36,6 +38,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { kalenderOrdnerSchreiben } from './kalender-dateien.mjs';
+import { execFileSync } from 'node:child_process';
 import { spielplanDatenSchreiben } from './spielplan-daten.mjs';
 import { luecken, unsicher, lueckeZaehlt, leseGrund } from './spielplan-lesequalitaet.mjs';
 
@@ -280,6 +283,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
     fs.writeFileSync(path.join(WURZEL, 'src/data/spielplan.js'), alsModul(erg));
     console.log(`${await kalenderOrdnerSchreiben(erg.zeilen, erg.stand)} Kalenderdateien in kalender/.`);
     console.log(`${await spielplanDatenSchreiben(erg.zeilen, erg.stand)} Einträge in daten/spielplan.json (für die Mitteilungen zur Wunschliste).`);
+    // Die Seiten für Suchmaschinen (/oper/, /haus/, /komponist/, sitemap.xml)
+    // mit den neuen Terminen. In einem eigenen Prozess: der liest die eben
+    // geschriebene spielplan.js frisch ein.
+    execFileSync(process.execPath, [path.join(WURZEL, 'tests/werkzeug/seiten-erzeugen.mjs')], { stdio: 'inherit' });
     const haeuser = new Set(erg.zeilen.map(z => z.haus));
     console.log(`${erg.zeilen.length} Einträge an ${haeuser.size} Häusern übernommen, ${erg.zeilen.reduce((s, z) => s + z.termine.length, 0)} Termine.`);
     const gruende = {};

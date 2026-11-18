@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Die Bassariden (Henze) – Termine und Spielplan | OpernLog</title>
+  <meta name="description" content="Die Bassariden von Hans Werner Henze: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <link rel="canonical" href="https://opernlog.de/oper/bassariden/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/oper/bassariden/">
+  <meta property="og:title" content="Die Bassariden (Henze) – Termine und Spielplan | OpernLog">
+  <meta property="og:description" content="Die Bassariden von Hans Werner Henze: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Berlin-_Werner_Henze-_%22Die_Bassariden%22%2C_Szenenfotos_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._055082a.jpeg/500px-Berlin-_Werner_Henze-_%22Die_Bassariden%22%2C_Szenenfotos_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._055082a.jpeg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Die Bassariden</h1>
+      <p class="unterzeile">Opera seria von Hans Werner Henze</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Berlin-_Werner_Henze-_%22Die_Bassariden%22%2C_Szenenfotos_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._055082a.jpeg/500px-Berlin-_Werner_Henze-_%22Die_Bassariden%22%2C_Szenenfotos_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._055082a.jpeg" alt="Die Bassariden" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Berlin-_Werner_Henze-_%22Die_Bassariden%22,_Szenenfotos_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._055082a.jpeg" rel="nofollow noopener" target="_blank">Bild: Willy Pragher · CC BY 4.0</a></figcaption>
+      </figure>
+      <p>Henzes kraftvolle Vertonung der Bakchen des Euripides.</p>
+      <dl class="fakten"><dt>Musik</dt><dd><a href="https://opernlog.de/komponist/hans-werner-henze/">Hans Werner Henze</a></dd><dt>Libretto</dt><dd>W. H. Auden &amp; Chester Kallman</dd><dt>Uraufführung</dt><dd>1966</dd><dt>Sprache</dt><dd>Deutsch/Englisch</dd><dt>Akte</dt><dd>1</dd></dl>
+      <p class="weiter"><a class="knopf" href="/#/opera/bassariden">In OpernLog öffnen</a></p>
+      <p class="klein">Gerade kennt OpernLog keine Termine. Spielpläne von über 90 Häusern werden jeden Monat neu gelesen.</p>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/opera/bassariden">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

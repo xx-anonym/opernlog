@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nico Muhly – Opern und Termine | OpernLog</title>
+  <meta name="description" content="Nico Muhly, amerikanischer Komponist: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <link rel="canonical" href="https://opernlog.de/komponist/nico-muhly/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/komponist/nico-muhly/">
+  <meta property="og:title" content="Nico Muhly – Opern und Termine | OpernLog">
+  <meta property="og:description" content="Nico Muhly, amerikanischer Komponist: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nico_Muhly_2014.jpg/500px-Nico_Muhly_2014.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nico Muhly","url":"https://opernlog.de/komponist/nico-muhly/","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nico_Muhly_2014.jpg/500px-Nico_Muhly_2014.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Nico Muhly</h1>
+      <p class="unterzeile">amerikanischer Komponist</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nico_Muhly_2014.jpg/500px-Nico_Muhly_2014.jpg" alt="Nico Muhly" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Nico_Muhly_2014.jpg" rel="nofollow noopener" target="_blank">Bild: Steven Psano · CC BY 2.0</a></figcaption>
+      </figure>
+      <p>Nicolas „Nico“ Asher Muhly ist ein US-amerikanischer Komponist und Pianist.</p>
+      <section>
+        <h2>Opern</h2>
+        <ul class="liste">
+          <li><a href="https://opernlog.de/oper/marnie/">Marnie</a> <span class="ort">2017</span></li>
+        </ul>
+      </section>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/composer/nico-muhly">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

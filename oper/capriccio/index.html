@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capriccio (Strauss) – Termine und Spielplan | OpernLog</title>
+  <meta name="description" content="Capriccio von Richard Strauss: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <link rel="canonical" href="https://opernlog.de/oper/capriccio/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/oper/capriccio/">
+  <meta property="og:title" content="Capriccio (Strauss) – Termine und Spielplan | OpernLog">
+  <meta property="og:description" content="Capriccio von Richard Strauss: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Capriccio_%28Clemens_Krauss_%26_Richard_Strauss%29_Orchester-Partitur.png/500px-Capriccio_%28Clemens_Krauss_%26_Richard_Strauss%29_Orchester-Partitur.png">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Capriccio</h1>
+      <p class="unterzeile">Konversationsstück von Richard Strauss</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Capriccio_%28Clemens_Krauss_%26_Richard_Strauss%29_Orchester-Partitur.png/500px-Capriccio_%28Clemens_Krauss_%26_Richard_Strauss%29_Orchester-Partitur.png" alt="Capriccio" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Capriccio_(Clemens_Krauss_%26_Richard_Strauss)_Orchester-Partitur.png" rel="nofollow noopener" target="_blank">Bild: Clemens Krauss · Public domain</a></figcaption>
+      </figure>
+      <p>Strauss&#39; letztes Bühnenwerk – ein elegantes Gespräch über „Prima la musica, poi le parole&quot;.</p>
+      <dl class="fakten"><dt>Musik</dt><dd><a href="https://opernlog.de/komponist/richard-strauss/">Richard Strauss</a></dd><dt>Libretto</dt><dd>Clemens Krauss &amp; Richard Strauss</dd><dt>Uraufführung</dt><dd>1942</dd><dt>Sprache</dt><dd>Deutsch</dd><dt>Akte</dt><dd>1</dd></dl>
+      <p class="weiter"><a class="knopf" href="/#/opera/capriccio">In OpernLog öffnen</a></p>
+      <p class="klein">Gerade kennt OpernLog keine Termine. Spielpläne von über 90 Häusern werden jeden Monat neu gelesen.</p>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/opera/capriccio">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

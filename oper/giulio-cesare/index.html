@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giulio Cesare in Egitto (Händel) – Termine und Spielplan | OpernLog</title>
+  <meta name="description" content="Giulio Cesare in Egitto von Georg Friedrich Händel: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <link rel="canonical" href="https://opernlog.de/oper/giulio-cesare/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/oper/giulio-cesare/">
+  <meta property="og:title" content="Giulio Cesare in Egitto (Händel) – Termine und Spielplan | OpernLog">
+  <meta property="og:description" content="Giulio Cesare in Egitto von Georg Friedrich Händel: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Senesino%2C_Cuzzoni%2C_Berenstadt.JPG/500px-Senesino%2C_Cuzzoni%2C_Berenstadt.JPG">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Giulio Cesare in Egitto</h1>
+      <p class="unterzeile">Opera seria von Georg Friedrich Händel</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Senesino%2C_Cuzzoni%2C_Berenstadt.JPG/500px-Senesino%2C_Cuzzoni%2C_Berenstadt.JPG" alt="Giulio Cesare in Egitto" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Senesino,_Cuzzoni,_Berenstadt.JPG" rel="nofollow noopener" target="_blank">Bild: John Vanderbank · Public domain</a></figcaption>
+      </figure>
+      <p>Barockoper über Cäsar und Kleopatra – virtuose Arien und politische Intrigen.</p>
+      <dl class="fakten"><dt>Musik</dt><dd><a href="https://opernlog.de/komponist/georg-friedrich-handel/">Georg Friedrich Händel</a></dd><dt>Libretto</dt><dd>Nicola Francesco Haym</dd><dt>Uraufführung</dt><dd>1724</dd><dt>Sprache</dt><dd>Italienisch</dd><dt>Akte</dt><dd>3</dd></dl>
+      <p class="weiter"><a class="knopf" href="/#/opera/giulio-cesare">In OpernLog öffnen</a></p>
+      <p class="klein">Gerade kennt OpernLog keine Termine. Spielpläne von über 90 Häusern werden jeden Monat neu gelesen.</p>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/opera/giulio-cesare">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

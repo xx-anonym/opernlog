@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modest Mussorgsky – Opern und Termine | OpernLog</title>
+  <meta name="description" content="Modest Mussorgsky, russischer Komponist (1839–1881): 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <link rel="canonical" href="https://opernlog.de/komponist/modest-mussorgsky/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/komponist/modest-mussorgsky/">
+  <meta property="og:title" content="Modest Mussorgsky – Opern und Termine | OpernLog">
+  <meta property="og:description" content="Modest Mussorgsky, russischer Komponist (1839–1881): 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Modest_Musorgskiy%2C_1870.jpg/500px-Modest_Musorgskiy%2C_1870.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Modest Mussorgsky","url":"https://opernlog.de/komponist/modest-mussorgsky/","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Modest_Musorgskiy%2C_1870.jpg/500px-Modest_Musorgskiy%2C_1870.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Modest Mussorgsky</h1>
+      <p class="unterzeile">russischer Komponist (1839–1881)</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Modest_Musorgskiy%2C_1870.jpg/500px-Modest_Musorgskiy%2C_1870.jpg" alt="Modest Mussorgsky" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Modest_Musorgskiy%2C_1870.jpg" rel="nofollow noopener" target="_blank">Bild: Wikimedia Commons</a></figcaption>
+      </figure>
+      <p>Modest Petrowitsch Mussorgski war ein russischer Komponist. Er wurde hauptsächlich durch seine Opern sowie den Klavierzyklus Bilder einer Ausstellung bekannt und gilt als einer der eigenständigsten russischen Komponisten des 19. Jahrhunderts.</p>
+      <section>
+        <h2>Opern</h2>
+        <ul class="liste">
+          <li><a href="https://opernlog.de/oper/boris-godunow/">Boris Godunow</a> <span class="ort">1874</span></li>
+        </ul>
+      </section>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/composer/modest-mussorgsky">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

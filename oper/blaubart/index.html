@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Herzog Blaubarts Burg (Bartók) – Termine und Spielplan | OpernLog</title>
+  <meta name="description" content="Herzog Blaubarts Burg von Béla Bartók: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <link rel="canonical" href="https://opernlog.de/oper/blaubart/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/oper/blaubart/">
+  <meta property="og:title" content="Herzog Blaubarts Burg (Bartók) – Termine und Spielplan | OpernLog">
+  <meta property="og:description" content="Herzog Blaubarts Burg von Béla Bartók: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Bart%C3%B3k_-_Bluebeards%27s_Castle_-_Olga_Haselbeck_and_Oszk%C3%A1r_K%C3%A1lm%C3%A1n_in_the_first_performance_1918.png/500px-Bart%C3%B3k_-_Bluebeards%27s_Castle_-_Olga_Haselbeck_and_Oszk%C3%A1r_K%C3%A1lm%C3%A1n_in_the_first_performance_1918.png">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Herzog Blaubarts Burg</h1>
+      <p class="unterzeile">Oper von Béla Bartók</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Bart%C3%B3k_-_Bluebeards%27s_Castle_-_Olga_Haselbeck_and_Oszk%C3%A1r_K%C3%A1lm%C3%A1n_in_the_first_performance_1918.png/500px-Bart%C3%B3k_-_Bluebeards%27s_Castle_-_Olga_Haselbeck_and_Oszk%C3%A1r_K%C3%A1lm%C3%A1n_in_the_first_performance_1918.png" alt="Herzog Blaubarts Burg" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Bart%C3%B3k_-_Bluebeards%27s_Castle_-_Olga_Haselbeck_and_Oszk%C3%A1r_K%C3%A1lm%C3%A1n_in_the_first_performance_1918.png" rel="nofollow noopener" target="_blank">Bild: Public domain</a></figcaption>
+      </figure>
+      <p>Einaktiges Psychodrama: Judith öffnet eine nach der anderen die sieben Türen von Blaubarts Burg.</p>
+      <dl class="fakten"><dt>Musik</dt><dd><a href="https://opernlog.de/komponist/bela-bartok/">Béla Bartók</a></dd><dt>Libretto</dt><dd>Béla Balázs</dd><dt>Uraufführung</dt><dd>1911</dd><dt>Sprache</dt><dd>Ungarisch</dd><dt>Akte</dt><dd>1</dd></dl>
+      <p class="weiter"><a class="knopf" href="/#/opera/blaubart">In OpernLog öffnen</a></p>
+      <p class="klein">Gerade kennt OpernLog keine Termine. Spielpläne von über 90 Häusern werden jeden Monat neu gelesen.</p>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/opera/blaubart">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

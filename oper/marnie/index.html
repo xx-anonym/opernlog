@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marnie (Muhly) – Termine und Spielplan | OpernLog</title>
+  <meta name="description" content="Marnie von Nico Muhly: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <link rel="canonical" href="https://opernlog.de/oper/marnie/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/oper/marnie/">
+  <meta property="og:title" content="Marnie (Muhly) – Termine und Spielplan | OpernLog">
+  <meta property="og:description" content="Marnie von Nico Muhly: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nico_Muhly_2014.jpg/500px-Nico_Muhly_2014.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Marnie</h1>
+      <p class="unterzeile">Oper von Nico Muhly</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nico_Muhly_2014.jpg/500px-Nico_Muhly_2014.jpg" alt="Marnie" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Nico_Muhly_2014.jpg" rel="nofollow noopener" target="_blank">Bild: Steven Psano · CC BY 2.0</a></figcaption>
+      </figure>
+      <p>Psychologischer Thriller nach Winston Grahams Roman, bekannt durch Hitchcocks Film.</p>
+      <dl class="fakten"><dt>Musik</dt><dd><a href="https://opernlog.de/komponist/nico-muhly/">Nico Muhly</a></dd><dt>Libretto</dt><dd>Nicholas Wright</dd><dt>Uraufführung</dt><dd>2017</dd><dt>Sprache</dt><dd>Englisch</dd><dt>Akte</dt><dd>2</dd></dl>
+      <p class="weiter"><a class="knopf" href="/#/opera/marnie">In OpernLog öffnen</a></p>
+      <p class="klein">Gerade kennt OpernLog keine Termine. Spielpläne von über 90 Häusern werden jeden Monat neu gelesen.</p>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/opera/marnie">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

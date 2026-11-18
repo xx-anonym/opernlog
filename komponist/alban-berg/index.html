@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alban Berg – Opern und Termine | OpernLog</title>
+  <meta name="description" content="Alban Berg, österreichischer Komponist der Zweiten Wiener Schule: 2 Opern im Katalog von OpernLog, mit aktuellen Terminen.">
+  <link rel="canonical" href="https://opernlog.de/komponist/alban-berg/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/komponist/alban-berg/">
+  <meta property="og:title" content="Alban Berg – Opern und Termine | OpernLog">
+  <meta property="og:description" content="Alban Berg, österreichischer Komponist der Zweiten Wiener Schule: 2 Opern im Katalog von OpernLog, mit aktuellen Terminen.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/WP_Alban_Berg.jpg/500px-WP_Alban_Berg.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Alban Berg","url":"https://opernlog.de/komponist/alban-berg/","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/WP_Alban_Berg.jpg/500px-WP_Alban_Berg.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Alban Berg</h1>
+      <p class="unterzeile">österreichischer Komponist der Zweiten Wiener Schule</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/WP_Alban_Berg.jpg/500px-WP_Alban_Berg.jpg" alt="Alban Berg" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:WP_Alban_Berg.jpg" rel="nofollow noopener" target="_blank">Bild: Emil Stumpp · Public domain</a></figcaption>
+      </figure>
+      <p>Alban Berg war ein österreichischer Komponist der Zweiten Wiener Schule. Er wurde am 1. März 1885 in der Pfarrkirche St. Peter auf den Namen Albano Maria Johannes Berg getauft. Das „o“ in Albano stand nur auf dem Taufschein und tauchte danach nie wieder auf.</p>
+      <section>
+        <h2>Opern</h2>
+        <ul class="liste">
+          <li><a href="https://opernlog.de/oper/wozzeck/">Wozzeck</a> <span class="ort">1922</span> <span class="anzahl">4 Termine</span></li>
+          <li><a href="https://opernlog.de/oper/lulu/">Lulu</a> <span class="ort">1935</span> <span class="anzahl">4 Termine</span></li>
+        </ul>
+      </section>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/composer/alban-berg">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

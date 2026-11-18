@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schlosstheater Schönbrunn (Wien) – Spielplan Oper | OpernLog</title>
+  <meta name="description" content="Schlosstheater Schönbrunn in Wien: Haus, Geschichte und Spielplan – im Operntagebuch OpernLog.">
+  <link rel="canonical" href="https://opernlog.de/haus/schlosstheater-schoenbrunn/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/haus/schlosstheater-schoenbrunn/">
+  <meta property="og:title" content="Schlosstheater Schönbrunn (Wien) – Spielplan Oper | OpernLog">
+  <meta property="og:description" content="Schlosstheater Schönbrunn in Wien: Haus, Geschichte und Spielplan – im Operntagebuch OpernLog.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Sch%C3%B6nbrunner_Schlosstheater.jpg/500px-Sch%C3%B6nbrunner_Schlosstheater.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"PerformingArtsTheater","name":"Schlosstheater Schönbrunn","url":"https://opernlog.de/haus/schlosstheater-schoenbrunn/","address":{"@type":"PostalAddress","addressLocality":"Wien","addressCountry":"AT"},"geo":{"@type":"GeoCoordinates","latitude":48.1846,"longitude":16.3122},"image":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Sch%C3%B6nbrunner_Schlosstheater.jpg/500px-Sch%C3%B6nbrunner_Schlosstheater.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Schlosstheater Schönbrunn</h1>
+      <p class="unterzeile">Wien, Österreich</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Sch%C3%B6nbrunner_Schlosstheater.jpg/500px-Sch%C3%B6nbrunner_Schlosstheater.jpg" alt="Schlosstheater Schönbrunn" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Sch%C3%B6nbrunner_Schlosstheater.jpg" rel="nofollow noopener" target="_blank">Bild: C. Cossa · CC BY-SA 3.0 at</a></figcaption>
+      </figure>
+      <p>Barockes Hoftheater im Schloss Schönbrunn, von Maria Theresia eröffnet – heute Bühne der Musikuniversität und kleiner Opernproduktionen.</p>
+      <dl class="fakten"><dt>Ort</dt><dd>Wien, Österreich</dd><dt>Gegründet</dt><dd>1747</dd><dt>Plätze</dt><dd>220</dd></dl>
+      <p class="weiter"><a class="knopf" href="/#/house/schlosstheater-schoenbrunn">In OpernLog öffnen</a></p>
+      <p class="klein">Gerade kennt OpernLog keine Termine dieses Hauses.</p>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/house/schlosstheater-schoenbrunn">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>

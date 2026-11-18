@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charles Gounod – Opern und Termine | OpernLog</title>
+  <meta name="description" content="Charles Gounod, französisch-deutscher Komponist: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <link rel="canonical" href="https://opernlog.de/komponist/charles-gounod/">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpernLog">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://opernlog.de/komponist/charles-gounod/">
+  <meta property="og:title" content="Charles Gounod – Opern und Termine | OpernLog">
+  <meta property="og:description" content="Charles Gounod, französisch-deutscher Komponist: 1 Oper im Katalog von OpernLog, mit aktuellen Terminen.">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg/500px-Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Charles Gounod","url":"https://opernlog.de/komponist/charles-gounod/","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg/500px-Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg"}</script>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <nav><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  </header>
+  <main>
+
+    <article>
+      <h1>Charles Gounod</h1>
+      <p class="unterzeile">französisch-deutscher Komponist</p>
+      <figure class="bild">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg/500px-Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg" alt="Charles Gounod" width="500" loading="lazy" decoding="async">
+        <figcaption><a href="https://commons.wikimedia.org/wiki/File:Lengerich_Portr%C3%A4t_Charles_Gounod_Ostdeutsche_Galerie_Regensburg_20160930.jpg" rel="nofollow noopener" target="_blank">Bild: Wikimedia Commons</a></figcaption>
+      </figure>
+      <p>Charles François Gounod war ein französischer Komponist. Zu seinen bekanntesten Werken zählt die Oper Faust, die in Deutschland manchmal auch unter dem Titel Margarethe aufgeführt wird.</p>
+      <section>
+        <h2>Opern</h2>
+        <ul class="liste">
+          <li><a href="https://opernlog.de/oper/faust/">Faust</a> <span class="ort">1859</span> <span class="anzahl">5 Termine</span></li>
+        </ul>
+      </section>
+    </article>
+    <p class="weiter"><a class="knopf" href="/#/composer/charles-gounod">In OpernLog öffnen</a></p>
+    <p class="klein">OpernLog ist dein Operntagebuch: Abende festhalten und bewerten, sehen, was wo läuft, mit Freunden teilen. Kostenlos, ohne Werbung.</p>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a> · <a href="/#/bildnachweise">Bildnachweise</a>
+  </footer>
+  <script>
+    // Was seit dem Stand des Spielplans vorbei ist, ausblenden.
+    (function () {
+      var heute = new Date(); heute.setHours(0, 0, 0, 0);
+      var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
+      document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
+    })();
+  </script>
+</body>
+</html>
