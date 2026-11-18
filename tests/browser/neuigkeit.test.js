@@ -49,7 +49,7 @@ async function schliessenUndAbwarten(p, schliessen) {
     await p.evaluate(() => window.__zurueck);
 }
 
-async function starte({ neuesKonto = false } = {}) {
+async function starte({ neuesKonto = false, zeit = '2026-10-01T10:00:00Z' } = {}) {
     // Ohne Service Worker: sonst holte er beim Neuladen die echte
     // Supabase-Bibliothek statt des Ersatzes, und niemand wäre angemeldet.
     const ctx = await browser.newContext({ viewport: HANDY, serviceWorkers: 'block' });
@@ -57,6 +57,8 @@ async function starte({ neuesKonto = false } = {}) {
     // Test an – also sicher nach dem Update.
     if (neuesKonto) await ctx.addInitScript(() => { window.__profilErstellt = new Date(Date.now() - 60e3).toISOString(); });
     const p = await ctx.newPage();
+    // In den acht Wochen nach dem Update; danach kommt die Ankündigung nicht mehr.
+    await p.clock.setFixedTime(new Date(zeit));
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
     await oeffne(p);
@@ -115,5 +117,14 @@ test('gesehen ist es erst nach dem Schließen, nicht schon beim Zeigen', { skip:
         await schliessenUndAbwarten(p, () => p.evaluate(() => document.querySelector('.neuigkeit').remove()));
         await p.reload();
         await p.locator('.neuigkeit').waitFor({ timeout: 10000 });
+    } finally { await ctx.close(); }
+});
+
+test('acht Wochen nach dem Update kommt die Ankündigung nicht mehr', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await starte({ zeit: '2026-11-18T19:45:00+01:00' });
+    try {
+        await p.waitForSelector('.nav-links', { state: 'attached', timeout: 15000 });
+        await p.waitForTimeout(2500);
+        assert.equal(await p.locator('.neuigkeit').count(), 0);
     } finally { await ctx.close(); }
 });
