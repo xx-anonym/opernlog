@@ -112,7 +112,7 @@ export function passkeyFehlertext(fehler, vorgang = 'anmelden') {
             return 'Dieses Konto ist gesperrt.';
         case 'ERROR_INVALID_DOMAIN':
         case 'ERROR_INVALID_RP_ID':
-            return 'Passkeys funktionieren nur unter opernlog.vercel.app.';
+            return 'Passkeys funktionieren nur unter opernlog.de.';
     }
 
     if (/does not support WebAuthn/i.test(fehler?.message || '')) {

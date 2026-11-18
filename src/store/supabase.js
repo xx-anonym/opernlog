@@ -273,9 +273,10 @@ export async function signInWithGoogle() {
 // Anmelden mit Face ID, Fingerabdruck oder Gerätesperre. Ein Passkey ersetzt
 // kein Konto: anlegen kann ihn nur, wer schon angemeldet und bestätigt ist.
 //
-// Die Passkeys sind an die Domain opernlog.vercel.app gebunden (Relying Party
-// ID im Supabase-Dashboard). Zieht die App auf eine andere Domain, taugt keiner
-// mehr – dann muss jeder einen neuen anlegen.
+// Die Passkeys sind an die Domain gebunden (Relying Party ID im
+// Supabase-Dashboard), seit dem Umzug am 18.11.2026 an opernlog.de. Die
+// unter opernlog.vercel.app angelegten taugen seitdem nicht mehr; wer einen
+// hatte, legt einen neuen an.
 
 export async function signInWithPasskey() {
     const sb = getSupabase();

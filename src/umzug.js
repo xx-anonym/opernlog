@@ -32,10 +32,11 @@
 // und wer ihn antippt, wäre unbemerkt in fremdem Konto angemeldet und
 // loggte seine Abende dort.
 //
-// Bis zum Umschalten ist UMZUG_AKTIV false und unter der alten Adresse
-// passiert nichts.
+// Umgeschaltet am 18.11.2026 (vorher false: unter der alten Adresse geschah
+// nichts). Wieder auf false, falls die Übergabe klemmt – dann bleibt jeder,
+// wo er ist.
 
-export const UMZUG_AKTIV = false;
+export const UMZUG_AKTIV = true;
 
 export const NEUE_ADRESSE = 'https://opernlog.de';
 

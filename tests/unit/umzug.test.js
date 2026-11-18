@@ -9,9 +9,10 @@ import {
     UMZUG_AKTIV, umzugSchritt, umzugZiel, umzugAusHash, vonAlterAdresse, umzugEinloesen, istAlteAdresse,
 } from '../../src/umzug.js';
 
-test('bis zum Umschalten passiert unter der alten Adresse nichts', () => {
-    assert.equal(UMZUG_AKTIV, false);
-    assert.equal(umzugSchritt({ alteAdresse: true, installiert: false, angemeldet: true }), 'nichts');
+test('umgeschaltet (18.11.2026): unter der alten Adresse geht es weiter, abgeschaltet nicht', () => {
+    assert.equal(UMZUG_AKTIV, true);
+    assert.equal(umzugSchritt({ alteAdresse: true, installiert: false, angemeldet: true }), 'mitAnmeldung');
+    assert.equal(umzugSchritt({ aktiv: false, alteAdresse: true, installiert: false, angemeldet: true }), 'nichts');
 });
 
 test('umgeschaltet: angemeldet mit Code, abgemeldet einfach weiter, installiert nur Hinweis', () => {

@@ -36,7 +36,7 @@ export function datenExport(roh, { werke = [], haeuser = [], version = '', jetzt
     const ergebnis = {
         ueber: {
             app: 'OpernLog',
-            adresse: 'https://opernlog.vercel.app',
+            adresse: 'https://opernlog.de',
             version,
             erstellt: jetzt.toISOString(),
             inhalt: 'Alles, was OpernLog zu deinem Konto speichert. Kennungen wie "tosca" oder '

@@ -67,7 +67,7 @@ export function endgueltigGescheitert(fehlertext) {
     return /ungültig|abgelaufen|eigenen einladungslink/i.test(String(fehlertext || ''));
 }
 
-/** Die eigene Domain. Sie leitet vorerst auf opernlog.vercel.app weiter. */
+/** Die eigene Domain – seit dem Umzug am 18.11.2026 die Adresse der App. */
 export const EIGENE_ADRESSE = 'https://opernlog.de/';
 
 /**
