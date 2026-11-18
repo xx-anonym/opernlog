@@ -24,7 +24,7 @@ import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { mitteilungenFrage } from './components/MitteilungenFrage.js';
-import { mitteilungenFrageFaellig } from './push.js';
+import { mitteilungenFrageFaellig, pushAn, pushBeimAbmelden } from './push.js';
 import { neuigkeitFenster } from './components/Neuigkeit.js';
 import { neuigkeitFaellig } from './neuigkeiten.js';
 import { willkommenFenster } from './components/Willkommen.js';
@@ -43,6 +43,9 @@ import { showError, showToast } from './components/Toast.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden, acceptInvite } from './store/supabase.js';
 import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
+import { umzugSchritt, umzugZiel, umzugEinloesen, istAlteAdresse, UMZUG_MITTEILUNGEN } from './umzug.js';
+import { umzugHinweisFenster } from './components/UmzugHinweis.js';
+import { istInstalliert } from './installHinweis.js';
 
 /**
  * Steht irgendwo Text, den jemand selbst eingegeben hat? Verglichen wird mit
@@ -154,6 +157,7 @@ class App {
         // Wait 600ms for curtains to be mostly open before showing content
         await new Promise(r => setTimeout(r, 600));
         this.buildLayout();
+        if (this._umzugHinweis) umzugHinweisFenster();
 
         // Was beim letzten Mal ohne Netz geloggt wurde, geht jetzt hoch –
         // sobald der Abgleich durch ist und damit die Sitzung steht.
@@ -198,6 +202,14 @@ class App {
             // Wait for Supabase to determine the initial session
             const initialSession = await waitForInitialSession();
 
+            // Unter der alten Adresse: weiter nach opernlog.de (src/umzug.js).
+            // Gelingt das, übernimmt die neue Seite; der Vorhang bleibt bis
+            // dahin stehen.
+            if (await this.vielleichtUmziehen(initialSession)) {
+                this._startAbgeschlossen = true;
+                return;
+            }
+
             // Auch dann abgleichen, wenn oben nichts kam. Dieser erste Blick
             // auf die Sitzung fällt in die Startphase der Bibliothek: findet
             // sie dort ein Token, das sie erneuern möchte, und ist kein Netz
@@ -241,7 +253,58 @@ class App {
         }
     }
 
+    /**
+     * Der Umzug unter der alten Adresse. true, wenn die Seite gerade
+     * verlassen wird. Scheitert etwas (kein Netz, Abende warten noch), bleibt
+     * die App hier und versucht es beim nächsten Start wieder.
+     */
+    async vielleichtUmziehen(session) {
+        const schritt = umzugSchritt({
+            alteAdresse: istAlteAdresse(), installiert: istInstalliert(), angemeldet: !!session,
+        });
+        if (schritt === 'nichts') return false;
+        if (schritt === 'hinweis') {
+            this._umzugHinweis = true;
+            return false;
+        }
+        // Ohne Netz lädt die neue Adresse nicht (ihr Service Worker ist noch
+        // nicht da), und wartende Abende lägen danach unerreichbar hier.
+        if (navigator.onLine === false) return false;
+        if (schritt === 'weiter') {
+            if (store.getAusstehendeBesuche().length) return false;
+            window.location.replace(umzugZiel({ hash: window.location.hash }));
+            return true;
+        }
+        try {
+            // Ohne Netz geloggte Abende liegen nur hier; erst wenn sie oben
+            // sind, darf die App die Adresse wechseln.
+            await store.refreshSession();
+            await store.ausstehendeUebertragen().catch(() => {});
+            if (store.getAusstehendeBesuche().length) return false;
+            const { data, error } = await getSupabase().functions.invoke('umzug', { method: 'POST' });
+            if (error || !data?.code) throw error || new Error('kein Code');
+            // Mitteilungen hier aus, dort wieder anbieten (src/umzug.js).
+            const push = await pushAn().catch(() => false);
+            if (push) await pushBeimAbmelden();
+            window.location.replace(umzugZiel({ hash: window.location.hash, code: data.code, push }));
+            return true;
+        } catch (e) {
+            console.warn('[Umzug] bleibt vorerst unter der alten Adresse', e);
+            return false;
+        }
+    }
+
     async handleAuthHash() {
+        // Umzug: die Anmeldung von opernlog.vercel.app mitgebracht
+        // (src/umzug.js). Danach steht die Adresse auf der alten Stelle, und
+        // der Start läuft normal weiter – mit Sitzung.
+        await umzugEinloesen({
+            einloesen: async (code) => {
+                const { error } = await getSupabase().auth.verifyOtp({ token_hash: code, type: 'email' });
+                if (error) throw error;
+            },
+        });
+
         const hash = window.location.hash;
         if (!hash) return false;
 
@@ -740,7 +803,10 @@ class App {
             // Wer schon abonniert hat, hat die Erlaubnis erteilt – und dann
             // ist die Frage nicht mehr fällig. Ein eigener Blick aufs Abo
             // erübrigt sich.
-            if (!mitteilungenFrageFaellig({ profilErstellt: profil.created_at })) return;
+            let nachUmzug = false;
+            try { nachUmzug = localStorage.getItem(UMZUG_MITTEILUNGEN) === '1'; } catch { /* egal */ }
+            if (!mitteilungenFrageFaellig({ profilErstellt: profil.created_at, nachUmzug })) return;
+            try { localStorage.removeItem(UMZUG_MITTEILUNGEN); } catch { /* egal */ }
             if (!document.querySelector('.mitteilungen-frage')) mitteilungenFrage();
         } catch (e) {
             console.warn('[Mitteilungen] Frage nicht gestellt', e);

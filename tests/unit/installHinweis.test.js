@@ -55,6 +55,8 @@ test('ein neues Konto wird gefragt', () => {
 test('ein altes Konto nicht', () => {
     // Wer länger dabei ist, kennt "Profil bearbeiten".
     assert.equal(mitteilungenFrageFaellig({ umgebung: bereit(), profilErstellt: '2026-07-01T10:00:00Z', jetzt: JETZT }), false);
+    // Nach dem Umzug nach opernlog.de auch für alte Konten: die Erlaubnis gehört zur Adresse.
+    assert.equal(mitteilungenFrageFaellig({ umgebung: bereit(), profilErstellt: '2026-07-01T10:00:00Z', jetzt: JETZT, nachUmzug: true }), true);
     assert.equal(mitteilungenFrageFaellig({ umgebung: bereit(), profilErstellt: undefined, jetzt: JETZT }), false);
 });
 

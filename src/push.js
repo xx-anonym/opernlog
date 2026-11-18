@@ -154,12 +154,15 @@ const NEU_TAGE = 30;
  *
  * @param {object} o
  * @param {string} o.profilErstellt  created_at des Profils
+ * @param {boolean} [o.nachUmzug]    unter der alten Adresse waren Mitteilungen
+ *   an (src/umzug.js): dann auch für ältere Konten fragen – die Erlaubnis
+ *   gehört zur Adresse und muss unter opernlog.de neu erteilt werden.
  */
-export function mitteilungenFrageFaellig({ umgebung = globalThis, profilErstellt, jetzt = Date.now() } = {}) {
+export function mitteilungenFrageFaellig({ umgebung = globalThis, profilErstellt, jetzt = Date.now(), nachUmzug = false } = {}) {
     if (pushZustand(umgebung) !== 'bereit') return false;
     if (umgebung.Notification.permission !== 'default') return false;
     const erstellt = Date.parse(profilErstellt || '');
-    if (!Number.isFinite(erstellt) || jetzt - erstellt > NEU_TAGE * 24 * 3600 * 1000) return false;
+    if (!nachUmzug && (!Number.isFinite(erstellt) || jetzt - erstellt > NEU_TAGE * 24 * 3600 * 1000)) return false;
     try {
         if (umgebung.localStorage?.getItem(GEFRAGT)) return false;
     } catch {

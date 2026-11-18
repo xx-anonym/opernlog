@@ -358,6 +358,14 @@ window.supabase = { createClient: () => ({
     },
     verifyOtp: async (angaben) => {
       window.__codeEingeloest = [...(window.__codeEingeloest || []), angaben];
+      // Umzug (src/umzug.js): ein token_hash statt des getippten Codes.
+      if ('token_hash' in angaben) {
+        if (angaben.token_hash !== 'umzugcode1234') {
+          return { data: { user: null, session: null }, error: { message: 'Email link is invalid or has expired', code: 'otp_expired', status: 403 } };
+        }
+        window.__ohneSitzung = false;
+        return { data: { session: SESSION, user: SESSION.user }, error: null };
+      }
       if (angaben.token !== (window.__code || '123456')) {
         return { data: { user: null, session: null }, error: { message: 'Token has expired or is invalid', code: 'otp_expired', status: 403 } };
       }
