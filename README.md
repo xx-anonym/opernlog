@@ -152,6 +152,15 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   `mx01`/`mx02.mail.icloud.com`, und der SPF-Eintrag der Domain braucht
   `include:icloud.com`. Resend prüft SPF an der Unterdomain `send`, die
   beiden kommen sich also nicht in die Quere.
+- **Erinnerung an leere Konten:** Wer sich registriert hat und nach einer
+  Woche noch nichts eingetragen hat (kein Abend, kein Werk als gesehen
+  markiert), bekommt einmal eine Mail mit dem Knopf in die App, bis zum
+  30. Tag nach der Registrierung, danach nicht mehr. Wer Mails unter
+  „Profil bearbeiten“ abgeschaltet hat, bekommt sie nicht. Täglich um 16:00
+  UTC (pg_cron `mail-erinnerung`, `supabase/migrations/mail_erinnerung_migration.sql`),
+  verschickt von derselben Edge Function `mail-senden`. Je Konto vermerkt in
+  `push_protokoll` unter `mail-erinnerung`. Ihre Links zeigen schon auf
+  `opernlog.de`, das bis zum Umzug weiterleitet.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil

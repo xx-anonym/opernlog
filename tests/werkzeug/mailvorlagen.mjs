@@ -206,6 +206,14 @@ export const MAILS = [
 
 const APP = 'https://opernlog.vercel.app';
 
+// Die eigene Domain. Sie leitet bis zum Umzug auf opernlog.vercel.app weiter
+// (307, das #/... bleibt dabei erhalten). Links, die lange in Postfächern
+// liegen, zeigen schon dorthin, damit sie den Umzug überleben (seit
+// 18.11.2026, zuerst in der Erinnerung). Bilder und Schriften bleiben auf
+// vercel.app: manche Mailprogramme laden Bilder hinter einer Weiterleitung
+// nicht.
+const DOMAIN = 'https://opernlog.de';
+
 /**
  * Mails der Edge Function mail-senden. Keine Go-Template-Variablen: die
  * Funktion ersetzt %%NAME%% durch den Namen des Absenders, im HTML schon
@@ -230,6 +238,35 @@ export const FUNKTIONS_MAILS = [
             '',
             'Du bekommst diese Mail, weil dir jemand auf OpernLog eine Freundschaftsanfrage geschickt hat.',
             'Abschalten kannst du solche Mails in der App unter Profil → Profil bearbeiten → E-Mails.',
+        ].join('\n'),
+    },
+    {
+        // Einmal an Konten, die eine Woche alt und noch leer sind
+        // (supabase/migrations/mail_erinnerung_migration.sql). %%NAME%% ist
+        // hier der Name des Empfängers selbst.
+        name: 'erinnerung',
+        betreff: 'Was hast du schon gesehen, %%NAME%%?',
+        vorschau: 'Dein Operntagebuch ist noch leer. Ein Tippen je Werk genügt für den Anfang.',
+        ueberschrift: 'Der Vorhang wartet',
+        text: 'Hallo <strong style="color:#ffffff;">%%NAME%%</strong>, du hast dich vor Kurzem bei OpernLog angemeldet – dein Tagebuch ist aber noch leer. Fang mit dem an, was du schon gesehen hast: ein Tippen je Werk genügt.',
+        knopf: 'Zu OpernLog',
+        ziel: `${DOMAIN}/#/`,
+        seite: DOMAIN,
+        mehr: liste('Für den Anfang', [
+            'Werke markieren, die du schon auf der Bühne erlebt hast',
+            'Deinen letzten Opernabend loggen – mit Sternen und ein paar Sätzen',
+            'Sehen, was in deiner Nähe demnächst gespielt wird',
+        ]),
+        fuss: `Diese Erinnerung bekommst du nur einmal. Weitere Mails von OpernLog kannst du in der App unter <a href="${DOMAIN}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a> abschalten.`,
+        klartext: [
+            'Hallo %%NAME%%,',
+            '',
+            'du hast dich vor Kurzem bei OpernLog angemeldet – dein Tagebuch ist aber noch leer. Fang mit dem an, was du schon gesehen hast: ein Tippen je Werk genügt.',
+            '',
+            `Zu OpernLog: ${DOMAIN}/#/`,
+            '',
+            'Diese Erinnerung bekommst du nur einmal.',
+            'Weitere Mails von OpernLog kannst du in der App unter Profil → Profil bearbeiten → E-Mails abschalten.',
         ].join('\n'),
     },
 ];

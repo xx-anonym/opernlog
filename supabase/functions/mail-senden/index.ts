@@ -1,7 +1,11 @@
-// Verschickt Mails der App, die nicht Supabase selbst verschickt – bisher eine:
-// die bei einer neuen Freundschaftsanfrage.
+// Verschickt Mails der App, die nicht Supabase selbst verschickt:
+//   'anfrage'     bei einer neuen Freundschaftsanfrage
+//   'erinnerung'  einmal an Konten, die eine Woche alt und noch leer sind
+//                 (seit 18.11.2026, mail_erinnerung_migration.sql)
 //
-//   POST  { art: 'anfrage', empfaenger: uuid, absender: uuid }
+//   POST  { art, empfaenger: uuid, absender: uuid }
+//
+// Bei der Erinnerung ist absender der Empfänger selbst.
 //
 // Aufrufen darf das nur die Datenbank (Auslöser mail_bei_anfrage, siehe
 // supabase/migrations/mail_anfrage_migration.sql). Sie weist sich mit
@@ -45,6 +49,10 @@ const PASSWORT = (Deno.env.get('MAIL_APP_PASSWORT') || '').replace(/\s+/g, '');
 const HOST = (Deno.env.get('MAIL_HOST') || 'smtp.gmail.com').trim();
 const BENUTZER = (Deno.env.get('MAIL_BENUTZER') || '').trim() || ADRESSE;
 const ANTWORT = (Deno.env.get('MAIL_ANTWORT') || '').trim() || 'support@opernlog.de';
+
+// Je Art die Datenbankfunktion, die Adresse und Name liefert – nur wenn die
+// Mail wirklich fällig ist.
+const DATEN = { anfrage: 'mail_anfrage_daten', erinnerung: 'mail_erinnerung_daten' } as const;
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -97,7 +105,8 @@ Deno.serve(async (req) => {
         }
 
         const { art, empfaenger, absender } = await req.json();
-        if (art !== 'anfrage' || !UUID.test(empfaenger || '') || !UUID.test(absender || '')) {
+        // hasOwn, nicht in: 'constructor' oder 'toString' stünden sonst auch drin.
+        if (typeof art !== 'string' || !Object.hasOwn(DATEN, art) || !UUID.test(empfaenger || '') || !UUID.test(absender || '')) {
             return json({ fehler: 'art, empfaenger oder absender fehlt' }, 400);
         }
         if (!ADRESSE || !PASSWORT) {
@@ -105,14 +114,18 @@ Deno.serve(async (req) => {
             return json({ fehler: 'Mailversand nicht eingerichtet' }, 503);
         }
 
-        const daten = await rest('rpc/mail_anfrage_daten', {
-            method: 'POST', body: JSON.stringify({ p_empfaenger: empfaenger, p_absender: absender }),
+        const daten = await rest(`rpc/${DATEN[art as keyof typeof DATEN]}`, {
+            method: 'POST',
+            body: JSON.stringify(art === 'anfrage'
+                ? { p_empfaenger: empfaenger, p_absender: absender }
+                : { p_empfaenger: empfaenger }),
         });
-        // Keine offene Anfrage mehr, Adresse unbestätigt oder Mails abgeschaltet.
+        // Nicht (mehr) fällig: keine offene Anfrage, Konto nicht mehr leer,
+        // Adresse unbestätigt oder Mails abgeschaltet.
         if (!daten?.adresse) return json({ gesendet: false });
 
-        const name = String(daten.name || 'Jemand').slice(0, 60);
-        const vorlage = VORLAGEN.anfrage;
+        const name = String(daten.name || (art === 'anfrage' ? 'Jemand' : 'Opernfan')).slice(0, 60);
+        const vorlage = VORLAGEN[art as keyof typeof VORLAGEN];
         const einsetzen = (text: string, wert: string) => text.split('%%NAME%%').join(wert);
         const nachricht = nachrichtBauen({
             von: ADRESSE,

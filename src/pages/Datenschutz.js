@@ -17,7 +17,7 @@ import { SUPPORT_ADRESSE } from '../config.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
 export const KONTAKT = SUPPORT_ADRESSE;
-export const STAND = '17. November 2026';
+export const STAND = '18. November 2026';
 
 export function DatenschutzPage() {
     const page = document.createElement('div');
@@ -59,9 +59,10 @@ export function DatenschutzPage() {
 
       <h2>E-Mails</h2>
       <p>OpernLog schickt dir Mails zur Anmeldung (den Einmalcode, mit dem du dich anmeldest oder registrierst) und, solange
-      du es nicht abschaltest, eine Mail, wenn dir jemand eine Freundschaftsanfrage schickt. Abschalten
-      kannst du das jederzeit unter „Profil bearbeiten“ → <em>E-Mails</em>. Werbung oder Newsletter
-      verschickt OpernLog nicht.</p>
+      du es nicht abschaltest, eine Mail, wenn dir jemand eine Freundschaftsanfrage schickt. Ist dein Konto
+      eine Woche nach der Registrierung noch leer, kommt einmal eine Erinnerung, danach nie wieder.
+      Abschalten kannst du das jederzeit unter „Profil bearbeiten“ → <em>E-Mails</em>. Werbung oder
+      Newsletter verschickt OpernLog nicht.</p>
 
       <h2>Wer was sehen kann</h2>
       <p>OpernLog ist ein offenes Tagebuch: dein Profil, deine Abende mit Bewertungen und Reviews,

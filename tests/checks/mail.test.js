@@ -17,6 +17,8 @@ const lies = (pfad) => fs.readFileSync(new URL(`../../${pfad}`, import.meta.url)
 const SQL = lies('supabase/migrations/mail_anfrage_migration.sql')
     .split('\n').map(z => z.replace(/--.*$/, '')).join('\n');
 const FUNKTION = lies('supabase/functions/mail-senden/index.ts');
+const ERINNERUNG = lies('supabase/migrations/mail_erinnerung_migration.sql')
+    .split('\n').map(z => z.replace(/--.*$/, '')).join('\n');
 
 test('die Vorlage in der Funktion ist die, die das Werkzeug erzeugt', () => {
     assert.equal(lies('supabase/functions/mail-senden/vorlage.js'), vorlageModul(),
@@ -75,8 +77,9 @@ test('die Einstellung ist für niemanden sonst lesbar', () => {
 
 test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => {
     assert.match(FUNKTION, /req\.headers\.get\('x-push-geheimnis'\)/);
-    assert.match(FUNKTION, /art !== 'anfrage'/);
-    assert.match(FUNKTION, /rpc\/mail_anfrage_daten/);
+    assert.match(FUNKTION, /Object\.hasOwn\(DATEN, art\)/);
+    assert.match(FUNKTION, /anfrage: 'mail_anfrage_daten', erinnerung: 'mail_erinnerung_daten'/);
+    assert.match(FUNKTION, /rest\(`rpc\/\$\{DATEN\[art as keyof typeof DATEN\]\}`/);
     // Der Mailserver kommt aus den Secrets (Resend seit 17.11.2026), ohne
     // Angabe Gmail wie vorher.
     assert.match(FUNKTION, /const HOST = \(Deno\.env\.get\('MAIL_HOST'\) \|\| 'smtp\.gmail\.com'\)\.trim\(\);/);
@@ -91,4 +94,50 @@ test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => 
     assert.match(FUNKTION, /Deno\.env\.get\('MAIL_APP_PASSWORT'\)/);
     // Der Name kommt maskiert ins HTML.
     assert.match(FUNKTION, /einsetzen\(vorlage\.html, maskieren\(name\)\)/);
+});
+
+// ── Erinnerung an leere Konten (seit 18.11.2026) ─────────────────────────
+
+test('die Erinnerung: Name des Empfängers, Links auf opernlog.de, "nur einmal" im Fuß', () => {
+    const v = VORLAGEN.erinnerung;
+    for (const teil of ['betreff', 'text', 'html']) assert.ok(v[teil].includes('%%NAME%%'), teil);
+    // Links auf die eigene Domain, damit sie den Umzug überleben.
+    assert.match(v.html, /<a class="knopf" href="https:\/\/opernlog\.de\/#\/"/);
+    assert.match(v.text, /^Zu OpernLog: https:\/\/opernlog\.de\/#\/$/m);
+    assert.ok(!/<a [^>]*href="https:\/\/opernlog\.vercel\.app/.test(v.html), 'ein Link zeigt noch auf vercel.app');
+    assert.ok(!v.html.includes('{{'));
+    for (const teil of [v.text, v.html]) {
+        assert.match(teil, /nur einmal/);
+        assert.match(teil, /Profil bearbeiten → E-Mails/);
+    }
+});
+
+test('die Erinnerung ist fällig nur für leere Konten zwischen 7 und 30 Tagen, mit bestätigter Adresse, nicht abgeschaltet', () => {
+    const faellig = ERINNERUNG.match(/FUNCTION public\.mail_erinnerung_faellig[\s\S]*?\$\$;/)[0];
+    assert.match(faellig, /email_confirmed_at IS NOT NULL/);
+    assert.match(faellig, /p\.created_at <= now\(\) - interval '7 days'/);
+    assert.match(faellig, /p\.created_at > now\(\) - interval '30 days'/);
+    assert.match(faellig, /NOT EXISTS \(SELECT 1 FROM public\.visits v WHERE v\.user_id = u\.id\)/);
+    assert.match(faellig, /NOT EXISTS \(SELECT 1 FROM public\.seen_operas s WHERE s\.user_id = u\.id\)/);
+    assert.match(faellig, /mail_einstellungen e WHERE e\.user_id = u\.id\), true\)/);
+    // Die Daten für die Funktion hängen an derselben Prüfung.
+    const daten = ERINNERUNG.match(/FUNCTION public\.mail_erinnerung_daten[\s\S]*?\$\$;/)[0];
+    assert.match(daten, /public\.mail_erinnerung_faellig\(p_empfaenger\)/);
+});
+
+test('die Erinnerung geht je Konto nur einmal, höchstens 20 je Lauf, täglich', () => {
+    const lauf = ERINNERUNG.match(/FUNCTION public\.mail_erinnerungen\(\)[\s\S]*?\$\$;/)[0];
+    assert.match(lauf, /push_einmal\('mail-erinnerung', nutzer::text, nutzer, interval '100 years'\)/);
+    assert.match(lauf, /l\.art = 'mail-erinnerung' AND l\.schluessel = p\.id::text/);
+    assert.match(lauf, /LIMIT 20/);
+    assert.match(lauf, /mail_senden\('erinnerung', nutzer, nutzer\)/);
+    assert.match(lauf, /EXCEPTION WHEN OTHERS THEN\s+RAISE WARNING/);
+    assert.match(ERINNERUNG, /cron\.schedule\('mail-erinnerung', '0 16 \* \* \*', 'SELECT public\.mail_erinnerungen\(\)'\)/);
+});
+
+test('Erinnerungs-Funktionen sind nicht von außen aufrufbar', () => {
+    for (const f of ['mail_erinnerung_faellig(UUID)', 'mail_erinnerung_daten(UUID)', 'mail_erinnerungen()']) {
+        assert.ok(ERINNERUNG.includes(`REVOKE ALL ON FUNCTION public.${f} FROM PUBLIC, anon, authenticated;`), f);
+    }
+    assert.match(ERINNERUNG, /GRANT EXECUTE ON FUNCTION public\.mail_erinnerung_daten\(UUID\) TO service_role;/);
 });
