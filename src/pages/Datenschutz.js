@@ -67,7 +67,8 @@ export function DatenschutzPage() {
       <h2>Wer was sehen kann</h2>
       <p>OpernLog ist ein offenes Tagebuch: dein Profil, deine Abende mit Bewertungen und Reviews,
       Markierungen „schon gesehen“, Kommentare, Likes, Freundschaften und öffentliche Listen kann jeder
-      sehen, auch ohne Konto.
+      sehen, auch ohne Konto. Teilst du einen Abend oder deinen Saisonrückblick als Link, zeigt die
+      Seite dahinter genau das – ohne Fotos, und Suchmaschinen nehmen sie nicht auf.
       Fotos, die du für Freunde freigibst, sehen nur deine Freunde – wer dir folgt und dem du folgst –,
       niemand sonst. Alle anderen Fotos sind privat.
       Nicht öffentlich sind deine E-Mail-Adresse, vorgemerkte Abende, private Listen,

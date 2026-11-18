@@ -34,6 +34,43 @@ const zahl = n => new Intl.NumberFormat('de-DE').format(n);
  * @returns {Promise<HTMLCanvasElement>}
  */
 export async function zeichneTeilbild(r) {
+    // Passt der Satz nicht, werden die Listen kürzer und zuletzt fallen die
+    // Schlusszeilen weg – lieber weglassen als in den Fuß laufen.
+    return zettel(g => ({
+        kopf: kopfSatz(r),
+        fassungen: STUFEN.map(stufe => rumpfSatz(g, r, stufe)),
+    }));
+}
+
+/**
+ * Das Bild zu einem einzelnen Abend (seit 18.11.2026): derselbe Zettel, mit
+ * Werk, Haus, Datum, Sternen und einem Stück der eigenen Review.
+ *
+ * @param {object} a
+ * @param {string} a.titel
+ * @param {string} [a.komponist]
+ * @param {string} [a.haus]
+ * @param {string} [a.stadt]
+ * @param {string} [a.datum]      'JJJJ-MM-TT' oder ein ISO-Zeitpunkt
+ * @param {number} [a.sterne]     0–5, halbe erlaubt
+ * @param {string} [a.review]
+ * @param {string} [a.dirigent]
+ * @param {string} [a.regie]
+ * @returns {Promise<HTMLCanvasElement>}
+ */
+export async function zeichneAbendbild(a) {
+    return zettel(g => ({
+        kopf: abendKopf(g, a),
+        fassungen: ABEND_STUFEN.map(stufe => abendRumpf(g, a, stufe)),
+    }));
+}
+
+/**
+ * Leinwand, Papier, Rahmen und Fuß – gemeinsam für beide Bilder. satz(g)
+ * liefert den Kopf und, von großzügig bis knapp, die Fassungen des Rumpfs;
+ * genommen wird die erste, die zwischen Kopf und Fuß passt.
+ */
+async function zettel(satz) {
     const c = document.createElement('canvas');
     c.width = B;
     c.height = H;
@@ -67,12 +104,10 @@ export async function zeichneTeilbild(r) {
     // Fuß ausgewogen verteilen, ob die Spielzeit drei Abende hatte oder dreißig.
     const oben = SICHER;
     const unten = H - SICHER - 70;   // darunter die Adresse
-    const kopf = kopfSatz(r);
-    // Passt der Satz nicht, werden die Listen kürzer und zuletzt fallen die
-    // Schlusszeilen weg – lieber weglassen als in den Fuß laufen.
+    const { kopf, fassungen } = satz(g);
     let rumpf;
-    for (const stufe of STUFEN) {
-        rumpf = rumpfSatz(g, r, stufe);
+    for (const fassung of fassungen) {
+        rumpf = fassung;
         if (hoehe(kopf) + hoehe(rumpf) <= unten - oben) break;
     }
     const frei = Math.max(0, unten - oben - hoehe(kopf) - hoehe(rumpf));
@@ -81,7 +116,6 @@ export async function zeichneTeilbild(r) {
 
     g.fillStyle = 'rgba(28, 25, 21, 0.6)';
     g.font = `400 26px ${SANS}`;
-    // Seit 15.11.2026 die eigene Domain; sie leitet vorerst auf die App weiter.
     g.fillText('opernlog.de', MITTE, H - SICHER - 12);
     g.textAlign = 'start';
     return c;
@@ -311,4 +345,131 @@ function kuerze(g, inhalt, maxBreite) {
     let s = inhalt;
     while (s.length > 1 && g.measureText(`${s}…`).width > maxBreite) s = s.slice(0, -1);
     return `${s}…`;
+}
+
+// ── Ein Abend ─────────────────────────────────────────────────────────
+
+const WOCHENTAG = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+/** "Freitag, 1. Mai 2026" – aus dem Kalendertag, ohne Umweg über die Ortszeit. */
+export function abendDatum(datum) {
+    const m = String(datum ?? '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return '';
+    return WOCHENTAG.format(new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])));
+}
+
+/** Der Titel so groß wie möglich, auf höchstens drei Zeilen. */
+function titelZeilen(g, titel) {
+    for (const [groesse, zeilen] of [[150, 1], [130, 2], [110, 2], [92, 3], [76, 3]]) {
+        g.font = `700 ${groesse}px ${SERIF}`;
+        const gesetzt = umbrechen(g, titel, SATZBREITE, zeilen);
+        const passt = gesetzt.every(z => !z.endsWith('…'));
+        if (passt || groesse === 76) {
+            return gesetzt.map(z => text(z, `700 ${groesse}px ${SERIF}`, ROT, Math.round(groesse * 1.08), Math.round(groesse * 0.86)));
+        }
+    }
+    return [];
+}
+
+function abendKopf(g, a) {
+    const satz = [
+        text('OPERNLOG', `700 28px ${SANS}`, ROT, 36, 28, 12),
+        linie(160, 36),
+        text('mein Abend mit', `italic 400 46px ${SERIF}`, TINTE, 70, 50),
+        ...titelZeilen(g, a.titel || 'Oper'),
+    ];
+    if (a.komponist) satz.push(luecke(6), text(a.komponist, `italic 400 46px ${SERIF}`, TINTE, 64, 46));
+    satz.push(raute());
+    return satz;
+}
+
+// Von großzügig bis knapp: wie viele Zeilen der Review, ob Dirigent und
+// Regie noch Platz haben.
+const ABEND_STUFEN = [
+    { review: 7, spalten: true },
+    { review: 5, spalten: true },
+    { review: 3, spalten: true },
+    { review: 3, spalten: false },
+    { review: 0, spalten: false },
+];
+
+function abendRumpf(g, a, stufe) {
+    const satz = [luecke(14)];
+    if (a.haus) {
+        satz.push(rubrik('im Haus'));
+        g.font = `italic 400 48px ${SERIF}`;
+        for (const z of umbrechen(g, a.haus, SATZBREITE, 2)) satz.push(text(z, `italic 400 48px ${SERIF}`, ROT, 62, 46));
+        if (a.stadt && !a.haus.includes(a.stadt)) satz.push(text(a.stadt, `400 34px ${SERIF}`, TINTE, 50, 36));
+        satz.push(luecke(22));
+    }
+    const datum = abendDatum(a.datum);
+    if (datum) {
+        satz.push(rubrik('am'), text(datum, `400 42px ${SERIF}`, TINTE, 58, 42), luecke(10));
+    }
+    satz.push(linie(820, 50));
+
+    if (a.sterne > 0) satz.push(sternZeile(a.sterne), luecke(16));
+
+    const review = String(a.review ?? '').replace(/\s+/g, ' ').trim();
+    if (review && stufe.review) {
+        g.font = `italic 400 40px ${SERIF}`;
+        const zeilen = umbrechen(g, `„${review}“`, SATZBREITE, stufe.review);
+        // Abgeschnitten endet die letzte Zeile auf "…" – das schließende
+        // Anführungszeichen gehört dann dahinter.
+        const letzte = zeilen.length - 1;
+        if (zeilen[letzte].endsWith('…')) {
+            let rest = zeilen[letzte].slice(0, -1);
+            while (rest.length > 1 && g.measureText(`${rest}…“`).width > SATZBREITE) rest = rest.slice(0, -1);
+            zeilen[letzte] = `${rest.trimEnd()}…“`;
+        }
+        for (const z of zeilen) satz.push(text(z, `italic 400 40px ${SERIF}`, TINTE, 56, 40));
+        satz.push(luecke(20));
+    }
+
+    const spalten = [
+        a.dirigent && ['Dirigent', a.dirigent],
+        a.regie && ['Regie', a.regie],
+    ].filter(Boolean);
+    if (spalten.length && stufe.spalten) satz.push(luecke(10), spaltenZeile(spalten));
+    return satz;
+}
+
+/** Fünf Sterne, gefüllt bis zur Bewertung – halbe Sterne zur Hälfte. */
+function sternZeile(sterne) {
+    const groesse = 64;
+    const abstand = 22;
+    return {
+        hoehe: groesse + 20,
+        zeichne(g, y) {
+            const breite = 5 * groesse + 4 * abstand;
+            const links = MITTE - breite / 2;
+            for (let i = 0; i < 5; i++) {
+                const x = links + i * (groesse + abstand);
+                const fuellung = Math.max(0, Math.min(1, sterne - i));
+                sternPfad(g, x + groesse / 2, y + 10 + groesse / 2, groesse / 2);
+                if (fuellung > 0) {
+                    g.save();
+                    g.clip();
+                    g.fillStyle = ROT;
+                    g.fillRect(x - 2, y, (groesse + 4) * fuellung, groesse + 20);
+                    g.restore();
+                    sternPfad(g, x + groesse / 2, y + 10 + groesse / 2, groesse / 2);
+                }
+                g.strokeStyle = fuellung > 0 ? ROT : TINTE;
+                g.lineWidth = 2.5;
+                g.lineJoin = 'round';
+                g.stroke();
+            }
+        },
+    };
+}
+
+function sternPfad(g, cx, cy, r) {
+    g.beginPath();
+    for (let i = 0; i < 10; i++) {
+        const winkel = -Math.PI / 2 + i * Math.PI / 5;
+        const radius = i % 2 ? r * 0.42 : r;
+        g.lineTo(cx + Math.cos(winkel) * radius, cy + Math.sin(winkel) * radius);
+    }
+    g.closePath();
 }

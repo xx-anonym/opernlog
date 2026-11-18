@@ -12,13 +12,15 @@ import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { icon } from '../components/Icon.js';
 import { showToast, showError } from '../components/Toast.js';
-import { escapeHTML, copyToClipboard, datumKurz, coverBackground } from '../utils.js';
+import { escapeHTML, datumKurz, coverBackground } from '../utils.js';
 import { StarRating } from '../components/StarRating.js';
 import { storyOeffnen } from '../components/Story.js';
 import { STORY_MUSIK } from '../data/musik.js';
 import { composerByName } from '../data/composers.js';
 import { reisewegSVG } from '../components/Reiseweg.js';
 import { zeichneTeilbild } from '../components/Teilbild.js';
+import { alsPng, teilenMitBild, teilenLink, istCloudId } from '../teilen.js';
+import { NEUE_ADRESSE } from '../umzug.js';
 import {
     buildSeasonReview,
     seasonLabel,
@@ -96,8 +98,11 @@ export function SeasonReviewPage(param) {
 
     <div class="season__actions">
       <button class="btn btn--accent btn--lg" id="shareBtn">
-        ${icon('link')}Rückblick teilen
+        ${icon('share')}Rückblick teilen
       </button>
+      ${direktlink(review) ? `<button class="btn btn--outline" id="linkBtn">
+        ${icon('link')}Link teilen
+      </button>` : ''}
       <button class="btn btn--outline" id="imageBtn">
         ${icon('note')}Bild speichern
       </button>
@@ -181,6 +186,20 @@ export function SeasonReviewPage(param) {
         }
     }
     shareBtn.addEventListener('click', () => teilenMitMeldung(shareBtn));
+
+    // Der Link allein: in Messengern mit Vorschau, für alle lesbar
+    // (api/rueckblick.mjs).
+    const linkBtn = page.querySelector('#linkBtn');
+    linkBtn?.addEventListener('click', async () => {
+        linkBtn.disabled = true;
+        try {
+            const ergebnis = await teilenLink({ titel: `Meine Opernsaison ${review.label}`, url: direktlink(review), protokoll: 'Saisonrückblick' });
+            if (ergebnis === 'kopiert') showToast('Link kopiert');
+            else if (ergebnis === 'fehlgeschlagen') showError('Teilen hat nicht geklappt.');
+        } finally {
+            linkBtn.disabled = false;
+        }
+    });
 
     page.querySelector('#storyBtn').addEventListener('click', () => {
         let story = null;
@@ -602,7 +621,7 @@ function shareText(r) {
     if (r.topVoices?.length) zeilen.push(`Meistgehörte Stimme: ${r.topVoices[0].name}`);
     if (r.bestVisit?.opera) zeilen.push(`Bester Abend: ${r.bestVisit.opera.title}`);
     if (r.travelKm > 0) zeilen.push(`${zahl(r.travelKm)} km zwischen den Häusern`);
-    zeilen.push('', 'geloggt mit OpernLog');
+    zeilen.push('', direktlink(r) || 'geloggt mit OpernLog – https://opernlog.de/');
     return zeilen.join('\n');
 }
 
@@ -622,11 +641,8 @@ function istIOS() {
 }
 
 /** Leinwand zu Blob und File, beides wird gebraucht. */
-async function alsDatei(leinwand, r) {
-    const blob = await new Promise(res => leinwand.toBlob(res, 'image/png'));
-    if (!blob) throw new Error('Leinwand ließ sich nicht in ein Bild wandeln');
-    const name = `opernlog-saison-${r.label.replace('/', '-')}.png`;
-    return { blob, name, file: new File([blob], name, { type: 'image/png' }) };
+function alsDatei(leinwand, r) {
+    return alsPng(leinwand, `opernlog-saison-${r.label.replace('/', '-')}.png`);
 }
 
 /**
@@ -681,34 +697,15 @@ async function sichern(r, datei) {
 }
 
 /**
- * Teilt den Rückblick – möglichst als Bild, sonst als Text, sonst über die
- * Zwischenablage. Jede Stufe kann ausfallen: das Teilen-Menü gibt es nur in
- * sicheren Kontexten und nicht in jedem Browser, das Teilen von Dateien noch
- * seltener. Bricht jemand das Menü ab, ist das kein Fehler.
+ * opernlog.de/rueckblick/<nutzer>/<jahr> – nur mit Konto: ohne liegen die
+ * Abende nur im Gerät, und der Server kann nichts zeigen.
  */
-async function teilen(r, datei) {
-    const text = shareText(r);
-    const titel = `Meine Opernsaison ${r.label}`;
+function direktlink(r) {
+    const ich = store.isCloud ? store.getCurrentUser() : null;
+    return istCloudId(ich?.id) ? `${NEUE_ADRESSE}/rueckblick/${ich.id}/${r.startYear}` : null;
+}
 
-    if (datei && navigator.canShare?.({ files: [datei.file] })) {
-        try {
-            await navigator.share({ files: [datei.file], title: titel, text });
-            return 'geteilt';
-        } catch (e) {
-            if (e?.name === 'AbortError') return 'abgebrochen';
-            console.warn('[Saisonrückblick] Teilen mit Bild fehlgeschlagen', e);
-        }
-    }
-
-    if (navigator.share) {
-        try {
-            await navigator.share({ title: titel, text });
-            return 'geteilt';
-        } catch (e) {
-            if (e?.name === 'AbortError') return 'abgebrochen';
-            console.warn('[Saisonrückblick] Teilen fehlgeschlagen', e);
-        }
-    }
-
-    return await copyToClipboard(text) ? 'kopiert' : 'fehlgeschlagen';
+/** Teilt den Rückblick – möglichst als Bild (src/teilen.js). */
+function teilen(r, datei) {
+    return teilenMitBild({ datei, titel: `Meine Opernsaison ${r.label}`, text: shareText(r), protokoll: 'Saisonrückblick' });
 }

@@ -151,6 +151,8 @@ const APP_SHELL = [
     './src/components/StoryMusik.js',
     './src/components/Reiseweg.js',
     './src/components/Teilbild.js',
+    './src/teilen.js',
+    './src/abendTeilen.js',
     './src/data/musik.js',
     './src/data/bildnachweise.js',
     './src/data/bildnachweisRegeln.js',

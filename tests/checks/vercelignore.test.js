@@ -71,12 +71,15 @@ test('was nicht zur App gehört, ist auch wirklich ausgeschlossen', () => {
     }
 });
 
-test('vercel.json setzt die Sicherheits-Header und sonst nichts', () => {
+test('vercel.json setzt die Sicherheits-Header, leitet auf die Funktionen und sonst nichts', () => {
     // Sonst nichts, und das ist der Punkt: sobald dort ein buildCommand oder
     // ein framework stünde, behandelte Vercel das Projekt nicht mehr als die
-    // statische Seite, die es ist.
+    // statische Seite, die es ist. Seit 18.11.2026 kommen Weiterleitungen auf
+    // die beiden Funktionen in api/ dazu (geteilte Abende und Rückblicke) –
+    // nur dorthin.
     const config = JSON.parse(lies('vercel.json'));
-    assert.deepEqual(Object.keys(config).filter(k => k !== '$schema'), ['headers']);
+    assert.deepEqual(Object.keys(config).filter(k => k !== '$schema'), ['headers', 'rewrites']);
+    for (const r of config.rewrites) assert.match(r.destination, /^\/api\/[a-z]+\?/, r.destination);
 
     const gesetzt = config.headers[0].headers.map(h => h.key);
     for (const kopf of ['X-Content-Type-Options', 'Referrer-Policy', 'X-Frame-Options']) {

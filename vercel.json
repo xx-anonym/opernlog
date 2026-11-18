@@ -33,5 +33,15 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/abend/:id",
+      "destination": "/api/abend?id=:id"
+    },
+    {
+      "source": "/rueckblick/:nutzer/:jahr",
+      "destination": "/api/rueckblick?nutzer=:nutzer&jahr=:jahr"
+    }
   ]
 }

@@ -166,3 +166,18 @@ h2 {
     border-top: 1px solid var(--linie);
 }
 .fuss a { color: var(--sehr-leise); }
+
+/* Geteilte Abende und Rückblicke (api/abend.mjs, api/rueckblick.mjs). */
+.still { color: inherit; text-decoration: none; }
+.still:hover { text-decoration: underline; }
+.sterne { color: var(--gold-hell); letter-spacing: 2px; }
+.review {
+    margin: 18px 0;
+    padding: 4px 0 4px 18px;
+    border-left: 3px solid var(--rot-hell);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.5;
+    white-space: pre-line;
+}

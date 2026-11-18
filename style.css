@@ -1694,6 +1694,11 @@ h3 {
     border-top: 1px solid var(--border);
 }
 
+/* "Bild" und "Link" am eigenen Abend stehen rechts, abgesetzt von Gefällt-mir und Kommentaren. */
+.abend-teilen {
+    margin-left: auto;
+}
+
 .review-card__comments {
     margin-top: 12px;
     padding-top: 10px;
