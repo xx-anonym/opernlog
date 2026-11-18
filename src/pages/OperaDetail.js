@@ -20,6 +20,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
 import { tippen } from '../haptik.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
+import { ladeWerkText, arieZitat } from '../data/werkTexte.js';
 
 /** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
 function note(n) {
@@ -134,7 +135,7 @@ export function OperaDetailPage(operaId) {
           <span>${icon('music', { className: 'icon--meta' })}${composerLink(opera.composer)}</span>
           <span>${icon('calendar', { className: 'icon--meta' })}${opera.yearComposed}</span>
           <span>${icon('globe', { className: 'icon--meta' })}${opera.language}</span>
-          <span>${icon('layers', { className: 'icon--meta' })}${opera.acts} ${opera.acts === 1 ? 'Akt' : 'Akte'}</span>
+          <span data-meta="akte">${icon('layers', { className: 'icon--meta' })}${opera.acts} ${opera.acts === 1 ? 'Akt' : 'Akte'}</span>
           <span>${icon('bookOpen', { className: 'icon--meta' })}${opera.genre}</span>
         </div>
         <div class="detail-hero__rating" id="operaRating">
@@ -275,6 +276,7 @@ export function OperaDetailPage(operaId) {
     }
   }
   loadVisits();
+  werkTextEinsetzen(page, opera.id);
   bildnachweisImKopf(page.querySelector('.detail-hero'), opera.image);
 
   // Wishlist toggle
@@ -370,3 +372,36 @@ export function OperaDetailPage(operaId) {
 
   return page;
 }
+
+/**
+ * Handlung, Arien und Wissenswertes (src/data/werkTexte.js), sobald die Datei
+ * zum Werk geladen ist: die Dauer in den Kopf, der Rest hinter eine
+ * zugeklappte Zeile direkt vor den Reviews. Zugeklappt, damit die Reviews
+ * oben bleiben (Jonas, 19.11.2026, Variante A). Ohne Datei: nichts.
+ */
+async function werkTextEinsetzen(page, operaId) {
+  const t = await ladeWerkText(operaId);
+  if (!t) return;
+
+  const meta = page.querySelector('.detail-hero__meta');
+  const akte = meta?.querySelector('[data-meta="akte"]');
+  if (akte && t.dauer) akte.insertAdjacentHTML('afterend', `<span data-meta="dauer">${icon('clock', { className: 'icon--meta' })}${escapeHTML(t.dauer)}</span>`);
+
+  const reviews = page.querySelector('#reviewsHeading')?.closest('.detail-section');
+  if (!reviews) return;
+  const teil = (titel, inhalt) => inhalt ? `<p class="werk-text__unter">${titel}</p>${inhalt}` : '';
+  reviews.insertAdjacentHTML('beforebegin', `
+    <details class="werk-text">
+      <summary>Handlung, Arien &amp; Wissenswertes</summary>
+      <div class="werk-text__innen">
+        ${teil('Handlung <span class="werk-text__warnung">verrät das Ende</span>', `<ol class="werk-text__akte">${t.akte.map(a => `
+          <li><span class="werk-text__akt">${escapeHTML(a.titel)}${a.ort ? ` · ${escapeHTML(a.ort)}` : ''}</span>${escapeHTML(a.text)}</li>`).join('')}
+        </ol>`)}
+        ${teil('Bekannte Arien', t.arien.length ? `<ul class="werk-text__arien">${t.arien.map(a => `
+          <li><span class="werk-text__arie">${escapeHTML(arieZitat(a.titel))}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`).join('')}
+        </ul>` : '')}
+        ${teil('Gut zu wissen', t.wissen.length ? `<ul class="werk-text__wissen">${t.wissen.map(w => `<li>${escapeHTML(w)}</li>`).join('')}</ul>` : '')}
+      </div>
+    </details>`);
+}
+

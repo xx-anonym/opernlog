@@ -45,10 +45,15 @@
           <li data-datum="2027-05-22"><time datetime="2027-05-22T19:00">Sa, 22.05.2027 · 19:00–21:45</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/zar-und-zimmermann/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-30"><time datetime="2027-05-30T16:30">So, 30.05.2027 · 16:30–19:15</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/zar-und-zimmermann/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-03"><time datetime="2027-06-03T19:30">Do, 03.06.2027 · 19:30–22:15</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/zar-und-zimmermann/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>3</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-06-26"><time datetime="2027-06-26T19:00">Sa, 26.06.2027 · 19:00–21:45</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/zar-und-zimmermann/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-01"><time datetime="2027-07-01T19:30">Do, 01.07.2027 · 19:30–22:15</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/zar-und-zimmermann/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-07"><time datetime="2027-07-07T19:30">Mi, 07.07.2027 · 19:30–22:15</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/zar-und-zimmermann/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -64,6 +69,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

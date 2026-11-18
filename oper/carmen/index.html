@@ -45,6 +45,10 @@
           <li data-datum="2026-12-18"><time datetime="2026-12-18T19:00">Fr, 18.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/theater-bremen/">Theater Bremen</a> <span class="ort">Bremen</span> <a class="karten" href="https://theaterbremen.de/de_DE/programm/carmen.1398907#events" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-19"><time datetime="2026-12-19T18:00">Sa, 19.12.2026 · 18:00–21:15</time> <a href="https://opernlog.de/haus/theater-magdeburg/">Theater Magdeburg</a> <span class="ort">Magdeburg</span> <a class="karten" href="https://www.theater-magdeburg.de/inszenierungen/musiktheater/sz-20242025/premiere/carmen/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-23"><time datetime="2026-12-23T19:00">Mi, 23.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/theater-bremen/">Theater Bremen</a> <span class="ort">Bremen</span> <a class="karten" href="https://theaterbremen.de/de_DE/programm/carmen.1398907#events" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>75</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-25"><time datetime="2026-12-25T18:00">Fr, 25.12.2026 · 18:00</time> <a href="https://opernlog.de/haus/theater-bremen/">Theater Bremen</a> <span class="ort">Bremen</span> <a class="karten" href="https://theaterbremen.de/de_DE/programm/carmen.1398907#events" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-03"><time datetime="2027-01-03T16:00">So, 03.01.2027 · 16:00</time> <a href="https://opernlog.de/haus/oper-halle/">Oper Halle</a> <span class="ort">Halle (Saale)</span> <a class="karten" href="https://www.buehnen-halle.de/de/program/carmen/274489" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-09"><time datetime="2027-01-09T19:00">Sa, 09.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/oper-leipzig/">Oper Leipzig</a> <span class="ort">Leipzig</span> <a class="karten" href="https://www.oper-leipzig.de/de/programm/carmen/44" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -120,7 +124,8 @@
           <li data-datum="2027-07-11"><time datetime="2027-07-11T18:00">So, 11.07.2027 · 18:00</time> <a href="https://opernlog.de/haus/theater-wuppertal/">Oper Wuppertal</a> <span class="ort">Wuppertal</span> <a class="karten" href="https://www.oper-wuppertal.de/programm/detailansicht-produktion/1490-carmen" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-12"><time datetime="2027-07-12T19:00">Mo, 12.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/carmen/2027-04-21-1900-16268" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-17"><time datetime="2027-07-17T19:00">Sa, 17.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/theater-wuppertal/">Oper Wuppertal</a> <span class="ort">Wuppertal</span> <a class="karten" href="https://www.oper-wuppertal.de/programm/detailansicht-produktion/1490-carmen" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -136,6 +141,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

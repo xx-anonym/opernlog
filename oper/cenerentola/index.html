@@ -45,6 +45,10 @@
           <li data-datum="2026-12-11"><time datetime="2026-12-11T19:30">Fr, 11.12.2026 · 19:30–22:30</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/la-cenerentola-aschenputtel/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-11"><time datetime="2026-12-11T19:30">Fr, 11.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/theater-st-gallen/">Theater St. Gallen</a> <span class="ort">St. Gallen</span> <a class="karten" href="https://www.konzertundtheater.ch/programm/kalender/cenerentola/3777/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-20"><time datetime="2026-12-20T18:00">So, 20.12.2026 · 18:00–21:00</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/la-cenerentola-aschenputtel/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>55</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-21"><time datetime="2026-12-21T19:30">Mo, 21.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/theater-st-gallen/">Theater St. Gallen</a> <span class="ort">St. Gallen</span> <a class="karten" href="https://www.konzertundtheater.ch/programm/kalender/cenerentola/3777/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-27"><time datetime="2026-12-27T19:00">So, 27.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/theater-st-gallen/">Theater St. Gallen</a> <span class="ort">St. Gallen</span> <a class="karten" href="https://www.konzertundtheater.ch/programm/kalender/cenerentola/3777/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-04"><time datetime="2027-01-04T19:30">Mo, 04.01.2027 · 19:30</time> <a href="https://opernlog.de/haus/theater-st-gallen/">Theater St. Gallen</a> <span class="ort">St. Gallen</span> <a class="karten" href="https://www.konzertundtheater.ch/programm/kalender/cenerentola/3777/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -100,7 +104,8 @@
           <li data-datum="2027-06-20"><time datetime="2027-06-20T17:00">So, 20.06.2027 · 17:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/la-cenerentola/2027-06-13-1800-16320" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-21"><time datetime="2027-06-21T19:30">Mo, 21.06.2027 · 19:30–22:05</time> <a href="https://opernlog.de/haus/musiktheater-linz/">Musiktheater Linz</a> <span class="ort">Linz</span> <a class="karten" href="https://www.landestheater-linz.at/stuecke/detail?ref=202620272002&amp;spielzeit=2026/27" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-10"><time datetime="2027-07-10T19:30">Sa, 10.07.2027 · 19:30–22:05</time> <a href="https://opernlog.de/haus/musiktheater-linz/">Musiktheater Linz</a> <span class="ort">Linz</span> <a class="karten" href="https://www.landestheater-linz.at/stuecke/detail?ref=202620272002&amp;spielzeit=2026/27" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -116,6 +121,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

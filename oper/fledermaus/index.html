@@ -45,6 +45,10 @@
           <li data-datum="2026-11-22"><time datetime="2026-11-22T15:00">So, 22.11.2026 · 15:00</time> <a href="https://opernlog.de/haus/oper-leipzig/">Oper Leipzig</a> <span class="ort">Leipzig</span> <a class="karten" href="https://www.oper-leipzig.de/de/programm/die-fledermaus/657" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-22"><time datetime="2026-11-22T19:00">So, 22.11.2026 · 19:00–21:45</time> <a href="https://opernlog.de/haus/staatstheater-kassel/">Staatstheater Kassel</a> <span class="ort">Kassel</span> <a class="karten" href="https://www.staatstheater-kassel.de/play/diefledermaus-3262" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-27"><time datetime="2026-11-27T19:30">Fr, 27.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/staatstheater-darmstadt/">Staatstheater Darmstadt</a> <span class="ort">Darmstadt</span> <a class="karten" href="https://www.staatstheater-darmstadt.de/veranstaltungen/die-fledermaus.2376/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>100</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-11-27"><time datetime="2026-11-27T19:30">Fr, 27.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/theater-rostock/">Volkstheater Rostock</a> <span class="ort">Rostock</span> <a class="karten" href="https://www.volkstheater-rostock.de/spielplan/premieren/die-fledermaus/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-28"><time datetime="2026-11-28T19:00">Sa, 28.11.2026 · 19:00</time> <a href="https://opernlog.de/haus/theater-erfurt/">Theater Erfurt</a> <span class="ort">Erfurt</span> <a class="karten" href="https://www.theater-erfurt.de/stuecke/die-fledermaus" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-29"><time datetime="2026-11-29T16:00">So, 29.11.2026 · 16:00</time> <a href="https://opernlog.de/haus/anhaltisches-theater/">Anhaltisches Theater</a> <span class="ort">Dessau</span> <a class="karten" href="https://anhaltisches-theater.de/die_fledermaus" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -145,7 +149,8 @@
           <li data-datum="2027-07-27"><time datetime="2027-07-27">Di, 27.07.2027</time> <a href="https://opernlog.de/haus/oper-klosterneuburg/">Oper Klosterneuburg</a> <span class="ort">Klosterneuburg</span> <a class="karten" href="https://www.operklosterneuburg.at/?kat=21&amp;Die%20Fledermaus" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-29"><time datetime="2027-07-29">Do, 29.07.2027</time> <a href="https://opernlog.de/haus/oper-klosterneuburg/">Oper Klosterneuburg</a> <span class="ort">Klosterneuburg</span> <a class="karten" href="https://www.operklosterneuburg.at/?kat=21&amp;Die%20Fledermaus" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-01"><time datetime="2027-08-01">So, 01.08.2027</time> <a href="https://opernlog.de/haus/oper-klosterneuburg/">Oper Klosterneuburg</a> <span class="ort">Klosterneuburg</span> <a class="karten" href="https://www.operklosterneuburg.at/?kat=21&amp;Die%20Fledermaus" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -161,6 +166,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

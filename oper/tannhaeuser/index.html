@@ -45,6 +45,10 @@
           <li data-datum="2027-01-17"><time datetime="2027-01-17T17:00">So, 17.01.2027 · 17:00</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/tannhaeuser-2/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-22"><time datetime="2027-01-22T17:00">Fr, 22.01.2027 · 17:00</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/tannhaeuser-2/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-31"><time datetime="2027-01-31T15:30">So, 31.01.2027 · 15:30</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/tannhaeuser-2/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>36</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-02-06"><time datetime="2027-02-06T18:00">Sa, 06.02.2027 · 18:00</time> <a href="https://opernlog.de/haus/mainfranken-theater-wuerzburg/">Mainfranken Theater Würzburg</a> <span class="ort">Würzburg</span> <a class="karten" href="https://www.mainfrankentheater.de/programm/spielplan/tannhaeuser-und-der-saengerkrieg-auf-wartburg/3032/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-06"><time datetime="2027-02-06T17:00">Sa, 06.02.2027 · 17:00</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/tannhaeuser-2/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-10"><time datetime="2027-02-10T17:00">Mi, 10.02.2027 · 17:00</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/tannhaeuser-2/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -81,7 +85,8 @@
           <li data-datum="2027-08-11"><time datetime="2027-08-11T16:00">Mi, 11.08.2027 · 16:00</time> <a href="https://opernlog.de/haus/festspielhaus-bayreuth/">Bayreuther Festspielhaus</a> <span class="ort">Bayreuth</span> <a class="karten" href="https://www.bayreuther-festspiele.de/programm/auffuehrungen/tannhaeuser/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-16"><time datetime="2027-08-16T16:00">Mo, 16.08.2027 · 16:00</time> <a href="https://opernlog.de/haus/festspielhaus-bayreuth/">Bayreuther Festspielhaus</a> <span class="ort">Bayreuth</span> <a class="karten" href="https://www.bayreuther-festspiele.de/programm/auffuehrungen/tannhaeuser/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-21"><time datetime="2027-08-21T16:00">Sa, 21.08.2027 · 16:00</time> <a href="https://opernlog.de/haus/festspielhaus-bayreuth/">Bayreuther Festspielhaus</a> <span class="ort">Bayreuth</span> <a class="karten" href="https://www.bayreuther-festspiele.de/programm/auffuehrungen/tannhaeuser/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -97,6 +102,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

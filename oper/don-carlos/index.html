@@ -45,6 +45,10 @@
           <li data-datum="2026-11-27"><time datetime="2026-11-27T19:00">Fr, 27.11.2026 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/don-carlo/61447.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-01"><time datetime="2026-12-01T19:00">Di, 01.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/don-carlo/61447.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-11"><time datetime="2026-12-11T19:00">Fr, 11.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/don-carlo.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>20</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-27"><time datetime="2026-12-27T17:00">So, 27.12.2026 · 17:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/don-carlo.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-02"><time datetime="2027-01-02T19:00">Sa, 02.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/don-carlo.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-17"><time datetime="2027-01-17T17:00">So, 17.01.2027 · 17:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/don-carlo.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -65,7 +69,8 @@
           <li data-datum="2027-07-06"><time datetime="2027-07-06T19:00">Di, 06.07.2027 · 19:00–22:30</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-08"><time datetime="2027-07-08T19:00">Do, 08.07.2027 · 19:00–22:30</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-11"><time datetime="2027-07-11T18:00">So, 11.07.2027 · 18:00–21:30</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/don_carlo/2026-2027/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -81,6 +86,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

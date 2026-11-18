@@ -45,6 +45,10 @@
           <li data-datum="2026-11-21"><time datetime="2026-11-21T19:30">Sa, 21.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/buehnen-bern/">Bühnen Bern</a> <span class="ort">Bern</span> <a class="karten" href="https://buehnenbern.ch/spielplan/programm/don-giovanni/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-28"><time datetime="2026-11-28T19:00">Sa, 28.11.2026 · 19:00–22:15</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/don-giovanni/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-20"><time datetime="2026-12-20T18:00">So, 20.12.2026 · 18:00</time> <a href="https://opernlog.de/haus/buehnen-bern/">Bühnen Bern</a> <span class="ort">Bern</span> <a class="karten" href="https://buehnenbern.ch/spielplan/programm/don-giovanni/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>69</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-01-09"><time datetime="2027-01-09T19:30">Sa, 09.01.2027 · 19:30–23:00</time> <a href="https://opernlog.de/haus/staatstheater-meiningen/">Staatstheater Meiningen</a> <span class="ort">Meiningen</span> <a class="karten" href="https://www.staatstheater-meiningen.de/produktionen/don-giovanni.html?m=615" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-14"><time datetime="2027-01-14T19:30">Do, 14.01.2027 · 19:30–23:00</time> <a href="https://opernlog.de/haus/staatstheater-meiningen/">Staatstheater Meiningen</a> <span class="ort">Meiningen</span> <a class="karten" href="https://www.staatstheater-meiningen.de/produktionen/don-giovanni.html?m=615" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-15"><time datetime="2027-01-15T19:00">Fr, 15.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/don-giovanni/2027-01-15-1900-16189" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -114,7 +118,8 @@
           <li data-datum="2027-07-06"><time datetime="2027-07-06T19:00">Di, 06.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/don-giovanni.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-09"><time datetime="2027-07-09T19:00">Fr, 09.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/dongiovanni/60546.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-16"><time datetime="2027-07-16T19:00">Fr, 16.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/don-giovanni.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -130,6 +135,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

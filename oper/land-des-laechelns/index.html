@@ -45,6 +45,10 @@
           <li data-datum="2027-03-19"><time datetime="2027-03-19T19:30">Fr, 19.03.2027 · 19:30</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-20"><time datetime="2027-03-20T19:30">Sa, 20.03.2027 · 19:30</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-02"><time datetime="2027-04-02T19:30">Fr, 02.04.2027 · 19:30</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>7</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-04-03"><time datetime="2027-04-03T19:30">Sa, 03.04.2027 · 19:30</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-10"><time datetime="2027-04-10T15:00">Sa, 10.04.2027 · 15:00</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-16"><time datetime="2027-04-16T19:30">Fr, 16.04.2027 · 19:30</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -52,7 +56,8 @@
           <li data-datum="2027-04-23"><time datetime="2027-04-23T18:00">Fr, 23.04.2027 · 18:00</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-24"><time datetime="2027-04-24T15:00">Sa, 24.04.2027 · 15:00</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-29"><time datetime="2027-04-29T19:30">Do, 29.04.2027 · 19:30</time> <a href="https://opernlog.de/haus/buehne-baden/">Bühne Baden</a> <span class="ort">Baden bei Wien</span> <a class="karten" href="https://www.buehnebaden.at/de/produktionen/das-land-des-lachelns/6382" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -68,6 +73,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

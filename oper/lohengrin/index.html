@@ -45,6 +45,10 @@
           <li data-datum="2026-11-21"><time datetime="2026-11-21T18:00">Sa, 21.11.2026 · 18:00–22:30</time> <a href="https://opernlog.de/haus/staatstheater-mainz/">Staatstheater Mainz</a> <span class="ort">Mainz</span> <a class="karten" href="https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/lohengrin" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-10"><time datetime="2026-12-10T18:00">Do, 10.12.2026 · 18:00–22:30</time> <a href="https://opernlog.de/haus/musiktheater-linz/">Musiktheater Linz</a> <span class="ort">Linz</span> <a class="karten" href="https://www.landestheater-linz.at/stuecke/detail?ref=202620271997&amp;spielzeit=2026/27" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-17"><time datetime="2026-12-17T18:00">Do, 17.12.2026 · 18:00–22:30</time> <a href="https://opernlog.de/haus/musiktheater-linz/">Musiktheater Linz</a> <span class="ort">Linz</span> <a class="karten" href="https://www.landestheater-linz.at/stuecke/detail?ref=202620271997&amp;spielzeit=2026/27" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>53</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-20"><time datetime="2026-12-20T15:00">So, 20.12.2026 · 15:00–19:30</time> <a href="https://opernlog.de/haus/staatstheater-mainz/">Staatstheater Mainz</a> <span class="ort">Mainz</span> <a class="karten" href="https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/lohengrin" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-27"><time datetime="2026-12-27T18:00">So, 27.12.2026 · 18:00–22:30</time> <a href="https://opernlog.de/haus/staatstheater-mainz/">Staatstheater Mainz</a> <span class="ort">Mainz</span> <a class="karten" href="https://www.staatstheater-mainz.com/veranstaltungen/oper-26-27/lohengrin" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-29"><time datetime="2026-12-29T18:00">Di, 29.12.2026 · 18:00–22:30</time> <a href="https://opernlog.de/haus/musiktheater-linz/">Musiktheater Linz</a> <span class="ort">Linz</span> <a class="karten" href="https://www.landestheater-linz.at/stuecke/detail?ref=202620271997&amp;spielzeit=2026/27" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -98,7 +102,8 @@
           <li data-datum="2027-08-14"><time datetime="2027-08-14T16:00">Sa, 14.08.2027 · 16:00</time> <a href="https://opernlog.de/haus/festspielhaus-bayreuth/">Bayreuther Festspielhaus</a> <span class="ort">Bayreuth</span> <a class="karten" href="https://www.bayreuther-festspiele.de/programm/auffuehrungen/lohengrin/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-20"><time datetime="2027-08-20T16:00">Fr, 20.08.2027 · 16:00</time> <a href="https://opernlog.de/haus/festspielhaus-bayreuth/">Bayreuther Festspielhaus</a> <span class="ort">Bayreuth</span> <a class="karten" href="https://www.bayreuther-festspiele.de/programm/auffuehrungen/lohengrin/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-24"><time datetime="2027-08-24T16:00">Di, 24.08.2027 · 16:00</time> <a href="https://opernlog.de/haus/festspielhaus-bayreuth/">Bayreuther Festspielhaus</a> <span class="ort">Bayreuth</span> <a class="karten" href="https://www.bayreuther-festspiele.de/programm/auffuehrungen/lohengrin/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -114,6 +119,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

@@ -45,6 +45,10 @@
           <li data-datum="2026-12-04"><time datetime="2026-12-04T19:30">Fr, 04.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/theater-bonn/">Theater Bonn</a> <span class="ort">Bonn</span> <a class="karten" href="https://www.theater-bonn.de/de/programm/das-madchen-aus-dem-goldenen-westen/234664" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-25"><time datetime="2027-02-25T19:00">Do, 25.02.2027 · 19:00–21:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/la-fanciulla-del-west-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-28"><time datetime="2027-02-28T20:00">So, 28.02.2027 · 20:00–22:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/la-fanciulla-del-west-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>16</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-03-03"><time datetime="2027-03-03T19:00">Mi, 03.03.2027 · 19:00–21:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/la-fanciulla-del-west-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-07"><time datetime="2027-03-07T17:00">So, 07.03.2027 · 17:00</time> <a href="https://opernlog.de/haus/grand-theatre-geneve/">Grand Théâtre de Genève</a> <span class="ort">Genf</span> <a class="karten" href="https://www.gtg.ch/saison-26-27/la-fille-du-far-west/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-07"><time datetime="2027-03-07T13:00">So, 07.03.2027 · 13:00–15:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/la-fanciulla-del-west-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -61,7 +65,8 @@
           <li data-datum="2027-07-03"><time datetime="2027-07-03T19:00">Sa, 03.07.2027 · 19:00–21:45</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/la-fanciulla-del-west/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-11"><time datetime="2027-07-11T18:00">So, 11.07.2027 · 18:00–20:45</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/la-fanciulla-del-west/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-17"><time datetime="2027-07-17T19:00">Sa, 17.07.2027 · 19:00–21:45</time> <a href="https://opernlog.de/haus/theater-essen/">Aalto-Theater</a> <span class="ort">Essen</span> <a class="karten" href="https://www.theater-essen.de/programm/spielzeit-26-27/la-fanciulla-del-west/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -77,6 +82,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

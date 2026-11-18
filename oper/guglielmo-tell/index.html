@@ -45,10 +45,15 @@
           <li data-datum="2027-01-30"><time datetime="2027-01-30T19:00">Sa, 30.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/hamburgische-staatsoper/">Hamburgische Staatsoper</a> <span class="ort">Hamburg</span> <a class="karten" href="https://www.die-hamburgische-staatsoper.de/de/programm/oper/1940-guillaume-tell#tickets" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-02"><time datetime="2027-02-02T19:00">Di, 02.02.2027 · 19:00</time> <a href="https://opernlog.de/haus/hamburgische-staatsoper/">Hamburgische Staatsoper</a> <span class="ort">Hamburg</span> <a class="karten" href="https://www.die-hamburgische-staatsoper.de/de/programm/oper/1940-guillaume-tell#tickets" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-05"><time datetime="2027-02-05T19:00">Fr, 05.02.2027 · 19:00</time> <a href="https://opernlog.de/haus/hamburgische-staatsoper/">Hamburgische Staatsoper</a> <span class="ort">Hamburg</span> <a class="karten" href="https://www.die-hamburgische-staatsoper.de/de/programm/oper/1940-guillaume-tell#tickets" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>3</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-02-19"><time datetime="2027-02-19T19:00">Fr, 19.02.2027 · 19:00</time> <a href="https://opernlog.de/haus/hamburgische-staatsoper/">Hamburgische Staatsoper</a> <span class="ort">Hamburg</span> <a class="karten" href="https://www.die-hamburgische-staatsoper.de/de/programm/oper/1940-guillaume-tell#tickets" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-25"><time datetime="2027-02-25T19:00">Do, 25.02.2027 · 19:00</time> <a href="https://opernlog.de/haus/hamburgische-staatsoper/">Hamburgische Staatsoper</a> <span class="ort">Hamburg</span> <a class="karten" href="https://www.die-hamburgische-staatsoper.de/de/programm/oper/1940-guillaume-tell#tickets" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-04"><time datetime="2027-03-04T19:00">Do, 04.03.2027 · 19:00</time> <a href="https://opernlog.de/haus/hamburgische-staatsoper/">Hamburgische Staatsoper</a> <span class="ort">Hamburg</span> <a class="karten" href="https://www.die-hamburgische-staatsoper.de/de/programm/oper/1940-guillaume-tell#tickets" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -64,6 +69,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

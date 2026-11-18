@@ -45,6 +45,10 @@
           <li data-datum="2026-12-25"><time datetime="2026-12-25T18:00">Fr, 25.12.2026 · 18:00–20:15</time> <a href="https://opernlog.de/haus/theater-freiburg/">Theater Freiburg</a> <span class="ort">Freiburg</span> <a class="karten" href="https://theater.freiburg.de/de_DE/programm/werther.1404971" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-04"><time datetime="2027-01-04T19:00">Mo, 04.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/werther/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-07"><time datetime="2027-01-07T19:00">Do, 07.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/werther/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>18</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-01-10"><time datetime="2027-01-10T19:00">So, 10.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/werther/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-13"><time datetime="2027-01-13T19:00">Mi, 13.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/werther/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-16"><time datetime="2027-01-16T19:00">Sa, 16.01.2027 · 19:00</time> <a href="https://opernlog.de/haus/staatstheater-nuernberg/">Staatstheater Nürnberg</a> <span class="ort">Nürnberg</span> <a class="karten" href="https://staatstheater-nuernberg.de/spielplan-26-27/werther/16-01-2027/1900" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -63,7 +67,8 @@
           <li data-datum="2027-05-26"><time datetime="2027-05-26T19:00">Mi, 26.05.2027 · 19:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/werther" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-29"><time datetime="2027-05-29T18:00">Sa, 29.05.2027 · 18:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/werther" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-29"><time datetime="2027-06-29T19:00">Di, 29.06.2027 · 19:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/werther" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -79,6 +84,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

@@ -45,8 +45,13 @@
           <li data-datum="2026-12-11"><time datetime="2026-12-11T19:00">Fr, 11.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterwelt/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-23"><time datetime="2026-12-23T19:00">Mi, 23.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterwelt/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-28"><time datetime="2026-12-28T19:00">Mo, 28.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterwelt/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-          <li data-datum="2026-12-31"><time datetime="2026-12-31T18:00">Do, 31.12.2026 · 18:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterwelt/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
         </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>1</span> Termine zeigen</summary>
+          <ul class="termine">
+          <li data-datum="2026-12-31"><time datetime="2026-12-31T18:00">Do, 31.12.2026 · 18:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/orpheus-in-der-unterwelt/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -62,6 +67,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

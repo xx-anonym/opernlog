@@ -45,6 +45,10 @@
           <li data-datum="2027-03-19"><time datetime="2027-03-19T19:00">Fr, 19.03.2027 · 19:00–22:15</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/rinaldo-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-21"><time datetime="2027-03-21T11:00">So, 21.03.2027 · 11:00–12:00</time> <a href="https://opernlog.de/haus/theater-an-der-wien/">Theater an der Wien</a> <span class="ort">Wien</span> <a class="karten" href="https://www.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-23"><time datetime="2027-03-23T19:00">Di, 23.03.2027 · 19:00–22:15</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/rinaldo-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>15</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-03-25"><time datetime="2027-03-25T19:00">Do, 25.03.2027 · 19:00–22:15</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/rinaldo-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-27"><time datetime="2027-03-27T19:00">Sa, 27.03.2027 · 19:00–22:15</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/rinaldo-1/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-29"><time datetime="2027-03-29T18:00">Mo, 29.03.2027 · 18:00</time> <a href="https://opernlog.de/haus/oper-halle/">Oper Halle</a> <span class="ort">Halle (Saale)</span> <a class="karten" href="https://www.buehnen-halle.de/de/program/rinaldo/274614" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -60,7 +64,8 @@
           <li data-datum="2027-04-25"><time datetime="2027-04-25T19:00">So, 25.04.2027 · 19:00–22:30</time> <a href="https://opernlog.de/haus/theater-an-der-wien/">Theater an der Wien</a> <span class="ort">Wien</span> <a class="karten" href="https://www.theater-wien.at/de/spielplan/saison2026-27/1621/Rinaldo" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-09"><time datetime="2027-06-09T19:30">Mi, 09.06.2027 · 19:30</time> <a href="https://opernlog.de/haus/oper-halle/">Oper Halle</a> <span class="ort">Halle (Saale)</span> <a class="karten" href="https://www.buehnen-halle.de/de/program/rinaldo/274614" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-12"><time datetime="2027-06-12T19:30">Sa, 12.06.2027 · 19:30</time> <a href="https://opernlog.de/haus/oper-halle/">Oper Halle</a> <span class="ort">Halle (Saale)</span> <a class="karten" href="https://www.buehnen-halle.de/de/program/rinaldo/274614" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -76,6 +81,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

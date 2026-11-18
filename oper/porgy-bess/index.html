@@ -45,6 +45,10 @@
           <li data-datum="2027-05-12"><time datetime="2027-05-12T19:00">Mi, 12.05.2027 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-13"><time datetime="2027-05-13T19:00">Do, 13.05.2027 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-14"><time datetime="2027-05-14T19:00">Fr, 14.05.2027 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>16</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-05-15"><time datetime="2027-05-15T19:30">Sa, 15.05.2027 · 19:30</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-16"><time datetime="2027-05-16T19:00">So, 16.05.2027 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-17"><time datetime="2027-05-17T18:00">Mo, 17.05.2027 · 18:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -61,7 +65,8 @@
           <li data-datum="2027-05-30"><time datetime="2027-05-30T18:00">So, 30.05.2027 · 18:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-04"><time datetime="2027-06-04T19:00">Fr, 04.06.2027 · 19:00</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-05"><time datetime="2027-06-05T19:30">Sa, 05.06.2027 · 19:30</time> <a href="https://opernlog.de/haus/komische-oper-berlin/">Komische Oper Berlin</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.komische-oper-berlin.de/spielplan/a-z/porgy-and-bess/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -77,6 +82,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

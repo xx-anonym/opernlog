@@ -45,6 +45,10 @@
           <li data-datum="2026-11-19"><time datetime="2026-11-19T19:30">Do, 19.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/lelisir-damore/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-21"><time datetime="2026-11-21T19:30">Sa, 21.11.2026 · 19:30–22:05</time> <a href="https://opernlog.de/haus/luzerner-theater/">Luzerner Theater</a> <span class="ort">Luzern</span> <a class="karten" href="https://www.luzernertheater.ch/lelisirdamore" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-29"><time datetime="2026-11-29T17:00">So, 29.11.2026 · 17:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/lelisir-damore-der-liebestrank.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>41</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-04"><time datetime="2026-12-04T19:30">Fr, 04.12.2026 · 19:30–22:05</time> <a href="https://opernlog.de/haus/luzerner-theater/">Luzerner Theater</a> <span class="ort">Luzern</span> <a class="karten" href="https://www.luzernertheater.ch/lelisirdamore" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-17"><time datetime="2026-12-17T19:30">Do, 17.12.2026 · 19:30–22:05</time> <a href="https://opernlog.de/haus/luzerner-theater/">Luzerner Theater</a> <span class="ort">Luzern</span> <a class="karten" href="https://www.luzernertheater.ch/lelisirdamore" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-19"><time datetime="2026-12-19T19:00">Sa, 19.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/theater-aachen/">Theater Aachen</a> <span class="ort">Aachen</span> <a class="karten" href="https://www.theateraachen.de/de/produktionen/lelisir-damore-der-liebestrank.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -86,7 +90,8 @@
           <li data-datum="2027-05-17"><time datetime="2027-05-17T14:00">Mo, 17.05.2027 · 14:00–16:40</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/lelisir-damore/2026-2027/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-18"><time datetime="2027-05-18">Di, 18.05.2027</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/lelisir-damore/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-05-21"><time datetime="2027-05-21T19:00">Fr, 21.05.2027 · 19:00–21:40</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/lelisir-damore/2026-2027/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -102,6 +107,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

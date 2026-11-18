@@ -45,6 +45,10 @@
           <li data-datum="2027-03-25"><time datetime="2027-03-25T19:00">Do, 25.03.2027 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/greek-passion/62890.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-31"><time datetime="2027-03-31T19:00">Mi, 31.03.2027 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/greek-passion/62890.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-02"><time datetime="2027-04-02T19:00">Fr, 02.04.2027 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/greek-passion/62890.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>15</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-04-11"><time datetime="2027-04-11T19:00">So, 11.04.2027 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/greek-passion/62890.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-25"><time datetime="2027-04-25T18:00">So, 25.04.2027 · 18:00</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/the-greek-passion/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-04-29"><time datetime="2027-04-29T19:00">Do, 29.04.2027 · 19:00</time> <a href="https://opernlog.de/haus/oper-frankfurt/">Oper Frankfurt</a> <span class="ort">Frankfurt am Main</span> <a class="karten" href="https://oper-frankfurt.de/de/spielplan/the-greek-passion/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -60,7 +64,8 @@
           <li data-datum="2027-06-27"><time datetime="2027-06-27T15:30">So, 27.06.2027 · 15:30</time> <a href="https://opernlog.de/haus/theater-bremen/">Theater Bremen</a> <span class="ort">Bremen</span> <a class="karten" href="https://theaterbremen.de/de_DE/programm/the-greek-passion.1398921#events" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-01"><time datetime="2027-07-01T19:00">Do, 01.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/theater-bremen/">Theater Bremen</a> <span class="ort">Bremen</span> <a class="karten" href="https://theaterbremen.de/de_DE/programm/the-greek-passion.1398921#events" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-03"><time datetime="2027-07-03T19:00">Sa, 03.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/theater-bremen/">Theater Bremen</a> <span class="ort">Bremen</span> <a class="karten" href="https://theaterbremen.de/de_DE/programm/the-greek-passion.1398921#events" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -76,6 +81,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

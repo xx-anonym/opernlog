@@ -45,6 +45,10 @@
           <li data-datum="2026-12-12"><time datetime="2026-12-12T19:00">Sa, 12.12.2026 · 19:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/lustige-witwe/62893.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-27"><time datetime="2026-12-27T13:00">So, 27.12.2026 · 13:00–15:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/die-lustige-witwe/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-27"><time datetime="2026-12-27T14:00">So, 27.12.2026 · 14:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/lustige-witwe/62893.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>45</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-31"><time datetime="2026-12-31T18:00">Do, 31.12.2026 · 18:00–20:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/die-lustige-witwe/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-01"><time datetime="2027-01-01T16:00">Fr, 01.01.2027 · 16:00</time> <a href="https://opernlog.de/haus/semperoper/">Semperoper</a> <span class="ort">Dresden</span> <a class="karten" href="https://www.semperoper.de/spielplan/stuecke/stid/lustige-witwe/62893.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-01-03"><time datetime="2027-01-03T20:00">So, 03.01.2027 · 20:00–22:45</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/die-lustige-witwe/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -90,7 +94,8 @@
           <li data-datum="2027-08-22"><time datetime="2027-08-22T15:30">So, 22.08.2027 · 15:30</time> <a href="https://opernlog.de/haus/lehar-festival-bad-ischl/">Lehár Festival Bad Ischl</a> <span class="ort">Bad Ischl</span> <a class="karten" href="https://www.leharfestival.at/stuecke/2027-die-lustige-witwe/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-26"><time datetime="2027-08-26T15:30">Do, 26.08.2027 · 15:30</time> <a href="https://opernlog.de/haus/lehar-festival-bad-ischl/">Lehár Festival Bad Ischl</a> <span class="ort">Bad Ischl</span> <a class="karten" href="https://www.leharfestival.at/stuecke/2027-die-lustige-witwe/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-08-28"><time datetime="2027-08-28T19:30">Sa, 28.08.2027 · 19:30</time> <a href="https://opernlog.de/haus/lehar-festival-bad-ischl/">Lehár Festival Bad Ischl</a> <span class="ort">Bad Ischl</span> <a class="karten" href="https://www.leharfestival.at/stuecke/2027-die-lustige-witwe/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -106,6 +111,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

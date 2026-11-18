@@ -45,6 +45,10 @@
           <li data-datum="2026-12-18"><time datetime="2026-12-18T19:00">Fr, 18.12.2026 · 19:00–21:30</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/manon-lescaut/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-22"><time datetime="2026-12-22T19:00">Di, 22.12.2026 · 19:00–21:30</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/manon-lescaut/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-26"><time datetime="2026-12-26T13:00">Sa, 26.12.2026 · 13:00–15:30</time> <a href="https://opernlog.de/haus/opernhaus-zuerich/">Opernhaus Zürich</a> <span class="ort">Zürich</span> <a class="karten" href="https://www.opernhaus.ch/spielplan/kalendarium/manon-lescaut/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>24</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-02-13"><time datetime="2027-02-13T19:30">Sa, 13.02.2027 · 19:30–22:30</time> <a href="https://opernlog.de/haus/deutsche-oper-am-rhein/">Deutsche Oper am Rhein</a> <span class="ort">Düsseldorf / Duisburg</span> <a class="karten" href="https://www.operamrhein.de/spielplan/produktionen/manon-lescaut/?a=termine" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-02-20"><time datetime="2027-02-20T19:30">Sa, 20.02.2027 · 19:30–22:30</time> <a href="https://opernlog.de/haus/deutsche-oper-am-rhein/">Deutsche Oper am Rhein</a> <span class="ort">Düsseldorf / Duisburg</span> <a class="karten" href="https://www.operamrhein.de/spielplan/produktionen/manon-lescaut/?a=termine" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-06"><time datetime="2027-03-06T18:30">Sa, 06.03.2027 · 18:30–21:30</time> <a href="https://opernlog.de/haus/deutsche-oper-am-rhein/">Deutsche Oper am Rhein</a> <span class="ort">Düsseldorf / Duisburg</span> <a class="karten" href="https://www.operamrhein.de/spielplan/produktionen/manon-lescaut/?a=termine" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -69,7 +73,8 @@
           <li data-datum="2027-06-29"><time datetime="2027-06-29T19:30">Di, 29.06.2027 · 19:30</time> <a href="https://opernlog.de/haus/staatsoper-berlin/">Staatsoper Unter den Linden</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.staatsoper-berlin.de/de/veranstaltungen/manon-lescaut.27276/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-01"><time datetime="2027-07-01T19:30">Do, 01.07.2027 · 19:30</time> <a href="https://opernlog.de/haus/staatsoper-berlin/">Staatsoper Unter den Linden</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.staatsoper-berlin.de/de/veranstaltungen/manon-lescaut.27276/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-03"><time datetime="2027-07-03T19:30">Sa, 03.07.2027 · 19:30</time> <a href="https://opernlog.de/haus/staatsoper-berlin/">Staatsoper Unter den Linden</a> <span class="ort">Berlin</span> <a class="karten" href="https://www.staatsoper-berlin.de/de/veranstaltungen/manon-lescaut.27276/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -85,6 +90,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

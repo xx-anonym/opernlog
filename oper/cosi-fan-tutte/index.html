@@ -45,6 +45,10 @@
           <li data-datum="2026-11-26"><time datetime="2026-11-26T19:30">Do, 26.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/stadttheater-klagenfurt/">Stadttheater Klagenfurt</a> <span class="ort">Klagenfurt</span> <a class="karten" href="https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-28"><time datetime="2026-11-28T19:30">Sa, 28.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/stadttheater-klagenfurt/">Stadttheater Klagenfurt</a> <span class="ort">Klagenfurt</span> <a class="karten" href="https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-02"><time datetime="2026-12-02T19:30">Mi, 02.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/stadttheater-klagenfurt/">Stadttheater Klagenfurt</a> <span class="ort">Klagenfurt</span> <a class="karten" href="https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>56</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-12-05"><time datetime="2026-12-05T19:30">Sa, 05.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/stadttheater-klagenfurt/">Stadttheater Klagenfurt</a> <span class="ort">Klagenfurt</span> <a class="karten" href="https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-11"><time datetime="2026-12-11T19:30">Fr, 11.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/stadttheater-klagenfurt/">Stadttheater Klagenfurt</a> <span class="ort">Klagenfurt</span> <a class="karten" href="https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-18"><time datetime="2026-12-18T19:30">Fr, 18.12.2026 · 19:30</time> <a href="https://opernlog.de/haus/stadttheater-klagenfurt/">Stadttheater Klagenfurt</a> <span class="ort">Klagenfurt</span> <a class="karten" href="https://www.stadttheater-klagenfurt.at/produktionen/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -101,7 +105,8 @@
           <li data-datum="2027-06-13"><time datetime="2027-06-13T17:00">So, 13.06.2027 · 17:00</time> <a href="https://opernlog.de/haus/volksoper-wien/">Volksoper Wien</a> <span class="ort">Wien</span> <a class="karten" href="https://www.volksoper.at/produktion/cosi-fan-tutte-ossia-la-scuola-degli-amanti-2027.de.html" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-19"><time datetime="2027-06-19T19:00">Sa, 19.06.2027 · 19:00–22:15</time> <a href="https://opernlog.de/haus/oper-graz/">Oper Graz</a> <span class="ort">Graz</span> <a class="karten" href="https://oper-graz.buehnen-graz.com/produktion/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-24"><time datetime="2027-06-24T19:00">Do, 24.06.2027 · 19:00–22:15</time> <a href="https://opernlog.de/haus/oper-graz/">Oper Graz</a> <span class="ort">Graz</span> <a class="karten" href="https://oper-graz.buehnen-graz.com/produktion/cosi-fan-tutte/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -117,6 +122,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

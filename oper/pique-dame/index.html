@@ -45,11 +45,16 @@
           <li data-datum="2027-03-15"><time datetime="2027-03-15">Mo, 15.03.2027</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/pique-dame/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-18"><time datetime="2027-03-18">Do, 18.03.2027</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/pique-dame/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-21"><time datetime="2027-03-21">So, 21.03.2027</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/pique-dame/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>4</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2027-03-24"><time datetime="2027-03-24">Mi, 24.03.2027</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/pique-dame/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-03-27"><time datetime="2027-03-27">Sa, 27.03.2027</time> <a href="https://opernlog.de/haus/wiener-staatsoper/">Wiener Staatsoper</a> <span class="ort">Wien</span> <a class="karten" href="https://www.wiener-staatsoper.at/kalender/detail/pique-dame/#dates" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-03"><time datetime="2027-07-03T19:00">Sa, 03.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/pique-dame/2027-07-03-1900-16332" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-07-06"><time datetime="2027-07-06T19:00">Di, 06.07.2027 · 19:00</time> <a href="https://opernlog.de/haus/bayerische-staatsoper/">Bayerische Staatsoper</a> <span class="ort">München</span> <a class="karten" href="https://www.staatsoper.de/stuecke/pique-dame/2027-07-03-1900-16332" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -65,6 +70,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

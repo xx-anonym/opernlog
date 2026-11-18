@@ -45,6 +45,10 @@
           <li data-datum="2026-11-21"><time datetime="2026-11-21">Sa, 21.11.2026</time> <a href="https://opernlog.de/haus/theater-basel/">Theater Basel</a> <span class="ort">Basel</span> <a class="karten" href="https://www.theater-basel.ch/de/figaro" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-27"><time datetime="2026-11-27T19:30">Fr, 27.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/theater-passau/">Landestheater Niederbayern</a> <span class="ort">Passau / Landshut</span> <a class="karten" href="https://www.landestheater-niederbayern.de/event/le-nozze-di-figaro/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-11-28"><time datetime="2026-11-28T19:30">Sa, 28.11.2026 · 19:30</time> <a href="https://opernlog.de/haus/theater-passau/">Landestheater Niederbayern</a> <span class="ort">Passau / Landshut</span> <a class="karten" href="https://www.landestheater-niederbayern.de/event/le-nozze-di-figaro/" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
+        </ul>
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>93</span> Termine zeigen</summary>
+          <ul class="termine">
           <li data-datum="2026-11-29"><time datetime="2026-11-29T17:00">So, 29.11.2026 · 17:00</time> <a href="https://opernlog.de/haus/oper-leipzig/">Oper Leipzig</a> <span class="ort">Leipzig</span> <a class="karten" href="https://www.oper-leipzig.de/de/programm/figaros-hochzeit/812" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-05"><time datetime="2026-12-05T16:00">Sa, 05.12.2026 · 16:00</time> <a href="https://opernlog.de/haus/oper-halle/">Oper Halle</a> <span class="ort">Halle (Saale)</span> <a class="karten" href="https://www.buehnen-halle.de/de/program/die-hochzeit-des-figaro/274417" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2026-12-05"><time datetime="2026-12-05T18:00">Sa, 05.12.2026 · 18:00</time> <a href="https://opernlog.de/haus/oper-leipzig/">Oper Leipzig</a> <span class="ort">Leipzig</span> <a class="karten" href="https://www.oper-leipzig.de/de/programm/figaros-hochzeit/812" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
@@ -138,7 +142,8 @@
           <li data-datum="2027-06-25"><time datetime="2027-06-25T19:30">Fr, 25.06.2027 · 19:30</time> <a href="https://opernlog.de/haus/oper-chemnitz/">Oper Chemnitz</a> <span class="ort">Chemnitz</span> <a class="karten" href="https://www.theater-chemnitz.de/spielplan/detailseite/le-nozze-di-figaro" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-27"><time datetime="2027-06-27T18:30">So, 27.06.2027 · 18:30–22:00</time> <a href="https://opernlog.de/haus/deutsche-oper-am-rhein/">Deutsche Oper am Rhein</a> <span class="ort">Düsseldorf / Duisburg</span> <a class="karten" href="https://www.operamrhein.de/spielplan/produktionen/le-nozze-di-figaro/?a=termine" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
           <li data-datum="2027-06-30"><time datetime="2027-06-30T19:30">Mi, 30.06.2027 · 19:30</time> <a href="https://opernlog.de/haus/oper-chemnitz/">Oper Chemnitz</a> <span class="ort">Chemnitz</span> <a class="karten" href="https://www.theater-chemnitz.de/spielplan/detailseite/le-nozze-di-figaro" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>
-        </ul>
+          </ul>
+        </details>
         <p class="klein">Stand des Spielplans: 14. November 2026. Maßgeblich ist die Seite des Hauses.</p>
       </section>
     </article>
@@ -154,6 +159,16 @@
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < 5 && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>

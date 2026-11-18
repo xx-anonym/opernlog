@@ -31,6 +31,7 @@ import { composers, composerByName } from '../../src/data/composers.js';
 import { spielplan, SPIELPLAN_STAND } from '../../src/data/spielplan.js';
 import { BILDNACHWEISE } from '../../src/data/bildnachweise.js';
 import { dateinameAus, nachweisZeile } from '../../src/data/bildnachweisRegeln.js';
+import { WERKTEXT_ORDNER, werkTextFehler, arieZitat } from '../../src/data/werkTexte.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const SEITE = 'https://opernlog.de';
@@ -136,6 +137,16 @@ ${inhalt}
       var heute = new Date(); heute.setHours(0, 0, 0, 0);
       var iso = heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0') + '-' + String(heute.getDate()).padStart(2, '0');
       document.querySelectorAll('[data-datum]').forEach(function (el) { if (el.getAttribute('data-datum') < iso) el.remove(); });
+      // Vorn stehen die nächsten Termine, der Rest ist eingeklappt: was vorn
+      // vorbei ist, rückt von hinten nach.
+      document.querySelectorAll('[data-termine]').forEach(function (sek) {
+        var vorn = sek.querySelector('ul.termine'), mehr = sek.querySelector('details.mehr');
+        if (!vorn || !mehr) return;
+        var hinten = mehr.querySelector('ul.termine');
+        while (vorn.children.length < ${TERMINE_VORN} && hinten.firstElementChild) vorn.appendChild(hinten.firstElementChild);
+        if (!hinten.children.length) mehr.remove();
+        else mehr.querySelector('[data-anzahl]').textContent = hinten.children.length;
+      });
       document.querySelectorAll('[data-termine]').forEach(function (el) { if (!el.querySelector('[data-datum]')) el.remove(); });
     })();
   </script>
@@ -145,6 +156,10 @@ ${inhalt}
 }
 
 // ── Termine ───────────────────────────────────────────────────────────────
+
+// So viele Termine stehen offen da, der Rest hinter "Weitere … Termine zeigen".
+// Vorher stand die ganze Liste offen – bei Tosca 86 Zeilen, vor allem anderen.
+export const TERMINE_VORN = 5;
 
 /** Kommende Termine je Werk und je Haus, sortiert. [{werk, haus, datum, zeit, url}] */
 export function termineAb(stand, liste = spielplan) {
@@ -198,46 +213,134 @@ function terminZeile(t, { werk, haus }, zeigen) {
 
 // ── Die Seiten ────────────────────────────────────────────────────────────
 
-export function werkSeite(werk, { termine, haeuser, stand }) {
-    const meine = termine.filter(t => t.werk === werk.id && haeuser.has(t.haus));
-    const orte = [...new Set(meine.map(t => t.haus))];
-    const komponist = werk.composer ? composerByName(werk.composer) : null;
-    const zeilen = [
-        werk.composer && `<dt>Musik</dt><dd>${komponist ? `<a href="${adresse('komponist', komponist.id)}">${maske(werk.composer)}</a>` : maske(werk.composer)}</dd>`,
-        werk.librettist && `<dt>Libretto</dt><dd>${maske(werk.librettist)}</dd>`,
-        werk.yearComposed && `<dt>Uraufführung</dt><dd>${maske(werk.yearComposed)}</dd>`,
-        werk.language && `<dt>Sprache</dt><dd>${maske(werk.language)}</dd>`,
-        werk.acts && `<dt>Akte</dt><dd>${maske(werk.acts)}</dd>`,
-    ].filter(Boolean).join('');
-    const beschreibung = meine.length
-        ? `${werk.title}${werk.composer ? ` von ${werk.composer}` : ''}: ${meine.length} ${meine.length === 1 ? 'Termin' : 'Termine'} an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'} in Deutschland, Österreich und der Schweiz – Spielplan und Karten.`
-        : `${werk.title}${werk.composer ? ` von ${werk.composer}` : ''}: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.`;
-    const termineTeil = meine.length
-        ? `
+const MONATSNAME = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+/** "14. Januar 1900" oder "1900" */
+const datumLang = (d) => {
+    const [j, m, t] = String(d).split('-').map(Number);
+    return m ? `${t}. ${MONATSNAME[m - 1]} ${j}` : String(j);
+};
+
+/** Die Termine eines Werks: die nächsten offen, der Rest eingeklappt. */
+function werkTermine(meine, werk, haeuser, stand) {
+    const zeile = t => terminZeile(t, { werk, haus: haeuser.get(t.haus) }, 'haus');
+    const vorn = meine.slice(0, TERMINE_VORN);
+    const hinten = meine.slice(TERMINE_VORN);
+    return `
       <section data-termine>
         <h2>Aktuelle Termine</h2>
         <ul class="termine">
-${meine.map(t => terminZeile(t, { werk, haus: haeuser.get(t.haus) }, 'haus')).join('\n')}
-        </ul>
+${vorn.map(zeile).join('\n')}
+        </ul>${hinten.length ? `
+        <details class="mehr">
+          <summary>Weitere <span data-anzahl>${hinten.length}</span> Termine zeigen</summary>
+          <ul class="termine">
+${hinten.map(zeile).join('\n')}
+          </ul>
+        </details>` : ''}
         <p class="klein">Stand des Spielplans: ${standText(stand)}. Maßgeblich ist die Seite des Hauses.</p>
-      </section>`
+      </section>`;
+}
+
+/** Steckbrief, Anriss, Handlung, Arien, Wissenswertes – aus daten/werke/<id>.json. */
+function werkTextTeile(werk, text) {
+    const ua = text.urauffuehrung;
+    const stadt = ua?.ort ? ua.ort.split(',').pop().trim() : '';
+    const steckbrief = [
+        text.dauer && `${text.dauer} Musik`,
+        werk.acts && `${werk.acts} ${werk.acts === 1 ? 'Akt' : 'Akte'}`,
+        werk.language,
+        ua && `Uraufführung ${String(ua.datum).slice(0, 4)}${stadt ? `, ${stadt}` : ''}`,
+    ].filter(Boolean);
+    return {
+        oben: `
+      <ul class="steckbrief">${steckbrief.map(x => `<li>${maske(x)}</li>`).join('')}</ul>
+      <p class="anriss">${maske(text.anriss)}</p>`,
+        unten: `
+      <section>
+        <h2>Die Handlung</h2>
+        <ol class="akte">
+${text.akte.map(a => `          <li><span class="akt">${maske(a.titel)}${a.ort ? ` · ${maske(a.ort)}` : ''}</span>
+            ${maske(a.text)}</li>`).join('\n')}
+        </ol>
+      </section>${text.arien.length ? `
+      <section>
+        <h2>Bekannte Arien</h2>
+        <ul class="arien">
+${text.arien.map(a => `          <li><span class="arie">${maske(arieZitat(a.titel))}</span><span class="wer">${maske(a.wer)} · ${maske(a.akt)}</span>${a.was ? `<span class="was">${maske(a.was)}</span>` : ''}</li>`).join('\n')}
+        </ul>
+      </section>` : ''}${text.wissen.length ? `
+      <section>
+        <h2>Gut zu wissen</h2>
+        <ul class="wissen">
+${text.wissen.map(w => `          <li>${maske(w)}</li>`).join('\n')}
+        </ul>
+      </section>` : ''}`,
+        urauffuehrung: ua ? `${datumLang(ua.datum)}${ua.ort ? `, ${ua.ort}` : ''}` : null,
+    };
+}
+
+export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
+    const meine = termine.filter(t => t.werk === werk.id && haeuser.has(t.haus));
+    const orte = [...new Set(meine.map(t => t.haus))];
+    const komponist = werk.composer ? composerByName(werk.composer) : null;
+    const teile = text ? werkTextTeile(werk, text) : null;
+    const zeilen = [
+        werk.composer && `<dt>Musik</dt><dd>${komponist ? `<a href="${adresse('komponist', komponist.id)}">${maske(werk.composer)}</a>` : maske(werk.composer)}</dd>`,
+        werk.librettist && `<dt>Libretto</dt><dd>${maske(werk.librettist)}</dd>`,
+        (teile?.urauffuehrung || werk.yearComposed) && `<dt>Uraufführung</dt><dd>${maske(teile?.urauffuehrung || werk.yearComposed)}</dd>`,
+        werk.language && `<dt>Sprache</dt><dd>${maske(werk.language)}</dd>`,
+        werk.acts && `<dt>Akte</dt><dd>${maske(werk.acts)}</dd>`,
+    ].filter(Boolean).join('');
+    const von = werk.composer ? ` von ${werk.composer}` : '';
+    const terminSatz = meine.length
+        ? `${meine.length} ${meine.length === 1 ? 'Termin' : 'Termine'} an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'} in Deutschland, Österreich und der Schweiz`
+        : '';
+    const beschreibung = text
+        ? `${werk.title}${von}: Handlung${text.arien.length ? `, bekannte Arien wie ${arieZitat(text.arien[0].titel)}` : ''}${terminSatz ? ` und ${terminSatz}` : ''}.`
+        : meine.length
+            ? `${werk.title}${von}: ${terminSatz} – Spielplan und Karten.`
+            : `${werk.title}${von}: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.`;
+    const termineTeil = meine.length
+        ? werkTermine(meine, werk, haeuser, stand)
         : `
       <p class="klein">Gerade kennt OpernLog keine Termine. Spielpläne von über 90 Häusern werden jeden Monat neu gelesen.</p>`;
+    const unterzeile = werk.genre
+        ? `<p class="unterzeile">${maske(werk.genre)}${werk.composer ? ` von ${maske(werk.composer)}` : ''}</p>`
+        : (werk.composer ? `<p class="unterzeile">von ${maske(werk.composer)}</p>` : '');
     return seite({
-        titel: `${werk.title}${werk.composer ? ` (${composerKurz(werk.composer)})` : ''} – Termine und Spielplan | OpernLog`,
+        titel: `${werk.title}${werk.composer ? ` (${composerKurz(werk.composer)})` : ''} – ${text ? 'Handlung, Arien und Termine' : 'Termine und Spielplan'} | OpernLog`,
         beschreibung: beschreibung.slice(0, 300),
         url: adresse('werk', werk.id),
         bild: werk.image,
         app: appAdresse.werk(werk.id),
         daten: meine.slice(0, 50).map(t => ereignis(t, werk, haeuser.get(t.haus))),
-        inhalt: `
+        inhalt: teile ? `
     <article>
       <h1>${maske(werk.title)}</h1>
-      ${werk.genre ? `<p class="unterzeile">${maske(werk.genre)}${werk.composer ? ` von ${maske(werk.composer)}` : ''}</p>` : (werk.composer ? `<p class="unterzeile">von ${maske(werk.composer)}</p>` : '')}${bildTeil(werk.image, werk.title)}
+      ${unterzeile}${teile.oben}${termineTeil}${teile.unten}${bildTeil(werk.image, werk.title)}
+      ${zeilen ? `<dl class="fakten">${zeilen}</dl>` : ''}
+    </article>` : `
+    <article>
+      <h1>${maske(werk.title)}</h1>
+      ${unterzeile}${bildTeil(werk.image, werk.title)}
       ${werk.description ? `<p>${maske(werk.description)}</p>` : ''}
       ${zeilen ? `<dl class="fakten">${zeilen}</dl>` : ''}${termineTeil}
     </article>`,
     });
+}
+
+/** Alle Werktexte aus daten/werke/ – fehlerhafte brechen den Lauf ab. */
+export function werkTexteLesen(wurzel = WURZEL) {
+    const ordner = path.join(wurzel, WERKTEXT_ORDNER);
+    const texte = new Map();
+    if (!fs.existsSync(ordner)) return texte;
+    for (const datei of fs.readdirSync(ordner).filter(d => d.endsWith('.json')).sort()) {
+        const t = JSON.parse(fs.readFileSync(path.join(ordner, datei), 'utf8'));
+        const fehler = werkTextFehler(t);
+        if (fehler.length) throw new Error(`${WERKTEXT_ORDNER}/${datei}: ${fehler.join(', ')}`);
+        texte.set(datei.replace(/\.json$/, ''), t);
+    }
+    return texte;
 }
 
 /** "Puccini" aus "Giacomo Puccini" – für den Titel der Seite. */
@@ -338,7 +441,7 @@ const nachName = (a, b) => a.name.localeCompare(b.name, 'de');
 /**
  * Alle Seiten: Map von Pfad (relativ zur Wurzel) auf HTML, dazu die Sitemap.
  */
-export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponisten = composers, plan = spielplan, stand = SPIELPLAN_STAND } = {}) {
+export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponisten = composers, plan = spielplan, stand = SPIELPLAN_STAND, texte = werkTexteLesen() } = {}) {
     const termine = termineAb(stand, plan);
     const werkMap = new Map(werke.map(w => [w.id, w]));
     const hausMap = new Map(haeuser.map(h => [h.id, h]));
@@ -348,7 +451,7 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
     const komponistenMitWerken = komponisten.filter(k => werkeVon.has(k.name));
 
     const seiten = new Map();
-    for (const w of werke) seiten.set(`${ORDNER.werk}/${w.id}/index.html`, werkSeite(w, { termine, haeuser: hausMap, stand }));
+    for (const w of werke) seiten.set(`${ORDNER.werk}/${w.id}/index.html`, werkSeite(w, { termine, haeuser: hausMap, stand, text: texte.get(w.id) || null }));
     for (const h of haeuser) seiten.set(`${ORDNER.haus}/${h.id}/index.html`, hausSeite(h, { termine, werke: werkMap, stand }));
     for (const k of komponistenMitWerken) seiten.set(`${ORDNER.komponist}/${k.id}/index.html`, komponistSeite(k, { werkeVon, termine }));
 
