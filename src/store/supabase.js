@@ -75,6 +75,8 @@ function userMessage(cause) {
         return 'Dafür fehlt die Berechtigung.';
     if (code === 'NO_ROWS_AFFECTED')
         return 'Der Eintrag wurde nicht gefunden oder darf nicht geändert werden.';
+    if (/Momentaufnahmen im Jahr/i.test(msg))
+        return 'Für dieses Jahr sind alle Fotos vergeben.';
     if (code === '23505' || /duplicate key/i.test(msg))
         return 'Das gibt es bereits.';
     if (/failed to fetch|networkerror|network error/i.test(msg))
@@ -1476,6 +1478,18 @@ export async function addAndenkenCloud(visitId, id, { blob, vorschau: vorschauBl
         await aufraeumen();
         throw e;
     }
+}
+
+/**
+ * Wie viele Fotos darf ich in diesem Kalenderjahr noch hochladen? null heißt:
+ * keine Grenze (supabase/migrations/fotogrenze_migration.sql). Die Grenze
+ * setzt die Datenbank durch; das hier ist nur für die Anzeige.
+ */
+export async function getAndenkenKontingentCloud() {
+    const { data, error } = await getSupabase().rpc('andenken_kontingent');
+    if (error) throw new SupabaseError('Fotos zählen', error);
+    const frei = data?.frei;
+    return Number.isInteger(frei) ? frei : null;
 }
 
 export async function setAndenkenOeffentlichCloud(id, oeffentlich) {

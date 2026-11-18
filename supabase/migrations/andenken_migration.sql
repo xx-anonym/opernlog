@@ -109,6 +109,9 @@ VALUES ('andenken', 'andenken', false, 2097152, ARRAY['image/jpeg'])
 ON CONFLICT (id) DO UPDATE
     SET public = false, file_size_limit = 2097152, allowed_mime_types = ARRAY['image/jpeg'];
 
+-- Seit 18.11.2026 ersetzt fotogrenze_migration.sql diese Regel um die
+-- Jahresgrenze. Wer diese Datei erneut ausführt, muss jene danach auch
+-- ausführen, sonst fällt die Grenze beim Hochladen weg.
 DROP POLICY IF EXISTS "Andenken hochladen" ON storage.objects;
 CREATE POLICY "Andenken hochladen" ON storage.objects FOR INSERT TO authenticated
     WITH CHECK (bucket_id = 'andenken' AND (storage.foldername(name))[1] = (SELECT auth.uid())::text);

@@ -1108,6 +1108,13 @@ h3 {
     display: none;
 }
 
+/* Hinweis zur Jahresgrenze für Fotos, erst ab drei freien Plätzen. */
+.andenken__grenze {
+    margin: 4px 0 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
 .andenken__kopf {
     display: flex;
     align-items: center;

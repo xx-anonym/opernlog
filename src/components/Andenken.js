@@ -25,6 +25,40 @@ import { escapeHTML } from '../utils.js';
 import { fotoVorbereiten } from '../bild.js';
 
 export const HOECHSTENS_JE_ABEND = 6;
+
+// Höchstens so viele Fotos je Kalenderjahr (seit 18.11.2026), außer für
+// "Patreon"-Nutzer (supabase/migrations/fotogrenze_migration.sql). Wer die
+// Ausnahme hat, sieht von der Grenze nichts – auch nicht, dass es sie gibt.
+// Die Datenbank setzt die Grenze durch; die App zeigt sie nur an.
+export const IM_JAHR = 10;
+// Ab so wenigen freien Plätzen steht ein Hinweis da, vorher nicht.
+const HINWEIS_AB = 3;
+
+/** Wie viele Fotos jetzt noch gehen: je Abend und im Jahr (null = keine Jahresgrenze). */
+export function freiePlaetze(amAbend, freiImJahr) {
+    const abend = Math.max(0, HOECHSTENS_JE_ABEND - amAbend);
+    return freiImJahr == null ? abend : Math.min(abend, Math.max(0, freiImJahr));
+}
+
+/** Die Hinweiszeile zur Jahresgrenze, oder '' solange noch genug frei ist. */
+export function grenzeHinweis(freiImJahr, jahr = new Date().getFullYear()) {
+    if (freiImJahr == null || freiImJahr > HINWEIS_AB) return '';
+    if (freiImJahr <= 0) return `Für ${jahr} sind alle ${IM_JAHR} Fotos vergeben.`;
+    return `Noch ${freiImJahr} ${freiImJahr === 1 ? 'Foto' : 'Fotos'} in ${jahr}.`;
+}
+
+/** Mehr gewählt, als Platz ist: sagen, welche Grenze greift. */
+function zuVieleMeldung(amAbend, freiImJahr) {
+    const jahrGreift = freiImJahr != null && freiImJahr < HOECHSTENS_JE_ABEND - amAbend;
+    return jahrGreift
+        ? `In ${new Date().getFullYear()} ${freiImJahr === 1 ? 'geht noch ein Foto' : `gehen noch ${freiImJahr} Fotos`}`
+        : `Höchstens ${HOECHSTENS_JE_ABEND} Fotos je Abend`;
+}
+
+const hinweisHTML = frei => {
+    const text = grenzeHinweis(frei);
+    return text ? `<p class="andenken__grenze">${text}</p>` : '';
+};
 // Im Feed höchstens so viele Kacheln; die übrigen zählt ein "+2" auf der letzten.
 const IM_FEED = 3;
 
@@ -170,9 +204,10 @@ export function andenkenBereich(visit) {
         .some(v => String(v.id) === String(visit.id) && !v.ausstehend);
     let fotos = [];
     let laedt = false;
+    let frei = null;   // im Jahr, null = keine Grenze
 
     function zeichnen() {
-        const platz = HOECHSTENS_JE_ABEND - fotos.length;
+        const platz = freiePlaetze(fotos.length, frei);
         bereich.hidden = !eigen && !fotos.length;
         bereich.innerHTML = `
           <div class="andenken__kopf">
@@ -183,8 +218,14 @@ export function andenkenBereich(visit) {
               ${laedt ? 'Lädt …' : `${icon('plus')}Foto`}
             </label>` : ''}
           </div>
+          ${eigen && fotos.length < HOECHSTENS_JE_ABEND ? hinweisHTML(frei) : ''}
           ${fotos.length ? mosaikHTML(fotos, { eigen }) : ''}`;
     }
+
+    const kontingent = async () => {
+        frei = await store.andenkenKontingent();
+        zeichnen();
+    };
 
     const aktionen = eigen ? {
         async umschalten(f) {
@@ -199,6 +240,8 @@ export function andenkenBereich(visit) {
             const ok = await runWithFeedback(() => store.andenkenLoeschen(f), { failure: 'Foto ließ sich nicht löschen' });
             if (ok) fotos = fotos.filter(x => x.id !== f.id);
             zeichnen();
+            // Ein Foto aus diesem Jahr macht wieder Platz.
+            if (ok) kontingent();
             return ok;
         },
     } : null;
@@ -213,22 +256,26 @@ export function andenkenBereich(visit) {
     bereich.addEventListener('change', async (e) => {
         const feld = e.target.closest('.andenken__neu input');
         if (!feld || !feld.files?.length) return;
-        const platz = HOECHSTENS_JE_ABEND - fotos.length;
+        const platz = freiePlaetze(fotos.length, frei);
         const dateien = [...feld.files].slice(0, platz);
-        if (feld.files.length > platz) showToast(`Höchstens ${HOECHSTENS_JE_ABEND} Fotos je Abend`);
+        if (feld.files.length > platz) showToast(zuVieleMeldung(fotos.length, frei));
         laedt = true;
         zeichnen();
         for (const datei of dateien) {
-            await runWithFeedback(async () => {
+            const ok = await runWithFeedback(async () => {
                 const foto = await store.andenkenHinzufuegen(visit.id, await fotoVorbereiten(datei));
                 fotos = [...fotos, foto];
             }, { failure: 'Foto ließ sich nicht hochladen' });
+            if (!ok) break;
         }
         laedt = false;
-        zeichnen();
+        await kontingent();
     });
 
-    if (eigen) zeichnen();
+    if (eigen) {
+        zeichnen();
+        kontingent();
+    }
     store.getAndenken(visit.id).then((geladen) => {
         fotos = geladen;
         zeichnen();
@@ -290,9 +337,12 @@ export function andenkenAuswahl() {
     feld.className = 'form-group andenken andenken--auswahl';
     let fotos = [];   // { blob, vorschau, breite, hoehe, oeffentlich, anzeige }
     let laedt = false;
+    let frei = null;  // im Jahr, null = keine Grenze
+    // Die gewählten Fotos sind noch nicht hochgeladen, zählen fürs Jahr aber schon.
+    const restImJahr = () => (frei == null ? null : frei - fotos.length);
 
     function zeichnen() {
-        const platz = HOECHSTENS_JE_ABEND - fotos.length;
+        const platz = freiePlaetze(fotos.length, restImJahr());
         feld.innerHTML = `
           <span class="form-label">${icon('camera', { className: 'icon--meta' })}Momentaufnahmen<span class="form-collapse__optional">(optional)</span></span>
           <div class="andenken__raster">
@@ -308,7 +358,8 @@ export function andenkenAuswahl() {
               <input type="file" accept="image/*" multiple${laedt ? ' disabled' : ''}>
               <span>${laedt ? 'Bereitet vor …' : `${icon('plus')}Foto`}</span>
             </label>` : ''}
-          </div>`;
+          </div>
+          ${hinweisHTML(restImJahr())}`;
     }
 
     const fotoZu = knopf => fotos[Number(knopf.closest('.andenken__foto')?.dataset.i)];
@@ -334,9 +385,9 @@ export function andenkenAuswahl() {
     feld.addEventListener('change', async (e) => {
         const eingabe = e.target.closest('.andenken__neu input');
         if (!eingabe || !eingabe.files?.length) return;
-        const platz = HOECHSTENS_JE_ABEND - fotos.length;
+        const platz = freiePlaetze(fotos.length, restImJahr());
         const dateien = [...eingabe.files].slice(0, platz);
-        if (eingabe.files.length > platz) showToast(`Höchstens ${HOECHSTENS_JE_ABEND} Fotos je Abend`);
+        if (eingabe.files.length > platz) showToast(zuVieleMeldung(fotos.length, restImJahr()));
         laedt = true;
         zeichnen();
         for (const datei of dateien) {
@@ -350,6 +401,7 @@ export function andenkenAuswahl() {
     });
 
     zeichnen();
+    store.andenkenKontingent().then((f) => { frei = f; zeichnen(); });
     return {
         element: feld,
         fotos: () => fotos.map(({ blob, vorschau, breite, hoehe, oeffentlich }) => ({ blob, vorschau, breite, hoehe, oeffentlich })),

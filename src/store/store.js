@@ -1115,6 +1115,21 @@ class Store {
         return sb.addAndenkenCloud(visitId, neueKennung(), foto);
     }
 
+    /**
+     * Wie viele Fotos in diesem Jahr noch gehen, oder null für "keine
+     * Grenze". Scheitert die Abfrage, ebenfalls null: die Datenbank hält
+     * die Grenze ohnehin, die App soll deswegen niemanden aufhalten.
+     */
+    async andenkenKontingent() {
+        if (!this.isCloud || this.isOffline) return null;
+        try {
+            return await sb.getAndenkenKontingentCloud();
+        } catch (e) {
+            console.warn('[Andenken] Kontingent', e);
+            return null;
+        }
+    }
+
     async andenkenSichtbarkeit(id, oeffentlich) {
         this._kontoNoetig();
         return sb.setAndenkenOeffentlichCloud(id, oeffentlich);

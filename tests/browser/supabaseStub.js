@@ -107,6 +107,11 @@ window.__geplantFehler = null;   // gesetzt: jedes Anlegen scheitert damit
 window.__andenken = window.__andenkenVorgabe || [];
 window.__speicher = window.__speicherVorgabe || {};
 window.__speicherGeloescht = [];
+// Jahresgrenze für Fotos (fotogrenze_migration.sql): __kontingentVorgabe =
+// wie viele vor dem Test frei waren; null/undefiniert = keine Grenze
+// (Patreon). Hochladen zählt herunter, Löschen nicht – wie in der Datenbank
+// zählen nur Fotos dieses Jahres, und die Vorgabe sagt nichts über die alten.
+window.__kontingent = window.__kontingentVorgabe ?? null;
 
 function builder(table) {
   let single = false, op = null, nutzlast = null;
@@ -215,6 +220,10 @@ function builder(table) {
       }
       if (table === 'andenken') {
         if (op === 'insert') {
+          if (window.__kontingent !== null && window.__kontingent <= 0) {
+            return Promise.resolve({ data: null, error: { message: 'Höchstens 10 Momentaufnahmen im Jahr', code: '23514' } }).then(res, rej);
+          }
+          if (window.__kontingent !== null) window.__kontingent--;
           const zeile = { oeffentlich: false, created_at: new Date().toISOString(), ...nutzlast };
           window.__andenken.push(zeile);
           return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
@@ -423,6 +432,10 @@ window.supabase = { createClient: () => ({
       window.__kontoGeloescht++;
       window.__ablauf.push('konto_loeschen');
       return { data: null, error: null };
+    }
+    if (name === 'andenken_kontingent') {
+      window.__kontingentGefragt = (window.__kontingentGefragt || 0) + 1;
+      return { data: { frei: window.__kontingent }, error: null };
     }
     if (name === 'katalog_verweise') {
       if (window.__verweiseFehler) return { data: null, error: { message: window.__verweiseFehler } };
