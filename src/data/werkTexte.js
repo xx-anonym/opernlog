@@ -59,6 +59,7 @@ export function werkTextFehler(t) {
         text(a.wer, `stellen[${i}].wer`, 60);
         text(a.akt, `stellen[${i}].akt`, 30);
         if (a.was !== undefined) text(a.was, `stellen[${i}].was`, GRENZEN.was);
+        if (a.zitat !== undefined && typeof a.zitat !== 'boolean') f.push(`stellen[${i}].zitat ist kein Wahrheitswert`);
     });
     if (!Array.isArray(t.wissen)) f.push('wissen fehlt');
     else t.wissen.forEach((w, i) => text(w, `wissen[${i}]`, GRENZEN.wissen));
@@ -95,5 +96,9 @@ export function ladeWerkText(id, { abruf = (...a) => fetch(...a) } = {}) {
     return geladen.get(id);
 }
 
-/** "„Vissi d’arte“" – Titel bekannter Stellen in deutschen Anführungszeichen. */
-export const stelleZitat = titel => `„${titel}“`;
+/**
+ * "„Vissi d’arte“" – Titel bekannter Stellen in deutschen Anführungszeichen.
+ * Bezeichnungen wie "Intermezzo" oder "Polonaise" sind kein Zitat aus dem
+ * Text; sie tragen in der Datei "zitat": false und bleiben ohne Zeichen.
+ */
+export const stelleZitat = (titel, zitat = true) => (zitat === false ? titel : `„${titel}“`);

@@ -1,0 +1,63 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Böhmen, nach dem Dreißigjährigen Krieg. Der Jäger Max muss einen Probeschuss gewinnen, um seine Agathe heiraten zu dürfen. Weil ihn das Glück verlassen hat, lässt er sich auf Zauberkugeln ein – gegossen um Mitternacht in der Wolfsschlucht.",
+  "urauffuehrung": {
+    "datum": "1821-06-18",
+    "ort": "Schauspielhaus am Gendarmenmarkt, Berlin"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor einer Waldschenke",
+      "text": "Max hat beim Preisschießen versagt und wird verspottet. Der Jäger Kaspar, der seine Seele dem Schwarzen Jäger Samiel verschrieben hat, überredet ihn, um Mitternacht in die Wolfsschlucht zu kommen und Freikugeln zu gießen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Försterhaus, Wolfsschlucht",
+      "text": "Agathe ahnt Unheil und betet um den Geliebten. Max eilt in die Wolfsschlucht. Unter Samiels Spuk gießen er und Kaspar sieben Kugeln: sechs treffen, wohin der Schütze will – die siebte lenkt Samiel."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Agathes Zimmer, Festplatz",
+      "text": "Agathe wird als Braut geschmückt. Beim Probeschuss soll Max auf eine Taube zielen; Agathe ruft, sie sei die Taube. Ein Eremit schützt sie, die Kugel trifft Kaspar, der tot zusammenbricht. Max gesteht alles; auf Fürsprache des Eremiten bekommt er ein Probejahr."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Durch die Wälder, durch die Auen",
+      "wer": "Max",
+      "akt": "1. Akt",
+      "was": "Max trauert seinem verlorenen Glück nach."
+    },
+    {
+      "titel": "Leise, leise, fromme Weise",
+      "wer": "Agathe",
+      "akt": "2. Akt",
+      "was": "Agathes Gebet in der Nacht."
+    },
+    {
+      "titel": "Wolfsschluchtszene",
+      "zitat": false,
+      "wer": "Max, Kaspar, Samiel und Geisterchor",
+      "akt": "2. Akt",
+      "was": "Das Gießen der Freikugeln – Schauerromantik pur."
+    },
+    {
+      "titel": "Wir winden dir den Jungfernkranz",
+      "wer": "Brautjungfern",
+      "akt": "3. Akt",
+      "was": "Das Lied der Brautjungfern."
+    },
+    {
+      "titel": "Was gleicht wohl auf Erden dem Jägervergnügen",
+      "wer": "Jägerchor",
+      "akt": "3. Akt",
+      "was": "Der berühmte Jägerchor."
+    }
+  ],
+  "wissen": [
+    "Der Freischütz gilt als die deutsche romantische Oper schlechthin.",
+    "Vorlage ist eine Erzählung aus dem „Gespensterbuch“ von Johann August Apel und Friedrich Laun.",
+    "Zwischen den Musiknummern wird gesprochen."
+  ]
+}

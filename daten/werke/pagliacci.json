@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 75 Min.",
+  "anriss": "Ein Dorf in Kalabrien, Mariä Himmelfahrt. Eine fahrende Theatertruppe spielt eine Eifersuchtskomödie – und der Prinzipal Canio kann Spiel und Wirklichkeit plötzlich nicht mehr trennen.",
+  "urauffuehrung": {
+    "datum": "1892-05-21",
+    "ort": "Teatro Dal Verme, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Vor dem Vorhang",
+      "text": "Tonio tritt vor den Vorhang und erklärt, dass auch Schauspieler Menschen mit echten Gefühlen sind."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Dorfplatz in Kalabrien",
+      "text": "Canio und seine Truppe kündigen ihre Vorstellung an. Tonio bedrängt Canios Frau Nedda und wird abgewiesen. Aus Rache verrät er Canio, dass Nedda einen Liebhaber hat: den Bauern Silvio. Canio muss trotzdem auftreten."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Dorfplatz, Theatervorstellung",
+      "text": "In der Komödie spielt Nedda die Colombina, die ihren Mann Pagliaccio betrügt – genau wie im Leben. Canio fällt aus der Rolle, verlangt den Namen des Liebhabers und ersticht Nedda vor allen Zuschauern. Silvio eilt ihr zu Hilfe und wird ebenfalls getötet. „La commedia è finita!“"
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Si può? Si può?",
+      "wer": "Tonio",
+      "akt": "Prolog",
+      "was": "Der Prolog vor dem Vorhang."
+    },
+    {
+      "titel": "Stridono lassù",
+      "wer": "Nedda",
+      "akt": "1. Akt",
+      "was": "Neddas Vogellied: sie beneidet die Vögel um ihre Freiheit."
+    },
+    {
+      "titel": "Vesti la giubba",
+      "wer": "Canio",
+      "akt": "1. Akt",
+      "was": "„Lache, Bajazzo“ – Canio muss spielen, obwohl er verzweifelt ist."
+    },
+    {
+      "titel": "No, Pagliaccio non son",
+      "wer": "Canio",
+      "akt": "2. Akt",
+      "was": "Canio fällt aus der Rolle."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung dirigierte Arturo Toscanini.",
+    "Leoncavallo gab an, die Handlung gehe auf einen echten Kriminalfall aus seiner Kindheit zurück.",
+    "Pagliacci wird oft zusammen mit Mascagnis „Cavalleria rusticana“ an einem Abend gespielt."
+  ]
+}

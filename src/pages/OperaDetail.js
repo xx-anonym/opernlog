@@ -398,7 +398,7 @@ async function werkTextEinsetzen(page, operaId) {
           <li><span class="werk-text__akt">${escapeHTML(a.titel)}${a.ort ? ` · ${escapeHTML(a.ort)}` : ''}</span>${escapeHTML(a.text)}</li>`).join('')}
         </ol>`)}
         ${teil('Bekannte Stellen', t.stellen.length ? `<ul class="werk-text__stellen">${t.stellen.map(a => `
-          <li><span class="werk-text__stelle">${escapeHTML(stelleZitat(a.titel))}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`).join('')}
+          <li><span class="werk-text__stelle">${escapeHTML(stelleZitat(a.titel, a.zitat))}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`).join('')}
         </ul>` : '')}
         ${teil('Gut zu wissen', t.wissen.length ? `<ul class="werk-text__wissen">${t.wissen.map(w => `<li>${escapeHTML(w)}</li>`).join('')}</ul>` : '')}
       </div>

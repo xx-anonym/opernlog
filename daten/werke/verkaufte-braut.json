@@ -1,0 +1,65 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Ein Dorf in Böhmen, Kirchweih. Mařenka liebt Jeník, soll aber auf Betreiben des Heiratsvermittlers Kecal den reichen, schüchternen Vašek heiraten. Jeník scheint seine Braut für Geld zu verkaufen – doch er hat einen schlauen Plan.",
+  "urauffuehrung": {
+    "datum": "1866-05-30",
+    "ort": "Interimstheater, Prag"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Dorfplatz",
+      "text": "Mařenkas Eltern haben mit Kecal ausgehandelt, dass sie Vašek heiraten soll, den Sohn des reichen Bauern Mícha. Mařenka will nur Jeník, einen Fremden, dessen Herkunft niemand kennt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Wirtshaus",
+      "text": "Mařenka schreckt den stotternden Vašek ab, ohne dass er sie erkennt. Kecal bietet Jeník Geld, wenn er auf Mařenka verzichtet. Jeník willigt ein – unter der Bedingung, dass Mařenka nur Míchas Sohn heiraten darf. Das Dorf ist empört."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Dorfplatz",
+      "text": "Vašek verliebt sich in eine Seiltänzerin und soll im Bärenkostüm auftreten. Mařenka fühlt sich verraten. Dann klärt sich alles: Jeník ist Míchas Sohn aus erster Ehe – der Vertrag ist erfüllt, Kecal überlistet, und Mařenka bekommt ihren Jeník."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "vor dem 1. Akt",
+      "was": "Die wirbelnde Ouvertüre, auch im Konzert beliebt."
+    },
+    {
+      "titel": "Polka",
+      "zitat": false,
+      "wer": "Chor und Orchester",
+      "akt": "1. Akt",
+      "was": "Das Dorf tanzt."
+    },
+    {
+      "titel": "Furiant",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "2. Akt",
+      "was": "Der feurige böhmische Tanz im Wirtshaus."
+    },
+    {
+      "titel": "Tanz der Komödianten",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Die Zirkustruppe zieht ins Dorf ein."
+    },
+    {
+      "titel": "Ten lásky sen",
+      "wer": "Mařenka",
+      "akt": "3. Akt",
+      "was": "Mařenkas Klage um die verlorene Liebe."
+    }
+  ],
+  "wissen": [
+    "Die verkaufte Braut gilt als tschechische Nationaloper.",
+    "Smetana arbeitete das Werk mehrfach um; die heute gespielte Fassung mit Rezitativen statt gesprochener Dialoge stammt von 1870."
+  ]
+}

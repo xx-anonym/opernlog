@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Paris um 1900. Die reiche Witwe Hanna Glawari darf ihr Vermögen nicht an einen Ausländer verlieren, sonst ist ihr kleines Heimatland Pontevedro bankrott. Graf Danilo soll sie heiraten – doch die beiden waren einst ein Paar, und Danilo ist zu stolz.",
+  "urauffuehrung": {
+    "datum": "1905-12-30",
+    "ort": "Theater an der Wien, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Salon der pontevedrinischen Gesandtschaft in Paris",
+      "text": "Gesandter Baron Zeta will Hannas Millionen fürs Vaterland retten und setzt auf Danilo, der lieber bei Maxim feiert. Danilo und Hanna begegnen sich wieder und necken sich. Unterdessen flirtet Zetas Frau Valencienne mit dem Franzosen Camille de Rosillon."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Garten von Hannas Palais",
+      "text": "Hanna gibt ein pontevedrinisches Fest. Valencienne und Camille verschwinden in einem Pavillon; um sie zu decken, tritt Hanna an Valenciennes Stelle heraus und erklärt ihre Verlobung mit Camille. Danilo ist tief getroffen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Hannas Palais, als „Maxim“ geschmückt",
+      "text": "Hanna klärt die Pavillon-Geschichte auf und verrät: heiratet sie wieder, verliert sie ihr Vermögen – es geht an den neuen Ehemann. Nun kann Danilo endlich um sie werben, ohne als Mitgiftjäger dazustehen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Da geh ich zu Maxim",
+      "wer": "Danilo",
+      "akt": "1. Akt",
+      "was": "Danilos Auftrittslied über das Pariser Nachtleben."
+    },
+    {
+      "titel": "Es lebt’ eine Vilja",
+      "wer": "Hanna und Chor",
+      "akt": "2. Akt",
+      "was": "Das Vilja-Lied über eine Waldfee."
+    },
+    {
+      "titel": "Ja, das Studium der Weiber ist schwer",
+      "wer": "Herren",
+      "akt": "2. Akt",
+      "was": "Das berühmte Männer-Septett."
+    },
+    {
+      "titel": "Lippen schweigen",
+      "wer": "Hanna und Danilo",
+      "akt": "3. Akt",
+      "was": "Der Walzer, der um die Welt ging."
+    }
+  ],
+  "wissen": [
+    "Die lustige Witwe machte Franz Lehár mit einem Schlag weltberühmt.",
+    "Vorlage ist die französische Komödie „L’attaché d’ambassade“ von Henri Meilhac."
+  ]
+}

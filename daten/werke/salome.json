@@ -1,0 +1,40 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Am Hof des Herodes begehrt die junge Prinzessin Salome den gefangenen Propheten Jochanaan. Er weist sie zurück. Für ihren Tanz verspricht Herodes ihr alles, was sie will – und sie verlangt den Kopf des Propheten.",
+  "urauffuehrung": {
+    "datum": "1905-12-09",
+    "ort": "Königliches Opernhaus, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Terrasse im Palast des Herodes",
+      "text": "Der Hauptmann Narraboth schwärmt für Salome. Aus einer Zisterne ruft Jochanaan seine Prophezeiungen. Salome lässt ihn heraufholen, ist wie gebannt und will ihn küssen; er verflucht sie. Narraboth ersticht sich. Herodes bittet Salome zu tanzen und schwört, ihr jeden Wunsch zu erfüllen. Nach dem Tanz der sieben Schleier verlangt sie Jochanaans Kopf. Sie küsst den abgeschlagenen Kopf – und Herodes lässt sie töten."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Wie schön ist die Prinzessin Salome heute Nacht",
+      "wer": "Narraboth",
+      "akt": "Beginn",
+      "was": "Die ersten Worte der Oper."
+    },
+    {
+      "titel": "Tanz der sieben Schleier",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Mitte",
+      "was": "Salomes Tanz vor Herodes."
+    },
+    {
+      "titel": "Ah! Du wolltest mich nicht deinen Mund küssen lassen",
+      "wer": "Salome",
+      "akt": "Schluss",
+      "was": "Der große Schlussgesang mit dem Kopf des Jochanaan."
+    }
+  ],
+  "wissen": [
+    "Der Text folgt fast wörtlich Oscar Wildes Drama in der deutschen Übersetzung von Hedwig Lachmann.",
+    "Die Uraufführung war ein Skandal – und ein Triumph."
+  ]
+}

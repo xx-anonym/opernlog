@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Im Haus des reichsten Mannes von Wien sollen eine ernste Oper und eine derbe Komödie gleichzeitig gespielt werden. Was als Theaterkatastrophe beginnt, wird zur Verwandlung: Ariadne, auf Naxos verlassen, findet eine neue Liebe.",
+  "urauffuehrung": {
+    "datum": "1912-10-25",
+    "ort": "Kleines Haus des Hoftheaters, Stuttgart"
+  },
+  "akte": [
+    {
+      "titel": "Vorspiel",
+      "ort": "Im Haus eines reichen Wieners",
+      "text": "Ein junger Komponist soll seine Oper „Ariadne auf Naxos“ aufführen, eine Komödiantentruppe um Zerbinetta ein Lustspiel. Damit das Feuerwerk pünktlich beginnt, befiehlt der Hausherr: beides gleichzeitig. Der Komponist verzweifelt – bis Zerbinetta ihn bezaubert."
+    },
+    {
+      "titel": "Oper",
+      "ort": "Die Insel Naxos",
+      "text": "Ariadne, von Theseus verlassen, sehnt sich nach dem Tod. Die Komödianten versuchen, sie aufzuheitern; Zerbinetta erklärt, wie man über Männer hinwegkommt. Da landet der junge Gott Bacchus. Ariadne hält ihn für den Todesboten – und wird durch die Liebe verwandelt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Sein wir wieder gut",
+      "wer": "Komponist",
+      "akt": "Vorspiel",
+      "was": "Die Hymne des Komponisten auf die Musik."
+    },
+    {
+      "titel": "Es gibt ein Reich",
+      "wer": "Ariadne",
+      "akt": "Oper",
+      "was": "Ariadnes Sehnsucht nach dem Totenreich."
+    },
+    {
+      "titel": "Großmächtige Prinzessin",
+      "wer": "Zerbinetta",
+      "akt": "Oper",
+      "was": "Eine der schwersten Koloraturarien überhaupt."
+    },
+    {
+      "titel": "Circe, kannst du mich hören?",
+      "wer": "Bacchus",
+      "akt": "Oper",
+      "was": "Der Auftritt des jungen Gottes."
+    }
+  ],
+  "wissen": [
+    "Zuerst war die Oper ein Nachspiel zu Molières „Der Bürger als Edelmann“. Gespielt wird heute meist die zweite Fassung mit dem Vorspiel, uraufgeführt 1916 in Wien.",
+    "Der Komponist ist eine Hosenrolle für Mezzosopran."
+  ]
+}

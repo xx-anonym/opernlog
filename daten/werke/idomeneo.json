@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Kreta nach dem Trojanischen Krieg. König Idomeneo gerät in Seenot und gelobt dem Meeresgott Neptun, den ersten Menschen zu opfern, dem er an Land begegnet. Es ist sein eigener Sohn Idamante.",
+  "urauffuehrung": {
+    "datum": "1781-01-29",
+    "ort": "Residenztheater (Cuvilliés-Theater), München"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Kreta, Königspalast und Meeresküste",
+      "text": "Die trojanische Prinzessin Ilia lebt als Gefangene auf Kreta und liebt Idamante; auch die griechische Prinzessin Elettra liebt ihn. Idomeneo strandet nach einem Sturm und begegnet als Erstem seinem Sohn."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Königspalast, Hafen",
+      "text": "Idomeneo will Idamante retten und ihn mit Elettra fortschicken. Doch als sie in See stechen wollen, schickt Neptun einen Sturm und ein Seeungeheuer, das die Insel verwüstet."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Königspalast, Tempel",
+      "text": "Idamante tötet das Ungeheuer. Idomeneo muss sein Gelübde gestehen; Idamante ist bereit zu sterben, Ilia bietet sich an seiner Stelle an. Eine Stimme verkündet: Idomeneo soll abdanken, Idamante und Ilia sollen herrschen. Elettra bleibt rasend vor Eifersucht zurück."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Padre, germani, addio!",
+      "wer": "Ilia",
+      "akt": "1. Akt",
+      "was": "Ilia zwischen Heimat und Liebe."
+    },
+    {
+      "titel": "Fuor del mar",
+      "wer": "Idomeneo",
+      "akt": "2. Akt",
+      "was": "Idomeneo vergleicht sein Inneres mit dem tobenden Meer."
+    },
+    {
+      "titel": "Zeffiretti lusinghieri",
+      "wer": "Ilia",
+      "akt": "3. Akt",
+      "was": "Ilia schickt der Liebe Grüße mit den Lüften."
+    },
+    {
+      "titel": "Andrò ramingo e solo",
+      "wer": "Ilia, Idamante, Idomeneo und Elettra",
+      "akt": "3. Akt",
+      "was": "Das Quartett der Verzweiflung."
+    },
+    {
+      "titel": "D’Oreste, d’Aiace",
+      "wer": "Elettra",
+      "akt": "3. Akt",
+      "was": "Elettras Wutausbruch."
+    }
+  ],
+  "wissen": [
+    "Mozart schrieb die Oper für den Münchner Karneval und war bei der Uraufführung gerade 25 Jahre alt.",
+    "Idamante war ursprünglich für einen Kastraten geschrieben; heute singt ihn meist ein Mezzosopran oder ein Tenor."
+  ]
+}

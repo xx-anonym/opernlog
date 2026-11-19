@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 3½ Std.",
+  "anriss": "Wien zur Zeit Maria Theresias. Die Feldmarschallin liebt den jungen Octavian und weiß doch, dass sie ihn verlieren wird. Als Octavian dem ungehobelten Baron Ochs die silberne Brautrose überbringen soll, verliebt er sich in dessen Braut.",
+  "urauffuehrung": {
+    "datum": "1911-01-26",
+    "ort": "Königliches Opernhaus, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Schlafzimmer der Feldmarschallin",
+      "text": "Die Marschallin und ihr junger Geliebter Octavian werden vom Vetter Baron Ochs überrascht; Octavian verkleidet sich rasch als Kammerzofe „Mariandel“. Ochs sucht einen Rosenkavalier für seine Braut Sophie, die Tochter des reichen Faninal. Die Marschallin empfiehlt Octavian – und sinniert allein über die Vergänglichkeit der Zeit."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Palais Faninal",
+      "text": "Octavian überreicht Sophie die silberne Rose, und beide verlieben sich auf den ersten Blick. Ochs benimmt sich so grob, dass Sophie ihn nicht heiraten will. Octavian zieht den Degen und ritzt den Baron am Arm."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Extrazimmer in einem Wirtshaus",
+      "text": "Octavian lockt Ochs als „Mariandel“ zu einem Stelldichein, bei dem der Baron vor allen bloßgestellt wird. Die Marschallin erscheint, schickt Ochs fort und gibt Octavian frei. Sophie und Octavian finden zueinander."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Die Zeit, die ist ein sonderbar Ding",
+      "wer": "Marschallin",
+      "akt": "1. Akt",
+      "was": "Der Monolog über das Älterwerden."
+    },
+    {
+      "titel": "Mir ist die Ehre widerfahren",
+      "wer": "Octavian und Sophie",
+      "akt": "2. Akt",
+      "was": "Die Überreichung der silbernen Rose."
+    },
+    {
+      "titel": "Ohne mich, ohne mich",
+      "wer": "Baron Ochs",
+      "akt": "2. Akt",
+      "was": "Ochs’ selbstzufriedener Walzer."
+    },
+    {
+      "titel": "Hab mir’s gelobt",
+      "wer": "Marschallin, Octavian und Sophie",
+      "akt": "3. Akt",
+      "was": "Das berühmte Terzett des Verzichts."
+    },
+    {
+      "titel": "Ist ein Traum, kann nicht wirklich sein",
+      "wer": "Octavian und Sophie",
+      "akt": "3. Akt",
+      "was": "Das schlichte Schlussduett."
+    }
+  ],
+  "wissen": [
+    "Octavian ist eine Hosenrolle: ein junger Mann, gesungen von einer Frau.",
+    "Den Brauch der silbernen Rose hat Hugo von Hofmannsthal erfunden.",
+    "Die vielen Walzer passen eigentlich nicht ins 18. Jahrhundert – den Walzer gab es damals noch nicht."
+  ]
+}

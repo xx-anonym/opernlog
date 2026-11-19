@@ -123,6 +123,7 @@ export function seite({ titel, beschreibung, url, bild, inhalt, app, sofort = nu
   <meta property="og:description" content="${maske(beschreibung)}">
   <meta property="og:image" content="${maske(bild || `${SEITE}/icons/vorschau.png`)}">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/icons/icon-any-192.png" sizes="192x192" type="image/png">
   <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/fonts/schriften.css">
   <link rel="stylesheet" href="/seiten/stil.css">${weiter}

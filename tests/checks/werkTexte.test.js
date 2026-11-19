@@ -25,8 +25,10 @@ test('jede Datei ist gültig und gehört zu einem Werk im Repo', () => {
         assert.ok(ids.has(id), `${WERKTEXT_ORDNER}/${id}.json: kein Werk mit dieser Id`);
         assert.deepEqual(werkTextFehler(t), [], id);
         const werk = operas.find(o => o.id === id);
-        // Die Akte im Text passen zum Katalog.
-        if (werk.acts) assert.equal(t.akte.length, werk.acts, `${id}: ${t.akte.length} Akte im Text, ${werk.acts} im Katalog`);
+        // Die Akte im Text passen zum Katalog. Prolog und Epilog zählt der
+        // Katalog mal mit (Hoffmanns Erzählungen), mal nicht (Pagliacci).
+        const ohneRahmen = t.akte.filter(a => !/^(Prolog|Epilog)$/.test(a.titel)).length;
+        if (werk.acts) assert.ok(t.akte.length === werk.acts || ohneRahmen === werk.acts, `${id}: ${t.akte.length} Abschnitte im Text, ${werk.acts} Akte im Katalog`);
     }
 });
 
@@ -98,4 +100,15 @@ test(`Termine: die nächsten ${TERMINE_VORN} offen, der Rest eingeklappt`, () =>
 test('die erzeugte Tosca-Seite im Repo hat die Texte', () => {
     const html = fs.readFileSync(path.join(WURZEL, 'oper/tosca/index.html'), 'utf8');
     assert.ok(html.includes('<h2>Die Handlung</h2>'));
+});
+
+test('Bezeichnungen wie "Intermezzo" stehen ohne Anführungszeichen, Zitate mit', async () => {
+    const { stelleZitat } = await import('../../src/data/werkTexte.js');
+    assert.equal(stelleZitat('Vissi d’arte'), '„Vissi d’arte“');
+    assert.equal(stelleZitat('Intermezzo', false), 'Intermezzo');
+    assert.ok(werkTextFehler({ ...TEXTE.get('tosca'), stellen: [{ titel: 'x', wer: 'y', akt: 'z', zitat: 'nein' }] }).some(f => /zitat ist kein Wahrheitswert/.test(f)));
+    const cav = TEXTE.get('cavalleria-rusticana');
+    const html = werkSeite(operas.find(o => o.id === 'cavalleria-rusticana'), { termine: [], haeuser: new Map(), stand: '2026-11-01', text: cav });
+    assert.match(html, /<span class="stelle">Intermezzo<\/span>/);
+    assert.match(html, /<span class="stelle">„Voi lo sapete, o mamma“<\/span>/);
 });

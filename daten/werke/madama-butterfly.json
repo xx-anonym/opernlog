@@ -1,0 +1,69 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Nagasaki um 1900. Der amerikanische Marineoffizier Pinkerton heiratet die junge Geisha Cio-Cio-San, genannt Butterfly – für ihn ein Abenteuer auf Zeit, für sie ein Leben. Jahre wartet sie auf seine Rückkehr.",
+  "urauffuehrung": {
+    "datum": "1904-02-17",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Haus auf einem Hügel über Nagasaki",
+      "text": "Pinkerton mietet ein Haus und heiratet Butterfly nach japanischem Recht, das er für leicht lösbar hält. Der Konsul Sharpless warnt ihn vergeblich. Butterfly hat für ihn ihren Glauben aufgegeben; ihr Onkel, ein Bonze, verflucht sie, und die Familie verstößt sie. Pinkerton tröstet sie in der Hochzeitsnacht."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Butterflys Haus, drei Jahre später",
+      "text": "Butterfly wartet mit ihrem kleinen Sohn und der Dienerin Suzuki auf Pinkerton. Sharpless versucht ihr schonend beizubringen, dass Pinkerton inzwischen eine Amerikanerin geheiratet hat – doch Butterfly zeigt ihm stolz das Kind. Pinkertons Schiff läuft ein; Butterfly und Suzuki schmücken das Haus mit Blüten, und Butterfly wacht die ganze Nacht."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Butterflys Haus, am Morgen",
+      "text": "Pinkerton kommt mit Sharpless und seiner amerikanischen Frau Kate; sie wollen das Kind mitnehmen. Pinkerton erträgt den Anblick des Hauses nicht und geht. Butterfly nimmt Abschied von ihrem Sohn und tötet sich mit dem Dolch ihres Vaters."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Viene la sera",
+      "wer": "Butterfly und Pinkerton",
+      "akt": "1. Akt",
+      "was": "Das Liebesduett der Hochzeitsnacht."
+    },
+    {
+      "titel": "Un bel dì vedremo",
+      "wer": "Butterfly",
+      "akt": "2. Akt",
+      "was": "„Eines schönen Tages“ – Butterfly malt sich Pinkertons Rückkehr aus."
+    },
+    {
+      "titel": "Scuoti quella fronda di ciliegio",
+      "wer": "Butterfly und Suzuki",
+      "akt": "2. Akt",
+      "was": "Das Blumenduett: das Haus wird mit Blüten geschmückt."
+    },
+    {
+      "titel": "Summchor",
+      "zitat": false,
+      "wer": "Chor",
+      "akt": "2. Akt",
+      "was": "Der Chor mit geschlossenen Lippen in der Nacht des Wartens."
+    },
+    {
+      "titel": "Addio, fiorito asil",
+      "wer": "Pinkerton",
+      "akt": "3. Akt",
+      "was": "Pinkertons reuevoller Abschied vom blühenden Haus."
+    },
+    {
+      "titel": "Tu, tu, piccolo iddio",
+      "wer": "Butterfly",
+      "akt": "3. Akt",
+      "was": "Butterflys Abschied von ihrem Kind."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung an der Scala war ein Fiasko. Puccini überarbeitete das Werk und teilte den langen zweiten Akt; die Fassung in drei Akten wurde im Mai 1904 in Brescia ein Erfolg und wird heute meist gespielt.",
+    "Vorlage ist ein Theaterstück von David Belasco nach einer Erzählung von John Luther Long.",
+    "Puccini verarbeitete japanische Melodien – und zitiert die amerikanische Nationalhymne."
+  ]
+}

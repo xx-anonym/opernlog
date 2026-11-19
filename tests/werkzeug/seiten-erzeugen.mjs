@@ -113,6 +113,7 @@ function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app }) {
   <meta property="og:title" content="${maske(titel)}">
   <meta property="og:description" content="${maske(beschreibung)}">
   <meta property="og:image" content="${maske(bild || `${SEITE}/icons/vorschau.png`)}">
+  <link rel="icon" href="/icons/icon-any-192.png" sizes="192x192" type="image/png">
   <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/fonts/schriften.css">
   <link rel="stylesheet" href="/seiten/stil.css">${ld}
@@ -196,6 +197,11 @@ function ereignis(t, werk, haus) {
             address: { '@type': 'PostalAddress', addressLocality: haus.city, addressCountry: land(haus).code },
         },
         organizer: { '@type': 'Organization', name: haus.name, url: t.url },
+        // Die Besetzung kennt der Spielplan nicht; es spielt das Ensemble
+        // des Hauses. Google fragt danach ("Missing field 'performer'",
+        // Search Console, 19.11.2026). Preise, Vorverkauf und Endzeit fehlen
+        // weiter – lieber keine Angabe als eine erfundene.
+        performer: { '@type': 'PerformingGroup', name: haus.name },
         ...(werk.image ? { image: werk.image } : {}),
         description: `${werk.title}${werk.composer ? ` von ${werk.composer}` : ''} am ${haus.name}, ${haus.city}.`,
         url: t.url,
@@ -266,7 +272,7 @@ ${text.akte.map(a => `          <li><span class="akt">${maske(a.titel)}${a.ort ?
       <section>
         <h2>Bekannte Stellen</h2>
         <ul class="stellen">
-${text.stellen.map(a => `          <li><span class="stelle">${maske(stelleZitat(a.titel))}</span><span class="wer">${maske(a.wer)} · ${maske(a.akt)}</span>${a.was ? `<span class="was">${maske(a.was)}</span>` : ''}</li>`).join('\n')}
+${text.stellen.map(a => `          <li><span class="stelle">${maske(stelleZitat(a.titel, a.zitat))}</span><span class="wer">${maske(a.wer)} · ${maske(a.akt)}</span>${a.was ? `<span class="was">${maske(a.was)}</span>` : ''}</li>`).join('\n')}
         </ul>
       </section>` : ''}${text.wissen.length ? `
       <section>
@@ -296,7 +302,7 @@ export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
         ? `${meine.length} ${meine.length === 1 ? 'Termin' : 'Termine'} an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'} in Deutschland, Österreich und der Schweiz`
         : '';
     const beschreibung = text
-        ? `${werk.title}${von}: Handlung${text.stellen.length ? `, bekannte Stellen wie ${stelleZitat(text.stellen[0].titel)}` : ''}${terminSatz ? ` und ${terminSatz}` : ''}.`
+        ? `${werk.title}${von}: Handlung${text.stellen.length ? `, bekannte Stellen wie ${stelleZitat(text.stellen[0].titel, text.stellen[0].zitat)}` : ''}${terminSatz ? ` und ${terminSatz}` : ''}.`
         : meine.length
             ? `${werk.title}${von}: ${terminSatz} – Spielplan und Karten.`
             : `${werk.title}${von}: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.`;

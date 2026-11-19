@@ -1,0 +1,68 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Frankreich im 18. Jahrhundert. Der Student Des Grieux verliebt sich in die junge Manon, die ins Kloster soll. Doch Manon liebt auch den Luxus – und diese Liebe führt beide bis in die Wüste Amerikas.",
+  "urauffuehrung": {
+    "datum": "1893-02-01",
+    "ort": "Teatro Regio, Turin"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Platz vor einem Gasthaus in Amiens",
+      "text": "Des Grieux verliebt sich in Manon, die ihr Bruder ins Kloster bringen soll. Der reiche Geronte plant, sie zu entführen. Des Grieux kommt ihm zuvor und flieht mit Manon nach Paris."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Salon in Gerontes Haus in Paris",
+      "text": "Manon hat Des Grieux verlassen und lebt im Luxus bei Geronte, sehnt sich aber nach ihm. Des Grieux kommt zurück. Als Geronte sie überrascht, will Manon noch ihren Schmuck mitnehmen – und wird verhaftet."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Hafen von Le Havre",
+      "text": "Manon soll mit anderen Frauen nach Amerika deportiert werden. Ein Befreiungsversuch scheitert. Des Grieux fleht den Kapitän an und darf mit an Bord."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Eine Ebene in Louisiana",
+      "text": "Auf der Flucht irren Manon und Des Grieux durch eine Wüste. Erschöpft stirbt Manon in seinen Armen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Donna non vidi mai",
+      "wer": "Des Grieux",
+      "akt": "1. Akt",
+      "was": "Des Grieux ist von Manon überwältigt."
+    },
+    {
+      "titel": "In quelle trine morbide",
+      "wer": "Manon",
+      "akt": "2. Akt",
+      "was": "Manon sehnt sich im Luxus nach der Liebe zurück."
+    },
+    {
+      "titel": "Intermezzo",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "vor dem 3. Akt",
+      "was": "Das Zwischenspiel über die Reise nach Le Havre."
+    },
+    {
+      "titel": "Guardate, pazzo son",
+      "wer": "Des Grieux",
+      "akt": "3. Akt",
+      "was": "Des Grieux fleht den Kapitän an."
+    },
+    {
+      "titel": "Sola, perduta, abbandonata",
+      "wer": "Manon",
+      "akt": "4. Akt",
+      "was": "Manons verzweifelte Klage in der Wüste."
+    }
+  ],
+  "wissen": [
+    "Manon Lescaut war Puccinis Durchbruch.",
+    "Am Libretto arbeiteten so viele Autoren, dass keiner auf dem Titelblatt genannt wurde.",
+    "Vorlage ist der Roman des Abbé Prévost, den Jules Massenet schon 1884 vertont hatte."
+  ]
+}

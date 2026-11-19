@@ -1,0 +1,72 @@
+{
+  "dauer": "ca. 3½ Std.",
+  "anriss": "Spanien im 16. Jahrhundert. Der Infant Don Carlos liebt Elisabeth von Valois – doch aus Staatsräson muss sie seinen Vater heiraten, König Philipp II. Liebe, Freundschaft und Freiheit geraten unter die Räder von Macht und Inquisition.",
+  "urauffuehrung": {
+    "datum": "1867-03-11",
+    "ort": "Opéra (Salle Le Peletier), Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Wald von Fontainebleau",
+      "text": "Carlos begegnet Elisabeth, seiner Verlobten, und beide verlieben sich. Da kommt die Nachricht: um den Frieden zu sichern, soll sie Carlos’ Vater Philipp heiraten. Elisabeth willigt ein."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Kloster San Yuste, Garten",
+      "text": "Carlos’ Freund Rodrigo, Marquis von Posa, rät ihm, nach Flandern zu gehen und dort für die Freiheit zu kämpfen; sie schwören einander Freundschaft. Carlos trifft Elisabeth wieder, die ihn zurückweist."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Garten der Königin, Platz vor der Kathedrale",
+      "text": "Carlos hält in der Nacht Prinzessin Eboli für Elisabeth und verrät seine Liebe; Eboli schwört Rache. Bei einem Autodafé tritt Carlos für die Flamen ein und zieht das Schwert gegen den König. Rodrigo entwaffnet ihn."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Arbeitszimmer des Königs, Gefängnis",
+      "text": "Philipp klagt, dass Elisabeth ihn nie geliebt hat. Der Großinquisitor verlangt Rodrigos Tod. Eboli gesteht ihre Intrige. Rodrigo nimmt die Schuld auf sich und wird im Gefängnis erschossen."
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Kloster San Yuste",
+      "text": "Elisabeth und Carlos nehmen Abschied. Philipp und der Großinquisitor überraschen sie. Da erscheint ein Mönch – die Gestalt Kaiser Karls V. – und zieht Carlos in das Grabgewölbe."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Dio, che nell’alma infondere",
+      "wer": "Carlos und Rodrigo",
+      "akt": "2. Akt",
+      "was": "Das Freundschaftsduett."
+    },
+    {
+      "titel": "Nel giardin del bello",
+      "wer": "Eboli",
+      "akt": "2. Akt",
+      "was": "Das maurisch gefärbte Schleierlied."
+    },
+    {
+      "titel": "Ella giammai m’amò",
+      "wer": "Philipp",
+      "akt": "4. Akt",
+      "was": "Der einsame König in der Nacht."
+    },
+    {
+      "titel": "O don fatale",
+      "wer": "Eboli",
+      "akt": "4. Akt",
+      "was": "Eboli verflucht ihre Schönheit."
+    },
+    {
+      "titel": "Tu che le vanità",
+      "wer": "Elisabeth",
+      "akt": "5. Akt",
+      "was": "Elisabeths großer Abschiedsgesang."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist Friedrich Schillers Drama „Don Karlos“.",
+    "Es gibt mehrere Fassungen, französisch und italienisch, mit vier oder fünf Akten. Fehlt der Fontainebleau-Akt, beginnt die Oper in San Yuste.",
+    "Die Titel der bekannten Stellen sind hier italienisch angegeben, wie die Oper meist gespielt wird."
+  ]
+}

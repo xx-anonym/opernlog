@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Leonore verkleidet sich als junger Mann namens Fidelio, um in dem Gefängnis zu arbeiten, in dem ihr Mann Florestan heimlich gefangen gehalten wird. Beethovens einzige Oper ist ein Hymnus auf Mut, Treue und Freiheit.",
+  "urauffuehrung": {
+    "datum": "1805-11-20",
+    "ort": "Theater an der Wien, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Staatsgefängnis bei Sevilla",
+      "text": "Fidelio arbeitet beim Kerkermeister Rocco, dessen Tochter Marzelline sich in den vermeintlichen jungen Mann verliebt. Der Gouverneur Pizarro erfährt, dass der Minister das Gefängnis inspizieren will, und beschließt, seinen Gefangenen Florestan zu töten. Leonore erreicht, dass die Gefangenen kurz ans Licht dürfen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Kerker, Paradeplatz",
+      "text": "Florestan liegt halb verhungert im Dunkel. Leonore und Rocco heben sein Grab aus. Als Pizarro mit dem Dolch kommt, wirft Leonore sich dazwischen und gibt sich zu erkennen. Ein Trompetensignal kündigt den Minister an. Florestan und alle Gefangenen werden befreit."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Mir ist so wunderbar",
+      "wer": "Marzelline, Leonore, Rocco und Jaquino",
+      "akt": "1. Akt",
+      "was": "Das Kanon-Quartett."
+    },
+    {
+      "titel": "Abscheulicher! Wo eilst du hin?",
+      "wer": "Leonore",
+      "akt": "1. Akt",
+      "was": "Leonores Zorn und Hoffnung."
+    },
+    {
+      "titel": "O welche Lust",
+      "wer": "Chor der Gefangenen",
+      "akt": "1. Akt",
+      "was": "Die Gefangenen im Licht."
+    },
+    {
+      "titel": "Gott! Welch Dunkel hier!",
+      "wer": "Florestan",
+      "akt": "2. Akt",
+      "was": "Florestan im Kerker."
+    },
+    {
+      "titel": "O namenlose Freude",
+      "wer": "Leonore und Florestan",
+      "akt": "2. Akt",
+      "was": "Der Jubel des Wiedersehens."
+    }
+  ],
+  "wissen": [
+    "Beethoven arbeitete die Oper zweimal um; gespielt wird meist die letzte Fassung von 1814.",
+    "Für das Werk entstanden vier Ouvertüren: drei Leonoren-Ouvertüren und die Fidelio-Ouvertüre."
+  ]
+}

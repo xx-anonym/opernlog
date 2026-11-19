@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Auf ihrer Zauberinsel verführt die Zauberin Alcina die Männer und verwandelt sie, wenn sie ihrer überdrüssig ist, in Tiere, Bäume und Steine. Ihr neuester Geliebter ist der Ritter Ruggiero – doch seine Verlobte Bradamante ist ihm gefolgt.",
+  "urauffuehrung": {
+    "datum": "1735-04-16",
+    "ort": "Covent Garden Theatre, London"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Alcinas Zauberinsel",
+      "text": "Bradamante kommt, als ihr eigener Bruder Ricciardo verkleidet, mit ihrem Erzieher Melisso auf die Insel. Ruggiero erkennt sie nicht; er ist ganz in Alcinas Bann. Alcinas Schwester Morgana verliebt sich in den vermeintlichen Ricciardo."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Alcinas Palast",
+      "text": "Melisso gibt Ruggiero einen Zauberring, der ihm die Augen öffnet: der Palast ist eine öde Wüste. Ruggiero erkennt Bradamante wieder und plant mit ihr die Flucht. Alcina spürt, dass sie ihn verliert, und ihr Zauber versagt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Alcinas Reich",
+      "text": "Alcina fleht Ruggiero vergeblich an. Bradamante und Ruggiero zerstören die Urne, in der Alcinas Zauberkraft liegt. Die verwandelten Männer werden wieder Menschen, und Alcinas Reich versinkt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Tornami a vagheggiar",
+      "wer": "Morgana",
+      "akt": "1. Akt",
+      "was": "Morganas funkelnde Liebeserklärung."
+    },
+    {
+      "titel": "Verdi prati",
+      "wer": "Ruggiero",
+      "akt": "2. Akt",
+      "was": "Ruggieros Abschied von den trügerisch schönen Wiesen."
+    },
+    {
+      "titel": "Ah! mio cor",
+      "wer": "Alcina",
+      "akt": "2. Akt",
+      "was": "Alcinas Klage, als sie ihre Macht schwinden fühlt."
+    },
+    {
+      "titel": "Sta nell’Ircana pietrosa tana",
+      "wer": "Ruggiero",
+      "akt": "3. Akt",
+      "was": "Die Jagdarie mit Hörnern."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist eine Episode aus Ludovico Ariostos Epos „Der rasende Roland“.",
+    "Den Ruggiero sang bei der Uraufführung der Kastrat Giovanni Carestini; heute singen ihn Mezzosopranistinnen oder Countertenöre."
+  ]
+}

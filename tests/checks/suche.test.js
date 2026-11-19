@@ -80,3 +80,15 @@ test('opernlog.vercel.app sagt Suchmaschinen "nicht aufnehmen", opernlog.de nich
     assert.deepEqual(r.has, [{ type: 'host', value: 'opernlog.vercel.app' }]);
     assert.deepEqual(r.headers, [{ key: 'X-Robots-Tag', value: 'noindex' }]);
 });
+
+test('für das Symbol bei Google gibt es ein Favicon in einem Vielfachen von 48 px', () => {
+    const m = html.match(/<link rel="icon" href="([^"]+\.png)" sizes="(\d+)x(\d+)"/g) || [];
+    const gross = m.map(z => z.match(/href="([^"]+)" sizes="(\d+)x(\d+)"/)).filter(([, , b, h]) => b === h && Number(b) % 48 === 0);
+    assert.ok(gross.length, 'kein Favicon in 48, 96, 144, 192 … px');
+    const datei = path.join(WURZEL, gross[0][1]);
+    const png = fs.readFileSync(datei);
+    assert.equal(png.readUInt32BE(16), Number(gross[0][2]));
+    assert.equal(png.readUInt32BE(20), Number(gross[0][3]));
+    // Auch die Seiten für Suchmaschinen nennen es.
+    assert.match(lies('oper/tosca/index.html'), /<link rel="icon" href="\/icons\/icon-any-192\.png" sizes="192x192"/);
+});

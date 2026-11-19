@@ -24,9 +24,10 @@ after(async () => {
     await server?.schliessen();
 });
 
-async function oeffne(hash) {
+async function oeffne(hash, { ohneText = null } = {}) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
+    if (ohneText) await p.route(`**/daten/werke/${ohneText}.json`, r => r.fulfill({ status: 404, body: 'nicht da' }));
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
     await ersetzeSupabase(p);
@@ -63,7 +64,9 @@ test('Tosca: zugeklappt vor den Reviews, Dauer im Kopf; aufgeklappt Handlung, be
 });
 
 test('ein Werk ohne Text: kein Block, keine Dauer, kein Fehler', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const { ctx, p, fehler } = await oeffne('#/opera/aida');
+    // Nach und nach bekommt jedes Werk einen Text – deshalb wird die Datei
+    // hier abgefangen, statt auf ein Werk ohne Text zu setzen.
+    const { ctx, p, fehler } = await oeffne('#/opera/aida', { ohneText: 'aida' });
     try {
         await p.waitForSelector('#reviewsHeading');
         await p.waitForFunction(() => performance.getEntriesByType('resource').some(r => r.name.includes('/daten/werke/aida.json')), null, { timeout: 15000 });

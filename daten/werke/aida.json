@@ -1,0 +1,66 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Ägypten zur Zeit der Pharaonen. Der Feldherr Radamès liebt Aida, eine äthiopische Sklavin – und ahnt nicht, dass sie die Tochter des feindlichen Königs ist. Auch die Pharaonentochter Amneris liebt ihn.",
+  "urauffuehrung": {
+    "datum": "1871-12-24",
+    "ort": "Khedivial Opera House, Kairo"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Memphis, Königspalast und Tempel",
+      "text": "Radamès wird zum Feldherrn gegen die Äthiopier bestimmt. Er träumt von Aida, der Sklavin der Prinzessin Amneris. Aida ist hin- und hergerissen zwischen ihrer Liebe und ihrem Volk."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Gemach der Amneris, Stadttor von Theben",
+      "text": "Amneris entlockt Aida mit einer List ihre Liebe zu Radamès. Radamès kehrt im Triumph zurück. Unter den Gefangenen ist Aidas Vater Amonasro, der König der Äthiopier, unerkannt. Der Pharao gibt Radamès Amneris zur Frau."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Am Ufer des Nil, Nacht",
+      "text": "Amonasro zwingt Aida, Radamès den Weg des ägyptischen Heeres zu entlocken. Radamès verrät ihn ahnungslos, Amneris überrascht sie. Amonasro und Aida fliehen, Radamès stellt sich."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Im Palast, Grabgewölbe unter dem Tempel",
+      "text": "Amneris will Radamès retten, wenn er Aida aufgibt; er weigert sich. Er wird verurteilt, lebendig begraben zu werden. Im Grab findet er Aida, die sich dort versteckt hat. Gemeinsam sterben sie."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Celeste Aida",
+      "wer": "Radamès",
+      "akt": "1. Akt",
+      "was": "Radamès träumt von der himmlischen Aida."
+    },
+    {
+      "titel": "Ritorna vincitor!",
+      "wer": "Aida",
+      "akt": "1. Akt",
+      "was": "Aida zwischen Liebe und Vaterland."
+    },
+    {
+      "titel": "Gloria all’Egitto",
+      "wer": "Chor",
+      "akt": "2. Akt",
+      "was": "Der Triumphmarsch mit den berühmten Trompeten."
+    },
+    {
+      "titel": "O patria mia",
+      "wer": "Aida",
+      "akt": "3. Akt",
+      "was": "Aidas Sehnsucht nach der Heimat."
+    },
+    {
+      "titel": "O terra, addio",
+      "wer": "Aida und Radamès",
+      "akt": "4. Akt",
+      "was": "Der Abschied im Grab."
+    }
+  ],
+  "wissen": [
+    "Anders als oft behauptet, entstand Aida nicht zur Eröffnung des Suezkanals 1869, sondern für das neue Opernhaus in Kairo.",
+    "Die Geschichte entwarf der französische Ägyptologe Auguste Mariette."
+  ]
+}

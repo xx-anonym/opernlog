@@ -1,0 +1,66 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Zypern im 15. Jahrhundert. Der siegreiche Feldherr Otello ist glücklich mit Desdemona verheiratet. Sein Fähnrich Jago aber sinnt auf Rache und vergiftet Otellos Vertrauen mit Eifersucht – Schritt für Schritt, bis zur Katastrophe.",
+  "urauffuehrung": {
+    "datum": "1887-02-05",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor dem Schloss auf Zypern",
+      "text": "Otello kehrt nach einem Seesturm als Sieger über die Türken zurück: ihre Flotte ist vernichtet. Jago macht Cassio betrunken und stiftet einen Streit an; Otello degradiert Cassio. In der Nacht feiern Otello und Desdemona ihre Liebe."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Saal im Schloss",
+      "text": "Jago bekennt sein nihilistisches Credo. Er rät Cassio, Desdemona um Fürsprache zu bitten, und weckt so Otellos Misstrauen. Er bringt Desdemonas Taschentuch an sich und behauptet, es bei Cassio gesehen zu haben. Otello schwört Rache."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Großer Saal im Schloss",
+      "text": "Otello fordert das Taschentuch von Desdemona, sie hat es nicht. Jago lässt Otello ein Gespräch mit Cassio belauschen, das Otello falsch versteht. Vor den Gesandten aus Venedig wirft Otello Desdemona zu Boden und bricht zusammen."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Desdemonas Schlafzimmer",
+      "text": "Desdemona singt das Lied von der Weide und betet ein Ave Maria. Otello erwürgt sie. Emilia deckt Jagos Intrige auf. Otello erkennt seinen Irrtum, ersticht sich und stirbt mit einem letzten Kuss."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Esultate!",
+      "wer": "Otello",
+      "akt": "1. Akt",
+      "was": "Otellos triumphaler Auftritt nach dem Sturm."
+    },
+    {
+      "titel": "Già nella notte densa",
+      "wer": "Otello und Desdemona",
+      "akt": "1. Akt",
+      "was": "Das Liebesduett in der Nacht."
+    },
+    {
+      "titel": "Credo in un Dio crudel",
+      "wer": "Jago",
+      "akt": "2. Akt",
+      "was": "Jagos Bekenntnis zu einem grausamen Gott."
+    },
+    {
+      "titel": "Sì, pel ciel marmoreo giuro",
+      "wer": "Otello und Jago",
+      "akt": "2. Akt",
+      "was": "Der Racheschwur."
+    },
+    {
+      "titel": "Ave Maria",
+      "wer": "Desdemona",
+      "akt": "4. Akt",
+      "was": "Desdemonas Gebet vor dem Ende."
+    }
+  ],
+  "wissen": [
+    "Otello entstand 16 Jahre nach „Aida“; Verdi war bei der Uraufführung 73 Jahre alt.",
+    "Jagos Credo steht nicht bei Shakespeare – Arrigo Boito hat es für das Libretto erfunden."
+  ]
+}

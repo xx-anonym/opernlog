@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 4 Std.",
+  "anriss": "Der junge Siegfried kennt keine Furcht. Aufgezogen vom listigen Zwerg Mime, schmiedet er das zerbrochene Schwert seines Vaters neu, tötet den Drachen Fafner – und erweckt die schlafende Brünnhilde. Der dritte Teil von Wagners „Ring des Nibelungen“.",
+  "urauffuehrung": {
+    "datum": "1876-08-16",
+    "ort": "Festspielhaus, Bayreuth"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Mimes Höhle im Wald",
+      "text": "Mime hat Siegfried aufgezogen, weil er durch ihn an den Ring des Drachen Fafner kommen will. Ein Wanderer – der Gott Wotan – besucht Mime und prophezeit: nur wer das Fürchten nicht kennt, kann das Schwert Nothung neu schmieden. Siegfried schmiedet es."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Vor der Neidhöhle",
+      "text": "Siegfried tötet den Drachen Fafner. Ein Tropfen Drachenblut lässt ihn die Sprache eines Waldvogels verstehen. Er durchschaut Mimes Mordplan und tötet ihn. Der Vogel erzählt ihm von Brünnhilde, die auf einem Felsen im Feuer schläft."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Am Fuß des Felsens, auf dem Brünnhildenfelsen",
+      "text": "Der Wanderer stellt sich Siegfried in den Weg; Siegfried zerschlägt Wotans Speer. Er durchschreitet das Feuer und erweckt Brünnhilde mit einem Kuss. Zum ersten Mal lernt er das Fürchten – und die Liebe."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Nothung! Nothung! Neidliches Schwert!",
+      "wer": "Siegfried",
+      "akt": "1. Akt",
+      "was": "Die Schmiedelieder."
+    },
+    {
+      "titel": "Waldweben",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "2. Akt",
+      "was": "Siegfried lauscht den Stimmen des Waldes."
+    },
+    {
+      "titel": "Heil dir, Sonne!",
+      "wer": "Brünnhilde",
+      "akt": "3. Akt",
+      "was": "Brünnhildes Erwachen."
+    },
+    {
+      "titel": "Ewig war ich",
+      "wer": "Brünnhilde",
+      "akt": "3. Akt",
+      "was": "Aus dem großen Schlussduett."
+    }
+  ],
+  "wissen": [
+    "Wagner unterbrach die Arbeit nach dem zweiten Akt für zwölf Jahre und schrieb in der Zeit „Tristan und Isolde“ und „Die Meistersinger von Nürnberg“.",
+    "Siegfried wurde 1876 bei den ersten Bayreuther Festspielen uraufgeführt, mit dem ersten vollständigen „Ring“."
+  ]
+}

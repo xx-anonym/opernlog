@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Der junge Dichter Werther verliebt sich in Charlotte, die ihrer sterbenden Mutter versprochen hat, Albert zu heiraten. Eine Liebe ohne Ausweg – nach Goethes Roman „Die Leiden des jungen Werthers“.",
+  "urauffuehrung": {
+    "datum": "1892-02-16",
+    "ort": "Hofoper, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Haus des Amtmanns",
+      "text": "Charlotte kümmert sich nach dem Tod der Mutter um ihre jüngeren Geschwister. Werther begleitet sie zu einem Ball und verliebt sich. Bei der Rückkehr erfährt er, dass sie Albert versprochen ist."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Platz vor der Kirche",
+      "text": "Charlotte und Albert sind verheiratet. Werther kann seine Liebe nicht verbergen. Charlotte bittet ihn, fortzugehen und erst an Weihnachten wiederzukommen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Charlottes Wohnung, Heiligabend",
+      "text": "Charlotte liest Werthers Briefe und erkennt, dass sie ihn liebt. Werther kehrt zurück und liest ihr Verse des Ossian vor; einen Augenblick fallen sie sich in die Arme, dann flieht Charlotte. Werther lässt sich von Albert dessen Pistolen leihen."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Werthers Zimmer",
+      "text": "Charlotte eilt zu Werther und findet ihn tödlich verwundet. Endlich gesteht sie ihm ihre Liebe. Er stirbt in ihren Armen, während draußen Kinder ein Weihnachtslied singen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ô nature, pleine de grâce",
+      "wer": "Werther",
+      "akt": "1. Akt",
+      "was": "Werthers Hymne an die Natur."
+    },
+    {
+      "titel": "Mondscheinmusik",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Das zarte Zwischenspiel bei der Rückkehr vom Ball."
+    },
+    {
+      "titel": "Va! laisse couler mes larmes",
+      "wer": "Charlotte",
+      "akt": "3. Akt",
+      "was": "Die Tränenarie."
+    },
+    {
+      "titel": "Pourquoi me réveiller",
+      "wer": "Werther",
+      "akt": "3. Akt",
+      "was": "Werther liest die Verse des Ossian."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung fand in Wien in deutscher Übersetzung statt, nicht in Paris.",
+    "Goethes Roman erschien 1774 und löste in ganz Europa ein „Werther-Fieber“ aus."
+  ]
+}

@@ -125,3 +125,15 @@ test('der Knopf in die App steht in der mitlaufenden Leiste oben, auf jeder Seit
     }
     assert.match(lies('oper/tosca/index.html'), /class="knopf knopf--kopf" href="\/#\/opera\/tosca"/);
 });
+
+test('jeder Termin nennt das Haus als Ensemble (performer), aber keine erfundenen Preise', () => {
+    const html = lies('oper/tosca/index.html');
+    const roh = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+    const ereignisse = roh.flat().filter(d => d['@type'] === 'Event');
+    assert.ok(ereignisse.length > 0);
+    for (const e of ereignisse) {
+        assert.equal(e.performer['@type'], 'PerformingGroup');
+        assert.equal(e.performer.name, e.location.name);
+        assert.equal(e.offers.price, undefined);
+    }
+});

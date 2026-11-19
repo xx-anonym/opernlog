@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 1 Std.",
+  "anriss": "Karthago. Die Königin Dido liebt den Trojaner Aeneas, der auf seiner Irrfahrt bei ihr gestrandet ist. Hexen planen ihren Untergang und schicken Aeneas mit einem falschen Götterbefehl fort.",
+  "urauffuehrung": {
+    "datum": "1689",
+    "ort": "Mädchenpensionat von Josias Priest, Chelsea (Datierung umstritten)"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Didos Palast",
+      "text": "Dido ist von Kummer bedrückt; ihre Vertraute Belinda ermutigt sie zur Liebe. Aeneas wirbt um die Königin, und sie gibt nach."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Höhle der Hexen, ein Hain",
+      "text": "Die Hexen wollen Karthago zerstören. Auf einer Jagd ziehen sie ein Unwetter herauf. Ein falscher Merkur, von ihnen geschickt, befiehlt Aeneas, sofort nach Italien aufzubrechen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Am Hafen, Didos Palast",
+      "text": "Die trojanischen Seeleute bereiten die Abfahrt vor. Aeneas will bleiben, doch Dido schickt ihn stolz fort. Allein nimmt sie Abschied vom Leben."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ah! Belinda, I am prest with torment",
+      "wer": "Dido",
+      "akt": "1. Akt",
+      "was": "Didos Klage über ihren Kummer."
+    },
+    {
+      "titel": "Come away, fellow sailors",
+      "wer": "Seemann und Chor",
+      "akt": "3. Akt",
+      "was": "Das Lied der aufbrechenden Seeleute."
+    },
+    {
+      "titel": "When I am laid in earth",
+      "wer": "Dido",
+      "akt": "3. Akt",
+      "was": "Didos Lamento – eine der berühmtesten Klagen der Operngeschichte."
+    },
+    {
+      "titel": "With drooping wings",
+      "wer": "Chor",
+      "akt": "3. Akt",
+      "was": "Der Trauerchor am Schluss."
+    }
+  ],
+  "wissen": [
+    "Belegt ist eine Aufführung an Josias Priests Mädchenschule in Chelsea. Wann genau sie stattfand und ob sie die erste war, ist umstritten; üblich ist die Angabe 1689.",
+    "Vorlage ist das vierte Buch von Vergils „Aeneis“."
+  ]
+}

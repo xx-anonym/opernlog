@@ -1,0 +1,60 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Der babylonische König Nabucco erobert Jerusalem und führt die Hebräer in die Gefangenschaft. Sein Hochmut stürzt ihn in den Wahnsinn, während seine machtgierige Ziehtochter Abigaille nach dem Thron greift.",
+  "urauffuehrung": {
+    "datum": "1842-03-09",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Teil",
+      "ort": "Jerusalem",
+      "text": "Die Hebräer fürchten Nabuccos Heer. Ihr Hohepriester Zaccaria hält Nabuccos Tochter Fenena als Geisel. Sie liebt den Hebräer Ismaele, den sie einst aus babylonischer Gefangenschaft befreit hat. Als Zaccaria sie töten will, rettet Ismaele sie und übergibt sie ihrem Vater. Nabucco erobert die Stadt und zerstört den Tempel."
+    },
+    {
+      "titel": "2. Teil",
+      "ort": "Babylon",
+      "text": "Abigaille erfährt, dass sie die Tochter einer Sklavin ist, und will die Macht an sich reißen. Nabucco erklärt sich selbst zum Gott – ein Blitz trifft ihn, und er verliert den Verstand. Abigaille nimmt die Krone."
+    },
+    {
+      "titel": "3. Teil",
+      "ort": "Babylon, am Euphrat",
+      "text": "Abigaille bringt den verwirrten Nabucco dazu, das Todesurteil gegen die Hebräer und Fenena zu unterschreiben. Am Ufer des Euphrat sehnen sich die Gefangenen nach ihrer Heimat."
+    },
+    {
+      "titel": "4. Teil",
+      "ort": "Babylon",
+      "text": "Nabucco kommt zur Besinnung, betet zum Gott Israels und rettet Fenena im letzten Moment. Abigaille hat Gift genommen; sterbend bittet sie um Vergebung."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Va, pensiero, sull’ali dorate",
+      "wer": "Chor der Gefangenen",
+      "akt": "3. Teil",
+      "was": "Der Gefangenenchor – Verdis berühmtester Chor."
+    },
+    {
+      "titel": "Anch’io dischiuso un giorno",
+      "wer": "Abigaille",
+      "akt": "2. Teil",
+      "was": "Abigailles Erinnerung an verlorenes Glück."
+    },
+    {
+      "titel": "Tu sul labbro dei veggenti",
+      "wer": "Zaccaria",
+      "akt": "2. Teil",
+      "was": "Das Gebet des Hohepriesters."
+    },
+    {
+      "titel": "Dio di Giuda",
+      "wer": "Nabucco",
+      "akt": "4. Teil",
+      "was": "Nabuccos Gebet zum Gott der Hebräer."
+    }
+  ],
+  "wissen": [
+    "Nabucco war Verdis Durchbruch, nach einer Zeit schwerer persönlicher Verluste.",
+    "Bei der Überführung von Verdis Sarg im Februar 1901 dirigierte Arturo Toscanini den Gefangenenchor."
+  ]
+}

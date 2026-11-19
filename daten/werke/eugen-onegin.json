@@ -1,0 +1,65 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Die junge Tatjana verliebt sich in den weltgewandten Eugen Onegin und schreibt ihm einen Brief, in dem sie ihm ihr Herz öffnet. Er weist sie kühl zurück – und erkennt erst Jahre später, was er verloren hat.",
+  "urauffuehrung": {
+    "datum": "1879-03-29",
+    "ort": "Maly-Theater, Moskau"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Landgut der Larins, Tatjanas Zimmer",
+      "text": "Der Dichter Lenski bringt seinen Freund Onegin zu den Larins. Tatjana verliebt sich auf den ersten Blick und schreibt ihm in der Nacht einen leidenschaftlichen Brief. Am nächsten Tag weist Onegin sie höflich, aber kühl zurück."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Ball bei den Larins, Mühle am Morgen",
+      "text": "Auf Tatjanas Namenstagsfest langweilt sich Onegin und flirtet zum Ärger Lenskis mit dessen Verlobter Olga. Lenski fordert ihn zum Duell. Im Morgengrauen erschießt Onegin seinen Freund."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Ball in Sankt Petersburg, Tatjanas Salon",
+      "text": "Jahre später sieht Onegin Tatjana wieder: als Ehefrau des Fürsten Gremin. Jetzt ist er es, der sich verliebt. Tatjana gesteht ihm, dass sie ihn noch liebt – und bleibt doch ihrem Mann treu. Onegin bleibt verzweifelt zurück."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Briefszene",
+      "zitat": false,
+      "wer": "Tatjana",
+      "akt": "1. Akt",
+      "was": "Tatjana schreibt in einer langen Nacht ihren Brief an Onegin."
+    },
+    {
+      "titel": "Walzer",
+      "zitat": false,
+      "wer": "Chor und Orchester",
+      "akt": "2. Akt",
+      "was": "Der Walzer auf Tatjanas Namenstagsfest."
+    },
+    {
+      "titel": "Kuda, kuda",
+      "wer": "Lenski",
+      "akt": "2. Akt",
+      "was": "Lenskis Abschied vom Leben vor dem Duell."
+    },
+    {
+      "titel": "Polonaise",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Der prächtige Auftakt zum Petersburger Ball."
+    },
+    {
+      "titel": "Ljubwi wse wosrasty pokorny",
+      "wer": "Fürst Gremin",
+      "akt": "3. Akt",
+      "was": "Gremin besingt sein spätes Glück mit Tatjana."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist Alexander Puschkins Versroman „Eugen Onegin“.",
+    "Tschaikowsky nannte das Werk „Lyrische Szenen“ und ließ es zuerst von Studierenden des Moskauer Konservatoriums aufführen.",
+    "In russischen Quellen steht oft der 17. März 1879 – das Datum nach dem damals in Russland geltenden julianischen Kalender."
+  ]
+}
