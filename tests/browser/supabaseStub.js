@@ -41,7 +41,9 @@ window.__geloescht = [];        // { tabelle, id } je DELETE
 window.__deleteFehler = null;   // gesetzt: jedes DELETE scheitert damit
 // Bildausschnitte. __ausschnitteVorgabe per addInitScript setzen, wenn sie
 // schon beim Start der App in der "Datenbank" stehen sollen.
-window.__ausschnitte = window.__ausschnitteVorgabe || [];   // { art, id, x, y }
+window.__ausschnitte = window.__ausschnitteVorgabe || [];
+window.__stellenLinks = window.__stellenLinksVorgabe || [];   // { werk_id, stelle, url }
+window.__stellenSchreiben = [];   // { art, id, x, y }
 window.__ausschnittSchreiben = [];  // { op, art, id, x, y } je upsert/delete
 window.__ausschnittFehler = null;   // gesetzt: jedes Schreiben scheitert damit
 window.__kontoGeloescht = 0;    // wie oft konto_loeschen() gerufen wurde
@@ -161,6 +163,24 @@ function builder(table) {
         // Die Regel in der Datenbank zeigt jedem nur die eigene Zeile.
         const rows = window.__istAdmin ? [{ user_id: UID }] : [];
         return Promise.resolve({ data: single ? (rows[0] || null) : rows, error: null }).then(res, rej);
+      }
+      if (table === 'stellen_links') {
+        // Lesen alle, schreiben wie die echte Regel nur Admins.
+        if (op && !window.__istAdmin) return Promise.resolve({ data: [], error: null }).then(res, rej);
+        const gleich = (z) => z.werk_id === (nutzlast?.werk_id ?? filter.werk_id) && z.stelle === (nutzlast?.stelle ?? filter.stelle);
+        if (op === 'upsert') {
+          window.__stellenSchreiben.push({ op, ...nutzlast });
+          const zeile = { werk_id: nutzlast.werk_id, stelle: nutzlast.stelle, url: nutzlast.url };
+          window.__stellenLinks = [...window.__stellenLinks.filter(z => !gleich(z)), zeile];
+          return Promise.resolve({ data: [zeile], error: null }).then(res, rej);
+        }
+        if (op === 'delete') {
+          window.__stellenSchreiben.push({ op, werk_id: filter.werk_id, stelle: filter.stelle });
+          const weg = window.__stellenLinks.filter(gleich);
+          window.__stellenLinks = window.__stellenLinks.filter(z => !gleich(z));
+          return Promise.resolve({ data: weg, error: null }).then(res, rej);
+        }
+        return Promise.resolve({ data: window.__stellenLinks.filter(z => !filter.werk_id || z.werk_id === filter.werk_id), error: null }).then(res, rej);
       }
       if (table === 'bild_ausschnitte') {
         if (op && window.__ausschnittFehler) {

@@ -397,11 +397,74 @@ async function werkTextEinsetzen(page, operaId) {
         ${teil('Handlung <span class="werk-text__warnung">verrät das Ende</span>', `<ol class="werk-text__akte">${t.akte.map(a => `
           <li><span class="werk-text__akt">${escapeHTML(a.titel)}${a.ort ? ` · ${escapeHTML(a.ort)}` : ''}</span>${escapeHTML(a.text)}</li>`).join('')}
         </ol>`)}
-        ${teil('Bekannte Stellen', t.stellen.length ? `<ul class="werk-text__stellen">${t.stellen.map(a => `
-          <li><span class="werk-text__stelle">${escapeHTML(stelleZitat(a.titel, a.zitat))}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`).join('')}
-        </ul>` : '')}
+        ${teil('Bekannte Stellen', t.stellen.length ? '<ul class="werk-text__stellen"></ul>' : '')}
         ${teil('Gut zu wissen', t.wissen.length ? `<ul class="werk-text__wissen">${t.wissen.map(w => `<li>${escapeHTML(w)}</li>`).join('')}</ul>` : '')}
       </div>
     </details>`);
+  stellenMitAufnahmen(page.querySelector('.werk-text__stellen'), operaId, t.stellen);
+}
+
+/**
+ * Die bekannten Stellen, wo ein Admin einen Link hinterlegt hat, als Link
+ * zu einer Aufnahme (Jonas, 19.11.2026; stellen_links in Supabase). Admins
+ * sehen an jeder Stelle einen kleinen Stift zum Setzen, Ändern oder
+ * Entfernen. Erlaubt sind nur https-Adressen.
+ */
+async function stellenMitAufnahmen(liste, operaId, stellen) {
+  if (!liste) return;
+  let links = {};
+  let admin = false;
+  const zeichnen = () => {
+    liste.innerHTML = stellen.map((a, i) => {
+      const titel = escapeHTML(stelleZitat(a.titel, a.zitat));
+      const url = links[a.titel];
+      const name = url
+        ? `<a class="werk-text__stelle werk-text__stelle--link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${titel}${icon('external', { className: 'werk-text__extern', label: 'Aufnahme öffnen' })}</a>`
+        : `<span class="werk-text__stelle">${titel}</span>`;
+      const stift = admin
+        ? `<button type="button" class="werk-text__link-knopf" data-i="${i}" title="${url ? 'Link zur Aufnahme ändern' : 'Link zu einer Aufnahme hinterlegen'}">${icon('pencil', { label: 'Aufnahme verlinken' })}</button>`
+        : '';
+      return `<li><span class="werk-text__stelle-zeile">${name}${stift}</span><span class="werk-text__wer">${escapeHTML(a.wer)} · ${escapeHTML(a.akt)}</span></li>`;
+    }).join('');
+  };
+  zeichnen();
+
+  liste.addEventListener('click', async (e) => {
+    const knopf = e.target.closest('.werk-text__link-knopf');
+    if (!knopf) return;
+    const stelle = stellen[Number(knopf.dataset.i)];
+    if (!stelle) return;
+    const alt = links[stelle.titel] || '';
+    const eingabe = window.prompt(`Link zu einer Aufnahme von „${stelle.titel}“ (https://…). Leer lassen zum Entfernen.`, alt);
+    if (eingabe === null) return;
+    const url = eingabe.trim();
+    if (url === alt) return;
+    if (url && !istHttpsAdresse(url)) {
+      showError('Bitte eine vollständige https-Adresse eingeben.', { melden: false });
+      return;
+    }
+    if (!url && !alt) return;
+    const ok = await runWithFeedback(() => store.stellenLinkSetzen(operaId, stelle.titel, url), {
+      failure: url ? 'Link ließ sich nicht speichern' : 'Link ließ sich nicht entfernen',
+      success: url ? 'Aufnahme verlinkt' : 'Link entfernt',
+    });
+    if (!ok) return;
+    if (url) links[stelle.titel] = url; else delete links[stelle.titel];
+    zeichnen();
+  });
+
+  const [geladen, istAdminJa] = await Promise.all([store.stellenLinks(operaId), istAdmin().catch(() => false)]);
+  links = geladen || {};
+  admin = !!istAdminJa;
+  zeichnen();
+}
+
+export function istHttpsAdresse(text) {
+  try {
+    const u = new URL(text);
+    return u.protocol === 'https:' && !!u.hostname && text.length <= 500 && !/[\s<>"]/.test(text);
+  } catch {
+    return false;
+  }
 }
 

@@ -1120,6 +1120,22 @@ class Store {
      * Grenze". Scheitert die Abfrage, ebenfalls null: die Datenbank hält
      * die Grenze ohnehin, die App soll deswegen niemanden aufhalten.
      */
+    /** Links zu Aufnahmen der bekannten Stellen eines Werks; ohne Netz {}. */
+    async stellenLinks(werkId) {
+        if (!this.isCloud || this.isOffline) return {};
+        try {
+            return await sb.getStellenLinksCloud(werkId);
+        } catch (e) {
+            console.warn('[Werk] Aufnahmen laden', e);
+            return {};
+        }
+    }
+
+    async stellenLinkSetzen(werkId, stelle, url) {
+        this._kontoNoetig();
+        return url ? sb.setStellenLinkCloud(werkId, stelle, url) : sb.deleteStellenLinkCloud(werkId, stelle);
+    }
+
     async andenkenKontingent() {
         if (!this.isCloud || this.isOffline) return null;
         try {

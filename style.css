@@ -976,6 +976,26 @@ h3 {
     color: var(--text-primary);
 }
 .werk-text__wer { font-size: 13px; color: var(--text-muted); text-align: right; }
+/* Bekannte Stellen mit Link zu einer Aufnahme, und der Stift für Admins. */
+.werk-text__stelle-zeile { display: inline-flex; align-items: baseline; gap: 6px; min-width: 0; }
+.werk-text__stelle--link {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-underline-offset: 3px;
+}
+.werk-text__stelle--link:hover { color: var(--gold-light); }
+.werk-text__extern { width: 0.8em; height: 0.8em; margin-left: 4px; color: var(--gold); vertical-align: baseline; }
+.werk-text__link-knopf {
+    flex: none;
+    padding: 2px 4px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+}
+.werk-text__link-knopf:hover { color: var(--gold); }
 .werk-text__wissen {
     margin: 0;
     padding-left: 18px;

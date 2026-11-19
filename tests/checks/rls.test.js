@@ -49,7 +49,10 @@ const schema = sqlOhneKommentare('supabase/schema.sql');
 // ihre Regeln in einer Schleife an und stehen deshalb nicht hier.
 // seen_operas ist seit dem 30.9.2026 öffentlich: die Sammlungen von Freunden
 // zählen ihre Markierungen mit (schon_gesehen_oeffentlich_migration.sql).
-const OEFFENTLICH_LESBAR = ['bild_ausschnitte', 'comments', 'follows', 'likes', 'profiles', 'seen_operas', 'visits'];
+// stellen_links (19.11.2026) gehört wie bild_ausschnitte zum Katalog: Links
+// zu Aufnahmen, die ein Admin hinterlegt; nichts über Personen außer dem
+// Admin, der zuletzt geändert hat.
+const OEFFENTLICH_LESBAR = ['bild_ausschnitte', 'comments', 'follows', 'likes', 'profiles', 'seen_operas', 'stellen_links', 'visits'];
 
 function oeffentlichLesbareTabellen(sql) {
     return [...sql.matchAll(/CREATE POLICY\s+"[^"]*"\s+ON\s+(\w+)\s+FOR SELECT\s+USING\s*\(\s*true\s*\)/gi)]

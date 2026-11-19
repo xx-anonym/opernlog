@@ -1697,6 +1697,35 @@ export async function deleteBildAusschnitt(art, id, { hatteEinen = true } = {}) 
     return hatteEinen ? unwrapWritten(antwort, 'Bildausschnitt zurücksetzen') : unwrap(antwort, 'Bildausschnitt zurücksetzen');
 }
 
+// ── Links zu Aufnahmen für bekannte Stellen ────────────────────────────
+// supabase/migrations/stellen_links_migration.sql: lesen alle, schreiben
+// nur Admins. Schlüssel ist Werk + Titel der Stelle (daten/werke/<id>.json).
+
+/** { Titel der Stelle: Adresse } für ein Werk. */
+export async function getStellenLinksCloud(werkId) {
+    const sb = getSupabase();
+    if (!sb) return {};
+    const zeilen = unwrap(await sb.from('stellen_links').select('stelle, url').eq('werk_id', werkId), 'Aufnahmen laden') || [];
+    return Object.fromEntries(zeilen.map(z => [z.stelle, z.url]));
+}
+
+export async function setStellenLinkCloud(werkId, stelle, url) {
+    const session = await getSession();
+    if (!session) throw new Error('Dafür musst du angemeldet sein.');
+    const sb = getSupabase();
+    return unwrapWritten(
+        await sb.from('stellen_links')
+            .upsert({ werk_id: werkId, stelle, url, geaendert_von: session.user.id, geaendert: new Date().toISOString() }, { onConflict: 'werk_id,stelle' })
+            .select('stelle, url'),
+        'Aufnahme speichern');
+}
+
+export async function deleteStellenLinkCloud(werkId, stelle) {
+    const sb = getSupabase();
+    if (!sb) throw new Error('Keine Verbindung.');
+    return unwrapWritten(await sb.from('stellen_links').delete().eq('werk_id', werkId).eq('stelle', stelle).select('stelle'), 'Aufnahme entfernen');
+}
+
 /**
  * Legt einen Katalogeintrag an.
  *
