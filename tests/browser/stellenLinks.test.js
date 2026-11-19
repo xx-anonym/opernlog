@@ -54,9 +54,13 @@ test('eine verlinkte Stelle öffnet die Aufnahme in einem neuen Tab, ohne Stift 
         // Die anderen Stellen bleiben schlichter Text.
         assert.equal(await stelle(p, 1).locator('a').count(), 0);
         assert.equal(await p.locator('.werk-text__link-knopf').count(), 0);
-        // Ein Tipp öffnet die Aufnahme.
+        // Ein Tipp öffnet die Aufnahme. YouTube selbst wird nicht gefragt –
+        // ohne Netz (oder im CI) bliebe der neue Tab sonst eine Fehlerseite.
+        // Gewartet wird auf das Laden: beim Ereignis "page" steht im neuen
+        // Tab oft noch about:blank, und der Test scheiterte im CI daran.
+        await ctx.route('https://www.youtube.com/**', r => r.fulfill({ status: 200, contentType: 'text/html', body: '<title>Aufnahme</title>' }));
         const [neu] = await Promise.all([ctx.waitForEvent('page'), link.click()]);
-        assert.equal(neu.url().startsWith('https://www.youtube.com/'), true);
+        await neu.waitForURL(CALLAS, { timeout: 10000 });
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
