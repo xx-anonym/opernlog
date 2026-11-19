@@ -20,6 +20,7 @@ import { pruefeWerk, pruefeHaus, pruefeKomponist, idVorschlag, thumbAdresse, BIL
 import { addKatalogWerk, addKatalogHaus, addKatalogKomponist } from '../store/supabase.js';
 import { sammlungenFuer } from '../data/sammlungen.js';
 import { naechsterLaufText } from '../data/spielplanLauf.js';
+import { werkTextAusFormular, werkTextFehler, werkTextFehlerLesbar, aktePassen } from '../data/werkTexte.js';
 import { escapeHTML } from '../utils.js';
 
 /** Die Länderauswahl beim Haus: was im Katalog schon vorkommt. */
@@ -33,10 +34,10 @@ const feld = ({ id, label, typ = 'text', hinweis = '', wert = '', schritt = '' }
         ${hinweis ? `<p class="form-hint">${hinweis}</p>` : ''}
     </div>`;
 
-const textfeld = ({ id, label, hinweis = '' }) => `
+const textfeld = ({ id, label, hinweis = '', zeilen = 3, platzhalter = '' }) => `
     <div class="form-group">
         <label class="form-label" for="${id}">${escapeHTML(label)}</label>
-        <textarea class="input" id="${id}" rows="3"></textarea>
+        <textarea class="input" id="${id}" rows="${zeilen}"${platzhalter ? ` placeholder="${escapeHTML(platzhalter)}"` : ''}></textarea>
         ${hinweis ? `<p class="form-hint">${hinweis}</p>` : ''}
     </div>`;
 
@@ -88,7 +89,35 @@ function werkFelder() {
         ${feld({ id: 'kfLibrettist', label: 'Librettist' })}
         ${textfeld({ id: 'kfDescription', label: 'Beschreibung' })}
         ${feld({ id: 'kfImage', label: 'Bild', hinweis: BILD_HINWEIS })}
-        ${feld({ id: 'kfId', label: 'Id', hinweis: 'Steht in der Adresse der Werkseite. Wird aus dem Titel vorgeschlagen.' })}`;
+        ${feld({ id: 'kfId', label: 'Id', hinweis: 'Steht in der Adresse der Werkseite. Wird aus dem Titel vorgeschlagen.' })}
+        ${werkTextFelder()}`;
+}
+
+/**
+ * Handlung, bekannte Stellen und Wissenswertes (19.11.2026) – dieselben
+ * Angaben wie in daten/werke/<id>.json, zugeklappt und freiwillig. Leer
+ * bleibt das Werk ohne diesen Teil; angefangen muss er vollständig sein.
+ */
+function werkTextFelder() {
+    return `
+        <details class="katalog-werktext" id="kfWerkText">
+            <summary>Handlung, Musik &amp; Wissenswertes (optional)</summary>
+            ${feld({ id: 'kfDauer', label: 'Dauer ohne Pausen', hinweis: 'z.&nbsp;B. „ca. 2½ Std.“ – die Seite hängt „ohne Pausen“ an.' })}
+            ${feld({ id: 'kfUaDatum', label: 'Uraufführung: Datum (optional)', hinweis: 'JJJJ-MM-TT oder nur das Jahr.' })}
+            ${feld({ id: 'kfUaOrt', label: 'Uraufführung: Ort (optional)', hinweis: 'z.&nbsp;B. „Teatro Costanzi, Rom“.' })}
+            ${textfeld({ id: 'kfAnriss', label: 'Kurz gesagt', hinweis: 'Bis 400 Zeichen, ohne das Ende zu verraten.' })}
+            ${textfeld({
+                id: 'kfHandlung', label: 'Handlung', zeilen: 8,
+                platzhalter: '1. Akt · Kirche Sant’Andrea della Valle\nDer Maler Cavaradossi …\n\n2. Akt · Palazzo Farnese\nScarpia …',
+                hinweis: 'Ein Absatz je Akt: erste Zeile „1. Akt · Ort“, darunter der Text (bis 600 Zeichen). Prolog, Vorspiel und Epilog dürfen dazukommen.',
+            })}
+            ${textfeld({
+                id: 'kfStellen', label: 'Bekannte Stellen (optional)', zeilen: 4,
+                platzhalter: '„Vissi d’arte“ – Tosca, 2. Akt: Toscas Gebet.\nTe Deum – Scarpia und Chor, 1. Akt: Der Aktschluss in der Kirche.',
+                hinweis: 'Eine je Zeile: Titel – Wer, Akt: Beschreibung. Titel aus dem Text in Anführungszeichen, Bezeichnungen wie „Ouvertüre“ ohne.',
+            })}
+            ${textfeld({ id: 'kfWissen', label: 'Gut zu wissen (optional)', zeilen: 3, hinweis: 'Eine Tatsache je Zeile, bis 220 Zeichen.' })}
+        </details>`;
 }
 
 /** Die Felder eines Hauses. */
@@ -228,6 +257,11 @@ export function katalogModal(art, fertig, dienste = {}) {
                 image: wert('kfImage'),
             },
             neuerKomponist,
+            werkText: werkTextAusFormular({
+                dauer: wert('kfDauer'), uaDatum: wert('kfUaDatum'), uaOrt: wert('kfUaOrt'),
+                anriss: wert('kfAnriss'), handlung: q('#kfHandlung').value,
+                stellen: wert('kfStellen'), wissen: wert('kfWissen'),
+            }),
         };
     }
 
@@ -267,6 +301,16 @@ export function katalogModal(art, fertig, dienste = {}) {
                 ...(neuerKomponist ? pruefeKomponist(neuerKomponist, { komponisten: composers }) : []),
                 ...pruefeWerk(eingabe.werk, { werke: operas, komponisten: bekannt }),
             ];
+            const { text, fehler } = eingabe.werkText;
+            if (text) {
+                maengel.push(...fehler, ...werkTextFehlerLesbar(werkTextFehler(text)));
+                if (!aktePassen(text, eingabe.werk.acts)) {
+                    maengel.push(`Handlung: ${text.akte.length} Abschnitte, aber ${eingabe.werk.acts || 'keine'} Akte angegeben`);
+                }
+                eingabe.werk.werkText = text;
+            }
+            // Wer die Mängel im zugeklappten Teil nicht sieht, sucht sie vergeblich.
+            if (maengel.some(m => /^(Dauer|Kurz gesagt|Uraufführung|Handlung|Bekannte Stellen|Gut zu wissen)/.test(m))) q('#kfWerkText').open = true;
         } else {
             maengel = pruefeHaus(eingabe, { haeuser: operaHouses });
         }

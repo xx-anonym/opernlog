@@ -22,6 +22,7 @@ import { operas } from '../../src/data/operas.js';
 import { operaHouses } from '../../src/data/operaHouses.js';
 import { composers } from '../../src/data/composers.js';
 import { pruefeWerk, pruefeHaus, pruefeKomponist } from '../../src/data/katalogRegeln.js';
+import { werkTextFehler, aktePassen } from '../../src/data/werkTexte.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -44,6 +45,7 @@ const UMBENANNT = {
     bild_urheber: 'bildUrheber',
     spielplan_seite: 'spielplanSeite',
     andere_titel: 'andereTitel',
+    werk_text: 'werkText',
 };
 
 function alsKatalogEintrag(zeile) {
@@ -96,6 +98,11 @@ for (const k of komponistenDb) {
 }
 for (const w of werkeDb) {
     const m = pruefeWerk(w, { werke: ohne(alleWerke, w), komponisten: alleKomponisten });
+    // Der Text aus dem Formular (werk_text): dieselben Regeln wie die Dateien.
+    if (w.werkText) {
+        m.push(...werkTextFehler(w.werkText).map(f => `Werktext: ${f}`));
+        if (!aktePassen(w.werkText, w.acts)) m.push(`Werktext: ${w.werkText.akte?.length} Abschnitte, ${w.acts} Akte`);
+    }
     if (m.length) funde.push({ art: 'Werk', id: w.id, name: w.title, maengel: m });
 }
 for (const h of haeuserDb) {

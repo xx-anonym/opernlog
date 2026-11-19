@@ -20,7 +20,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { composerFarbe } from '../data/composerFarben.js';
 import { tippen } from '../haptik.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
-import { ladeWerkText, stelleZitat } from '../data/werkTexte.js';
+import { ladeWerkText, eigenerWerkText, stelleZitat } from '../data/werkTexte.js';
 
 /** Eine Bewertung als "4,5" – im Fließtext, wo ganze Sterne zu breit wären. */
 function note(n) {
@@ -276,7 +276,7 @@ export function OperaDetailPage(operaId) {
     }
   }
   loadVisits();
-  werkTextEinsetzen(page, opera.id);
+  werkTextEinsetzen(page, opera);
   bildnachweisImKopf(page.querySelector('.detail-hero'), opera.image);
 
   // Wishlist toggle
@@ -379,8 +379,10 @@ export function OperaDetailPage(operaId) {
  * zugeklappte Zeile direkt vor den Reviews. Zugeklappt, damit die Reviews
  * oben bleiben (Jonas, 19.11.2026, Variante A). Ohne Datei: nichts.
  */
-async function werkTextEinsetzen(page, operaId) {
-  const t = await ladeWerkText(operaId);
+async function werkTextEinsetzen(page, opera) {
+  const operaId = opera.id;
+  // Werke aus dem Admin-Formular bringen ihren Text selbst mit.
+  const t = eigenerWerkText(opera) || await ladeWerkText(operaId);
   if (!t) return;
 
   const meta = page.querySelector('.detail-hero__meta');

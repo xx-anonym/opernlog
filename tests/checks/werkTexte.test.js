@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { operas } from '../../src/data/operas.js';
-import { werkTextFehler, ladeWerkText, WERKTEXT_ORDNER } from '../../src/data/werkTexte.js';
+import { werkTextFehler, ladeWerkText, aktePassen, WERKTEXT_ORDNER } from '../../src/data/werkTexte.js';
 import { werkSeite, werkTexteLesen, TERMINE_VORN } from '../werkzeug/seiten-erzeugen.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -34,8 +34,7 @@ test('jede Datei ist gültig und gehört zu einem Werk im Repo oder in der Daten
         assert.deepEqual(werkTextFehler(t), [], id);
         // Die Akte im Text passen zum Katalog. Prolog, Vorspiel und Epilog zählt der
         // Katalog mal mit (Hoffmanns Erzählungen), mal nicht (Pagliacci).
-        const ohneRahmen = t.akte.filter(a => !/^(Prolog|Vorspiel|Epilog)$/.test(a.titel)).length;
-        if (werk.acts) assert.ok(t.akte.length === werk.acts || ohneRahmen === werk.acts, `${id}: ${t.akte.length} Abschnitte im Text, ${werk.acts} Akte im Katalog`);
+        assert.ok(aktePassen(t, werk.acts), `${id}: ${t.akte.length} Abschnitte im Text, ${werk.acts} Akte im Katalog`);
     }
 });
 

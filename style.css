@@ -905,6 +905,16 @@ h3 {
     margin-bottom: 32px;
 }
 
+/* Dieselben Angaben im Admin-Formular (KatalogFormular.js), zugeklappt. */
+.katalog-werktext { margin: 8px 0 16px; }
+.katalog-werktext summary {
+    cursor: pointer;
+    padding: 10px 0;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.katalog-werktext[open] summary { margin-bottom: 8px; }
+
 /* Handlung, Musik & Wissenswertes (src/data/werkTexte.js): eine zugeklappte
    Zeile vor den Reviews, damit die oben bleiben. */
 .werk-text {

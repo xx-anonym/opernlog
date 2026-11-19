@@ -144,6 +144,68 @@ test('ein Werk landet im Katalog und ist sofort da', { skip: fehltPlaywright }, 
     } finally { await ctx.close(); }
 });
 
+test('Handlung, Stellen und Wissenswertes kommen mit dem Werk in die Datenbank und auf die Werkseite', { skip: fehltPlaywright }, async () => {
+    // Seit 19.11.2026: dieselben Angaben wie in daten/werke/<id>.json, im
+    // Formular zugeklappt und freiwillig.
+    const { ctx, p, fehler } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.click('#suggestOperaBtn');
+        await p.waitForSelector('#kfForm');
+        await fuelleWerk(p);
+        assert.equal(await p.locator('#kfWerkText').evaluate(d => d.open), false, 'der Teil war nicht zugeklappt');
+
+        // Angefangen, aber unvollständig: Mängel in Formularworten, und der
+        // Teil klappt auf, damit man sie findet.
+        await p.locator('#kfWerkText summary').click();
+        await p.fill('#kfDauer', 'ca. 1 Std.');
+        await p.locator('#kfWerkText summary').click();
+        await p.click('#kfSenden');
+        await p.waitForSelector('#kfMaengel:has-text("Kurz gesagt fehlt")');
+        assert.equal(await p.locator('#kfWerkText').evaluate(d => d.open), true);
+        assert.equal(await p.evaluate(() => window.__angelegt.length), 0);
+
+        await p.fill('#kfAnriss', 'Ein Kaiser erklärt allen den Krieg, und der Tod streikt.');
+        await p.fill('#kfHandlung', 'Ein Akt · Ein Ort im Nirgendwo\nKaiser Overall verkündet den totalen Krieg. Der Tod legt die Arbeit nieder.');
+        await p.fill('#kfStellen', '„Lied des Todes“ – Der Tod, Ein Akt: Der Tod beklagt die Zeit.\nSchlusschoral – Ensemble, Ein Akt');
+        await p.fill('#kfWissen', 'Entstanden 1943 in Theresienstadt.');
+        await p.click('#kfSenden');
+        await p.waitForFunction(() => window.__angelegt.length >= 1);
+
+        const zeile = (await p.evaluate(() => window.__angelegt))[0].zeile;
+        assert.deepEqual(zeile.werk_text, {
+            dauer: 'ca. 1 Std.',
+            anriss: 'Ein Kaiser erklärt allen den Krieg, und der Tod streikt.',
+            akte: [{ titel: 'Ein Akt', ort: 'Ein Ort im Nirgendwo', text: 'Kaiser Overall verkündet den totalen Krieg. Der Tod legt die Arbeit nieder.' }],
+            stellen: [
+                { titel: 'Lied des Todes', wer: 'Der Tod', akt: 'Ein Akt', was: 'Der Tod beklagt die Zeit.' },
+                { titel: 'Schlusschoral', zitat: false, wer: 'Ensemble', akt: 'Ein Akt' },
+            ],
+            wissen: ['Entstanden 1943 in Theresienstadt.'],
+        });
+
+        // Die Werkseite zeigt ihn, obwohl es keine Datei dazu gibt.
+        await p.evaluate(() => { window.location.hash = '#/opera/der-kaiser-von-atlantis'; });
+        await p.waitForSelector('details.werk-text', { timeout: 10000 });
+        await p.click('.werk-text summary');
+        assert.match(await p.textContent('.werk-text'), /Der Tod legt die Arbeit nieder\./);
+        assert.match(await p.textContent('.werk-text__stellen'), /„Lied des Todes“/);
+        assert.match(await p.textContent('.detail-hero__meta'), /ca\. 1 Std\. ohne Pausen/);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('ohne Angaben im zugeklappten Teil bleibt werk_text leer', { skip: fehltPlaywright }, async () => {
+    const { ctx, p } = await oeffne('#/operas', { admin: true });
+    try {
+        await p.click('#suggestOperaBtn');
+        await p.waitForSelector('#kfForm');
+        await fuelleWerk(p);
+        await p.click('#kfSenden');
+        await p.waitForFunction(() => window.__angelegt.length >= 1);
+        assert.equal((await p.evaluate(() => window.__angelegt))[0].zeile.werk_text, null);
+    } finally { await ctx.close(); }
+});
+
 test('ein neuer Komponist wird mit angelegt und die Werkseite verlinkt ihn', { skip: fehltPlaywright }, async () => {
     // Der Name ist der Schlüssel zwischen Werk und Komponistenseite. Legte man
     // nur das Werk an, stünde dort ein Name ohne Profil.

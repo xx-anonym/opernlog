@@ -31,6 +31,7 @@ const UMBENANNT = {
     bild_lizenz: 'bildLizenz',
     bild_urheber: 'bildUrheber',
     andere_titel: 'andereTitel',
+    werk_text: 'werkText',
 };
 
 /** Eine Datenbankzeile in die Form bringen, die der Katalog führt. */

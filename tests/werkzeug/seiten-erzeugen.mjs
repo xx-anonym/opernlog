@@ -31,7 +31,7 @@ import { composers, composerByName } from '../../src/data/composers.js';
 import { spielplan, SPIELPLAN_STAND } from '../../src/data/spielplan.js';
 import { BILDNACHWEISE } from '../../src/data/bildnachweise.js';
 import { dateinameAus, nachweisZeile } from '../../src/data/bildnachweisRegeln.js';
-import { WERKTEXT_ORDNER, werkTextFehler, stelleZitat } from '../../src/data/werkTexte.js';
+import { WERKTEXT_ORDNER, werkTextFehler, eigenerWerkText, stelleZitat } from '../../src/data/werkTexte.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const SEITE = 'https://opernlog.de';
@@ -485,7 +485,7 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
     const komponistenMitWerken = komponisten.filter(k => werkeVon.has(k.name));
 
     const seiten = new Map();
-    for (const w of werke) seiten.set(`${ORDNER.werk}/${w.id}/index.html`, werkSeite(w, { termine, haeuser: hausMap, stand, text: texte.get(w.id) || null }));
+    for (const w of werke) seiten.set(`${ORDNER.werk}/${w.id}/index.html`, werkSeite(w, { termine, haeuser: hausMap, stand, text: eigenerWerkText(w) || texte.get(w.id) || null }));
     for (const h of haeuser) seiten.set(`${ORDNER.haus}/${h.id}/index.html`, hausSeite(h, { termine, werke: werkMap, stand }));
     for (const k of komponistenMitWerken) seiten.set(`${ORDNER.komponist}/${k.id}/index.html`, komponistSeite(k, { werkeVon, termine }));
 
