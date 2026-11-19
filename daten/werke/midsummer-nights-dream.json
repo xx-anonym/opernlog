@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Im Zauberwald streiten Elfenkönig Oberon und Königin Tytania. Oberons Diener Puck bringt mit einer Zauberblume zwei Liebespaare durcheinander, und ein Trupp Handwerker probt ein Theaterstück – bis einer von ihnen einen Eselskopf trägt. Brittens Oper nach Shakespeares Komödie.",
+  "urauffuehrung": {
+    "datum": "1960-06-11",
+    "ort": "Jubilee Hall, Aldeburgh"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Wald, Abend",
+      "text": "Oberon und Tytania streiten um einen indischen Knaben. Oberon schickt Puck nach einer Blume, deren Saft verliebt macht. Lysander und Hermia fliehen in den Wald, Demetrius folgt Hermia, Helena folgt ihm. Die Handwerker verteilen die Rollen für ihr Stück „Pyramus und Thisbe“. Oberon träufelt Tytania den Saft in die Augen; Puck verzaubert versehentlich Lysander, der nun Helena liebt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Wald, Nacht",
+      "text": "Bei der Probe der Handwerker setzt Puck dem Weber Bottom einen Eselskopf auf. Tytania erwacht und verliebt sich in ihn. Puck verzaubert auch Demetrius – nun lieben beide Männer Helena, und Hermia ist verzweifelt. Die vier streiten, bis Puck sie durch den Wald irren lässt und in den Schlaf führt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Wald am Morgen, Palast des Theseus",
+      "text": "Oberon löst den Zauber. Die Paare finden richtig zusammen, und Bottom erwacht verwundert ohne Eselskopf. Am Hof von Theseus und Hippolyta wird dreifache Hochzeit gefeiert; die Handwerker spielen „Pyramus und Thisbe“. Um Mitternacht segnen die Elfen das Haus."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Over hill, over dale",
+      "wer": "Elfen",
+      "akt": "1. Akt",
+      "was": "Der Chor der Elfen, gesungen von Knabenstimmen."
+    },
+    {
+      "titel": "Ill met by moonlight, proud Tytania",
+      "wer": "Oberon und Tytania",
+      "akt": "1. Akt",
+      "was": "Der Streit des Elfenpaares."
+    },
+    {
+      "titel": "I know a bank where the wild thyme blows",
+      "wer": "Oberon",
+      "akt": "1. Akt",
+      "was": "Oberons Zaubergesang."
+    },
+    {
+      "titel": "Be kind and courteous to this gentleman",
+      "wer": "Tytania",
+      "akt": "2. Akt",
+      "was": "Tytania lässt ihre Elfen dem Esel dienen."
+    },
+    {
+      "titel": "Pyramus und Thisbe",
+      "zitat": false,
+      "wer": "Handwerker",
+      "akt": "3. Akt",
+      "was": "Das Stück im Stück, eine Parodie auf die italienische Oper."
+    }
+  ],
+  "wissen": [
+    "Oberon ist für Countertenor geschrieben; bei der Uraufführung sang ihn Alfred Deller.",
+    "Puck singt nicht, er spricht und turnt – begleitet von Trompete und kleiner Trommel."
+  ]
+}

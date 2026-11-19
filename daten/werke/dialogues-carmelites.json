@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Frankreich zur Zeit der Revolution. Die ängstliche Adelstochter Blanche de la Force flieht vor der Welt ins Kloster der Karmelitinnen von Compiègne. Als die Revolution die Klöster auflöst, steht sie vor der Frage, ob sie mit ihren Schwestern in den Tod gehen kann. Nach Georges Bernanos.",
+  "urauffuehrung": {
+    "datum": "1957-01-26",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Paris, Karmel von Compiègne",
+      "text": "Blanche erschrickt vor einer aufgebrachten Menge und teilt ihrem Vater mit, dass sie ins Kloster gehen will. Die alte Priorin nimmt sie auf. Die fröhliche Schwester Constance sagt voraus, dass sie beide jung und am selben Tag sterben werden. Die Priorin stirbt einen qualvollen Tod, voller Angst und Zweifel."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Kloster",
+      "text": "Die Schwestern wachen bei der toten Priorin. Madame Lidoine wird neue Priorin. Blanches Bruder will sie zur Flucht aus Frankreich überreden, doch sie bleibt. Revolutionäre Beamte verkünden die Auflösung der Klöster."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Kapelle, Paris, Gefängnis, Richtplatz",
+      "text": "Auf Vorschlag von Mère Marie legen die Schwestern ein Gelübde ab, notfalls für ihren Glauben zu sterben. Blanche flieht in ihr leeres Elternhaus; ihr Vater wurde hingerichtet. Die Schwestern werden verhaftet und zum Tod verurteilt. Auf dem Schafott singen sie das „Salve Regina“, eine Stimme nach der anderen verstummt. Zuletzt tritt Blanche aus der Menge und folgt Constance in den Tod."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Tod der alten Priorin",
+      "zitat": false,
+      "wer": "Madame de Croissy",
+      "akt": "1. Akt",
+      "was": "Die Priorin stirbt in Angst und Auflehnung."
+    },
+    {
+      "titel": "Ave verum corpus",
+      "wer": "Karmelitinnen",
+      "akt": "2. Akt",
+      "was": "Das Gebet der Schwestern."
+    },
+    {
+      "titel": "Salve Regina",
+      "wer": "Karmelitinnen",
+      "akt": "3. Akt",
+      "was": "Der Gesang auf dem Schafott, unterbrochen vom Fallbeil."
+    }
+  ],
+  "wissen": [
+    "Die 16 Karmelitinnen von Compiègne wurden am 17. Juli 1794 in Paris hingerichtet; 2024 sprach Papst Franziskus sie heilig.",
+    "Bernanos schrieb den Text ursprünglich als Filmdrehbuch, nach Gertrud von le Forts Novelle „Die Letzte am Schafott“."
+  ]
+}

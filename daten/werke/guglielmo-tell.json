@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 3¾ Std.",
+  "anriss": "Die Schweiz im 13. Jahrhundert, unter der Herrschaft der Habsburger. Wilhelm Tell führt die Bauern gegen den grausamen Landvogt Gessler. Der junge Arnold liebt ausgerechnet die habsburgische Prinzessin Mathilde. Rossinis letzte Oper, nach Schillers Drama.",
+  "urauffuehrung": {
+    "datum": "1829-08-03",
+    "ort": "Opéra (Salle Le Peletier), Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Bürglen am Vierwaldstättersee",
+      "text": "Die Dorfbewohner feiern ein Hirtenfest. Arnold, Sohn des alten Melchthal, liebt Mathilde, die Prinzessin aus dem Haus Habsburg; Tell will ihn für den Aufstand gewinnen. Der Hirte Leuthold hat einen Soldaten Gesslers getötet, um seine Tochter zu schützen. Tell rudert ihn über den stürmischen See in Sicherheit. Zur Strafe nehmen Gesslers Soldaten den alten Melchthal fest."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Auf dem Rütli",
+      "text": "Arnold und Mathilde gestehen sich ihre Liebe. Tell und Walter berichten Arnold, dass Gessler seinen Vater hat töten lassen; Arnold schwört Rache. Nachts kommen die Männer der drei Kantone zusammen und schwören, ihr Land zu befreien."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Marktplatz in Altdorf",
+      "text": "Gessler lässt seinen Hut auf eine Stange setzen, alle sollen sich davor verneigen. Tell weigert sich. Gessler befiehlt ihm, einen Apfel vom Kopf seines Sohnes Jemmy zu schießen. Tell trifft und gesteht, dass der zweite Pfeil für Gessler bestimmt war. Er wird verhaftet; Mathilde nimmt Jemmy unter ihren Schutz."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Melchthals Haus, am Ufer des Sees",
+      "text": "Arnold kehrt in sein Vaterhaus zurück und ruft die Männer zum Kampf. Mathilde bringt Jemmy zu seiner Mutter Hedwige. Jemmy setzt das Haus in Brand, als Zeichen zum Aufstand. Tell ist im Sturm entkommen und erschießt Gessler. Die Schweizer erobern Altdorf, das Unwetter zieht ab, und alle preisen die Freiheit."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Vom Cello-Beginn bis zum berühmten Galopp."
+    },
+    {
+      "titel": "Sombre forêt",
+      "wer": "Mathilde",
+      "akt": "2. Akt",
+      "was": "Mathildes Romanze im dunklen Wald."
+    },
+    {
+      "titel": "Sois immobile",
+      "wer": "Tell",
+      "akt": "3. Akt",
+      "was": "Tells Bitte an seinen Sohn vor dem Apfelschuss."
+    },
+    {
+      "titel": "Asile héréditaire",
+      "wer": "Arnold",
+      "akt": "4. Akt",
+      "was": "Arnold im verlassenen Vaterhaus."
+    }
+  ],
+  "wissen": [
+    "Nach Guillaume Tell schrieb Rossini mit 37 Jahren keine Oper mehr, obwohl er fast vier Jahrzehnte weiterlebte.",
+    "In der Rolle des Arnold sang Gilbert Duprez 1837 in Paris das hohe C erstmals mit voller Bruststimme – ein Wendepunkt für den Tenorgesang."
+  ]
+}

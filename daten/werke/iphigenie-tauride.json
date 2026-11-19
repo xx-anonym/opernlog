@@ -1,0 +1,67 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Iphigenie, die Tochter Agamemnons, dient fern der Heimat als Priesterin der Diana bei den Skythen auf Tauris. Sie muss jeden Fremden opfern, der an Land kommt. Als zwei junge Griechen gefangen werden, ahnt sie nicht, dass einer von ihnen ihr Bruder Orest ist.",
+  "urauffuehrung": {
+    "datum": "1779-05-18",
+    "ort": "Opéra (Palais-Royal), Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor dem Tempel der Diana, Sturm",
+      "text": "Iphigenie hat vom Untergang ihrer Familie geträumt und bittet die Göttin, sie sterben zu lassen. Der Skythenkönig Thoas fürchtet ein Orakel und verlangt ein Menschenopfer. Da werden zwei schiffbrüchige Griechen gefangen hereingebracht."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Tempel",
+      "text": "Orest wird von den Rachegöttinnen verfolgt, weil er seine Mutter Klytämnestra getötet hat. Sein Freund Pylades steht ihm bei, bis man die beiden trennt. Iphigenie befragt Orest nach ihrer Heimat. Er berichtet, dass Agamemnon von Klytämnestra ermordet wurde und Orest tot sei – nur Elektra lebe noch. Iphigenie trauert um ihren Bruder."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Tempel",
+      "text": "Iphigenie will einen der beiden retten, damit er Elektra eine Nachricht bringt. Orest und Pylades streiten darum, wer sterben darf. Orest droht, sich selbst zu töten, und setzt durch, dass Pylades geht."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Im Tempel",
+      "text": "Am Altar erwähnt Orest, dass auch seine Schwester Iphigenie einst geopfert wurde – so erkennen sich die Geschwister. Thoas will beide töten, doch Pylades kehrt mit griechischen Kriegern zurück und erschlägt ihn. Diana erscheint, vergibt Orest und befiehlt den Griechen, ihr Bild in die Heimat zu bringen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Sturmmusik zu Beginn",
+      "zitat": false,
+      "wer": "Orchester und Chor",
+      "akt": "1. Akt",
+      "was": "Statt einer Ouvertüre geht die Ruhe in ein Gewitter über."
+    },
+    {
+      "titel": "Ô toi qui prolongeas mes jours",
+      "wer": "Iphigénie",
+      "akt": "1. Akt",
+      "was": "Iphigenie bittet Diana um den Tod."
+    },
+    {
+      "titel": "Unis dès la plus tendre enfance",
+      "wer": "Pylade",
+      "akt": "2. Akt",
+      "was": "Pylades über die Freundschaft zu Orest."
+    },
+    {
+      "titel": "Le calme rentre dans mon cœur",
+      "wer": "Oreste",
+      "akt": "2. Akt",
+      "was": "Orest glaubt sich beruhigt – das Orchester widerspricht."
+    },
+    {
+      "titel": "Ô malheureuse Iphigénie",
+      "wer": "Iphigénie",
+      "akt": "2. Akt",
+      "was": "Iphigenies Klage um den Bruder."
+    }
+  ],
+  "wissen": [
+    "Über Orests „Le calme rentre dans mon cœur“ soll Gluck den Musikern gesagt haben: „Er lügt, er hat seine Mutter getötet.“",
+    "Die Oper gilt als Höhepunkt von Glucks Reform, die das Drama über die Gesangskunst stellen wollte."
+  ]
+}

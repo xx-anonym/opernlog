@@ -1,0 +1,58 @@
+{
+  "dauer": "ca. 1½ Std.",
+  "anriss": "Der einfache Soldat Wozzeck wird von seinem Hauptmann verspottet und von einem Doktor für Experimente benutzt. Seine Geliebte Marie, mit der er ein Kind hat, betrügt ihn mit dem Tambourmajor. Gequält und verstört ersticht er Marie und ertrinkt im Teich. Nach Georg Büchners Dramenfragment „Woyzeck“.",
+  "urauffuehrung": {
+    "datum": "1925-12-14",
+    "ort": "Staatsoper Unter den Linden, Berlin"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Beim Hauptmann, auf dem Feld, bei Marie, beim Doktor",
+      "text": "Wozzeck rasiert den Hauptmann, der ihm Moral predigt. Beim Stöckeschneiden mit seinem Kameraden Andres hat Wozzeck unheimliche Visionen. Marie bewundert den vorbeiziehenden Tambourmajor und singt ihrem Kind ein Wiegenlied. Der Doktor lässt Wozzeck für Geld nur Bohnen essen und beobachtet ihn wie ein Versuchstier. Marie gibt dem Werben des Tambourmajors nach."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Maries Stube, Straße, Wirtshausgarten, Kaserne",
+      "text": "Marie trägt neue Ohrringe, Wozzeck wird misstrauisch. Hauptmann und Doktor machen sich über ihn lustig und spielen auf Maries Untreue an. Wozzeck stellt Marie zur Rede, sie weist ihn ab. Im Wirtshausgarten sieht er sie mit dem Tambourmajor tanzen. Nachts in der Kaserne prahlt der Tambourmajor mit seiner Eroberung und verprügelt Wozzeck."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Maries Stube, am Teich, im Wirtshaus",
+      "text": "Marie liest in der Bibel von der Ehebrecherin und bittet um Erbarmen. Am Teich ersticht Wozzeck sie. Im Wirtshaus bemerkt man Blut an seiner Hand. Er kehrt zum Teich zurück, um das Messer zu versenken, und ertrinkt. Hauptmann und Doktor hören ihn und gehen weiter. Am Morgen spielen Kinder; Maries Kind reitet auf seinem Steckenpferd, als die anderen ihm die Mutter tot melden."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Wir arme Leut’!",
+      "wer": "Wozzeck",
+      "akt": "1. Akt",
+      "was": "Wozzecks Antwort auf die Moralpredigt des Hauptmanns."
+    },
+    {
+      "titel": "Maries Wiegenlied",
+      "zitat": false,
+      "wer": "Marie",
+      "akt": "1. Akt",
+      "was": "Marie singt ihr Kind in den Schlaf."
+    },
+    {
+      "titel": "Crescendo auf einem Ton",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Das gewaltige Anschwellen eines einzigen Tons nach dem Mord."
+    },
+    {
+      "titel": "Zwischenspiel in d-Moll",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Die große Orchesterklage vor der letzten Szene."
+    }
+  ],
+  "wissen": [
+    "Jede Szene folgt einer strengen musikalischen Form – etwa Suite, Passacaglia, Sonate oder Invention –, ohne dass man es beim Hören merken muss.",
+    "Berg sah Büchners Stück 1914 in Wien; seine eigenen Erfahrungen als Soldat im Ersten Weltkrieg flossen in die Oper ein."
+  ]
+}

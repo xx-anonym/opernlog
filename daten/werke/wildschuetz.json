@@ -1,0 +1,44 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Der Schulmeister Baculus hat einen Rehbock im Revier des Grafen geschossen und soll sein Amt verlieren. Seine Verlobte Gretchen will beim Grafen um Gnade bitten – doch an ihrer Stelle geht eine verkleidete Baronin aufs Schloss. Lortzings Verwechslungskomödie nach August von Kotzebue.",
+  "urauffuehrung": {
+    "datum": "1842-12-31",
+    "ort": "Stadttheater, Leipzig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Dorf",
+      "text": "Baculus feiert Verlobung mit Gretchen, da erfährt er, dass er wegen Wilderei entlassen werden soll. Die verwitwete Baronin Freimann, die Schwester des Grafen, kommt als Student verkleidet ins Dorf, um ihren künftigen Bräutigam unerkannt kennenzulernen. Baculus will Gretchen nicht zum Grafen gehen lassen, der für seine Liebschaften bekannt ist. Die Baronin bietet an, als Gretchen verkleidet für ihn zu bitten."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Auf dem Schloss",
+      "text": "Die Gräfin schwärmt für die alten Griechen, und Baculus soll ihr Sophokles vorlesen. Der Graf und sein Schwager Baron Kronthal verlieben sich beide in das falsche Gretchen. Beim Billard überbieten sie einander, und der Baron bietet Baculus fünftausend Taler für seine Braut. Baculus ist hin- und hergerissen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Schlosspark",
+      "text": "Baculus will Gretchen verkaufen, doch die Verwechslungen klären sich auf: die Baronin gibt sich zu erkennen, der Graf und die Gräfin finden ihre Geschwister wieder, und der Baron erkennt in ihr die ihm bestimmte Braut. Baculus hat in der Dunkelheit gar keinen Rehbock geschossen, sondern seinen eigenen Esel. Er behält sein Amt und sein Gretchen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Fünftausend Taler!",
+      "wer": "Baculus",
+      "akt": "2. Akt",
+      "was": "Baculus rechnet sich sein Glück aus."
+    },
+    {
+      "titel": "Billardszene",
+      "zitat": false,
+      "wer": "Ensemble",
+      "akt": "2. Akt",
+      "was": "Ein Quintett über einer Partie Billard."
+    }
+  ],
+  "wissen": [
+    "Die Griechen-Begeisterung der Gräfin parodiert eine Mode der Zeit: 1841 hatte Mendelssohns Musik zu Sophokles’ „Antigone“ in Potsdam großes Aufsehen erregt.",
+    "Vorlage war Kotzebues Lustspiel „Der Rehbock“; das Textbuch schrieb Lortzing selbst."
+  ]
+}

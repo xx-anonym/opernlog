@@ -1,0 +1,52 @@
+{
+  "dauer": "ca. 1½ Std.",
+  "anriss": "Ein Förster fängt im Wald eine junge Füchsin und nimmt sie mit nach Hause. Sie entkommt, gründet eine Familie und lebt ihr freies Leben im Wald – bis ein Wilderer sie erschießt. Janáčeks Oper über den Kreislauf von Natur, Liebe und Tod, in der Tiere und Menschen nebeneinander leben.",
+  "urauffuehrung": {
+    "datum": "1924-11-06",
+    "ort": "Nationaltheater, Brünn"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Wald, Hof des Försters",
+      "text": "Der Förster ruht im Wald und fängt eine junge Füchsin, die er seinen Kindern mitbringt. Auf dem Hof wird sie angebunden und von den Kindern geneckt. Sie predigt den Hühnern, sich gegen den Hahn aufzulehnen, und tötet sie, als sie nicht hören. Dann beißt sie ihre Leine durch und flieht in den Wald."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Wald, im Wirtshaus",
+      "text": "Die Füchsin vertreibt den Dachs aus seinem Bau und richtet sich dort ein. Im Wirtshaus spielen Förster, Schulmeister und Pfarrer Karten; der Förster neckt den Schulmeister wegen seiner Liebe zu Terynka. Auf dem Heimweg hält der Schulmeister eine Sonnenblume für die Geliebte, und der Förster schießt vergeblich nach der Füchsin. Sie verliebt sich in einen Fuchs, und der Specht traut die beiden."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Am Waldrand, im Wirtshaus, im Wald",
+      "text": "Der Wilderer und Geflügelhändler Harašta will Terynka heiraten. Die Füchsin lockt ihn mit ihren Jungen von seinem Korb weg, und er erschießt sie. Im Wirtshaus erfahren Förster und Schulmeister von der Hochzeit. Der Förster geht in den Wald, schläft ein und sieht eine junge Füchsin, ganz wie ihre Mutter. Statt ihrer fängt er einen Frosch – den Enkel jenes Frosches vom Anfang."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Die Füchsin bei den Hühnern",
+      "zitat": false,
+      "wer": "Füchsin und Hühner",
+      "akt": "1. Akt",
+      "was": "Die Füchsin ruft zum Aufstand gegen den Hahn."
+    },
+    {
+      "titel": "Liebesszene und Waldhochzeit",
+      "zitat": false,
+      "wer": "Füchsin, Fuchs und Chor",
+      "akt": "2. Akt",
+      "was": "Werbung, Liebesgeständnis und Hochzeit im Wald."
+    },
+    {
+      "titel": "Schlussmonolog des Försters",
+      "zitat": false,
+      "wer": "Förster",
+      "akt": "3. Akt",
+      "was": "Der Förster staunt über den ewigen Kreislauf des Waldes."
+    }
+  ],
+  "wissen": [
+    "Vorlage war eine Fortsetzungsgeschichte von Rudolf Těsnohlídek in der Brünner Zeitung „Lidové noviny“, zu Zeichnungen von Stanislav Lolek.",
+    "Janáček wünschte sich den Schlussmonolog des Försters für seine eigene Trauerfeier – 1928 wurde er dort gespielt."
+  ]
+}

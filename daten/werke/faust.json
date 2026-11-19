@@ -1,0 +1,71 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Der alte Gelehrte Faust verschreibt Méphistophélès seine Seele und erhält dafür die Jugend zurück. Er verführt das Mädchen Marguerite und lässt sie dann im Stich. Gounods Oper nach Goethes „Faust I“ – in Deutschland lange unter dem Titel „Margarethe“ gespielt.",
+  "urauffuehrung": {
+    "datum": "1859-03-19",
+    "ort": "Théâtre-Lyrique, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Fausts Studierzimmer",
+      "text": "Der alte Faust verzweifelt an der Wissenschaft und will sich vergiften. Er ruft den Teufel, und Méphistophélès erscheint. Er zeigt Faust das Bild der jungen Marguerite und verspricht ihm Jugend und Liebe – um den Preis seiner Seele. Faust unterschreibt und wird wieder jung."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Jahrmarkt vor der Stadt",
+      "text": "Marguerites Bruder Valentin zieht in den Krieg und vertraut die Schwester dem jungen Siébel an. Méphistophélès singt vom Goldenen Kalb; Valentins Schwert zerbricht vor ihm, und die Soldaten halten ihm die Schwertgriffe als Kreuz entgegen. Beim Tanz spricht Faust Marguerite an, doch sie weist ihn ab."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Marguerites Garten",
+      "text": "Siébel legt Blumen für Marguerite hin, Méphistophélès ein Kästchen voller Schmuck. Marguerite singt das Lied vom König in Thule, findet den Schmuck und betrachtet sich entzückt im Spiegel. Méphistophélès lenkt ihre Nachbarin Marthe ab, Faust gewinnt Marguerites Liebe."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Marguerites Zimmer, Kirche, Straße",
+      "text": "Faust hat Marguerite verlassen, sie erwartet ein Kind. In der Kirche will sie beten, doch Méphistophélès verflucht sie. Die Soldaten kehren heim. Valentin erfährt, was geschehen ist, und fordert Faust zum Duell; Méphistophélès lenkt Fausts Klinge, und Valentin stirbt mit einem Fluch auf die Schwester."
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Walpurgisnacht, Kerker",
+      "text": "Méphistophélès führt Faust in die Walpurgisnacht, wo er Marguerite in einer Vision sieht. Sie hat ihr Kind getötet und wartet im Kerker auf die Hinrichtung. Faust will sie befreien, doch sie ruft die Engel um Rettung an und stirbt. Himmlische Stimmen verkünden: sie ist gerettet."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Le veau d’or",
+      "wer": "Méphistophélès",
+      "akt": "2. Akt",
+      "was": "Das Lied vom Goldenen Kalb."
+    },
+    {
+      "titel": "Avant de quitter ces lieux",
+      "wer": "Valentin",
+      "akt": "2. Akt",
+      "was": "Valentins Gebet vor dem Abschied."
+    },
+    {
+      "titel": "Salut! demeure chaste et pure",
+      "wer": "Faust",
+      "akt": "3. Akt",
+      "was": "Faust vor Marguerites Haus."
+    },
+    {
+      "titel": "Ah! je ris de me voir si belle",
+      "wer": "Marguerite",
+      "akt": "3. Akt",
+      "was": "Die Juwelenarie."
+    },
+    {
+      "titel": "Gloire immortelle de nos aïeux",
+      "wer": "Soldaten",
+      "akt": "4. Akt",
+      "was": "Der Chor der heimkehrenden Soldaten."
+    }
+  ],
+  "wissen": [
+    "Valentins „Avant de quitter ces lieux“ kam erst 1864 für eine Londoner Aufführung dazu; die Melodie stammt aus dem Vorspiel.",
+    "Mit Faust wurde 1883 die Metropolitan Opera in New York eröffnet."
+  ]
+}

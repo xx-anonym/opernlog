@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Zar Peter der Große arbeitet unerkannt als Zimmermann auf einer Werft im holländischen Saardam. Dort arbeitet auch ein zweiter Russe namens Peter, ein Deserteur. Der eitle Bürgermeister van Bett soll den Zaren aufspüren – und hält prompt den Falschen für ihn.",
+  "urauffuehrung": {
+    "datum": "1837-12-22",
+    "ort": "Stadttheater, Leipzig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Auf der Werft in Saardam",
+      "text": "Der Zar arbeitet als Peter Michaelow auf der Werft, neben Peter Iwanow, der Marie liebt, die Nichte des Bürgermeisters van Bett. Die Gesandten Englands und Frankreichs suchen den Zaren, denn beide wollen ein Bündnis mit ihm. Van Bett verhört die Fremden und hält Iwanow für den Zaren. Der französische Gesandte erkennt dagegen den echten."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In der Schenke beim Fest",
+      "text": "Beim Kirchweihfest verhandelt der französische Gesandte heimlich mit dem Zaren, der englische mit Iwanow. Der Zar erfährt von einem Aufstand in Russland und muss heim. Iwanow ist eifersüchtig auf Marie, die mit dem Franzosen tanzt. Van Bett will alle Fremden verhaften lassen; es kommt zu einem großen Durcheinander."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Rathaus und am Hafen",
+      "text": "Van Bett probt mit den Bürgern eine Kantate, um den vermeintlichen Zaren zu ehren. Der echte Zar gibt Iwanow einen versiegelten Brief und bereitet heimlich seine Abreise vor. Als die Huldigung beginnt, legt das Schiff des Zaren ab. Iwanow öffnet den Brief: der Zar ernennt ihn zum Aufseher und erlaubt ihm, Marie zu heiraten."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "O sancta justitia!",
+      "wer": "Van Bett",
+      "akt": "1. Akt",
+      "was": "Das Auftrittslied des wichtigtuerischen Bürgermeisters."
+    },
+    {
+      "titel": "Lebe wohl, mein flandrisch Mädchen",
+      "wer": "Marquis von Chateauneuf",
+      "akt": "2. Akt",
+      "was": "Das Lied des französischen Gesandten."
+    },
+    {
+      "titel": "Sonst spielt’ ich mit Zepter, mit Krone und Stern",
+      "wer": "Zar Peter",
+      "akt": "3. Akt",
+      "was": "Das Zarenlied über das Glück der einfachen Jahre."
+    },
+    {
+      "titel": "Holzschuhtanz",
+      "zitat": false,
+      "wer": "Orchester und Ballett",
+      "akt": "3. Akt",
+      "was": "Der klappernde Tanz der Saardamer."
+    }
+  ],
+  "wissen": [
+    "Lortzing schrieb das Textbuch selbst, nach einer französischen Komödie; bei der Uraufführung sang er auch den Peter Iwanow.",
+    "Peter der Große arbeitete 1697 tatsächlich einige Tage unerkannt in Zaandam, um den Schiffbau zu lernen."
+  ]
+}

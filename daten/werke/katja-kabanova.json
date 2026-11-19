@@ -1,0 +1,59 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Eine Kleinstadt an der Wolga. Katja ist mit dem schwachen Tichon verheiratet und leidet unter ihrer herrischen Schwiegermutter Kabanicha. Als Tichon verreist, beginnt sie eine Liebe zu Boris – und zerbricht an Schuld und Enge. Nach Alexander Ostrowskis Drama „Das Gewitter“.",
+  "urauffuehrung": {
+    "datum": "1921-11-23",
+    "ort": "Nationaltheater, Brünn"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Am Ufer der Wolga, im Haus der Kabanows",
+      "text": "Boris gesteht seinem Freund Kudrjasch, dass er Katja liebt. Die Kabanicha wirft ihrem Sohn Tichon vor, er liebe seine Frau mehr als die Mutter. Katja erzählt ihrer Schwägerin Varvara von ihrer Kindheit und ihrer Sehnsucht nach Freiheit. Tichon reist ab; die Mutter zwingt ihn, Katja vor der Abreise Befehle zu erteilen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Haus der Kabanows, Garten am Abend",
+      "text": "Varvara steckt Katja den Schlüssel zur Gartenpforte zu. Katja ringt mit sich, behält ihn aber. Am Abend trifft sie im Garten Boris, Varvara trifft Kudrjasch. Katja gibt ihrer Liebe nach."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Verfallene Mauer am Ufer, Gewitter",
+      "text": "Tichon ist zurück. Während eines Gewitters gesteht Katja vor allen, dass sie ihren Mann betrogen hat. Varvara und Kudrjasch fliehen nach Moskau. Katja nimmt Abschied von Boris, den sein Onkel fortschickt, und stürzt sich in die Wolga. Die Kabanicha dankt den Leuten für ihre Hilfe."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vorspiel",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Mit dem dumpfen Paukenmotiv des Schicksals."
+    },
+    {
+      "titel": "Katjas Erzählung",
+      "zitat": false,
+      "wer": "Katja",
+      "akt": "1. Akt",
+      "was": "Katja erzählt von ihrer Kindheit und ihren Träumen."
+    },
+    {
+      "titel": "Liebesszene im Garten",
+      "zitat": false,
+      "wer": "Katja und Boris",
+      "akt": "2. Akt",
+      "was": "Die nächtliche Begegnung, umrahmt von Kudrjaschs Liedern."
+    },
+    {
+      "titel": "Katjas Abschied",
+      "zitat": false,
+      "wer": "Katja",
+      "akt": "3. Akt",
+      "was": "Katjas letzte Worte am Fluss."
+    }
+  ],
+  "wissen": [
+    "Die Figur der Katja verband Janáček mit Kamila Stösslová, der viel jüngeren Frau, die er in seinen letzten Lebensjahren liebte.",
+    "Außerhalb Tschechiens setzte sich die Oper vor allem durch den Dirigenten Charles Mackerras durch."
+  ]
+}

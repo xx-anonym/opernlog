@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 3¼ Std.",
+  "anriss": "Die Kaiserin, Tochter des Geisterkönigs Keikobad, wirft keinen Schatten – sie kann keine Kinder bekommen. Findet sie binnen drei Tagen keinen Schatten, wird der Kaiser zu Stein. Mit ihrer Amme steigt sie zu den Menschen hinab, um einer Färbersfrau den Schatten abzukaufen.",
+  "urauffuehrung": {
+    "datum": "1919-10-10",
+    "ort": "Staatsoper, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Kaiserliche Gärten, Haus des Färbers",
+      "text": "Ein Bote Keikobads verkündet der Amme: noch drei Tage. Kaiserin und Amme gehen in die Hütte des Färbers Barak, eines gutmütigen Mannes, dessen junge Frau mit ihrem Leben hadert. Die Amme verspricht ihr Reichtum und Schönheit, wenn sie ihren Schatten und damit ihre künftigen Kinder hergibt. Die Frau willigt ein; aus der Pfanne klagen die Stimmen der Ungeborenen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Haus des Färbers, Wald vor dem Pavillon des Falkners",
+      "text": "Die Amme zaubert der Färberin einen Jüngling herbei. Der Kaiser sieht seine Frau aus der Menschenwelt kommen und glaubt sich verraten. Die Kaiserin träumt, wie er zu Stein wird, und leidet mit Barak, den sie hintergeht. Die Färberin erklärt, sie habe ihren Schatten verkauft. Barak will sie töten, doch im letzten Augenblick widerruft sie und erkennt ihre Liebe zu ihm. Als Barak zum Schlag ausholt, öffnet sich die Erde und verschlingt beide."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Unter der Erde, Tempel Keikobads",
+      "text": "Getrennt voneinander sehnen sich Barak und seine Frau nacheinander. Die Kaiserin steht vor Keikobads Gericht. Sie könnte den Schatten der Färberin gewinnen, doch sie will das Glück der Menschen nicht zerstören und verzichtet, obwohl der Kaiser versteinert vor ihr sitzt. Durch diesen Verzicht erhält sie einen eigenen Schatten, der Kaiser erwacht, und beide Paare finden zueinander."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ihr Gatten in den Häusern dieser Stadt",
+      "wer": "Wächter",
+      "akt": "1. Akt",
+      "was": "Der Ruf der Nachtwächter durch die Stadt."
+    },
+    {
+      "titel": "Falke, Falke, du wiedergefundner",
+      "wer": "Kaiser",
+      "akt": "2. Akt",
+      "was": "Der Kaiser und sein Falke."
+    },
+    {
+      "titel": "Mir anvertraut, dass ich sie hege",
+      "wer": "Barak",
+      "akt": "3. Akt",
+      "was": "Baraks Sehnsucht nach seiner Frau."
+    },
+    {
+      "titel": "Vater, bist du’s?",
+      "wer": "Kaiserin",
+      "akt": "3. Akt",
+      "was": "Die Kaiserin vor dem Gericht ihres Vaters."
+    }
+  ],
+  "wissen": [
+    "Strauss und Hofmannsthal arbeiteten während des Ersten Weltkriegs an ihrer aufwendigsten Oper; das Orchester verlangt unter anderem chinesische Gongs und eine Glasharmonika.",
+    "Hofmannsthal erzählte die Geschichte zusätzlich als Erzählung, die 1919 erschien."
+  ]
+}

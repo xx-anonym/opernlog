@@ -1,0 +1,68 @@
+{
+  "dauer": "ca. 4¼ Std.",
+  "anriss": "Der letzte Teil des „Ring des Nibelungen“. Siegfried verlässt Brünnhilde, um neue Taten zu vollbringen, und gerät an den Hof der Gibichungen. Dort spinnt Hagen, der Sohn Alberichs, eine Intrige um den Ring – an deren Ende Siegfried stirbt und Walhall in Flammen aufgeht.",
+  "urauffuehrung": {
+    "datum": "1876-08-17",
+    "ort": "Festspielhaus, Bayreuth"
+  },
+  "akte": [
+    {
+      "titel": "Vorspiel",
+      "ort": "Auf dem Walkürenfelsen",
+      "text": "Die drei Nornen spinnen das Seil des Schicksals, bis es reißt – das Ende der Götter naht. Im Morgengrauen nehmen Siegfried und Brünnhilde Abschied. Siegfried lässt ihr den Ring als Pfand seiner Liebe und zieht mit ihrem Ross Grane rheinabwärts in die Welt."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Halle der Gibichungen am Rhein, Walkürenfelsen",
+      "text": "Hagen rät seinem Halbbruder Gunther, Brünnhilde zu heiraten, und Gutrune, Siegfried zu gewinnen. Ein Trank lässt Siegfried Brünnhilde vergessen; er verliebt sich in Gutrune und verspricht, Brünnhilde für Gunther zu holen. Die Walküre Waltraute bittet Brünnhilde vergeblich, den Ring den Rheintöchtern zurückzugeben. Siegfried kommt in Gunthers Gestalt und entreißt ihr den Ring."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Vor der Halle der Gibichungen",
+      "text": "Alberich mahnt den schlafenden Hagen, den Ring zu gewinnen. Hagen ruft die Mannen zur Doppelhochzeit. Brünnhilde sieht den Ring an Siegfrieds Hand und erkennt den Betrug. Sie klagt ihn des Verrats an, Siegfried schwört auf Hagens Speer, dass sie lügt. Aus Rache verrät Brünnhilde Hagen, dass Siegfried nur am Rücken verwundbar ist. Mit Gunther beschließen sie seinen Tod."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Am Rhein, Halle der Gibichungen",
+      "text": "Die Rheintöchter bitten Siegfried vergeblich um den Ring. Auf der Jagd erzählt er von seiner Jugend; ein Trank bringt die Erinnerung an Brünnhilde zurück, und Hagen stößt ihm den Speer in den Rücken. Im Streit um den Ring erschlägt Hagen auch Gunther. Brünnhilde lässt einen Scheiterhaufen errichten und reitet in die Flammen. Der Rhein tritt über die Ufer, die Rheintöchter holen den Ring zurück, Walhall brennt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Siegfrieds Rheinfahrt",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Nach dem Vorspiel",
+      "was": "Das Zwischenspiel zum 1. Akt: Siegfried zieht in die Welt hinaus."
+    },
+    {
+      "titel": "Hier sitz’ ich zur Wacht",
+      "wer": "Hagen",
+      "akt": "1. Akt",
+      "was": "Hagens finstere Wacht vor der Halle."
+    },
+    {
+      "titel": "Höre mit Sinn, was ich dir sage",
+      "wer": "Waltraute",
+      "akt": "1. Akt",
+      "was": "Waltrautes Erzählung vom verzweifelten Wotan."
+    },
+    {
+      "titel": "Trauermarsch",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Siegfrieds Trauermarsch, nach seinem Tod."
+    },
+    {
+      "titel": "Starke Scheite schichtet mir dort",
+      "wer": "Brünnhilde",
+      "akt": "3. Akt",
+      "was": "Brünnhildes Schlussgesang vor dem Weltenbrand."
+    }
+  ],
+  "wissen": [
+    "Als erster Teil des „Ring“ entstand der Text der Götterdämmerung: Wagner begann 1848 mit „Siegfrieds Tod“ und schrieb die Vorgeschichte danach rückwärts.",
+    "Mit dem vollständigen „Ring“ wurde 1876 das Bayreuther Festspielhaus eröffnet; die Götterdämmerung bildete den Schluss."
+  ]
+}

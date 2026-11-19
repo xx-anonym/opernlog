@@ -1,0 +1,76 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Im Himmel wettet Mefistofele, dass er die Seele des Gelehrten Faust gewinnen kann. Arrigo Boito, Dichter und Komponist zugleich, bringt beide Teile von Goethes „Faust“ auf die Bühne: Gretchens Untergang ebenso wie Fausts Begegnung mit Helena von Troja.",
+  "urauffuehrung": {
+    "datum": "1868-03-05",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Im Himmel",
+      "text": "Engelchöre preisen Gott. Mefistofele spottet über die Menschen und wettet, dass er Faust verführen kann. Der Chor der Seligen antwortet ihm."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Ostersonntag in Frankfurt, Fausts Studierzimmer",
+      "text": "Ein grauer Mönch folgt Faust und seinem Schüler Wagner durch die feiernde Stadt. Im Studierzimmer gibt er sich als Mefistofele zu erkennen, der Geist, der stets verneint. Faust schließt den Pakt: Mefistofele soll ihm dienen, bis Faust einen Augenblick findet, den er festhalten möchte."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Garten, Walpurgisnacht auf dem Brocken",
+      "text": "Faust wirbt um Margherita, Mefistofele um ihre Nachbarin Marta. Faust gibt Margherita einen Schlaftrunk für ihre Mutter, damit sie ungestört sind. In der Walpurgisnacht lässt Mefistofele sich als Herrscher feiern. Faust sieht eine Vision von Margherita in Ketten."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Kerker",
+      "text": "Margherita hat ihre Mutter versehentlich vergiftet und ihr Kind ertränkt. Wirr erzählt sie im Kerker davon. Faust will sie mit Mefistofeles Hilfe befreien, doch sie erkennt den Teufel, betet und stirbt. Eine Stimme vom Himmel verkündet ihre Rettung."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Klassische Walpurgisnacht in Griechenland",
+      "text": "Mefistofele führt Faust in die Welt der Antike. Faust begegnet Helena von Troja, und die beiden gestehen einander ihre Liebe."
+    },
+    {
+      "titel": "Epilog",
+      "ort": "Fausts Studierzimmer",
+      "text": "Faust ist alt geworden. Er träumt von einem Reich, in dem Menschen in Frieden leben. Mefistofele lockt ihn ein letztes Mal, doch Faust greift zur Bibel, betet und stirbt erlöst. Rosen regnen vom Himmel, und Mefistofele hat die Wette verloren."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ave Signor",
+      "wer": "Mefistofele",
+      "akt": "Prolog",
+      "was": "Mefistofeles spöttischer Gruß an den Himmel."
+    },
+    {
+      "titel": "Dai campi, dai prati",
+      "wer": "Faust",
+      "akt": "1. Akt",
+      "was": "Faust kehrt aus der Natur in sein Zimmer zurück."
+    },
+    {
+      "titel": "Son lo spirito che nega",
+      "wer": "Mefistofele",
+      "akt": "1. Akt",
+      "was": "Der Geist, der stets verneint – mit Pfiffen."
+    },
+    {
+      "titel": "L’altra notte in fondo al mare",
+      "wer": "Margherita",
+      "akt": "3. Akt",
+      "was": "Margheritas Klage im Kerker."
+    },
+    {
+      "titel": "Giunto sul passo estremo",
+      "wer": "Faust",
+      "akt": "Epilog",
+      "was": "Fausts Abschied vom Leben."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung 1868 an der Scala wurde ein Fiasko; erst die stark gekürzte Neufassung 1875 in Bologna setzte sich durch.",
+    "Boito schrieb später die Textbücher zu Verdis „Otello“ und „Falstaff“."
+  ]
+}

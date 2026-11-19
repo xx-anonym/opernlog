@@ -25,9 +25,9 @@ test('jede Datei ist gültig und gehört zu einem Werk im Repo', () => {
         assert.ok(ids.has(id), `${WERKTEXT_ORDNER}/${id}.json: kein Werk mit dieser Id`);
         assert.deepEqual(werkTextFehler(t), [], id);
         const werk = operas.find(o => o.id === id);
-        // Die Akte im Text passen zum Katalog. Prolog und Epilog zählt der
+        // Die Akte im Text passen zum Katalog. Prolog, Vorspiel und Epilog zählt der
         // Katalog mal mit (Hoffmanns Erzählungen), mal nicht (Pagliacci).
-        const ohneRahmen = t.akte.filter(a => !/^(Prolog|Epilog)$/.test(a.titel)).length;
+        const ohneRahmen = t.akte.filter(a => !/^(Prolog|Vorspiel|Epilog)$/.test(a.titel)).length;
         if (werk.acts) assert.ok(t.akte.length === werk.acts || ohneRahmen === werk.acts, `${id}: ${t.akte.length} Abschnitte im Text, ${werk.acts} Akte im Katalog`);
     }
 });

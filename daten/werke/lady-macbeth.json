@@ -1,0 +1,64 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Russische Provinz im 19. Jahrhundert. Katerina Ismailowa langweilt sich in ihrer Ehe mit einem Kaufmannssohn. Sie beginnt ein Verhältnis mit dem Arbeiter Sergej und mordet für diese Liebe – erst den Schwiegervater, dann den Mann. Nach einer Erzählung von Nikolai Leskow.",
+  "urauffuehrung": {
+    "datum": "1934-01-22",
+    "ort": "Staatliches Akademisches Maly-Operntheater, Leningrad"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Haus der Ismailows",
+      "text": "Katerina klagt über ihr leeres Leben, der Schwiegervater Boris wirft ihr vor, kein Kind zu bekommen. Ihr Mann Sinowi geht auf Reisen. Die Arbeiter bedrängen die Köchin Aksinja; Katerina geht dazwischen und ringt mit dem neuen Arbeiter Sergej. Nachts kommt Sergej in ihr Zimmer, und Katerina gibt ihm nach."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Haus der Ismailows",
+      "text": "Boris ertappt Sergej und lässt ihn auspeitschen. Katerina vergiftet Boris mit Rattengift in den Pilzen. Als Sinowi zurückkehrt und sie zur Rede stellt, erschlagen Katerina und Sergej ihn gemeinsam und verstecken die Leiche im Keller."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Haus der Ismailows, auf der Polizeiwache",
+      "text": "Katerina und Sergej feiern Hochzeit. Ein betrunkener Bauer sucht im Keller nach Schnaps, findet die Leiche und läuft zur Polizei, deren Beamte sich gerade über ihre Langeweile beklagen. Die Polizei stürmt die Hochzeit und nimmt das Paar fest."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Rastplatz der Sträflinge auf dem Weg nach Sibirien",
+      "text": "Auf dem Marsch in die Verbannung wendet sich Sergej der jungen Sträflingsfrau Sonjetka zu. Er erschwindelt von Katerina ihre Strümpfe und schenkt sie Sonjetka, die anderen verspotten Katerina. Katerina stößt Sonjetka in den Fluss und stürzt sich hinterher. Der Zug zieht weiter."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Katerinas Arie im Schlafzimmer",
+      "zitat": false,
+      "wer": "Katerina",
+      "akt": "1. Akt",
+      "was": "Katerinas Klage über ihre Einsamkeit."
+    },
+    {
+      "titel": "Passacaglia",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "2. Akt",
+      "was": "Das düstere Zwischenspiel nach dem Tod des Schwiegervaters."
+    },
+    {
+      "titel": "Lied des schäbigen Bauern",
+      "zitat": false,
+      "wer": "Der Schäbige",
+      "akt": "3. Akt",
+      "was": "Der Betrunkene auf der Suche nach Schnaps."
+    },
+    {
+      "titel": "Katerinas Monolog am schwarzen See",
+      "zitat": false,
+      "wer": "Katerina",
+      "akt": "4. Akt",
+      "was": "Katerinas letzter Gesang vor ihrem Tod."
+    }
+  ],
+  "wissen": [
+    "Nach einem Besuch Stalins erschien 1936 in der Prawda der Artikel „Chaos statt Musik“; die erfolgreiche Oper verschwand für Jahrzehnte von den Bühnen.",
+    "Schostakowitsch überarbeitete sie später als „Katerina Ismailowa“, uraufgeführt 1963 in Moskau."
+  ]
+}

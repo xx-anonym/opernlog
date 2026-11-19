@@ -1,0 +1,66 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Genua im 14. Jahrhundert. Der Korsar Simon Boccanegra wird zum Dogen gewählt – und verliert am selben Tag seine Geliebte Maria. Fünfundzwanzig Jahre später findet er die verschollene Tochter wieder, mitten in einem Netz aus Machtkampf, Hass und Verrat.",
+  "urauffuehrung": {
+    "datum": "1857-03-12",
+    "ort": "Teatro La Fenice, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Platz in Genua",
+      "text": "Paolo gewinnt das Volk dafür, Simon zum Dogen zu wählen. Simon hofft, dann Maria heiraten zu dürfen, die Tochter des Patriziers Fiesco, der ihn hasst. Fiesco will verzeihen, wenn Simon ihm die gemeinsame Tochter übergibt – doch das Kind ist verschwunden. Simon findet Maria tot im Palast, während draußen das Volk ihn als Dogen feiert."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Garten der Grimaldi, Ratssaal",
+      "text": "Fünfundzwanzig Jahre später liebt Amelia Grimaldi den jungen Gabriele Adorno. Fiesco lebt unter falschem Namen als ihr Vormund. Simon besucht Amelia, um für Paolo um sie zu werben, und erkennt in ihr seine Tochter. Er weist Paolo ab, der Amelia daraufhin entführen lässt. Im Rat klagt Gabriele den Dogen an; Amelia erscheint, und Simon zwingt Paolo, den Entführer zu verfluchen – sich selbst."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Gemächer des Dogen",
+      "text": "Paolo vergiftet Simons Becher und stachelt Gabriele auf, den Dogen zu ermorden. Gabriele hält Amelia für Simons Geliebte und will ihn im Schlaf erstechen. Amelia hält ihn zurück, und Simon offenbart, dass sie seine Tochter ist. Gabriele bittet um Verzeihung und stellt sich auf die Seite des Dogen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Dogenpalast",
+      "text": "Ein Aufstand ist niedergeschlagen, Paolo zum Tod verurteilt. Er verrät Fiesco, dass der Doge vergiftet ist. Simon gibt sich Fiesco zu erkennen und sagt ihm, dass Amelia seine Enkelin ist; die alten Feinde versöhnen sich. Simon segnet Amelia und Gabriele, bestimmt Gabriele zu seinem Nachfolger und stirbt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Il lacerato spirito",
+      "wer": "Fiesco",
+      "akt": "Prolog",
+      "was": "Fiescos Klage um die tote Tochter."
+    },
+    {
+      "titel": "Come in quest’ora bruna",
+      "wer": "Amelia",
+      "akt": "1. Akt",
+      "was": "Amelia am Meer im Morgengrauen."
+    },
+    {
+      "titel": "Plebe! Patrizi! Popolo!",
+      "wer": "Simon",
+      "akt": "1. Akt",
+      "was": "Simons Ruf zum Frieden in der Ratsszene."
+    },
+    {
+      "titel": "Sento avvampar nell’anima",
+      "wer": "Gabriele",
+      "akt": "2. Akt",
+      "was": "Gabrieles Eifersucht."
+    },
+    {
+      "titel": "Gran Dio, li benedici",
+      "wer": "Simon",
+      "akt": "3. Akt",
+      "was": "Simon segnet sterbend das junge Paar."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung 1857 in Venedig fiel durch. Erst die Neufassung von 1881 an der Mailänder Scala, mit einem von Arrigo Boito überarbeiteten Text, setzte sich durch.",
+    "Die berühmte Ratsszene schrieb Verdi erst für diese Neufassung."
+  ]
+}

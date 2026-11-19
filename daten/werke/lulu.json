@@ -1,0 +1,63 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Lulu verführt die Männer, die sie besitzen wollen, und sie gehen an ihr zugrunde: ein Maler, ein Zeitungsverleger, dessen Sohn. Nach dem Tod ihres Mannes flieht sie, sinkt immer tiefer und endet als Prostituierte in London, wo Jack the Ripper sie tötet. Nach Frank Wedekind.",
+  "urauffuehrung": {
+    "datum": "1937-06-02",
+    "ort": "Stadttheater, Zürich"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Vor dem Vorhang",
+      "text": "Ein Tierbändiger stellt dem Publikum seine Menagerie vor – und als Schlange Lulu."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Atelier, Salon, Theatergarderobe",
+      "text": "Lulu steht einem Maler Modell. Ihr Mann, der Medizinalrat, überrascht die beiden und stirbt am Schlag. Lulu heiratet den Maler. Als er von Dr. Schön, ihrem früheren Förderer, von ihrer Vergangenheit erfährt, schneidet er sich die Kehle durch. Lulu tritt als Tänzerin auf. Dr. Schön will sich mit einer anderen verloben, doch Lulu zwingt ihn, die Verlobung zu lösen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Bei Dr. Schön, später im selben Haus",
+      "text": "Lulu ist nun Schöns Frau, umgeben von Verehrern, unter ihnen die Gräfin Geschwitz und Schöns Sohn Alwa. Schön gibt ihr einen Revolver, damit sie sich tötet; sie erschießt ihn. Lulu wird verurteilt. Die Gräfin Geschwitz holt sie mit einer List aus dem Gefängnis, und Lulu flieht mit Alwa."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Paris, London",
+      "text": "In Paris wird Lulu erpresst, ein Marquis will sie an ein Bordell verkaufen, und sie muss erneut fliehen. In London lebt sie in einer Dachkammer als Prostituierte, mit Alwa und der Gräfin Geschwitz. Ein Kunde erschlägt Alwa. Lulus letzter Kunde ist Jack the Ripper; er tötet sie und die Gräfin."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Hereinspaziert in die Menagerie",
+      "wer": "Tierbändiger",
+      "akt": "Prolog",
+      "was": "Die Vorstellung der Figuren als Tiere."
+    },
+    {
+      "titel": "Lied der Lulu",
+      "zitat": false,
+      "wer": "Lulu",
+      "akt": "2. Akt",
+      "was": "Lulu verteidigt sich gegen Schön: sie war nie etwas anderes, als man in ihr sah."
+    },
+    {
+      "titel": "Filmmusik",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "2. Akt",
+      "was": "Ein Zwischenspiel, das vorwärts und rückwärts gleich klingt."
+    },
+    {
+      "titel": "Schlussgesang der Gräfin Geschwitz",
+      "zitat": false,
+      "wer": "Gräfin Geschwitz",
+      "akt": "3. Akt",
+      "was": "Die Gräfin stirbt mit einem Liebesbekenntnis an Lulu."
+    }
+  ],
+  "wissen": [
+    "Berg starb 1935 vor der Vollendung des 3. Akts. Friedrich Cerha ergänzte ihn; die dreiaktige Fassung kam erst 1979 in Paris unter Pierre Boulez heraus.",
+    "Berg wollte, dass die Sänger der Männer, die im 1. Akt an Lulu sterben, im 3. Akt als ihre Kunden wiederkehren."
+  ]
+}

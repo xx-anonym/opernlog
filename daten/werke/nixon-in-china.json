@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Februar 1972: US-Präsident Richard Nixon reist nach Peking und trifft Mao Zedong. John Adams macht aus dem historischen Staatsbesuch eine Oper über Macht, Bilder fürs Fernsehen und die Menschen hinter den öffentlichen Rollen.",
+  "urauffuehrung": {
+    "datum": "1987-10-22",
+    "ort": "Houston Grand Opera, Houston"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Flughafen Peking, Maos Arbeitszimmer, Bankett",
+      "text": "Die Air Force One landet, Nixon begrüßt Premierminister Tschou En-lai und denkt an die Fernsehbilder, die in Amerika gesehen werden. Mit Henry Kissinger besucht er den Vorsitzenden Mao, der in rätselhaften Sätzen philosophiert. Beim Bankett folgen Trinksprüche auf Freundschaft und Frieden."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Peking, im Theater",
+      "text": "Pat Nixon besichtigt eine Glasfabrik, eine Volkskommune mit Schweinezucht, den Sommerpalast und die Ming-Gräber. Sie träumt von einer friedlichen Welt. Am Abend sehen die Nixons ein Revolutionsballett, das Maos Frau Chiang Ch’ing ausgewählt hat. Die Nixons greifen in die Handlung ein, und Chiang Ch’ing stellt sich mit großer Geste vor."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Die letzte Nacht in Peking",
+      "text": "Die Figuren liegen müde in ihren Zimmern. Nixon und Pat erinnern sich an ihre Jugend und den Krieg, Mao und Chiang Ch’ing an die Revolution. Am Ende fragt sich Tschou En-lai, wie viel von dem, was sie getan haben, gut war."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "News has a kind of mystery",
+      "wer": "Nixon",
+      "akt": "1. Akt",
+      "was": "Nixon nach der Landung, berauscht vom Moment."
+    },
+    {
+      "titel": "This is prophetic",
+      "wer": "Pat Nixon",
+      "akt": "2. Akt",
+      "was": "Pats Traum von einer besseren Welt."
+    },
+    {
+      "titel": "I am the wife of Mao Tse-tung",
+      "wer": "Chiang Ch’ing",
+      "akt": "2. Akt",
+      "was": "Die Koloraturarie der Madame Mao."
+    },
+    {
+      "titel": "Tschou En-lais Schlussmonolog",
+      "zitat": false,
+      "wer": "Tschou En-lai",
+      "akt": "3. Akt",
+      "was": "Ein leiser Ausklang."
+    }
+  ],
+  "wissen": [
+    "Die Idee zur Oper hatte der Regisseur Peter Sellars 1983; das Textbuch schrieb die Dichterin Alice Goodman.",
+    "Das Orchesterstück „The Chairman Dances“ entstand aus Musik, die Adams für den 3. Akt geschrieben, aber nicht verwendet hatte."
+  ]
+}

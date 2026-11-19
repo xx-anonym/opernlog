@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Tom Rakewell verlässt seine Verlobte Anne, als ein geheimnisvoller Fremder namens Nick Shadow ihm ein Erbe verkündet. In London verprasst Tom sein Geld, heiratet eine bärtige Jahrmarktsattraktion und verliert alles – bis Shadow seinen Lohn verlangt: Toms Seele. Nach Kupferstichen von William Hogarth.",
+  "urauffuehrung": {
+    "datum": "1951-09-11",
+    "ort": "Teatro La Fenice, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Garten der Truloves, Bordell in London",
+      "text": "Tom will lieber auf sein Glück hoffen als arbeiten. Da erscheint Nick Shadow: ein unbekannter Onkel habe Tom ein Vermögen hinterlassen. Tom verspricht, Shadow nach einem Jahr und einem Tag zu entlohnen, und folgt ihm nach London. Shadow führt ihn ins Bordell der Mother Goose. Anne wartet vergeblich auf Nachricht und macht sich auf, Tom zu suchen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Toms Haus in London",
+      "text": "Tom langweilt sich. Shadow rät ihm, Baba die Türkin zu heiraten, eine bärtige Frau vom Jahrmarkt – gerade weil es unvernünftig ist. Anne findet Tom, doch er schickt sie fort. Baba redet ohne Pause, bis Tom ihr eine Perücke über den Kopf stülpt. Shadow zeigt ihm eine Maschine, die angeblich Steine in Brot verwandelt, und Tom steckt sein Geld hinein."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Versteigerung, Friedhof, Irrenhaus Bedlam",
+      "text": "Tom ist ruiniert, sein Besitz wird versteigert. Baba schickt Anne zu Tom. Auf dem Friedhof verlangt Shadow Toms Seele und lässt ihn ein Kartenspiel darum spielen. Tom denkt an Anne und gewinnt; zur Rache schlägt Shadow ihn mit Wahnsinn. Im Irrenhaus hält Tom sich für Adonis. Anne singt ihn in den Schlaf, und Tom stirbt."
+    },
+    {
+      "titel": "Epilog",
+      "ort": "Vor dem Vorhang",
+      "text": "Die Figuren treten vor das Publikum und verkünden die Moral: Wer müßig ist, dem findet der Teufel Arbeit."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Here I stand",
+      "wer": "Tom",
+      "akt": "1. Akt",
+      "was": "Tom träumt vom Glück ohne Arbeit."
+    },
+    {
+      "titel": "No word from Tom",
+      "wer": "Anne",
+      "akt": "1. Akt",
+      "was": "Annes Arie, die in den Entschluss mündet, Tom zu folgen."
+    },
+    {
+      "titel": "Versteigerungsszene",
+      "zitat": false,
+      "wer": "Sellem und Chor",
+      "akt": "3. Akt",
+      "was": "Der Auktionator bietet Toms Besitz an."
+    },
+    {
+      "titel": "Gently, little boat",
+      "wer": "Anne",
+      "akt": "3. Akt",
+      "was": "Annes Wiegenlied im Irrenhaus."
+    }
+  ],
+  "wissen": [
+    "Strawinsky sah 1947 in Chicago William Hogarths Kupferstichfolge „A Rake’s Progress“; das Textbuch schrieben W. H. Auden und Chester Kallman.",
+    "Die Musik greift bewusst Mozarts Opern auf, mit Cembalo-Rezitativen, Arien und Ensembles."
+  ]
+}

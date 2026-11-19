@@ -1,0 +1,75 @@
+{
+  "dauer": "ca. 3½ Std.",
+  "anriss": "Russland im 12. Jahrhundert. Fürst Igor zieht gegen die Polowzer in den Krieg, obwohl eine Sonnenfinsternis Unheil verheißt. Er gerät beim Khan Kontschak in Gefangenschaft, während daheim sein Schwager die Macht an sich reißen will. Borodin starb vor der Vollendung.",
+  "urauffuehrung": {
+    "datum": "1890-11-04",
+    "ort": "Mariinski-Theater, Sankt Petersburg"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Platz in Putiwl",
+      "text": "Igor und sein Sohn Wladimir brechen zum Feldzug gegen die Polowzer auf. Eine Sonnenfinsternis verdunkelt den Himmel, doch Igor lässt sich nicht aufhalten. Seine Frau Jaroslawna vertraut er ihrem Bruder, Fürst Galizki, an."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "In Putiwl",
+      "text": "Galizki feiert mit den Gauklern Skula und Jeroschka, lässt ein Mädchen entführen und will sich zum Fürsten ausrufen lassen. Jaroslawna weist ihn in die Schranken. Da kommt die Nachricht: Igors Heer ist geschlagen, Igor und Wladimir sind gefangen, die Polowzer rücken an."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Lager der Polowzer",
+      "text": "Wladimir liebt Kontschakowna, die Tochter des Khans. Igor verzweifelt an seiner Niederlage. Khan Kontschak behandelt ihn als Gast und bietet ihm die Freiheit an, wenn er nicht mehr gegen ihn kämpft. Igor lehnt ab. Zu seinen Ehren lässt der Khan die Polowetzer Tänze aufführen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Lager der Polowzer",
+      "text": "Kontschak kehrt mit reicher Beute zurück. Der Polowzer Owlur hilft Igor zur Flucht. Wladimir zögert, weil er Kontschakowna nicht verlassen will, und bleibt zurück; der Khan gibt ihm seine Tochter zur Frau."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "In Putiwl",
+      "text": "Jaroslawna klagt auf der Stadtmauer um Igor und ihr zerstörtes Land. Da kehrt Igor zurück. Die Gaukler Skula und Jeroschka läuten schnell die Glocken, um sich zu retten, und das Volk feiert die Heimkehr."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Mit den Themen der ganzen Oper."
+    },
+    {
+      "titel": "Ni sna, ni otdycha",
+      "wer": "Igor",
+      "akt": "2. Akt",
+      "was": "Igors große Arie: kein Schlaf, keine Ruhe."
+    },
+    {
+      "titel": "Kavatine der Kontschakowna",
+      "zitat": false,
+      "wer": "Kontschakowna",
+      "akt": "2. Akt",
+      "was": "Die Tochter des Khans wartet auf Wladimir."
+    },
+    {
+      "titel": "Polowetzer Tänze",
+      "zitat": false,
+      "wer": "Chor und Orchester",
+      "akt": "2. Akt",
+      "was": "Die berühmten Tänze im Lager des Khans."
+    },
+    {
+      "titel": "Klage der Jaroslawna",
+      "zitat": false,
+      "wer": "Jaroslawna",
+      "akt": "4. Akt",
+      "was": "Jaroslawna auf der Stadtmauer."
+    }
+  ],
+  "wissen": [
+    "Borodin war im Hauptberuf Chemiker und arbeitete fast zwanzig Jahre an der Oper. Rimski-Korsakow und Glasunow vollendeten sie nach seinem Tod.",
+    "Melodien aus den Polowetzer Tänzen wurden zum Musical „Kismet“, darunter „Stranger in Paradise“."
+  ]
+}

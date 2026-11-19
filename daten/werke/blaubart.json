@@ -1,0 +1,42 @@
+{
+  "dauer": "ca. 1 Std.",
+  "anriss": "Judit verlässt ihre Familie und folgt Herzog Blaubart in seine finstere Burg. Sie will Licht in die Mauern bringen und verlangt die Schlüssel zu sieben verschlossenen Türen. Hinter jeder liegt ein Stück von Blaubarts Seele – und hinter der letzten ihr eigenes Schicksal.",
+  "urauffuehrung": {
+    "datum": "1918-05-24",
+    "ort": "Königliche Oper, Budapest"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Die Halle in Blaubarts Burg",
+      "text": "Ein Barde fragt die Zuschauer, wo die Geschichte spielt: draußen oder drinnen. Judit lässt sich von Blaubart die Türen öffnen: die Folterkammer, die Waffenkammer, die Schatzkammer, den Garten, Blaubarts weites Land und den See der Tränen. Überall sieht sie Blut. Hinter der siebten Tür stehen Blaubarts frühere Frauen. Judit wird mit Krone und Mantel geschmückt und folgt ihnen; die Burg versinkt in Dunkelheit."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Prolog des Barden",
+      "zitat": false,
+      "wer": "Sprecher",
+      "akt": "Beginn",
+      "was": "Der gesprochene Auftakt."
+    },
+    {
+      "titel": "Die fünfte Tür",
+      "zitat": false,
+      "wer": "Blaubart, Judit, Orchester",
+      "akt": "Ein Akt",
+      "was": "Blaubarts Reich in strahlendem C-Dur, mit voller Orgel."
+    },
+    {
+      "titel": "Der See der Tränen",
+      "zitat": false,
+      "wer": "Judit und Blaubart",
+      "akt": "Ein Akt",
+      "was": "Die sechste Tür, ein stiller, unheimlicher See."
+    }
+  ],
+  "wissen": [
+    "Bartóks einzige Oper wurde 1911 bei einem Wettbewerb in Budapest als unaufführbar abgelehnt; erst sieben Jahre später kam sie auf die Bühne.",
+    "Die Oper kommt mit nur zwei Sängern aus; das Textbuch schrieb Béla Balázs."
+  ]
+}
