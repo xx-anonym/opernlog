@@ -1,0 +1,53 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Der Zwerg Alberich raubt den Rheintöchtern das Gold und schmiedet daraus einen Ring, der grenzenlose Macht verleiht. Göttervater Wotan will ihn haben, um die Riesen für den Bau seiner Burg Walhall zu bezahlen. Der Vorabend zu Wagners „Ring des Nibelungen“.",
+  "urauffuehrung": {
+    "datum": "1869-09-22",
+    "ort": "Königliches Hof- und Nationaltheater, München"
+  },
+  "akte": [
+    {
+      "titel": "Vier Szenen",
+      "ort": "Auf dem Grund des Rheins, freie Gegend auf Bergeshöhen, Nibelheim",
+      "text": "Alberich verflucht die Liebe und raubt das Rheingold. Die Riesen Fasolt und Fafner haben Walhall gebaut und verlangen als Lohn die Göttin Freia. Loge rät, ihnen stattdessen Alberichs Gold zu geben. Wotan und Loge steigen nach Nibelheim und überlisten Alberich, der sich in eine Kröte verwandelt. Alberich verflucht den Ring. Wotan muss ihn den Riesen geben; Fafner erschlägt Fasolt – der Fluch wirkt. Die Götter ziehen über die Regenbogenbrücke in Walhall ein."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vorspiel",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Szene",
+      "was": "136 Takte auf einem einzigen Es-Dur-Akkord: das Werden der Welt."
+    },
+    {
+      "titel": "Weia! Waga!",
+      "wer": "Rheintöchter",
+      "akt": "1. Szene",
+      "was": "Das Spiel der Rheintöchter um das Gold."
+    },
+    {
+      "titel": "Bin ich nun frei?",
+      "wer": "Alberich",
+      "akt": "4. Szene",
+      "was": "Alberichs Fluch auf den Ring."
+    },
+    {
+      "titel": "Weiche, Wotan! weiche!",
+      "wer": "Erda",
+      "akt": "4. Szene",
+      "was": "Die Urmutter Erda warnt vor dem Ring."
+    },
+    {
+      "titel": "Einzug der Götter in Walhall",
+      "zitat": false,
+      "wer": "Orchester und Götter",
+      "akt": "4. Szene",
+      "was": "Das prächtige Finale über der Regenbogenbrücke."
+    }
+  ],
+  "wissen": [
+    "Das Rheingold wird ohne Pause gespielt, in vier ineinander übergehenden Szenen.",
+    "Es wurde auf Befehl König Ludwigs II. in München uraufgeführt, gegen Wagners Willen."
+  ]
+}

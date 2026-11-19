@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 3¾ Std.",
+  "anriss": "Der Ritter Tristan bringt die irische Königstochter Isolde übers Meer, als Braut für seinen Onkel, König Marke. Statt eines Todestranks trinken beide einen Liebestrank – und ihre Liebe kennt von da an nur noch einen Ort, an dem sie sich erfüllen kann: die Nacht und den Tod.",
+  "urauffuehrung": {
+    "datum": "1865-06-10",
+    "ort": "Königliches Hof- und Nationaltheater, München"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Auf Tristans Schiff",
+      "text": "Isolde hasst Tristan: er hat ihren Verlobten Morold getötet, und sie hat ihn einst trotzdem geheilt. Nun soll er sie als Braut zu Marke bringen. Sie will mit ihm gemeinsam sterben und lässt ihre Vertraute Brangäne einen Todestrank bereiten. Brangäne reicht stattdessen den Liebestrank. Als das Schiff landet, liegen sich Tristan und Isolde in den Armen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Garten vor Isoldes Gemach, Nacht",
+      "text": "Isolde löscht die Fackel als Zeichen für Tristan. Die beiden feiern die Nacht und sehnen sich nach dem Tod, der sie für immer vereint; Brangäne hält Wache. Marke überrascht sie, verraten von Tristans Freund Melot, und klagt über den Verrat. Tristan lässt sich von Melot verwunden."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Burg Kareol in der Bretagne",
+      "text": "Der todkranke Tristan wartet mit seinem Diener Kurwenal auf Isolde. Endlich kommt ihr Schiff, Tristan reißt sich den Verband ab und stirbt in ihren Armen. Marke, der von Brangäne alles erfahren hat und verzeihen will, kommt zu spät. Über Tristans Leiche singt Isolde ihren Liebestod."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vorspiel",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Mit dem Tristan-Akkord, der die Musikgeschichte verändert hat."
+    },
+    {
+      "titel": "O sink hernieder, Nacht der Liebe",
+      "wer": "Tristan und Isolde",
+      "akt": "2. Akt",
+      "was": "Das große Liebesduett der Nacht."
+    },
+    {
+      "titel": "Einsam wachend in der Nacht",
+      "wer": "Brangäne",
+      "akt": "2. Akt",
+      "was": "Brangänes Wachruf von der Zinne."
+    },
+    {
+      "titel": "Tatest du’s wirklich?",
+      "wer": "König Marke",
+      "akt": "2. Akt",
+      "was": "Markes Klage über den Verrat des Freundes."
+    },
+    {
+      "titel": "Mild und leise wie er lächelt",
+      "wer": "Isolde",
+      "akt": "3. Akt",
+      "was": "Isoldes Liebestod."
+    }
+  ],
+  "wissen": [
+    "Der berühmte Tristan-Akkord gleich zu Beginn des Vorspiels gilt als ein entscheidender Wendepunkt in der Geschichte der Harmonik.",
+    "Die Wiener Hofoper brach die Proben nach 77 Proben ab und erklärte das Werk für unaufführbar; erst in München kam es heraus, dirigiert von Hans von Bülow."
+  ]
+}

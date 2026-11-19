@@ -1,0 +1,77 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Der Sänger Orpheus verliert seine Frau Eurydike am Tag ihrer Hochzeit. Mit der Macht seines Gesangs steigt er in die Unterwelt hinab, um sie zurückzuholen. Eine der ersten Opern überhaupt – und bis heute eine der schönsten.",
+  "urauffuehrung": {
+    "datum": "1607-02-24",
+    "ort": "Herzogspalast, Mantua"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Vor dem Vorhang",
+      "text": "Die Musik selbst tritt auf und kündigt an, von Orpheus zu erzählen, der mit seinem Gesang selbst die Unterwelt bezwang."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Felder Thrakiens",
+      "text": "Hirten und Nymphen feiern die Hochzeit von Orpheus und Eurydike."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Felder Thrakiens",
+      "text": "Orpheus singt vom Glück, da bringt die Botin Silvia die Nachricht: Eurydike ist an einem Schlangenbiss gestorben. Orpheus beschließt, sie aus der Unterwelt zu holen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Am Fluss Styx",
+      "text": "Die Hoffnung führt Orpheus bis an den Styx. Der Fährmann Charon weigert sich, ihn überzusetzen. Orpheus singt ihn in den Schlaf und fährt allein hinüber."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "In der Unterwelt",
+      "text": "Proserpina erwirkt bei Pluto, dass Orpheus Eurydike mitnehmen darf – wenn er sich nicht nach ihr umsieht. Auf dem Weg nach oben zweifelt er und dreht sich um. Eurydike ist für immer verloren."
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Felder Thrakiens",
+      "text": "Orpheus klagt um Eurydike. Apollo, sein Vater, holt ihn zu sich in den Himmel, wo er sie in den Sternen wiedersehen wird."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Toccata",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Die festliche Fanfare zu Beginn."
+    },
+    {
+      "titel": "Dal mio Permesso amato",
+      "wer": "La Musica",
+      "akt": "Prolog",
+      "was": "Die Musik stellt sich vor."
+    },
+    {
+      "titel": "Vi ricorda, o boschi ombrosi",
+      "wer": "Orfeo",
+      "akt": "2. Akt",
+      "was": "Orpheus singt vom Glück – kurz vor der Todesnachricht."
+    },
+    {
+      "titel": "Tu se’ morta",
+      "wer": "Orfeo",
+      "akt": "2. Akt",
+      "was": "Orpheus’ Klage um Eurydike."
+    },
+    {
+      "titel": "Possente spirto",
+      "wer": "Orfeo",
+      "akt": "3. Akt",
+      "was": "Orpheus’ große Bitte an Charon."
+    }
+  ],
+  "wissen": [
+    "L’Orfeo gehört zu den ersten Opern überhaupt und ist die älteste, die bis heute regelmäßig gespielt wird.",
+    "Das 1607 gedruckte Libretto endet mit den rasenden Bacchantinnen, die 1609 veröffentlichte Partitur mit Apollo. Welche Fassung 1607 tatsächlich gespielt wurde, ist nicht sicher."
+  ]
+}

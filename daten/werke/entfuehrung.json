@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Konstanze, ihre Zofe Blonde und der Diener Pedrillo sind in die Gewalt des Bassa Selim geraten. Belmonte will seine Verlobte befreien – doch der grimmige Aufseher Osmin passt auf. Mozarts Singspiel über Liebe, Treue und Großmut.",
+  "urauffuehrung": {
+    "datum": "1782-07-16",
+    "ort": "Burgtheater, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor dem Palast des Bassa Selim",
+      "text": "Belmonte sucht Konstanze und stößt auf den misstrauischen Osmin. Pedrillo stellt Belmonte dem Bassa als Baumeister vor. Konstanze weist das Werben des Bassa zurück, sie bleibt Belmonte treu."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Garten des Palastes",
+      "text": "Blonde hält sich den aufdringlichen Osmin vom Leib. Konstanze trotzt dem Bassa: keine Marter kann sie umstimmen. Pedrillo macht Osmin betrunken, um die Flucht vorzubereiten. Die Paare finden sich – und die Männer fragen zweifelnd, ob ihre Frauen treu geblieben sind."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Vor dem Palast, um Mitternacht",
+      "text": "Die Flucht scheitert, Osmin triumphiert. Der Bassa erkennt in Belmonte den Sohn seines ärgsten Feindes – und lässt doch alle frei: Böses mit Gutem zu vergelten, sei seine Rache."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Hier soll ich dich denn sehen",
+      "wer": "Belmonte",
+      "akt": "1. Akt",
+      "was": "Belmontes erste Arie vor dem Palast."
+    },
+    {
+      "titel": "Solche hergelaufne Laffen",
+      "wer": "Osmin",
+      "akt": "1. Akt",
+      "was": "Osmins Wut auf die Fremden."
+    },
+    {
+      "titel": "Martern aller Arten",
+      "wer": "Konstanze",
+      "akt": "2. Akt",
+      "was": "Konstanzes Trotzarie, eine der schwersten für Sopran."
+    },
+    {
+      "titel": "Vivat Bacchus!",
+      "wer": "Pedrillo und Osmin",
+      "akt": "2. Akt",
+      "was": "Das Trinkduett, mit dem Osmin außer Gefecht gesetzt wird."
+    },
+    {
+      "titel": "O, wie will ich triumphieren",
+      "wer": "Osmin",
+      "akt": "3. Akt",
+      "was": "Osmins Siegesarie mit abgrundtiefen Tönen."
+    }
+  ],
+  "wissen": [
+    "Die Entführung ist ein Singspiel mit gesprochenen Dialogen; der Bassa Selim singt gar nicht.",
+    "Im Jahr der Uraufführung heiratete Mozart – seine Braut hieß, wie die Heldin, Constanze."
+  ]
+}

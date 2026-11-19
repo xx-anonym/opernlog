@@ -1,0 +1,51 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Die Wassernixe Rusalka liebt einen Prinzen und will ein Mensch werden. Die Hexe Ježibaba hilft ihr – um einen hohen Preis: als Mensch wird Rusalka stumm sein, und verrät der Prinz sie, sind beide verloren.",
+  "urauffuehrung": {
+    "datum": "1901-03-31",
+    "ort": "Nationaltheater, Prag"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Wiese am See",
+      "text": "Rusalka erzählt dem Wassermann von ihrer Liebe zu dem Prinzen, der oft am See badet. Sie bittet den Mond, ihm ihre Liebe zu verkünden. Die Hexe Ježibaba verwandelt sie in einen Menschen; der Prinz findet sie und nimmt sie mit auf sein Schloss."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Park des Schlosses",
+      "text": "Die Hochzeit wird vorbereitet, doch der Prinz verliert das Interesse an der stummen, kühlen Rusalka und wendet sich einer fremden Fürstin zu. Rusalka flieht verzweifelt zum Wassermann, der den Prinzen verflucht."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Wiese am See",
+      "text": "Rusalka ist verdammt, als Irrlicht zu leben. Ježibaba sagt ihr, sie könne nur erlöst werden, wenn sie den Prinzen tötet; Rusalka weigert sich. Der Prinz sucht sie reuevoll und bittet um einen Kuss, obwohl er weiß, dass er ihn das Leben kostet. Er stirbt in ihren Armen, und Rusalka segnet seine Seele."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Měsíčku na nebi hlubokém",
+      "wer": "Rusalka",
+      "akt": "1. Akt",
+      "was": "Das Lied an den Mond – Dvořáks berühmteste Melodie."
+    },
+    {
+      "titel": "Ježibabas Zauberspruch",
+      "zitat": false,
+      "wer": "Ježibaba",
+      "akt": "1. Akt",
+      "was": "Die Hexe verwandelt Rusalka."
+    },
+    {
+      "titel": "Schlussduett",
+      "zitat": false,
+      "wer": "Rusalka und der Prinz",
+      "akt": "3. Akt",
+      "was": "Der tödliche Kuss am See."
+    }
+  ],
+  "wissen": [
+    "Der Text von Jaroslav Kvapil greift auf Märchen wie Fouqués „Undine“ und Andersens „Die kleine Meerjungfrau“ zurück.",
+    "Rusalka ist Dvořáks erfolgreichste Oper."
+  ]
+}

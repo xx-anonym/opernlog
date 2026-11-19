@@ -1,0 +1,58 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Drei Gauner auf der Flucht gründen mitten in der Wüste die Stadt Mahagonny, ein Paradies für Vergnügen und Geld. Holzfäller aus Alaska kommen, um ihr Glück zu suchen – bis sich zeigt, dass hier nur ein Verbrechen wirklich zählt: kein Geld zu haben.",
+  "urauffuehrung": {
+    "datum": "1930-03-09",
+    "ort": "Neues Theater, Leipzig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Die Stadt Mahagonny",
+      "text": "Leokadja Begbick, Fatty und Dreieinigkeitsmoses gründen Mahagonny. Jenny und andere Mädchen kommen, dann vier Holzfäller aus Alaska, unter ihnen Jim. Die Stadt langweilt sich bald. Ein Hurrikan droht – und zieht in letzter Minute vorbei. Fortan gilt: alles ist erlaubt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Mahagonny",
+      "text": "Fressen, Lieben, Boxen, Saufen: die Männer leben nach dem neuen Gesetz. Einer frisst sich zu Tode, ein anderer stirbt im Boxkampf. Jim kann seinen Whisky nicht bezahlen und wird verhaftet."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Gericht, Mahagonny",
+      "text": "Vor Gericht kommt ein Mörder mit Bestechung davon. Jim aber wird zum Tod verurteilt, weil er seine Zeche nicht zahlen kann; niemand hilft ihm, auch Jenny nicht. Nach seiner Hinrichtung ziehen Demonstrationen durch die brennende Stadt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Alabama-Song",
+      "zitat": false,
+      "wer": "Jenny und die Mädchen",
+      "akt": "1. Akt",
+      "was": "„Oh, show us the way to the next whisky bar“."
+    },
+    {
+      "titel": "Denn wie man sich bettet, so liegt man",
+      "wer": "Jenny",
+      "akt": "2. Akt",
+      "was": "Jennys kühle Lebensregel."
+    },
+    {
+      "titel": "Sieh jene Kraniche in großem Bogen",
+      "wer": "Jenny und Jim",
+      "akt": "2. Akt",
+      "was": "Das Kranich-Duett nach einem Gedicht von Brecht – nicht in allen Fassungen enthalten."
+    },
+    {
+      "titel": "Benares-Song",
+      "zitat": false,
+      "wer": "Ensemble",
+      "akt": "3. Akt",
+      "was": "„There is no whisky in this town“."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung in Leipzig wurde von Nationalsozialisten gestört und endete im Tumult.",
+    "Den Alabama-Song machten später auch die Doors und David Bowie bekannt.",
+    "Der Holzfäller heißt je nach Fassung Johann Ackermann, Paul Ackermann oder Jimmy Mahoney."
+  ]
+}

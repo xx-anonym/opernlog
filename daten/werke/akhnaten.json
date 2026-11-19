@@ -1,0 +1,51 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Ägypten um 1350 vor Christus. Pharao Echnaton verdrängt die traditionellen Götter zugunsten des Kults der Sonnenscheibe Aton. Er baut eine neue Hauptstadt – und wird gestürzt. Philip Glass erzählt seine Geschichte in hypnotischer, kreisender Musik.",
+  "urauffuehrung": {
+    "datum": "1984-03-24",
+    "ort": "Württembergisches Staatstheater, Stuttgart"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Theben",
+      "text": "Der Pharao Amenophis III. wird bestattet. Sein Sohn Amenophis IV. wird zum Pharao gekrönt. Später nimmt er den Namen Echnaton an und erhebt den Kult des Sonnengottes Aton zur alleinigen Staatsreligion."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Theben, Achet-Aton",
+      "text": "Echnaton lässt den Tempel des Amun stürmen. Er und Nofretete singen ein Liebesduett. Die neue Stadt Achet-Aton entsteht, Echnaton singt den Sonnenhymnus."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Achet-Aton",
+      "text": "Echnaton zieht sich mit seiner Familie zurück, während das Reich verfällt. Die alten Priester stürzen ihn, die Stadt wird zerstört."
+    },
+    {
+      "titel": "Epilog",
+      "ort": "Die Ruinen heute",
+      "text": "In den Ruinen von Achet-Aton führt ein Fremdenführer Touristen herum; die Geister Echnatons und seiner Familie ziehen vorüber."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Bestattung Amenophis’ III.",
+      "zitat": false,
+      "wer": "Chor und Orchester",
+      "akt": "1. Akt",
+      "was": "Der Trauerzug mit Trommeln und Chor."
+    },
+    {
+      "titel": "Hymn to the Sun",
+      "zitat": false,
+      "wer": "Echnaton",
+      "akt": "2. Akt",
+      "was": "Der Sonnenhymnus – gesungen in der Sprache des Publikums."
+    }
+  ],
+  "wissen": [
+    "Gesungen wird überwiegend auf Altägyptisch, Akkadisch und Hebräisch. Echnatons Sonnenhymnus erklingt in der Sprache des Publikums, und ein Sprecher erläutert die Handlung ebenfalls in dieser Sprache.",
+    "Die Titelrolle singt ein Countertenor.",
+    "Akhnaten ist die dritte von Glass’ „Porträt-Opern“, nach „Einstein on the Beach“ und „Satyagraha“."
+  ]
+}

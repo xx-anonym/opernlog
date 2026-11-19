@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Schottland, Ende des 16. Jahrhunderts. Lucia liebt Edgardo, den Todfeind ihrer Familie. Ihr Bruder Enrico zwingt sie mit einer Fälschung in eine Ehe mit einem anderen – und Lucia verliert den Verstand.",
+  "urauffuehrung": {
+    "datum": "1835-09-26",
+    "ort": "Teatro San Carlo, Neapel"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Park von Ravenswood, am Brunnen",
+      "text": "Enrico Ashton braucht eine reiche Heirat seiner Schwester Lucia, um seine Familie zu retten. Er erfährt, dass sie sich heimlich mit Edgardo von Ravenswood trifft. Am Brunnen tauschen Lucia und Edgardo Ringe, bevor er nach Frankreich reisen muss."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Enricos Zimmer, Festsaal",
+      "text": "Mit einem gefälschten Brief überzeugt Enrico Lucia, dass Edgardo ihr untreu ist. Verzweifelt unterschreibt sie den Ehevertrag mit Lord Arturo. Da stürmt Edgardo herein, sieht die Unterschrift und verflucht Lucia."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Turm von Wolf’s Crag, Festsaal, Friedhof",
+      "text": "Enrico und Edgardo verabreden ein Duell. Beim Hochzeitsfest erscheint Lucia mit blutigem Messer: sie hat Arturo in der Hochzeitsnacht getötet und ist dem Wahnsinn verfallen. Sie stirbt. Edgardo erfährt es auf dem Friedhof seiner Ahnen und ersticht sich."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Regnava nel silenzio",
+      "wer": "Lucia",
+      "akt": "1. Akt",
+      "was": "Lucia erzählt am Brunnen von einer Geistererscheinung."
+    },
+    {
+      "titel": "Chi mi frena in tal momento",
+      "wer": "Sextett",
+      "akt": "2. Akt",
+      "was": "Das berühmte Sextett im Moment der Katastrophe."
+    },
+    {
+      "titel": "Il dolce suono",
+      "wer": "Lucia",
+      "akt": "3. Akt",
+      "was": "Die Wahnsinnsszene, Gipfel des Belcanto."
+    },
+    {
+      "titel": "Tu che a Dio spiegasti l’ali",
+      "wer": "Edgardo",
+      "akt": "3. Akt",
+      "was": "Edgardos Abschied am Grab."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist Walter Scotts Roman „Die Braut von Lammermoor“.",
+    "In der Wahnsinnsszene sah Donizetti eine Glasharmonika vor; meist übernimmt heute die Flöte ihren Part."
+  ]
+}

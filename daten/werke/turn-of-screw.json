@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Eine junge Gouvernante soll auf dem abgelegenen Landsitz Bly zwei Waisenkinder betreuen. Bald sieht sie unheimliche Gestalten: die Geister des früheren Dieners Peter Quint und der früheren Erzieherin Miss Jessel. Was wollen sie von den Kindern?",
+  "urauffuehrung": {
+    "datum": "1954-09-14",
+    "ort": "Teatro La Fenice, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Vor dem Vorhang",
+      "text": "Ein Erzähler berichtet, wie die Gouvernante die Stelle annahm – unter der Bedingung, den Vormund der Kinder niemals zu behelligen."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Landsitz Bly",
+      "text": "Die Gouvernante kommt in Bly an und gewinnt Miles und Flora lieb. Miles ist von der Schule verwiesen worden, niemand sagt, warum. Sie erblickt einen fremden Mann auf dem Turm und erfährt von der Haushälterin Mrs. Grose: es ist der tote Diener Quint. Auch Miss Jessel erscheint."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Landsitz Bly",
+      "text": "Die Geister werben um die Kinder. Die Gouvernante kämpft um Miles und Flora; Flora wird fortgebracht. Die Gouvernante bedrängt Miles, Quint zu nennen. Er ruft den Namen – und stirbt in ihren Armen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Thema und Variationen",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "alle Szenen",
+      "was": "Jede Szene wird von einer Variation desselben Themas eingeleitet."
+    },
+    {
+      "titel": "Malo",
+      "wer": "Miles",
+      "akt": "1. Akt",
+      "was": "Miles’ rätselhaftes Lied über das lateinische Wort."
+    },
+    {
+      "titel": "The ceremony of innocence is drowned",
+      "wer": "Quint und Miss Jessel",
+      "akt": "2. Akt",
+      "was": "Die Geister im Duett, mit einer Zeile von W. B. Yeats."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist die Erzählung von Henry James.",
+    "Britten schrieb für ein Kammerorchester aus 13 Musikern; den Miles sang bei der Uraufführung der Knabe David Hemmings."
+  ]
+}

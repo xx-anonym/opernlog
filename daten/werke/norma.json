@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Gallien unter römischer Besatzung. Die Druidenpriesterin Norma hat heimlich zwei Kinder vom römischen Prokonsul Pollione. Als er sich einer jungen Priesterin zuwendet, steht Norma zwischen Rache, Mutterliebe und ihrem Volk.",
+  "urauffuehrung": {
+    "datum": "1831-12-26",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Heiliger Hain der Druiden, Normas Wohnung",
+      "text": "Pollione gesteht seinem Freund, dass er Norma nicht mehr liebt, sondern die Novizin Adalgisa. Norma bittet den Mond um Frieden und hält ihr Volk vom Krieg ab. Adalgisa beichtet Norma ihre verbotene Liebe – und Norma erfährt, dass es Pollione ist."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Normas Wohnung, Tempel",
+      "text": "Norma will ihre Kinder töten, bringt es aber nicht über sich. Adalgisa verzichtet auf Pollione und will ihn zu Norma zurückführen. Pollione versucht, Adalgisa aus dem Tempel zu entführen, und wird gefasst. Norma bekennt sich selbst als die schuldige Priesterin. Gerührt geht Pollione mit ihr auf den Scheiterhaufen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Casta diva",
+      "wer": "Norma",
+      "akt": "1. Akt",
+      "was": "Normas Gebet an die keusche Göttin des Mondes."
+    },
+    {
+      "titel": "Mira, o Norma",
+      "wer": "Norma und Adalgisa",
+      "akt": "2. Akt",
+      "was": "Das Duett der beiden Frauen."
+    },
+    {
+      "titel": "Guerra, guerra!",
+      "wer": "Chor",
+      "akt": "2. Akt",
+      "was": "Der Kriegsruf der Gallier."
+    },
+    {
+      "titel": "Qual cor tradisti",
+      "wer": "Norma und Pollione",
+      "akt": "2. Akt",
+      "was": "Das Finale vor dem Scheiterhaufen."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung wurde kühl aufgenommen; bald darauf galt Norma als Bellinis Meisterwerk.",
+    "Die Titelpartie gilt als eine der schwersten im italienischen Repertoire; Maria Callas machte sie im 20. Jahrhundert berühmt."
+  ]
+}

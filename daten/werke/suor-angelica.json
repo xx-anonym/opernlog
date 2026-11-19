@@ -1,0 +1,34 @@
+{
+  "dauer": "ca. 55 Min.",
+  "anriss": "Ein Kloster in Italien, Ende des 17. Jahrhunderts. Schwester Angelica lebt seit sieben Jahren hinter Klostermauern – als Strafe für ein uneheliches Kind. Da kündigt sich Besuch aus ihrer adligen Familie an.",
+  "urauffuehrung": {
+    "datum": "1918-12-14",
+    "ort": "Metropolitan Opera, New York"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Ein Nonnenkloster",
+      "text": "Die Nonnen erzählen von ihren kleinen Wünschen; Angelica wartet seit Jahren auf Nachricht von ihrer Familie. Ihre Tante, die Fürstin, verlangt kühl, dass sie auf ihr Erbe verzichtet – und sagt ihr, ihr Kind sei vor zwei Jahren gestorben. Angelica vergiftet sich, erkennt im Sterben ihre Todsünde und fleht um Gnade. In einer Vision erscheint ihr die Jungfrau Maria mit ihrem Kind."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Senza mamma",
+      "wer": "Angelica",
+      "akt": "gegen Ende",
+      "was": "Angelicas Klage um ihr totes Kind."
+    },
+    {
+      "titel": "Intermezzo",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "gegen Ende",
+      "was": "Das Zwischenspiel vor Angelicas Tod."
+    }
+  ],
+  "wissen": [
+    "Suor Angelica ist der mittlere Teil von Puccinis „Il trittico“ und kommt ganz ohne Männerstimmen aus.",
+    "Puccinis Schwester Iginia war Nonne und Oberin eines Klosters."
+  ]
+}

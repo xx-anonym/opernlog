@@ -1,0 +1,60 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "In einem düsteren, sagenhaften Königreich findet Prinz Golaud die rätselhafte Mélisande weinend im Wald und heiratet sie. Zwischen ihr und Golauds jüngerem Halbbruder Pelléas wächst eine stille Liebe – und Golauds Eifersucht.",
+  "urauffuehrung": {
+    "datum": "1902-04-30",
+    "ort": "Opéra-Comique, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Wald, Schloss von Allemonde",
+      "text": "Golaud findet Mélisande an einer Quelle; sie weiß nicht, woher sie kommt. Er heiratet sie und bringt sie auf das Schloss seines Großvaters, König Arkel. Dort begegnet sie Pelléas."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Brunnen im Park, Schloss",
+      "text": "Beim Spiel mit Pelléas fällt Mélisande der Ehering in einen Brunnen – im selben Augenblick stürzt Golaud vom Pferd. Er verlangt, dass sie den Ring sucht, und schickt sie mit Pelléas in eine Grotte."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Turm, Gewölbe, vor dem Schloss",
+      "text": "Mélisande lässt ihr langes Haar vom Turm herab, Pelléas versinkt darin. Golaud warnt ihn und lässt seinen kleinen Sohn Yniold die beiden belauschen."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Im Schloss, am Brunnen im Park",
+      "text": "Pelléas will abreisen. Am Brunnen gestehen er und Mélisande einander ihre Liebe. Golaud hat sie beobachtet und erschlägt Pelléas."
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Mélisandes Zimmer",
+      "text": "Mélisande hat ein Kind geboren und liegt im Sterben. Golaud quält sie mit der Frage, ob sie Pelléas geliebt hat. Ohne dass er eine Antwort bekommt, stirbt sie."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Je ne pourrai plus sortir de cette forêt",
+      "wer": "Golaud",
+      "akt": "1. Akt",
+      "was": "Golaud hat sich im Wald verirrt – die ersten Worte der Oper."
+    },
+    {
+      "titel": "Mes longs cheveux descendent",
+      "wer": "Mélisande",
+      "akt": "3. Akt",
+      "was": "Die Turmszene."
+    },
+    {
+      "titel": "Zwischenspiele",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "alle Akte",
+      "was": "Die Orchesterzwischenspiele, die die Bilder verbinden."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist das Schauspiel von Maurice Maeterlinck, das Debussy weitgehend übernahm, für seine Oper jedoch deutlich kürzte.",
+    "Pelléas et Mélisande ist Debussys einzige vollendete Oper."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "dauer": "ca. 50 Min.",
+  "anriss": "Ein Lastkahn auf der Seine in Paris. Michele spürt, dass seine junge Frau Giorgetta ihn nicht mehr liebt. Sie hat ein Verhältnis mit dem Hafenarbeiter Luigi – und ein Streichholz in der Nacht wird zum tödlichen Zeichen.",
+  "urauffuehrung": {
+    "datum": "1918-12-14",
+    "ort": "Metropolitan Opera, New York"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Lastkahn auf der Seine, Abend",
+      "text": "Nach der Arbeit feiern die Hafenarbeiter. Giorgetta und Luigi träumen davon, gemeinsam fortzugehen, und verabreden ein Zeichen: ein angezündetes Streichholz. Michele versucht vergeblich, Giorgettas Liebe zurückzugewinnen. Allein zündet er seine Pfeife an – Luigi hält das für das Zeichen und kommt an Bord. Michele erwürgt ihn, verbirgt die Leiche unter seinem Mantel und enthüllt sie vor Giorgetta."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Hai ben ragione",
+      "wer": "Luigi",
+      "akt": "Mitte",
+      "was": "Luigis Klage über das Leben der Hafenarbeiter."
+    },
+    {
+      "titel": "Nulla! Silenzio!",
+      "wer": "Michele",
+      "akt": "gegen Ende",
+      "was": "Michele grübelt, wer der Liebhaber ist."
+    }
+  ],
+  "wissen": [
+    "Il tabarro ist der erste Teil von Puccinis „Il trittico“, drei Einaktern für einen Abend.",
+    "Vorlage ist das Stück „La Houppelande“ von Didier Gold; der Titel heißt „Der Mantel“."
+  ]
+}

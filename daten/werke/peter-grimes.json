@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Ein Fischerdorf an der englischen Ostküste. Der eigenbrötlerische Fischer Peter Grimes steht im Verdacht, den Tod seines Lehrjungen verschuldet zu haben. Als ein neuer Junge zu ihm kommt, wendet sich das ganze Dorf gegen ihn.",
+  "urauffuehrung": {
+    "datum": "1945-06-07",
+    "ort": "Sadler’s Wells Theatre, London"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Gerichtssaal im Rathaus",
+      "text": "Bei der Untersuchung zum Tod seines Lehrjungen wird Grimes freigesprochen, aber gewarnt, sich keinen neuen Jungen zu nehmen. Nur die Lehrerin Ellen Orford hält zu ihm."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Strand, Wirtshaus „The Boar“",
+      "text": "Die Dorfleute misstrauen Grimes. Er träumt davon, mit einem großen Fang Ansehen zu gewinnen und Ellen zu heiraten. Bei Sturm bringt der Fuhrmann einen neuen Lehrjungen, den Ellen abgeholt hat."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Strand am Sonntag, Grimes’ Hütte",
+      "text": "Ellen entdeckt Blutergüsse an dem Jungen; im Streit schlägt Grimes sie. Das Dorf zieht zu seiner Hütte. Grimes treibt den Jungen hinaus zum Boot – der Junge stürzt die Klippe hinab und stirbt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Das Dorf, der Strand",
+      "text": "Das Dorf feiert, dann wird Grimes’ Pullover angeschwemmt, eine Treibjagd beginnt. Grimes irrt verwirrt umher. Kapitän Balstrode rät ihm, hinauszufahren und sein Boot zu versenken. Am Morgen geht das Dorf seinem Alltag nach."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Sea Interludes",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "zwischen den Bildern",
+      "was": "Die Zwischenspiele vom Meer, auch im Konzert berühmt."
+    },
+    {
+      "titel": "Now the Great Bear and Pleiades",
+      "wer": "Peter Grimes",
+      "akt": "1. Akt",
+      "was": "Grimes’ Monolog über das Schicksal in den Sternen."
+    },
+    {
+      "titel": "Old Joe has gone fishing",
+      "wer": "Ensemble",
+      "akt": "1. Akt",
+      "was": "Der Kanon im Wirtshaus."
+    },
+    {
+      "titel": "Embroidery in childhood",
+      "wer": "Ellen Orford",
+      "akt": "3. Akt",
+      "was": "Ellen findet den gestickten Pullover."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist das Gedicht „The Borough“ von George Crabbe.",
+    "Die Uraufführung eröffnete das Sadler’s Wells Theatre nach dem Zweiten Weltkrieg neu; den Grimes sang Peter Pears."
+  ]
+}

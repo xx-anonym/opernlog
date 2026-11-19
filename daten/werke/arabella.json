@@ -1,0 +1,54 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Wien in den 1860er Jahren. Der verarmte Graf Waldner hofft, seine schöne Tochter Arabella reich zu verheiraten. Ihre jüngere Schwester Zdenka muss als Junge leben, weil das Geld für zwei Töchter nicht reicht. Dann kommt ein Fremder aus Kroatien.",
+  "urauffuehrung": {
+    "datum": "1933-07-01",
+    "ort": "Sächsische Staatsoper, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Salon in einem Wiener Hotel",
+      "text": "Arabella hat viele Verehrer, wartet aber auf „den Richtigen“. Zdenka, als „Zdenko“ verkleidet, liebt heimlich den Offizier Matteo, der Arabella anbetet. Der reiche Gutsbesitzer Mandryka erscheint – er hat sich in Arabellas Bild verliebt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Ballsaal beim Fiakerball",
+      "text": "Arabella und Mandryka verloben sich. Um Matteo zu trösten, gibt ihm Zdenka einen Schlüssel – angeblich zu Arabellas Zimmer, in Wahrheit zu ihrem eigenen. Mandryka hört davon und macht einen Skandal."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Hotelhalle",
+      "text": "Matteo kommt die Treppe herab und trifft Arabella, die von nichts weiß. Mandryka glaubt sich betrogen. Zdenka klärt alles auf und gibt sich als Mädchen zu erkennen. Mandryka bittet um Verzeihung; Arabella reicht ihm ein Glas klares Wasser – nach seiner Heimatsitte das Zeichen der Verlobung."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Aber der Richtige, wenn’s einen gibt für mich",
+      "wer": "Arabella und Zdenka",
+      "akt": "1. Akt",
+      "was": "Das Schwesternduett."
+    },
+    {
+      "titel": "Mein Elemer!",
+      "wer": "Arabella",
+      "akt": "1. Akt",
+      "was": "Arabella zwischen ihren Verehrern."
+    },
+    {
+      "titel": "Und du wirst mein Gebieter sein",
+      "wer": "Arabella und Mandryka",
+      "akt": "2. Akt",
+      "was": "Das Verlobungsduett."
+    },
+    {
+      "titel": "Das war sehr gut, Mandryka",
+      "wer": "Arabella",
+      "akt": "3. Akt",
+      "was": "Arabellas Schlussgesang mit dem Wasserglas."
+    }
+  ],
+  "wissen": [
+    "Arabella ist die letzte gemeinsame Oper von Richard Strauss und Hugo von Hofmannsthal. Hofmannsthal starb 1929, bevor er das Libretto vollenden konnte; Strauss stellte die Partitur 1932 fertig."
+  ]
+}

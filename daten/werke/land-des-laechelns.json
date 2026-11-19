@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Wien, 1912. Die Grafentochter Lisa verliebt sich in den chinesischen Prinzen Sou-Chong und folgt ihm nach Peking. Doch dort gelten andere Gesetze – und hinter Sou-Chongs Lächeln verbirgt sich, was er nicht zeigen darf.",
+  "urauffuehrung": {
+    "datum": "1929-10-10",
+    "ort": "Metropol-Theater, Berlin"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Palais des Grafen Lichtenfels in Wien",
+      "text": "Lisa kehrt von einem Turnier zurück, gefeiert und umworben, auch von ihrem Jugendfreund Gustl. Ihr Herz gehört dem chinesischen Gesandten Sou-Chong. Als er zum Ministerpräsidenten in Peking ernannt wird, geht sie mit ihm."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Palast Sou-Chongs in Peking",
+      "text": "Sou-Chong soll nach alter Sitte vier Mandschu-Frauen heiraten. Lisa fühlt sich fremd und gefangen. Gustl ist nachgereist und verliebt sich in Sou-Chongs Schwester Mi."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Palast",
+      "text": "Lisa will mit Gustl fliehen und wird ertappt. Sou-Chong lässt sie schließlich gehen. Allein bleibt ihm nur, was ein Mann seines Standes zeigen darf: das Lächeln."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Immer nur lächeln",
+      "wer": "Sou-Chong",
+      "akt": "1. Akt",
+      "was": "Sou-Chongs Lied vom Lächeln, das alles verbirgt."
+    },
+    {
+      "titel": "Bei einem Tee à deux",
+      "wer": "Lisa und Sou-Chong",
+      "akt": "1. Akt",
+      "was": "Das zärtliche Teeduett."
+    },
+    {
+      "titel": "Dein ist mein ganzes Herz",
+      "wer": "Sou-Chong",
+      "akt": "2. Akt",
+      "was": "Das berühmteste Tenorlied der Operette."
+    },
+    {
+      "titel": "Meine Liebe, deine Liebe",
+      "wer": "Mi und Gustl",
+      "akt": "2. Akt",
+      "was": "Das heitere Duett des zweiten Paares."
+    }
+  ],
+  "wissen": [
+    "Das Land des Lächelns ist eine Neufassung von Lehárs Operette „Die gelbe Jacke“ von 1923; Lehár schrieb die Hauptrolle für Richard Tauber.",
+    "Der Textdichter Fritz Löhner-Beda wurde 1942 im Konzentrationslager Auschwitz ermordet."
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Brügge, Ende des 19. Jahrhunderts. Paul trauert um seine verstorbene Frau Marie und hütet ein Zimmer voller Erinnerungen. Dann begegnet er der Tänzerin Marietta, die Marie aufs Haar gleicht – und gerät in einen Traum zwischen Liebe, Schuld und Wahn.",
+  "urauffuehrung": {
+    "datum": "1920-12-04",
+    "ort": "Stadttheater Hamburg und Opernhaus Köln (gleichzeitig)"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Pauls Haus",
+      "text": "Paul erzählt seinem Freund Frank von der Fremden, die Marie so ähnlich sieht. Marietta besucht ihn, singt ein Lied, das ihn tief berührt, und geht wieder. Allein sieht Paul seine tote Frau, die ihn mahnt, das Leben nicht zu vergessen – und ihm erscheint, wie Marietta ihn verführt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Nächtlicher Kai in Brügge",
+      "text": "Paul wartet eifersüchtig vor Mariettas Haus. Ihre Theatertruppe feiert, der Pierrot Fritz singt ein Lied. Marietta spottet über die tote Marie und gewinnt Paul für sich."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Pauls Haus, am Morgen",
+      "text": "Eine Prozession zieht vorbei, Paul wird fromm und schuldbewusst. Marietta tanzt mit Maries Haarzopf und verhöhnt die Tote; Paul erwürgt sie. Da erwacht er: alles war ein Traum. Marietta kommt nur, um ihren Schirm zu holen. Paul beschließt, Brügge zu verlassen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Glück, das mir verblieb",
+      "wer": "Marietta und Paul",
+      "akt": "1. Akt",
+      "was": "Mariettas Lied, das zu Pauls Erinnerung wird."
+    },
+    {
+      "titel": "Mein Sehnen, mein Wähnen",
+      "wer": "Fritz",
+      "akt": "2. Akt",
+      "was": "Das Tanzlied des Pierrot."
+    }
+  ],
+  "wissen": [
+    "Korngold war bei der Uraufführung 23 Jahre alt; das Werk kam am selben Abend in Hamburg und in Köln heraus.",
+    "Vorlage ist der Roman „Bruges-la-Morte“ von Georges Rodenbach. Hinter dem Textdichter „Paul Schott“ verbergen sich Korngold und sein Vater."
+  ]
+}

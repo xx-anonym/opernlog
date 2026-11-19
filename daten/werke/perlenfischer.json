@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "An der Küste Ceylons. Die Freunde Nadir und Zurga haben einst geschworen, auf die Liebe zu einer schönen Priesterin zu verzichten. Jetzt kehrt sie zurück – und die Freundschaft gerät ins Wanken.",
+  "urauffuehrung": {
+    "datum": "1863-09-30",
+    "ort": "Théâtre-Lyrique, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Strand der Perlenfischer",
+      "text": "Zurga wird zum Anführer gewählt. Sein alter Freund Nadir kehrt zurück; sie erinnern sich an die Priesterin, um die sie sich einst stritten, und erneuern ihre Freundschaft. Eine verschleierte Priesterin kommt, um für die Fischer zu beten – Nadir erkennt in ihr Leïla."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Ruinen eines Tempels",
+      "text": "Leïla hat Keuschheit geschworen. Nadir sucht sie auf, beide gestehen ihre Liebe und werden ertappt. Zurga will sie zunächst schonen, doch als er Leïla erkennt, verurteilt er beide aus Eifersucht zum Tod."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Zurgas Zelt, Richtplatz",
+      "text": "Leïla bittet Zurga um Nadirs Leben. An ihrer Kette erkennt Zurga, dass sie ihm einst das Leben gerettet hat. Er legt Feuer im Lager, um die beiden fliehen zu lassen. Je nach Fassung bezahlt er dafür mit dem Leben."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Au fond du temple saint",
+      "wer": "Nadir und Zurga",
+      "akt": "1. Akt",
+      "was": "Das berühmte Freundschaftsduett."
+    },
+    {
+      "titel": "Je crois entendre encore",
+      "wer": "Nadir",
+      "akt": "1. Akt",
+      "was": "Nadirs zarte Romanze."
+    },
+    {
+      "titel": "Comme autrefois dans la nuit sombre",
+      "wer": "Leïla",
+      "akt": "2. Akt",
+      "was": "Leïlas Kavatine in der Nacht."
+    },
+    {
+      "titel": "L’orage s’est calmé",
+      "wer": "Zurga",
+      "akt": "3. Akt",
+      "was": "Zurgas Reue nach dem Sturm."
+    }
+  ],
+  "wissen": [
+    "Bizet war bei der Uraufführung 24 Jahre alt.",
+    "Der Schluss ist in mehreren Fassungen überliefert; die Häuser spielen unterschiedliche Versionen."
+  ]
+}

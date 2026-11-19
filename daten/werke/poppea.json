@@ -1,0 +1,60 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Rom unter Kaiser Nero. Die schöne, ehrgeizige Poppea will Kaiserin werden – und Nero ist bereit, dafür seine Frau zu verstoßen und seinen Lehrer Seneca in den Tod zu schicken. Am Ende siegt die Liebe, aber nicht die Moral.",
+  "urauffuehrung": {
+    "datum": "1643",
+    "ort": "Teatro Santi Giovanni e Paolo, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Im Himmel",
+      "text": "Fortuna, Tugend und Amor streiten, wer die Welt regiert. Amor verspricht, es zu beweisen."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Vor Poppeas Haus, Kaiserpalast",
+      "text": "Ottone kehrt heim und muss erkennen, dass Nero bei seiner Geliebten Poppea ist. Poppea entlockt Nero das Versprechen, sie zur Kaiserin zu machen. Die Kaiserin Ottavia klagt über ihre Demütigung, der Philosoph Seneca widerspricht Nero und fällt in Ungnade."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Senecas Villa, Rom",
+      "text": "Nero befiehlt Seneca, sich das Leben zu nehmen; Seneca stirbt gefasst im Kreis seiner Freunde. Ottavia zwingt Ottone, Poppea zu ermorden. In den Kleidern der Hofdame Drusilla, die ihn liebt, schleicht er zu der Schlafenden – Amor verhindert die Tat."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Rom",
+      "text": "Drusilla wird verhaftet und nimmt die Schuld auf sich, bis Ottone gesteht. Nero verbannt beide und verstößt Ottavia, die von Rom Abschied nimmt. Poppea wird zur Kaiserin gekrönt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Disprezzata regina",
+      "wer": "Ottavia",
+      "akt": "1. Akt",
+      "was": "Die verschmähte Kaiserin klagt."
+    },
+    {
+      "titel": "Amici, è giunta l’ora",
+      "wer": "Seneca",
+      "akt": "2. Akt",
+      "was": "Seneca nimmt Abschied von seinen Freunden."
+    },
+    {
+      "titel": "Addio Roma",
+      "wer": "Ottavia",
+      "akt": "3. Akt",
+      "was": "Ottavias Abschied aus Rom."
+    },
+    {
+      "titel": "Pur ti miro, pur ti godo",
+      "wer": "Poppea und Nero",
+      "akt": "3. Akt",
+      "was": "Das Schlussduett der Liebenden."
+    }
+  ],
+  "wissen": [
+    "Es ist eine der ersten Opern über einen historischen Stoff statt über Mythen.",
+    "Das berühmte Schlussduett stammt wahrscheinlich nicht von Monteverdi, sondern von einem jüngeren Kollegen."
+  ]
+}

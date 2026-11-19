@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Sankt Petersburg im 18. Jahrhundert. Der arme Offizier Hermann liebt Lisa, die Enkelin einer alten Gräfin. Von ihr heißt es, sie kenne das Geheimnis dreier Karten, die immer gewinnen. Hermanns Spielleidenschaft wird stärker als seine Liebe.",
+  "urauffuehrung": {
+    "datum": "1890-12-19",
+    "ort": "Mariinski-Theater, Sankt Petersburg"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Sommergarten, Lisas Zimmer",
+      "text": "Hermann liebt eine Unbekannte: Lisa, die mit Fürst Jeletzki verlobt ist. Graf Tomski erzählt, ihre Großmutter, die Gräfin, habe einst das Geheimnis dreier Karten erfahren. Hermann dringt in Lisas Zimmer ein und gesteht ihr seine Liebe; sie gibt ihm nach."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Maskenball, Schlafzimmer der Gräfin",
+      "text": "Lisa gibt Hermann auf einem Ball den Schlüssel zu ihrem Zimmer. Er schleicht stattdessen zur Gräfin und verlangt mit gezogener Pistole das Geheimnis. Die alte Frau stirbt vor Schreck."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Kaserne, am Kanal, Spielhaus",
+      "text": "Der Geist der Gräfin nennt Hermann die Karten: drei, sieben, Ass. Lisa erkennt am Kanal, dass ihn nur noch das Spiel treibt, und stürzt sich ins Wasser. Hermann gewinnt mit der Drei und der Sieben. Beim letzten Spiel gegen Jeletzki liegt statt des Asses die Pique Dame auf dem Tisch. Hermann nimmt sich das Leben."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ballade des Tomski",
+      "zitat": false,
+      "wer": "Graf Tomski",
+      "akt": "1. Akt",
+      "was": "Die Geschichte der Gräfin und der drei Karten."
+    },
+    {
+      "titel": "Ja vas ljublju",
+      "wer": "Fürst Jeletzki",
+      "akt": "2. Akt",
+      "was": "„Ich liebe Sie“ – Jeletzkis Liebeserklärung an Lisa."
+    },
+    {
+      "titel": "Je crains de lui parler la nuit",
+      "wer": "Gräfin",
+      "akt": "2. Akt",
+      "was": "Die alte Gräfin erinnert sich an ihre Jugend in Paris."
+    },
+    {
+      "titel": "Schto nascha schisn? Igra!",
+      "wer": "Hermann",
+      "akt": "3. Akt",
+      "was": "„Was ist unser Leben? Ein Spiel!“"
+    }
+  ],
+  "wissen": [
+    "Vorlage ist eine Erzählung von Alexander Puschkin; das Libretto schrieb Tschaikowskys Bruder Modest.",
+    "In russischen Quellen steht oft der 7. Dezember 1890 – das Datum nach dem julianischen Kalender."
+  ]
+}
