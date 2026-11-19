@@ -317,8 +317,14 @@ export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
     const terminSatz = meine.length
         ? `${meine.length} ${meine.length === 1 ? 'Termin' : 'Termine'} an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'} in Deutschland, Österreich und der Schweiz`
         : '';
+    // Mit Text: so, wie Leute vor dem Opernbesuch suchen ("Zauberflöte
+    // Handlung kurz", "wie lange dauert …") – Jonas, 19.11.2026. Im Titel
+    // steht "Arien", weil so gesucht wird; auf der Seite heißt die Rubrik
+    // weiter "Bekannte Stellen".
+    const zitat = text?.stellen.find(s => s.zitat !== false);
+    const akteText = werk.acts ? ` in ${werk.acts === 1 ? 'einem Akt' : `${werk.acts} Akten`}` : '';
     const beschreibung = text
-        ? `${werk.title}${von}: Handlung${text.stellen.length ? `, bekannte Stellen wie ${stelleZitat(text.stellen[0].titel, text.stellen[0].zitat)}` : ''}${terminSatz ? ` und ${terminSatz}` : ''}.`
+        ? `${werk.title}${von} kurz erklärt: Handlung${akteText}${zitat ? `, bekannte Stellen wie ${stelleZitat(zitat.titel)}` : ''}${text.dauer ? `, Dauer ${text.dauer} ohne Pausen` : ''}${meine.length ? ` – und aktuelle Termine an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'}` : ''}.`
         : meine.length
             ? `${werk.title}${von}: ${terminSatz} – Spielplan und Karten.`
             : `${werk.title}${von}: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.`;
@@ -330,7 +336,9 @@ export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
         ? `<p class="unterzeile">${maske(werk.genre)}${werk.composer ? ` von ${maske(werk.composer)}` : ''}</p>`
         : (werk.composer ? `<p class="unterzeile">von ${maske(werk.composer)}</p>` : '');
     return seite({
-        titel: `${werk.title}${werk.composer ? ` (${composerKurz(werk.composer)})` : ''} – ${text ? 'Handlung, Musik und Termine' : 'Termine und Spielplan'} | OpernLog`,
+        titel: text
+            ? `${werk.title} – Handlung kurz zusammengefasst, Arien, Termine | OpernLog`
+            : `${werk.title}${werk.composer ? ` (${composerKurz(werk.composer)})` : ''} – Termine und Spielplan | OpernLog`,
         beschreibung: beschreibung.slice(0, 300),
         url: adresse('werk', werk.id),
         bild: werk.image,

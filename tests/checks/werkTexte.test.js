@@ -67,10 +67,10 @@ test('ohne Netz wird beim nächsten Öffnen noch einmal gefragt', async () => {
     assert.ok(await ladeWerkText('netz-weg', { abruf }));
 });
 
-test('Seite mit Text: Titel und Beschreibung nennen Handlung und Musik, alle Abschnitte da, maskiert', () => {
+test('Seite mit Text: Titel und Beschreibung wie gesucht wird (Handlung kurz, Arien, Dauer), alle Abschnitte da, maskiert', () => {
     const html = werkSeite(TOSCA, { termine: [termin('2027-01-01')], haeuser: new Map([[HAUS.id, HAUS]]), stand: '2026-11-01', text: TEXTE.get('tosca') });
-    assert.match(html, /<title>Tosca \(Puccini\) – Handlung, Musik und Termine \| OpernLog<\/title>/);
-    assert.match(html, /<meta name="description" content="Tosca von Giacomo Puccini: Handlung, bekannte Stellen wie „Recondita armonia“ und 1 Termin an 1 Opernhaus/);
+    assert.match(html, /<title>Tosca – Handlung kurz zusammengefasst, Arien, Termine \| OpernLog<\/title>/);
+    assert.match(html, /<meta name="description" content="Tosca von Giacomo Puccini kurz erklärt: Handlung in 3 Akten, bekannte Stellen wie „Recondita armonia“, Dauer ca\. 2 Std\. ohne Pausen – und aktuelle Termine an 1 Opernhaus\.">/);
     for (const teil of ['class="steckbrief"', 'class="anriss"', '<h2>Die Handlung</h2>', '<h2>Bekannte Stellen</h2>', '<h2>Gut zu wissen</h2>']) assert.ok(html.includes(teil), teil);
     assert.match(html, /<li>ca\. 2 Std\. ohne Pausen<\/li><li>3 Akte<\/li><li>Italienisch<\/li><li>Uraufführung 1900, Rom<\/li>/);
     assert.match(html, /<dt>Uraufführung<\/dt><dd>14\. Januar 1900, Teatro Costanzi, Rom<\/dd>/);
@@ -111,4 +111,14 @@ test('Bezeichnungen wie "Intermezzo" stehen ohne Anführungszeichen, Zitate mit'
     const html = werkSeite(operas.find(o => o.id === 'cavalleria-rusticana'), { termine: [], haeuser: new Map(), stand: '2026-11-01', text: cav });
     assert.match(html, /<span class="stelle">Intermezzo<\/span>/);
     assert.match(html, /<span class="stelle">„Voi lo sapete, o mamma“<\/span>/);
+});
+
+test('in der Beschreibung steht als Beispiel ein Zitat, keine Bezeichnung wie "Ouvertüre"', () => {
+    const braut = TEXTE.get('verkaufte-braut');
+    assert.equal(braut.stellen[0].zitat, false);
+    const html = werkSeite(operas.find(o => o.id === 'verkaufte-braut'), { termine: [], haeuser: new Map(), stand: '2026-11-01', text: braut });
+    const beschreibung = html.match(/<meta name="description" content="([^"]+)"/)[1];
+    assert.doesNotMatch(beschreibung, /Ouvertüre/);
+    assert.match(beschreibung, /wie „Ten lásky sen“/);
+    assert.ok(beschreibung.length <= 300, beschreibung.length);
 });
