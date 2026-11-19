@@ -91,7 +91,8 @@ export function DatenschutzPage() {
           <a href="#/bildnachweise">Bildnachweis</a>; Wikimedia sieht dabei deine IP-Adresse.</li>
         <li><strong>Resend</strong> (USA; Versand aus Irland) verschickt die Mails von OpernLog und sieht
           dabei deine E-Mail-Adresse und den Inhalt der Mail.</li>
-        <li><strong>Google</strong>, wenn du dich mit Google anmeldest.</li>
+        <li><strong>Google</strong>, wenn du dich mit Google anmeldest. Für den Google-Knopf lädt dein Browser
+          auf der Anmeldeseite ein Skript von accounts.google.com; Google sieht dabei deine IP-Adresse.</li>
         <li><strong>Push-Dienste</strong> von Apple, Google oder Mozilla (je nach Browser) stellen
           Mitteilungen zu, wenn du sie eingeschaltet hast.</li>
         <li><strong>Standort:</strong> Den Standort deines Geräts nutzt die App nur mit deiner Erlaubnis

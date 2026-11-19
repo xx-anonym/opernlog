@@ -380,6 +380,13 @@ window.supabase = { createClient: () => ({
     // Postausgang (SMTP) die Mail nicht annimmt. Gültig ist __code ('123456');
     // jeder andere wird wie von Supabase als falsch oder abgelaufen abgelehnt.
     // __codeEingeloest: was verifyOtp() bekommen hat.
+    // Googles eigener Knopf (src/googleKnopf.js): __idToken sammelt, was
+    // eingelöst wurde. Danach gilt man als angemeldet.
+    signInWithIdToken: async (angaben) => {
+      window.__idToken = [...(window.__idToken || []), angaben];
+      window.__ohneSitzung = false;
+      return { data: { session: SESSION, user: SESSION.user }, error: null };
+    },
     signInWithOtp: async (angaben) => {
       window.__codeAngefordert = [...(window.__codeAngefordert || []), angaben];
       if (window.__codeFehler) return { data: { user: null, session: null }, error: window.__codeFehler };

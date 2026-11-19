@@ -31,4 +31,10 @@ test('jeder fremde Dienst, den die App im Browser anspricht, steht auf der Seite
     for (const name of ['Vercel', 'Supabase', 'Wikimedia', 'Google', 'Push-Dienste']) {
         assert.ok(seite.includes(name), `${name} fehlt auf der Datenschutzseite`);
     }
+
+    // Googles Anmeldeknopf lädt sein Skript von dort (src/googleKnopf.js).
+    const knopf = fs.readFileSync(path.join(WURZEL, 'src/googleKnopf.js'), 'utf8');
+    const gis = knopf.match(/const SKRIPT = 'https:\/\/([^/']+)/)?.[1];
+    assert.equal(gis, 'accounts.google.com');
+    assert.ok(seite.includes(gis), `${gis} fehlt auf der Datenschutzseite`);
 });

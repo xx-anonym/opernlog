@@ -10,6 +10,7 @@ import { store } from '../store/store.js';
 import { profileIcons } from '../data/profileIcons.js';
 import { codeLesen, codeVollstaendig, codeOffen, codeOffenMerken, codeOffenVergessen, NEU_SENDEN_NACH_MS } from '../anmeldecode.js';
 import { passkeyAnmeldungAnbieten, passkeyVermerken, passkeyFehlertext } from '../passkey.js';
+import { googleKnopfEinsetzen } from '../googleKnopf.js';
 import { icon } from '../components/Icon.js';
 import { authFehlertext, escapeHTML } from '../utils.js';
 
@@ -79,6 +80,7 @@ export function AuthPage(onSuccess) {
             <span class="btn__loading" style="display:none"><span class="spinner--sm"></span> Code wird verschickt…</span>
           </button>
           <div class="auth-divider"><span>oder</span></div>
+          <div class="google-knopf" id="googleKnopf" hidden></div>
           <button type="button" class="btn btn--google btn--lg btn--full" id="googleSignInBtn">
             <svg viewBox="0 0 24 24" width="20" height="20"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
             Mit Google anmelden
@@ -288,6 +290,32 @@ export function AuthPage(onSuccess) {
       errorEl.style.display = 'block';
     }
   });
+
+  // Googles eigener Knopf (src/googleKnopf.js): das Fenster sagt "In
+  // opernlog.de anmelden" statt der Supabase-Adresse. Er ersetzt den alten
+  // Knopf erst, wenn er wirklich steht; sonst bleibt der alte Weg.
+  const googleAlt = page.querySelector('#googleSignInBtn');
+  const googleNeu = page.querySelector('#googleKnopf');
+  googleKnopfEinsetzen(googleNeu, {
+    breite: googleAlt.getBoundingClientRect().width || 320,
+    anmelden: async (token, nonce) => {
+      page.querySelector('#loginError').style.display = 'none';
+      await sb.signInWithGoogleIdToken(token, nonce);
+      await store.refreshSession();
+      if (onSuccess) onSuccess();
+      else window.location.hash = '#/';
+    },
+    fehler: (err) => {
+      console.error('Google-Anmeldung', err);
+      const errorEl = page.querySelector('#loginError');
+      errorEl.textContent = 'Google-Anmeldung fehlgeschlagen: ' + err.message;
+      errorEl.style.display = 'block';
+    },
+  }).then(steht => {
+    if (!steht) return;
+    googleNeu.hidden = false;
+    googleAlt.hidden = true;
+  }).catch(err => console.warn('[Google-Knopf]', err));
 
   // Passkey. Kein Formular, keine E-Mail: der Dialog des Systems fragt nach
   // Gesicht, Finger oder Geräte-PIN und liefert das Konto gleich mit.

@@ -20,7 +20,21 @@ export const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)),
  * Ausgenommen sind die Offline-Tests: die brauchen die echte Bibliothek, denn
  * genau deren Fehlen war der Fehler.
  */
-export async function ersetzeSupabase(page, { neuigkeit = false } = {}) {
+// Ein Nachbau von Googles Skript: initialize merkt sich die Einstellungen
+// (window.__gis), renderButton zeichnet einen Knopf, der beim Tippen die
+// callback mit einem Token aufruft.
+const GIS_NACHBAU = `window.google = { accounts: { id: {
+  initialize(e) { window.__gis = [...(window.__gis || []), e]; },
+  renderButton(ziel, o) {
+    window.__gisKnopf = o;
+    const b = document.createElement('div');
+    b.className = 'gis-nachbau'; b.textContent = 'Über Google anmelden'; b.style.cssText = 'height:40px;width:' + o.width + 'px;border:1px solid #747775;border-radius:20px;background:#fff';
+    b.onclick = () => window.__gis.at(-1).callback({ credential: 'google-id-token' });
+    ziel.append(b);
+  },
+} } };`;
+
+export async function ersetzeSupabase(page, { neuigkeit = false, google = false } = {}) {
     const { STUB } = await import('./supabaseStub.js');
     await page.route('**/vendor/supabase-js.js', r =>
         r.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
@@ -28,6 +42,12 @@ export async function ersetzeSupabase(page, { neuigkeit = false } = {}) {
     // direkt an Supabase, ohne die Bibliothek. Aus einem Test darf nichts
     // die echte Datenbank erreichen.
     await page.route('https://*.supabase.co/**', r => r.fulfill({ status: 201, body: '' }));
+    // Googles Anmeldeknopf (src/googleKnopf.js): ohne { google: true } kommt
+    // das Skript nicht, und es bleibt der alte Knopf – wie ohne Netz. Mit
+    // google: true ein Nachbau, der beim Tippen sofort ein Token liefert.
+    await page.route('https://accounts.google.com/gsi/client', r => (google
+        ? r.fulfill({ status: 200, contentType: 'text/javascript', body: GIS_NACHBAU })
+        : r.abort()));
     // Das Testprofil ist von 2024 und bekäme sonst in jedem Test das Fenster
     // "Neu in OpernLog" vor die Nase. neuigkeit: true lässt es kommen.
     if (!neuigkeit) {

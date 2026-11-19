@@ -270,6 +270,18 @@ export async function signInWithGoogle() {
     return data;
 }
 
+/**
+ * Google-Anmeldung über Googles eigenen Knopf (src/googleKnopf.js): das
+ * ID-Token, das Google dort ausgibt, und die Nonce, deren SHA-256 Google
+ * hineingeschrieben hat.
+ */
+export async function signInWithGoogleIdToken(token, nonce) {
+    const sb = getSupabase();
+    const { data, error } = await sb.auth.signInWithIdToken({ provider: 'google', token, nonce });
+    if (error) throw error;
+    return data;
+}
+
 // ── Passkeys ─────────────────────────────────────────────
 //
 // Anmelden mit Face ID, Fingerabdruck oder Gerätesperre. Ein Passkey ersetzt

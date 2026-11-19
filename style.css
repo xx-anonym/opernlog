@@ -3590,6 +3590,17 @@ h3 {
     flex-shrink: 0;
 }
 
+/* Googles eigener Knopf (src/googleKnopf.js) ersetzt den obigen, sobald er
+   steht. .btn setzt display und schlüge das hidden-Attribut sonst. */
+.btn--google[hidden],
+.google-knopf[hidden] { display: none; }
+.google-knopf {
+    display: flex;
+    justify-content: center;
+    min-height: 44px;
+    align-items: center;
+}
+
 /* Auth Divider */
 .auth-divider {
     display: flex;
