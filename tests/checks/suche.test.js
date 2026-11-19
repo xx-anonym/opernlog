@@ -38,7 +38,7 @@ test('sitemap.xml ist gültig und nennt nur Adressen unter opernlog.de, ohne #',
 
 test('weder robots.txt noch sitemap.xml noch das Vorschaubild sind von der Auslieferung ausgeschlossen', () => {
     const muster = lies('.vercelignore').split('\n').map(z => z.trim()).filter(z => z && !z.startsWith('#'));
-    for (const datei of ['robots.txt', 'sitemap.xml', 'icons/vorschau.png']) {
+    for (const datei of ['robots.txt', 'sitemap.xml', 'icons/vorschau.png', 'icons/vorschau-quadrat.png']) {
         assert.ok(fs.existsSync(path.join(WURZEL, datei)), `${datei} fehlt`);
         assert.ok(!muster.some(m => datei === m.replace(/\/$/, '') || datei.startsWith(m.replace(/\/$/, '') + '/')), datei);
     }
@@ -69,6 +69,13 @@ test('die Strukturdaten sind gültiges JSON und beschreiben die App unter opernl
     assert.equal(d['@type'], 'WebApplication');
     assert.equal(d.url, 'https://opernlog.de/');
     assert.equal(d.inLanguage, 'de');
+    // Google zeigt im Treffer ein quadratisches Bild. Das breite allein stand
+    // dort mit grauen Rändern (19.11.2026) – das quadratische kommt zuerst.
+    assert.deepEqual(d.image, ['https://opernlog.de/icons/vorschau-quadrat.png', 'https://opernlog.de/icons/vorschau.png']);
+    const quadrat = fs.readFileSync(path.join(WURZEL, 'icons/vorschau-quadrat.png'));
+    assert.equal(quadrat.readUInt32BE(16), 1200);
+    assert.equal(quadrat.readUInt32BE(20), 1200);
+    assert.ok(quadrat.length < 300 * 1024);
 });
 
 test('opernlog.vercel.app sagt Suchmaschinen "nicht aufnehmen", opernlog.de nicht', () => {

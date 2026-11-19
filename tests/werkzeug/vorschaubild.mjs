@@ -1,6 +1,11 @@
 // Erzeugt icons/vorschau.png (1200 × 630): das Bild, das WhatsApp, iMessage,
-// Signal, Mastodon und Google neben einem Link auf opernlog.de zeigen
-// (og:image in index.html). Vorhang, Masken, Name – wie der Ladebildschirm.
+// Signal und Mastodon neben einem Link auf opernlog.de zeigen (og:image in
+// index.html). Vorhang, Masken, Name – wie der Ladebildschirm.
+//
+// Dazu icons/vorschau-quadrat.png (1200 × 1200) für Google: dessen Vorschau
+// im Treffer ist quadratisch, und das breite Bild stand dort mit grauen
+// Rändern oben und unten (Jonas, 19.11.2026). Google bekommt beide über
+// "image" in den Strukturdaten und wählt das passende.
 //
 //   node tests/werkzeug/vorschaubild.mjs
 //
@@ -13,7 +18,6 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ladePlaywright, starteBrowser } from '../browser/umgebung.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const ZIEL = path.join(WURZEL, 'icons/vorschau.png');
 
 const masken = `
   <svg viewBox="11 13 46 40" width="300" height="261" fill="none" stroke="#f0d074" stroke-width="1.4"
@@ -28,15 +32,16 @@ const masken = `
     <path d="M19.5 38Q26 44 32.5 38" stroke-width="1.1"/>
   </svg>`;
 
-const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+const seiteFuer = ({ breite, hoehe, quadrat }) => `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
   @font-face { font-family: 'Playfair Display'; font-weight: 400 900; src: url('${pathToFileURL(path.join(WURZEL, 'fonts/playfair-display-normal-latin.woff2'))}'); }
   @font-face { font-family: 'DM Sans'; font-weight: 300 800; src: url('${pathToFileURL(path.join(WURZEL, 'fonts/dm-sans-normal-latin.woff2'))}'); }
-  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  html, body { margin: 0; width: ${breite}px; height: ${hoehe}px; overflow: hidden; }
   body {
     background:
       repeating-linear-gradient(90deg, rgba(0,0,0,0.25) 0 18px, rgba(255,255,255,0.03) 18px 44px, rgba(0,0,0,0.18) 44px 70px),
       linear-gradient(180deg, #6b1525 0%, #4a0d19 70%, #3d0a15 100%);
     display: flex; align-items: center; gap: 64px; padding: 0 96px; box-sizing: border-box;
+    ${quadrat ? 'flex-direction: column; justify-content: center; gap: 48px; text-align: center;' : ''}
     font-family: 'DM Sans', sans-serif; color: #e8d6d9;
   }
   body::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
@@ -44,6 +49,7 @@ const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
   h1 { font-family: 'Playfair Display', serif; font-size: 112px; font-weight: 700; color: #dfc06a; margin: 0; letter-spacing: 1px; }
   p { font-size: 38px; margin: 10px 0 0; line-height: 1.3; }
   .klein { font-size: 28px; color: #c9a7ad; margin-top: 26px; white-space: nowrap; }
+  ${quadrat ? 'svg { width: 420px; height: 365px; } h1 { font-size: 150px; } p { font-size: 50px; } .klein { font-size: 36px; margin-top: 34px; }' : ''}
 </style></head><body>
   ${masken}
   <div>
@@ -55,15 +61,21 @@ const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 
 const pw = await ladePlaywright();
 const browser = await starteBrowser(pw.chromium);
-const seite = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-// Als Datei geöffnet, nicht per setContent: von about:blank aus lädt der
-// Browser keine Schriften von file://.
 const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'opernlog-vorschau-'));
-const datei = path.join(ordner, 'vorschau.html');
-fs.writeFileSync(datei, html);
-await seite.goto(pathToFileURL(datei).href, { waitUntil: 'load' });
-await seite.evaluate(() => document.fonts.ready);
-await seite.screenshot({ path: ZIEL, type: 'png' });
+for (const bild of [
+    { datei: 'icons/vorschau.png', breite: 1200, hoehe: 630, quadrat: false },
+    { datei: 'icons/vorschau-quadrat.png', breite: 1200, hoehe: 1200, quadrat: true },
+]) {
+    const seite = await browser.newPage({ viewport: { width: bild.breite, height: bild.hoehe } });
+    // Als Datei geöffnet, nicht per setContent: von about:blank aus lädt der
+    // Browser keine Schriften von file://.
+    const html = path.join(ordner, 'vorschau.html');
+    fs.writeFileSync(html, seiteFuer(bild));
+    await seite.goto(pathToFileURL(html).href, { waitUntil: 'load' });
+    await seite.evaluate(() => document.fonts.ready);
+    await seite.screenshot({ path: path.join(WURZEL, bild.datei), type: 'png' });
+    await seite.close();
+    console.log(bild.datei);
+}
 await browser.close();
 fs.rmSync(ordner, { recursive: true, force: true });
-console.log(path.relative(WURZEL, ZIEL));
