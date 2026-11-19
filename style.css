@@ -3599,6 +3599,10 @@ h3 {
     justify-content: center;
     min-height: 44px;
     align-items: center;
+    /* Googles Knopf ist ein iframe mit hellem Dokument. Erbt das iframe das
+       dunkle Farbschema der Seite, malt der Browser es undurchsichtig weiß –
+       ein eckiger Kasten um den runden Knopf (Jonas, 20.11.2026). */
+    color-scheme: light;
 }
 
 /* Auth Divider */
