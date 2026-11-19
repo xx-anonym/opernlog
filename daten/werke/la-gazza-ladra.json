@@ -1,0 +1,39 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Ein Dorf in Frankreich. Die Magd Ninetta wird beschuldigt, einen silbernen Löffel gestohlen zu haben, und zum Tod verurteilt. Der wahre Dieb sitzt im Kirchturm: eine Elster. Rossinis halb ernste, halb heitere Oper mit der berühmten Ouvertüre.",
+  "urauffuehrung": {
+    "datum": "1817-05-31",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Hof des Pächters Fabrizio",
+      "text": "Ninetta dient bei Fabrizio und liebt dessen Sohn Giannetto, der aus dem Krieg heimkehrt. Ihr Vater Fernando, ein Deserteur, kommt heimlich zu ihr. Um ihm zu helfen, verkauft sie einen Löffel aus seinem Besitz an einen Händler. Der Bürgermeister stellt ihr nach. Als im Haus ein Silberlöffel fehlt – die Elster hat ihn gestohlen –, fällt der Verdacht auf Ninetta. Sie schweigt, um den Vater zu schützen, und wird verhaftet."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Gefängnis, Gericht, Dorfplatz",
+      "text": "Der abgewiesene Bürgermeister treibt den Prozess voran, und das Gericht verurteilt Ninetta zum Tod. Auch Fernando wird gefasst, als er sie retten will. Auf dem Weg zur Hinrichtung entdecken Ninettas Freund Pippo und ein Junge im Kirchturm das Nest der Elster mit dem Löffel. Ninetta ist frei, und Fernando wird begnadigt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Mit den berühmten Trommelwirbeln zu Beginn."
+    },
+    {
+      "titel": "Di piacer mi balza il cor",
+      "wer": "Ninetta",
+      "akt": "1. Akt",
+      "was": "Ninettas Freude über Giannettos Heimkehr."
+    }
+  ],
+  "wissen": [
+    "Die Geschichte soll auf einen wahren Fall zurückgehen, bei dem eine Magd unschuldig hingerichtet wurde.",
+    "Die Ouvertüre wurde unter anderem durch Stanley Kubricks Film „Uhrwerk Orange“ bekannt."
+  ]
+}

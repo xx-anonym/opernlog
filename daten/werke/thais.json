@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Ägypten im 4. Jahrhundert. Der Mönch Athanaël will die berühmte Kurtisane Thaïs in Alexandria zum Glauben bekehren. Es gelingt ihm – doch er selbst verfällt ihr. Massenets Oper nach dem Roman von Anatole France, mit der berühmten „Méditation“.",
+  "urauffuehrung": {
+    "datum": "1894-03-16",
+    "ort": "Opéra (Palais Garnier), Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Wüste bei Theben, Haus des Nicias in Alexandria",
+      "text": "Athanaël kehrt aus Alexandria zu den Mönchen zurück, empört über die Kurtisane Thaïs. Er träumt von ihr und beschließt, ihre Seele zu retten. In Alexandria nimmt ihn sein Jugendfreund Nicias auf, der gerade Thaïs’ Geliebter ist. Beim Fest begegnet Athanaël seiner Jugendbekannten wieder."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Thaïs’ Haus, Platz vor dem Haus",
+      "text": "Thaïs fürchtet, ihre Schönheit zu verlieren, und fragt den Spiegel, ob sie ewig schön bleibt. Athanaël predigt ihr vom ewigen Leben. Sie denkt nach, dann beschließt sie, ihm zu folgen. Sie verbrennt ihr Haus mit allen Schätzen und zieht mit ihm in die Wüste."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Oase, Hütte der Mönche, Kloster",
+      "text": "Athanaël führt die erschöpfte Thaïs zu einem Frauenkloster. Zurück bei den Mönchen findet er keine Ruhe, er kann nur noch an sie denken. In einer Vision sieht er sie sterben. Er eilt ins Kloster und gesteht ihr seine Liebe, doch Thaïs sieht schon den Himmel und stirbt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Voilà donc la terrible cité",
+      "wer": "Athanaël",
+      "akt": "1. Akt",
+      "was": "Athanaël vor Alexandria."
+    },
+    {
+      "titel": "Dis-moi que je suis belle",
+      "wer": "Thaïs",
+      "akt": "2. Akt",
+      "was": "Die Spiegelarie."
+    },
+    {
+      "titel": "Méditation",
+      "zitat": false,
+      "wer": "Orchester mit Solovioline",
+      "akt": "2. Akt",
+      "was": "Das Zwischenspiel, in dem Thaïs sich bekehrt."
+    }
+  ],
+  "wissen": [
+    "Die Méditation ist eines der bekanntesten Stücke für Violine und Orchester.",
+    "Massenet schrieb die Titelrolle für die amerikanische Sopranistin Sibyl Sanderson."
+  ]
+}

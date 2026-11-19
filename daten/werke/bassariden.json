@@ -1,0 +1,35 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Theben in mythischer Zeit. König Pentheus will Ordnung und Vernunft und verbietet den rauschhaften Kult des Gottes Dionysos. Doch ein geheimnisvoller Fremder zieht das Volk und selbst die Mutter des Königs ins Gebirge. Henzes Oper nach den „Bakchen“ des Euripides.",
+  "urauffuehrung": {
+    "datum": "1966-08-06",
+    "ort": "Großes Festspielhaus, Salzburg"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Vor dem Königspalast von Theben",
+      "text": "Pentheus verbietet den Dienst an Dionysos, doch das Volk zieht zum Berg Kithairon, auch seine Mutter Agaue und ihre Schwester Autonoe. Pentheus lässt einen Fremden verhaften, der in Wahrheit Dionysos ist. In einem Zwischenspiel führen Agaue, Autonoe und der Seher Teiresias ein frivoles Spiel vom Urteil der Kalliope auf. Der Fremde überredet Pentheus, als Frau verkleidet die Feiern zu belauschen. Die Bassariden zerreißen ihn, angeführt von Agaue, die den Kopf ihres Sohnes für den eines Löwen hält. Dionysos lässt den Palast niederbrennen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Das Urteil der Kalliope",
+      "zitat": false,
+      "wer": "Agaue, Autonoe, Teiresias, Hauptmann",
+      "akt": "Intermezzo",
+      "was": "Ein Satyrspiel mitten in der Tragödie."
+    },
+    {
+      "titel": "Agaues Erwachen",
+      "zitat": false,
+      "wer": "Agaue und Kadmos",
+      "akt": "Schluss",
+      "was": "Agaue erkennt, was sie getan hat."
+    }
+  ],
+  "wissen": [
+    "Das englische Textbuch schrieben W. H. Auden und Chester Kallman; die Uraufführung bei den Salzburger Festspielen sang man auf Deutsch.",
+    "Die Oper ist ohne Pause gebaut wie eine Sinfonie in vier Sätzen."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Drei Einakter an einem Abend: ein Eifersuchtsdrama auf einem Seine-Kahn, die Tragödie einer Nonne im Kloster und eine schwarze Komödie um ein gefälschtes Testament in Florenz. Puccini wollte die drei Opern immer zusammen gespielt wissen.",
+  "urauffuehrung": {
+    "datum": "1918-12-14",
+    "ort": "Metropolitan Opera, New York"
+  },
+  "akte": [
+    {
+      "titel": "Il tabarro",
+      "ort": "Auf einem Lastkahn in Paris",
+      "text": "Der Schiffer Michele spürt, dass seine junge Frau Giorgetta sich von ihm entfernt, seit ihr Kind gestorben ist. Sie liebt den Hafenarbeiter Luigi und verabredet sich mit ihm: ein angezündetes Streichholz soll das Zeichen sein. Nachts entzündet Michele seine Pfeife, Luigi hält es für das Zeichen. Michele erwürgt ihn und verbirgt die Leiche unter seinem Mantel, bis Giorgetta kommt."
+    },
+    {
+      "titel": "Suor Angelica",
+      "ort": "In einem Kloster bei Siena",
+      "text": "Schwester Angelica lebt seit sieben Jahren im Kloster, verstoßen von ihrer adligen Familie, weil sie ein uneheliches Kind bekam. Ihre Tante, die Fürstin, besucht sie, damit sie auf ihr Erbe verzichtet, und sagt ihr, dass ihr Kind gestorben ist. Angelica vergiftet sich mit einem Kräutertrank. Sterbend bittet sie die Madonna um Vergebung und sieht ihr Kind."
+    },
+    {
+      "titel": "Gianni Schicchi",
+      "ort": "In Florenz, 1299",
+      "text": "Der reiche Buoso Donati ist gestorben und hat sein Vermögen einem Kloster vermacht. Die Verwandten holen den schlauen Gianni Schicchi, dessen Tochter Lauretta Buosos Neffen Rinuccio liebt. Schicchi legt sich ins Bett des Toten und diktiert dem Notar ein neues Testament – und vermacht das Beste sich selbst."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Nulla! Silenzio!",
+      "wer": "Michele",
+      "akt": "Il tabarro",
+      "was": "Micheles Monolog in der Nacht."
+    },
+    {
+      "titel": "Senza mamma",
+      "wer": "Angelica",
+      "akt": "Suor Angelica",
+      "was": "Angelicas Klage um ihr totes Kind."
+    },
+    {
+      "titel": "O mio babbino caro",
+      "wer": "Lauretta",
+      "akt": "Gianni Schicchi",
+      "was": "Lauretta bittet ihren Vater um Hilfe."
+    }
+  ],
+  "wissen": [
+    "Die Geschichte des Gianni Schicchi stammt aus Dantes „Göttlicher Komödie“, wo er wegen seiner Fälschung in der Hölle büßt.",
+    "Puccini konnte nicht zur Uraufführung nach New York reisen: kurz nach Kriegsende waren die Schiffe mit heimkehrenden Soldaten belegt."
+  ]
+}

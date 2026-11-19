@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "England um 1710. Die gelangweilte Hofdame Lady Harriet verkleidet sich als Magd „Martha“ und lässt sich zum Spaß auf dem Markt von Richmond von zwei Pächtern anwerben. Aus dem Spiel wird Liebe, und aus der Liebe ein Verwirrspiel. Flotows romantisch-komische Oper.",
+  "urauffuehrung": {
+    "datum": "1847-11-25",
+    "ort": "Kärntnertortheater, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Lady Harriets Zimmer, Markt in Richmond",
+      "text": "Lady Harriet langweilt sich bei Hof. Mit ihrer Vertrauten Nancy und dem ältlichen Vetter Lord Tristan geht sie verkleidet auf den Mägdemarkt. Die Pächter Lyonel und Plumkett werben „Martha“ und „Julia“ an, und die Damen müssen zum Hof der beiden mitkommen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Bauernhaus",
+      "text": "Die Damen können weder spinnen noch arbeiten. Lyonel verliebt sich in Martha und bittet sie um ein Lied, sie singt die „Letzte Rose“. Plumkett und Nancy necken sich. In der Nacht holt Lord Tristan die Damen heimlich ab."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Jagd im Wald bei Richmond",
+      "text": "Bei einer königlichen Jagd erkennt Lyonel Martha als Lady Harriet. Sie tut, als kenne sie ihn nicht, und lässt ihn als Verrückten festnehmen. Lyonel gibt Plumkett einen Ring, der beweisen soll, wer er wirklich ist."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Plumketts Hof, Park",
+      "text": "Der Ring verrät: Lyonel ist der Sohn des verbannten Grafen von Derby. Lady Harriet bereut und stellt den Markt von Richmond nach. Als sie dort wieder als Martha auftritt, kommt Lyonel zu sich. Lyonel und Harriet, Plumkett und Nancy werden Paare."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Spinnrad-Quartett",
+      "zitat": false,
+      "wer": "Harriet, Nancy, Lyonel, Plumkett",
+      "akt": "2. Akt",
+      "was": "Die Damen lernen spinnen."
+    },
+    {
+      "titel": "Letzte Rose",
+      "wer": "Lady Harriet",
+      "akt": "2. Akt",
+      "was": "Das Lied nach der irischen Weise „The Last Rose of Summer“."
+    },
+    {
+      "titel": "Lasst mich euch fragen",
+      "wer": "Plumkett",
+      "akt": "3. Akt",
+      "was": "Das Porterlied, ein Loblied auf das englische Bier."
+    },
+    {
+      "titel": "Ach, so fromm, ach, so traut",
+      "wer": "Lyonel",
+      "akt": "3. Akt",
+      "was": "Lyonels Klage, auch italienisch als „M’apparì“ bekannt."
+    }
+  ],
+  "wissen": [
+    "„Letzte Rose“ ist ein irisches Volkslied mit einem Text von Thomas Moore, das Flotow in die Oper übernahm.",
+    "Lyonels Arie wurde in der italienischen Fassung durch Enrico Caruso weltberühmt."
+  ]
+}

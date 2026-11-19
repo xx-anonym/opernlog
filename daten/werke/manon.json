@@ -1,0 +1,65 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Die junge Manon soll ins Kloster, doch auf dem Weg dorthin begegnet sie dem Chevalier des Grieux und flieht mit ihm nach Paris. Zwischen Liebe und Luxus kann sie sich nie ganz entscheiden – bis es zu spät ist. Massenets Oper nach dem Roman des Abbé Prévost.",
+  "urauffuehrung": {
+    "datum": "1884-01-19",
+    "ort": "Opéra-Comique, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Gasthof in Amiens",
+      "text": "Manon wartet mit ihrem Vetter Lescaut auf die Kutsche ins Kloster. Der alte Lebemann Guillot macht ihr Angebote. Der junge Chevalier des Grieux verliebt sich auf den ersten Blick in sie, und die beiden fliehen in Guillots Kutsche nach Paris."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Wohnung in Paris",
+      "text": "Des Grieux will Manon heiraten und schreibt seinem Vater. Der reiche Brétigny verrät Manon, dass Des Grieux’ Vater den Sohn entführen lassen will, und bietet ihr ein Leben im Luxus. Manon lässt es geschehen und nimmt Abschied von ihrem kleinen Tisch. Des Grieux erzählt von seinem Traum, dann wird er abgeholt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Cours-la-Reine, Saint-Sulpice",
+      "text": "Manon ist als gefeierte Schönheit an Brétignys Seite. Sie erfährt, dass Des Grieux Priester werden will. In der Kirche Saint-Sulpice versucht er, sie zu vergessen. Manon erscheint und gewinnt ihn zurück."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Spielsaal im Hôtel de Transylvanie",
+      "text": "Um Manon den Luxus zu bieten, spielt Des Grieux und gewinnt gegen Guillot. Der beschuldigt ihn des Betrugs und holt die Polizei. Des Grieux’ Vater befreit den Sohn, Manon hingegen wird zur Deportation nach Amerika verurteilt."
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Auf der Straße nach Le Havre",
+      "text": "Der Versuch, Manon zu befreien, scheitert, doch Des Grieux darf sie noch einmal sehen. Manon bereut, erinnert sich an ihre gemeinsame Zeit und stirbt erschöpft in seinen Armen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Je suis encor tout étourdie",
+      "wer": "Manon",
+      "akt": "1. Akt",
+      "was": "Manon staunt über ihre erste Reise."
+    },
+    {
+      "titel": "Adieu, notre petite table",
+      "wer": "Manon",
+      "akt": "2. Akt",
+      "was": "Manons Abschied vom gemeinsamen Leben."
+    },
+    {
+      "titel": "En fermant les yeux",
+      "wer": "Des Grieux",
+      "akt": "2. Akt",
+      "was": "Des Grieux’ Traum von einem Häuschen."
+    },
+    {
+      "titel": "Ah! fuyez, douce image",
+      "wer": "Des Grieux",
+      "akt": "3. Akt",
+      "was": "Des Grieux will Manon im Kloster vergessen."
+    }
+  ],
+  "wissen": [
+    "Massenet lässt oft über die Musik hinweg sprechen – eine Technik, die man Melodram nennt.",
+    "Puccini vertonte denselben Roman 1893 als „Manon Lescaut“."
+  ]
+}

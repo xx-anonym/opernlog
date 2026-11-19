@@ -1,0 +1,40 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Adlige aus ganz Europa wollen zur Krönung von König Karl X. nach Reims reisen – doch im Kurhotel „Zur goldenen Lilie“ gibt es keine Pferde mehr. Statt zu reisen, feiern sie. Rossinis Festoper für die Krönung von 1825.",
+  "urauffuehrung": {
+    "datum": "1825-06-19",
+    "ort": "Théâtre-Italien, Paris"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Kurhotel „Zur goldenen Lilie“ in Plombières",
+      "text": "Die Wirtin Madame Cortese bereitet ihre Gäste auf die Abreise nach Reims vor. Die Gräfin Folleville verzweifelt, weil ihre Kleider verloren sind, ein Lord und ein russischer General werben um Damen, ein Antiquar katalogisiert die Habe der Gäste. Dann die Nachricht: es gibt keine Pferde mehr. Die Gäste beschließen, mit dem Reisegeld ein Fest zu feiern. Beim Bankett singen alle Lieder ihrer Heimat, und die Dichterin Corinna besingt den neuen König."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Medaglie incomparabili",
+      "wer": "Don Profondo",
+      "akt": "Ein Akt",
+      "was": "Der Antiquar listet die Schätze der Gäste auf."
+    },
+    {
+      "titel": "Großes Ensemble für 14 Stimmen",
+      "zitat": false,
+      "wer": "Ensemble",
+      "akt": "Ein Akt",
+      "was": "Die Nachricht, dass keine Pferde da sind."
+    },
+    {
+      "titel": "All’ombra amena",
+      "wer": "Corinna",
+      "akt": "Ein Akt",
+      "was": "Corinnas Gesang zur Harfe."
+    }
+  ],
+  "wissen": [
+    "Rossini verwendete einen großen Teil der Musik später in seiner Oper „Le comte Ory“.",
+    "Lange galt das Werk als verloren; 1984 kam es in Pesaro unter Claudio Abbado wieder auf die Bühne."
+  ]
+}

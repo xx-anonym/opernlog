@@ -1,0 +1,60 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Paris, 1730. Die gefeierte Schauspielerin Adriana Lecouvreur liebt Maurizio, ohne zu wissen, dass er der Graf von Sachsen ist. Ihre Rivalin ist eine Fürstin – und die schickt ihr am Ende vergiftete Veilchen. Cileas Oper über eine historische Schauspielerin.",
+  "urauffuehrung": {
+    "datum": "1902-11-06",
+    "ort": "Teatro Lirico, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Hinter der Bühne der Comédie-Française",
+      "text": "Der Inspizient Michonnet liebt Adriana heimlich. Sie aber liebt Maurizio, den sie für einen einfachen Offizier hält. Der Fürst von Bouillon fängt einen Brief ab, in dem Maurizio zu einem Treffen in eine Villa bestellt wird. Er glaubt, seine Geliebte, die Schauspielerin Duclos, habe ihn geschrieben."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In der Villa",
+      "text": "Den Brief hat in Wahrheit die Fürstin von Bouillon geschrieben, die Maurizio liebt. Als der Fürst kommt, muss sie sich verstecken. Adriana, die nun erfährt, wer Maurizio wirklich ist, hilft der Unbekannten im Dunkeln zu fliehen. Die beiden Frauen erkennen, dass sie Rivalinnen sind."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Palast der Bouillons",
+      "text": "Bei einem Fest erkennt die Fürstin Adrianas Stimme, und Adriana erkennt an einem Armband die Frau aus der Villa. Gebeten, etwas vorzutragen, wählt Adriana einen Monolog aus Racines „Phädra“ über eine schamlose Ehebrecherin und richtet ihn gegen die Fürstin."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "In Adrianas Haus",
+      "text": "Adriana erhält ein Kästchen mit welken Veilchen, die sie einst Maurizio geschenkt hat. Sie glaubt, er habe sie zurückgeschickt, und küsst sie. Maurizio kommt und bittet sie, ihn zu heiraten. Doch die Fürstin hat die Veilchen vergiftet, und Adriana stirbt in seinen Armen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Io son l’umile ancella",
+      "wer": "Adriana",
+      "akt": "1. Akt",
+      "was": "Adriana nennt sich eine demütige Dienerin der Kunst."
+    },
+    {
+      "titel": "La dolcissima effigie",
+      "wer": "Maurizio",
+      "akt": "1. Akt",
+      "was": "Maurizios Liebeserklärung."
+    },
+    {
+      "titel": "Acerba voluttà",
+      "wer": "Fürstin von Bouillon",
+      "akt": "2. Akt",
+      "was": "Die Fürstin wartet ungeduldig auf Maurizio."
+    },
+    {
+      "titel": "Poveri fiori",
+      "wer": "Adriana",
+      "akt": "4. Akt",
+      "was": "Adriana und die welken Veilchen."
+    }
+  ],
+  "wissen": [
+    "Adrienne Lecouvreur war eine echte Schauspielerin; sie starb 1730, und schon damals hieß es, sie sei vergiftet worden.",
+    "Bei der Uraufführung sang Enrico Caruso den Maurizio."
+  ]
+}

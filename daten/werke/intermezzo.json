@@ -1,0 +1,47 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Hofkapellmeister Robert Storch geht auf Konzertreise, seine Frau Christine bleibt gelangweilt zurück. Ein Brief einer Unbekannten an ihren Mann lässt sie an Scheidung denken – dabei war er gar nicht für ihn bestimmt. Strauss erzählt eine Episode aus seiner eigenen Ehe, mit sinfonischen Zwischenspielen.",
+  "urauffuehrung": {
+    "datum": "1924-11-04",
+    "ort": "Schauspielhaus, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Bei Storchs zu Hause, im Schnee, in einem Gasthof",
+      "text": "Christine zankt mit ihrem Mann, bevor er nach Wien reist. Beim Rodeln stößt sie mit dem jungen Baron Lummer zusammen und freundet sich mit ihm an. Bald bittet er sie um Geld. Da kommt ein Brief einer gewissen Mieze Maier, die um Opernkarten bittet. Er ist für den Kapellmeister Stroh bestimmt, landet aber bei Storchs. Christine hält ihn für einen Liebesbrief an ihren Mann und telegrafiert ihm, sie wolle sich scheiden lassen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In Wien, bei Storchs zu Hause",
+      "text": "Robert spielt in Wien mit Freunden Skat und erhält das Telegramm. Einer der Freunde erkennt den Irrtum: Mieze Maier meinte den Kapellmeister Stroh. Stroh klärt Christine auf. Robert kehrt heim, nach einem letzten Streit versöhnen sich die beiden."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Träumerei am Kamin",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Das bekannteste der sinfonischen Zwischenspiele."
+    },
+    {
+      "titel": "Skatszene",
+      "zitat": false,
+      "wer": "Robert und seine Freunde",
+      "akt": "2. Akt",
+      "was": "Das Kartenspiel, das vom Telegramm unterbrochen wird."
+    },
+    {
+      "titel": "Schlussszene",
+      "zitat": false,
+      "wer": "Christine und Robert",
+      "akt": "2. Akt",
+      "was": "Die Versöhnung des Ehepaars."
+    }
+  ],
+  "wissen": [
+    "Die Geschichte ist Strauss 1903 selbst passiert; Christine ist seine Frau Pauline. Das Textbuch schrieb er selbst.",
+    "Bei der Uraufführung sang Lotte Lehmann die Christine."
+  ]
+}

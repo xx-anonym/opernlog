@@ -1,0 +1,55 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Ein Schloss bei Paris, 1775. Der Dichter Olivier und der Komponist Flamand werben um die verwitwete Gräfin Madeleine. Hinter dem Wettstreit der beiden steht die alte Frage der Oper: Was ist wichtiger, das Wort oder die Musik? Strauss’ letzte Oper, ein „Konversationsstück für Musik“.",
+  "urauffuehrung": {
+    "datum": "1942-10-28",
+    "ort": "Nationaltheater, München"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Salon im Schloss der Gräfin",
+      "text": "Zu einem Streichsextett von Flamand streiten Olivier und Flamand, ob Wort oder Ton Vorrang hat. Der Theaterdirektor La Roche probt für den Geburtstag der Gräfin, ihr Bruder, der Graf, schwärmt für die Schauspielerin Clairon. Flamand vertont ein Sonett Oliviers, beide gestehen der Gräfin ihre Liebe. La Roche verteidigt in einer großen Rede sein Theater. Man beschließt, eine Oper über diesen Nachmittag zu schreiben. Am nächsten Morgen soll die Gräfin ihre Wahl verkünden. Doch als sie allein vor dem Spiegel steht, weiß sie noch immer nicht, wen sie liebt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Streichsextett",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Die Musik, mit der Flamand der Gräfin gratuliert."
+    },
+    {
+      "titel": "Kein andres, das mir so im Herzen loht",
+      "wer": "Gräfin, Olivier, Flamand",
+      "akt": "Ein Akt",
+      "was": "Das Sonett, das zum Lied wird."
+    },
+    {
+      "titel": "Rede des La Roche",
+      "zitat": false,
+      "wer": "La Roche",
+      "akt": "Ein Akt",
+      "was": "Der Theaterdirektor verteidigt seine Kunst."
+    },
+    {
+      "titel": "Mondscheinmusik",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Schlussszene",
+      "was": "Das Zwischenspiel vor dem Monolog der Gräfin."
+    },
+    {
+      "titel": "Schlussszene der Gräfin",
+      "zitat": false,
+      "wer": "Gräfin",
+      "akt": "Schlussszene",
+      "was": "Die Gräfin fragt ihr Spiegelbild, wen sie wählen soll."
+    }
+  ],
+  "wissen": [
+    "Das Textbuch schrieben der Dirigent Clemens Krauss und Strauss gemeinsam; Krauss dirigierte auch die Uraufführung mitten im Krieg.",
+    "Capriccio ist die letzte Oper von Richard Strauss."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Südafrika, 1893 bis 1913. Der junge Anwalt Mahatma Gandhi entwickelt im Kampf gegen die Diskriminierung der Inder seine Lehre vom gewaltlosen Widerstand, „Satyagraha“. Philip Glass erzählt in Bildern und auf Sanskrit, mit Texten aus der Bhagavad Gita.",
+  "urauffuehrung": {
+    "datum": "1980-09-05",
+    "ort": "Stadsschouwburg, Rotterdam"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Über allem: Leo Tolstoi",
+      "text": "Auf dem mythischen Schlachtfeld von Kurukshetra fragt Prinz Arjuna den Gott Krishna, ob er kämpfen soll – der geistige Rahmen für Gandhis gewaltlosen Widerstand. Er gründet die Tolstoi-Farm als Gemeinschaft. In Johannesburg schwören Tausende, ein ungerechtes Gesetz nicht zu befolgen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Über allem: Rabindranath Tagore",
+      "text": "Bei seiner Rückkehr nach Durban wird Gandhi von einem Mob angegriffen und von der Frau des Polizeichefs gerettet. Er gründet die Zeitung „Indian Opinion“. Bei einer Protestversammlung verbrennen die Inder ihre Ausweise."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Über allem: Martin Luther King",
+      "text": "1913 führt Gandhi den großen Marsch von Newcastle an. Während Martin Luther King als stumme Symbolfigur über der Szene steht, singt Gandhi allein, dreißigmal dieselbe aufsteigende Phrase."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Tolstoi-Farm",
+      "zitat": false,
+      "wer": "Ensemble",
+      "akt": "1. Akt",
+      "was": "Die Arbeit der Gemeinschaft im gleichmäßigen Rhythmus."
+    },
+    {
+      "titel": "Protest",
+      "zitat": false,
+      "wer": "Chor",
+      "akt": "2. Akt",
+      "was": "Die Verbrennung der Ausweise."
+    },
+    {
+      "titel": "Evening Song",
+      "zitat": false,
+      "wer": "Gandhi",
+      "akt": "3. Akt",
+      "was": "Gandhis Schlussgesang, eine aufsteigende Achttonphrase, dreißigmal wiederholt."
+    }
+  ],
+  "wissen": [
+    "Gesungen wird auf Sanskrit; das Libretto stellte Constance DeJong aus der Bhagavad Gita zusammen.",
+    "Satyagraha ist die zweite von Glass’ „Porträtopern“ – zwischen Einstein on the Beach und Akhnaten."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Mustafà, der Bey von Algier, ist seiner Frau überdrüssig und will eine Italienerin. Da strandet Isabella, die ihren gefangenen Geliebten Lindoro sucht – und führt den Bey an der Nase herum. Rossinis schwungvolle Buffa.",
+  "urauffuehrung": {
+    "datum": "1813-05-22",
+    "ort": "Teatro San Benedetto, Venedig"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Im Palast des Bey, an der Küste",
+      "text": "Mustafà will seine Frau Elvira dem italienischen Sklaven Lindoro zur Frau geben. Vor der Küste strandet ein Schiff: Isabella ist auf der Suche nach Lindoro, mit ihr ihr ältlicher Verehrer Taddeo. Die beiden werden gefangen und zum Bey gebracht. Mustafà ist von Isabella hingerissen, sie erkennt Lindoro wieder, und das Durcheinander ist perfekt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Palast",
+      "text": "Isabella spielt mit Mustafà und plant mit Lindoro die Flucht. Sie ernennt den Bey zum „Pappataci“, einem Orden für Männer, die nur essen, trinken, schlafen und zu allem schweigen sollen. Während Mustafà eifrig die Regeln befolgt, fliehen die Italiener mit dem Schiff. Mustafà kehrt reumütig zu Elvira zurück."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Mit dem Pizzicato-Beginn und einem typischen Rossini-Crescendo."
+    },
+    {
+      "titel": "Languir per una bella",
+      "wer": "Lindoro",
+      "akt": "1. Akt",
+      "was": "Lindoros Sehnsucht nach Isabella."
+    },
+    {
+      "titel": "Cruda sorte! Amor tiranno!",
+      "wer": "Isabella",
+      "akt": "1. Akt",
+      "was": "Isabellas Auftritt nach dem Schiffbruch."
+    },
+    {
+      "titel": "Pensa alla patria",
+      "wer": "Isabella",
+      "akt": "2. Akt",
+      "was": "Isabella ruft die Italiener zur Flucht."
+    }
+  ],
+  "wissen": [
+    "Rossini war 21, als er die Oper in wenigen Wochen schrieb; sie wurde sein erster großer Erfolg in der komischen Oper.",
+    "Das Textbuch von Angelo Anelli war schon 1808 von einem anderen Komponisten vertont worden."
+  ]
+}

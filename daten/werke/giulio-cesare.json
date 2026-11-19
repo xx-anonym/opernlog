@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 3½ Std.",
+  "anriss": "Ägypten, 48 vor Christus. Julius Cäsar verfolgt seinen Rivalen Pompeius bis an den Nil, doch der junge König Ptolemäus lässt Pompeius ermorden. Cäsar verliebt sich in Ptolemäus’ Schwester Kleopatra, die um den Thron kämpft. Eine der erfolgreichsten Opern Händels und heute eine seiner meistgespielten.",
+  "urauffuehrung": {
+    "datum": "1724-02-20",
+    "ort": "King’s Theatre, London"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Am Nil, Kleopatras Palast",
+      "text": "Cäsar hat Pompeius besiegt. Pompeius’ Witwe Cornelia und ihr Sohn Sesto bitten um Frieden, da bringt Achillas, der Feldherr des Ptolemäus, Pompeius’ abgeschlagenen Kopf. Cäsar ist empört, Sesto schwört Rache. Kleopatra stellt sich Cäsar als Dienerin Lidia vor und gewinnt ihn. Ptolemäus begehrt Cornelia und lässt Sesto gefangen nehmen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Kleopatras Palast, Garten des Ptolemäus",
+      "text": "Kleopatra empfängt Cäsar als Göttin der Tugend auf dem Parnass, er ist hingerissen. Ptolemäus’ Männer überfallen Cäsar; Kleopatra gibt sich als Königin zu erkennen und bittet ihn zu fliehen. Cäsar stürzt sich ins Meer. Sesto versucht vergeblich, Ptolemäus zu töten."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Schlachtfeld, Hafen von Alexandria",
+      "text": "Ptolemäus besiegt Kleopatras Truppen und nimmt sie gefangen. Cäsar hat überlebt und befreit sie. Sesto tötet Ptolemäus. Cäsar krönt Kleopatra zur Königin Ägyptens, und alle feiern den Frieden."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Va tacito e nascosto",
+      "wer": "Cäsar",
+      "akt": "1. Akt",
+      "was": "Cäsars Arie mit Solo-Horn."
+    },
+    {
+      "titel": "Svegliatevi nel core",
+      "wer": "Sesto",
+      "akt": "1. Akt",
+      "was": "Sestos Racheschwur."
+    },
+    {
+      "titel": "V’adoro, pupille",
+      "wer": "Kleopatra",
+      "akt": "2. Akt",
+      "was": "Kleopatras Verführung auf dem Parnass."
+    },
+    {
+      "titel": "Piangerò la sorte mia",
+      "wer": "Kleopatra",
+      "akt": "3. Akt",
+      "was": "Kleopatras Klage in Gefangenschaft."
+    },
+    {
+      "titel": "Da tempeste il legno infranto",
+      "wer": "Kleopatra",
+      "akt": "3. Akt",
+      "was": "Kleopatras Jubel über die Rettung."
+    }
+  ],
+  "wissen": [
+    "Die Rolle des Cäsar schrieb Händel für den Kastraten Senesino; heute singen sie Countertenöre oder Mezzosopranistinnen.",
+    "Das italienische Textbuch stammt von Nicola Francesco Haym."
+  ]
+}

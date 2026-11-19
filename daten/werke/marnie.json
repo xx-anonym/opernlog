@@ -1,0 +1,33 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "England, 1959. Marnie wechselt Namen, Frisur und Arbeitsstelle – und bestiehlt jeden Arbeitgeber. Bei Mark Rutland fliegt sie auf, doch er liebt sie und zwingt sie zur Ehe. Nico Muhlys Oper nach dem Roman von Winston Graham, den auch Alfred Hitchcock verfilmt hat.",
+  "urauffuehrung": {
+    "datum": "2017-11-18",
+    "ort": "English National Opera, London Coliseum"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Büros, Marnies Elternhaus, auf See",
+      "text": "Marnie bestiehlt ihren Arbeitgeber und verschwindet unter neuem Namen. Sie besucht ihre kranke Mutter und nimmt dann eine Stelle in der Firma von Mark Rutland an. Mark erkennt sie als Diebin, stellt sie zur Rede und erpresst sie zur Heirat. Auf der Hochzeitsreise versucht Mark, sie zu vergewaltigen. Marnie sperrt sich im Bad ein und versucht, sich die Pulsadern aufzuschneiden."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Rutlands Haus, bei einer Jagd, Marnies Elternhaus",
+      "text": "Mark schickt Marnie zu einem Psychoanalytiker. Marks Bruder Terry intrigiert gegen beide. Bei einer Fuchsjagd verunglückt Marnies Pferd tödlich. Marnie will erneut stehlen, kann es aber nicht. Ihre Mutter ist gestorben, und Marnie erfährt die Wahrheit über ihre Kindheit. Sie beschließt, nicht mehr zu fliehen, und stellt sich der Polizei."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Marnies Schatten",
+      "zitat": false,
+      "wer": "Marnie und vier Doppelgängerinnen",
+      "akt": "1. Akt",
+      "was": "Vier Sängerinnen spiegeln Marnies wechselnde Identitäten."
+    }
+  ],
+  "wissen": [
+    "Die Oper entstand als Auftrag der English National Opera und der Metropolitan Opera, die sie 2018 übernahm.",
+    "Hitchcocks Film von 1964 mit Tippi Hedren und Sean Connery beruht auf demselben Roman."
+  ]
+}

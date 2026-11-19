@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Ein griechisches Dorf unter türkischer Herrschaft. Die Bewohner verteilen die Rollen für das Passionsspiel des nächsten Jahres. Als Flüchtlinge um Hilfe bitten, beginnen die Darsteller, ihre Rollen im wirklichen Leben zu leben. Martinůs Oper nach dem Roman von Nikos Kazantzakis.",
+  "urauffuehrung": {
+    "datum": "1961-06-09",
+    "ort": "Stadttheater, Zürich"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Dorfplatz in Lykovrissi",
+      "text": "Der Priester Grigoris verteilt die Rollen: der Hirte Manolios soll Christus spielen, die Witwe Katerina Maria Magdalena, Panait den Judas. Da kommen Flüchtlinge aus einem zerstörten Dorf, angeführt vom Priester Fotis. Grigoris weist sie ab und behauptet, sie brächten die Cholera."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Gebirge",
+      "text": "Manolios und seine Freunde helfen den Flüchtlingen, die sich auf dem Berg Sarakina niederlassen. Manolios wird seiner Rolle immer ähnlicher. Katerina wendet sich von ihrem alten Leben ab."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Dorf",
+      "text": "Manolios ruft die Dorfbewohner auf, den Flüchtlingen zu helfen und ihren Besitz zu teilen. Die Reichen und Grigoris sehen ihre Macht bedroht. Katerina stirbt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Vor der Kirche zu Weihnachten",
+      "text": "Grigoris schließt Manolios aus der Kirche aus. Das aufgehetzte Dorf fällt über ihn her, und Panait ersticht ihn. Die Flüchtlinge ziehen weiter, auf der Suche nach einer neuen Heimat."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ankunft der Flüchtlinge",
+      "zitat": false,
+      "wer": "Fotis und Chor",
+      "akt": "1. Akt",
+      "was": "Die Bitte der Flüchtlinge um Aufnahme."
+    },
+    {
+      "titel": "Schlussszene",
+      "zitat": false,
+      "wer": "Chor",
+      "akt": "4. Akt",
+      "was": "Die Flüchtlinge brechen wieder auf."
+    }
+  ],
+  "wissen": [
+    "Martinů schrieb die Oper zuerst für Covent Garden, das sie ablehnte. Die Uraufführung der zweiten Fassung in Zürich erlebte er nicht mehr, er starb 1959.",
+    "Die erste Fassung wurde rekonstruiert und 1999 bei den Bregenzer Festspielen gezeigt."
+  ]
+}

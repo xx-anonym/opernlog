@@ -1,0 +1,34 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Die junge Daphne liebt die Natur, die Bäume und das Licht – aber keinen Mann. Der Hirte Leukippos wirbt vergeblich um sie, dann der Gott Apollo selbst. Aus Eifersucht tötet Apollo den Rivalen und verwandelt Daphne in einen Lorbeerbaum. Eine „bukolische Tragödie“ nach Ovid.",
+  "urauffuehrung": {
+    "datum": "1938-10-15",
+    "ort": "Staatsoper (Semperoper), Dresden"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Am Ufer des Peneios",
+      "text": "Daphne, Tochter des Fischers Peneios, weist ihren Jugendfreund Leukippos zurück und will nicht am Fest des Dionysos teilnehmen. Apollo erscheint als Rinderhirt und gewinnt ihr Vertrauen, doch als er sie küsst, stößt sie ihn fort. Beim Fest tanzt Leukippos, als Frau verkleidet, mit Daphne. Apollo entlarvt ihn und tötet ihn mit einem Pfeil. Daphne trauert. Apollo bereut und bittet Zeus, ihr einen Wunsch zu erfüllen: sie wird zum Lorbeerbaum."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "O bleib, geliebter Tag",
+      "wer": "Daphne",
+      "akt": "Ein Akt",
+      "was": "Daphnes Gesang an die Natur zu Beginn."
+    },
+    {
+      "titel": "Verwandlungsszene",
+      "zitat": false,
+      "wer": "Daphne und Orchester",
+      "akt": "Schluss",
+      "was": "Daphnes Stimme verwandelt sich in den Gesang des Baums."
+    }
+  ],
+  "wissen": [
+    "Strauss widmete die Oper dem Dirigenten Karl Böhm, der die Uraufführung in Dresden leitete.",
+    "Die Geschichte stammt aus Ovids „Metamorphosen“; das Textbuch schrieb Joseph Gregor."
+  ]
+}

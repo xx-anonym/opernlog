@@ -1,0 +1,49 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Die Wassernixe Undine wächst als Pflegetochter bei einem Fischerpaar auf. Durch die Heirat mit dem Ritter Hugo erhält sie eine Seele – doch Hugo wendet sich der stolzen Bertalda zu. Lortzings romantische Zauberoper nach Friedrich de la Motte Fouqué.",
+  "urauffuehrung": {
+    "datum": "1845-04-21",
+    "ort": "Stadttheater, Magdeburg"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor der Hütte des Fischers",
+      "text": "Ritter Hugo von Ringstetten hat Undine, die Pflegetochter des Fischers Tobias, geheiratet. Sein Knappe Veit erzählt, wie Hugo im Zauberwald zu der Fischerhütte kam. Der Wasserfürst Kühleborn wacht, als Pater verkleidet, über Undine. Sie gesteht Hugo, dass sie ein Wassergeist ist und erst durch ihn eine Seele bekommen hat."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Am Hof des Herzogs",
+      "text": "Hugo bringt Undine an den Hof, wo die hochmütige Bertalda lebt, die er früher verehrt hat. Kühleborn erscheint als Gesandter und enthüllt, dass Bertalda in Wahrheit die verlorene Tochter des Fischers ist. Bertalda ist gedemütigt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Auf Burg Ringstetten",
+      "text": "Hugo wendet sich von Undine ab und Bertalda zu. Veit und der Kellermeister Hans trinken und klagen über die Welt. Undine warnt Hugo, sie im Zorn nicht auf dem Wasser zu beschimpfen. Als er es doch tut, muss sie ins Wasserreich zurück."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Burg Ringstetten, Kühleborns Kristallpalast",
+      "text": "Hugo will Bertalda heiraten. Bei der Hochzeit wird der versiegelte Brunnen geöffnet, und Undine steigt heraus. Hugo folgt Undine in die Tiefe und stirbt in ihren Armen. Im Kristallpalast Kühleborns sind die beiden nach dem Tod vereint."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vater, Mutter, Schwestern, Brüder",
+      "wer": "Veit",
+      "akt": "3. Akt",
+      "was": "Veits Lied vom Glück, allein auf der Welt zu sein."
+    },
+    {
+      "titel": "Undines Erzählung",
+      "zitat": false,
+      "wer": "Undine",
+      "akt": "1. Akt",
+      "was": "Undine verrät Hugo ihr Geheimnis."
+    }
+  ],
+  "wissen": [
+    "Fouqués Erzählung „Undine“ hatte schon E. T. A. Hoffmann 1816 als Oper vertont.",
+    "Lortzing schrieb das Textbuch selbst und gab dem tragischen Stoff ein versöhnliches Ende."
+  ]
+}

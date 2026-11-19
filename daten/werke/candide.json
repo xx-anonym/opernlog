@@ -1,0 +1,51 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Der junge Candide glaubt seinem Lehrer Pangloss, dass wir in der besten aller möglichen Welten leben. Dann jagen ihn Krieg, Erdbeben, Inquisition und Schiffbruch um die halbe Welt. Leonard Bernsteins komische Operette nach Voltaires Satire.",
+  "urauffuehrung": {
+    "datum": "1956-12-01",
+    "ort": "Martin Beck Theatre, New York"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Westfalen, Lissabon, Paris, Cádiz",
+      "text": "Candide lebt auf dem Schloss des Barons in Westfalen und liebt dessen Tochter Kunigunde. Als sie sich küssen, wird er verjagt. Ein Krieg zerstört das Schloss, alle scheinen tot. In Lissabon überleben Candide und Pangloss ein Erdbeben, die Inquisition lässt Pangloss hängen. In Paris findet Candide Kunigunde wieder, die sich zwei Liebhaber hält. Mit einer alten Dame fliehen sie nach Cádiz."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Südamerika, auf See, Venedig, ein Garten",
+      "text": "In der Neuen Welt verlieren sich die Liebenden erneut. Candide findet das Goldland Eldorado und verliert den Schatz wieder. In Venedig trifft er Kunigunde, Pangloss und die anderen, alle arm und verbittert. Am Ende geben sie die Suche nach der besten aller Welten auf und wollen nur noch ihren Garten bestellen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Eines der meistgespielten Orchesterstücke Bernsteins."
+    },
+    {
+      "titel": "The Best of All Possible Worlds",
+      "wer": "Pangloss und Ensemble",
+      "akt": "1. Akt",
+      "was": "Pangloss’ Lehre vom Optimismus."
+    },
+    {
+      "titel": "Glitter and Be Gay",
+      "wer": "Kunigunde",
+      "akt": "1. Akt",
+      "was": "Kunigundes Koloraturarie über das Leben im Luxus."
+    },
+    {
+      "titel": "Make Our Garden Grow",
+      "wer": "Ensemble",
+      "akt": "2. Akt",
+      "was": "Das große Finale."
+    }
+  ],
+  "wissen": [
+    "Am Broadway war Candide 1956 ein Misserfolg; Bernstein und andere überarbeiteten das Stück jahrzehntelang.",
+    "1989 dirigierte Bernstein in London selbst eine Gesamtaufnahme seiner letzten Fassung."
+  ]
+}

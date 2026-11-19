@@ -1,0 +1,60 @@
+{
+  "dauer": "ca. 4 Std.",
+  "anriss": "Rom im 14. Jahrhundert. Der Notar Cola Rienzi befreit das Volk von der Willkür der Adelsfamilien und wird als Volkstribun gefeiert. Doch der Adel verschwört sich, die Kirche wendet sich ab, und das Volk lässt ihn fallen. Wagners erster großer Erfolg.",
+  "urauffuehrung": {
+    "datum": "1842-10-20",
+    "ort": "Königliches Hoftheater, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Straße in Rom vor Rienzis Haus",
+      "text": "Paolo Orsini will Rienzis Schwester Irene entführen, die Männer der Colonna gehen dazwischen. Adriano Colonna, der Irene liebt, rettet sie. Rienzi beendet den Streit der Adligen und ruft das Volk auf, sich gegen die Willkür zu erheben. Er wird zum Tribun ausgerufen; Adriano stellt sich auf seine Seite."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Saal im Kapitol",
+      "text": "Die Adligen unterwerfen sich scheinbar, planen aber einen Mordanschlag. Adriano warnt Rienzi. Beim Friedensfest sticht Orsini zu, doch Rienzi trägt ein Panzerhemd. Die Verschwörer werden zum Tod verurteilt. Auf Adrianos Bitten begnadigt Rienzi sie."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Auf dem Forum",
+      "text": "Die Adligen brechen ihren Eid und rüsten zum Kampf. Adriano fleht Rienzi vergeblich an, seinen Vater zu schonen. Rienzi siegt, doch Adrianos Vater fällt, und Adriano schwört Rache."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Vor der Lateranskirche",
+      "text": "Adriano wiegelt das Volk gegen Rienzi auf, der Gesandte des Kaisers hat Rom verlassen. Als Rienzi zum Dankgottesdienst kommt, verkündet der Kardinal den Bann der Kirche über ihn. Alle wenden sich von ihm ab, nur Irene bleibt bei ihm."
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Im Kapitol",
+      "text": "Rienzi betet für Rom. Irene weist Adriano zurück und bleibt bei ihrem Bruder. Das aufgebrachte Volk steckt das Kapitol in Brand. Rienzi, Irene und Adriano kommen in den Flammen um."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Mit dem Thema von Rienzis Gebet."
+    },
+    {
+      "titel": "Gerechter Gott, so ist’s entschieden schon",
+      "wer": "Adriano",
+      "akt": "3. Akt",
+      "was": "Adrianos Verzweiflung zwischen Vater und Freund."
+    },
+    {
+      "titel": "Allmächt’ger Vater, blick herab",
+      "wer": "Rienzi",
+      "akt": "5. Akt",
+      "was": "Rienzis Gebet."
+    }
+  ],
+  "wissen": [
+    "Wagner schrieb Rienzi nach einem Roman von Edward Bulwer-Lytton; die Dresdner Uraufführung dauerte mit allen Teilen rund sechs Stunden.",
+    "Die Originalpartitur wurde Hitler 1939 zum 50. Geburtstag geschenkt und ist seit 1945 verschollen; ihr Verbleib ist ungeklärt."
+  ]
+}

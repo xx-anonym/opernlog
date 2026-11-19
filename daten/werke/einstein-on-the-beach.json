@@ -1,0 +1,57 @@
+{
+  "dauer": "ca. 4½ Std.",
+  "anriss": "Keine Handlung, sondern eine Folge von Bildern, Zahlen, Tänzen und Klängen rund um Albert Einstein: Züge, ein Gerichtssaal, ein Raumschiff. Philip Glass und Robert Wilson haben 1976 das Musiktheater neu erfunden – das Publikum darf jederzeit kommen und gehen.",
+  "urauffuehrung": {
+    "datum": "1976-07-25",
+    "ort": "Festival d’Avignon"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Zug, Gericht",
+      "text": "Nach einem ersten „Knee Play“, einem kurzen Zwischenspiel vor dem Vorhang, fährt eine Lokomotive langsam über die Bühne. Dann tagt ein Gericht; ein Geiger, der an Einstein erinnert, spielt dazu."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Feld, Nachtzug",
+      "text": "Tänzerinnen und Tänzer durchmessen ein leeres Feld in einer Choreografie von Lucinda Childs. Ein Paar steht im Mondlicht auf dem letzten Wagen eines Zuges."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Gericht und Gefängnis, Feld",
+      "text": "Der Gerichtssaal wird zum Gefängnis, eine Frau hält eine Rede über Freiheit. Ein zweiter großer Tanz folgt im Feld, über dem ein kleines Raumschiff schwebt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Gebäude, Bett, Raumschiff",
+      "text": "Ein Gebäude, dann ein leuchtendes Bett, das sich langsam aufrichtet. Im Inneren eines Raumschiffs steigert sich die Musik zu einem Höhepunkt, eine Explosion folgt. Im letzten „Knee Play“ erzählt ein Busfahrer von zwei Liebenden auf einer Parkbank."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Knee Plays",
+      "zitat": false,
+      "wer": "Ensemble",
+      "akt": "Zwischen den Akten",
+      "was": "Kurze Zwischenspiele, die die großen Bilder verbinden."
+    },
+    {
+      "titel": "Spaceship",
+      "zitat": false,
+      "wer": "Ensemble und Orchester",
+      "akt": "4. Akt",
+      "was": "Der furiose Höhepunkt im Raumschiff."
+    },
+    {
+      "titel": "Liebesgeschichte auf der Parkbank",
+      "zitat": false,
+      "wer": "Sprecher",
+      "akt": "Schluss",
+      "was": "Die zärtliche Erzählung zum Ausklang."
+    }
+  ],
+  "wissen": [
+    "Die Texte bestehen vor allem aus Zahlen und Solfège-Silben; dazu kommen Texte von Christopher Knowles, Lucinda Childs und Samuel M. Johnson.",
+    "Für zwei ausverkaufte Abende mieteten Glass und Wilson 1976 die Metropolitan Opera – und blieben trotzdem auf Schulden sitzen."
+  ]
+}

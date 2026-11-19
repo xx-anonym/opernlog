@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Ein Dorf in der Schweiz. Am Tag vor ihrer Hochzeit wird die junge Amina im Zimmer eines Fremden gefunden, und ihr Verlobter Elvino verstößt sie. Niemand ahnt, dass Amina schlafwandelt. Bellinis Oper über Unschuld und Vertrauen.",
+  "urauffuehrung": {
+    "datum": "1831-03-06",
+    "ort": "Teatro Carcano, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Dorfplatz, Zimmer im Gasthof",
+      "text": "Das Dorf feiert die Verlobung der Waise Amina mit dem reichen Bauern Elvino. Die Wirtin Lisa liebt Elvino selbst. Ein Fremder steigt im Gasthof ab – Graf Rodolfo, der Herr des Schlosses. In der Nacht kommt Amina schlafwandelnd in sein Zimmer. Lisa holt die Dorfbewohner; Elvino hält Amina für untreu und löst die Verlobung."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Wald, im Dorf vor der Mühle",
+      "text": "Die Dorfbewohner bitten den Grafen um Aufklärung. Elvino will nun Lisa heiraten. Der Graf erklärt das Schlafwandeln, doch niemand glaubt ihm. Aminas Ziehmutter Teresa zeigt Lisas Halstuch, das in Rodolfos Zimmer lag. Da erscheint Amina schlafwandelnd auf dem morschen Steg der Mühle und singt von ihrer Liebe. Elvino erkennt ihre Unschuld, sie erwacht in seinen Armen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Come per me sereno",
+      "wer": "Amina",
+      "akt": "1. Akt",
+      "was": "Aminas Glück am Verlobungstag."
+    },
+    {
+      "titel": "Prendi, l’anel ti dono",
+      "wer": "Elvino",
+      "akt": "1. Akt",
+      "was": "Elvino steckt Amina den Ring an."
+    },
+    {
+      "titel": "Vi ravviso, o luoghi ameni",
+      "wer": "Rodolfo",
+      "akt": "1. Akt",
+      "was": "Der Graf erinnert sich an seine Jugend im Dorf."
+    },
+    {
+      "titel": "Ah! non credea mirarti",
+      "wer": "Amina",
+      "akt": "2. Akt",
+      "was": "Aminas Gesang im Schlaf über die verwelkten Blumen."
+    },
+    {
+      "titel": "Ah! non giunge",
+      "wer": "Amina",
+      "akt": "2. Akt",
+      "was": "Der Jubel nach dem Erwachen."
+    }
+  ],
+  "wissen": [
+    "Die erste Amina war Giuditta Pasta, die auch Bellinis Norma uraufführte.",
+    "Eine legendäre Produktion war 1955 die Inszenierung von Luchino Visconti an der Scala mit Maria Callas."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Elfenkönig Oberon und Titania haben sich zerstritten und wollen sich erst versöhnen, wenn sie ein treues Liebespaar finden. Der Ritter Hüon soll in Bagdad die Tochter des Kalifen gewinnen – mit einem Zauberhorn und vielen Prüfungen. Webers letzte Oper, geschrieben für London.",
+  "urauffuehrung": {
+    "datum": "1826-04-12",
+    "ort": "Covent Garden, London"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Oberons Garten, Bagdad",
+      "text": "Puck berichtet von Hüon von Bordeaux, der den Sohn Karls des Großen getötet hat. Zur Strafe soll er in Bagdad den Mann zur Rechten des Kalifen töten und dessen Tochter Rezia heiraten. Oberon lässt Hüon im Traum Rezia sehen und schenkt ihm ein Zauberhorn. In Bagdad hofft Rezia auf ihren Retter, sie soll den Prinzen Babekan heiraten."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Palast des Kalifen, Meeresküste",
+      "text": "Hüon besiegt Babekan und flieht mit Rezia, sein Knappe Scherasmin mit ihrer Dienerin Fatime. Um ihre Treue zu prüfen, lässt Oberon das Schiff in einem Sturm untergehen. Rezia beschwört den Ozean, dann wird sie von Seeräubern entführt, Hüon bleibt bewusstlos zurück."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "In Tunis, im Palast des Emirs",
+      "text": "Fatime und Scherasmin dienen als Sklaven beim Gärtner Ibrahim, Rezia wird im Harem des Emirs festgehalten. Hüon findet sie wieder und widersteht den Verführungsversuchen der Frau des Emirs. Er soll mit Rezia verbrannt werden, da ruft Scherasmin mit dem Zauberhorn Oberon herbei. Das Paar hat die Treue bewiesen. Oberon und Titania versöhnen sich und bringen Hüon und Rezia an den Hof Karls des Großen, der Hüon verzeiht."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "Beginn",
+      "was": "Mit dem Ruf des Zauberhorns."
+    },
+    {
+      "titel": "Von Jugend auf in dem Kampfgefild",
+      "wer": "Hüon",
+      "akt": "1. Akt",
+      "was": "Hüons heldenhafte Arie."
+    },
+    {
+      "titel": "Ozean, du Ungeheuer",
+      "wer": "Rezia",
+      "akt": "2. Akt",
+      "was": "Rezias große Szene am Meer."
+    }
+  ],
+  "wissen": [
+    "Das englische Textbuch schrieb James Robinson Planché. Weber, schwer an Tuberkulose erkrankt, dirigierte die Uraufführung und starb wenige Wochen später in London.",
+    "Der Stoff geht auf Christoph Martin Wielands Versepos „Oberon“ zurück."
+  ]
+}

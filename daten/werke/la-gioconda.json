@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Venedig im 17. Jahrhundert. Die Straßensängerin Gioconda liebt den Seefahrer Enzo, doch der liebt Laura, die Frau eines mächtigen Inquisitors. Der Spitzel Barnaba begehrt Gioconda und spinnt eine Intrige, die allen zum Verhängnis wird. Ponchiellis Oper mit dem berühmten „Tanz der Stunden“.",
+  "urauffuehrung": {
+    "datum": "1876-04-08",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Hof des Dogenpalasts",
+      "text": "Der Spitzel Barnaba begehrt Gioconda, sie weist ihn ab. Aus Rache beschuldigt er ihre blinde Mutter der Hexerei. Laura, die Frau des Inquisitors Alvise, rettet die Blinde, die ihr zum Dank einen Rosenkranz schenkt. Barnaba erkennt in dem Seemann Enzo einen geächteten Fürsten aus Genua und verspricht ihm, Laura zu ihm zu bringen – um beide zu verraten."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Auf Enzos Schiff",
+      "text": "Enzo wartet nachts auf Laura. Gioconda will die Rivalin töten, sieht aber den Rosenkranz ihrer Mutter und hilft Laura stattdessen zu fliehen. Als Alvises Galeeren kommen, setzt Enzo sein Schiff in Brand."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Palast Ca’ d’Oro",
+      "text": "Alvise befiehlt Laura, Gift zu nehmen. Gioconda vertauscht es mit einem Schlaftrunk. Beim Fest wird der Tanz der Stunden aufgeführt, dann zeigt Alvise die scheinbar tote Laura. Enzo will sich rächen und wird verhaftet. Gioconda verspricht sich Barnaba, wenn er Enzo freilässt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Verfallener Palast auf der Giudecca",
+      "text": "Gioconda denkt an Selbstmord. Enzo kommt frei, die erwachte Laura und er fliehen gemeinsam. Als Barnaba seinen Lohn fordert, ersticht sich Gioconda. Barnaba ruft der Toten nach, er habe ihre Mutter ertränkt – sie hört es nicht mehr."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Voce di donna o d’angelo",
+      "wer": "La Cieca",
+      "akt": "1. Akt",
+      "was": "Der Dank der blinden Mutter an Laura."
+    },
+    {
+      "titel": "Cielo e mar!",
+      "wer": "Enzo",
+      "akt": "2. Akt",
+      "was": "Enzo wartet in der Nacht auf Laura."
+    },
+    {
+      "titel": "Tanz der Stunden",
+      "zitat": false,
+      "wer": "Orchester und Ballett",
+      "akt": "3. Akt",
+      "was": "Das berühmte Ballett beim Fest."
+    },
+    {
+      "titel": "Suicidio!",
+      "wer": "Gioconda",
+      "akt": "4. Akt",
+      "was": "Giocondas verzweifelter Monolog."
+    }
+  ],
+  "wissen": [
+    "Das Textbuch schrieb Arrigo Boito unter dem Namen „Tobia Gorrio“, einem Anagramm seines Namens.",
+    "Den Tanz der Stunden kennen viele aus Walt Disneys „Fantasia“, getanzt von Nilpferden und Krokodilen."
+  ]
+}

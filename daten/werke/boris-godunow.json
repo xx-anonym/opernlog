@@ -1,0 +1,76 @@
+{
+  "dauer": "ca. 3¼ Std.",
+  "anriss": "Russland um 1600. Boris Godunow wird Zar – doch man flüstert, er habe den jungen Thronerben Dmitri ermorden lassen. Ein entlaufener Mönch gibt sich als Dmitri aus und zieht mit polnischen Truppen gegen Moskau. Mussorgskis Volksdrama nach Puschkin.",
+  "urauffuehrung": {
+    "datum": "1874-02-08",
+    "ort": "Mariinski-Theater, Sankt Petersburg"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Neujungfrauenkloster, Platz im Kreml",
+      "text": "Polizisten treiben das Volk an, Boris anzuflehen, den Thron zu besteigen. Boris gibt nach. Bei der Krönung feiert ihn das Volk, doch er selbst ist voll düsterer Ahnungen."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Klosterzelle, Schenke an der litauischen Grenze",
+      "text": "Der alte Mönch Pimen schreibt seine Chronik und erzählt dem jungen Grigori vom Mord an Dmitri, der heute in Grigoris Alter wäre. Grigori beschließt, sich als Dmitri auszugeben. Mit zwei Bettelmönchen erreicht er eine Schenke an der Grenze; als Wachen nach ihm suchen, springt er aus dem Fenster und flieht nach Litauen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Gemach des Zaren im Kreml",
+      "text": "Boris tröstet seine Tochter Xenia und lehrt seinen Sohn Fjodor. Er klagt über die Last der Macht. Fürst Schuiski meldet, in Polen sei ein falscher Dmitri aufgetaucht. Allein gelassen sieht Boris das ermordete Kind vor sich und bricht zusammen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "In Polen",
+      "text": "Die ehrgeizige Marina Mniszek will durch den falschen Dmitri Zarin werden, angetrieben von dem Jesuiten Rangoni. Im Schlossgarten gesteht Grigori ihr seine Liebe; sie verspottet ihn, bis er sich als künftiger Zar zeigt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Bojarenrat im Kreml, Wald bei Kromy",
+      "text": "Im Rat der Bojaren berichtet Pimen von einem Wunder an Dmitris Grab; Boris bricht zusammen, ernennt Fjodor zum Nachfolger und stirbt. Im Wald erhebt sich das Volk, der falsche Dmitri zieht nach Moskau, und der Gottesnarr beklagt das Schicksal Russlands."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Krönungsszene",
+      "zitat": false,
+      "wer": "Chor und Orchester",
+      "akt": "Prolog",
+      "was": "Glockengeläut und Jubel zur Krönung."
+    },
+    {
+      "titel": "Lied des Warlaam",
+      "zitat": false,
+      "wer": "Warlaam",
+      "akt": "1. Akt",
+      "was": "Das derbe Lied des Bettelmönchs in der Schenke."
+    },
+    {
+      "titel": "Monolog des Boris",
+      "zitat": false,
+      "wer": "Boris",
+      "akt": "2. Akt",
+      "was": "Boris über die Last der Macht."
+    },
+    {
+      "titel": "Uhrenszene",
+      "zitat": false,
+      "wer": "Boris",
+      "akt": "2. Akt",
+      "was": "Boris’ Halluzination vom ermordeten Kind."
+    },
+    {
+      "titel": "Klage des Gottesnarren",
+      "zitat": false,
+      "wer": "Gottesnarr",
+      "akt": "4. Akt",
+      "was": "Der Gesang über das Leid Russlands."
+    }
+  ],
+  "wissen": [
+    "Die erste Fassung von 1869 lehnte das Mariinski-Theater ab, unter anderem, weil eine große Frauenrolle fehlte; Mussorgski fügte darauf den Polen-Akt hinzu.",
+    "Hier beschrieben ist Mussorgskis Fassung von 1872, uraufgeführt 1874. Die lange übliche Bearbeitung von Rimski-Korsakow enthält zusätzlich die Szene vor der Basilius-Kathedrale."
+  ]
+}

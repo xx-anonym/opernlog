@@ -18,13 +18,20 @@ const TOSCA = operas.find(o => o.id === 'tosca');
 const HAUS = { id: 'semperoper', name: 'Semperoper', city: 'Dresden', state: 'Sachsen' };
 const termin = (datum) => ({ werk: 'tosca', haus: 'semperoper', datum, zeit: '19:00', url: 'https://example.org/' });
 
-test('jede Datei ist gültig und gehört zu einem Werk im Repo', () => {
+// Werke, die nur in der Datenbank stehen (catalog_operas, vom Admin in der
+// App angelegt), mit ihrer Zahl der Akte. Die Prüfung läuft ohne Netz, daher
+// stehen sie hier; wer dort ein Werk umbenennt, muss die Liste nachziehen.
+const AUS_DATENBANK = {
+    'rienzi': 5, 'la-gazza-ladra': 2, 'orpheus-in-der-unterwelt': 2, 'l-italiana-in-algeri': 2,
+    'il-viaggio-a-reims': 1, 'il-trittico': 3, 'the-greek-passion': 4, 'candide': 2, 'thais': 3,
+};
+
+test('jede Datei ist gültig und gehört zu einem Werk im Repo oder in der Datenbank', () => {
     assert.ok(TEXTE.size >= 1);
-    const ids = new Set(operas.map(o => o.id));
     for (const [id, t] of TEXTE) {
-        assert.ok(ids.has(id), `${WERKTEXT_ORDNER}/${id}.json: kein Werk mit dieser Id`);
+        const werk = operas.find(o => o.id === id) || (id in AUS_DATENBANK ? { acts: AUS_DATENBANK[id] } : null);
+        assert.ok(werk, `${WERKTEXT_ORDNER}/${id}.json: kein Werk mit dieser Id`);
         assert.deepEqual(werkTextFehler(t), [], id);
-        const werk = operas.find(o => o.id === id);
         // Die Akte im Text passen zum Katalog. Prolog, Vorspiel und Epilog zählt der
         // Katalog mal mit (Hoffmanns Erzählungen), mal nicht (Pagliacci).
         const ohneRahmen = t.akte.filter(a => !/^(Prolog|Vorspiel|Epilog)$/.test(a.titel)).length;

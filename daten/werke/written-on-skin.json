@@ -1,0 +1,38 @@
+{
+  "dauer": "ca. 1½ Std.",
+  "anriss": "Provence im 13. Jahrhundert. Ein reicher Grundbesitzer lässt einen jungen Buchmaler ein Buch über seine Familie gestalten. Seine Frau Agnès, die nie lesen lernen durfte, verliebt sich in den Maler. Engel aus unserer Zeit erzählen die blutige Geschichte. Oper von George Benjamin, Text von Martin Crimp.",
+  "urauffuehrung": {
+    "datum": "2012-07-07",
+    "ort": "Grand Théâtre de Provence, Aix-en-Provence"
+  },
+  "akte": [
+    {
+      "titel": "1. Teil",
+      "ort": "Im Haus des Protektors",
+      "text": "Engel versetzen sich in die Vergangenheit. Der Protektor beauftragt einen Knaben, ein Buch zu illuminieren, das ihn und seine Frau preist. Agnès ist zuerst misstrauisch, dann fasziniert. Sie verlangt, dass der Knabe in sein Buch eine Frau malt, wie sie wirklich ist."
+    },
+    {
+      "titel": "2. Teil",
+      "ort": "Im Haus, in der Stadt",
+      "text": "Agnès und der Knabe werden ein Liebespaar. Der Protektor ahnt etwas; der Knabe lügt und beschuldigt Agnès’ Schwester Marie. Agnès verlangt, dass er eine Seite malt, die ihre Liebe offenbart."
+    },
+    {
+      "titel": "3. Teil",
+      "ort": "Im Haus des Protektors",
+      "text": "Der Protektor liest die geheime Seite. Er tötet den Knaben und lässt Agnès sein Herz essen. Agnès sagt, nichts werde ihr den Geschmack dieses Herzens je nehmen, und stürzt sich vom Balkon. Die Engel erzählen das Ende."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Schlussszene der Agnès",
+      "zitat": false,
+      "wer": "Agnès",
+      "akt": "3. Teil",
+      "was": "Agnès’ Antwort auf die grausame Tat."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist die mittelalterliche Legende vom „gegessenen Herzen“ um den Troubadour Guillem de Cabestanh.",
+    "Der Knabe ist für Countertenor geschrieben; bei der Uraufführung sang ihn Bejun Mehta."
+  ]
+}

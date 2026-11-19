@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "England im Bürgerkrieg, um 1650. Elvira, Tochter eines puritanischen Festungskommandanten, liebt den königstreuen Arturo. Am Hochzeitstag flieht er mit einer verschleierten Frau, und Elvira verliert den Verstand. Bellinis letzte Oper.",
+  "urauffuehrung": {
+    "datum": "1835-01-24",
+    "ort": "Théâtre-Italien, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Festung der Puritaner bei Plymouth",
+      "text": "Elvira soll den Puritaner Riccardo heiraten, doch ihr Onkel Giorgio erreicht, dass sie Arturo heiraten darf, einen Anhänger der Stuarts. Arturo erkennt unter den Gefangenen die Witwe des hingerichteten Königs Karl I. Er rettet sie, indem er sie in Elviras Brautschleier aus der Festung führt. Elvira glaubt sich verlassen und verliert den Verstand."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In der Festung",
+      "text": "Giorgio berichtet von Elviras Wahnsinn. Elvira irrt umher und erinnert sich an Arturo. Riccardo meldet, dass Arturo zum Tod verurteilt ist. Giorgio bittet ihn, Arturo zu retten. Riccardo willigt ein: Kommt Arturo friedlich, soll er leben; kämpft er auf der Seite der Royalisten, soll er sterben. Dann schwören beide, für die Freiheit zu kämpfen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Garten bei Elviras Haus",
+      "text": "Arturo kehrt heimlich zurück. Elvira kommt zu sich, als er ihr alles erklärt. Soldaten nehmen ihn fest, Elvira bricht zusammen. Da trifft die Nachricht ein: Cromwell hat die Gefangenen begnadigt. Elvira und Arturo sind vereint."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "A te, o cara",
+      "wer": "Arturo",
+      "akt": "1. Akt",
+      "was": "Arturos Liebesbekenntnis bei seiner Ankunft."
+    },
+    {
+      "titel": "Son vergin vezzosa",
+      "wer": "Elvira",
+      "akt": "1. Akt",
+      "was": "Elviras Polonaise am Hochzeitstag."
+    },
+    {
+      "titel": "Qui la voce sua soave",
+      "wer": "Elvira",
+      "akt": "2. Akt",
+      "was": "Elviras Wahnsinnsszene."
+    },
+    {
+      "titel": "Suoni la tromba",
+      "wer": "Riccardo und Giorgio",
+      "akt": "2. Akt",
+      "was": "Das kriegerische Duett für Bariton und Bass."
+    },
+    {
+      "titel": "Credeasi, misera",
+      "wer": "Arturo",
+      "akt": "3. Akt",
+      "was": "Mit einem der höchsten Töne der Tenorliteratur."
+    }
+  ],
+  "wissen": [
+    "Bellini starb wenige Monate nach der Uraufführung, mit 33 Jahren.",
+    "Die Uraufführung sangen Giulia Grisi, Giovanni Battista Rubini, Antonio Tamburini und Luigi Lablache – später als „Puritani-Quartett“ berühmt."
+  ]
+}

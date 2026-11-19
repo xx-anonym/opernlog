@@ -1,0 +1,73 @@
+{
+  "dauer": "ca. 4 Std.",
+  "anriss": "Troja fällt durch die List mit dem hölzernen Pferd, nur Äneas entkommt. In Karthago verliebt er sich in die Königin Dido – doch die Götter rufen ihn nach Italien. Berlioz’ gewaltiges Opernepos nach Vergils „Aeneis“.",
+  "urauffuehrung": {
+    "datum": "1890-12-06",
+    "ort": "Hoftheater, Karlsruhe"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor Troja",
+      "text": "Die Trojaner feiern den Abzug der Griechen und bestaunen das hölzerne Pferd. Nur Kassandra sieht den Untergang voraus, doch niemand glaubt ihr, auch ihr Verlobter Chorebus nicht. Der Priester Laokoon, der vor dem Pferd gewarnt hat, wird von Schlangen getötet. Das Pferd wird in die Stadt gezogen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Palast des Äneas, Palast des Priamos, Tempel der Vesta",
+      "text": "Der Geist Hektors befiehlt Äneas zu fliehen und in Italien ein neues Reich zu gründen. Die Griechen erobern die Stadt. Kassandra und die trojanischen Frauen töten sich, bevor die Griechen sie gefangen nehmen können."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Karthago",
+      "text": "Die Karthager feiern ihre Königin Dido und den Aufbau ihrer Stadt. Äneas und seine Trojaner landen als Schiffbrüchige. Als der Numiderkönig Iarbas Karthago angreift, führt Äneas die Verteidigung an."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Wald bei Karthago, Didos Gärten",
+      "text": "Bei einer königlichen Jagd flüchten Dido und Äneas vor einem Gewitter in eine Grotte. Am Abend feiern sie ihre Liebe in einer Sommernacht. Da erscheint Merkur und ruft: Italien!"
+    },
+    {
+      "titel": "5. Akt",
+      "ort": "Hafen und Palast von Karthago",
+      "text": "Ein junger Seemann singt von der Heimat. Die Geister der Toten drängen Äneas zum Aufbruch, und er segelt fort. Dido lässt einen Scheiterhaufen errichten, nimmt Abschied von ihrer Stadt und ersticht sich. Sterbend sieht sie Rom triumphieren."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Trojanischer Marsch",
+      "zitat": false,
+      "wer": "Chor und Orchester",
+      "akt": "1. Akt",
+      "was": "Der Marsch, mit dem das Pferd in die Stadt zieht."
+    },
+    {
+      "titel": "Königliche Jagd und Gewitter",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "4. Akt",
+      "was": "Ein sinfonisches Zwischenspiel ohne Gesang."
+    },
+    {
+      "titel": "Nuit d’ivresse et d’extase infinie",
+      "wer": "Dido und Äneas",
+      "akt": "4. Akt",
+      "was": "Das große Liebesduett."
+    },
+    {
+      "titel": "Inutiles regrets",
+      "wer": "Äneas",
+      "akt": "5. Akt",
+      "was": "Äneas’ Abschied."
+    },
+    {
+      "titel": "Adieu, fière cité",
+      "wer": "Dido",
+      "akt": "5. Akt",
+      "was": "Didos Abschied von Karthago."
+    }
+  ],
+  "wissen": [
+    "Berlioz hörte zu Lebzeiten nur den zweiten Teil, 1863 in Paris und stark gekürzt. Vollständig kam das Werk erst 1890 in Karlsruhe heraus, an zwei Abenden.",
+    "Das Textbuch schrieb Berlioz selbst, nach Vergils „Aeneis“, die er seit seiner Kindheit liebte."
+  ]
+}

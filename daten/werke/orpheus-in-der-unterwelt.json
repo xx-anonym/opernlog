@@ -1,0 +1,46 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Eurydike hat genug von ihrem Mann Orpheus und seiner Geige. Als Pluto sie in die Unterwelt entführt, ist Orpheus erleichtert – doch die Öffentliche Meinung zwingt ihn, sie zurückzufordern. Offenbachs Parodie auf die antike Sage, die Götter und die Gesellschaft.",
+  "urauffuehrung": {
+    "datum": "1858-10-21",
+    "ort": "Théâtre des Bouffes-Parisiens, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Bei Theben, auf dem Olymp",
+      "text": "Eurydike liebt heimlich den Hirten Aristeus, hinter dem sich Pluto verbirgt. Er bringt sie in die Unterwelt. Orpheus freut sich, doch die Öffentliche Meinung verlangt, dass er Eurydike zurückholt. Auf dem Olymp langweilen sich die Götter und rebellieren gegen Jupiter. Jupiter verspricht, die Sache zu klären, und alle ziehen gemeinsam in die Unterwelt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In der Unterwelt",
+      "text": "Eurydike langweilt sich, bewacht vom tumben John Styx. Jupiter verwandelt sich in eine Fliege, um zu ihr zu gelangen. Beim großen Fest tanzt die Unterwelt den Höllengalopp. Orpheus darf Eurydike mitnehmen, wenn er sich nicht umdreht. Jupiter schleudert einen Blitz, Orpheus dreht sich um, und Eurydike wird Bacchantin."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Als ich noch Prinz war von Arkadien",
+      "wer": "John Styx",
+      "akt": "2. Akt",
+      "was": "Das wehmütige Lied des Wächters."
+    },
+    {
+      "titel": "Fliegenduett",
+      "zitat": false,
+      "wer": "Eurydike und Jupiter",
+      "akt": "2. Akt",
+      "was": "Jupiter summt als Fliege."
+    },
+    {
+      "titel": "Höllengalopp",
+      "zitat": false,
+      "wer": "Ensemble und Orchester",
+      "akt": "2. Akt",
+      "was": "Der berühmte Cancan."
+    }
+  ],
+  "wissen": [
+    "Die bekannte Ouvertüre stammt nicht von Offenbach selbst, sondern von Carl Binder, der sie 1860 für die Wiener Aufführung zusammenstellte.",
+    "1874 erweiterte Offenbach das Stück zu einer großen Fassung in vier Akten."
+  ]
+}
