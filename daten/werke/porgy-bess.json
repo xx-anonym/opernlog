@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Catfish Row, ein Viertel der schwarzen Bevölkerung in Charleston, South Carolina. Der gelähmte Bettler Porgy nimmt Bess bei sich auf, die niemand mehr haben will – und kämpft um sie gegen ihren gewalttätigen Ex-Geliebten und einen Drogendealer.",
+  "urauffuehrung": {
+    "datum": "1935-09-30",
+    "ort": "Colonial Theatre, Boston"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Catfish Row",
+      "text": "Beim Würfelspiel erschlägt der Hafenarbeiter Crown einen Mann und flieht. Seine Geliebte Bess bleibt zurück; nur Porgy nimmt sie auf. Die Gemeinschaft sammelt Geld für das Begräbnis des Toten."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Catfish Row, Insel Kittiwah",
+      "text": "Porgy und Bess sind glücklich. Bei einem Picknick auf der Insel Kittiwah trifft Bess auf Crown, der sie gegen ihren Willen zurückhält. Erst eine Woche später kehrt sie krank und verstört zu Porgy zurück, der sie pflegt. Ein Hurrikan zieht auf, und Crown taucht wieder auf."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Catfish Row",
+      "text": "Porgy tötet Crown. Als die Polizei ihn als Zeugen mitnimmt, überredet der Dealer Sportin’ Life Bess, mit ihm nach New York zu gehen. Porgy kommt zurück, findet sie nicht mehr – und macht sich auf seinem Ziegenkarren auf den Weg nach New York."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Summertime",
+      "wer": "Clara",
+      "akt": "1. Akt",
+      "was": "Das Wiegenlied, das zum Jazzstandard wurde."
+    },
+    {
+      "titel": "I Got Plenty o’ Nuttin’",
+      "wer": "Porgy",
+      "akt": "2. Akt",
+      "was": "Porgys Lied vom Glück ohne Besitz."
+    },
+    {
+      "titel": "Bess, You Is My Woman Now",
+      "wer": "Porgy und Bess",
+      "akt": "2. Akt",
+      "was": "Das Liebesduett."
+    },
+    {
+      "titel": "It Ain’t Necessarily So",
+      "wer": "Sportin’ Life",
+      "akt": "2. Akt",
+      "was": "Der Spott des Dealers über die Bibel."
+    },
+    {
+      "titel": "Oh Lawd, I’m On My Way",
+      "wer": "Porgy und Chor",
+      "akt": "3. Akt",
+      "was": "Porgy bricht nach New York auf."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist der Roman „Porgy“ von DuBose Heyward, der mit Ira Gershwin auch die Texte schrieb.",
+    "Die Rechteinhaber verlangen bis heute, dass die schwarzen Figuren von schwarzen Sängerinnen und Sängern gesungen werden.",
+    "Die Voraufführung in Boston dauerte rund vier Stunden; für den Broadway, wo das Werk im Oktober 1935 herauskam, wurde gekürzt."
+  ]
+}

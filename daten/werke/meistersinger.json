@@ -1,0 +1,68 @@
+{
+  "dauer": "ca. 4½ Std.",
+  "anriss": "Nürnberg, Mitte des 16. Jahrhunderts. Der Goldschmied Pogner verspricht seine Tochter Eva dem Sieger eines Sängerwettstreits. Der junge Ritter Walther liebt sie, kennt aber die strengen Regeln der Meistersinger nicht. Der kluge Schuster Hans Sachs hilft.",
+  "urauffuehrung": {
+    "datum": "1868-06-21",
+    "ort": "Königliches Hof- und Nationaltheater, München"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "In der Katharinenkirche",
+      "text": "Walther von Stolzing verliebt sich in Eva und erfährt, dass sie den Sieger des Wettsingens am Johannistag heiraten soll. Er will Meistersinger werden, doch sein freies Probelied scheitert an den Regeln – und am Stadtschreiber Beckmesser, der selbst um Eva wirbt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Gasse vor Pogners und Sachs’ Haus, Johannisabend",
+      "text": "Hans Sachs grübelt über Walthers Lied. Beckmesser bringt Eva ein Ständchen; Sachs schlägt dazu bei jedem Fehler mit dem Hammer auf den Schuh. Der Lärm weckt die Nachbarn, und eine Prügelei bricht aus."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Sachs’ Werkstatt, Festwiese",
+      "text": "Sachs denkt über den Wahn der Welt nach und hilft Walther, seinen Traum in ein Meisterlied zu fassen. Beckmesser stiehlt das Blatt und blamiert sich damit auf der Festwiese. Walther singt sein Lied und gewinnt Eva."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vorspiel",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Das festliche Vorspiel, auch im Konzert beliebt."
+    },
+    {
+      "titel": "Am stillen Herd in Winterszeit",
+      "wer": "Walther",
+      "akt": "1. Akt",
+      "was": "Walthers erstes Lied vor den Meistern."
+    },
+    {
+      "titel": "Was duftet doch der Flieder",
+      "wer": "Hans Sachs",
+      "akt": "2. Akt",
+      "was": "Der Fliedermonolog."
+    },
+    {
+      "titel": "Wahn! Wahn! Überall Wahn!",
+      "wer": "Hans Sachs",
+      "akt": "3. Akt",
+      "was": "Sachs’ Nachdenken über die Unvernunft der Welt."
+    },
+    {
+      "titel": "Selig, wie die Sonne",
+      "wer": "Quintett",
+      "akt": "3. Akt",
+      "was": "Das Quintett bei der Taufe des neuen Liedes."
+    },
+    {
+      "titel": "Morgenlich leuchtend im rosigen Schein",
+      "wer": "Walther",
+      "akt": "3. Akt",
+      "was": "Das Preislied."
+    }
+  ],
+  "wissen": [
+    "Hans Sachs ist eine historische Figur: ein Nürnberger Schuhmacher und Dichter, der von 1494 bis 1576 lebte.",
+    "Die Uraufführung dirigierte Hans von Bülow."
+  ]
+}

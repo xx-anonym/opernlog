@@ -1,0 +1,57 @@
+{
+  "dauer": "ca. 1½ Std.",
+  "anriss": "Der Sänger Orpheus hat seine Frau Eurydike verloren. Mit seinem Gesang darf er sie aus der Unterwelt zurückholen – unter einer Bedingung: er darf sie auf dem Weg nicht ansehen.",
+  "urauffuehrung": {
+    "datum": "1762-10-05",
+    "ort": "Burgtheater, Wien"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Hain mit Eurydikes Grab",
+      "text": "Orpheus trauert um Eurydike. Amor verkündet, dass die Götter Mitleid haben: Orpheus darf in die Unterwelt hinabsteigen, um sie zu holen, darf sie aber erst ansehen, wenn sie wieder auf der Erde sind."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Am Eingang der Unterwelt, Elysium",
+      "text": "Die Furien wollen Orpheus abweisen, doch sein Gesang besänftigt sie. In den Gefilden der Seligen findet er Eurydike."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Auf dem Weg nach oben, Tempel des Amor",
+      "text": "Eurydike versteht nicht, warum Orpheus sie nicht ansieht, und glaubt, er liebe sie nicht mehr. Er hält es nicht aus, sieht sich um – und sie stirbt. Doch Amor ist gerührt von seiner Klage und gibt ihm Eurydike zurück."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Chiamo il mio ben così",
+      "wer": "Orfeo",
+      "akt": "1. Akt",
+      "was": "Orpheus ruft nach Eurydike."
+    },
+    {
+      "titel": "Furienszene",
+      "zitat": false,
+      "wer": "Orfeo und Chor",
+      "akt": "2. Akt",
+      "was": "Orpheus besänftigt die Furien."
+    },
+    {
+      "titel": "Reigen der seligen Geister",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "2. Akt",
+      "was": "Der Tanz im Elysium mit der Soloflöte."
+    },
+    {
+      "titel": "Che farò senza Euridice",
+      "wer": "Orfeo",
+      "akt": "3. Akt",
+      "was": "„Ach, ich habe sie verloren“ – Orpheus’ berühmte Klage."
+    }
+  ],
+  "wissen": [
+    "Mit Orfeo ed Euridice begann Glucks Opernreform: einfache Handlung, klare Musik, kein Schmuck um seiner selbst willen.",
+    "Den Orfeo sang in Wien der Altkastrat Gaetano Guadagni; für Paris schrieb Gluck 1774 eine Fassung für Tenor."
+  ]
+}

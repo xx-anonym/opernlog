@@ -1,0 +1,58 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Ein Dorf in Mähren. Jenůfa erwartet ein Kind von Števa, der sie nicht heiraten will. Ihre Ziehmutter, die strenge Küsterin, will Jenůfas Ehre retten – und begeht dafür ein furchtbares Verbrechen.",
+  "urauffuehrung": {
+    "datum": "1904-01-21",
+    "ort": "Nationaltheater, Brünn"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor der Mühle",
+      "text": "Jenůfa hofft, dass Števa nicht zum Militär muss, damit sie heiraten können. Števa kommt betrunken vom Rekrutieren zurück; die Küsterin verbietet die Hochzeit für ein Jahr. Sein eifersüchtiger Halbbruder Laca verletzt Jenůfa mit dem Messer an der Wange."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "In der Stube der Küsterin, Winter",
+      "text": "Die Küsterin hat Jenůfa versteckt, das Kind ist geboren. Števa will Jenůfa nicht heiraten, Laca dagegen ist trotz anfänglicher Bedenken bereit, sie zu nehmen. Als er vom Kind erfährt, behauptet die Küsterin, es sei bereits gestorben. In ihrer Verzweiflung trägt sie den Säugling hinaus und ertränkt ihn im eisigen Fluss. Sie sagt Jenůfa, das Kind sei während ihres Fiebers gestorben."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "In der Stube der Küsterin, Frühling",
+      "text": "Am Hochzeitstag von Jenůfa und Laca wird die Kinderleiche unter dem tauenden Eis gefunden. Das Dorf beschuldigt Jenůfa; da gesteht die Küsterin. Jenůfa verzeiht ihr, und Laca bleibt bei ihr."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vorspiel",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Mit dem klappernden Xylophon des Mühlrads."
+    },
+    {
+      "titel": "Co chvíla",
+      "wer": "Küsterin",
+      "akt": "2. Akt",
+      "was": "Die Küsterin ringt sich zu ihrer Tat durch."
+    },
+    {
+      "titel": "Jenůfas Gebet",
+      "zitat": false,
+      "wer": "Jenůfa",
+      "akt": "2. Akt",
+      "was": "Jenůfa betet für ihr Kind."
+    },
+    {
+      "titel": "Schlussduett",
+      "zitat": false,
+      "wer": "Jenůfa und Laca",
+      "akt": "3. Akt",
+      "was": "Jenůfa und Laca finden zu einer reifen Liebe."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist das Schauspiel „Její pastorkyňa“ (Ihre Ziehtochter) von Gabriela Preissová.",
+    "Den Durchbruch brachte erst die Aufführung in Prag 1916 – zwölf Jahre nach der Uraufführung in Brünn."
+  ]
+}

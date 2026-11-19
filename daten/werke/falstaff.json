@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Der dicke, verschuldete Ritter Falstaff schreibt zwei wohlhabenden Bürgersfrauen in Windsor denselben Liebesbrief. Die Frauen beschließen, ihm eine Lektion zu erteilen – und am Ende wird die ganze Welt zum Spaß.",
+  "urauffuehrung": {
+    "datum": "1893-02-09",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Gasthaus zum Hosenbandorden, Garten von Fords Haus",
+      "text": "Falstaff will sich mit Liebesbriefen an Alice Ford und Meg Page Geld verschaffen; seine Diener weigern sich, sie zu überbringen, und er hält ihnen einen Vortrag über die Ehre. Die Frauen vergleichen die Briefe und schmieden einen Plan. Auch Ford erfährt davon und wird eifersüchtig."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Gasthaus, Zimmer in Fords Haus",
+      "text": "Mrs. Quickly lädt Falstaff zu einem Stelldichein mit Alice ein. Ford besucht Falstaff unter falschem Namen und erfährt von dem Treffen. Bei Alice muss sich Falstaff vor dem tobenden Ford im Wäschekorb verstecken – und landet in der Themse."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Vor dem Gasthaus, im Park von Windsor um Mitternacht",
+      "text": "Falstaff wird zu einem nächtlichen Treffen an der Eiche des Jägers Herne gelockt. Als Elfen und Geister verkleidet, verprügeln ihn alle. Nebenbei trickst Alice ihren Mann aus: Ford verheiratet seine Tochter Nannetta ungewollt mit ihrem geliebten Fenton. Alle singen: alles auf der Welt ist Spaß."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "L’onore! Ladri!",
+      "wer": "Falstaff",
+      "akt": "1. Akt",
+      "was": "Falstaffs Monolog über die Ehre."
+    },
+    {
+      "titel": "Quand’ero paggio del Duca di Norfolk",
+      "wer": "Falstaff",
+      "akt": "2. Akt",
+      "was": "Falstaff erinnert sich, wie schlank er einst war."
+    },
+    {
+      "titel": "È sogno? o realtà?",
+      "wer": "Ford",
+      "akt": "2. Akt",
+      "was": "Fords Eifersuchtsmonolog."
+    },
+    {
+      "titel": "Sul fil d’un soffio etesio",
+      "wer": "Nannetta",
+      "akt": "3. Akt",
+      "was": "Nannetta als Feenkönigin im nächtlichen Park."
+    },
+    {
+      "titel": "Tutto nel mondo è burla",
+      "wer": "Ensemble",
+      "akt": "3. Akt",
+      "was": "Die Schlussfuge: alles auf der Welt ist Spaß."
+    }
+  ],
+  "wissen": [
+    "Falstaff ist Verdis letzte Oper; bei der Uraufführung war er 79 Jahre alt.",
+    "Vorlage sind Shakespeares „Die lustigen Weiber von Windsor“ und Szenen aus „Heinrich IV.“, eingerichtet von Arrigo Boito."
+  ]
+}

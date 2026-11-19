@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Ein melancholischer Prinz kann nur durch Lachen geheilt werden. Als er ausgerechnet über die böse Zauberin Fata Morgana lacht, verflucht sie ihn: er soll sich in drei Orangen verlieben. Ein Märchen voller Witz, Zauber und Theater über das Theater.",
+  "urauffuehrung": {
+    "datum": "1921-12-30",
+    "ort": "Auditorium Theatre, Chicago"
+  },
+  "akte": [
+    {
+      "titel": "Prolog",
+      "ort": "Vor dem Vorhang",
+      "text": "Anhänger der Tragödie, der Komödie, der Lyrik und des seichten Spaßes streiten, welches Stück gespielt werden soll. Die „Lächerlichen“ setzen sich durch und kündigen „Die Liebe zu den drei Orangen“ an."
+    },
+    {
+      "titel": "1. Akt",
+      "ort": "Palast des Kreuzkönigs",
+      "text": "Der Prinz ist todkrank vor Schwermut. Der Minister Leander und die Nichte des Königs, Clarice, wollen ihn sterben lassen und selbst an die Macht – unterstützt von Fata Morgana."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Palast",
+      "text": "Der Spaßmacher Truffaldino versucht vergeblich, den Prinzen zum Lachen zu bringen. Erst als Fata Morgana hinfällt, lacht er. Sie verflucht ihn: er soll sich in drei Orangen verlieben und sie suchen."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "In der Wüste, im Schloss der Zauberin Kreonta",
+      "text": "Mit Truffaldino stiehlt der Prinz die Orangen aus dem Schloss, vorbei an einer riesigen Köchin. In der Wüste öffnen sie die Früchte: zwei Prinzessinnen verdursten, die dritte, Ninetta, wird gerettet."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Im Palast",
+      "text": "Fata Morgana verwandelt Ninetta in eine Ratte, doch der Zauberer Tschelio bricht den Bann. Der Prinz heiratet Ninetta, die Verschwörer fliehen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Marsch",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "2. Akt",
+      "was": "Der berühmte Marsch, auch im Konzert beliebt."
+    },
+    {
+      "titel": "Szene mit der Köchin",
+      "zitat": false,
+      "wer": "Köchin, Truffaldino und Prinz",
+      "akt": "3. Akt",
+      "was": "Truffaldino lenkt die riesige Köchin mit einem Band ab."
+    },
+    {
+      "titel": "Scherzo",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Die Reise in die Wüste."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist ein Märchenspiel von Carlo Gozzi aus dem 18. Jahrhundert.",
+    "Prokofjew schrieb das Libretto auf Russisch; uraufgeführt wurde die Oper in Chicago in französischer Sprache."
+  ]
+}

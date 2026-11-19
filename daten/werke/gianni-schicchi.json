@@ -1,0 +1,39 @@
+{
+  "dauer": "ca. 55 Min.",
+  "anriss": "Florenz, 1299. Der reiche Buoso Donati ist tot – und hat sein Vermögen einem Kloster vermacht. Seine gierigen Verwandten holen den gerissenen Gianni Schicchi zu Hilfe. Der hilft auch, vor allem sich selbst.",
+  "urauffuehrung": {
+    "datum": "1918-12-14",
+    "ort": "Metropolitan Opera, New York"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Buoso Donatis Schlafzimmer",
+      "text": "Die Verwandten finden das Testament: alles geht ans Kloster. Rinuccio, der Schicchis Tochter Lauretta liebt, ruft Schicchi herbei. Der schlüpft ins Bett des Toten und diktiert dem Notar ein neues Testament – das Beste vermacht er sich selbst. Weil auf Testamentsfälschung schwere Strafen stehen, müssen die Verwandten schweigen. Schicchi jagt sie aus dem Haus, Rinuccio und Lauretta haben ihr Glück."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "O mio babbino caro",
+      "wer": "Lauretta",
+      "akt": "Mitte",
+      "was": "Lauretta bittet ihren Vater, ihr Glück zu retten."
+    },
+    {
+      "titel": "Firenze è come un albero fiorito",
+      "wer": "Rinuccio",
+      "akt": "Mitte",
+      "was": "Rinuccios Loblied auf Florenz und seine neuen Bürger."
+    },
+    {
+      "titel": "Addio, Firenze",
+      "wer": "Gianni Schicchi",
+      "akt": "Mitte",
+      "was": "Schicchi erinnert die Verwandten an die Strafe für Fälscher."
+    }
+  ],
+  "wissen": [
+    "Gianni Schicchi ist der letzte Teil von Puccinis „Il trittico“, drei Einaktern für einen Abend, uraufgeführt an der Metropolitan Opera.",
+    "Die Figur stammt aus Dantes „Göttlicher Komödie“: dort büßt Schicchi in der Hölle für genau diese Fälschung."
+  ]
+}

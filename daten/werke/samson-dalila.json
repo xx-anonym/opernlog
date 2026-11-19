@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Gaza in biblischer Zeit. Samson führt die unterdrückten Hebräer gegen die Philister an. Die schöne Philisterin Dalila soll ihm im Auftrag des Oberpriesters das Geheimnis seiner Kraft entlocken.",
+  "urauffuehrung": {
+    "datum": "1877-12-02",
+    "ort": "Großherzogliches Hoftheater, Weimar"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Platz in Gaza",
+      "text": "Samson ruft die Hebräer zum Aufstand und erschlägt den Philister Abimélech. Dalila und die Philisterinnen begrüßen den Frühling; Dalila lädt Samson zu sich ein, und er kann sich ihr kaum entziehen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Dalilas Haus im Tal von Sorek",
+      "text": "Der Oberpriester des Dagon verspricht Dalila Gold, wenn sie Samson verrät; sie will es aus Hass tun. Samson kommt, um Abschied zu nehmen, verfällt ihr aber und verrät, dass seine Kraft in seinem Haar liegt. Die Philister überwältigen ihn."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Gefängnis, Tempel des Dagon",
+      "text": "Geblendet dreht Samson im Kerker die Mühle und bittet Gott um Vergebung. Beim Fest im Tempel wird er verspottet. Er betet um seine alte Kraft, bringt die Säulen zum Einsturz und begräbt sich mit den Philistern unter dem Tempel."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Printemps qui commence",
+      "wer": "Dalila",
+      "akt": "1. Akt",
+      "was": "Dalilas Frühlingslied."
+    },
+    {
+      "titel": "Amour! viens aider ma faiblesse!",
+      "wer": "Dalila",
+      "akt": "2. Akt",
+      "was": "Dalila ruft die Liebe als Waffe an."
+    },
+    {
+      "titel": "Mon cœur s’ouvre à ta voix",
+      "wer": "Dalila",
+      "akt": "2. Akt",
+      "was": "Dalilas berühmte Verführungsarie, mit der sie Samson umgarnt."
+    },
+    {
+      "titel": "Vois ma misère, hélas!",
+      "wer": "Samson",
+      "akt": "3. Akt",
+      "was": "Samson an der Mühle."
+    },
+    {
+      "titel": "Bacchanale",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "3. Akt",
+      "was": "Der wilde Tanz im Tempel des Dagon."
+    }
+  ],
+  "wissen": [
+    "Die Uraufführung fand in Weimar in deutscher Sprache statt, mit Unterstützung von Franz Liszt; französische Bühnen scheuten den biblischen Stoff.",
+    "An der Pariser Oper kam Samson et Dalila erst 1892 heraus."
+  ]
+}

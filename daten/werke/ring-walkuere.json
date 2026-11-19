@@ -1,0 +1,63 @@
+{
+  "dauer": "ca. 3¾ Std.",
+  "anriss": "Die Zwillinge Siegmund und Sieglinde, als Kinder getrennt, finden einander wieder und verlieben sich. Göttervater Wotan will Siegmund schützen, muss ihn aber opfern – und seine Lieblingstochter, die Walküre Brünnhilde, widersetzt sich ihm. Der zweite Teil des „Ring des Nibelungen“.",
+  "urauffuehrung": {
+    "datum": "1870-06-26",
+    "ort": "Königliches Hof- und Nationaltheater, München"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "In Hundings Hütte",
+      "text": "Der verwundete Siegmund flüchtet in die Hütte Hundings. Dessen Frau Sieglinde pflegt ihn. Hunding erkennt in ihm einen Feind und fordert ihn für den Morgen zum Kampf. In der Nacht erkennen sich Siegmund und Sieglinde als Geschwister und Liebende; Siegmund zieht das Schwert Nothung aus dem Stamm der Esche."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Wildes Felsengebirge",
+      "text": "Wotan befiehlt Brünnhilde, Siegmund im Kampf zu schützen. Seine Frau Fricka besteht darauf, dass Siegmund stirbt, und Wotan muss nachgeben. Brünnhilde verkündet Siegmund den Tod, ist von seiner Liebe gerührt und will ihn doch retten. Wotan zerschlägt Siegmunds Schwert, Hunding tötet ihn. Brünnhilde flieht mit Sieglinde."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Auf dem Walkürenfelsen",
+      "text": "Die Walküren versammeln sich. Brünnhilde gibt Sieglinde die Trümmer des Schwerts und verkündet ihr, dass sie den Helden Siegfried gebären wird. Wotan straft Brünnhilde: sie soll schlafen, bis ein Mann sie weckt. Auf ihre Bitte umgibt er den Felsen mit Feuer, das nur ein furchtloser Held durchschreitet."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Winterstürme wichen dem Wonnemond",
+      "wer": "Siegmund",
+      "akt": "1. Akt",
+      "was": "Siegmunds Lied vom Frühling."
+    },
+    {
+      "titel": "Du bist der Lenz",
+      "wer": "Sieglinde",
+      "akt": "1. Akt",
+      "was": "Sieglindes Antwort."
+    },
+    {
+      "titel": "Todesverkündigung",
+      "zitat": false,
+      "wer": "Brünnhilde und Siegmund",
+      "akt": "2. Akt",
+      "was": "Brünnhilde kündigt Siegmund den Tod an."
+    },
+    {
+      "titel": "Walkürenritt",
+      "zitat": false,
+      "wer": "Walküren",
+      "akt": "3. Akt",
+      "was": "Der berühmte Ritt der Walküren."
+    },
+    {
+      "titel": "Leb wohl, du kühnes, herrliches Kind!",
+      "wer": "Wotan",
+      "akt": "3. Akt",
+      "was": "Wotans Abschied von Brünnhilde mit dem Feuerzauber."
+    }
+  ],
+  "wissen": [
+    "Die Walküre wurde auf Befehl König Ludwigs II. in München uraufgeführt, gegen Wagners Willen, der den „Ring“ nur vollständig zeigen wollte.",
+    "Der Walkürenritt ist vielen aus dem Film „Apocalypse Now“ bekannt."
+  ]
+}

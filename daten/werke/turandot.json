@@ -1,0 +1,62 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Peking, in sagenhafter Zeit. Wer die Prinzessin Turandot heiraten will, muss drei Rätsel lösen – oder sterben. Ein unbekannter Prinz wagt es. Puccinis letzte, unvollendete Oper.",
+  "urauffuehrung": {
+    "datum": "1926-04-25",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor dem Kaiserpalast",
+      "text": "Der Prinz von Persien wird hingerichtet, weil er die Rätsel nicht lösen konnte. In der Menge findet der unbekannte Prinz Calaf seinen blinden Vater Timur wieder, begleitet von der Sklavin Liù, die Calaf heimlich liebt. Calaf sieht Turandot und schlägt den Gong: er will um sie werben."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Im Palast",
+      "text": "Die Minister Ping, Pang und Pong sehnen sich nach Frieden. Turandot erklärt, warum sie Männer hasst, und stellt die Rätsel. Calaf löst alle drei. Als sie sich weigert, ihn zu heiraten, gibt er ihr ein Rätsel auf: errät sie bis zum Morgen seinen Namen, will er sterben."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Palastgarten in der Nacht",
+      "text": "Niemand in Peking darf schlafen, bis der Name gefunden ist. Liù wird gefoltert, verrät ihn nicht und tötet sich. Calaf küsst Turandot und nennt ihr selbst seinen Namen. Vor dem Volk verkündet sie: sein Name ist Liebe."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Signore, ascolta!",
+      "wer": "Liù",
+      "akt": "1. Akt",
+      "was": "Liù fleht Calaf an, nicht zu werben."
+    },
+    {
+      "titel": "Non piangere, Liù",
+      "wer": "Calaf",
+      "akt": "1. Akt",
+      "was": "Calaf tröstet Liù."
+    },
+    {
+      "titel": "In questa reggia",
+      "wer": "Turandot",
+      "akt": "2. Akt",
+      "was": "Turandot erzählt von ihrer Ahnin."
+    },
+    {
+      "titel": "Nessun dorma",
+      "wer": "Calaf",
+      "akt": "3. Akt",
+      "was": "„Keiner schlafe“ – die vielleicht berühmteste Tenorarie überhaupt."
+    },
+    {
+      "titel": "Tu che di gel sei cinta",
+      "wer": "Liù",
+      "akt": "3. Akt",
+      "was": "Liùs letzte Worte vor ihrem Tod."
+    }
+  ],
+  "wissen": [
+    "Puccini starb im November 1924 über der Arbeit am letzten Duett. Franco Alfano vollendete die Oper nach seinen Skizzen.",
+    "Bei der Uraufführung legte Toscanini nach Liùs Tod den Taktstock nieder: hier endete Puccinis Werk.",
+    "Vorlage ist ein Märchenspiel von Carlo Gozzi."
+  ]
+}

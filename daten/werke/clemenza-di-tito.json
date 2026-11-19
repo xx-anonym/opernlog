@@ -1,0 +1,50 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Rom, im 1. Jahrhundert. Vitellia will Kaiser Titus stürzen, weil er sie nicht zur Frau genommen hat, und stiftet seinen besten Freund Sextus zum Mord an. Doch Titus ist ein Herrscher, der lieber verzeiht als straft.",
+  "urauffuehrung": {
+    "datum": "1791-09-06",
+    "ort": "Ständetheater, Prag"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Rom",
+      "text": "Sextus liebt Vitellia so sehr, dass er ihr verspricht, Titus zu töten. Titus wählt erst Sextus’ Schwester Servilia zur Frau, verzichtet aber, als er hört, dass sie Annius liebt – und wählt nun Vitellia. Zu spät: Sextus hat das Kapitol bereits in Brand gesteckt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Rom",
+      "text": "Titus hat überlebt: im Rauch und Durcheinander hat Sextus einen anderen Mann für den Kaiser gehalten und angegriffen. Sextus wird als Verräter überführt und zum Tod verurteilt, schweigt aber über Vitellia. Sie gesteht schließlich selbst. Titus verzeiht allen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Deh, se piacer mi vuoi",
+      "wer": "Vitellia",
+      "akt": "1. Akt",
+      "was": "Vitellia lockt Sextus."
+    },
+    {
+      "titel": "Parto, parto, ma tu ben mio",
+      "wer": "Sextus",
+      "akt": "1. Akt",
+      "was": "Sextus’ Aufbruch, mit solistischer Klarinette."
+    },
+    {
+      "titel": "Deh, per questo istante solo",
+      "wer": "Sextus",
+      "akt": "2. Akt",
+      "was": "Sextus bittet Titus um ein letztes Gedenken."
+    },
+    {
+      "titel": "Non più di fiori",
+      "wer": "Vitellia",
+      "akt": "2. Akt",
+      "was": "Vitellias Abkehr von ihren Träumen, mit Bassetthorn."
+    }
+  ],
+  "wissen": [
+    "Mozart schrieb die Oper für die Krönung Leopolds II. zum König von Böhmen, in wenigen Wochen, während er an der „Zauberflöte“ arbeitete.",
+    "Sextus war für einen Kastraten geschrieben; heute singt ihn ein Mezzosopran."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Spanien im 15. Jahrhundert. Der Troubadour Manrico und der Graf Luna lieben dieselbe Frau, Leonora – und ahnen nicht, was sie wirklich verbindet. Im Hintergrund lodert der Scheiterhaufen, auf dem einst Azucenas Mutter verbrannt wurde.",
+  "urauffuehrung": {
+    "datum": "1853-01-19",
+    "ort": "Teatro Apollo, Rom"
+  },
+  "akte": [
+    {
+      "titel": "1. Teil",
+      "ort": "Palast von Aliaferia",
+      "text": "Ferrando erzählt, wie einst eine Zigeunerin als Hexe verbrannt wurde und ihre Tochter aus Rache den kleinen Bruder des Grafen raubte. Leonora liebt den unbekannten Troubadour Manrico; Graf Luna, der sie ebenfalls liebt, fordert ihn zum Duell."
+    },
+    {
+      "titel": "2. Teil",
+      "ort": "Lager der Zigeuner, Kloster",
+      "text": "Azucena erzählt Manrico vom Tod ihrer Mutter – und dass sie damals in ihrer Verzweiflung ihr eigenes Kind ins Feuer warf. Leonora hält Manrico für tot und will ins Kloster gehen; Manrico entreißt sie dem Grafen."
+    },
+    {
+      "titel": "3. Teil",
+      "ort": "Feldlager des Grafen, Burg",
+      "text": "Der Graf nimmt Azucena gefangen und erkennt in ihr die Zigeunerin von damals. Manrico will Leonora heiraten, eilt aber los, um seine Mutter zu retten."
+    },
+    {
+      "titel": "4. Teil",
+      "ort": "Vor dem Turm, im Kerker",
+      "text": "Manrico ist gefangen. Leonora verspricht sich dem Grafen, um ihn zu retten, und nimmt heimlich Gift. Sie stirbt in Manricos Armen. Der Graf lässt Manrico hinrichten – da enthüllt Azucena: es war sein Bruder."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vedi! le fosche notturne spoglie",
+      "wer": "Chor der Zigeuner",
+      "akt": "2. Teil",
+      "was": "Der Ambosschor."
+    },
+    {
+      "titel": "Stride la vampa",
+      "wer": "Azucena",
+      "akt": "2. Teil",
+      "was": "Azucena sieht den Scheiterhaufen ihrer Mutter vor sich."
+    },
+    {
+      "titel": "Il balen del suo sorriso",
+      "wer": "Graf Luna",
+      "akt": "2. Teil",
+      "was": "Der Graf schwärmt von Leonoras Lächeln."
+    },
+    {
+      "titel": "Di quella pira",
+      "wer": "Manrico",
+      "akt": "3. Teil",
+      "was": "Manricos Stretta, die in vielen Aufführungen mit dem berühmten hohen C endet – in Verdis Partitur steht es nicht."
+    },
+    {
+      "titel": "Miserere",
+      "zitat": false,
+      "wer": "Leonora, Manrico und Chor",
+      "akt": "4. Teil",
+      "was": "Leonora vor dem Turm, aus dem Manrico singt."
+    }
+  ],
+  "wissen": [
+    "Vorlage ist das spanische Drama „El trovador“ von Antonio García Gutiérrez.",
+    "Der Textdichter Salvadore Cammarano starb vor der Vollendung; Leone Emanuele Bardare schrieb das Libretto zu Ende."
+  ]
+}

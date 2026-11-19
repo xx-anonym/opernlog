@@ -1,0 +1,61 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Rom. Der reiche alte Junggeselle Don Pasquale will seinen Neffen Ernesto enterben und selbst heiraten. Sein Freund Dr. Malatesta besorgt ihm eine scheue Braut – die sich gleich nach der Trauung in einen Hausdrachen verwandelt.",
+  "urauffuehrung": {
+    "datum": "1843-01-03",
+    "ort": "Théâtre-Italien, Paris"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Don Pasquales Haus, Norinas Zimmer",
+      "text": "Pasquale ist wütend, weil Ernesto die arme Witwe Norina heiraten will, und beschließt, selbst zu heiraten. Malatesta bietet ihm seine „Schwester Sofronia“ an, frisch aus dem Kloster. In Wahrheit ist es Norina, mit der Malatesta die Komödie einfädelt."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Salon in Don Pasquales Haus",
+      "text": "„Sofronia“ ist schüchtern und sittsam, Pasquale ist entzückt. Kaum ist der Ehevertrag vor einem falschen Notar unterschrieben, wird sie zur herrischen Verschwenderin. Ernesto, zunächst verzweifelt, wird eingeweiht."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Salon, Garten",
+      "text": "Sofronia ruiniert Pasquale und gibt ihm eine Ohrfeige. Ein Brief über ein nächtliches Stelldichein im Garten bringt ihn auf. Beim Lauschen im Garten fällt das Spiel auf: Pasquale ist so erleichtert, die Ehe los zu sein, dass er Ernesto und Norina gern seinen Segen gibt."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Bella siccome un angelo",
+      "wer": "Malatesta",
+      "akt": "1. Akt",
+      "was": "Malatesta preist seine „Schwester“."
+    },
+    {
+      "titel": "So anch’io la virtù magica",
+      "wer": "Norina",
+      "akt": "1. Akt",
+      "was": "Norina kennt die Kunst, Männer um den Finger zu wickeln."
+    },
+    {
+      "titel": "Cheti, cheti, immantinente",
+      "wer": "Don Pasquale und Malatesta",
+      "akt": "3. Akt",
+      "was": "Das Duett im rasenden Plapperton."
+    },
+    {
+      "titel": "Com’è gentil",
+      "wer": "Ernesto",
+      "akt": "3. Akt",
+      "was": "Ernestos Ständchen im nächtlichen Garten."
+    },
+    {
+      "titel": "Tornami a dir che m’ami",
+      "wer": "Norina und Ernesto",
+      "akt": "3. Akt",
+      "was": "Das Liebesduett im Garten."
+    }
+  ],
+  "wissen": [
+    "Don Pasquale gilt als eine der letzten großen Opere buffe.",
+    "Der Textdichter Giovanni Ruffini war mit den Änderungen so unzufrieden, dass er seinen Namen nicht nennen ließ."
+  ]
+}

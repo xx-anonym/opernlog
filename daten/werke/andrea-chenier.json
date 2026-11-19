@@ -1,0 +1,66 @@
+{
+  "dauer": "ca. 2 Std.",
+  "anriss": "Frankreich zur Zeit der Revolution. Der Dichter Andrea Chénier liebt die Adelstochter Maddalena; der Diener Gérard, nun ein Revolutionsführer, liebt sie auch. Nach dem Leben des historischen Dichters André Chénier.",
+  "urauffuehrung": {
+    "datum": "1896-03-28",
+    "ort": "Teatro alla Scala, Mailand"
+  },
+  "akte": [
+    {
+      "titel": "1. Bild",
+      "ort": "Schloss der Gräfin Coigny, 1789",
+      "text": "Auf einem Fest trägt Chénier ein Gedicht vor, das die Not der Armen anprangert, und beeindruckt Maddalena. Der Diener Gérard wirft seine Livree ab und schließt sich der Revolution an."
+    },
+    {
+      "titel": "2. Bild",
+      "ort": "Paris, 1794",
+      "text": "In der Schreckensherrschaft wird Chénier verdächtigt. Maddalena, inzwischen verarmt, bittet ihn um Schutz; die beiden gestehen ihre Liebe. Gérard will Maddalena für sich, Chénier verwundet ihn im Kampf – Gérard verrät ihn nicht."
+    },
+    {
+      "titel": "3. Bild",
+      "ort": "Revolutionstribunal",
+      "text": "Chénier wurde verhaftet, Gérard schreibt die Anklage. Maddalena bietet sich ihm für Chéniers Leben an. Gérard ist erschüttert und tritt für Chénier ein, doch das Tribunal verurteilt ihn zum Tod."
+    },
+    {
+      "titel": "4. Bild",
+      "ort": "Gefängnis Saint-Lazare",
+      "text": "In der Nacht vor der Hinrichtung schreibt Chénier sein letztes Gedicht. Maddalena nimmt die Stelle einer verurteilten Frau ein, um mit ihm zu sterben. Gemeinsam gehen sie zur Guillotine."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Un dì all’azzurro spazio",
+      "wer": "Chénier",
+      "akt": "1. Bild",
+      "was": "Chéniers Improvisation über Liebe und Not."
+    },
+    {
+      "titel": "Nemico della patria",
+      "wer": "Gérard",
+      "akt": "3. Bild",
+      "was": "Gérard zweifelt an seiner Anklage."
+    },
+    {
+      "titel": "La mamma morta",
+      "wer": "Maddalena",
+      "akt": "3. Bild",
+      "was": "Maddalena erzählt, wie ihre Mutter starb und die Liebe sie rettete."
+    },
+    {
+      "titel": "Come un bel dì di maggio",
+      "wer": "Chénier",
+      "akt": "4. Bild",
+      "was": "Chéniers Abschied vom Leben."
+    },
+    {
+      "titel": "Vicino a te s’acqueta",
+      "wer": "Maddalena und Chénier",
+      "akt": "4. Bild",
+      "was": "Das Schlussduett vor dem Tod."
+    }
+  ],
+  "wissen": [
+    "Der Dichter André Chénier wurde im Juli 1794 guillotiniert – zwei Tage vor dem Sturz Robespierres.",
+    "Das Werk ist nicht in Akte, sondern in vier „Bilder“ gegliedert."
+  ]
+}

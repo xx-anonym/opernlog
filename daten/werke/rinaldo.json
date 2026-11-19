@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 3 Std.",
+  "anriss": "Jerusalem zur Zeit des ersten Kreuzzugs. Dem Ritter Rinaldo ist Almirena versprochen, sobald die Stadt erobert ist. Doch die Zauberin Armida entführt sie in ihren Zaubergarten – und verliebt sich selbst in Rinaldo.",
+  "urauffuehrung": {
+    "datum": "1711-02-24",
+    "ort": "Queen’s Theatre am Haymarket, London"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Vor Jerusalem, ein Garten",
+      "text": "Feldherr Goffredo verspricht Rinaldo seine Tochter Almirena. Der Sarazenenkönig Argante und seine Verbündete, die Zauberin Armida, wollen das verhindern. Armida entführt Almirena vor Rinaldos Augen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Meeresufer, Armidas Zaubergarten",
+      "text": "Rinaldo wird auf eine Zauberinsel gelockt. Almirena beklagt ihr Schicksal. Armida verliebt sich in Rinaldo und nimmt die Gestalt Almirenas an, doch er durchschaut sie. Argante begehrt Almirena."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Berg mit Armidas Palast, vor Jerusalem",
+      "text": "Mit Hilfe eines christlichen Zauberers erstürmen Goffredo und Rinaldo den Zauberpalast und befreien Almirena. Jerusalem wird erobert, Armida und Argante bekehren sich."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Cara sposa",
+      "wer": "Rinaldo",
+      "akt": "1. Akt",
+      "was": "Rinaldos Klage um die entführte Almirena."
+    },
+    {
+      "titel": "Venti, turbini",
+      "wer": "Rinaldo",
+      "akt": "1. Akt",
+      "was": "Rinaldo ruft Winde und Stürme zu Hilfe."
+    },
+    {
+      "titel": "Lascia ch’io pianga",
+      "wer": "Almirena",
+      "akt": "2. Akt",
+      "was": "„Lass mich weinen“ – eine der bekanntesten Arien Händels."
+    },
+    {
+      "titel": "Vo’ far guerra",
+      "wer": "Armida",
+      "akt": "2. Akt",
+      "was": "Armidas Kampfansage mit glänzendem Cembalosolo."
+    }
+  ],
+  "wissen": [
+    "Rinaldo war Händels erste Oper für London und die erste italienische Oper, die eigens für die Londoner Bühne geschrieben wurde.",
+    "Bei der Uraufführung ließ man im Zaubergarten lebende Vögel fliegen.",
+    "Den Rinaldo sang der Kastrat Nicolini; heute singt ihn ein Mezzosopran oder Countertenor."
+  ]
+}

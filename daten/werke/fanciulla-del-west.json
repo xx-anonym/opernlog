@@ -1,0 +1,56 @@
+{
+  "dauer": "ca. 2¼ Std.",
+  "anriss": "Kalifornien zur Zeit des Goldrauschs. Minnie führt einen Saloon in den Bergen, die Goldgräber verehren sie. Sie verliebt sich in einen Fremden – der in Wahrheit der gesuchte Bandit Ramerrez ist.",
+  "urauffuehrung": {
+    "datum": "1910-12-10",
+    "ort": "Metropolitan Opera, New York"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Saloon „Polka“",
+      "text": "Die Goldgräber spielen, trinken und haben Heimweh. Sheriff Jack Rance wirbt vergeblich um Minnie. Ein Fremder, der sich Dick Johnson nennt, tanzt mit ihr; sie verabredet sich mit ihm. Niemand ahnt, dass er der Bandit Ramerrez ist."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Minnies Hütte",
+      "text": "Johnson besucht Minnie; sie erfährt, wer er ist, und schickt ihn fort. Draußen wird er angeschossen, Minnie versteckt ihn auf dem Dachboden. Rance findet ihn, weil Blut herabtropft. Minnie spielt mit Rance Poker um Johnsons Leben – und gewinnt mit gezinkten Karten."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Im Wald, im Morgengrauen",
+      "text": "Johnson wird gefasst und soll gehängt werden. Er bittet nur darum, dass Minnie glaubt, er sei frei und weit fort. Im letzten Moment kommt Minnie und erinnert die Goldgräber an alles, was sie für sie getan hat. Sie lassen die beiden ziehen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Che faranno i vecchi miei",
+      "wer": "Jake Wallace und Chor",
+      "akt": "1. Akt",
+      "was": "Das Heimwehlied des Bänkelsängers."
+    },
+    {
+      "titel": "Laggiù nel Soledad",
+      "wer": "Minnie",
+      "akt": "1. Akt",
+      "was": "Minnie erzählt von der Liebe ihrer Eltern."
+    },
+    {
+      "titel": "Pokerszene",
+      "zitat": false,
+      "wer": "Minnie und Rance",
+      "akt": "2. Akt",
+      "was": "Das Kartenspiel um Johnsons Leben."
+    },
+    {
+      "titel": "Ch’ella mi creda libero e lontano",
+      "wer": "Dick Johnson",
+      "akt": "3. Akt",
+      "was": "Johnsons Abschied unter dem Galgen."
+    }
+  ],
+  "wissen": [
+    "Bei der Uraufführung sang Enrico Caruso den Dick Johnson, Arturo Toscanini dirigierte.",
+    "Vorlage ist das Theaterstück „The Girl of the Golden West“ von David Belasco, von dem auch „Madama Butterfly“ stammt."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "dauer": "ca. 4¼ Std.",
+  "anriss": "Die Ritter des Grals leiden: ihr König Amfortas trägt eine Wunde, die sich nicht schließt. Erlösen kann ihn nur ein „reiner Tor“, der durch Mitleid wissend wird. Da taucht der junge Parsifal auf, der nicht einmal seinen Namen kennt.",
+  "urauffuehrung": {
+    "datum": "1882-07-26",
+    "ort": "Festspielhaus, Bayreuth"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Gebiet der Gralsburg Montsalvat",
+      "text": "Gurnemanz erzählt, wie Amfortas vom Zauberer Klingsor mit dem heiligen Speer verwundet wurde, als ihn die rätselhafte Kundry verführt hatte. Ein junger Mann erschießt einen Schwan; Gurnemanz nimmt ihn mit zur Gralsfeier. Der Fremde versteht nichts und wird hinausgeworfen."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Klingsors Zauberschloss und Zaubergarten",
+      "text": "Klingsor schickt Blumenmädchen und Kundry, um Parsifal zu verführen. Kundrys Kuss lässt ihn Amfortas’ Leid begreifen; er widersteht. Klingsor schleudert den Speer nach ihm, der Speer bleibt über ihm stehen. Parsifal schlägt das Kreuz, und das Zauberreich zerfällt."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Gebiet des Grals, Karfreitag",
+      "text": "Nach langer Irrfahrt kehrt Parsifal mit dem Speer zurück. Gurnemanz salbt ihn zum König. In der Gralsburg heilt Parsifal Amfortas’ Wunde mit dem Speer und enthüllt den Gral. Kundry sinkt erlöst zu Boden."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vorspiel",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Das weihevolle Vorspiel."
+    },
+    {
+      "titel": "Verwandlungsmusik",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "1. Akt",
+      "was": "Der Weg zur Gralsburg: „Zum Raum wird hier die Zeit“."
+    },
+    {
+      "titel": "Komm, holder Knabe",
+      "wer": "Blumenmädchen",
+      "akt": "2. Akt",
+      "was": "Die Verführung im Zaubergarten."
+    },
+    {
+      "titel": "Ich sah das Kind an seiner Mutter Brust",
+      "wer": "Kundry",
+      "akt": "2. Akt",
+      "was": "Kundry erzählt von Parsifals Mutter."
+    },
+    {
+      "titel": "Karfreitagszauber",
+      "zitat": false,
+      "wer": "Gurnemanz und Orchester",
+      "akt": "3. Akt",
+      "was": "Die Natur blüht am Karfreitag auf."
+    }
+  ],
+  "wissen": [
+    "Parsifal ist Wagners letztes Werk; er nannte es ein „Bühnenweihfestspiel“.",
+    "Wagner wollte Parsifal nur in Bayreuth sehen. Die Metropolitan Opera spielte das Werk schon 1903; in Europa war es frei, als der Schutz Ende 1913 auslief."
+  ]
+}

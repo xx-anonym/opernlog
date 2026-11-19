@@ -1,0 +1,73 @@
+{
+  "dauer": "ca. 2¾ Std.",
+  "anriss": "Spanien und Italien im 18. Jahrhundert. Ein Pistolenschuss, der sich zufällig löst, tötet Leonoras Vater. Von da an verfolgt ihr Bruder Carlo den Geliebten Alvaro über Jahre und Länder hinweg – die Macht des Schicksals lässt keinen los.",
+  "urauffuehrung": {
+    "datum": "1862-11-10",
+    "ort": "Bolschoi-Kamenny-Theater, Sankt Petersburg"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Sevilla, im Haus des Marchese von Calatrava",
+      "text": "Leonora will mit Don Alvaro fliehen, der von den Inka abstammt. Ihr Vater überrascht sie. Alvaro wirft seine Pistole fort, ein Schuss löst sich und tötet den Marchese, der sterbend seine Tochter verflucht."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Wirtshaus in Hornachuelos, Kloster",
+      "text": "Leonoras Bruder Carlo sucht als Student verkleidet nach den beiden. Leonora flieht ins Kloster und lebt fortan als Einsiedlerin in einer Höhle, beschützt vom Pater Guardiano."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Italien, Kriegslager bei Velletri",
+      "text": "Alvaro und Carlo dienen unter falschen Namen im selben Heer und werden Freunde. Als Alvaro verwundet wird, entdeckt Carlo, wer er ist, und fordert ihn zum Duell. Alvaro will Mönch werden."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "Kloster, vor Leonoras Höhle",
+      "text": "Carlo spürt Alvaro im Kloster auf und zwingt ihn zum Kampf. Tödlich verwundet, ersticht Carlo die herbeieilende Leonora. In der heute üblichen Fassung stirbt sie in Alvaros Armen, und der Pater Guardiano bringt Alvaro dazu, weiterzuleben."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Ouvertüre",
+      "zitat": false,
+      "wer": "Orchester",
+      "akt": "vor dem 1. Akt",
+      "was": "Die Ouvertüre mit dem Schicksalsmotiv."
+    },
+    {
+      "titel": "Madre, pietosa Vergine",
+      "wer": "Leonora",
+      "akt": "2. Akt",
+      "was": "Leonora fleht um Zuflucht."
+    },
+    {
+      "titel": "La Vergine degli angeli",
+      "wer": "Leonora und Chor",
+      "akt": "2. Akt",
+      "was": "Die Mönche nehmen Leonora auf."
+    },
+    {
+      "titel": "O tu che in seno agli angeli",
+      "wer": "Alvaro",
+      "akt": "3. Akt",
+      "was": "Alvaro denkt an die verloren geglaubte Leonora."
+    },
+    {
+      "titel": "Solenne in quest’ora",
+      "wer": "Alvaro und Carlo",
+      "akt": "3. Akt",
+      "was": "Das Freundschaftsduett."
+    },
+    {
+      "titel": "Pace, pace, mio Dio!",
+      "wer": "Leonora",
+      "akt": "4. Akt",
+      "was": "Leonoras Gebet um Frieden."
+    }
+  ],
+  "wissen": [
+    "Für Mailand überarbeitete Verdi die Oper 1869, mit neuer Ouvertüre und neuem Schluss; diese Fassung wird heute meist gespielt.",
+    "Vorlage ist das spanische Drama „Don Álvaro o la fuerza del sino“ des Duque de Rivas."
+  ]
+}

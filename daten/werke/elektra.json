@@ -1,0 +1,46 @@
+{
+  "dauer": "ca. 1¾ Std.",
+  "anriss": "Mykene, nach dem Mord an König Agamemnon. Seine Tochter Elektra lebt wie ein Tier im Hof des Palastes und wartet nur auf eines: dass ihr Bruder Orest zurückkehrt und den Vater an der Mutter rächt.",
+  "urauffuehrung": {
+    "datum": "1909-01-25",
+    "ort": "Königliches Opernhaus, Dresden"
+  },
+  "akte": [
+    {
+      "titel": "Ein Akt",
+      "ort": "Innenhof des Palastes in Mykene",
+      "text": "Elektra beschwört die Erinnerung an den ermordeten Vater. Ihre Schwester Chrysothemis sehnt sich nach einem normalen Leben. Klytämnestra, von Albträumen gequält, sucht bei Elektra Rat – und hört nur Hass. Die Nachricht kommt, Orest sei tot. Da steht ein Fremder im Hof: es ist Orest. Er tötet Klytämnestra und ihren Geliebten Aegisth. Elektra tanzt einen rauschhaften Triumphtanz und bricht tot zusammen."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Allein! Weh, ganz allein",
+      "wer": "Elektra",
+      "akt": "Beginn",
+      "was": "Elektras Monolog über den ermordeten Vater."
+    },
+    {
+      "titel": "Ich habe keine guten Nächte",
+      "wer": "Klytämnestra",
+      "akt": "Mitte",
+      "was": "Klytämnestra erzählt von ihren Albträumen."
+    },
+    {
+      "titel": "Orest! Orest!",
+      "wer": "Elektra",
+      "akt": "gegen Ende",
+      "was": "Die Erkennungsszene der Geschwister."
+    },
+    {
+      "titel": "Elektras Tanz",
+      "zitat": false,
+      "wer": "Elektra und Orchester",
+      "akt": "Schluss",
+      "was": "Der Triumphtanz, der in den Tod führt."
+    }
+  ],
+  "wissen": [
+    "Elektra ist die erste gemeinsame Oper von Richard Strauss und Hugo von Hofmannsthal; der Text folgt Hofmannsthals Tragödie nach Sophokles.",
+    "Das Orchester ist riesig besetzt, mit über hundert Musikern."
+  ]
+}

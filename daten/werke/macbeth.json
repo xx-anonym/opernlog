@@ -1,0 +1,66 @@
+{
+  "dauer": "ca. 2½ Std.",
+  "anriss": "Schottland im 11. Jahrhundert. Hexen prophezeien dem Feldherrn Macbeth die Krone. Angestachelt von seiner ehrgeizigen Frau mordet er sich auf den Thron – und kann nicht mehr aufhören.",
+  "urauffuehrung": {
+    "datum": "1847-03-14",
+    "ort": "Teatro della Pergola, Florenz"
+  },
+  "akte": [
+    {
+      "titel": "1. Akt",
+      "ort": "Heide, Macbeths Schloss",
+      "text": "Hexen sagen Macbeth voraus, er werde König, und Banquo, er werde Vater von Königen. Lady Macbeth liest den Brief ihres Mannes und drängt ihn, König Duncan zu ermorden, der bei ihnen übernachtet. Macbeth tut es."
+    },
+    {
+      "titel": "2. Akt",
+      "ort": "Schloss, Park",
+      "text": "Macbeth ist König. Aus Angst vor der Prophezeiung lässt er Banquo ermorden; dessen Sohn Fleance entkommt. Beim Festmahl erscheint Macbeth Banquos Geist."
+    },
+    {
+      "titel": "3. Akt",
+      "ort": "Höhle der Hexen",
+      "text": "Die Hexen warnen Macbeth vor Macduff, versichern ihm aber: kein von einer Frau Geborener kann ihm schaden, und er ist sicher, bis der Wald von Birnam heranrückt."
+    },
+    {
+      "titel": "4. Akt",
+      "ort": "An der Grenze zu England, Schloss",
+      "text": "Schottische Flüchtlinge beklagen ihr unterdrücktes Land; Macduff trauert um seine ermordete Familie. Lady Macbeth wandelt im Schlaf und versucht, Blut von ihren Händen zu waschen; sie stirbt. Der Wald scheint heranzurücken, Macduff tötet Macbeth."
+    }
+  ],
+  "stellen": [
+    {
+      "titel": "Vieni! t’affretta!",
+      "wer": "Lady Macbeth",
+      "akt": "1. Akt",
+      "was": "Die Lady fordert ihren Mann zur Tat auf."
+    },
+    {
+      "titel": "La luce langue",
+      "wer": "Lady Macbeth",
+      "akt": "2. Akt",
+      "was": "Die Lady begrüßt die Nacht der Morde."
+    },
+    {
+      "titel": "Patria oppressa",
+      "wer": "Chor der Flüchtlinge",
+      "akt": "4. Akt",
+      "was": "Klage um das unterdrückte Vaterland."
+    },
+    {
+      "titel": "Ah, la paterna mano",
+      "wer": "Macduff",
+      "akt": "4. Akt",
+      "was": "Macduff trauert um seine Kinder."
+    },
+    {
+      "titel": "Una macchia è qui tuttora",
+      "wer": "Lady Macbeth",
+      "akt": "4. Akt",
+      "was": "Die Nachtwandelszene."
+    }
+  ],
+  "wissen": [
+    "Macbeth ist Verdis erste Shakespeare-Oper. Gespielt wird meist die überarbeitete Fassung von 1865 für Paris.",
+    "Für die Lady wünschte sich Verdi keine schöne, sondern eine raue, dunkle Stimme."
+  ]
+}
