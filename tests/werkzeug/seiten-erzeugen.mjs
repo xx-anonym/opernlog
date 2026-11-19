@@ -92,7 +92,23 @@ function bildTeil(url, alt) {
 
 // ── Gerüst ────────────────────────────────────────────────────────────────
 
-function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app }) {
+// Die Brotkrumen im Treffer: "OpernLog › Opern › Tosca" statt der Adresse.
+const BEREICH = { werk: 'Opern', haus: 'Häuser', komponist: 'Komponisten' };
+function brotkrumen(art, name = null, url = null) {
+    const stufen = [
+        { name: 'OpernLog', url: `${SEITE}/` },
+        { name: BEREICH[art], url: `${SEITE}/${ORDNER[art]}/` },
+        ...(name ? [{ name, url }] : []),
+    ];
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: stufen.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, item: s.url })),
+    };
+}
+
+function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app, krumen = null }) {
+    if (krumen) daten = [krumen, ...daten];
     const ld = daten.length
         ? `\n  <script type="application/ld+json">${JSON.stringify(daten.length === 1 ? daten[0] : daten).replace(/</g, '\\u003c')}</script>`
         : '';
@@ -319,6 +335,7 @@ export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
         url: adresse('werk', werk.id),
         bild: werk.image,
         app: appAdresse.werk(werk.id),
+        krumen: brotkrumen('werk', werk.title, adresse('werk', werk.id)),
         daten: meine.slice(0, 50).map(t => ereignis(t, werk, haeuser.get(t.haus))),
         inhalt: teile ? `
     <article>
@@ -382,6 +399,7 @@ ${meine.map(t => terminZeile(t, { werk: werke.get(t.werk), haus }, 'werk')).join
         url: adresse('haus', haus.id),
         bild: haus.imageUrl,
         app: appAdresse.haus(haus.id),
+        krumen: brotkrumen('haus', haus.name, adresse('haus', haus.id)),
         daten: [{
             '@context': 'https://schema.org',
             '@type': 'PerformingArtsTheater',
@@ -410,6 +428,7 @@ export function komponistSeite(k, { werkeVon, termine }) {
         url: adresse('komponist', k.id),
         bild: k.bild,
         app: appAdresse.komponist(k.id),
+        krumen: brotkrumen('komponist', k.name, adresse('komponist', k.id)),
         daten: [{ '@context': 'https://schema.org', '@type': 'Person', name: k.name, url: adresse('komponist', k.id), ...(k.bild ? { image: k.bild } : {}) }],
         inhalt: `
     <article>
@@ -431,6 +450,7 @@ function uebersicht({ titel, h1, text, art, eintraege, beschreibung }) {
         titel, beschreibung,
         url: `${SEITE}/${ORDNER[art]}/`,
         app: '/',
+        krumen: brotkrumen(art),
         inhalt: `
     <article>
       <h1>${maske(h1)}</h1>

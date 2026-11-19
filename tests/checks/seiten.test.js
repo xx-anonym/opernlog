@@ -137,3 +137,22 @@ test('jeder Termin nennt das Haus als Ensemble (performer), aber keine erfundene
         assert.equal(e.offers.price, undefined);
     }
 });
+
+test('Brotkrumen: OpernLog › Bereich › Seite, mit gültigen Adressen', () => {
+    const krumen = (datei) => [...lies(datei).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .map(m => JSON.parse(m[1])).flat().find(d => d['@type'] === 'BreadcrumbList');
+    const tosca = krumen('oper/tosca/index.html');
+    assert.deepEqual(tosca.itemListElement.map(e => [e.position, e.name, e.item]), [
+        [1, 'OpernLog', 'https://opernlog.de/'],
+        [2, 'Opern', 'https://opernlog.de/oper/'],
+        [3, 'Tosca', 'https://opernlog.de/oper/tosca/'],
+    ]);
+    assert.equal(krumen('haus/semperoper/index.html').itemListElement[1].name, 'Häuser');
+    assert.equal(krumen('komponist/giacomo-puccini/index.html').itemListElement[1].name, 'Komponisten');
+    assert.equal(krumen('oper/index.html').itemListElement.length, 2);
+    // Jede Seite hat genau eine Krumenliste.
+    for (const datei of ALLE) {
+        const n = [...lies(datei).matchAll(/"@type":"BreadcrumbList"/g)].length;
+        assert.equal(n, 1, datei);
+    }
+});

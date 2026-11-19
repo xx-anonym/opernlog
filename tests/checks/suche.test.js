@@ -92,3 +92,11 @@ test('für das Symbol bei Google gibt es ein Favicon in einem Vielfachen von 48 
     // Auch die Seiten für Suchmaschinen nennen es.
     assert.match(lies('oper/tosca/index.html'), /<link rel="icon" href="\/icons\/icon-any-192\.png" sizes="192x192"/);
 });
+
+test('der Websitename für den Treffer: OpernLog', () => {
+    const alle = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+    const seite = alle.find(d => d['@type'] === 'WebSite');
+    assert.ok(seite, 'WebSite fehlt');
+    assert.equal(seite.name, 'OpernLog');
+    assert.equal(seite.url, 'https://opernlog.de/');
+});
