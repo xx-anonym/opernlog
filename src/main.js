@@ -2,25 +2,6 @@
 import { Navigation } from './components/Navigation.js';
 import { icon } from './components/Icon.js';
 import { HomePage } from './pages/Home.js';
-import { HousesPage } from './pages/Houses.js';
-import { HouseDetailPage } from './pages/HouseDetail.js';
-import { OperasPage } from './pages/Operas.js';
-import { OperaDetailPage } from './pages/OperaDetail.js';
-import { ComposerDetailPage } from './pages/ComposerDetail.js';
-import { PersonDetailPage } from './pages/PersonDetail.js';
-import { DatenschutzPage } from './pages/Datenschutz.js';
-import { BildnachweisePage } from './pages/Bildnachweise.js';
-import { LogVisitPage } from './pages/LogVisit.js';
-import { DiaryPage } from './pages/Diary.js';
-import { VisitDetailPage } from './pages/VisitDetail.js';
-import { ProfilePage } from './pages/Profile.js';
-import { ListsPage } from './pages/Lists.js';
-import { ListDetailPage } from './pages/ListDetail.js';
-import { WishlistPage } from './pages/Wishlist.js';
-import { SeasonReviewPage } from './pages/SeasonReview.js';
-import { SammlungenPage } from './pages/Sammlungen.js';
-import { NaehePage } from './pages/Naehe.js';
-import { CommunityPage } from './pages/Community.js';
 import { AuthPage } from './pages/Auth.js';
 import { ProfileSetupPage } from './pages/ProfileSetup.js';
 import { mitteilungenFrage } from './components/MitteilungenFrage.js';
@@ -34,7 +15,6 @@ import { zurueckGesteEinrichten } from './zurueckGeste.js';
 import { haptikEinrichten } from './haptik.js';
 import { zurueckEinrichten } from './components/ZurueckLink.js';
 import { ziehenZumAktualisieren } from './ziehenZumAktualisieren.js';
-import { InvitePage } from './pages/Invite.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
@@ -46,6 +26,29 @@ import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 import { umzugSchritt, umzugZiel, umzugEinloesen, istAlteAdresse, UMZUG_MITTEILUNGEN } from './umzug.js';
 import { umzugHinweisFenster } from './components/UmzugHinweis.js';
 import { istInstalliert } from './installHinweis.js';
+
+// Seiten, die erst beim Aufruf geladen werden (20.11.2026). Statisch geladen
+// zog der Start 112 Module mit 1,4 MB nach sich, und Googles Abruf brach dabei
+// regelmäßig ab ("Skript ließ sich nicht laden" im Fehlerprotokoll, nur von
+// Googlebot und Googles Vorschau): Google sah die App nie gestartet. Statisch
+// bleiben nur die Startseite, die Anmeldung und das Profil-Einrichten, die
+// gleich beim Start gebraucht werden. tests/checks/startModule.test.js wacht
+// darüber, dass das so bleibt.
+//
+// Je Pfad die Module, die route() braucht; geladen wird beim ersten Aufruf,
+// danach steht alles in SEITEN_GELADEN und route() läuft wie früher ohne Warten.
+// Ohne Netz kommen sie aus dem Service Worker (APP_SHELL in sw.js).
+const SEITEN_MODULE = {
+    houses: ['Houses'], house: ['HouseDetail'], operas: ['Operas'], opera: ['OperaDetail'],
+    composer: ['ComposerDetail'], person: ['PersonDetail'], datenschutz: ['Datenschutz'],
+    bildnachweise: ['Bildnachweise'], log: ['LogVisit'], diary: ['Diary'], visit: ['VisitDetail'],
+    profile: ['Profile'], lists: ['Lists'], list: ['ListDetail'], wishlist: ['ListDetail', 'Wishlist'],
+    community: ['Community'], naehe: ['Naehe'], sammlungen: ['Sammlungen'], season: ['SeasonReview'],
+    invite: ['Invite'],
+};
+const SEITEN_GELADEN = {};
+const seiteLaden = (name) => import(`./pages/${name}.js`).then(m => Object.assign(SEITEN_GELADEN, m));
+const seitenFehlen = (path) => (SEITEN_MODULE[path] || []).filter(n => !(`${n}Page` in SEITEN_GELADEN));
 
 /**
  * Steht irgendwo Text, den jemand selbst eingegeben hat? Verglichen wird mit
@@ -517,7 +520,12 @@ class App {
         return box;
     }
 
-    route() {
+    route(nachLaden = false) {
+        // Das Menü schließt beim Seitenwechsel – gleich zu Beginn, nicht erst,
+        // wenn die Seite steht: sonst klappte ein Menü, das man öffnet,
+        // während eine Seite noch lädt (SEITEN_MODULE), unter dem Finger zu.
+        if (!nachLaden) document.querySelector('.nav-links')?.classList.remove('nav-links--open');
+
         // e.g. #/log?edit=123
         const hash = window.location.hash || '#/';
         const withoutHash = hash.slice(2); // "log?edit=123"
@@ -526,6 +534,20 @@ class App {
         const [fullPath, queryString] = withoutHash.split('?');
         const [path, ...rest] = fullPath.split('/');
         const param = rest.join('/');
+
+        // Die Seite ist noch nicht geladen (SEITEN_MODULE): erst holen, dann
+        // noch einmal – solange niemand inzwischen woandershin gegangen ist.
+        // Bis dahin bleibt die alte Seite stehen, statt kurz leer zu werden.
+        const fehlen = seitenFehlen(path);
+        if (fehlen.length) {
+            Promise.all(fehlen.map(seiteLaden)).then(() => {
+                if ((window.location.hash || '#/') === hash) this.route(true);
+            }, (e) => {
+                console.error('[Seite laden]', path, e);
+                showError('Die Seite ließ sich nicht laden – bitte prüfe die Verbindung und lade neu.', { melden: false });
+            });
+            return;
+        }
 
         // Parse query params
         const params = {};
@@ -619,71 +641,71 @@ class App {
                 ziehenZumAktualisieren(page, () => this.refreshFromCloud({ erzwingen: true }));
                 break;
             case 'houses':
-                page = HousesPage();
+                page = SEITEN_GELADEN.HousesPage();
                 break;
             case 'house':
-                page = HouseDetailPage(param);
+                page = SEITEN_GELADEN.HouseDetailPage(param);
                 break;
             case 'operas':
-                page = OperasPage();
+                page = SEITEN_GELADEN.OperasPage();
                 break;
             case 'opera':
-                page = OperaDetailPage(param);
+                page = SEITEN_GELADEN.OperaDetailPage(param);
                 break;
             case 'composer':
-                page = ComposerDetailPage(param);
+                page = SEITEN_GELADEN.ComposerDetailPage(param);
                 break;
             case 'person':
-                page = PersonDetailPage(param);
+                page = SEITEN_GELADEN.PersonDetailPage(param);
                 break;
             case 'datenschutz':
-                page = DatenschutzPage();
+                page = SEITEN_GELADEN.DatenschutzPage();
                 break;
             case 'bildnachweise':
-                page = BildnachweisePage();
+                page = SEITEN_GELADEN.BildnachweisePage();
                 break;
             case 'log':
-                page = LogVisitPage(params);
+                page = SEITEN_GELADEN.LogVisitPage(params);
                 break;
             case 'diary':
-                page = DiaryPage();
+                page = SEITEN_GELADEN.DiaryPage();
                 break;
             case 'visit':
-                page = VisitDetailPage(param);
+                page = SEITEN_GELADEN.VisitDetailPage(param);
                 break;
             case 'profile':
-                page = ProfilePage(param || 'user-me');
+                page = SEITEN_GELADEN.ProfilePage(param || 'user-me');
                 break;
             case 'lists':
-                page = ListsPage();
+                page = SEITEN_GELADEN.ListsPage();
                 break;
             case 'list':
-                page = ListDetailPage(param);
+                page = SEITEN_GELADEN.ListDetailPage(param);
                 break;
             case 'wishlist': {
                 // Redirect to the wishlist's list detail page
                 const wl = store.getWishlist();
                 if (wl) {
-                    page = ListDetailPage(wl.id);
+                    page = SEITEN_GELADEN.ListDetailPage(wl.id);
                 } else {
-                    page = WishlistPage();
+                    page = SEITEN_GELADEN.WishlistPage();
                 }
                 break;
             }
             case 'community':
-                page = CommunityPage();
+                page = SEITEN_GELADEN.CommunityPage();
                 break;
             case 'naehe':
-                page = NaehePage();
+                page = SEITEN_GELADEN.NaehePage();
                 break;
             case 'sammlungen':
                 // #/sammlungen/ring springt zur Sammlung.
-                page = SammlungenPage(param);
+                page = SEITEN_GELADEN.SammlungenPage(param);
                 break;
             case 'season':
                 // #/season zeigt die zuletzt abgeschlossene Spielzeit,
                 // #/season/2025 eine bestimmte.
-                page = SeasonReviewPage(param);
+                page = SEITEN_GELADEN.SeasonReviewPage(param);
                 break;
             case 'auth':
                 page = AuthPage(() => {
@@ -697,7 +719,7 @@ class App {
                 });
                 break;
             case 'invite':
-                page = InvitePage(param || null);
+                page = SEITEN_GELADEN.InvitePage(param || null);
                 break;
             default:
                 page = HomePage();
@@ -708,10 +730,6 @@ class App {
         this.vielleichtWillkommenZeigen(path);
         this.vielleichtNachMitteilungenFragen(path);
         this.vielleichtNeuigkeitZeigen(path);
-
-        // Close mobile nav on route change
-        const navLinks = document.querySelector('.nav-links');
-        if (navLinks) navLinks.classList.remove('nav-links--open');
 
         this.stellePositionWiederher(zielPosition);
     }

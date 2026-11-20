@@ -81,8 +81,18 @@ test('Seite mit Text: Titel und Beschreibung wie gesucht wird (Handlung kurz, Ar
     assert.match(html, /<li>ca\. 2 Std\. ohne Pausen<\/li><li>3 Akte<\/li><li>Italienisch<\/li><li>Uraufführung 1900, Rom<\/li>/);
     assert.match(html, /<dt>Uraufführung<\/dt><dd>14\. Januar 1900, Teatro Costanzi, Rom<\/dd>/);
     assert.match(html, /<span class="stelle">„Vissi d’arte“<\/span>/);
-    // Reihenfolge: Anriss, Termine, Handlung.
-    assert.ok(html.indexOf('class="anriss"') < html.indexOf('data-termine') && html.indexOf('data-termine') < html.indexOf('Die Handlung'));
+    // Reihenfolge (seit 20.11.2026): Anriss, Handlung, Termine, Wissenswertes, häufige Fragen.
+    const stelle = (k) => html.indexOf(k);
+    assert.ok(stelle('class="anriss"') < stelle('Die Handlung') && stelle('Die Handlung') < stelle('data-termine')
+        && stelle('data-termine') < stelle('Gut zu wissen') && stelle('Gut zu wissen') < stelle('Häufige Fragen'));
+    // Die Fragen als FAQPage, mit Antworten aus dem Text.
+    const faq = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .flatMap(([, roh]) => [JSON.parse(roh)].flat()).find(d => d['@type'] === 'FAQPage');
+    assert.ok(faq, 'FAQPage fehlt');
+    assert.ok(faq.mainEntity.some(q => q.name === 'Wie lange dauert Tosca?' && /ohne Pausen/.test(q.acceptedAnswer.text)));
+    // Kein Datum in den Antworten: die Seite wird nur mit jedem Spielplan-Lauf neu erzeugt.
+    const wo = faq.mainEntity.find(q => q.name === 'Wo läuft Tosca gerade?');
+    if (wo) assert.doesNotMatch(wo.acceptedAnswer.text, /\d{4}/);
 });
 
 test('Seite ohne Text: wie bisher', () => {

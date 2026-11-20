@@ -109,6 +109,11 @@
            Loaded FIRST for instant display
            ============================================ */
 
+        /* Der Text unter dem Vorhang, falls die App nicht startet (#app). */
+        .vorab { max-width: 36rem; margin: 15vh auto 0; padding: 0 1.25rem; color: #e8e4dc;
+            font-family: system-ui, sans-serif; line-height: 1.5; }
+        .vorab a { color: #c9a84c; }
+
         .splash {
             --splash-bg: #0a0c0f;
             --splash-gold: #c9a84c;
@@ -735,7 +740,24 @@
         </div>
     </div>
 
-    <div id="app"></div>
+    <!-- Bis die App startet, steht hier, was OpernLog ist, mit Links auf die
+         Seiten für Suchmaschinen (/oper/, /haus/, /stadt/, /komponist/). Sichtbar nur,
+         wenn die App gar nicht startet – sonst liegt der Vorhang darüber, und
+         main.js ersetzt den Inhalt beim Start. Für Google, falls es die App
+         nicht ausführt, und für alle ohne JavaScript (20.11.2026). -->
+    <div id="app">
+        <div class="vorab">
+            <h2>Dein Operntagebuch</h2>
+            <p>Opernabende festhalten und bewerten, Spielpläne von über 90 Häusern in Deutschland,
+                Österreich und der Schweiz, mit Freunden teilen.</p>
+            <ul>
+                <li><a href="/oper/">Opern von A bis Z</a> – Handlung, bekannte Stellen und Termine</li>
+                <li><a href="/haus/">Opernhäuser</a> – Spielpläne und Termine</li>
+                <li><a href="/stadt/">Oper nach Städten</a> – alle Abende einer Stadt</li>
+                <li><a href="/komponist/">Komponisten</a> – Werke und Termine</li>
+            </ul>
+        </div>
+    </div>
     <script type="module" src="src/main.js"></script>
     <script>
         // Register Service Worker

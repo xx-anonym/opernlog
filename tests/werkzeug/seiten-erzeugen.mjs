@@ -32,10 +32,11 @@ import { spielplan, SPIELPLAN_STAND } from '../../src/data/spielplan.js';
 import { BILDNACHWEISE } from '../../src/data/bildnachweise.js';
 import { dateinameAus, nachweisZeile } from '../../src/data/bildnachweisRegeln.js';
 import { WERKTEXT_ORDNER, werkTextFehler, eigenerWerkText, stelleZitat } from '../../src/data/werkTexte.js';
+import { idVorschlag } from '../../src/data/katalogRegeln.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const SEITE = 'https://opernlog.de';
-export const ORDNER = { werk: 'oper', haus: 'haus', komponist: 'komponist' };
+export const ORDNER = { werk: 'oper', haus: 'haus', komponist: 'komponist', stadt: 'stadt' };
 
 // ── Kleinigkeiten ─────────────────────────────────────────────────────────
 
@@ -75,7 +76,10 @@ const ortText = (haus) => [haus.city, haus.state && !['Österreich', 'Schweiz'].
     .filter(Boolean).join(', ');
 
 export const adresse = (art, id) => `${SEITE}/${ORDNER[art]}/${encodeURIComponent(id)}/`;
-const appAdresse = { werk: id => `/#/opera/${id}`, haus: id => `/#/house/${id}`, komponist: id => `/#/composer/${id}` };
+const appAdresse = { werk: id => `/#/opera/${id}`, haus: id => `/#/house/${id}`, komponist: id => `/#/composer/${id}`, stadt: () => '/#/houses' };
+
+/** "muenchen" aus "München" – die Adresse der Stadtseite. */
+export const stadtId = (stadt) => idVorschlag(stadt);
 
 function bildTeil(url, alt) {
     if (!url) return '';
@@ -93,7 +97,7 @@ function bildTeil(url, alt) {
 // ── Gerüst ────────────────────────────────────────────────────────────────
 
 // Die Brotkrumen im Treffer: "OpernLog › Opern › Tosca" statt der Adresse.
-const BEREICH = { werk: 'Opern', haus: 'Häuser', komponist: 'Komponisten' };
+const BEREICH = { werk: 'Opern', haus: 'Häuser', komponist: 'Komponisten', stadt: 'Städte' };
 function brotkrumen(art, name = null, url = null) {
     const stufen = [
         { name: 'OpernLog', url: `${SEITE}/` },
@@ -139,7 +143,7 @@ function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app, krumen
     <a class="marke" href="/">OpernLog</a>
     <a class="knopf knopf--kopf" href="${maske(app)}">In OpernLog öffnen</a>
   </header>
-  <nav class="bereiche"><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/komponist/">Komponisten</a></nav>
+  <nav class="bereiche"><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/stadt/">Städte</a><a href="/komponist/">Komponisten</a></nav>
   <main>
 ${inhalt}
     <p class="weiter"><a class="knopf" href="${maske(app)}">In OpernLog öffnen</a></p>
@@ -228,7 +232,9 @@ function ereignis(t, werk, haus) {
 function terminZeile(t, { werk, haus }, zeigen) {
     const was = zeigen === 'haus'
         ? `<a href="${adresse('haus', haus.id)}">${maske(haus.name)}</a> <span class="ort">${maske(haus.city)}</span>`
-        : `<a href="${adresse('werk', werk.id)}">${maske(werk.title)}</a>${werk.composer ? ` <span class="ort">${maske(werk.composer)}</span>` : ''}`;
+        : zeigen === 'beides'
+            ? `<a href="${adresse('werk', werk.id)}">${maske(werk.title)}</a> <span class="ort">${maske(haus.name)}</span>`
+            : `<a href="${adresse('werk', werk.id)}">${maske(werk.title)}</a>${werk.composer ? ` <span class="ort">${maske(werk.composer)}</span>` : ''}`;
     const { beginn } = uhrzeiten(t.zeit);
     return `          <li data-datum="${t.datum}"><time datetime="${t.datum}${beginn ? `T${beginn.padStart(5, '0')}` : ''}">${datumText(t.datum)}${t.zeit ? ` · ${maske(t.zeit.replace('-', '–'))}` : ''}</time> ${was} <a class="karten" href="${maske(t.url)}" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>`;
 }
@@ -264,6 +270,35 @@ ${hinten.map(zeile).join('\n')}
 }
 
 /** Steckbrief, Anriss, Handlung, bekannte Stellen, Wissenswertes – aus daten/werke/<id>.json. */
+/**
+ * Häufige Fragen zu einem Werk – so, wie Leute vor dem Opernbesuch suchen:
+ * "Wie lange dauert Tosca?", "Worum geht es …?" (20.11.2026). Nur aus dem,
+ * was im Werktext und im Spielplan steht; nichts dazuerfunden.
+ */
+export function werkFragen(werk, text, { meine = [], haeuser = new Map() } = {}) {
+    const fragen = [];
+    fragen.push({ frage: `Worum geht es in ${werk.title}?`, antwort: text.anriss });
+    if (text.dauer) fragen.push({ frage: `Wie lange dauert ${werk.title}?`,
+        antwort: `${werk.title} dauert ${text.dauer} ohne Pausen. Mit Pausen kommt je nach Haus und Inszenierung etwas hinzu.` });
+    if (werk.acts) fragen.push({ frage: `Wie viele Akte hat ${werk.title}?`,
+        antwort: `${werk.title} hat ${werk.acts === 1 ? 'einen Akt' : `${werk.acts} Akte`}${werk.composer ? `; die Musik ist von ${werk.composer}` : ''}${werk.librettist ? `, das Libretto von ${werk.librettist}` : ''}.` });
+    const ua = text.urauffuehrung;
+    if (ua) fragen.push({ frage: `Wann wurde ${werk.title} uraufgeführt?`,
+        antwort: `Die Uraufführung war ${String(ua.datum).length === 4 ? `im Jahr ${ua.datum}` : `am ${datumLang(ua.datum)}`}${ua.ort ? ` (${ua.ort})` : ''}.` });
+    const zitate = text.stellen.filter(s => s.zitat !== false).slice(0, 4);
+    if (zitate.length) fragen.push({ frage: `Welche Arien und Stellen aus ${werk.title} sind bekannt?`,
+        antwort: `Zum Beispiel ${zitate.map(s => `${stelleZitat(s.titel)} (${s.wer})`).join(', ').replace(/, ([^,]*)$/, ' und $1')}.` });
+    if (meine.length) {
+        // Ohne Datum: die Seite wird nur mit jedem Spielplan-Lauf neu
+        // erzeugt, ein "nächster Termin" wäre bald überholt.
+        const orte = [...new Set(meine.map(t => t.haus))].map(id => haeuser.get(id)).filter(Boolean);
+        const beispiele = orte.slice(0, 3).map(h => `${h.name} (${h.city})`);
+        fragen.push({ frage: `Wo läuft ${werk.title} gerade?`,
+            antwort: `In dieser Spielzeit an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'} in Deutschland, Österreich und der Schweiz${beispiele.length ? `, etwa ${beispiele.join(', ').replace(/, ([^,]*)$/, ' und $1')}` : ''}. Die nächsten Termine stehen oben auf dieser Seite.` });
+    }
+    return fragen;
+}
+
 function werkTextTeile(werk, text) {
     const ua = text.urauffuehrung;
     const stadt = ua?.ort ? ua.ort.split(',').pop().trim() : '';
@@ -277,7 +312,7 @@ function werkTextTeile(werk, text) {
         oben: `
       <ul class="steckbrief">${steckbrief.map(x => `<li>${maske(x)}</li>`).join('')}</ul>
       <p class="anriss">${maske(text.anriss)}</p>`,
-        unten: `
+        handlung: `
       <section>
         <h2>Die Handlung</h2>
         <ol class="akte">
@@ -290,7 +325,8 @@ ${text.akte.map(a => `          <li><span class="akt">${maske(a.titel)}${a.ort ?
         <ul class="stellen">
 ${text.stellen.map(a => `          <li><span class="stelle">${maske(stelleZitat(a.titel, a.zitat))}</span><span class="wer">${maske(a.wer)} · ${maske(a.akt)}</span>${a.was ? `<span class="was">${maske(a.was)}</span>` : ''}</li>`).join('\n')}
         </ul>
-      </section>` : ''}${text.wissen.length ? `
+      </section>` : ''}`,
+        wissen: `${text.wissen.length ? `
       <section>
         <h2>Gut zu wissen</h2>
         <ul class="wissen">
@@ -306,6 +342,12 @@ export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
     const orte = [...new Set(meine.map(t => t.haus))];
     const komponist = werk.composer ? composerByName(werk.composer) : null;
     const teile = text ? werkTextTeile(werk, text) : null;
+    const fragen = text ? werkFragen(werk, text, { meine, haeuser }) : [];
+    const fragenTeil = fragen.length ? `
+      <section class="fragen">
+        <h2>Häufige Fragen</h2>
+${fragen.map(f => `        <details><summary>${maske(f.frage)}</summary><p>${maske(f.antwort)}</p></details>`).join('\n')}
+      </section>` : '';
     const zeilen = [
         werk.composer && `<dt>Musik</dt><dd>${komponist ? `<a href="${adresse('komponist', komponist.id)}">${maske(werk.composer)}</a>` : maske(werk.composer)}</dd>`,
         werk.librettist && `<dt>Libretto</dt><dd>${maske(werk.librettist)}</dd>`,
@@ -344,11 +386,20 @@ export function werkSeite(werk, { termine, haeuser, stand, text = null }) {
         bild: werk.image,
         app: appAdresse.werk(werk.id),
         krumen: brotkrumen('werk', werk.title, adresse('werk', werk.id)),
-        daten: meine.slice(0, 50).map(t => ereignis(t, werk, haeuser.get(t.haus))),
+        daten: [
+            ...(fragen.length ? [{
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: fragen.map(f => ({ '@type': 'Question', name: f.frage, acceptedAnswer: { '@type': 'Answer', text: f.antwort } })),
+            }] : []),
+            ...meine.slice(0, 50).map(t => ereignis(t, werk, haeuser.get(t.haus))),
+        ],
+        // Mit Text steht die Handlung vorn (20.11.2026): danach wird am
+        // meisten gesucht. Die Termine folgen, eingeklappt bis auf fünf.
         inhalt: teile ? `
     <article>
       <h1>${maske(werk.title)}</h1>
-      ${unterzeile}${teile.oben}${termineTeil}${teile.unten}${bildTeil(werk.image, werk.title)}
+      ${unterzeile}${teile.oben}${teile.handlung}${termineTeil}${teile.wissen}${fragenTeil}${bildTeil(werk.image, werk.title)}
       ${zeilen ? `<dl class="fakten">${zeilen}</dl>` : ''}
     </article>` : `
     <article>
@@ -380,7 +431,7 @@ function composerKurz(name) {
     return teile.length > 1 ? teile[teile.length - 1] : name;
 }
 
-export function hausSeite(haus, { termine, werke, stand }) {
+export function hausSeite(haus, { termine, werke, stand, mitStadt = false }) {
     const meine = termine.filter(t => t.haus === haus.id && werke.has(t.werk));
     const zahl = new Set(meine.map(t => t.werk)).size;
     const zeilen = [
@@ -422,7 +473,55 @@ ${meine.map(t => terminZeile(t, { werk: werke.get(t.werk), haus }, 'werk')).join
       <h1>${maske(haus.name)}</h1>
       <p class="unterzeile">${maske(ortText(haus))}</p>${bildTeil(haus.imageUrl, haus.name)}
       ${haus.description ? `<p>${maske(haus.description)}</p>` : ''}
-      <dl class="fakten">${zeilen}</dl>${termineTeil}
+      <dl class="fakten">${zeilen}</dl>${termineTeil}${mitStadt ? `
+      <p><a href="${adresse('stadt', stadtId(haus.city))}">Alle Opernabende in ${maske(haus.city)}</a></p>` : ''}
+    </article>`,
+    });
+}
+
+/**
+ * Oper in einer Stadt: alle Häuser dort und alle kommenden Abende, nach
+ * Monaten (20.11.2026). So wird gesucht – "Oper Leipzig Spielplan", "Oper
+ * Wien Dezember" –, und eine Hausseite trifft das nicht, wenn eine Stadt
+ * mehrere Häuser hat.
+ */
+export function stadtSeite(stadt, { haeuser, termine, werke, stand }) {
+    const ids = new Set(haeuser.map(h => h.id));
+    const hausMap = new Map(haeuser.map(h => [h.id, h]));
+    const meine = termine.filter(t => ids.has(t.haus) && werke.has(t.werk));
+    const werkZahl = new Set(meine.map(t => t.werk)).size;
+    const monate = new Map();
+    for (const t of meine) {
+        const m = t.datum.slice(0, 7);
+        monate.set(m, [...(monate.get(m) || []), t]);
+    }
+    const monatName = (m) => `${MONAT[Number(m.slice(5)) - 1]} ${m.slice(0, 4)}`;
+    const namen = haeuser.map(h => h.name);
+    const hausText = namen.length === 1 ? namen[0] : `${namen.slice(0, -1).join(', ')} und ${namen.at(-1)}`;
+    return seite({
+        titel: `Oper in ${stadt}: Spielplan und Termine | OpernLog`,
+        beschreibung: (meine.length
+            ? `Opernspielplan ${stadt}: ${meine.length} ${meine.length === 1 ? 'Abend' : 'Abende'} mit ${werkZahl} ${werkZahl === 1 ? 'Werk' : 'Werken'} – ${hausText}. Alle Termine nach Monaten, mit Links zu den Karten.`
+            : `Oper in ${stadt}: ${hausText} – Häuser und Spielplan im Operntagebuch OpernLog.`).slice(0, 300),
+        url: adresse('stadt', stadtId(stadt)),
+        bild: haeuser.find(h => h.imageUrl)?.imageUrl,
+        app: appAdresse.stadt(),
+        krumen: brotkrumen('stadt', stadt, adresse('stadt', stadtId(stadt))),
+        daten: meine.slice(0, 50).map(t => ereignis(t, werke.get(t.werk), hausMap.get(t.haus))),
+        inhalt: `
+    <article>
+      <h1>Oper in ${maske(stadt)}</h1>
+      <p class="unterzeile">${maske(ortText(haeuser[0]))}</p>
+      <p>${meine.length
+        ? `${meine.length} ${meine.length === 1 ? 'Opernabend' : 'Opernabende'} mit ${werkZahl} ${werkZahl === 1 ? 'Werk' : 'Werken'} ${haeuser.length === 1 ? 'am' : 'an'} ${haeuser.length === 1 ? '' : `${haeuser.length} Häusern: `}${haeuser.map(h => `<a href="${adresse('haus', h.id)}">${maske(h.name)}</a>`).join(', ')}.`
+        : `Gerade kennt OpernLog keine Opernabende in ${maske(stadt)}.`}</p>
+${[...monate].map(([m, liste]) => `      <section data-termine>
+        <h2>${monatName(m)}</h2>
+        <ul class="termine">
+${liste.map(t => terminZeile(t, { werk: werke.get(t.werk), haus: hausMap.get(t.haus) }, haeuser.length > 1 ? 'beides' : 'werk')).join('\n')}
+        </ul>
+      </section>`).join('\n')}
+      ${meine.length ? `<p class="klein">Stand des Spielplans: ${standText(stand)}. Maßgeblich ist die Seite des Hauses.</p>` : ''}
     </article>`,
     });
 }
@@ -486,7 +585,12 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
 
     const seiten = new Map();
     for (const w of werke) seiten.set(`${ORDNER.werk}/${w.id}/index.html`, werkSeite(w, { termine, haeuser: hausMap, stand, text: eigenerWerkText(w) || texte.get(w.id) || null }));
-    for (const h of haeuser) seiten.set(`${ORDNER.haus}/${h.id}/index.html`, hausSeite(h, { termine, werke: werkMap, stand }));
+    const staedte = new Map();
+    for (const h of haeuser) if (h.city) staedte.set(h.city, [...(staedte.get(h.city) || []), h]);
+    for (const h of haeuser) seiten.set(`${ORDNER.haus}/${h.id}/index.html`, hausSeite(h, { termine, werke: werkMap, stand, mitStadt: staedte.has(h.city) }));
+    for (const [stadt, liste] of staedte) {
+        seiten.set(`${ORDNER.stadt}/${stadtId(stadt)}/index.html`, stadtSeite(stadt, { haeuser: [...liste].sort(nachName), termine, werke: werkMap, stand }));
+    }
     for (const k of komponistenMitWerken) seiten.set(`${ORDNER.komponist}/${k.id}/index.html`, komponistSeite(k, { werkeVon, termine }));
 
     seiten.set(`${ORDNER.werk}/index.html`, uebersicht({
@@ -504,6 +608,18 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
         beschreibung: `${haeuser.length} Opernhäuser in Deutschland, Österreich und der Schweiz mit ihrem aktuellen Opernspielplan.`,
         art: 'haus',
         eintraege: haeuser.map(h => ({ id: h.id, name: h.name, zusatz: h.city })).sort(nachName),
+    }));
+    const abendeIn = (liste) => termine.filter(t => liste.some(h => h.id === t.haus) && werkMap.has(t.werk)).length;
+    seiten.set(`${ORDNER.stadt}/index.html`, uebersicht({
+        titel: 'Oper nach Städten – Spielpläne in Deutschland, Österreich und der Schweiz | OpernLog',
+        h1: 'Oper nach Städten',
+        text: `${staedte.size} Städte mit ihren Opernhäusern und allen kommenden Opernabenden.`,
+        beschreibung: `Opernspielpläne nach Städten: ${staedte.size} Städte in Deutschland, Österreich und der Schweiz mit allen kommenden Opernabenden.`,
+        art: 'stadt',
+        eintraege: [...staedte].map(([stadt, liste]) => {
+            const n = abendeIn(liste);
+            return { id: stadtId(stadt), name: stadt, zusatz: n ? `${n} ${n === 1 ? 'Abend' : 'Abende'}` : '' };
+        }).sort(nachName),
     }));
     seiten.set(`${ORDNER.komponist}/index.html`, uebersicht({
         titel: 'Komponisten und ihre Opern | OpernLog',

@@ -72,7 +72,7 @@ test('jede Seite: eigene Hauptadresse, Titel, Beschreibung, Überschrift, gülti
 test('kein Verweis zwischen den Seiten geht ins Leere', () => {
     const vorhanden = new Set(ALLE.map(p => `/${p.replace(/index\.html$/, '')}`));
     for (const p of ALLE) {
-        for (const [, ziel] of lies(p).matchAll(/href="(?:https:\/\/opernlog\.de)?(\/(?:oper|haus|komponist)\/[^"#]*)"/g)) {
+        for (const [, ziel] of lies(p).matchAll(/href="(?:https:\/\/opernlog\.de)?(\/(?:oper|haus|komponist|stadt)\/[^"#]*)"/g)) {
             assert.ok(vorhanden.has(decodeURIComponent(ziel)), `${p} verweist auf ${ziel}`);
         }
     }
@@ -121,7 +121,7 @@ test('der Knopf in die App steht in der mitlaufenden Leiste oben, auf jeder Seit
     for (const p of ALLE) {
         const html = lies(p);
         const kopf = html.match(/<header class="kopf">([\s\S]*?)<\/header>/)?.[1] || '';
-        assert.match(kopf, /<a class="knopf knopf--kopf" href="\/(#\/(opera|house|composer)\/[^"]+)?">In OpernLog öffnen<\/a>/, p);
+        assert.match(kopf, /<a class="knopf knopf--kopf" href="\/(#\/(opera|house|composer)\/[^"]+|#\/houses)?">In OpernLog öffnen<\/a>/, p);
     }
     assert.match(lies('oper/tosca/index.html'), /class="knopf knopf--kopf" href="\/#\/opera\/tosca"/);
 });
@@ -155,4 +155,19 @@ test('Brotkrumen: OpernLog › Bereich › Seite, mit gültigen Adressen', () =>
         const n = [...lies(datei).matchAll(/"@type":"BreadcrumbList"/g)].length;
         assert.equal(n, 1, datei);
     }
+});
+
+test('Stadtseiten: jede Stadt mit Haus hat eine, Häuser verlinken dorthin', async () => {
+    const { stadtId } = await import('../werkzeug/seiten-erzeugen.mjs');
+    for (const h of operaHouses) {
+        const p = `stadt/${stadtId(h.city)}/index.html`;
+        assert.ok(ALLE.includes(p), `${h.city}: ${p} fehlt`);
+        assert.ok(lies(`haus/${h.id}/index.html`).includes(`/stadt/${stadtId(h.city)}/`), `${h.id}: kein Link zur Stadt`);
+    }
+    const wien = lies('stadt/wien/index.html');
+    assert.match(wien, /<title>Oper in Wien: Spielplan und Termine \| OpernLog<\/title>/);
+    assert.match(wien, /<h1>Oper in Wien<\/h1>/);
+    for (const h of operaHouses.filter(x => x.city === 'Wien')) assert.ok(wien.includes(`/haus/${h.id}/`), h.id);
+    assert.ok(lies('stadt/index.html').includes('/stadt/wien/'));
+    assert.ok(stadtId('München') === 'muenchen' && stadtId('Zürich') === 'zuerich');
 });

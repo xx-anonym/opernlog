@@ -202,3 +202,12 @@ h2 {
 .wissen { padding-left: 20px; margin: 0; }
 .wissen li { margin-bottom: 8px; }
 .wissen li::marker { color: var(--rot-hell); }
+
+/* Häufige Fragen auf den Werkseiten (seiten-erzeugen.mjs, werkFragen). */
+.fragen details { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.fragen details:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.fragen summary { cursor: pointer; padding: 12px 0; font-weight: 700; list-style: none; }
+.fragen summary::-webkit-details-marker { display: none; }
+.fragen summary::before { content: '▸ '; color: var(--gold-hell); }
+.fragen details[open] summary::before { content: '▾ '; }
+.fragen p { margin: 0 0 14px; }
