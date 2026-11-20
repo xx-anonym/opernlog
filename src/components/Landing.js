@@ -41,7 +41,8 @@ export function landingZeigen({ angemeldet, offlineNutzer, umgebung = globalThis
 
 export function LandingPage({ stoebern } = {}) {
     const bilder = wandBilder();
-    const kacheln = Array.from({ length: 24 }, (_, i) => bilder[i % bilder.length]).filter(Boolean);
+    // Genug Kacheln, dass die schräge Wand auch hohe Bildschirme füllt.
+    const kacheln = Array.from({ length: 48 }, (_, i) => bilder[i % bilder.length]).filter(Boolean);
     const merkmal = (name, titel, text) => `
         <div class="landing__merkmal">${icon(name)}<h3>${titel}</h3><p>${text}</p></div>`;
 
@@ -49,7 +50,7 @@ export function LandingPage({ stoebern } = {}) {
     page.className = 'landing';
     page.innerHTML = `
         <section class="landing__buehne">
-            <div class="landing__wand" aria-hidden="true">${kacheln.map(u => `<img src="${u}" alt="" loading="lazy" decoding="async">`).join('')}</div>
+            <div class="landing__wand" aria-hidden="true">${kacheln.map(u => `<img src="${u}" alt="" decoding="async" fetchpriority="low">`).join('')}</div>
             <div class="landing__schleier" aria-hidden="true"></div>
             <div class="landing__vorhang landing__vorhang--links" aria-hidden="true"></div>
             <div class="landing__vorhang landing__vorhang--rechts" aria-hidden="true"></div>

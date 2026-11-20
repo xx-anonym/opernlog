@@ -9020,8 +9020,10 @@ body.mit-landing .main-nav { display: none; }
 body.mit-landing .main-content { margin-left: 0; width: 100%; padding-top: 0; padding-bottom: 0; }
 body.mit-landing.mit-installhinweis { padding-top: 0; }
 .landing { color: #ece6da; background: #0c0e11; overflow-x: hidden; }
-.landing__buehne { position: relative; min-height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
-.landing__wand { position: absolute; inset: -20% -30%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
+/* Höchstens so hoch wie ein Handybildschirm: auf hohen Fenstern stand der
+   Text sonst tief unten, mit leerer Fläche darüber (Jonas, 20.11.2026). */
+.landing__buehne { position: relative; min-height: min(100svh, 860px); overflow: hidden; display: flex; flex-direction: column; }
+.landing__wand { position: absolute; inset: -20% -30%; display: grid; grid-template-columns: repeat(6, 1fr); align-content: start; gap: 14px;
     transform: rotate(-8deg); filter: sepia(.35) saturate(.8) brightness(.55); }
 .landing__wand img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; box-shadow: 0 6px 20px rgba(0, 0, 0, .6); background: #1a1d22; }
 .landing__wand img:nth-child(even) { transform: translateY(40px); }
