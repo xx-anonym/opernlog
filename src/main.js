@@ -26,6 +26,7 @@ import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 import { umzugSchritt, umzugZiel, umzugEinloesen, istAlteAdresse, UMZUG_MITTEILUNGEN } from './umzug.js';
 import { umzugHinweisFenster } from './components/UmzugHinweis.js';
 import { istInstalliert } from './installHinweis.js';
+import { LandingPage, landingZeigen } from './components/Landing.js';
 
 // Seiten, die erst beim Aufruf geladen werden (20.11.2026). Statisch geladen
 // zog der Start 112 Module mit 1,4 MB nach sich, und Googles Abruf brach dabei
@@ -525,6 +526,7 @@ class App {
         // wenn die Seite steht: sonst klappte ein Menü, das man öffnet,
         // während eine Seite noch lädt (SEITEN_MODULE), unter dem Finger zu.
         if (!nachLaden) document.querySelector('.nav-links')?.classList.remove('nav-links--open');
+        if (!nachLaden) document.body.classList.remove('mit-landing');
 
         // e.g. #/log?edit=123
         const hash = window.location.hash || '#/';
@@ -636,6 +638,11 @@ class App {
         switch (path) {
             case '':
             case 'home':
+                // Ohne Konto: zuerst die Werbeseite (components/Landing.js).
+                if (isSupabaseConfigured() && landingZeigen({ angemeldet: !!store.isCloud, offlineNutzer: !!store.isOfflineWithLocalUser })) {
+                    page = LandingPage({ stoebern: () => this.route() });
+                    break;
+                }
                 page = HomePage();
                 // Von Hand aktualisieren: oben ziehen (nur installiert).
                 ziehenZumAktualisieren(page, () => this.refreshFromCloud({ erzwingen: true }));
@@ -726,6 +733,8 @@ class App {
         }
 
         this.content.appendChild(page);
+        // Die Werbeseite hat ihren eigenen Kopf; Leiste und Menü treten zurück.
+        document.body.classList.toggle('mit-landing', page.classList.contains('landing'));
         this.vielleichtEinladungEinloesen(path);
         this.vielleichtWillkommenZeigen(path);
         this.vielleichtNachMitteilungenFragen(path);

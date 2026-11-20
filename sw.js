@@ -148,6 +148,7 @@ const APP_SHELL = [
     './src/data/jahrestag.js',
     './src/components/Story.js',
     './src/components/Willkommen.js',
+    './src/components/Landing.js',
     './src/willkommen.js',
     './src/data/beliebt.js',
     './src/components/StoryMusik.js',

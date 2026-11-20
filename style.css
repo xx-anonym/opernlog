@@ -9012,3 +9012,72 @@ html.willkommen-offen body {
 }
 .einladen-hinweis__text { margin: 0; color: var(--text-primary); }
 .einladen-hinweis__knoepfe { display: flex; gap: 8px; }
+
+/* ── Werbeseite für Besucher ohne Konto (src/components/Landing.js) ──
+   Dunkel und theatralisch wie die App: Plakatwand, Vorhang, große Zeile.
+   Leiste, Menü und Installhinweis treten zurück, solange sie steht. */
+body.mit-landing .main-nav { display: none; }
+body.mit-landing .main-content { margin-left: 0; width: 100%; padding-top: 0; padding-bottom: 0; }
+body.mit-landing.mit-installhinweis { padding-top: 0; }
+.landing { color: #ece6da; background: #0c0e11; overflow-x: hidden; }
+.landing__buehne { position: relative; min-height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
+.landing__wand { position: absolute; inset: -20% -30%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
+    transform: rotate(-8deg); filter: sepia(.35) saturate(.8) brightness(.55); }
+.landing__wand img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; box-shadow: 0 6px 20px rgba(0, 0, 0, .6); background: #1a1d22; }
+.landing__wand img:nth-child(even) { transform: translateY(40px); }
+.landing__schleier { position: absolute; inset: 0; background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, rgba(12, 14, 17, .35), rgba(12, 14, 17, .92) 75%),
+    linear-gradient(180deg, rgba(12, 14, 17, .2) 0%, rgba(12, 14, 17, .85) 70%, #0c0e11 100%); }
+.landing__vorhang { position: absolute; top: 0; bottom: 0; width: 7vw; min-width: 22px; max-width: 70px;
+    background: repeating-linear-gradient(90deg, #4a0d19 0 8px, #6b1525 8px 18px, #3d0a15 18px 26px); opacity: .9; }
+.landing__vorhang--links { left: 0; box-shadow: 8px 0 24px rgba(0, 0, 0, .6); }
+.landing__vorhang--rechts { right: 0; box-shadow: -8px 0 24px rgba(0, 0, 0, .6); }
+.landing__kopf { position: relative; display: flex; justify-content: space-between; align-items: center;
+    padding: calc(18px + env(safe-area-inset-top)) max(9vw, 34px) 18px; }
+.landing__marke { font-family: var(--font-display); font-size: 22px; color: var(--gold-light); font-weight: 700; }
+.landing__anmelden { color: #ece6da; font-size: 15px; text-decoration: none; opacity: .85; }
+.landing__mitte { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 0 max(9vw, 34px) 48px; max-width: 760px; }
+.landing__masken { color: var(--gold-light); width: 64px; }
+.landing__masken svg { width: 64px; height: auto; }
+.landing__titel { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 11vw, 76px);
+    line-height: 1.04; margin: 18px 0 16px; color: #ece6da; }
+.landing__titel em { font-style: normal; color: var(--gold-light); }
+.landing__unter { font-size: clamp(17px, 4.4vw, 21px); line-height: 1.45; color: #d6d0c4; margin: 0 0 30px; max-width: 34ch; }
+.landing__knoepfe { display: flex; flex-direction: column; gap: 12px; max-width: 360px; }
+.landing__knopf { display: block; text-align: center; padding: 16px 20px; border-radius: 12px; font: inherit;
+    font-weight: 700; font-size: 17px; text-decoration: none; cursor: pointer; }
+.landing__knopf--haupt { background: linear-gradient(135deg, #a3243a, #6b1525); color: #fff; border: 0;
+    box-shadow: 0 8px 24px rgba(139, 26, 43, .45); }
+.landing__knopf--leise { border: 1px solid rgba(255, 255, 255, .22); color: #ece6da; background: rgba(12, 14, 17, .45); }
+.landing__vertrauen { margin-top: 16px; font-size: 14px; color: #a39e94; }
+.landing__teil { padding: 56px max(9vw, 34px); max-width: 980px; margin: 0 auto; }
+.landing__teil h2 { font-family: var(--font-display); font-size: clamp(26px, 6vw, 36px); margin: 0 0 26px; color: #ece6da; }
+.landing__merkmale { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.landing__merkmal { background: #161a1f; border: 1px solid #252a31; border-radius: 14px; padding: 20px; }
+.landing__merkmal .icon { color: var(--gold-light); width: 22px; height: 22px; }
+.landing__merkmal h3 { margin: 10px 0 6px; font-size: 18px; color: #ece6da; }
+.landing__merkmal p { margin: 0; color: #a39e94; line-height: 1.45; font-size: 15px; }
+.landing__beispiel-kopf { margin: 32px 0 10px; color: #a39e94; font-size: 14px; }
+.landing__zettel { display: flex; gap: 16px; align-items: center; background: #161a1f; border: 1px solid #252a31; border-radius: 14px; padding: 16px; }
+.landing__zettel img { width: 76px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; }
+.landing__zettel b { font-family: var(--font-display); font-size: 20px; display: block; }
+.landing__zettel span { color: #a39e94; font-size: 14px; }
+.landing__sterne { color: var(--gold-light); letter-spacing: 2px; margin-top: 4px; }
+.landing__schluss { text-align: center; padding: 20px max(9vw, 34px) calc(48px + env(safe-area-inset-bottom)); }
+.landing__schluss .landing__knopf { display: inline-block; min-width: 260px; }
+.landing__fuss { margin-top: 28px; font-size: 13px; color: #a39e94; }
+.landing__fuss a { color: #a39e94; }
+@media (max-width: 600px) {
+    .landing__wand { inset: -12% -55%; grid-template-columns: repeat(5, 1fr); gap: 10px; filter: sepia(.35) saturate(.8) brightness(.6); }
+    .landing__schleier { background:
+        radial-gradient(ellipse 90% 45% at 50% 55%, rgba(12, 14, 17, .55), rgba(12, 14, 17, .9) 80%),
+        linear-gradient(180deg, rgba(12, 14, 17, .1) 0%, rgba(12, 14, 17, .75) 75%, #0c0e11 100%); }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .landing__mitte > * { animation: landing-auf .7s ease both; }
+    .landing__mitte > :nth-child(2) { animation-delay: .08s; }
+    .landing__mitte > :nth-child(3) { animation-delay: .16s; }
+    .landing__mitte > :nth-child(4), .landing__mitte > :nth-child(5) { animation-delay: .24s; }
+}
+@keyframes landing-auf { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }

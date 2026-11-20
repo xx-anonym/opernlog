@@ -432,6 +432,13 @@ export function AuthPage(onSuccess) {
   // eben braucht sein Feld wieder.
   const nochOffen = codeOffen();
   if (nochOffen) zeigeCodeSchritt(nochOffen);
+  else {
+    // Von "Kostenlos starten" auf der Werbeseite (components/Landing.js):
+    // gleich beim Registrieren beginnen. Einmalig.
+    let tab = null;
+    try { tab = sessionStorage.getItem('opernlog:authTab'); sessionStorage.removeItem('opernlog:authTab'); } catch { /* egal */ }
+    if (tab === 'register') page.querySelector('.auth-tab[data-tab="register"]')?.click();
+  }
 
   return page;
 }
