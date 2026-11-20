@@ -225,6 +225,11 @@ function builder(table) {
         }
         return Promise.resolve({ data: window.__katalog[table], error: null }).then(res, rej);
       }
+      // Einladungslinks (createInvite): __einladungen sammelt die Zeilen.
+      if (table === 'invites' && op === 'insert') {
+        window.__einladungen = [...(window.__einladungen || []), nutzlast];
+        return Promise.resolve({ data: [nutzlast], error: null }).then(res, rej);
+      }
       if (table === 'geplante_besuche') {
         if (op === 'insert') {
           if (window.__geplantFehler) return Promise.resolve({ data: null, error: { message: window.__geplantFehler } }).then(res, rej);

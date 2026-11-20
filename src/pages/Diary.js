@@ -1,7 +1,11 @@
 // Diary Page
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
-import { runWithFeedback } from '../components/Toast.js';
+import { runWithFeedback, showToast, showError } from '../components/Toast.js';
+import { einladenFragen, einladenHinweis } from '../einladenHinweis.js';
+import { einladungsLink } from '../einladung.js';
+import { teilenLink } from '../teilen.js';
+import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { StarRating } from '../components/StarRating.js';
@@ -42,6 +46,21 @@ export function DiaryPage() {
   `;
 
   // Removed top-level empty check; Handled inside renderDiary
+
+  // Einmal, gleich nach dem dritten (oder späteren) Abend: jemanden einladen?
+  if (einladenFragen({ anzahl: myVisits.length, cloud: !!store.isCloud })) {
+    page.querySelector('#diaryFilters').before(einladenHinweis({
+      einladen: async () => teilenLink({
+        titel: 'OpernLog – Dein Operntagebuch',
+        url: einladungsLink(await sb.createInvite()),
+        protokoll: 'Einladen',
+      }),
+      melden: (ergebnis) => {
+        if (ergebnis === 'kopiert') showToast('Einladungslink kopiert');
+        else if (ergebnis === 'fehlgeschlagen') showError('Der Einladungslink ließ sich nicht erstellen.', { melden: false });
+      },
+    }));
+  }
 
   // Year filter
   const years = [...new Set(myVisits.map(v => new Date(v.date).getFullYear()))].sort((a, b) => b - a);

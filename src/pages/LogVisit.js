@@ -10,6 +10,7 @@ import { StarRating } from '../components/StarRating.js';
 import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke } from '../data/besetzung.js';
 import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
 import { tippen } from '../haptik.js';
+import { geradeGeloggtMerken } from '../einladenHinweis.js';
 
 export function LogVisitPage(params = {}) {
   const page = document.createElement('div');
@@ -573,6 +574,8 @@ export function LogVisitPage(params = {}) {
     showToast(ergebnis?.ausstehend
       ? 'Auf diesem Gerät gespeichert – wird übertragen, sobald wieder Netz da ist.'
       : editVisit ? 'Besuch erfolgreich aktualisiert!' : 'Besuch erfolgreich geloggt!');
+    // Ein guter Moment für "Kennst du jemanden …?" – das Tagebuch fragt (einladenHinweis.js).
+    if (!editVisit && !ergebnis?.ausstehend) geradeGeloggtMerken();
 
     // Die Fotos hängen am jetzt gespeicherten Abend. Scheitert eines, bleibt
     // der Abend trotzdem – die Fotos lassen sich auf seiner Seite nachreichen.
