@@ -182,14 +182,30 @@ const APP_SHELL = [
 ];
 
 // Install – cache app shell
+//
+// Scheitert addAll, muss die Installation mit scheitern. Hier stand bis
+// 2026.11.23 ein catch, der den Fehler nur protokollierte: die Installation
+// galt dann als gelungen, skipWaiting und clients.claim setzten einen Worker
+// mit leerem Cache ein, und activate löschte obendrein den vollen Cache der
+// Vorversion. addAll legt nämlich alles oder nichts ab – schon eine einzige
+// Datei, die unterwegs abbricht (Funkloch während des Ladens, Flugmodus kurz
+// nach dem Öffnen), lässt den Cache leer. Weil sw.js sich danach nicht mehr
+// ändert, richtete sich der Worker bis zur nächsten Version nie neu ein, und
+// jede nachgeladene Seite (SEITEN_MODULE in main.js) fehlte ohne Netz: "Die
+// Seite ließ sich nicht laden". Aufgefallen ist es in offlineLoggen.test.js,
+// das unter Last das Netz abschaltete, während addAll noch lief.
+//
+// Jetzt bleibt bei einem Fehler alles, wie es war: beim ersten Mal gibt es
+// noch keinen Worker, und der nächste Start versucht es neu; bei einem Update
+// bleibt die alte Version samt ihrem Cache in Kraft.
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            console.log('[SW] Caching app shell');
-            return cache.addAll(APP_SHELL);
-        }).catch((err) => {
-            console.error('[SW] Failed to cache app shell:', err);
-        })
+        caches.open(CACHE_NAME)
+            .then((cache) => cache.addAll(APP_SHELL))
+            .catch((err) => {
+                console.error('[SW] App-Shell nicht vollständig zwischengespeichert:', err);
+                throw err;
+            })
     );
     self.skipWaiting();
 });

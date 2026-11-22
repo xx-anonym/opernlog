@@ -74,6 +74,23 @@ export async function vorhangAuf(page) {
     await page.waitForFunction(() => !document.querySelector('#splash:not(.splash--hidden)'));
 }
 
+/**
+ * Wartet, bis die App ohne Netz auskommt: der Service Worker steuert die
+ * Seite. Erst dann ist sie "vorher geladen" im Sinne des Offline-Modus –
+ * die Seiten aus SEITEN_MODULE (src/main.js) holt sie ja erst beim ersten
+ * Aufruf, ohne Netz also aus dem Cache des Workers.
+ *
+ * Dass ein steuernder Worker auch einen vollständigen Cache hat, garantiert
+ * sw.js: scheitert addAll, scheitert die Installation, und kein Worker
+ * übernimmt (offlineSeiten.test.js). Vorher übernahm er mit leerem Cache.
+ *
+ * Wer das Netz früher abschaltet, testet etwas anderes: unter Last lief die
+ * Installation in offlineLoggen.test.js dann noch, und das Formular kam nie.
+ */
+export async function offlineBereit(page) {
+    await page.waitForFunction(() => !!navigator.serviceWorker?.controller, null, { timeout: 30000 });
+}
+
 const TYPEN = {
     '.html': 'text/html; charset=utf-8',
     '.js': 'text/javascript; charset=utf-8',   // ohne das lädt der Browser keine Module
@@ -86,10 +103,21 @@ const TYPEN = {
     '.mp3': 'audio/mpeg',
 };
 
-/** Statischer Server auf einem freien Port. Gibt {url, schliessen} zurück. */
-export async function starteServer() {
+/**
+ * Statischer Server auf einem freien Port. Gibt {url, schliessen} zurück.
+ *
+ * abbrechen(pfad): liefert sie true, reißt der Server die Verbindung ohne
+ * Antwort ab – für den Browser ein Netzfehler wie im Funkloch. Anders als
+ * ctx.setOffline() trifft das jeden, der fragt, auch einen Service Worker,
+ * der gerade erst wieder aufwacht.
+ */
+export async function starteServer({ abbrechen = () => false } = {}) {
     const server = http.createServer((req, res) => {
         const pfad = decodeURIComponent(req.url.split('?')[0]);
+        if (abbrechen(pfad)) {
+            req.socket.destroy();
+            return;
+        }
         const datei = path.join(WURZEL, pfad === '/' ? 'index.html' : pfad);
         // Kein Ausbruch aus dem Projektverzeichnis.
         if (!datei.startsWith(WURZEL) || !fs.existsSync(datei) || fs.statSync(datei).isDirectory()) {
