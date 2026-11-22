@@ -39,21 +39,25 @@ export async function personBildSuchen(name, als) {
     const schon = gemerkt(schluessel);
     if (schon !== undefined) return schon;
     if (navigator.onLine === false) return null;
+    const sprachen = ['de', 'en'];
     let gefunden = null;
-    let gefragt = false;
-    for (const sprache of ['de', 'en']) {
+    let beantwortet = 0;
+    for (const sprache of sprachen) {
         try {
             const r = await fetch(wikipediaAbfrage(name, sprache));
             if (!r.ok) continue;
-            gefragt = true;
             gefunden = bildAusAntwort(await r.json(), als, sprache);
+            beantwortet++;
             if (gefunden) break;
         } catch {
             // Kein Netz oder gesperrt: diesmal nichts, beim nächsten Besuch wieder.
         }
     }
-    // Nur merken, was eine Antwort war – ein Netzfehler soll nicht 30 Tage halten.
-    if (gefragt) merken(schluessel, gefunden);
+    // Gemerkt wird ein Bild, und "kein Bild" nur, wenn jede Wikipedia
+    // geantwortet hat. Antwortete die deutsche ohne Treffer und die englische
+    // gerade nicht (gedrosselt, 429), hielt sich sonst 30 Tage lang "kein
+    // Bild" – bei Bartlett Sher steht das Bild nur in der englischen.
+    if (gefunden || beantwortet === sprachen.length) merken(schluessel, gefunden);
     return gefunden;
 }
 
