@@ -1,0 +1,65 @@
+name: Besetzung wöchentlich lesen
+
+# Dirigat, Regie und Besetzung je Vorstellung (Beta, seit 23.11.2026) – für
+# den Vorschlag beim Loggen (src/data/hausBesetzung.js). Bisher nur die Oper
+# Leipzig: tests/werkzeug/besetzung-lesen.mjs holt ihre Spielplan-Schnittstelle
+# und schreibt daten/besetzung/oper-leipzig.json.
+#
+# Anders als die übrigen Läufe meldet dieser nicht nur, er schreibt die Datei
+# selbst ins Repo (Jonas, 23.11.2026): Umbesetzungen und neue Termine sollen
+# ohne Handgriff ankommen. Er rührt nichts anderes an. Vorher prüft er die
+# Datei mit tests/unit/hausBesetzung.test.js; scheitert das, bleibt alles,
+# wie es war, und der Lauf wird rot.
+#
+# Ein Commit über den GITHUB_TOKEN stößt keine weiteren Läufe an; Vercel
+# veröffentlicht ihn trotzdem.
+
+on:
+  schedule:
+    # Montags 03:30 UTC – nachts, nach dem Wochenende mit den meisten Vorstellungen.
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: besetzung-lauf
+  cancel-in-progress: false
+
+jobs:
+  lesen:
+    # Fest statt ubuntu-latest, siehe tests.yml.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    permissions:
+      contents: write
+
+    env:
+      # "Heute" ist der Tag in Deutschland.
+      TZ: Europe/Berlin
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Besetzung lesen
+        run: node tests/werkzeug/besetzung-lesen.mjs
+
+      - name: Datei prüfen
+        run: node --test tests/unit/hausBesetzung.test.js
+
+      - name: Ins Repo schreiben
+        run: |
+          if git diff --quiet -- daten/besetzung; then
+            echo "Keine Änderung."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          git add daten/besetzung
+          git commit -m "Besetzung der Oper Leipzig aktualisiert" -m "Wöchentlicher Lauf von tests/werkzeug/besetzung-lesen.mjs."
+          # Ist main inzwischen weiter, die eigene Änderung oben draufsetzen.
+          git pull --rebase origin main
+          git push origin HEAD:main

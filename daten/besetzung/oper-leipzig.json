@@ -1,0 +1,4263 @@
+{
+ "haus": "oper-leipzig",
+ "stand": "2026-11-23",
+ "quelle": "https://www.oper-leipzig.de/de/programm",
+ "abende": {
+  "eugen-onegin|2026-11-28": {
+   "zeit": "19:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Olesya Golovneva"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Eugen Onegin",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Lenskij",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Saretzkij/Ein Hauptmann",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Vorsänger",
+     "name": "Jacob Paul Romero Kressin"
+    }
+   ]
+  },
+  "nozze-di-figaro|2026-11-29": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Rebecca Suta"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "nozze-di-figaro|2026-12-05": {
+   "zeit": "18:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Beatriz Cuéllar"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "la-boheme|2026-12-06": {
+   "zeit": "17:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Peter Konwitschny",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Seiltänzerin",
+     "name": "Paola Malzew"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Martin Busen"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Vincent Turregano"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Jin Young Jang"
+    },
+    {
+     "rolle": "Ein Händler",
+     "name": "Jon Jurgens"
+    },
+    {
+     "rolle": "Zöllner",
+     "name": "Vincent Turregano"
+    },
+    {
+     "rolle": "Sergeant",
+     "name": "Kwangmin Seo"
+    }
+   ]
+  },
+  "csardasfuerstin|2026-12-11": {
+   "zeit": "19:30",
+   "dirigent": "Michael Nündel",
+   "regie": "Franziska Severin",
+   "besetzung": [
+    {
+     "rolle": "Sylva Varescu",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Edwin",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Graf Boni Káncsiánu",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Komtesse Stasi",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Feri von Kerekes",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Anhilte",
+     "name": "Angela Mehling"
+    },
+    {
+     "rolle": "Fürst Leopold Maria",
+     "name": "Hans-Georg Pachmann"
+    },
+    {
+     "rolle": "Eugen von Rohnsdorff",
+     "name": "Uwe Strötzel"
+    },
+    {
+     "rolle": "Botschafter Mac Grave",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Kiss, Notar",
+     "name": "Sebastian Gosch"
+    }
+   ]
+  },
+  "la-boheme|2026-12-13": {
+   "zeit": "15:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Peter Konwitschny",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Seiltänzerin",
+     "name": "Paola Malzew"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Martin Busen"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Vincent Turregano"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Hunyoung Choi"
+    },
+    {
+     "rolle": "Ein Händler",
+     "name": "Jon Jurgens"
+    },
+    {
+     "rolle": "Zöllner",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Sergeant",
+     "name": "Klaus Bernewitz"
+    }
+   ]
+  },
+  "nozze-di-figaro|2026-12-15": {
+   "zeit": "19:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Anastasiya Taratorkina"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Rebecca Suta"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "la-traviata|2026-12-17": {
+   "zeit": "19:30",
+   "dirigent": "Christoph Gedschold",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Merit Nath-Göbl"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Barone Douphol",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Marchese d´Obigny",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Dottore Grenvil",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Ruben Olivares"
+    },
+    {
+     "rolle": "Diener Floras",
+     "name": "Vincent Turregano"
+    },
+    {
+     "rolle": "Ein Dienstmann",
+     "name": "Klaus Bernewitz"
+    }
+   ]
+  },
+  "zauberflote|2026-12-18": {
+   "zeit": "19:00",
+   "dirigent": "Sebastian Camaño Saavedra",
+   "regie": "Matthias Davids",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Dritter Priester",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "1. Dame",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "2. Dame",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "3. Dame",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "1. Knabe",
+     "name": "Florencia Santini"
+    },
+    {
+     "rolle": "2. Knabe",
+     "name": "Laurenzia Kampa"
+    },
+    {
+     "rolle": "3. Knabe",
+     "name": "Mascha Zippel"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "1. geharnischter Mann",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "2. geharnischter Mann",
+     "name": "Peter Dolinšek"
+    }
+   ]
+  },
+  "csardasfuerstin|2026-12-19": {
+   "zeit": "19:00",
+   "dirigent": "Michael Nündel",
+   "regie": "Franziska Severin",
+   "besetzung": [
+    {
+     "rolle": "Sylva Varescu",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Edwin",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Graf Boni Káncsiánu",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Komtesse Stasi",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Feri von Kerekes",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Anhilte",
+     "name": "Angela Mehling"
+    },
+    {
+     "rolle": "Fürst Leopold Maria",
+     "name": "Patrick Rohbeck"
+    },
+    {
+     "rolle": "Eugen von Rohnsdorff",
+     "name": "Uwe Strötzel"
+    },
+    {
+     "rolle": "Botschafter Mac Grave",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Kiss, Notar",
+     "name": "Sebastian Gosch"
+    }
+   ]
+  },
+  "csardasfuerstin|2026-12-20": {
+   "zeit": "15:00",
+   "dirigent": "Michael Nündel",
+   "regie": "Franziska Severin",
+   "besetzung": [
+    {
+     "rolle": "Sylva Varescu",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Edwin",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Graf Boni Káncsiánu",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Komtesse Stasi",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Feri von Kerekes",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Anhilte",
+     "name": "Angela Mehling"
+    },
+    {
+     "rolle": "Fürst Leopold Maria",
+     "name": "Patrick Rohbeck"
+    },
+    {
+     "rolle": "Eugen von Rohnsdorff",
+     "name": "Uwe Strötzel"
+    },
+    {
+     "rolle": "Botschafter Mac Grave",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Kiss, Notar",
+     "name": "Sebastian Gosch"
+    }
+   ]
+  },
+  "csardasfuerstin|2026-12-25": {
+   "zeit": "18:00",
+   "dirigent": "Michael Nündel",
+   "regie": "Franziska Severin",
+   "besetzung": [
+    {
+     "rolle": "Sylva Varescu",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Edwin",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Graf Boni Káncsiánu",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Komtesse Stasi",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Feri von Kerekes",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Anhilte",
+     "name": "Angela Mehling"
+    },
+    {
+     "rolle": "Fürst Leopold Maria",
+     "name": "Hans-Georg Pachmann"
+    },
+    {
+     "rolle": "Eugen von Rohnsdorff",
+     "name": "Uwe Strötzel"
+    },
+    {
+     "rolle": "Botschafter Mac Grave",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Kiss, Notar",
+     "name": "Ulf-Christian Simons-Müller"
+    }
+   ]
+  },
+  "eugen-onegin|2026-12-26": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Eugen Onegin",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Lenskij",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Saretzkij/Ein Hauptmann",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Vorsänger",
+     "name": "Ruben Olivares"
+    }
+   ]
+  },
+  "eugen-onegin|2027-01-03": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Eugen Onegin",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Lenskij",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Saretzkij/Ein Hauptmann",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Vorsänger",
+     "name": "Jacob Paul Romero Kressin"
+    }
+   ]
+  },
+  "carmen|2027-01-09": {
+   "zeit": "19:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Leonardo Caimi"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Dancairo",
+     "name": "Dominic Große"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Lillas Pastia",
+     "name": "Alexander Range"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-01-10": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Beatriz Cuéllar"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "nabucco|2027-01-16": {
+   "zeit": "19:00",
+   "dirigent": "Yura Yang",
+   "regie": "Dietrich W. Hilsdorf",
+   "besetzung": [
+    {
+     "rolle": "Abigaille",
+     "name": "Hulkar Sabirova"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ana Gvozdenovic"
+    },
+    {
+     "rolle": "Nabucco",
+     "name": "Aluda Todua"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Liang Li"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Matthias Stier"
+    }
+   ]
+  },
+  "zauberflote|2027-01-17": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Matthias Davids",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Karim Elias Mayer"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Dritter Priester",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "1. Dame",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "2. Dame",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "3. Dame",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "1. Knabe",
+     "name": "Rebecca Suta"
+    },
+    {
+     "rolle": "2. Knabe",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "3. Knabe",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Jonathan Michie"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "1. geharnischter Mann",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "2. geharnischter Mann",
+     "name": "Karim Elias Mayer"
+    }
+   ]
+  },
+  "zauberflote|2027-01-22": {
+   "zeit": "19:30",
+   "dirigent": "Yura Yang",
+   "regie": "Matthias Davids",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Karim Elias Mayer"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Dritter Priester",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "1. Dame",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "2. Dame",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "3. Dame",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "1. Knabe",
+     "name": "Florencia Santini"
+    },
+    {
+     "rolle": "2. Knabe",
+     "name": "Laurenzia Kampa"
+    },
+    {
+     "rolle": "3. Knabe",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Jonathan Michie"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "1. geharnischter Mann",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "2. geharnischter Mann",
+     "name": "Karim Elias Mayer"
+    }
+   ]
+  },
+  "csardasfuerstin|2027-01-23": {
+   "zeit": "19:00",
+   "dirigent": "Michael Nündel",
+   "regie": "Franziska Severin",
+   "besetzung": [
+    {
+     "rolle": "Sylva Varescu",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Edwin",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Graf Boni Káncsiánu",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Komtesse Stasi",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Feri von Kerekes",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Anhilte",
+     "name": "Angela Mehling"
+    },
+    {
+     "rolle": "Fürst Leopold Maria",
+     "name": "Patrick Rohbeck"
+    },
+    {
+     "rolle": "Eugen von Rohnsdorff",
+     "name": "Uwe Strötzel"
+    },
+    {
+     "rolle": "Botschafter Mac Grave",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Kiss, Notar",
+     "name": "Ulf-Christian Simons-Müller"
+    },
+    {
+     "rolle": "Ein Groom",
+     "name": "Uwe Kronberg"
+    }
+   ]
+  },
+  "tosca|2027-01-23": {
+   "zeit": "19:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Michiel Dijkema",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Natalya Romaniw"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Stefan Pop"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Ivan Inverardi"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Iason Liossatos"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Frank Wernstedt"
+    },
+    {
+     "rolle": "Stimme des Hirtenmädchens",
+     "name": "Carmen Boatella"
+    }
+   ]
+  },
+  "csardasfuerstin|2027-01-24": {
+   "zeit": "15:00",
+   "dirigent": "Michael Nündel",
+   "regie": "Franziska Severin",
+   "besetzung": [
+    {
+     "rolle": "Sylva Varescu",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Edwin",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Graf Boni Káncsiánu",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Komtesse Stasi",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Feri von Kerekes",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Anhilte",
+     "name": "Angela Mehling"
+    },
+    {
+     "rolle": "Fürst Leopold Maria",
+     "name": "Patrick Rohbeck"
+    },
+    {
+     "rolle": "Eugen von Rohnsdorff",
+     "name": "Uwe Strötzel"
+    },
+    {
+     "rolle": "Botschafter Mac Grave",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Kiss, Notar",
+     "name": "Ulf-Christian Simons-Müller"
+    },
+    {
+     "rolle": "Ein Groom",
+     "name": "Uwe Kronberg"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-01-24": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Rebecca Suta"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "nabucco|2027-01-29": {
+   "zeit": "19:30",
+   "dirigent": "Yura Yang",
+   "regie": "Dietrich W. Hilsdorf",
+   "besetzung": [
+    {
+     "rolle": "Abigaille",
+     "name": "Hulkar Sabirova"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ana Gvozdenovic"
+    },
+    {
+     "rolle": "Nabucco",
+     "name": "Aluda Todua"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Liang Li"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Matthias Stier"
+    }
+   ]
+  },
+  "la-traviata|2027-01-30": {
+   "zeit": "19:00",
+   "dirigent": "Christoph Gedschold",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Merit Nath-Göbl"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Sung min Song"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Barone Douphol",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Marchese d´Obigny",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Dottore Grenvil",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Máté Gál"
+    },
+    {
+     "rolle": "Diener Floras",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Ein Dienstmann",
+     "name": "Klaus Bernewitz"
+    }
+   ]
+  },
+  "eugen-onegin|2027-01-31": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Eugen Onegin",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Lenskij",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Saretzkij/Ein Hauptmann",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Vorsänger",
+     "name": "Ruben Olivares"
+    }
+   ]
+  },
+  "eugen-onegin|2027-02-07": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Eugen Onegin",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Lenskij",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Saretzkij/Ein Hauptmann",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Vorsänger",
+     "name": "Jacob Paul Romero Kressin"
+    }
+   ]
+  },
+  "carmen|2027-02-21": {
+   "zeit": "17:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Leonardo Caimi"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Dancairo",
+     "name": "Dominic Große"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Lillas Pastia",
+     "name": "Alexander Range"
+    }
+   ]
+  },
+  "nabucco|2027-02-26": {
+   "zeit": "19:30",
+   "dirigent": "Yura Yang",
+   "regie": "Dietrich W. Hilsdorf",
+   "besetzung": [
+    {
+     "rolle": "Abigaille",
+     "name": "Hulkar Sabirova"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ana Gvozdenovic"
+    },
+    {
+     "rolle": "Nabucco",
+     "name": "Aluda Todua"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Liang Li"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Matthias Stier"
+    }
+   ]
+  },
+  "tosca|2027-02-28": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Michiel Dijkema",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Natalya Romaniw"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Iason Liossatos"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Klaus Bernewitz"
+    },
+    {
+     "rolle": "Stimme des Hirtenmädchens",
+     "name": "Merit Nath-Göbl"
+    }
+   ]
+  },
+  "lustige-witwe|2027-03-20": {
+   "zeit": "19:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-03-21": {
+   "zeit": "17:00",
+   "dirigent": "Rubén Dubrovsky",
+   "regie": "Katharina Thoma",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Philipp Jekal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sejong Chang"
+    }
+   ]
+  },
+  "lustige-witwe|2027-03-21": {
+   "zeit": "15:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "la-traviata|2027-03-27": {
+   "zeit": "19:00",
+   "dirigent": "Christoph Gedschold",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Sandra Laagus"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Merit Nath-Göbl"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barone Douphol",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Marchese d´Obigny",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Dottore Grenvil",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Ruben Olivares"
+    },
+    {
+     "rolle": "Diener Floras",
+     "name": "Vincent Turregano"
+    },
+    {
+     "rolle": "Ein Dienstmann",
+     "name": "Klaus Bernewitz"
+    }
+   ]
+  },
+  "lustige-witwe|2027-03-27": {
+   "zeit": "19:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Mirjam Neururer"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Jeffery Krueger"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "lustige-witwe|2027-03-28": {
+   "zeit": "15:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Mirjam Neururer"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Jeffery Krueger"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-03-29": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Beatriz Cuéllar"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "carmen|2027-04-02": {
+   "zeit": "19:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Leonardo Caimi"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Dancairo",
+     "name": "Dominic Große"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Lillas Pastia",
+     "name": "Alexander Range"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-04-09": {
+   "zeit": "19:00",
+   "dirigent": "Rubén Dubrovsky",
+   "regie": "Katharina Thoma",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Philipp Jekal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tuomas Pursio"
+    }
+   ]
+  },
+  "tosca|2027-04-11": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Michiel Dijkema",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Natalya Romaniw"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Ivan Gyngazov"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Iason Liossatos"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Frank Wernstedt"
+    },
+    {
+     "rolle": "Stimme des Hirtenmädchens",
+     "name": "Merit Nath-Göbl"
+    }
+   ]
+  },
+  "gianni-schicchi|2027-04-17": {
+   "zeit": "19:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Michele",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Gianni Schicchi",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Suor Angelica",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Luigi",
+     "name": "Rodrigo Garull"
+    },
+    {
+     "rolle": "Lauretta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "La Zia Principessa",
+     "name": "Doris Soffel"
+    },
+    {
+     "rolle": "Tinca",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "La Badessa (Äbtissin)",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Zita",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Talpa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "La Suor Zelatrice (Klosterschwester)",
+     "name": "Marie-Luise Dreßen"
+    },
+    {
+     "rolle": "Rinuccio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "La Maestra delle Novizie",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Suor Genovieffa",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Giorgetta",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Dorota Bronikowska"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Marijke Janssens"
+    },
+    {
+     "rolle": "Frugola",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Nella",
+     "name": "Maria Vasilevskaya"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Juliane Bookhagen"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Anna Elisabeth Hempel"
+    },
+    {
+     "rolle": "Un venditore di canzonetta",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Betto di Signa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Amante (Tenor)",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Ana Beatriz Machado"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Julia Moorman"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Reba Bernhardt"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Susana Boccato"
+    },
+    {
+     "rolle": "Simone",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Amante (Sopran)",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Marco",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "La Ciesca",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Mira Beck"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "Maestro Spinelloccio",
+     "name": "Frank Wernstedt"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Eliza Albert"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Anna Kristina Michelsen"
+    },
+    {
+     "rolle": "Ser Amantio di Nicolao",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Denys Kalhin"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Kwangmin Seo"
+    }
+   ]
+  },
+  "lustige-witwe|2027-04-17": {
+   "zeit": "19:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "lustige-witwe|2027-04-18": {
+   "zeit": "15:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "gianni-schicchi|2027-04-23": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Michele",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Gianni Schicchi",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Suor Angelica",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Luigi",
+     "name": "Rodrigo Garull"
+    },
+    {
+     "rolle": "Lauretta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "La Zia Principessa",
+     "name": "Doris Soffel"
+    },
+    {
+     "rolle": "Tinca",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "La Badessa (Äbtissin)",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Zita",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Talpa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "La Suor Zelatrice (Klosterschwester)",
+     "name": "Marie-Luise Dreßen"
+    },
+    {
+     "rolle": "Rinuccio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "La Maestra delle Novizie",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Suor Genovieffa",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Giorgetta",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Dorota Bronikowska"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Marijke Janssens"
+    },
+    {
+     "rolle": "Frugola",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Nella",
+     "name": "Maria Vasilevskaya"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Juliane Bookhagen"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Anna Elisabeth Hempel"
+    },
+    {
+     "rolle": "Un venditore di canzonetta",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Betto di Signa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Amante (Tenor)",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Ana Beatriz Machado"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Julia Moorman"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Reba Bernhardt"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Susana Boccato"
+    },
+    {
+     "rolle": "Simone",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Amante (Sopran)",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Marco",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "La Ciesca",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Mira Beck"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "Maestro Spinelloccio",
+     "name": "Frank Wernstedt"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Eliza Albert"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Anna Kristina Michelsen"
+    },
+    {
+     "rolle": "Ser Amantio di Nicolao",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Denys Kalhin"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Kwangmin Seo"
+    }
+   ]
+  },
+  "salome|2027-04-25": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Aron Stiehl",
+   "besetzung": [
+    {
+     "rolle": "Herodias",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Salome",
+     "name": "Jennifer Holloway"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Johanna Bretschneider"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Paul Kaufmann"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Ein Kappadozier",
+     "name": "Karim Elias Mayer"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "2. Nazarener",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "1. Soldat",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "2. Soldat",
+     "name": "Yorck Felix Speer"
+    }
+   ]
+  },
+  "salome|2027-05-01": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Aron Stiehl",
+   "besetzung": [
+    {
+     "rolle": "Herodias",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Salome",
+     "name": "Jennifer Holloway"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Johanna Bretschneider"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Brenden Gunnell"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Paul Kaufmann"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Ein Kappadozier",
+     "name": "Karim Elias Mayer"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "2. Nazarener",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "1. Soldat",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "2. Soldat",
+     "name": "Yorck Felix Speer"
+    }
+   ]
+  },
+  "la-traviata|2027-05-02": {
+   "zeit": "17:00",
+   "dirigent": "Christoph Gedschold",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Merit Nath-Göbl"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barone Douphol",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Marchese d´Obigny",
+     "name": "Randall Jakobsh"
+    },
+    {
+     "rolle": "Dottore Grenvil",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Máté Gál"
+    },
+    {
+     "rolle": "Diener Floras",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Ein Dienstmann",
+     "name": "Klaus Bernewitz"
+    }
+   ]
+  },
+  "lustige-witwe|2027-05-06": {
+   "zeit": "15:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Mirjam Neururer"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "gianni-schicchi|2027-05-07": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Michele",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Gianni Schicchi",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Suor Angelica",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Luigi",
+     "name": "Rodrigo Garull"
+    },
+    {
+     "rolle": "Lauretta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "La Zia Principessa",
+     "name": "Doris Soffel"
+    },
+    {
+     "rolle": "Tinca",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Zita",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "La Badessa (Äbtissin)",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Talpa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "La Suor Zelatrice (Klosterschwester)",
+     "name": "Marie-Luise Dreßen"
+    },
+    {
+     "rolle": "Rinuccio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "La Maestra delle Novizie",
+     "name": "Almerija Delic"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Suor Genovieffa",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Giorgetta",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Dorota Bronikowska"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Marijke Janssens"
+    },
+    {
+     "rolle": "Frugola",
+     "name": "Almerija Delic"
+    },
+    {
+     "rolle": "Nella",
+     "name": "Maria Vasilevskaya"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Juliane Bookhagen"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Anna Elisabeth Hempel"
+    },
+    {
+     "rolle": "Un venditore di canzonetta",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Betto di Signa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Amante (Tenor)",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Ana Beatriz Machado"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Julia Moorman"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Reba Bernhardt"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Susana Boccato"
+    },
+    {
+     "rolle": "Simone",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Amante (Sopran)",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Marco",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "La Ciesca",
+     "name": "Almerija Delic"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Mira Beck"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "Maestro Spinelloccio",
+     "name": "Marcello Mejia Mejia"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Eliza Albert"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Anna Kristina Michelsen"
+    },
+    {
+     "rolle": "Ser Amantio di Nicolao",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Denys Kalhin"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Kwangmin Seo"
+    }
+   ]
+  },
+  "lustige-witwe|2027-05-07": {
+   "zeit": "19:30",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Mirjam Neururer"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "carmen|2027-05-09": {
+   "zeit": "17:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Leonardo Caimi"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Dancairo",
+     "name": "Dominic Große"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Lillas Pastia",
+     "name": "Alexander Range"
+    }
+   ]
+  },
+  "zauberflote|2027-05-16": {
+   "zeit": "17:00",
+   "dirigent": "Yura Yang",
+   "regie": "Matthias Davids",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Karim Elias Mayer"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Dritter Priester",
+     "name": "Marian Müller"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Ylva Stenberg"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "1. Dame",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "2. Dame",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "3. Dame",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "1. Knabe",
+     "name": "Rebecca Suta"
+    },
+    {
+     "rolle": "2. Knabe",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "3. Knabe",
+     "name": "Mascha Zippel"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Jonathan Michie"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "1. geharnischter Mann",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "2. geharnischter Mann",
+     "name": "Karim Elias Mayer"
+    }
+   ]
+  },
+  "tristan|2027-05-22": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Enrico Lübbe",
+   "besetzung": [
+    {
+     "rolle": "Isolde",
+     "name": "Catherine Foster"
+    },
+    {
+     "rolle": "Brangäne",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Tristan",
+     "name": "Daniel Johansson"
+    },
+    {
+     "rolle": "König Marke",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Kurwenal",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Melot",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Ein Steuermann",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Ein junger Seemann",
+     "name": "Matthias Stier"
+    }
+   ]
+  },
+  "fliegender-hollaender|2027-05-23": {
+   "zeit": "17:00",
+   "dirigent": "Christoph Gedschold",
+   "regie": "Michiel Dijkema",
+   "besetzung": [
+    {
+     "rolle": "Senta",
+     "name": "Martina Welschenbach"
+    },
+    {
+     "rolle": "Mary",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Der Holländer",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Daland",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Erik",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Der Steuermann",
+     "name": "Einar Dagur Jónsson"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-05-27": {
+   "zeit": "19:00",
+   "dirigent": "Yura Yang",
+   "regie": "Ilaria Lanzino",
+   "besetzung": [
+    {
+     "rolle": "Il Conte di Almaviva",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "La Contessa di Almaviva",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Rebecca Suta"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Frieder Flesch"
+    }
+   ]
+  },
+  "don-giovanni|2027-05-28": {
+   "zeit": "19:00",
+   "dirigent": "Yura Yang",
+   "regie": "Katharina Thoma",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Il commendatore",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Samantha Gaul"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-05-29": {
+   "zeit": "19:00",
+   "dirigent": "Rubén Dubrovsky",
+   "regie": "Katharina Thoma",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Barbara Senator"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Gabrielė Kupšytė"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Philipp Jekal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Matthias Stier"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tuomas Pursio"
+    }
+   ]
+  },
+  "fliegender-hollaender|2027-06-05": {
+   "zeit": "19:00",
+   "dirigent": "Christoph Gedschold",
+   "regie": "Michiel Dijkema",
+   "besetzung": [
+    {
+     "rolle": "Senta",
+     "name": "Martina Welschenbach"
+    },
+    {
+     "rolle": "Mary",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Der Holländer",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Daland",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Erik",
+     "name": "Brenden Gunnell"
+    },
+    {
+     "rolle": "Der Steuermann",
+     "name": "Einar Dagur Jónsson"
+    }
+   ]
+  },
+  "carmen|2027-06-06": {
+   "zeit": "17:00",
+   "dirigent": "Friedrich Praetorius",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Leonardo Caimi"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Tuomas Pursio"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Dancairo",
+     "name": "Dominic Große"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Olena Tokar"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Nina Schumertl"
+    },
+    {
+     "rolle": "Lillas Pastia",
+     "name": "Alexander Range"
+    }
+   ]
+  },
+  "don-giovanni|2027-06-11": {
+   "zeit": "19:00",
+   "dirigent": "Yura Yang",
+   "regie": "Katharina Thoma",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Il commendatore",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Donna Elvira",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Samantha Gaul"
+    }
+   ]
+  },
+  "gianni-schicchi|2027-06-13": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Michele",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Gianni Schicchi",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Suor Angelica",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Luigi",
+     "name": "Rodrigo Garull"
+    },
+    {
+     "rolle": "Lauretta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "La Zia Principessa",
+     "name": "Doris Soffel"
+    },
+    {
+     "rolle": "Tinca",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Zita",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "La Badessa (Äbtissin)",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Talpa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "La Suor Zelatrice (Klosterschwester)",
+     "name": "Marie-Luise Dreßen"
+    },
+    {
+     "rolle": "Rinuccio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "La Maestra delle Novizie",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Suor Genovieffa",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Giorgetta",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Dorota Bronikowska"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Marijke Janssens"
+    },
+    {
+     "rolle": "Frugola",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Nella",
+     "name": "Maria Vasilevskaya"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Juliane Bookhagen"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Anna Elisabeth Hempel"
+    },
+    {
+     "rolle": "Un venditore di canzonetta",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Betto di Signa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Amante (Tenor)",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Ana Beatriz Machado"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Julia Moorman"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Reba Bernhardt"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Susana Boccato"
+    },
+    {
+     "rolle": "Simone",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Amante (Sopran)",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Marco",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "La Ciesca",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Mira Beck"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "Maestro Spinelloccio",
+     "name": "Frank Wernstedt"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Eliza Albert"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Anna Kristina Michelsen"
+    },
+    {
+     "rolle": "Ser Amantio di Nicolao",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Denys Kalhin"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Kwangmin Seo"
+    }
+   ]
+  },
+  "lustige-witwe|2027-06-15": {
+   "zeit": "19:30",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Jeffery Krueger"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "gianni-schicchi|2027-06-19": {
+   "zeit": "19:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Michele",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Gianni Schicchi",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Suor Angelica",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Luigi",
+     "name": "Rodrigo Garull"
+    },
+    {
+     "rolle": "Lauretta",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "La Zia Principessa",
+     "name": "Doris Soffel"
+    },
+    {
+     "rolle": "Tinca",
+     "name": "Dan Karlström"
+    },
+    {
+     "rolle": "Zita",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "La Badessa (Äbtissin)",
+     "name": "Ulrike Schneider"
+    },
+    {
+     "rolle": "Talpa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "La Suor Zelatrice (Klosterschwester)",
+     "name": "Marie-Luise Dreßen"
+    },
+    {
+     "rolle": "Rinuccio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "La Maestra delle Novizie",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Gherardo",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Suor Genovieffa",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Giorgetta",
+     "name": "Solen Mainguené"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Dorota Bronikowska"
+    },
+    {
+     "rolle": "Suor Osmina",
+     "name": "Marijke Janssens"
+    },
+    {
+     "rolle": "Frugola",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Nella",
+     "name": "Maria Vasilevskaya"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Juliane Bookhagen"
+    },
+    {
+     "rolle": "Suor Dolcina",
+     "name": "Anna Elisabeth Hempel"
+    },
+    {
+     "rolle": "Un venditore di canzonetta",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Betto di Signa",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Amante (Tenor)",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Ana Beatriz Machado"
+    },
+    {
+     "rolle": "Prima Cercatrice",
+     "name": "Julia Moorman"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Reba Bernhardt"
+    },
+    {
+     "rolle": "Seconda Cercatrice",
+     "name": "Susana Boccato"
+    },
+    {
+     "rolle": "Simone",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Amante (Sopran)",
+     "name": "Samantha Gaul"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Alice Chinaglia"
+    },
+    {
+     "rolle": "Prima Novizia",
+     "name": "Amelie Petrich"
+    },
+    {
+     "rolle": "Marco",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "La Ciesca",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Mira Beck"
+    },
+    {
+     "rolle": "Prima Conversa",
+     "name": "Leah Weil"
+    },
+    {
+     "rolle": "Maestro Spinelloccio",
+     "name": "Frank Wernstedt"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Eliza Albert"
+    },
+    {
+     "rolle": "Seconda Conversa",
+     "name": "Anna Kristina Michelsen"
+    },
+    {
+     "rolle": "Ser Amantio di Nicolao",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Denys Kalhin"
+    },
+    {
+     "rolle": "Guccio",
+     "name": "Kwangmin Seo"
+    }
+   ]
+  },
+  "don-giovanni|2027-06-25": {
+   "zeit": "19:00",
+   "dirigent": "Yura Yang",
+   "regie": "Katharina Thoma",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Franz Xaver Schlecht"
+    },
+    {
+     "rolle": "Il commendatore",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Athanasia Zöhrer"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Tomislav Jukić"
+    },
+    {
+     "rolle": "Donna Elvira",
+     "name": "Kathrin Göring"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Sejong Chang"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Peter Dolinšek"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Samantha Gaul"
+    }
+   ]
+  },
+  "tristan|2027-06-27": {
+   "zeit": "17:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Enrico Lübbe",
+   "besetzung": [
+    {
+     "rolle": "Isolde",
+     "name": "Catherine Foster"
+    },
+    {
+     "rolle": "Brangäne",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Tristan",
+     "name": "Andreas Schager"
+    },
+    {
+     "rolle": "König Marke",
+     "name": "Yorck Felix Speer"
+    },
+    {
+     "rolle": "Kurwenal",
+     "name": "Mathias Hausmann"
+    },
+    {
+     "rolle": "Melot",
+     "name": "Einar Dagur Jónsson"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "Daniel Arnaldos"
+    },
+    {
+     "rolle": "Ein Steuermann",
+     "name": "Frieder Flesch"
+    },
+    {
+     "rolle": "Ein junger Seemann",
+     "name": "Matthias Stier"
+    }
+   ]
+  },
+  "lustige-witwe|2027-07-03": {
+   "zeit": "19:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "lustige-witwe|2027-07-04": {
+   "zeit": "15:00",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Friederike Meinke"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  },
+  "lustige-witwe|2027-07-06": {
+   "zeit": "19:30",
+   "dirigent": "Tobias Engeli",
+   "regie": "André Kaczmarczyk",
+   "besetzung": [
+    {
+     "rolle": "Hanna Glawari",
+     "name": "Mirjam Neururer"
+    },
+    {
+     "rolle": "Graf Danilo Danilowitsch",
+     "name": "Michael Borth"
+    },
+    {
+     "rolle": "Valencienne",
+     "name": "Da-yung Cho"
+    },
+    {
+     "rolle": "Camille de Rosillon",
+     "name": "Stanisław Napierała"
+    },
+    {
+     "rolle": "Njegus",
+     "name": "Nora Lentner"
+    },
+    {
+     "rolle": "Baron Mirko Zeta",
+     "name": "Milko Milev"
+    },
+    {
+     "rolle": "Vicomte Cascada",
+     "name": "Michael Raschle"
+    },
+    {
+     "rolle": "Raoul de Saint-Brioche",
+     "name": "Andreas Rainer"
+    },
+    {
+     "rolle": "Bogdanowitsch",
+     "name": "Roland Otto"
+    },
+    {
+     "rolle": "Sylviane",
+     "name": "Martina Wugk-Kratz"
+    },
+    {
+     "rolle": "Kromow",
+     "name": "Uwe Kronberg"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Sabine Töpfer"
+    },
+    {
+     "rolle": "Pritschitsch",
+     "name": "Radoslaw Rydlewski"
+    },
+    {
+     "rolle": "Praskowia",
+     "name": "Franziska Schwarz"
+    }
+   ]
+  }
+ }
+}

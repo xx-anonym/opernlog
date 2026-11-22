@@ -11,6 +11,7 @@ import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke, mitwir
 import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
 import { tippen } from '../haptik.js';
 import { geradeGeloggtMerken } from '../einladenHinweis.js';
+import { hausMitwirkende } from '../data/hausBesetzung.js';
 
 export function LogVisitPage(params = {}) {
   const page = document.createElement('div');
@@ -250,11 +251,14 @@ export function LogVisitPage(params = {}) {
   const conductorFeld = page.querySelector('#conductorInput');
   const directorFeld = page.querySelector('#directorInput');
   const castFeld = page.querySelector('#castInput');
-  const mitwirkendeCache = new Map(); // "haus|werk|datum" -> Einträge anderer
+  const mitwirkendeCache = new Map(); // "haus|werk|datum" -> { andere: Einträge anderer, haus: Angabe des Hauses }
   let mitwirkendeSchluessel = '';
 
   function zeigeMitwirkende() {
-    const eintraege = mitwirkendeCache.get(mitwirkendeSchluessel) || [];
+    // Was das Haus angibt (Beta, data/hausBesetzung.js), steht vorn: bei
+    // gleich vielen Stimmen gewinnt bei mitwirkendeVorschlag der erste Eintrag.
+    const { andere = [], haus = null } = mitwirkendeCache.get(mitwirkendeSchluessel) || {};
+    const eintraege = haus ? [haus, ...andere] : andere;
     const v = mitwirkendeVorschlag(eintraege, {
       conductor: conductorFeld.value, director: directorFeld.value, castList: castFeld.value,
     });
@@ -294,7 +298,8 @@ export function LogVisitPage(params = {}) {
         },
       }));
     }
-    zeigeVorschlag(mitwirkendeVorschlagEl, 'Andere Besucher dieses Abends notierten:', knoepfe);
+    zeigeVorschlag(mitwirkendeVorschlagEl, haus && andere.length ? 'Laut Spielplan des Hauses und anderen Besuchern:'
+      : haus ? 'Laut Spielplan des Hauses (Beta):' : 'Andere Besucher dieses Abends notierten:', knoepfe);
     // Die Live-Region bleibt im Dokument und wird nur geleert: eine, die mit
     // ihrem Inhalt zugleich auftaucht, lesen Screenreader oft nicht vor.
     mitwirkendeVorschlagEl.hidden = false;
@@ -308,8 +313,9 @@ export function LogVisitPage(params = {}) {
     mitwirkendeSchluessel = schluessel;
     if (!schluessel) { zeigeMitwirkende(); return; }
     if (!mitwirkendeCache.has(schluessel)) {
-      const eintraege = await store.mitwirkendeAmAbend({ houseId: hausId, operaId: werkId, date: datum });
-      mitwirkendeCache.set(schluessel, eintraege);
+      const abend = { houseId: hausId, operaId: werkId, date: datum };
+      const [andere, haus] = await Promise.all([store.mitwirkendeAmAbend(abend), hausMitwirkende(abend)]);
+      mitwirkendeCache.set(schluessel, { andere: andere || [], haus });
     }
     // Inzwischen ein anderer Abend gewählt: die alte Antwort zeigt nichts mehr.
     if (schluessel === mitwirkendeSchluessel) zeigeMitwirkende();
