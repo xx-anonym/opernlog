@@ -13,6 +13,7 @@ import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
 import { escapeHTML, datumKurz, einblendVerzoegerung } from '../utils.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
+import { personBildEinsetzen } from '../components/PersonBild.js';
 
 /** "als Rigoletto und Macbeth", "am Pult", "Regie" – was jemand an einem Abend war. */
 export function alsText(als) {
@@ -80,5 +81,8 @@ export function PersonDetailPage(param) {
         <div class="empty-state"><p>Noch kein Abend mit ${escapeHTML(anzeigeName)} in deinem Tagebuch.</p></div>`}
       </div>
     `;
+    // Unter den Abenden ein Bild der Person von Wikipedia, wenn es eins gibt
+    // und der Artikel zu dem passt, was sie an diesen Abenden war.
+    if (abende.length) personBildEinsetzen(page.querySelector('.detail-body'), anzeigeName, abende.flatMap(a => a.als.length ? a.als : ['']));
     return page;
 }

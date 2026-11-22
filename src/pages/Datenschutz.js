@@ -91,6 +91,9 @@ export function DatenschutzPage() {
         <li><strong>Wikimedia Commons</strong> (Wikimedia Foundation, USA): Bilder von Werken, Häusern und
           Komponisten lädt dein Browser direkt von dort, bei neuen Bildern auch ihren
           <a href="#/bildnachweise">Bildnachweis</a>; Wikimedia sieht dabei deine IP-Adresse.</li>
+        <li><strong>Wikipedia</strong> (Wikimedia Foundation, USA): Auf der Seite einer Person (Sängerin,
+          Dirigent, Regie) schlägt die App deren Namen bei Wikipedia nach, um ein Bild zu zeigen. Wikipedia
+          sieht dabei den Namen und deine IP-Adresse.</li>
         <li><strong>Resend</strong> (USA; Versand aus Irland) verschickt die Mails von OpernLog und sieht
           dabei deine E-Mail-Adresse und den Inhalt der Mail.</li>
         <li><strong>Google</strong>, wenn du dich mit Google anmeldest. Für den Google-Knopf lädt dein Browser

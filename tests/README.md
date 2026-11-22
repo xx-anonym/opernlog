@@ -22,6 +22,7 @@ node --test "tests/**/*.test.js"
 | `visitedHouses.test.js` | besuchte Häuser je Besuch |
 | `blindSpots.test.js` | Markierungen zählen als gesehen, aber nicht als Abend |
 | `season.test.js` | Spielzeitgrenze 1. August, Saisonrückblick, bester Abend |
+| `personBild.test.js` | Bild zur Personenseite aus Wikipedia: nur wenn die Kurzbeschreibung zur Funktion an den Abenden passt (kein gleichnamiger Fußballer), nur freie Commons-Bilder, Adresse auf upload.wikimedia.org ohne Zählparameter, Begriffsklärung und fehlender Artikel ergeben keins |
 | `tagebuch.test.js` | Reihenfolge im Tagebuch – und die Blöcke, die ihr folgen müssen |
 | `geo.test.js` | Entfernung und Vorauswahl des nächsten Opernhauses |
 | `credits.test.js` | Mitwirkende in beiden Schreibweisen, Kurzfassung der Besetzung |
@@ -75,6 +76,7 @@ Datenbank.
 | `offline.test.js` | im Flugmodus kommt die App hoch und zeigt lokale Daten |
 | `tagebuchSortierung.test.js` | nach Bewertung sortiert stehen Noten über den Blöcken, keine Monate |
 | `besetzung.test.js` | lange Besetzung eingeklappt, Aufklappen springt nicht zum Besuch |
+| `personBild.test.js` | rundes Bild unter den Abenden einer Person mit Link zu Wikipedia und Bildnachweis; ein Namensvetter mit anderem Beruf ergibt keins, auch nicht über die englische Wikipedia; das Ergebnis merkt sich das Gerät. Wikipedia ist in allen Browser-Tests gesperrt, wo nicht nachgestellt |
 | `anmeldung.test.js` | Anmelden und Registrieren ohne Passwort: Code anfordern und einlösen, falscher Code, Einfügen löst ein, „Neuen Code senden“ erst nach einer Minute, das Feld übersteht ein Neuladen; Google bleibt |
 | `passkeys.test.js` | Anmeldeknopf, Verwaltung im Profil, Freischaltung in der echten Bibliothek |
 | `mailFehler.test.js` | scheitert der Mailversand (Postausgang, Stundenlimit), stehen beim Anmelden und in der Registrierung deutsche Sätze |

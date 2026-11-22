@@ -48,6 +48,11 @@ export async function ersetzeSupabase(page, { neuigkeit = false, google = false 
     await page.route('https://accounts.google.com/gsi/client', r => (google
         ? r.fulfill({ status: 200, contentType: 'text/javascript', body: GIS_NACHBAU })
         : r.abort()));
+    // Bilder von Personen schlägt die App bei Wikipedia nach
+    // (src/components/PersonBild.js). Aus einem Test nicht: es käme auf das
+    // Netz an. Wer es braucht, legt eine eigene Route darüber – die zuletzt
+    // angelegte gewinnt (personBild.test.js).
+    await page.route('https://*.wikipedia.org/**', r => r.abort());
     // Das Testprofil ist von 2024 und bekäme sonst in jedem Test das Fenster
     // "Neu in OpernLog" vor die Nase. neuigkeit: true lässt es kommen.
     if (!neuigkeit) {
