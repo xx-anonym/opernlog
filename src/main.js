@@ -48,6 +48,10 @@ const SEITEN_MODULE = {
     invite: ['Invite'],
 };
 const SEITEN_GELADEN = {};
+// Seiten nur mit Konto. Die Einladung (#/invite) ist bewusst nicht dabei:
+// sie zeigt Abgemeldeten selbst, worum es geht.
+const GESCHUETZT = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'visit', 'season', 'sammlungen'];
+
 const seiteLaden = (name) => import(`./pages/${name}.js`).then(m => Object.assign(SEITEN_GELADEN, m));
 const seitenFehlen = (path) => (SEITEN_MODULE[path] || []).filter(n => !(`${n}Page` in SEITEN_GELADEN));
 
@@ -521,6 +525,11 @@ class App {
         return box;
     }
 
+    /** Führt dieser Weg ohne Sitzung zur Anmeldung statt zur Seite? (siehe Auth-Wächter in route) */
+    zurAnmeldung(path) {
+        return isSupabaseConfigured() && !store.isCloud && GESCHUETZT.includes(path) && !store.isOfflineWithLocalUser;
+    }
+
     route(nachLaden = false) {
         // Das Menü schließt beim Seitenwechsel – gleich zu Beginn, nicht erst,
         // wenn die Seite steht: sonst klappte ein Menü, das man öffnet,
@@ -540,7 +549,13 @@ class App {
         // Die Seite ist noch nicht geladen (SEITEN_MODULE): erst holen, dann
         // noch einmal – solange niemand inzwischen woandershin gegangen ist.
         // Bis dahin bleibt die alte Seite stehen, statt kurz leer zu werden.
-        const fehlen = seitenFehlen(path);
+        //
+        // Nicht, wenn der Weg ohnehin zur Anmeldung führt (Auth-Wächter
+        // unten): dann wurde erst das Modul einer Seite geladen, die niemand
+        // zu sehen bekommt, und danach die Anmeldung ein zweites Mal gebaut –
+        // was jemand dort inzwischen eingetippt hatte, war weg (abmelden.test.js
+        // scheiterte daran, sobald das Laden länger dauerte).
+        const fehlen = this.zurAnmeldung(path) ? [] : seitenFehlen(path);
         if (fehlen.length) {
             Promise.all(fehlen.map(seiteLaden)).then(() => {
                 if ((window.location.hash || '#/') === hash) this.route(true);
@@ -592,15 +607,13 @@ class App {
 
         // Auth guard for Supabase mode
         if (isSupabaseConfigured() && !store.isCloud) {
-            const protectedRoutes = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'invite', 'visit', 'season', 'sammlungen'];
-
             // Ohne Netz zeigt die App das, was lokal liegt, statt zur Anmeldung
             // zu schicken. Sinn und Zweck eines Offline-Modus: das eigene
             // Tagebuch ist vollständig da, nur bestätigen lässt sich die
             // Anmeldung gerade nicht.
             const offlineErlaubt = ['diary', 'profile', 'visit', 'season', 'lists', 'wishlist', 'log', 'sammlungen'];
 
-            if (protectedRoutes.includes(path) && path !== 'invite') {
+            if (GESCHUETZT.includes(path)) {
                 if (store.isOfflineWithLocalUser && offlineErlaubt.includes(path)) {
                     // durchlassen – unten wird die Seite aus lokalen Daten gebaut
                 } else if (store.isOfflineWithLocalUser) {
