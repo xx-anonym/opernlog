@@ -3695,6 +3695,15 @@ h3 {
     display: none;
 }
 
+/* Über dem Block "Mitwirkende": sichtbar, auch wenn er zugeklappt ist. */
+.form-vorschlag--mitwirkende {
+    margin: 0 0 12px;
+}
+
+.form-vorschlag--mitwirkende:empty {
+    margin: 0;
+}
+
 .form-vorschlag__text {
     font-size: 0.78rem;
     color: var(--text-muted);

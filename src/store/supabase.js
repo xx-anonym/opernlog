@@ -938,6 +938,31 @@ export async function getRecentCommunityVisits(limit = 20) {
     return await enrichVisitsWithSocial(data || []);
 }
 
+/**
+ * Was andere an einem Abend unter „Mitwirkende“ eingetragen haben: dasselbe
+ * Haus, dasselbe Werk, derselbe Tag. Für den Vorschlag beim Loggen.
+ *
+ * Nur die drei Felder, nie wer sie eingetragen hat: der Vorschlag nennt
+ * keine Nutzer. Lesbar wären die Abende ohnehin (das Tagebuch ist
+ * öffentlich, RLS "Visits sind öffentlich lesbar"), aber das Formular
+ * braucht nur die Namen auf der Bühne. Die eigenen Abende fallen heraus.
+ *
+ * @returns {{conductor: string, director: string, castList: string}[]}
+ */
+export async function getMitwirkendeAmAbendCloud({ houseId, operaId, date }) {
+    const sb = getSupabase();
+    const session = await getSession();
+    let abfrage = sb.from('visits')
+        .select('conductor, director, cast_list')
+        .eq('house_id', houseId)
+        .eq('opera_id', operaId)
+        .eq('date', date)
+        .limit(50);
+    if (session) abfrage = abfrage.neq('user_id', session.user.id);
+    const data = unwrap(await abfrage, 'Mitwirkende des Abends laden');
+    return (data || []).map(v => ({ conductor: v.conductor || '', director: v.director || '', castList: v.cast_list || '' }));
+}
+
 // ── Visits by house/opera (all users) ────────────────────
 export async function getVisitByIdCloud(visitId) {
     const sb = getSupabase();

@@ -142,3 +142,70 @@ export function zeileAnMarke(text, marke) {
         ? { anfang, ende, name: zeile.trim(), rest: '' }
         : { anfang, ende, name: zeile.slice(0, klammer).trim(), rest: zeile.slice(klammer) };
 }
+
+/**
+ * Was andere für denselben Abend unter „Mitwirkende“ notiert haben, als
+ * Vorschlag fürs eigene Formular: nur, was dort noch fehlt.
+ *
+ * Mehrere Einträge werden zusammengefasst. Personen gelten über
+ * personSchluessel() als dieselben; gezeigt wird ihre häufigste Schreibweise.
+ * Dirigent und Regie: die Kandidaten nach Häufigkeit – sind sich die Einträge
+ * uneinig, stehen beide da. Die Besetzung folgt der Reihenfolge des
+ * ausführlichsten Eintrags (meist die des Programmzettels), danach, was nur
+ * andere nennen; je Person die häufigste Rolle.
+ *
+ * @param {{conductor?: string, director?: string, castList?: string}[]} eintraege
+ * @param {{conductor?: string, director?: string, castList?: string}} [eigene]  was im Formular steht
+ * @returns {{dirigenten: string[], regie: string[], besetzung: {name: string, rolle: string}[]}}
+ *          dirigenten/regie leer, sobald das eigene Feld etwas enthält;
+ *          besetzung ohne Personen, die schon im eigenen Feld stehen
+ */
+export function mitwirkendeVorschlag(eintraege, eigene = {}) {
+    const zaehlen = (namen) => {
+        const je = new Map();
+        for (const roh of namen) {
+            const name = String(roh ?? '').replace(/\s+/g, ' ').trim();
+            const schluessel = personSchluessel(name);
+            if (!schluessel) continue;
+            if (!je.has(schluessel)) je.set(schluessel, { anzahl: 0, schreibweisen: new Map(), erst: je.size });
+            const p = je.get(schluessel);
+            p.anzahl++;
+            p.schreibweisen.set(name, (p.schreibweisen.get(name) || 0) + 1);
+        }
+        return je;
+    };
+    const grosse = t => (t.match(/\p{Lu}/gu) || []).length;
+    const schreibweise = p => [...p.schreibweisen.entries()].sort((a, b) => (b[1] - a[1]) || (grosse(b[0]) - grosse(a[0])))[0][0];
+    const kandidaten = (namen) => [...zaehlen(namen).values()]
+        .sort((a, b) => (b.anzahl - a.anzahl) || (a.erst - b.erst))
+        .map(schreibweise);
+
+    const liste = eintraege || [];
+    const dirigenten = String(eigene.conductor ?? '').trim() ? [] : kandidaten(liste.map(e => e.conductor));
+    const regie = String(eigene.director ?? '').trim() ? [] : kandidaten(liste.map(e => e.director));
+
+    // Besetzung: der ausführlichste Eintrag gibt die Reihenfolge vor.
+    const zeilen = liste.map(e => besetzungLesen(e.castList)).sort((a, b) => b.length - a.length);
+    const personen = new Map();
+    for (const eintrag of zeilen) {
+        for (const { name, rolle } of eintrag) {
+            const schluessel = personSchluessel(name);
+            if (!personen.has(schluessel)) personen.set(schluessel, { namen: [], rollen: [] });
+            personen.get(schluessel).namen.push(name);
+            if (rolle) personen.get(schluessel).rollen.push(rolle);
+        }
+    }
+    const schonDa = new Set(besetzungLesen(eigene.castList).map(p => personSchluessel(p.name)));
+    const besetzung = [...personen.entries()]
+        .filter(([schluessel]) => !schonDa.has(schluessel))
+        .map(([, p]) => ({
+            name: kandidaten(p.namen)[0],
+            rolle: kandidaten(p.rollen)[0] || '',
+        }));
+    return { dirigenten, regie, besetzung };
+}
+
+/** Eine Person als Zeile der Besetzung, in der Form, die das Formular vorgibt. */
+export function besetzungsZeile({ name, rolle }) {
+    return rolle ? `${name} (${rolle})` : name;
+}

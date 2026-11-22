@@ -7,7 +7,7 @@ import { escapeHTML, getCachedPosition, requestPosition, requestPositionByIP, vi
 import { showToast, showError, runWithFeedback } from '../components/Toast.js';
 import { andenkenAuswahl } from '../components/Andenken.js';
 import { StarRating } from '../components/StarRating.js';
-import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke } from '../data/besetzung.js';
+import { besetzungsNamen, besetzungLesen, personSchluessel, zeileAnMarke, mitwirkendeVorschlag, besetzungsZeile } from '../data/besetzung.js';
 import { werkeAmAbend, gespielteTage, terminMitWochentag } from '../data/spielplanAbfrage.js';
 import { tippen } from '../haptik.js';
 import { geradeGeloggtMerken } from '../einladenHinweis.js';
@@ -73,7 +73,8 @@ export function LogVisitPage(params = {}) {
         <div class="form-vorschlag" id="datumVorschlag" hidden></div>
       </div>
       
-      <details class="form-collapse"${credits.any ? ' open' : ''}>
+      <div class="form-vorschlag form-vorschlag--mitwirkende" id="mitwirkendeVorschlag" aria-live="polite"></div>
+      <details class="form-collapse" id="mitwirkendeBlock"${credits.any ? ' open' : ''}>
         <summary class="form-collapse__summary">
           ${icon('users', { className: 'icon--meta' })}Mitwirkende <span class="form-collapse__optional">(optional)</span>
         </summary>
@@ -231,9 +232,91 @@ export function LogVisitPage(params = {}) {
         aktiv: tag === datum,
         onClick: () => { dateInput.value = tag; zeigeVorschlaege(); },
       })));
+
+    ladeMitwirkende();
   }
 
   dateInput.addEventListener('input', () => { dateTouched = true; zeigeVorschlaege(); });
+
+  // ── Mitwirkende von anderen Besuchern desselben Abends ───────────────
+  //
+  // Hat schon jemand dasselbe Werk am selben Tag im selben Haus geloggt und
+  // Dirigent, Regie oder Besetzung notiert, steht das als Vorschlag über dem
+  // Block "Mitwirkende" – auch wenn er zugeklappt ist. Wie beim Spielplan
+  // nur als Knopf, nie von selbst, und nur, was im eigenen Formular noch
+  // fehlt. Wer es eingetragen hat, steht nirgends (Datenschutzseite).
+  const mitwirkendeVorschlagEl = page.querySelector('#mitwirkendeVorschlag');
+  const mitwirkendeBlock = page.querySelector('#mitwirkendeBlock');
+  const conductorFeld = page.querySelector('#conductorInput');
+  const directorFeld = page.querySelector('#directorInput');
+  const castFeld = page.querySelector('#castInput');
+  const mitwirkendeCache = new Map(); // "haus|werk|datum" -> Einträge anderer
+  let mitwirkendeSchluessel = '';
+
+  function zeigeMitwirkende() {
+    const eintraege = mitwirkendeCache.get(mitwirkendeSchluessel) || [];
+    const v = mitwirkendeVorschlag(eintraege, {
+      conductor: conductorFeld.value, director: directorFeld.value, castList: castFeld.value,
+    });
+    const oeffnen = () => { mitwirkendeBlock.open = true; };
+    const besetzungErgaenzen = () => {
+      const zeilen = v.besetzung.map(besetzungsZeile);
+      const bisher = castFeld.value.replace(/\s+$/, '');
+      castFeld.value = bisher ? `${bisher}\n${zeilen.join('\n')}` : zeilen.join('\n');
+    };
+    const knoepfe = [
+      // Uneinig: höchstens zwei Kandidaten, der häufigere zuerst.
+      ...v.dirigenten.slice(0, 2).map(name => vorschlagsKnopf(`Dirigent: ${name}`, {
+        onClick: () => { conductorFeld.value = name; oeffnen(); zeigeMitwirkende(); },
+      })),
+      ...v.regie.slice(0, 2).map(name => vorschlagsKnopf(`Regie: ${name}`, {
+        onClick: () => { directorFeld.value = name; oeffnen(); zeigeMitwirkende(); },
+      })),
+    ];
+    if (v.besetzung.length) {
+      const n = v.besetzung.length;
+      const text = castFeld.value.trim()
+        ? `Besetzung: ${n === 1 ? `${v.besetzung[0].name} ergänzen` : `${n} weitere ergänzen`}`
+        : `Besetzung: ${n === 1 ? v.besetzung[0].name : `${n} Namen`}`;
+      knoepfe.push(vorschlagsKnopf(text, { onClick: () => { besetzungErgaenzen(); oeffnen(); zeigeMitwirkende(); } }));
+    }
+    // Mehr als ein Feld offen: alles auf einmal, je Feld der erste Kandidat.
+    const felder = (v.dirigenten.length ? 1 : 0) + (v.regie.length ? 1 : 0) + (v.besetzung.length ? 1 : 0);
+    if (felder > 1) {
+      knoepfe.push(vorschlagsKnopf('Alle übernehmen', {
+        aktiv: true,
+        onClick: () => {
+          if (v.dirigenten.length) conductorFeld.value = v.dirigenten[0];
+          if (v.regie.length) directorFeld.value = v.regie[0];
+          if (v.besetzung.length) besetzungErgaenzen();
+          oeffnen();
+          zeigeMitwirkende();
+        },
+      }));
+    }
+    zeigeVorschlag(mitwirkendeVorschlagEl, 'Andere Besucher dieses Abends notierten:', knoepfe);
+    // Die Live-Region bleibt im Dokument und wird nur geleert: eine, die mit
+    // ihrem Inhalt zugleich auftaucht, lesen Screenreader oft nicht vor.
+    mitwirkendeVorschlagEl.hidden = false;
+  }
+
+  async function ladeMitwirkende() {
+    const hausId = houseIdInput.value;
+    const werkId = operaIdInput.value;
+    const datum = dateInput.value;
+    const schluessel = hausId && werkId && /^\d{4}-\d{2}-\d{2}$/.test(datum) ? `${hausId}|${werkId}|${datum}` : '';
+    mitwirkendeSchluessel = schluessel;
+    if (!schluessel) { zeigeMitwirkende(); return; }
+    if (!mitwirkendeCache.has(schluessel)) {
+      const eintraege = await store.mitwirkendeAmAbend({ houseId: hausId, operaId: werkId, date: datum });
+      mitwirkendeCache.set(schluessel, eintraege);
+    }
+    // Inzwischen ein anderer Abend gewählt: die alte Antwort zeigt nichts mehr.
+    if (schluessel === mitwirkendeSchluessel) zeigeMitwirkende();
+  }
+
+  // Was man selbst einträgt, verschwindet aus dem Vorschlag.
+  for (const feld of [conductorFeld, directorFeld, castFeld]) feld.addEventListener('input', () => zeigeMitwirkende());
 
   // ── Opernhaus vorbelegen ────────────────────────────────────────────
   //
