@@ -42,7 +42,7 @@ const ARTIKEL = {
         thumbnail: { source: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Mueller.jpg/400px-Mueller.jpg' } },
 };
 
-async function oeffne(hash, { gemerkt = null } = {}) {
+async function oeffne(hash, { gemerkt = null, gedrosselt = null } = {}) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
@@ -53,6 +53,8 @@ async function oeffne(hash, { gemerkt = null } = {}) {
     await p.route('https://*.wikipedia.org/w/api.php**', (r) => {
         const url = new URL(r.request().url());
         anfragen.push(`${url.host} ${url.searchParams.get('titles')}`);
+        p.evaluate(n => { window.__wpAnfragen = n; }, anfragen.length).catch(() => {});
+        if (url.host === gedrosselt) return r.fulfill({ status: 429, body: 'You are making too many requests to the API.' });
         const seite = ARTIKEL[url.searchParams.get('titles')] || { title: url.searchParams.get('titles'), missing: true };
         return r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' },
             body: JSON.stringify({ query: { pages: [{ ns: 0, ...seite }] } }) });
@@ -104,6 +106,20 @@ test('ein Namensvetter mit anderem Beruf ergibt kein Bild, auch nicht über die 
         // Gemerkt wird auch "kein Bild".
         const gemerkt = await p.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('opernlog:personBild:')));
         assert.equal(gemerkt.length, 1);
+        assert.deepEqual(fehler, []);
+    } finally {
+        await ctx.close();
+    }
+});
+
+test('antwortet eine Wikipedia nicht, merkt sich das Gerät nicht "kein Bild"', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler, anfragen } = await oeffne('#/person/Thomas%20M%C3%BCller', { gedrosselt: 'en.wikipedia.org' });
+    try {
+        await p.waitForFunction(n => window.__wpAnfragen >= n, 2);
+        await p.waitForTimeout(300);
+        assert.deepEqual(anfragen, ['de.wikipedia.org Thomas Müller', 'en.wikipedia.org Thomas Müller']);
+        const gemerkt = await p.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('opernlog:personBild:')));
+        assert.deepEqual(gemerkt, [], 'nach einer gedrosselten Antwort 30 Tage "kein Bild"');
         assert.deepEqual(fehler, []);
     } finally {
         await ctx.close();
