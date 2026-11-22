@@ -206,7 +206,11 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   Abends vor, stehen Haus und Werk fest, die Tage, an denen es dort lief –
   jeweils als Knopf, nie von selbst. Weil ein neuer Lauf nur übernimmt, was
   die Häuser dann noch zeigen, reichen diese Vorschläge nur bis zum letzten
-  Lauf für das Haus zurück. Das Kalender-Symbol neben
+  Lauf für das Haus zurück. Haben andere denselben Abend schon geloggt
+  (gleiches Haus, Werk und Datum) und dabei Dirigent, Regie oder Besetzung
+  notiert, schlägt das Formular auch diese vor – zusammengefasst, nur was
+  im eigenen Formular noch fehlt, ohne zu nennen, von wem
+  (`mitwirkendeVorschlag` in `src/data/besetzung.js`). Das Kalender-Symbol neben
   einem Haus macht aus einem gewählten Abend eine Kalenderdatei (.ics) mit
   Ort, Beginn, Ende und Link (`src/kalender.js`); die Uhrzeiten liest das
   Werkzeug mit, wo sie eindeutig neben dem Datum stehen. Nennt die Seite

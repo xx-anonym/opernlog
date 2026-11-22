@@ -1120,6 +1120,22 @@ class Store {
      * Grenze". Scheitert die Abfrage, ebenfalls null: die Datenbank hält
      * die Grenze ohnehin, die App soll deswegen niemanden aufhalten.
      */
+    /**
+     * Dirigent, Regie und Besetzung, die andere für denselben Abend notiert
+     * haben (gleiches Haus, Werk und Datum) – für den Vorschlag beim Loggen.
+     * Ohne Netz, ohne Cloud oder wenn die Abfrage scheitert: keine. Der
+     * Vorschlag ist eine Zugabe und hält niemanden beim Loggen auf.
+     */
+    async mitwirkendeAmAbend({ houseId, operaId, date }) {
+        if (!this.isCloud || this.isOffline || !houseId || !operaId || !date) return [];
+        try {
+            return await sb.getMitwirkendeAmAbendCloud({ houseId, operaId, date });
+        } catch (e) {
+            console.warn('[Loggen] Mitwirkende des Abends', e);
+            return [];
+        }
+    }
+
     /** Links zu Aufnahmen der bekannten Stellen eines Werks; ohne Netz {}. */
     async stellenLinks(werkId) {
         if (!this.isCloud || this.isOffline) return {};

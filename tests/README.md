@@ -87,6 +87,7 @@ Datenbank.
 | `neuigkeit.test.js` | „Neu in OpernLog“: einmal je Gerät für Konten von vorher, gesehen erst nach dem Schließen, nie für neue Konten |
 | `kalender.test.js` | „In den Kalender“: Knopf neben dem Haus, Wahl des Abends, heruntergeladene Datei; auf dem iPhone ein eigenes Fenster mit der Datei vom Server statt Download, und die liegt dort wirklich; in der installierten App kein Fenster |
 | `logVorschlag.test.js` | Vorschläge aus dem Spielplan beim Loggen: Haus und Tag ergeben das Werk, Haus und Werk die Tage; nur auf Klick, ein Datum von Hand oder aus einem vorgemerkten Abend bleibt stehen, die Vorauswahl nach dem Standort bringt den Vorschlag mit |
+| `mitwirkendeVorschlag.test.js` | Mitwirkende anderer Besucher desselben Abends beim Loggen: nur bei gleichem Haus, Werk und Tag, sichtbar auch bei zugeklapptem Block, erst der Klick trägt ein, Eigenes verschwindet aus dem Vorschlag, die eigenen Abende zählen nicht, kein Nutzername |
 | `mailAnimation.test.js` | die Mailvorlagen nach dem Auftritt genau wie ohne Animation; mit „Bewegung reduzieren“ keine Animation |
 | `werkTermine.test.js` | „Aktuelle Termine“ auf der Werkseite: erst auf Klick, nur wo es Termine gibt, nach dem Standort geordnet |
 | `durchsicht.test.js` | Funde der Durchsicht vom 23.09.2026: gestaltete Anmeldefelder, kein Tagebuch-Versprechen ohne Konto, Suche ohne Umlaute, Datum kurz nach Mitternacht, angefangener Text und offene Termine überleben die Rückkehr in die App; abgemeldet keine Wunschliste, keine Markierung, keine Liste |

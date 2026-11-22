@@ -69,6 +69,8 @@ export function DatenschutzPage() {
       Markierungen „schon gesehen“, Kommentare, Likes, Freundschaften und öffentliche Listen kann jeder
       sehen, auch ohne Konto. Teilst du einen Abend oder deinen Saisonrückblick als Link, zeigt die
       Seite dahinter genau das – ohne Fotos, und Suchmaschinen nehmen sie nicht auf.
+      Loggt jemand denselben Abend wie du (gleiches Haus, Werk und Datum), schlägt das Formular ihm
+      die Mitwirkenden vor, die du eingetragen hast – Dirigent, Regie, Besetzung –, ohne deinen Namen.
       Fotos, die du für Freunde freigibst, sehen nur deine Freunde – wer dir folgt und dem du folgst –,
       niemand sonst. Alle anderen Fotos sind privat.
       Nicht öffentlich sind deine E-Mail-Adresse, vorgemerkte Abende, private Listen,

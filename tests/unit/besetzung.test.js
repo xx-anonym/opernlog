@@ -78,3 +78,46 @@ test('die Zeile an der Schreibmarke, mit dem Namen vor einer Rolle', () => {
     assert.deepEqual(zeileAnMarke(text, text.length), { anfang: 36, ende: 39, name: 'Sim', rest: '' });
     assert.deepEqual(zeileAnMarke('', 0), { anfang: 0, ende: 0, name: '', rest: '' });
 });
+
+import { mitwirkendeVorschlag, besetzungsZeile } from '../../src/data/besetzung.js';
+
+test('Mitwirkende anderer Besucher desselben Abends: zusammengefasst, nur was fehlt', () => {
+    const andere = [
+        { conductor: 'Kirill Petrenko', director: '', castList: 'Anna Netrebko (Tosca)\njonas kaufmann (Cavaradossi)' },
+        { conductor: 'kirill  petrenko', director: 'Barrie Kosky', castList: 'Jonas Kaufmann (Cavaradossi)\nAnna Netrebko (Tosca)\nLudovic Tézier (Scarpia)' },
+        { conductor: '', director: '', castList: '' },
+    ];
+    // Leeres Formular: alles, in der Reihenfolge des ausführlichsten Eintrags,
+    // je Person die häufigste Schreibweise (bei Gleichstand die mit mehr
+    // Großbuchstaben) und Rolle.
+    assert.deepEqual(mitwirkendeVorschlag(andere), {
+        dirigenten: ['Kirill Petrenko'],
+        regie: ['Barrie Kosky'],
+        besetzung: [
+            { name: 'Jonas Kaufmann', rolle: 'Cavaradossi' },
+            { name: 'Anna Netrebko', rolle: 'Tosca' },
+            { name: 'Ludovic Tézier', rolle: 'Scarpia' },
+        ],
+    });
+    // Was schon im Formular steht, wird nicht noch einmal vorgeschlagen –
+    // ein eigener Dirigent bleibt, auch wenn andere einen anderen notierten.
+    assert.deepEqual(mitwirkendeVorschlag(andere, { conductor: 'Ein Einspringer', castList: 'anna netrebko' }), {
+        dirigenten: [],
+        regie: ['Barrie Kosky'],
+        besetzung: [{ name: 'Jonas Kaufmann', rolle: 'Cavaradossi' }, { name: 'Ludovic Tézier', rolle: 'Scarpia' }],
+    });
+    // Uneinig: beide, der häufigere zuerst.
+    assert.deepEqual(mitwirkendeVorschlag([{ conductor: 'A' }, { conductor: 'B' }, { conductor: 'B' }]).dirigenten, ['B', 'A']);
+    // Nichts notiert oder niemand da: kein Vorschlag.
+    assert.deepEqual(mitwirkendeVorschlag([{ conductor: ' ', director: '', castList: '\n' }]), { dirigenten: [], regie: [], besetzung: [] });
+    assert.deepEqual(mitwirkendeVorschlag([]), { dirigenten: [], regie: [], besetzung: [] });
+    assert.deepEqual(mitwirkendeVorschlag(undefined), { dirigenten: [], regie: [], besetzung: [] });
+});
+
+test('eine vorgeschlagene Person als Zeile der Besetzung', () => {
+    assert.equal(besetzungsZeile({ name: 'Anna Netrebko', rolle: 'Tosca' }), 'Anna Netrebko (Tosca)');
+    assert.equal(besetzungsZeile({ name: 'Staatskapelle Dresden', rolle: '' }), 'Staatskapelle Dresden');
+    // Die Zeile liest sich wieder als dieselbe Person mit derselben Rolle.
+    assert.deepEqual(besetzungLesen(besetzungsZeile({ name: 'Ludovic Tézier', rolle: 'Scarpia' })),
+        [{ name: 'Ludovic Tézier', rolle: 'Scarpia', form: 'klammer' }]);
+});
