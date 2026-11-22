@@ -9,7 +9,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase } from './umgebung.js';
+import { starteServer, ladePlaywright, starteBrowser, ersetzeSupabase, offlineBereit } from './umgebung.js';
 
 const HANDY = { width: 390, height: 900 };
 
@@ -39,6 +39,11 @@ async function angemeldet() {
     await p.waitForSelector('.main-content', { timeout: 15000 });
     // Bis der erste Abgleich durch ist: dann steht die eigene Kennung lokal.
     await p.waitForFunction(() => import('/src/store/store.js').then(m => m.store.isCloud && m.store.data.currentUser.id !== 'user-me'));
+    // Das Formular (src/pages/LogVisit.js) wird erst beim ersten Aufruf
+    // geladen und kommt ohne Netz aus dem Service Worker. Unter Last war der
+    // hier oft noch beim Einrichten, wenn der Test das Netz abschaltete – das
+    // Formular kam dann nie, egal wie lange man wartete.
+    await offlineBereit(p);
     return { ctx, p, fehler };
 }
 
