@@ -1,0 +1,4374 @@
+{
+ "haus": "komische-oper-berlin",
+ "stand": "2026-11-23",
+ "quelle": "https://www.komische-oper-berlin.de/spielplan/",
+ "abende": {
+  "madama-butterfly|2026-11-28": {
+   "zeit": "19:30",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Standesbeamter",
+     "name": "Philipp Schreyer"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Tante",
+     "name": "Sabine Hill"
+    },
+    {
+     "rolle": "Cousine",
+     "name": "Kyriaki Sirlantzi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "madama-butterfly|2026-12-03": {
+   "zeit": "19:00",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "orpheus-in-der-unterwelt|2026-12-04": {
+   "zeit": "19:00",
+   "dirigent": "James Hendry",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Esteban Muñoz Herrera"
+    },
+    {
+     "rolle": "Pluto",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Orpheus",
+     "name": "Tansel Akzeybek"
+    },
+    {
+     "rolle": "Eurydike",
+     "name": "Juliana Zara"
+    },
+    {
+     "rolle": "Die öffentliche Meinung",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Styx",
+     "name": "Max Hopp"
+    },
+    {
+     "rolle": "Jupiter",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Juno",
+     "name": "Maria Fiselier"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Diana",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Cupido",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Mars",
+     "name": "Tim Dietrich"
+    },
+    {
+     "rolle": "Merkur",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Joseph Edy"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Davide De Biasi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Braithwaite"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Luissa Joachimstaller"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Giorgia Bortoluzzi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lea Birkhoff"
+    }
+   ]
+  },
+  "madama-butterfly|2026-12-05": {
+   "zeit": "19:30",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-06": {
+   "zeit": "16:00",
+   "dirigent": "Killian Farrell",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Luana Schneiderat-Engelmann"
+    }
+   ]
+  },
+  "madama-butterfly|2026-12-10": {
+   "zeit": "19:00",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "orpheus-in-der-unterwelt|2026-12-11": {
+   "zeit": "19:00",
+   "dirigent": "James Hendry",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Esteban Muñoz Herrera"
+    },
+    {
+     "rolle": "Pluto",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Orpheus",
+     "name": "Tansel Akzeybek"
+    },
+    {
+     "rolle": "Eurydike",
+     "name": "Juliana Zara"
+    },
+    {
+     "rolle": "Die öffentliche Meinung",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Styx",
+     "name": "Max Hopp"
+    },
+    {
+     "rolle": "Jupiter",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Juno",
+     "name": "Katarzyna Kuncio"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Diana",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Cupido",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Mars",
+     "name": "Tim Dietrich"
+    },
+    {
+     "rolle": "Merkur",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Joseph Edy"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Davide De Biasi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Braithwaite"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Luissa Joachimstaller"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Giorgia Bortoluzzi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Brittany Young"
+    }
+   ]
+  },
+  "eugen-onegin|2026-12-12": {
+   "zeit": "19:30",
+   "dirigent": "Anna Skryleva",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Jewgeni Onegin",
+     "name": "Hubert Zapiór"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Valuzhin"
+    },
+    {
+     "rolle": "Larina",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Filippewna",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Zarezki",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Ein Hauptmann",
+     "name": "Carsten Lau"
+    },
+    {
+     "rolle": "Guillot",
+     "name": "Alexander Kohl"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-15": {
+   "zeit": "18:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Luana Schneiderat-Engelmann"
+    }
+   ]
+  },
+  "eugen-onegin|2026-12-16": {
+   "zeit": "19:00",
+   "dirigent": "Anna Skryleva",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Jewgeni Onegin",
+     "name": "Hubert Zapiór"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Valuzhin"
+    },
+    {
+     "rolle": "Larina",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Filippewna",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Zarezki",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Ein Hauptmann",
+     "name": "Jan-Frank Süße"
+    },
+    {
+     "rolle": "Guillot",
+     "name": "Alexander Kohl"
+    }
+   ]
+  },
+  "madama-butterfly|2026-12-18": {
+   "zeit": "19:00",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-19": {
+   "zeit": "19:00",
+   "dirigent": "Killian Farrell",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Tom Theodor Rajevic"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-21": {
+   "zeit": "18:00",
+   "dirigent": "Killian Farrell",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Luana Schneiderat-Engelmann"
+    }
+   ]
+  },
+  "eugen-onegin|2026-12-22": {
+   "zeit": "19:00",
+   "dirigent": "Anna Skryleva",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Jewgeni Onegin",
+     "name": "Hubert Zapiór"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Valuzhin"
+    },
+    {
+     "rolle": "Larina",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Filippewna",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Zarezki",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Ein Hauptmann",
+     "name": "Carsten Lau"
+    },
+    {
+     "rolle": "Guillot",
+     "name": "Alexander Kohl"
+    }
+   ]
+  },
+  "orpheus-in-der-unterwelt|2026-12-23": {
+   "zeit": "19:00",
+   "dirigent": "James Hendry",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Esteban Muñoz Herrera"
+    },
+    {
+     "rolle": "Pluto",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Orpheus",
+     "name": "Jonas Hacker"
+    },
+    {
+     "rolle": "Eurydike",
+     "name": "Juliana Zara"
+    },
+    {
+     "rolle": "Die öffentliche Meinung",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Styx",
+     "name": "Max Hopp"
+    },
+    {
+     "rolle": "Jupiter",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Juno",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Diana",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Cupido",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Mars",
+     "name": "Tim Dietrich"
+    },
+    {
+     "rolle": "Merkur",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Joseph Edy"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Davide De Biasi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Braithwaite"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Luissa Joachimstaller"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Giorgia Bortoluzzi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Brittany Young"
+    }
+   ]
+  },
+  "eugen-onegin|2026-12-25": {
+   "zeit": "18:00",
+   "dirigent": "Anna Skryleva",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Jewgeni Onegin",
+     "name": "Hubert Zapiór"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Maya Gour"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Valuzhin"
+    },
+    {
+     "rolle": "Larina",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Fürst Gremin",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Filippewna",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Zarezki",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Ein Hauptmann",
+     "name": "Jan-Frank Süße"
+    },
+    {
+     "rolle": "Guillot",
+     "name": "Alexander Kohl"
+    }
+   ]
+  },
+  "madama-butterfly|2026-12-27": {
+   "zeit": "18:00",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "orpheus-in-der-unterwelt|2026-12-28": {
+   "zeit": "19:00",
+   "dirigent": "James Hendry",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Esteban Muñoz Herrera"
+    },
+    {
+     "rolle": "Pluto",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Orpheus",
+     "name": "Tansel Akzeybek"
+    },
+    {
+     "rolle": "Eurydike",
+     "name": "Juliana Zara"
+    },
+    {
+     "rolle": "Die öffentliche Meinung",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Styx",
+     "name": "Max Hopp"
+    },
+    {
+     "rolle": "Jupiter",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Juno",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Diana",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Cupido",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Mars",
+     "name": "Tim Dietrich"
+    },
+    {
+     "rolle": "Merkur",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Joseph Edy"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Davide De Biasi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Braithwaite"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Luissa Joachimstaller"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Giorgia Bortoluzzi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Brittany Young"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-29": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Luana Schneiderat-Engelmann"
+    }
+   ]
+  },
+  "orpheus-in-der-unterwelt|2026-12-31": {
+   "zeit": "18:00",
+   "dirigent": "James Hendry",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Esteban Muñoz Herrera"
+    },
+    {
+     "rolle": "Pluto",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Orpheus",
+     "name": "Tansel Akzeybek"
+    },
+    {
+     "rolle": "Eurydike",
+     "name": "Juliana Zara"
+    },
+    {
+     "rolle": "Die öffentliche Meinung",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Styx",
+     "name": "Max Hopp"
+    },
+    {
+     "rolle": "Jupiter",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Juno",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Diana",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Cupido",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Mars",
+     "name": "Tim Dietrich"
+    },
+    {
+     "rolle": "Merkur",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Joseph Edy"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Davide De Biasi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Braithwaite"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Luissa Joachimstaller"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Giorgia Bortoluzzi"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Brittany Young"
+    }
+   ]
+  },
+  "madama-butterfly|2027-01-02": {
+   "zeit": "19:30",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "haensel-gretel|2027-01-08": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Tom Theodor Rajevic"
+    }
+   ]
+  },
+  "akhnaten|2027-01-09": {
+   "zeit": "19:30",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-01-14": {
+   "zeit": "19:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lorenzo Soragni"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "madama-butterfly|2027-01-15": {
+   "zeit": "19:00",
+   "dirigent": "Yi-Chen Lin",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio-San",
+     "name": "Gloria Jieun Choi"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Mihails Culpajevs"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Onkel Bonze",
+     "name": "Artyom Wasnetsow"
+    },
+    {
+     "rolle": "Fürst Yamadori",
+     "name": "Ivan Turšić"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Naomi Steele"
+    },
+    {
+     "rolle": "Kaiserlicher Kommissar",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Onkel Yakusidé",
+     "name": "Simon Wallfisch"
+    },
+    {
+     "rolle": "Cio-Cio-Sans Mutter",
+     "name": "SaeEum Jang"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Aya Yasuda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Jun Azuma"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Atsushi Takahashi"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Natsuki Katori"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Megumi Eda"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Tomoya Kawamura"
+    },
+    {
+     "rolle": "Darsteller",
+     "name": "Shintaro Oue"
+    }
+   ]
+  },
+  "akhnaten|2027-01-16": {
+   "zeit": "19:30",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-01-22": {
+   "zeit": "19:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "haensel-gretel|2027-01-23": {
+   "zeit": "16:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Dagmar Manzel",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Günter Papendell"
+    },
+    {
+     "rolle": "Gertrud, Mutter",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Nina van Essen"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Alma Sadé"
+    },
+    {
+     "rolle": "Knusperhexe",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Sandmännchen / Taumännchen",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Komödiant",
+     "name": "Manni Laudenbach"
+    },
+    {
+     "rolle": "Fliegende Hexe / Engel",
+     "name": "Paulin Raatz"
+    },
+    {
+     "rolle": "Kuchenkinder",
+     "name": "Kinderchor der Komischen Oper Berlin"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Michael Fernandez"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Daniel Daniela Ojeda Yrureta"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Kai Chun Chuang"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Brittany Young"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Lauren Mayer"
+    },
+    {
+     "rolle": "Hexen / Engel / Wesen",
+     "name": "Tanzschülerinnen der TanzZwiEt – Schule – Company"
+    },
+    {
+     "rolle": "Das himmlische Kind",
+     "name": "Tom Theodor Rajevic"
+    }
+   ]
+  },
+  "akhnaten|2027-01-24": {
+   "zeit": "18:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-01-29": {
+   "zeit": "19:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-01-31": {
+   "zeit": "18:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-02-07": {
+   "zeit": "18:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Lorenzo Soragni"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-02-13": {
+   "zeit": "19:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "akhnaten|2027-02-20": {
+   "zeit": "19:00",
+   "dirigent": "Jonathan Stockhammer",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Spielleitung",
+     "name": "Katharina Fritsch"
+    },
+    {
+     "rolle": "Echnaton",
+     "name": "John Holiday"
+    },
+    {
+     "rolle": "Nofretete",
+     "name": "Susan Zarrabi"
+    },
+    {
+     "rolle": "Königin Teje",
+     "name": "Kiandra Howarth"
+    },
+    {
+     "rolle": "Horemhab",
+     "name": "Giacomo Schmidt"
+    },
+    {
+     "rolle": "Hohepriester des Amun",
+     "name": "Stefan Cifolelli"
+    },
+    {
+     "rolle": "Aye",
+     "name": "Jolyon Loy"
+    },
+    {
+     "rolle": "Der Schreiber (Chronist)",
+     "name": "Peter Renz"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Benjamin Gericke"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Shane Dickson"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Danilo Brunetti"
+    },
+    {
+     "rolle": "Tänzer",
+     "name": "Andrii Zubchevskyi"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Danielle Bezaire"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Martina Borroni"
+    },
+    {
+     "rolle": "Tänzerin",
+     "name": "Claudia Greco"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-09": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-11": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-12": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-13": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-14": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-15": {
+   "zeit": "19:30",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-16": {
+   "zeit": "19:00",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-17": {
+   "zeit": "18:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-19": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-20": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-21": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-22": {
+   "zeit": "19:30",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-23": {
+   "zeit": "16:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-25": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-26": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-27": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-28": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-29": {
+   "zeit": "19:30",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-05-30": {
+   "zeit": "18:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-06-04": {
+   "zeit": "19:00",
+   "dirigent": "Andrew Grams",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Darren Drone"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Brittany Renee"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Curtis Bannister"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Mandla Mndebele"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Amber R. Monroe"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "porgy-bess|2027-06-05": {
+   "zeit": "19:30",
+   "dirigent": "James Gaffigan",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Porgy",
+     "name": "Musa Ngqungwana"
+    },
+    {
+     "rolle": "Bess",
+     "name": "Latonia Moore"
+    },
+    {
+     "rolle": "Sportin' Life",
+     "name": "Chauncey Packer"
+    },
+    {
+     "rolle": "Crown",
+     "name": "Sankara Harouna"
+    },
+    {
+     "rolle": "Jake",
+     "name": "Daniel Rich"
+    },
+    {
+     "rolle": "Clara",
+     "name": "Jasmine Habersham"
+    },
+    {
+     "rolle": "Serena",
+     "name": "Jasmin Ward"
+    },
+    {
+     "rolle": "Maria",
+     "name": "Tichina Vaughn"
+    },
+    {
+     "rolle": "Leichenbeschauer",
+     "name": "Adam Ludwig"
+    },
+    {
+     "rolle": "Detektiv",
+     "name": "Christoph Späth"
+    },
+    {
+     "rolle": "Polizist / Mr. Archdale",
+     "name": "Alexander Edward Nick"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Anastasia Janay Corker"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Nicholas Isaiah King Rose"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Ashley Temba"
+    },
+    {
+     "rolle": "Tänzer:innen",
+     "name": "Debora Goulart"
+    }
+   ]
+  },
+  "zauberflote|2027-06-17": {
+   "zeit": "19:00",
+   "dirigent": "Marit Strindlund",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Caspar Singh"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Diana Schnürpel"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Drei Knaben",
+     "name": "Solisten des Tölzer Knabenchores"
+    }
+   ]
+  },
+  "zauberflote|2027-06-19": {
+   "zeit": "19:30",
+   "dirigent": "Marit Strindlund",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Caspar Singh"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Diana Schnürpel"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Philipp Meierhöfer"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Drei Knaben",
+     "name": "Solisten des Tölzer Knabenchores"
+    }
+   ]
+  },
+  "zauberflote|2027-06-26": {
+   "zeit": "19:30",
+   "dirigent": "Marit Strindlund",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Caspar Singh"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Diana Schnürpel"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Philipp Meierhöfer"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Drei Knaben",
+     "name": "Solisten des Tölzer Knabenchores"
+    }
+   ]
+  },
+  "zauberflote|2027-06-29": {
+   "zeit": "19:00",
+   "dirigent": "Marit Strindlund",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Caspar Singh"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Diana Schnürpel"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Drei Knaben",
+     "name": "Solisten des Tölzer Knabenchores"
+    }
+   ]
+  },
+  "zauberflote|2027-07-01": {
+   "zeit": "19:00",
+   "dirigent": "Marit Strindlund",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Caspar Singh"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Diana Schnürpel"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Philipp Meierhöfer"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Drei Knaben",
+     "name": "Solisten des Tölzer Knabenchores"
+    }
+   ]
+  },
+  "zauberflote|2027-07-03": {
+   "zeit": "19:30",
+   "dirigent": "Marit Strindlund",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Penny Sofroniadou"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Caspar Singh"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Diana Schnürpel"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Dimitry Ivashchenko"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Tom Erik Lie"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Elisa Maayeshi"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Caspar Krieger"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Mirka Wagner"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karolina Gumos"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Ulrike Helzel"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Johannes Dunz"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Jaewon Kwak"
+    },
+    {
+     "rolle": "Drei Knaben",
+     "name": "Solisten des Tölzer Knabenchores"
+    }
+   ]
+  }
+ }
+}

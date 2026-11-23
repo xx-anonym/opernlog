@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -103,4 +103,40 @@ test('Semperoper: je Termin Datum, Zeit, Dirigat, Regie und Besetzung; Orchester
 
 test('jedes Haus mit Leser steht in der App, und umgekehrt', () => {
     assert.deepEqual(Object.keys(LESER).sort(), [...HAEUSER_MIT_BESETZUNG].sort());
+});
+
+// Komische Oper Berlin: die Stückseite mit den Terminen und das HTML, das
+// /callbacks/get-cast-and-crew.json je Termin liefert (gekürzt).
+const KOB_SEITE = `<div class="nextperformance "> <div class="nextperformance__top"> <div class="nextperformance__dayofweek">Sa</div> <div class="nextperformance__date">28. Nov <span class="--hide-phone-only">2026</span></div> <div class="nextperformance__time">19:30</div></div>
+<a href="#" class="js-marker-get-cast-and-crew" data-performance-id="1390" data-baselink="/spielplan/a-z/madama-butterfly/1390/">Besetzung</a></div>
+<div class="nextperformance "> <div class="nextperformance__date">3. Dez <span>2026</span></div> <div class="nextperformance__time">19:00</div>
+<a href="#" data-performance-id="1391" data-baselink="/spielplan/a-z/madama-butterfly/1390/">Besetzung</a></div>`;
+const kobCast = (tante) => `<div class="castcrew"><div class="castcrew__col castcrew__col--crew">
+<div class="castcrew__item"> <div class="castcrew__role">Musikalische Leitung</div> <div class="castcrew__names"><a href="#" class="ci-26-0">Yi-Chen Lin</a></div> </div>
+<div class="castcrew__item"> <div class="castcrew__role">Inszenierung</div> <div class="castcrew__names"><a href="#" class="ci-27-0">Andrea Breth</a></div> </div></div>
+<div class="castcrew__col castcrew__col--cast">
+<div class="castcrew__item"> <div class="castcrew__role">Pinkerton</div> <div class="castcrew__names"><a href="#" class="ci-30-0">Mihails Culpa&shy;jevs</a></div> </div>
+<div class="castcrew__item"> <div class="castcrew__role">Tante</div> <div class="castcrew__names">${tante}</div> </div>
+<div class="castcrew__item"> <div class="castcrew__role">Darsteller</div> <div class="castcrew__names"><a class="ci-49-0">Aya Yasuda</a>/<a class="ci-49-1">Jun Azuma</a></div> </div>
+<div class="castcrew__item"> <div class="castcrew__role">Chor</div> <div class="castcrew__names"><a class="ci-50-0">Chorsolisten der Komischen Oper Berlin</a></div> </div></div></div>`;
+
+test('Komische Oper: Termine der Stückseite, Besetzung je Termin, offene Rollen bleiben weg', () => {
+    assert.deepEqual(komischeTermine(KOB_SEITE), [
+        { datum: '2026-11-28', zeit: '19:30', id: '1390', baselink: '/spielplan/a-z/madama-butterfly/1390/' },
+        { datum: '2026-12-03', zeit: '19:00', id: '1391', baselink: '/spielplan/a-z/madama-butterfly/1390/' },
+    ]);
+    const fest = komischeBesetzung(kobCast('<span class="ci-47-0">Sabine Hill</span>'));
+    assert.deepEqual(fest.team.map(z => z.rolle), ['Musikalische Leitung', 'Inszenierung']);
+    assert.deepEqual(fest.rollen.find(z => z.rolle === 'Pinkerton').namen, ['Mihails Culpajevs']);
+    const offen = komischeBesetzung(kobCast('<span class="ci-47-0">Paula Rummel</span>/<span class="ci-47-1">Sabine Hill</span>'));
+    const abende = komischeAbende([
+        { datum: '2026-11-28', zeit: '19:30', ...fest },
+        { datum: '2026-12-03', zeit: '19:00', ...offen },
+    ]);
+    const rollen = (i) => abende[i].abend.besetzung.map(b => `${b.rolle}: ${b.name}`);
+    assert.deepEqual(rollen(0), ['Pinkerton: Mihails Culpajevs', 'Tante: Sabine Hill', 'Darsteller: Aya Yasuda', 'Darsteller: Jun Azuma']);
+    // Am 3.12. steht die Tante noch nicht fest; die Darsteller sind immer mehrere.
+    assert.deepEqual(rollen(1), ['Pinkerton: Mihails Culpajevs', 'Darsteller: Aya Yasuda', 'Darsteller: Jun Azuma']);
+    assert.equal(abende[0].abend.dirigent, 'Yi-Chen Lin');
+    assert.equal(abende[0].abend.regie, 'Andrea Breth');
 });

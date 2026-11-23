@@ -22,6 +22,15 @@
 // der App schon verlinkt (src/data/spielplan.js); welches Werk es ist, steht
 // damit fest.
 //
+// Komische Oper Berlin (seit 23.11.2026): Die Stückseite listet die
+// kommenden Termine (nextperformance) mit einer performance-id; "Besetzung"
+// lädt je Termin /callbacks/get-cast-and-crew.json?performanceId=…&baselink=…
+// nach (JSON mit HTML: castcrew__col--crew und --cast). Steht eine Rolle noch
+// nicht fest, nennt das Haus Kandidaten mit Schrägstrich ("Tante: Paula
+// Rummel / Sabine Hill"). Hat dieselbe Rolle an einem anderen Termin nur
+// einen Namen, ist das so ein offener Fall – die Rolle bleibt dann weg.
+// Rollen, die immer mehrere Namen tragen (Darsteller), bleiben.
+//
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
 //     "abende": { "eugen-onegin|2026-11-28": { "zeit": "19:00",
@@ -125,12 +134,13 @@ async function leipzigLesen() {
 
 // ── Semperoper ──────────────────────────────────────────────────────────
 
-const ENTITAETEN = { amp: '&', nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>', '#039': "'" };
+const ENTITAETEN = { amp: '&', nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>', shy: '\u00ad', '#039': "'" };
 const entschluesseln = (t) => String(t ?? '')
     .replace(/&(#\d+|#x[0-9a-f]+|\w+);/gi, (z, n) => n[0] === '#'
         ? (ENTITAETEN[n] ?? String.fromCodePoint(n[1].toLowerCase() === 'x' ? parseInt(n.slice(2), 16) : parseInt(n.slice(1), 10)))
         : (ENTITAETEN[n.toLowerCase()] ?? z));
-const reinerText = (html) => entschluesseln(String(html ?? '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+// Weiche Trennstriche (&shy;) gehören nicht zum Namen.
+const reinerText = (html) => entschluesseln(String(html ?? '').replace(/<[^>]+>/g, ' ')).replace(/\u00ad/g, '').replace(/\s+/g, ' ').trim();
 
 /** Die Zeilen einer Besetzungsliste: [{ rolle, namen: [...] }]. */
 function castListe(html) {
@@ -175,9 +185,92 @@ async function semperLesen() {
     return { abende, seiten: seiten.length };
 }
 
+// ── Komische Oper Berlin ────────────────────────────────────────────────
+
+const MONATE = { jan: '01', feb: '02', 'mär': '03', mar: '03', apr: '04', mai: '05', jun: '06', jul: '07', aug: '08', sep: '09', okt: '10', nov: '11', dez: '12' };
+const ohneTrennung = (t) => String(t ?? '').replace(/\u00ad/g, '');
+
+/** Die kommenden Termine einer Stückseite: [{ datum, zeit, id, baselink }]. */
+export function komischeTermine(html) {
+    return String(html ?? '').split(/<div class="nextperformance /).slice(1).map((teil) => {
+        const datum = reinerText(teil.match(/class="nextperformance__date">([\s\S]*?)<\/div>/)?.[1]);
+        const m = datum.match(/^(\d{1,2})\.\s*([a-zä]{3})\w*\.?\s+(\d{4})$/i);
+        const zeit = reinerText(teil.match(/class="nextperformance__time">([\s\S]*?)<\/div>/)?.[1]).match(/\d{1,2}:\d{2}/)?.[0];
+        const id = teil.match(/data-performance-id="(\d+)"/)?.[1];
+        const baselink = entschluesseln(teil.match(/data-baselink="([^"]+)"/)?.[1] || '');
+        const monat = m && MONATE[m[2].toLowerCase()];
+        if (!m || !monat || !id) return null;
+        return { datum: `${m[3]}-${monat}-${m[1].padStart(2, '0')}`, zeit: zeit ? zeit.padStart(5, '0') : null, id, baselink };
+    }).filter(Boolean);
+}
+
+/** Leitung und Rollen aus dem HTML von get-cast-and-crew: { team, rollen } als [{ rolle, namen }]. */
+export function komischeBesetzung(html) {
+    const spalte = (art) => {
+        const teil = String(html ?? '').split(`castcrew__col--${art}`)[1]?.split(/castcrew__col castcrew__col--/)[0] || '';
+        return teil.split(/<div class="castcrew__item">/).slice(1).map((item) => ({
+            rolle: ohneTrennung(reinerText(item.match(/class="castcrew__role">([\s\S]*?)<\/div>/)?.[1])),
+            namen: [...item.matchAll(/class="ci-\d+-\d+">([\s\S]*?)<\/(?:a|span)>/g)].map(n => ohneTrennung(reinerText(n[1]))).filter(Boolean),
+        })).filter(z => z.rolle && z.namen.length);
+    };
+    return { team: spalte('crew'), rollen: spalte('cast') };
+}
+
+const GRUPPE = /^(chor|chöre|kinderchor|orchester|statisterie|komparserie)/i;
+
+/**
+ * Die Abende einer Produktion zusammensetzen. besetzungen: [{ datum, zeit, team, rollen }].
+ * Eine Rolle mit mehreren Namen, die an einem anderen Termin nur einen hat,
+ * steht noch nicht fest und bleibt weg.
+ */
+export function komischeAbende(besetzungen) {
+    const einzeln = new Set(besetzungen.flatMap(b => b.rollen.filter(r => r.namen.length === 1).map(r => r.rolle)));
+    return besetzungen.map(({ datum, zeit, team, rollen }) => {
+        const wer = (muster) => team.filter(z => muster.test(z.rolle)).flatMap(z => z.namen);
+        const abend = {};
+        if (zeit) abend.zeit = zeit;
+        const dirigent = wer(/^musikalische leitung$|^dirigent/i);
+        const regie = wer(/^inszenierung$|^regie$/i);
+        const besetzung = rollen
+            .filter(r => !GRUPPE.test(r.rolle) && !(r.namen.length > 1 && einzeln.has(r.rolle)))
+            .flatMap(r => r.namen.map(name => ({ rolle: r.rolle, name })));
+        if (dirigent.length) abend.dirigent = dirigent.join(', ');
+        if (regie.length) abend.regie = regie.join(', ');
+        if (besetzung.length) abend.besetzung = besetzung;
+        return abend.dirigent || abend.regie || abend.besetzung ? { datum, abend } : null;
+    }).filter(Boolean);
+}
+
+async function komischeLesen() {
+    const basis = 'https://www.komische-oper-berlin.de';
+    const seiten = [...new Map(spielplan.filter(e => e.haus === 'komische-oper-berlin' && e.url).map(e => [e.url, e.werk])).entries()];
+    const abende = {};
+    let abrufe = 0;
+    for (const [url, werk] of seiten) {
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        abrufe++;
+        if (!r.ok) { console.warn(`${url}: HTTP ${r.status}`); continue; }
+        const besetzungen = [];
+        for (const t of komischeTermine(await r.text())) {
+            await pause(1000);
+            const adresse = `${basis}/callbacks/get-cast-and-crew.json?performanceId=${encodeURIComponent(t.id)}&baselink=${encodeURIComponent(t.baselink)}`;
+            const c = await fetch(adresse, { headers: { 'User-Agent': KENNUNG, Accept: 'application/json' } });
+            abrufe++;
+            if (!c.ok) continue;
+            const d = await c.json();
+            if (d.ResultCode !== 'Ok') continue;
+            besetzungen.push({ datum: t.datum, zeit: t.zeit, ...komischeBesetzung(d.Html) });
+        }
+        for (const { datum, abend } of komischeAbende(besetzungen)) abende[`${werk}|${datum}`] = abend;
+        await pause(1500);
+    }
+    return { abende, seiten: abrufe };
+}
+
 export const LESER = {
     'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
     'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
+    'komische-oper-berlin': { lesen: komischeLesen, quelle: 'https://www.komische-oper-berlin.de/spielplan/' },
 };
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
