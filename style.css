@@ -7321,6 +7321,11 @@ html.story-offen body {
 }
 .person-hero__quelle a { color: inherit; }
 
+.person-abende__leer {
+    margin: 28px 0;
+    text-align: center;
+    color: var(--text-muted);
+}
 .person-abende__titel {
     font-family: var(--font-display);
     font-size: 24px;

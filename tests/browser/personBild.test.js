@@ -40,6 +40,11 @@ const ARTIKEL = {
     // Der Spoletta ist ein Tenor gleichen Namens – Wikipedia kennt nur den Fußballer.
     'Thomas Müller': { title: 'Thomas Müller', description: 'deutscher Fußballspieler', pageimage: 'Mueller.jpg',
         thumbnail: { source: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Mueller.jpg/400px-Mueller.jpg' } },
+    // Nicht im eigenen Tagebuch – nur über die Review eines anderen gefunden.
+    'Vasily Barkhatov': { title: 'Vasily Barkhatov', description: 'russischer Opernregisseur', pageimage: 'Barkhatov.jpg',
+        thumbnail: { source: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Barkhatov.jpg/400px-Barkhatov.jpg' } },
+    'Lionel Messi': { title: 'Lionel Messi', description: 'argentinischer Fußballspieler', pageimage: 'Messi.jpg',
+        thumbnail: { source: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Messi.jpg/400px-Messi.jpg' } },
 };
 
 async function oeffne(hash, { gemerkt = null, gedrosselt = null } = {}) {
@@ -70,7 +75,7 @@ async function oeffne(hash, { gemerkt = null, gedrosselt = null } = {}) {
     await p.evaluate(v => import('/src/store/store.js').then(m => { m.store.data.myVisits = v; }), EIGENE);
     await p.evaluate(h => { window.location.hash = h; }, hash);
     await vorhangAuf(p);
-    await p.waitForSelector('.person-abende');
+    await p.waitForSelector('.person-hero');
     return { ctx, p, fehler, anfragen };
 }
 
@@ -138,6 +143,31 @@ test('ein gemerktes Ergebnis fragt Wikipedia nicht noch einmal', { skip: fehltPl
     try {
         await p.locator('.person-bild__bild').waitFor();
         assert.deepEqual(anfragen, []);
+        assert.deepEqual(fehler, []);
+    } finally {
+        await ctx.close();
+    }
+});
+
+test('ohne eigene Abende – über die Review eines anderen – kommt das Bild trotzdem, wenn ein Opernberuf passt', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/person/Vasily%20Barkhatov');
+    try {
+        assert.match(await p.locator('.person-abende__leer').innerText(), /Noch kein Abend/);
+        await p.locator('.person-bild__bild').waitFor();
+        assert.equal(await p.locator('.person-hero__initialen').count(), 0);
+        assert.equal(await p.locator('.person-hero__beschreibung').textContent(), 'russischer Opernregisseur');
+        assert.deepEqual(fehler, []);
+    } finally {
+        await ctx.close();
+    }
+});
+
+test('ohne eigene Abende bleibt ein Namensvetter ohne Opernberuf draußen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne('#/person/Lionel%20Messi');
+    try {
+        await p.waitForFunction(() => Object.keys(localStorage).some(k => k.startsWith('opernlog:personBild:')));
+        assert.equal(await p.locator('.person-bild__bild').count(), 0);
+        assert.equal((await p.locator('.person-hero__initialen').innerText()).trim(), 'LM');
         assert.deepEqual(fehler, []);
     } finally {
         await ctx.close();

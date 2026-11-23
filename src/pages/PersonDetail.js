@@ -118,11 +118,15 @@ export function PersonDetailPage(param) {
           </li>`;
           }).join('')}
         </ul>` : `
-        <div class="empty-state"><p>Noch kein Abend mit ${escapeHTML(anzeigeName)} in deinem Tagebuch.</p></div>`}
+        <p class="person-abende__leer">Noch kein Abend mit ${escapeHTML(anzeigeName)} in deinem Tagebuch.</p>`}
       </div>
     `;
     // Bild und Kurzbeschreibung von Wikipedia in den Kopf, wenn es ein Bild
-    // gibt und der Artikel zu dem passt, was sie an diesen Abenden war.
-    if (abende.length) personBildImKopf(page.querySelector('.person-hero'), anzeigeName, abende.flatMap(a => a.als.length ? a.als : ['']));
+    // gibt und der Artikel zu dem passt, was sie an diesen Abenden war. Ohne
+    // eigene Abende – etwa über die Review eines Freundes hierher gekommen –
+    // genügt irgendein Opernberuf: Regie, Dirigat oder Gesang (Jonas,
+    // 23.11.2026). Der gleichnamige Fußballer bleibt so trotzdem draußen.
+    const als = abende.length ? abende.flatMap(a => a.als.length ? a.als : ['']) : ['Regie', 'Dirigat', ''];
+    personBildImKopf(page.querySelector('.person-hero'), anzeigeName, als);
     return page;
 }
