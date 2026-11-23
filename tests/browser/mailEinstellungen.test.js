@@ -1,4 +1,4 @@
-// "E-Mails" im Fenster "Profil bearbeiten": Mail bei Freundschaftsanfragen
+// "E-Mails" im Fenster "Profil bearbeiten": Mails bei Freundschaftsanfragen und zum Saisonrückblick
 // ein- und ausschalten.
 //
 // Ohne Zeile in mail_einstellungen ist sie eingeschaltet – so bekommen alle
@@ -51,12 +51,12 @@ test('ohne Einstellung eingeschaltet; Ausschalten speichert und bleibt', { skip:
     const { ctx, p, fehler } = await bearbeiten();
     try {
         assert.equal(await p.isVisible('#editProfileModal .mitteilungen'), false, 'ohne Push gar kein Push-Bereich');
-        assert.match(await stand(p), /bekommst du eine Mail/);
+        assert.match(await stand(p), /Du bekommst eine Mail bei einer neuen Freundschaftsanfrage und einmal im Jahr zu deinem Saisonrückblick/);
         assert.equal((await p.textContent('#mailAnfrageBtn')).trim(), 'Ausschalten');
 
         await p.click('#mailAnfrageBtn');
         await p.waitForFunction(() => document.querySelector('#mailAnfrageBtn')?.textContent.trim() === 'Einschalten');
-        assert.match(await stand(p), /kommt keine Mail/);
+        assert.match(await stand(p), /schickt dir OpernLog keine Mails/);
         const geschrieben = await p.evaluate(() => window.__mailSchreiben);
         assert.equal(geschrieben.length, 1);
         assert.equal(geschrieben[0].bei_anfrage, false);
@@ -68,7 +68,7 @@ test('ohne Einstellung eingeschaltet; Ausschalten speichert und bleibt', { skip:
 test('abgeschaltet bleibt abgeschaltet und lässt sich wieder einschalten', { skip: fehltPlaywright }, async () => {
     const { ctx, p, fehler } = await bearbeiten({ vorgabe: { bei_anfrage: false } });
     try {
-        assert.match(await stand(p), /kommt keine Mail/);
+        assert.match(await stand(p), /schickt dir OpernLog keine Mails/);
         await p.click('#mailAnfrageBtn');
         await p.waitForFunction(() => document.querySelector('#mailAnfrageBtn')?.textContent.trim() === 'Ausschalten');
         assert.equal((await p.evaluate(() => window.__mailSchreiben))[0].bei_anfrage, true);
@@ -82,7 +82,7 @@ test('scheitert das Speichern, bleibt der Stand und es gibt eine Meldung', { ski
         await p.evaluate(() => { window.__mailFehler = 'TypeError: Failed to fetch'; });
         await p.click('#mailAnfrageBtn');
         await p.waitForSelector('#editProfileModal .mail-einstellungen__fehler:not([hidden])');
-        assert.match(await stand(p), /bekommst du eine Mail/);
+        assert.match(await stand(p), /Du bekommst eine Mail bei einer neuen Freundschaftsanfrage und einmal im Jahr zu deinem Saisonrückblick/);
         assert.equal((await p.textContent('#mailAnfrageBtn')).trim(), 'Ausschalten');
         assert.equal(await p.isDisabled('#mailAnfrageBtn'), false);
     } finally { await ctx.close(); }

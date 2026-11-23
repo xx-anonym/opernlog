@@ -2,10 +2,13 @@
 //   'anfrage'     bei einer neuen Freundschaftsanfrage
 //   'erinnerung'  einmal an Konten, die eine Woche alt und noch leer sind
 //                 (seit 18.11.2026, mail_erinnerung_migration.sql)
+//   'saison'      der Saisonrückblick am 31. Juli, mit den Zahlen der
+//                 Spielzeit (seit 23.11.2026, mail_saison_migration.sql)
 //
 //   POST  { art, empfaenger: uuid, absender: uuid }
 //
-// Bei der Erinnerung ist absender der Empfänger selbst.
+// Bei der Erinnerung und beim Saisonrückblick ist absender der Empfänger
+// selbst. Die Platzhalter der Vorlagen füllt felder.js.
 //
 // Aufrufen darf das nur die Datenbank (Auslöser mail_bei_anfrage, siehe
 // supabase/migrations/mail_anfrage_migration.sql). Sie weist sich mit
@@ -41,6 +44,7 @@
 import { smtpSenden } from './smtp.js';
 import { nachrichtBauen } from './nachricht.js';
 import { VORLAGEN } from './vorlage.js';
+import { felderFuer, einsetzen } from './felder.js';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const DIENST = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -52,7 +56,7 @@ const ANTWORT = (Deno.env.get('MAIL_ANTWORT') || '').trim() || 'support@opernlog
 
 // Je Art die Datenbankfunktion, die Adresse und Name liefert – nur wenn die
 // Mail wirklich fällig ist.
-const DATEN = { anfrage: 'mail_anfrage_daten', erinnerung: 'mail_erinnerung_daten' } as const;
+const DATEN = { anfrage: 'mail_anfrage_daten', erinnerung: 'mail_erinnerung_daten', saison: 'mail_saison_daten' } as const;
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -74,8 +78,6 @@ async function rest(pfad: string, optionen: RequestInit = {}) {
     return text ? JSON.parse(text) : null;
 }
 
-const maskieren = (text: string) => text.replace(/[&<>"']/g, z =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[z]!));
 
 /** Eine Deno-TLS-Verbindung in der Form, die smtp.js erwartet. */
 function verbindung(tls: Deno.TlsConn) {
@@ -124,16 +126,15 @@ Deno.serve(async (req) => {
         // Adresse unbestätigt oder Mails abgeschaltet.
         if (!daten?.adresse) return json({ gesendet: false });
 
-        const name = String(daten.name || (art === 'anfrage' ? 'Jemand' : 'Opernfan')).slice(0, 60);
         const vorlage = VORLAGEN[art as keyof typeof VORLAGEN];
-        const einsetzen = (text: string, wert: string) => text.split('%%NAME%%').join(wert);
+        const felder = felderFuer(art, daten);
         const nachricht = nachrichtBauen({
             von: ADRESSE,
             an: daten.adresse,
             antwortAn: ANTWORT,
-            betreff: einsetzen(vorlage.betreff, name),
-            text: einsetzen(vorlage.text, name),
-            html: einsetzen(vorlage.html, maskieren(name)),
+            betreff: einsetzen(vorlage.betreff, felder),
+            text: einsetzen(vorlage.text, felder),
+            html: einsetzen(vorlage.html, felder, { html: true }),
             id: `${crypto.randomUUID()}@${ADRESSE.split('@')[1] || 'opernlog.de'}`,
         });
 

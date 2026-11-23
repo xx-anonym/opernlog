@@ -78,7 +78,7 @@ test('die Einstellung ist für niemanden sonst lesbar', () => {
 test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => {
     assert.match(FUNKTION, /req\.headers\.get\('x-push-geheimnis'\)/);
     assert.match(FUNKTION, /Object\.hasOwn\(DATEN, art\)/);
-    assert.match(FUNKTION, /anfrage: 'mail_anfrage_daten', erinnerung: 'mail_erinnerung_daten'/);
+    assert.match(FUNKTION, /anfrage: 'mail_anfrage_daten', erinnerung: 'mail_erinnerung_daten', saison: 'mail_saison_daten'/);
     assert.match(FUNKTION, /rest\(`rpc\/\$\{DATEN\[art as keyof typeof DATEN\]\}`/);
     // Der Mailserver kommt aus den Secrets (Resend seit 17.11.2026), ohne
     // Angabe Gmail wie vorher.
@@ -92,8 +92,8 @@ test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => 
     assert.ok(!/port: (25|587)\b/.test(FUNKTION));
     assert.match(FUNKTION, /Deno\.env\.get\('MAIL_ADRESSE'\)/);
     assert.match(FUNKTION, /Deno\.env\.get\('MAIL_APP_PASSWORT'\)/);
-    // Der Name kommt maskiert ins HTML.
-    assert.match(FUNKTION, /einsetzen\(vorlage\.html, maskieren\(name\)\)/);
+    // Name, Titel und Zahlen kommen maskiert ins HTML (felder.js).
+    assert.match(FUNKTION, /einsetzen\(vorlage\.html, felder, \{ html: true \}\)/);
 });
 
 // ── Erinnerung an leere Konten (seit 18.11.2026) ─────────────────────────
@@ -140,4 +140,57 @@ test('Erinnerungs-Funktionen sind nicht von außen aufrufbar', () => {
         assert.ok(ERINNERUNG.includes(`REVOKE ALL ON FUNCTION public.${f} FROM PUBLIC, anon, authenticated;`), f);
     }
     assert.match(ERINNERUNG, /GRANT EXECUTE ON FUNCTION public\.mail_erinnerung_daten\(UUID\) TO service_role;/);
+});
+
+// ── Saisonrückblick (seit 23.11.2026) ────────────────────────────────────
+
+const SAISON = lies('supabase/migrations/mail_saison_migration.sql');
+
+test('Saisonrückblick: nur fällige Konten, je Spielzeit einmal, am 31. Juli und im August', () => {
+    const faellig = SAISON.match(/FUNCTION public\.mail_saison_faellig[\s\S]*?\$\$;/)[0];
+    assert.match(faellig, /email_confirmed_at IS NOT NULL/);
+    // Abgeschaltete Mails gelten auch hier.
+    assert.match(faellig, /coalesce\(\(SELECT e\.bei_anfrage FROM public\.mail_einstellungen e WHERE e\.user_id = u\.id\), true\)/);
+    assert.match(faellig, /FROM public\.visits v/);
+
+    const daten = SAISON.match(/FUNCTION public\.mail_saison_daten[\s\S]*?\$\$;/)[0];
+    assert.match(daten, /public\.mail_saison_faellig\(p_empfaenger\)/);
+    // Der Abend der Saison: beste Bewertung, bei Gleichstand der jüngste.
+    assert.match(daten, /ORDER BY a\.rating DESC NULLS LAST, a\.date DESC/);
+
+    const lauf = SAISON.match(/FUNCTION public\.mail_saisonrueckblicke[\s\S]*?\$\$;/)[0];
+    assert.match(lauf, /extract\(month FROM p_heute\) = 7 AND extract\(day FROM p_heute\) = 31\) OR extract\(month FROM p_heute\) = 8/);
+    assert.match(lauf, /push_einmal\('mail-saison', nutzer \|\| ':' \|\| etikett, nutzer, interval '300 days'\)/);
+    assert.match(lauf, /l\.art = 'mail-saison' AND l\.schluessel = v\.user_id \|\| ':' \|\| etikett/);
+    assert.match(lauf, /mail_senden\('saison', nutzer, nutzer\)/);
+    assert.match(lauf, /LIMIT 50/);
+    assert.match(lauf, /EXCEPTION WHEN OTHERS THEN\s+RAISE WARNING/);
+
+    // Dieselbe Spielzeit wie die Push-Mitteilung am selben Tag.
+    const push = lies('supabase/migrations/push_migration.sql');
+    const regel = /WHEN \(extract\(month FROM p_heute\), extract\(day FROM p_heute\)\) >= \(7, 31\)\s+THEN extract\(year FROM p_heute\)::int - 1\s+ELSE extract\(year FROM p_heute\)::int - 2/;
+    assert.match(push, regel);
+    assert.match(SAISON, regel);
+
+    assert.match(SAISON, /cron\.schedule\('mail-saison', '5 8 \* 7,8 \*', 'SELECT public\.mail_saisonrueckblicke\(\)'\)/);
+    for (const f of ['mail_saison_faellig(UUID, DATE)', 'mail_saison_daten(UUID)', 'mail_saisonrueckblicke(DATE)']) {
+        assert.ok(SAISON.includes(`REVOKE ALL ON FUNCTION public.${f} FROM PUBLIC, anon, authenticated;`), f);
+    }
+    assert.match(SAISON, /GRANT EXECUTE ON FUNCTION public\.mail_saison_daten\(UUID\) TO service_role;/);
+});
+
+test('Saisonrückblick: die Vorlage führt in den Rückblick, die Titelliste ist aktuell', async () => {
+    const v = VORLAGEN.saison;
+    assert.match(v.html, /href="https:\/\/opernlog\.de\/#\/season"/);
+    assert.match(v.text, /https:\/\/opernlog\.de\/#\/season/);
+    assert.match(v.html, /Profil → Profil bearbeiten → E-Mails/);
+    // Jeder Platzhalter der Vorlage bekommt einen Wert (felder.js).
+    const { felderFuer } = await import('../../supabase/functions/mail-senden/felder.js');
+    const felder = felderFuer('saison', { name: 'X', saison: '2025/26', abende: 1, haeuser: 1, werke: 1, erstmals: 0, abend: {}, haus: {} });
+    for (const teil of [v.betreff, v.text, v.html]) {
+        for (const [, k] of teil.matchAll(/%%([A-Z_]+)%%/g)) assert.ok(k in felder, `%%${k}%% hat keinen Wert`);
+    }
+    const { katalogModul } = await import('../werkzeug/mailvorlagen.mjs');
+    assert.equal(lies('supabase/functions/mail-senden/katalog.js'), await katalogModul(),
+        'katalog.js passt nicht mehr zu operas.js/operaHouses.js – node tests/werkzeug/mailvorlagen.mjs');
 });

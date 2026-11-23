@@ -38,8 +38,8 @@ export function mailBereich(dienste = {}) {
 
     function zeige(an) {
         stand.textContent = an
-            ? 'Bei einer neuen Freundschaftsanfrage bekommst du eine Mail.'
-            : 'Bei Freundschaftsanfragen kommt keine Mail.';
+            ? 'Du bekommst eine Mail bei einer neuen Freundschaftsanfrage und einmal im Jahr zu deinem Saisonrückblick.'
+            : 'Außer zur Anmeldung schickt dir OpernLog keine Mails.';
         knoepfe.innerHTML = `<button type="button" class="btn btn--ghost btn--sm" id="mailAnfrageBtn">${an ? 'Ausschalten' : 'Einschalten'}</button>`;
         const knopf = knoepfe.querySelector('#mailAnfrageBtn');
         knopf.addEventListener('click', async () => {

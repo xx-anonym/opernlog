@@ -51,8 +51,8 @@ export function DatenschutzPage() {
           und andere Angaben der Kamera.</li>
         <li><strong>Mitteilungen:</strong> wenn du sie einschaltest, die Push-Adresse deines Geräts und wann
           welche Mitteilung verschickt wurde.</li>
-        <li><strong>E-Mails:</strong> ob du bei Freundschaftsanfragen eine Mail bekommen möchtest und wann
-          eine verschickt wurde.</li>
+        <li><strong>E-Mails:</strong> ob du Mails von OpernLog bekommen möchtest (Freundschaftsanfragen,
+          Saisonrückblick) und wann eine verschickt wurde.</li>
       </ul>
       <p>Rechtsgrundlage ist die Nutzung der App, um die du bittest (Art. 6 Abs. 1 lit. b DSGVO);
       Mitteilungen und Standort nur mit deiner Erlaubnis (lit. a).</p>
@@ -60,7 +60,8 @@ export function DatenschutzPage() {
       <h2>E-Mails</h2>
       <p>OpernLog schickt dir Mails zur Anmeldung (den Einmalcode, mit dem du dich anmeldest oder registrierst) und, solange
       du es nicht abschaltest, eine Mail, wenn dir jemand eine Freundschaftsanfrage schickt. Ist dein Konto
-      eine Woche nach der Registrierung noch leer, kommt einmal eine Erinnerung, danach nie wieder.
+      eine Woche nach der Registrierung noch leer, kommt einmal eine Erinnerung, danach nie wieder. Und am
+      31. Juli, wenn dein Saisonrückblick fertig ist, eine Mail mit den Zahlen deiner Spielzeit.
       Abschalten kannst du das jederzeit unter „Profil bearbeiten“ → <em>E-Mails</em>. Werbung oder
       Newsletter verschickt OpernLog nicht.</p>
 

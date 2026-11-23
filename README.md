@@ -161,6 +161,18 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   verschickt von derselben Edge Function `mail-senden`. Je Konto vermerkt in
   `push_protokoll` unter `mail-erinnerung`. Ihre Links zeigen schon auf
   `opernlog.de`, das bis zum Umzug weiterleitet.
+- **Mail zum Saisonrückblick:** Am 31. Juli, wenn der Rückblick in der App
+  erscheint, bekommt jeder, der in der Spielzeit einen Abend geloggt hat,
+  eine Mail mit den Zahlen der Spielzeit (Abende, Häuser, Werke, davon zum
+  ersten Mal), dem Abend der Saison und dem Haus, in dem er am häufigsten
+  war, und dem Knopf in den Rückblick. Einmal je Spielzeit, nur an
+  bestätigte Adressen, nicht an Konten mit abgeschalteten Mails. Täglich um
+  08:05 UTC im Juli und August (pg_cron `mail-saison`,
+  `supabase/migrations/mail_saison_migration.sql`), tätig nur am 31. Juli
+  und im August, höchstens 50 Mails je Lauf. Die Titel der Werke und Häuser
+  kennt die Edge Function aus `katalog.js`, die `tests/werkzeug/mailvorlagen.mjs`
+  aus dem Katalog erzeugt – nach neuen Werken neu erzeugen und die Funktion
+  neu ausliefern.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil
