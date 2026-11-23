@@ -74,12 +74,8 @@ const hausName = (id, ersatz) => KATALOG.haeuser[id] || ersatz || '';
  */
 export function felderFuer(art, daten, { code = null } = {}) {
     const name = String(daten?.name || (art === 'anfrage' ? 'Jemand' : 'Opernfan')).slice(0, 60);
-    const link = {
-        LINK: knopfLink(art, MIT_ANMELDUNG.has(art) ? code : null),
-        // Zum Lesen unter dem Knopf: ohne den langen Code.
-        LINK_TEXT: knopfLink(art),
-    };
-    if (art !== 'saison') return { NAME: name, ...link };
+    const LINK = knopfLink(art, MIT_ANMELDUNG.has(art) ? code : null);
+    if (art !== 'saison') return { NAME: name, LINK };
 
     const abende = Number(daten.abende) || 0;
     const haeuser = Number(daten.haeuser) || 0;
@@ -90,7 +86,7 @@ export function felderFuer(art, daten, { code = null } = {}) {
     const ort = [hausName(abend.haus, abend.haus_name), datumLang(abend.datum)].filter(Boolean).join(' · ');
     return {
         NAME: name,
-        ...link,
+        LINK,
         SAISON: String(daten.saison || ''),
         ABENDE: String(abende),
         ABENDE_WORT: zahlwort(abende, 'Abend', 'Abende'),

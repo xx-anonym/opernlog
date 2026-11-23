@@ -30,15 +30,25 @@ test('die Anfrage-Mail: Name überall eingesetzt, Knopf in die App, keine Supaba
     const v = VORLAGEN.anfrage;
     for (const teil of ['betreff', 'text', 'html']) assert.ok(v[teil].includes('%%NAME%%'), teil);
     // Der Knopf trägt den Link aus felder.js (mit Einmal-Code, seit
-    // 23.11.2026), sichtbar darunter nur die Adresse ohne Code.
+    // 23.11.2026); der Link darunter zeigt genau denselben.
     assert.match(v.html, /<a class="knopf" href="%%LINK%%"/);
-    assert.match(v.html, />%%LINK_TEXT%%<\/a>/);
+    assert.match(v.html, /<a href="%%LINK%%" [^>]*>%%LINK%%<\/a>/);
     assert.match(v.text, /^Anfrage ansehen: %%LINK%%$/m);
     assert.ok(!/opernlog\.vercel\.app\/#/.test(v.html), 'ein Link zeigt noch auf vercel.app');
     assert.ok(!v.html.includes('{{'), 'Go-Template-Klammern – die füllt hier niemand');
     // Wo man sie abschaltet, steht in jeder Mail.
     assert.match(v.html, /Profil bearbeiten → E-Mails/);
     assert.match(v.text, /Profil bearbeiten → E-Mails/);
+});
+
+test('in keiner Funktions-Mail lautet ein Link anders, als er führt', () => {
+    // Text, der wie eine Adresse aussieht, muss genau das Ziel sein – sonst
+    // landet man ohne Anmeldung, und Mailprogramme werten es als Phishing.
+    for (const [name, v] of Object.entries(VORLAGEN)) {
+        for (const [, ziel, text] of v.html.matchAll(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g)) {
+            if (/^(https?:|%%)/.test(text.trim())) assert.equal(text.trim(), ziel, `${name}: ${text}`);
+        }
+    }
 });
 
 test('die Anfrage-Mail hat denselben Auftritt und dieselben Regeln wie die übrigen', () => {
