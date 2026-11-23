@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -55,7 +55,7 @@ test('der Abend in der Form eines Besuchs, für mitwirkendeVorschlag', () => {
 
 test('nur Häuser mit Datei werden gefragt; ohne Netz kommt null und beim nächsten Mal ein neuer Versuch', async () => {
     let n = 0;
-    assert.equal(await ladeHausBesetzung('semperoper', { abruf: async () => { n++; } }), null);
+    assert.equal(await ladeHausBesetzung('oper-frankfurt', { abruf: async () => { n++; } }), null);
     assert.equal(n, 0);
     assert.equal(await ladeHausBesetzung('oper-leipzig', { abruf: async () => { n++; throw new Error('offline'); } }), null);
     const d = await ladeHausBesetzung('oper-leipzig', { abruf: async () => { n++; return { ok: true, json: async () => ({ abende: {} }) }; } });
@@ -64,7 +64,8 @@ test('nur Häuser mit Datei werden gefragt; ohne Netz kommt null und beim nächs
 });
 
 test('die Datei im Repo passt: jedes Haus hat eine, jeder Abend gehört zu einem Werk, mit gültigem Datum', () => {
-    const ids = new Set(operas.map(o => o.id));
+    // Werke aus dem Repo und aus der Datenbank (die haben einen Werktext).
+    const ids = new Set([...operas.map(o => o.id), ...fs.readdirSync(new URL('../../daten/werke/', import.meta.url)).map(f => f.replace(/\.json$/, ''))]);
     for (const haus of HAEUSER_MIT_BESETZUNG) {
         const d = JSON.parse(fs.readFileSync(new URL(`../../daten/besetzung/${haus}.json`, import.meta.url), 'utf8'));
         assert.equal(d.haus, haus);
@@ -77,4 +78,29 @@ test('die Datei im Repo passt: jedes Haus hat eine, jeder Abend gehört zu einem
             for (const p of a.besetzung || []) assert.ok(p.name && !/[<>]/.test(p.name + p.rolle), s);
         }
     }
+});
+
+// Ein Termin, wie er auf einer Stückseite der Semperoper steht (gekürzt).
+const SEMPER = `<div class="accordion-item ni-event-item pt-3 pb-3 ni-past-event"><time class="sr-only" datetime="2026-09-02T19:00:00">2. September 2026, 19&nbsp;Uhr</time>
+<div class="ni-cast-section ni-cast-it"><ul><li><span class="ni-cast-item-label ni-genre-color"> Musikalische Leitung&nbsp;</span><span class="person_link ni-cast-item-link"><a href="#">Lorenzo Passerini</a></span></li>
+<li><span class="ni-cast-item-label ni-genre-color"> Inszenierung&nbsp;</span><span class="person_link ni-cast-item-link"><a href="#">Nadja Loschky</a></span></li>
+<li><span class="ni-cast-item-label ni-genre-color"> Dramaturgie&nbsp;</span><span class="person_link ni-cast-item-link"><a href="#">Yvonne Gebauer</a></span><span class="ni-person-name">, </span><span class="person_link ni-cast-item-link"><a href="#">Benedikt Stampfli</a></span></li></ul>
+<div class="ni-cast-additional"><div><span class="ni-cast-item-link"> Sächsische Staatskapelle Dresden </span></div></div></div>
+<div class="ni-cast-section ni-cast-stars"><ul><li><span class="ni-cast-item-label ni-genre-color"> Don José&nbsp;</span><span class="person_link ni-cast-item-link"><a href="#">Matthew Polenzani</a></span></li>
+<li><span class="ni-cast-item-label ni-genre-color"> Micaëla&nbsp;</span><span class="person_link ni-cast-item-link"><a href="#">Marjukka Tepponen</a></span></li></ul></div></div>
+<div class="accordion-item ni-event-item pt-3 pb-3"><time datetime="2026-09-19T18:00:00">19. September</time>
+<div class="ni-cast-section ni-cast-stars"><ul><li><span class="ni-cast-item-label ni-genre-color"> Don José&nbsp;</span><span class="ni-cast-item-link">Tomislav Mu&#382;ek</span></li></ul></div></div>`;
+
+test('Semperoper: je Termin Datum, Zeit, Dirigat, Regie und Besetzung; Orchester und Dramaturgie nicht', () => {
+    assert.deepEqual(semperAbende(SEMPER), [
+        { datum: '2026-09-02', abend: { zeit: '19:00', dirigent: 'Lorenzo Passerini', regie: 'Nadja Loschky',
+            besetzung: [{ rolle: 'Don José', name: 'Matthew Polenzani' }, { rolle: 'Micaëla', name: 'Marjukka Tepponen' }] } },
+        // Ohne Leitungsteam, Name ohne Link, Zeichen als Entität.
+        { datum: '2026-09-19', abend: { zeit: '18:00', besetzung: [{ rolle: 'Don José', name: 'Tomislav Mužek' }] } },
+    ]);
+    assert.deepEqual(semperAbende('<html>keine Termine</html>'), []);
+});
+
+test('jedes Haus mit Leser steht in der App, und umgekehrt', () => {
+    assert.deepEqual(Object.keys(LESER).sort(), [...HAEUSER_MIT_BESETZUNG].sort());
 });

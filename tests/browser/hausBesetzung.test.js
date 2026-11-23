@@ -41,8 +41,9 @@ async function formular(hash) {
     const fehler = [];
     const abrufe = [];
     p.on('pageerror', e => fehler.push(e.message));
-    await p.route('**/daten/besetzung/**', r => { abrufe.push(r.request().url()); return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(DATEI) }); });
     await ersetzeSupabase(p);
+    // Nach ersetzeSupabase: die spätere Regel gewinnt über deren 404.
+    await p.route('**/daten/besetzung/**', r => { abrufe.push(r.request().url()); return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(DATEI) }); });
     await p.goto(`${server.url}/index.html`);
     await p.waitForSelector('.main-content', { timeout: 15000 });
     await p.evaluate(h => { location.hash = h; }, hash);
@@ -90,7 +91,7 @@ test('ein anderer Termin bringt seine eigene Besetzung, ein Tag ohne Vorstellung
 });
 
 test('andere Häuser fragen gar nicht erst nach einer Datei', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const { ctx, p, abrufe } = await formular('#/log?house=semperoper&opera=tosca');
+    const { ctx, p, abrufe } = await formular('#/log?house=oper-frankfurt&opera=aida');
     try {
         await datumSetzen(p, '2026-10-10');
         await p.waitForTimeout(500);

@@ -1,9 +1,11 @@
 // Liest Dirigat, Regie und Besetzung je Vorstellung aus den Seiten der Häuser
 // (Beta, Jonas 23.11.2026) – damit "Besuch loggen" sie vorschlagen kann.
 //
-//   node tests/werkzeug/besetzung-lesen.mjs [--trocken]
+//   node tests/werkzeug/besetzung-lesen.mjs [haus-id …] [--trocken]
 //
-// Bisher nur die Oper Leipzig. Ihre Website holt den Spielplan aus einer
+// Zwei Häuser, zwei Wege:
+//
+// Oper Leipzig: Ihre Website holt den Spielplan aus einer
 // eigenen Schnittstelle (/de/api/events/?page=N), und dort steht zu jeder
 // Vorstellung das Leitungsteam (productionteam_objs: "Musikalische Leitung",
 // "Inszenierung" …) und die Besetzung mit Rollen (cast_objs) – genau das,
@@ -11,6 +13,14 @@
 // verschieden. Die Schnittstelle liefert nur kommende Vorstellungen; was
 // schon einmal gelesen wurde, bleibt deshalb in der Datei stehen (bis 400
 // Tage zurück), denn geloggt wird meist hinterher.
+//
+// Semperoper Dresden (seit 23.11.2026): keine Schnittstelle, aber jede
+// Stückseite listet jeden Termin als eigenen Block (accordion-item
+// ni-event-item) mit maschinenlesbarem Datum (<time datetime="…">), darin
+// das Leitungsteam (ni-cast-it) und die Rollen (ni-cast-stars) – auch für
+// vergangene Termine. Gelesen werden die Stückseiten, auf die der Spielplan
+// der App schon verlinkt (src/data/spielplan.js); welches Werk es ist, steht
+// damit fest.
 //
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
@@ -27,6 +37,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { operas } from '../../src/data/operas.js';
 import { ANDERE_TITEL } from './spielplaene-lesen.mjs';
+import { spielplan } from '../../src/data/spielplan.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const ORDNER = 'daten/besetzung';
@@ -90,6 +101,8 @@ export function zusammenfuehren(alt = {}, neu = {}, heute) {
         .sort(([a], [b]) => a.split('|')[1].localeCompare(b.split('|')[1]) || a.localeCompare(b)));
 }
 
+const pause = (ms) => new Promise(fertig => setTimeout(fertig, ms));
+
 async function leipzigLesen() {
     const verzeichnis = werkVerzeichnis();
     const abende = {};
@@ -105,27 +118,90 @@ async function leipzigLesen() {
         }
         url = d.next;
         seiten++;
-        await new Promise(fertig => setTimeout(fertig, 400));
+        await pause(400);
     }
     return { abende, seiten };
 }
 
+// ── Semperoper ──────────────────────────────────────────────────────────
+
+const ENTITAETEN = { amp: '&', nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>', '#039': "'" };
+const entschluesseln = (t) => String(t ?? '')
+    .replace(/&(#\d+|#x[0-9a-f]+|\w+);/gi, (z, n) => n[0] === '#'
+        ? (ENTITAETEN[n] ?? String.fromCodePoint(n[1].toLowerCase() === 'x' ? parseInt(n.slice(2), 16) : parseInt(n.slice(1), 10)))
+        : (ENTITAETEN[n.toLowerCase()] ?? z));
+const reinerText = (html) => entschluesseln(String(html ?? '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+
+/** Die Zeilen einer Besetzungsliste: [{ rolle, namen: [...] }]. */
+function castListe(html) {
+    return [...String(html ?? '').matchAll(/<li>([\s\S]*?)<\/li>/g)].map(([, li]) => {
+        const rolle = reinerText(li.match(/class="ni-cast-item-label[^"]*">([\s\S]*?)<\/span>/)?.[1]);
+        const namen = [...li.matchAll(/class="[^"]*ni-cast-item-link[^"]*">([\s\S]*?)<\/span>/g)].map(m => reinerText(m[1])).filter(Boolean);
+        return { rolle, namen };
+    }).filter(z => z.rolle && z.namen.length);
+}
+
+/** Alle Termine einer Stückseite der Semperoper mit ihren Mitwirkenden. */
+export function semperAbende(html) {
+    const teile = String(html ?? '').split(/class="accordion-item ni-event-item/).slice(1);
+    const abende = [];
+    for (const teil of teile) {
+        const zeit = teil.match(/<time[^>]*datetime="(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/);
+        if (!zeit) continue;
+        const team = castListe(teil.match(/ni-cast-section ni-cast-it">([\s\S]*?)(?:<div class="ni-cast-additional"|<\/ul>)/)?.[1]);
+        const rollen = castListe(teil.match(/ni-cast-section ni-cast-stars">([\s\S]*?)<\/ul>/)?.[1]);
+        const wer = (muster) => team.filter(z => muster.test(z.rolle)).flatMap(z => z.namen);
+        const abend = { zeit: zeit[2] };
+        const dirigent = wer(/^musikalische leitung$|^dirigent/i);
+        const regie = wer(/^inszenierung$|^regie$/i);
+        const besetzung = rollen.flatMap(z => z.namen.map(name => ({ rolle: z.rolle, name })));
+        if (dirigent.length) abend.dirigent = dirigent.join(', ');
+        if (regie.length) abend.regie = regie.join(', ');
+        if (besetzung.length) abend.besetzung = besetzung;
+        if (abend.dirigent || abend.regie || abend.besetzung) abende.push({ datum: zeit[1], abend });
+    }
+    return abende;
+}
+
+async function semperLesen() {
+    const seiten = [...new Map(spielplan.filter(e => e.haus === 'semperoper' && e.url).map(e => [e.url, e.werk])).entries()];
+    const abende = {};
+    for (const [url, werk] of seiten) {
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        if (!r.ok) { console.warn(`${url}: HTTP ${r.status}`); continue; }
+        for (const { datum, abend } of semperAbende(await r.text())) abende[`${werk}|${datum}`] = abend;
+        await pause(1500);
+    }
+    return { abende, seiten: seiten.length };
+}
+
+export const LESER = {
+    'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
+    'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
+};
+
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const trocken = process.argv.includes('--trocken');
+    const gewaehlt = process.argv.slice(2).filter(a => !a.startsWith('--'));
     const heute = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date());
-    const ziel = path.join(WURZEL, ORDNER, 'oper-leipzig.json');
-    const alt = fs.existsSync(ziel) ? JSON.parse(fs.readFileSync(ziel, 'utf8')).abende : {};
-    const { abende, seiten } = await leipzigLesen();
-    const datei = {
-        haus: 'oper-leipzig',
-        stand: heute,
-        quelle: 'https://www.oper-leipzig.de/de/programm',
-        abende: zusammenfuehren(alt, abende, heute),
-    };
-    console.log(`${seiten} Seiten, ${Object.keys(abende).length} Opernabende mit Mitwirkenden gelesen, ${Object.keys(datei.abende).length} in der Datei.`);
-    if (!trocken) {
-        fs.mkdirSync(path.dirname(ziel), { recursive: true });
-        fs.writeFileSync(ziel, JSON.stringify(datei, null, 1) + '\n');
-        console.log(path.relative(WURZEL, ziel));
+    let fehler = 0;
+    for (const [haus, { lesen, quelle }] of Object.entries(LESER)) {
+        if (gewaehlt.length && !gewaehlt.includes(haus)) continue;
+        const ziel = path.join(WURZEL, ORDNER, `${haus}.json`);
+        const alt = fs.existsSync(ziel) ? JSON.parse(fs.readFileSync(ziel, 'utf8')).abende : {};
+        try {
+            const { abende, seiten } = await lesen();
+            const datei = { haus, stand: heute, quelle, abende: zusammenfuehren(alt, abende, heute) };
+            console.log(`${haus}: ${seiten} Seiten, ${Object.keys(abende).length} Opernabende mit Mitwirkenden gelesen, ${Object.keys(datei.abende).length} in der Datei.`);
+            if (!trocken && Object.keys(datei.abende).length) {
+                fs.mkdirSync(path.dirname(ziel), { recursive: true });
+                fs.writeFileSync(ziel, JSON.stringify(datei, null, 1) + '\n');
+            }
+        } catch (e) {
+            // Ein Haus, das gerade nicht antwortet, behält seine alte Datei.
+            console.error(`${haus}: ${e.message}`);
+            fehler++;
+        }
     }
+    if (fehler) process.exitCode = 1;
 }

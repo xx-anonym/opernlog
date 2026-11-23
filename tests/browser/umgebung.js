@@ -42,6 +42,10 @@ export async function ersetzeSupabase(page, { neuigkeit = false, google = false 
     // direkt an Supabase, ohne die Bibliothek. Aus einem Test darf nichts
     // die echte Datenbank erreichen.
     await page.route('https://*.supabase.co/**', r => r.fulfill({ status: 201, body: '' }));
+    // Die Besetzung je Vorstellung (daten/besetzung/, wöchentlich neu gelesen)
+    // gibt es in Tests nicht – sonst hinge ein Test am Spielplan der Woche.
+    // hausBesetzung.test.js legt nach diesem Aufruf eine eigene Datei vor.
+    await page.route('**/daten/besetzung/**', r => r.fulfill({ status: 404, body: '' }));
     // Googles Anmeldeknopf (src/googleKnopf.js): ohne { google: true } kommt
     // das Skript nicht, und es bleibt der alte Knopf – wie ohne Netz. Mit
     // google: true ein Nachbau, der beim Tippen sofort ein Token liefert.

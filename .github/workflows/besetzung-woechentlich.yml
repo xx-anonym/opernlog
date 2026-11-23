@@ -1,9 +1,10 @@
 name: Besetzung wöchentlich lesen
 
 # Dirigat, Regie und Besetzung je Vorstellung (Beta, seit 23.11.2026) – für
-# den Vorschlag beim Loggen (src/data/hausBesetzung.js). Bisher nur die Oper
-# Leipzig: tests/werkzeug/besetzung-lesen.mjs holt ihre Spielplan-Schnittstelle
-# und schreibt daten/besetzung/oper-leipzig.json.
+# den Vorschlag beim Loggen (src/data/hausBesetzung.js). Die Oper Leipzig und
+# die Semperoper: tests/werkzeug/besetzung-lesen.mjs liest sie und schreibt
+# daten/besetzung/<haus>.json. Antwortet ein Haus nicht, behält es seine alte
+# Datei, die anderen werden trotzdem geschrieben.
 #
 # Anders als die übrigen Läufe meldet dieser nicht nur, er schreibt die Datei
 # selbst ins Repo (Jonas, 23.11.2026): Umbesetzungen und neue Termine sollen
@@ -45,6 +46,8 @@ jobs:
           node-version: '22'
 
       - name: Besetzung lesen
+        # Auch wenn ein Haus scheitert: was gelesen ist, soll ins Repo.
+        continue-on-error: true
         run: node tests/werkzeug/besetzung-lesen.mjs
 
       - name: Datei prüfen
@@ -52,14 +55,15 @@ jobs:
 
       - name: Ins Repo schreiben
         run: |
-          if git diff --quiet -- daten/besetzung; then
+          # status statt diff: auch eine neue Datei (ein neues Haus) zählt.
+          if [ -z "$(git status --porcelain -- daten/besetzung)" ]; then
             echo "Keine Änderung."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
           git add daten/besetzung
-          git commit -m "Besetzung der Oper Leipzig aktualisiert" -m "Wöchentlicher Lauf von tests/werkzeug/besetzung-lesen.mjs."
+          git commit -m "Besetzung aus den Spielplänen aktualisiert" -m "Wöchentlicher Lauf von tests/werkzeug/besetzung-lesen.mjs."
           # Ist main inzwischen weiter, die eigene Änderung oben draufsetzen.
           git pull --rebase origin main
           git push origin HEAD:main
