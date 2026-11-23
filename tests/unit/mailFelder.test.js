@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { einsetzen, maskieren, sterne, datumLang, felderFuer } from '../../supabase/functions/mail-senden/felder.js';
+import { einsetzen, maskieren, sterne, datumLang, felderFuer, knopfLink, MIT_ANMELDUNG } from '../../supabase/functions/mail-senden/felder.js';
 
 test('einsetzen: im HTML maskiert, im Klartext nicht, Unbekanntes wird leer', () => {
     const felder = { NAME: '<b>Anna & "Ben"</b>' };
@@ -26,11 +26,32 @@ test('Sterne und Datum', () => {
     assert.equal(datumLang(''), '');
 });
 
-test('Freundschaftsanfrage und Erinnerung: nur der Name, mit Ersatz', () => {
-    assert.deepEqual(felderFuer('anfrage', { name: 'Ben' }), { NAME: 'Ben' });
-    assert.deepEqual(felderFuer('anfrage', {}), { NAME: 'Jemand' });
-    assert.deepEqual(felderFuer('erinnerung', { name: null }), { NAME: 'Opernfan' });
+test('Freundschaftsanfrage und Erinnerung: der Name, mit Ersatz, und der Link', () => {
+    const ohneCode = { LINK: 'https://opernlog.de/#/', LINK_TEXT: 'https://opernlog.de/#/' };
+    assert.deepEqual(felderFuer('anfrage', { name: 'Ben' }), { NAME: 'Ben', ...ohneCode });
+    assert.deepEqual(felderFuer('anfrage', {}), { NAME: 'Jemand', ...ohneCode });
+    assert.deepEqual(felderFuer('erinnerung', { name: null }), { NAME: 'Opernfan', ...ohneCode });
     assert.equal(felderFuer('anfrage', { name: 'x'.repeat(80) }).NAME.length, 60);
+});
+
+test('Knopf mit Einmal-Code: nur bei Anfrage und Saisonrückblick, Code im #-Teil', () => {
+    assert.deepEqual([...MIT_ANMELDUNG].sort(), ['anfrage', 'saison']);
+    assert.equal(knopfLink('saison', 'abcDEF123_-xyz'), 'https://opernlog.de/#/mail?code=abcDEF123_-xyz&weiter=%23%2Fseason');
+    assert.equal(knopfLink('anfrage', 'abcDEF123_-xyz'), 'https://opernlog.de/#/mail?code=abcDEF123_-xyz&weiter=%23%2F');
+    // Ohne (brauchbaren) Code direkt zur Stelle.
+    assert.equal(knopfLink('saison'), 'https://opernlog.de/#/season');
+    assert.equal(knopfLink('saison', 'kurz'), 'https://opernlog.de/#/season');
+    assert.equal(knopfLink('saison', 'a b&c=d"<x>'), 'https://opernlog.de/#/season');
+
+    const anfrage = felderFuer('anfrage', { name: 'Ben' }, { code: 'abcDEF123_-xyz' });
+    assert.equal(anfrage.LINK, 'https://opernlog.de/#/mail?code=abcDEF123_-xyz&weiter=%23%2F');
+    // Sichtbar unter dem Knopf steht der Code nie.
+    assert.equal(anfrage.LINK_TEXT, 'https://opernlog.de/#/');
+    // Die Erinnerung meldet nicht an, auch wenn ein Code mitkäme.
+    assert.equal(felderFuer('erinnerung', {}, { code: 'abcDEF123_-xyz' }).LINK, 'https://opernlog.de/#/');
+    // Im HTML ist das & maskiert, wie es in ein href gehört.
+    assert.equal(einsetzen('<a href="%%LINK%%">', anfrage, { html: true }),
+        '<a href="https://opernlog.de/#/mail?code=abcDEF123_-xyz&amp;weiter=%23%2F">');
 });
 
 test('Saisonrückblick: Zahlen, Einzahl, Titel aus dem Katalog oder aus der Datenbank', () => {
@@ -40,7 +61,7 @@ test('Saisonrückblick: Zahlen, Einzahl, Titel aus dem Katalog oder aus der Date
         haus: { haus: 'staatsoper-berlin', abende: 5 },
     });
     assert.deepEqual(f, {
-        NAME: 'Jonas', SAISON: '2025/26',
+        NAME: 'Jonas', LINK: 'https://opernlog.de/#/season', LINK_TEXT: 'https://opernlog.de/#/season', SAISON: '2025/26',
         ABENDE: '14', ABENDE_WORT: 'Abende', HAEUSER: '6', HAEUSER_WORT: 'Häuser', WERKE: '11', WERKE_WORT: 'Werke',
         ERSTMALS: 'Davon 4 zum ersten Mal gesehen.',
         ABEND_WERK: 'Tosca', ABEND_ORT: 'Semperoper · 16. Mai 2026', ABEND_STERNE: '★★★★½',
