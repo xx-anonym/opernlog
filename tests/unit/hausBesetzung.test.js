@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, frankfurtTermine, frankfurtAbend, LESER } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, frankfurtTermine, frankfurtAbend, hamburgKalender, hamburgRollen, hamburgAbend, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -55,7 +55,7 @@ test('der Abend in der Form eines Besuchs, für mitwirkendeVorschlag', () => {
 
 test('nur Häuser mit Datei werden gefragt; ohne Netz kommt null und beim nächsten Mal ein neuer Versuch', async () => {
     let n = 0;
-    assert.equal(await ladeHausBesetzung('hamburgische-staatsoper', { abruf: async () => { n++; } }), null);
+    assert.equal(await ladeHausBesetzung('bayerische-staatsoper', { abruf: async () => { n++; } }), null);
     assert.equal(n, 0);
     assert.equal(await ladeHausBesetzung('oper-leipzig', { abruf: async () => { n++; throw new Error('offline'); } }), null);
     const d = await ladeHausBesetzung('oper-leipzig', { abruf: async () => { n++; return { ok: true, json: async () => ({ abende: {} }) }; } });
@@ -192,4 +192,34 @@ test('Oper Frankfurt: Termine aus dem Kalender, je Termin Leitung und Rollen, of
         ] },
     });
     assert.equal(frankfurtAbend('<html>ohne Termin</html>'), null);
+});
+
+// Hamburgische Staatsoper: ein Tag des Kalenders und die Besetzung der
+// Stückseite (gekürzt). Der Kalender nennt Namen ohne Rollen, die Stückseite
+// Rollen mit den Terminen, an denen jemand singt.
+const HAMBURG_KALENDER = `<div class="cal__day" data-day="2027-01-14"> <ul class="events-list"> <li class="event-entry"> <div class="event__main" data-href="/de/programm/oper/144-la-traviata"> <div class="event__datetime"> <span class="event__date">Do 14.1.27</span> <span class="event__datetime">19:30</span> </div>
+<div class="event__title"> <a href="/de/programm/oper/144-la-traviata">La traviata</a> </div> <div class="event__subtitle"> <span>Giuseppe Verdi</span> </div>
+<ul class="production-infos__list production-infos__list--spacious"> <li class="production-infos__item"> <span class="label">Musikalische Leitung</span> <span class="content"> <a href="/de/personen/39915977-sesto-quatrini">Sesto Quatrini</a> </span> </li> <li class="production-infos__item"> <span class="label">Inszenierung</span> <span class="content"> <a href="/de/personen/3648-johannes-erath">Johannes Erath</a> </span> </li> </ul>
+<div class="extra__text"> <p>Mit: <a href="/de/personen/39915829-yaritza-veliz">Yaritza Véliz</a>, <a href="/de/personen/39912864-kady-evanyshyn">Kady Evanyshyn</a>, <a href="/de/personen/5469-chor-der-hamburgischen-staatsoper">Chor der Hamburgischen Staatsoper</a>, <a href="/de/personen/1929-philharmonisches-staatsorchester-hamburg">Philhar&shy;mo&shy;nisches Staats&shy;orchester Hamburg</a></p> </div> </li> </ul> </div>`;
+const HAMBURG_STUECK = `<div class="block block--production-credits" data-section="besetzung"> <ul class="production-infos__list">
+<li class="production-infos__item" data-id="144"> <div class="label">Musikalische Leitung</div> <div class="content content--person"> <a href="/de/personen/39915977-sesto-quatrini" class="person__name"> <span>Sesto Quatrini</span> </a> </div> </li> </ul>
+<ul class="production-infos__list"> <li class="production-infos__item" data-id="1"> <div class="label">Violetta Valery</div> <div class="content content--person"> <a href="/de/personen/39915829-yaritza-veliz" class="person__name"> <span>Yaritza Véliz</span> </a> </div> </li>
+<li class="production-infos__item" data-id="2"> <div class="label">Flora Bervoix</div> <div class="content content--person"> <a href="/de/personen/39911749-ida-aldrian" class="person__name"> <span>Ida Aldrian</span> </a> <ul class="toggable__elements"> <li class="toggable__element"> <span>3.1.27 / </span> </li> <li class="toggable__element"> <span>5.1.27</span> </li> </ul> </div>
+<div class="content content--person"> <a href="/de/personen/39912864-kady-evanyshyn" class="person__name"> <span>Kady Evanyshyn</span> </a> <ul class="toggable__elements is-limited"> <li class="toggable__element"> <span>7.1.27 / </span> </li> <li class="toggable__element is-over-limit"> <span>14.1.27</span> </li> </ul> </div> </li> </ul> </div>
+<div data-section="video"></div>`;
+
+test('Hamburgische Staatsoper: Namen aus dem Kalender, Rollen von der Stückseite, Chor und Orchester weg', () => {
+    const [k] = hamburgKalender(HAMBURG_KALENDER);
+    assert.equal(k.datum, '2027-01-14');
+    assert.equal(k.titel, 'La traviata');
+    assert.equal(k.stueck, '/de/programm/oper/144-la-traviata');
+    assert.deepEqual(k.mit.map(p => p.name), ['Yaritza Véliz', 'Kady Evanyshyn']);
+    const rollen = hamburgRollen(HAMBURG_STUECK);
+    assert.deepEqual(rollen.find(r => r.id === '39912864').daten, ['2027-01-07', '2027-01-14'], 'auch die eingeklappten Termine');
+    assert.deepEqual(hamburgAbend(k, rollen), {
+        zeit: '19:30', dirigent: 'Sesto Quatrini', regie: 'Johannes Erath',
+        besetzung: [{ rolle: 'Violetta Valery', name: 'Yaritza Véliz' }, { rolle: 'Flora Bervoix', name: 'Kady Evanyshyn' }],
+    });
+    // Ohne Stückseite bleiben die Namen, nur ohne Rolle.
+    assert.deepEqual(hamburgAbend(k).besetzung[0], { rolle: '', name: 'Yaritza Véliz' });
 });

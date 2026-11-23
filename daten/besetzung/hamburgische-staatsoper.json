@@ -1,0 +1,2372 @@
+{
+ "haus": "hamburgische-staatsoper",
+ "stand": "2026-11-24",
+ "quelle": "https://www.die-hamburgische-staatsoper.de/de/kalender/oper",
+ "abende": {
+  "barbiere|2026-12-13": {
+   "zeit": "16:30",
+   "dirigent": "George Petrou",
+   "regie": "Tatjana Gürbaca",
+   "besetzung": [
+    {
+     "rolle": "Conte Almaviva",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Don Bartolo",
+     "name": "Misha Kiria"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Simone McIntosh"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Mattia Olivieri"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Hellen Kwon"
+    },
+    {
+     "rolle": "Fiorello",
+     "name": "William Desbiens"
+    }
+   ]
+  },
+  "barbiere|2026-12-15": {
+   "zeit": "19:30",
+   "dirigent": "George Petrou",
+   "regie": "Tatjana Gürbaca",
+   "besetzung": [
+    {
+     "rolle": "Conte Almaviva",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Don Bartolo",
+     "name": "Misha Kiria"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Simone McIntosh"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Mattia Olivieri"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Hellen Kwon"
+    },
+    {
+     "rolle": "Fiorello",
+     "name": "William Desbiens"
+    }
+   ]
+  },
+  "la-boheme|2026-12-18": {
+   "zeit": "19:30",
+   "dirigent": "Alexander Joel",
+   "regie": "Guy Joosten",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Won Whi Choi"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "la-boheme|2026-12-20": {
+   "zeit": "16:00",
+   "dirigent": "Alexander Joel",
+   "regie": "Guy Joosten",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Won Whi Choi"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "barbiere|2026-12-21": {
+   "zeit": "19:00",
+   "dirigent": "George Petrou",
+   "regie": "Tatjana Gürbaca",
+   "besetzung": [
+    {
+     "rolle": "Conte Almaviva",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Don Bartolo",
+     "name": "Misha Kiria"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Simone McIntosh"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Mattia Olivieri"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Hellen Kwon"
+    },
+    {
+     "rolle": "Fiorello",
+     "name": "William Desbiens"
+    }
+   ]
+  },
+  "la-boheme|2026-12-23": {
+   "zeit": "19:00",
+   "dirigent": "Alexander Joel",
+   "regie": "Guy Joosten",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Won Whi Choi"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "barbiere|2026-12-26": {
+   "zeit": "18:00",
+   "dirigent": "George Petrou",
+   "regie": "Tatjana Gürbaca",
+   "besetzung": [
+    {
+     "rolle": "Conte Almaviva",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Don Bartolo",
+     "name": "Misha Kiria"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Simone McIntosh"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Mattia Olivieri"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Hellen Kwon"
+    },
+    {
+     "rolle": "Fiorello",
+     "name": "William Desbiens"
+    }
+   ]
+  },
+  "la-boheme|2026-12-28": {
+   "zeit": "19:00",
+   "dirigent": "Alexander Joel",
+   "regie": "Guy Joosten",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Won Whi Choi"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "barbiere|2026-12-29": {
+   "zeit": "19:00",
+   "dirigent": "George Petrou",
+   "regie": "Tatjana Gürbaca",
+   "besetzung": [
+    {
+     "rolle": "Conte Almaviva",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Don Bartolo",
+     "name": "Misha Kiria"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Simone McIntosh"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Mattia Olivieri"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Hellen Kwon"
+    },
+    {
+     "rolle": "Fiorello",
+     "name": "William Desbiens"
+    }
+   ]
+  },
+  "la-boheme|2026-12-30": {
+   "zeit": "19:00",
+   "dirigent": "Alexander Joel",
+   "regie": "Guy Joosten",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Won Whi Choi"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Elbenita Kajtazi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "barbiere|2026-12-31": {
+   "zeit": "19:00",
+   "dirigent": "George Petrou",
+   "regie": "Tatjana Gürbaca",
+   "besetzung": [
+    {
+     "rolle": "Conte Almaviva",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Don Bartolo",
+     "name": "Misha Kiria"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Simone McIntosh"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Mattia Olivieri"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Hellen Kwon"
+    },
+    {
+     "rolle": "Fiorello",
+     "name": "William Desbiens"
+    }
+   ]
+  },
+  "la-traviata|2027-01-03": {
+   "zeit": "17:00",
+   "dirigent": "Sesto Quatrini",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Yaritza Véliz"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Oleksiy Palchykov"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Boris Pinkhasovich"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Il Barone Douphol",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Il Marchese d'Obigny",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Il Dottore Grenvil",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "la-traviata|2027-01-05": {
+   "zeit": "19:30",
+   "dirigent": "Sesto Quatrini",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Yaritza Véliz"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Oleksiy Palchykov"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Boris Pinkhasovich"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Il Barone Douphol",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Il Marchese d'Obigny",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Il Dottore Grenvil",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "la-traviata|2027-01-07": {
+   "zeit": "19:30",
+   "dirigent": "Sesto Quatrini",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Yaritza Véliz"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Oleksiy Palchykov"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Boris Pinkhasovich"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Il Barone Douphol",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Il Marchese d'Obigny",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Il Dottore Grenvil",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "entfuehrung|2027-01-10": {
+   "zeit": "18:00",
+   "dirigent": "Sasha Yankevych",
+   "regie": "David Bösch",
+   "besetzung": [
+    {
+     "rolle": "Bassa Selim",
+     "name": "Peter Lohmeyer"
+    },
+    {
+     "rolle": "Konstanze",
+     "name": "Katharina Konradi"
+    },
+    {
+     "rolle": "Blonde",
+     "name": "Alexandra Nowakowski"
+    },
+    {
+     "rolle": "Belmonte",
+     "name": "Dovlet Nurgeldiyev"
+    },
+    {
+     "rolle": "Osmin",
+     "name": "Timo Riihonen"
+    }
+   ]
+  },
+  "la-traviata|2027-01-14": {
+   "zeit": "19:30",
+   "dirigent": "Sesto Quatrini",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Yaritza Véliz"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Kady Evanyshyn"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Oleksiy Palchykov"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Il Barone Douphol",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Il Marchese d'Obigny",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Il Dottore Grenvil",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "entfuehrung|2027-01-15": {
+   "zeit": "19:30",
+   "dirigent": "Sasha Yankevych",
+   "regie": "David Bösch",
+   "besetzung": [
+    {
+     "rolle": "Bassa Selim",
+     "name": "Peter Lohmeyer"
+    },
+    {
+     "rolle": "Konstanze",
+     "name": "Katharina Konradi"
+    },
+    {
+     "rolle": "Blonde",
+     "name": "Alexandra Nowakowski"
+    },
+    {
+     "rolle": "Belmonte",
+     "name": "Dovlet Nurgeldiyev"
+    },
+    {
+     "rolle": "Osmin",
+     "name": "Timo Riihonen"
+    }
+   ]
+  },
+  "la-traviata|2027-01-16": {
+   "zeit": "19:30",
+   "dirigent": "Sesto Quatrini",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Yaritza Véliz"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Kady Evanyshyn"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Oleksiy Palchykov"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Il Barone Douphol",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Il Marchese d'Obigny",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Il Dottore Grenvil",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "entfuehrung|2027-01-22": {
+   "zeit": "19:30",
+   "dirigent": "Sasha Yankevych",
+   "regie": "David Bösch",
+   "besetzung": [
+    {
+     "rolle": "Bassa Selim",
+     "name": "Peter Lohmeyer"
+    },
+    {
+     "rolle": "Konstanze",
+     "name": "Katharina Konradi"
+    },
+    {
+     "rolle": "Blonde",
+     "name": "Alexandra Nowakowski"
+    },
+    {
+     "rolle": "Belmonte",
+     "name": "Dovlet Nurgeldiyev"
+    },
+    {
+     "rolle": "Osmin",
+     "name": "Timo Riihonen"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-01-24": {
+   "zeit": "18:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Lisette Oropesa"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-01-27": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Lisette Oropesa"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "la-traviata|2027-01-29": {
+   "zeit": "19:30",
+   "dirigent": "Sesto Quatrini",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valery",
+     "name": "Yaritza Véliz"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Kady Evanyshyn"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Oleksiy Palchykov"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Il Barone Douphol",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Il Marchese d'Obigny",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Il Dottore Grenvil",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-01-30": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Lisette Oropesa"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-02-02": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Lisette Oropesa"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-02-05": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Lisette Oropesa"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-02-07": {
+   "zeit": "18:00",
+   "dirigent": "Stefano Ranzani",
+   "regie": "Alexander Schulin",
+   "besetzung": [
+    {
+     "rolle": "Gustavo III",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Il Conte di Anckarström",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Leah Hawkins"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Yulia Matochkina"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Christiano",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Il Conte di Ribbing",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il Conte di Horn",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Un Giudice",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-02-12": {
+   "zeit": "19:30",
+   "dirigent": "Stefano Ranzani",
+   "regie": "Alexander Schulin",
+   "besetzung": [
+    {
+     "rolle": "Gustavo III",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Il Conte di Anckarström",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Leah Hawkins"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Christiano",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Il Conte di Ribbing",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il Conte di Horn",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Un Giudice",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-02-17": {
+   "zeit": "19:30",
+   "dirigent": "Stefano Ranzani",
+   "regie": "Alexander Schulin",
+   "besetzung": [
+    {
+     "rolle": "Gustavo III",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Il Conte di Anckarström",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Leah Hawkins"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Christiano",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Il Conte di Ribbing",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il Conte di Horn",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Un Giudice",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-02-19": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Emily Richter"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "eugen-onegin|2027-02-21": {
+   "zeit": "18:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "eugen-onegin|2027-02-23": {
+   "zeit": "19:30",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-02-25": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Emily Richter"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "carmen|2027-02-28": {
+   "zeit": "18:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Eve-Maud Hubeaux"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "eugen-onegin|2027-03-03": {
+   "zeit": "19:30",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "guglielmo-tell|2027-03-04": {
+   "zeit": "19:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Tobias Kratzer",
+   "besetzung": [
+    {
+     "rolle": "Arnold Melcthal",
+     "name": "Lawrence Brownlee"
+    },
+    {
+     "rolle": "Mathilde",
+     "name": "Lisette Oropesa"
+    },
+    {
+     "rolle": "Guillaume Tell",
+     "name": "Jacques Imbrailo"
+    },
+    {
+     "rolle": "Walther Furst",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Melcthal",
+     "name": "Sir Willard White"
+    },
+    {
+     "rolle": "Jemmy",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Gesler",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Rodolphe",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Ruodi",
+     "name": "Jonah Hoskins"
+    },
+    {
+     "rolle": "Leuthold",
+     "name": "Chao Deng"
+    },
+    {
+     "rolle": "Hedwige",
+     "name": "Adriana Bignagni Lesca"
+    }
+   ]
+  },
+  "carmen|2027-03-05": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Eve-Maud Hubeaux"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "eugen-onegin|2027-03-06": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "carmen|2027-03-08": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Eve-Maud Hubeaux"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "eugen-onegin|2027-03-09": {
+   "zeit": "19:30",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "eugen-onegin|2027-03-16": {
+   "zeit": "19:30",
+   "dirigent": "Tohar Gil",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "eugen-onegin|2027-03-18": {
+   "zeit": "19:30",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Bastian Kraft",
+   "besetzung": [
+    {
+     "rolle": "Larina",
+     "name": "Katja Pieweck"
+    },
+    {
+     "rolle": "Tatjana",
+     "name": "Elena Tsallagova"
+    },
+    {
+     "rolle": "Olga",
+     "name": "Aleksandra Meteleva"
+    },
+    {
+     "rolle": "Filipjewna",
+     "name": "Margarita Nekrasova"
+    },
+    {
+     "rolle": "Onegin",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Lenski",
+     "name": "Pavel Petrov"
+    },
+    {
+     "rolle": "Gremin",
+     "name": "Alexander Roslavets"
+    },
+    {
+     "rolle": "Saretzki",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Triquet",
+     "name": "Jürgen Sacher"
+    }
+   ]
+  },
+  "carmen|2027-03-19": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Eve-Maud Hubeaux"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "carmen|2027-03-31": {
+   "zeit": "19:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Andrei Bondarenko"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "madama-butterfly|2027-04-01": {
+   "zeit": "19:30",
+   "dirigent": "Carlo Montanaro",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio San",
+     "name": "Galina Cheplakova"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Stefano La Colla"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Jürgen Sacher"
+    },
+    {
+     "rolle": "Il Principe Yamadori",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Lo zio Bonzo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il commissario imperiale",
+     "name": "Ferdinand Muradyan"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-04-02": {
+   "zeit": "19:30",
+   "dirigent": "N. N.",
+   "regie": "Alexander Schulin",
+   "besetzung": [
+    {
+     "rolle": "Gustavo III",
+     "name": "Anthony Ciaramitaro"
+    },
+    {
+     "rolle": "Il Conte di Anckarström",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Christiano",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Il Conte di Ribbing",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il Conte di Horn",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Un Giudice",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "carmen|2027-04-04": {
+   "zeit": "15:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-04-06": {
+   "zeit": "19:30",
+   "dirigent": "N. N.",
+   "regie": "Alexander Schulin",
+   "besetzung": [
+    {
+     "rolle": "Gustavo III",
+     "name": "Anthony Ciaramitaro"
+    },
+    {
+     "rolle": "Il Conte di Anckarström",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Narea Son"
+    },
+    {
+     "rolle": "Christiano",
+     "name": "Andrew Hamilton"
+    },
+    {
+     "rolle": "Il Conte di Ribbing",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il Conte di Horn",
+     "name": "Hubert Kowalczyk"
+    },
+    {
+     "rolle": "Un Giudice",
+     "name": "Kang Seo"
+    }
+   ]
+  },
+  "madama-butterfly|2027-04-07": {
+   "zeit": "19:30",
+   "dirigent": "Carlo Montanaro",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio San",
+     "name": "Galina Cheplakova"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Stefano La Colla"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Jürgen Sacher"
+    },
+    {
+     "rolle": "Il Principe Yamadori",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Lo zio Bonzo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il commissario imperiale",
+     "name": "Ferdinand Muradyan"
+    }
+   ]
+  },
+  "carmen|2027-04-10": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Herbert Fritsch",
+   "besetzung": [
+    {
+     "rolle": "Don José",
+     "name": "Stephen Costello"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Peter Galliard"
+    },
+    {
+     "rolle": "Dancaïro, Moralès",
+     "name": "Nicholas Mogg"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Carmen",
+     "name": "Annika Schlicht"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Eliza Boom"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Mariana Poltorak"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Aebh Kelly"
+    }
+   ]
+  },
+  "madama-butterfly|2027-04-13": {
+   "zeit": "19:30",
+   "dirigent": "Carlo Montanaro",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio San",
+     "name": "Galina Cheplakova"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Stefano La Colla"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Jürgen Sacher"
+    },
+    {
+     "rolle": "Il Principe Yamadori",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Lo zio Bonzo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il commissario imperiale",
+     "name": "Ferdinand Muradyan"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-04-15": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Stefan Herheim",
+   "besetzung": [
+    {
+     "rolle": "Il Conte d'Almaviva",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "La Contessa d'Almaviva",
+     "name": "Julia Kleiter"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Marie Maidowski"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Aebh Kelly"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Brigitta Listra"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Kang Seo"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Lindsey Reynolds"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-04-17": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Stefan Herheim",
+   "besetzung": [
+    {
+     "rolle": "Il Conte d'Almaviva",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "La Contessa d'Almaviva",
+     "name": "Julia Kleiter"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Marie Maidowski"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Aebh Kelly"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Brigitta Listra"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Kang Seo"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Lindsey Reynolds"
+    }
+   ]
+  },
+  "madama-butterfly|2027-04-18": {
+   "zeit": "16:00",
+   "dirigent": "Carlo Montanaro",
+   "regie": "Vincent Boussard",
+   "besetzung": [
+    {
+     "rolle": "Cio-Cio San",
+     "name": "Galina Cheplakova"
+    },
+    {
+     "rolle": "Suzuki",
+     "name": "Ida Aldrian"
+    },
+    {
+     "rolle": "Kate Pinkerton",
+     "name": "Inés López Fernández"
+    },
+    {
+     "rolle": "Pinkerton",
+     "name": "Stefano La Colla"
+    },
+    {
+     "rolle": "Sharpless",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "Goro",
+     "name": "Jürgen Sacher"
+    },
+    {
+     "rolle": "Il Principe Yamadori",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Lo zio Bonzo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Il commissario imperiale",
+     "name": "Ferdinand Muradyan"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-04-23": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Stefan Herheim",
+   "besetzung": [
+    {
+     "rolle": "Il Conte d'Almaviva",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "La Contessa d'Almaviva",
+     "name": "Mathilda Sterby"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Marie Maidowski"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Aebh Kelly"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Brigitta Listra"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Kang Seo"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Lindsey Reynolds"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-04-25": {
+   "zeit": "19:00",
+   "dirigent": "Omer Meir Wellber",
+   "regie": "Stefan Herheim",
+   "besetzung": [
+    {
+     "rolle": "Il Conte d'Almaviva",
+     "name": "Kartal Karagedik"
+    },
+    {
+     "rolle": "La Contessa d'Almaviva",
+     "name": "Mathilda Sterby"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Marie Maidowski"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Ilia Kazakov"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Aebh Kelly"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Brigitta Listra"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Colin Aikins"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Kang Seo"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Tigran Martirossian"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Ferdinand Muradyan"
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Lindsey Reynolds"
+    }
+   ]
+  }
+ }
+}

@@ -51,6 +51,14 @@
 // Schrägstrich ("Ramfis: Andreas Bauer Kanabas / Kihwan Sim") – die Rolle
 // bleibt dann weg. Chor und Orchester stehen außerhalb der Listen.
 //
+// Hamburgische Staatsoper (seit 24.11.2026): Der Kalender (/de/kalender/oper)
+// enthält alle Monate der Spielzeit auf einer Seite, je Tag (data-day) die
+// Vorstellungen mit Titel, Komponist, Beginn und, aufklappbar, Musikalische
+// Leitung, Inszenierung und "Mit: …" – die Namen dieses Termins, aber ohne
+// Rollen. Die Rollen stehen auf der Stückseite (Besetzung), bei
+// wechselnder Besetzung mit den Terminen je Name ("3.1.27 / 5.1.27"). Beides
+// zusammen ergibt Name und Rolle je Abend; Chor und Orchester bleiben weg.
+//
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
 //     "abende": { "eugen-onegin|2026-11-28": { "zeit": "19:00",
@@ -460,6 +468,110 @@ async function frankfurtLesen() {
     return { abende, seiten: abrufe };
 }
 
+// ── Hamburgische Staatsoper ─────────────────────────────────────────────
+
+const HH = 'https://www.die-hamburgische-staatsoper.de';
+const HH_GRUPPE = /chor(e|es)?\b|orchester|statisterie|komparserie|musiker/i;
+const hhPerson = (href) => String(href ?? '').match(/\/personen\/(\d+)-/)?.[1] || '';
+
+/**
+ * Die Opernabende des Kalenders: [{ datum, zeit, titel, komponist, stueck,
+ * dirigent, regie, mit: [{ id, name }] }]. stueck ist der Pfad der Stückseite.
+ */
+export function hamburgKalender(html) {
+    const tage = String(html ?? '').split(/<div class="cal__day" data-day="/).slice(1);
+    return tage.flatMap(tag => {
+        const datum = tag.slice(0, 10);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(datum)) return [];
+        return tag.split(/<li class="event-entry">/).slice(1).map(e => {
+            const stueck = e.match(/class="event__title">\s*<a href="([^"]+)"/)?.[1] || '';
+            const titel = reinerText(e.match(/class="event__title">([\s\S]*?)<\/div>/)?.[1]);
+            const komponist = reinerText(e.match(/class="event__subtitle">([\s\S]*?)<\/div>/)?.[1]);
+            const zeit = e.match(/<span class="event__datetime">\s*(\d{1,2}):(\d{2})/);
+            const team = (muster) => [...e.matchAll(/<li class="production-infos__item">\s*<span class="label">([\s\S]*?)<\/span>\s*<span class="content">([\s\S]*?)<\/span>\s*<\/li>/g)]
+                .filter(([, label]) => muster.test(reinerText(label)))
+                .map(([, , inhalt]) => reinerText(inhalt)).filter(Boolean);
+            const mitText = e.match(/<p>\s*Mit:([\s\S]*?)<\/p>/)?.[1] || '';
+            const mit = [...mitText.matchAll(/<a href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)]
+                .map(([, href, name]) => ({ id: hhPerson(href), name: reinerText(name) }))
+                .filter(p => p.name && !HH_GRUPPE.test(p.name));
+            return {
+                datum, titel, komponist, stueck,
+                zeit: zeit ? `${zeit[1].padStart(2, '0')}:${zeit[2]}` : '',
+                dirigent: team(/^musikalische leitung$|^dirigent/i).join(', '),
+                regie: team(/^inszenierung$|^regie$/i).join(', '),
+                mit,
+            };
+        });
+    });
+}
+
+/** "3.1.27" → "2027-01-03". */
+const hhDatum = (t) => {
+    const m = String(t).match(/(\d{1,2})\.(\d{1,2})\.(\d{2})/);
+    return m ? `20${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : '';
+};
+
+/** Die Rollen einer Stückseite: [{ rolle, id, daten: [iso…] | null }] – null heißt an allen Terminen. */
+export function hamburgRollen(html) {
+    const block = String(html ?? '').split('data-section="besetzung"')[1]?.split('data-section="')[0] || '';
+    return [...block.matchAll(/<li class="production-infos__item"[^>]*>\s*<div class="label">([\s\S]*?)<\/div>([\s\S]*?)(?=<li class="production-infos__item"|<\/ul>\s*<\/div>\s*<\/div>|$)/g)]
+        .flatMap(([, label, rest]) => {
+            const rolle = reinerText(label);
+            return rest.split(/<div class="content content--person">/).slice(1).map(p => {
+                const daten = [...p.matchAll(/<li class="toggable__element[^"]*">\s*<span>([^<]*)<\/span>/g)].map(m => hhDatum(m[1])).filter(Boolean);
+                return { rolle, id: hhPerson(p.match(/href="([^"]+)"/)?.[1]), daten: daten.length ? daten : null };
+            });
+        })
+        .filter(r => r.id);
+}
+
+/** Ein Kalenderabend mit den Rollen seiner Stückseite in unserer Form – oder null. */
+export function hamburgAbend(k, rollen = []) {
+    const besetzung = k.mit.map(p => {
+        const passend = rollen.filter(r => r.id === p.id && !GRUPPE.test(r.rolle) && (!r.daten || r.daten.includes(k.datum)));
+        const rolle = [...new Set(passend.map(r => r.rolle))].join(', ');
+        return { rolle, name: p.name };
+    });
+    const abend = {};
+    if (k.zeit) abend.zeit = k.zeit;
+    if (k.dirigent) abend.dirigent = k.dirigent;
+    if (k.regie) abend.regie = k.regie;
+    if (besetzung.length) abend.besetzung = besetzung;
+    return abend.dirigent || abend.regie || abend.besetzung ? abend : null;
+}
+
+async function hamburgLesen() {
+    const holen = async (url) => {
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+        return r.text();
+    };
+    const verzeichnis = werkVerzeichnis();
+    const kalender = hamburgKalender(await holen(`${HH}/de/kalender/oper`)).filter(k => {
+        const werk = verzeichnis.get(titelSchluessel(k.titel));
+        if (!werk) return false;
+        // Nur der Anfang des Nachnamens, wie bei Leipzig.
+        const nachname = titelSchluessel(String(werk.composer || '').split(/\s+/).pop()).slice(0, 5);
+        if (k.komponist && nachname && !titelSchluessel(k.komponist).includes(nachname)) return false;
+        k.werk = werk.id;
+        return true;
+    });
+    const rollen = new Map();
+    let seiten = 1;
+    for (const stueck of new Set(kalender.map(k => k.stueck).filter(s => s.startsWith('/de/programm/')))) {
+        await pause(1500);
+        try { rollen.set(stueck, hamburgRollen(await holen(HH + stueck))); seiten++; }
+        catch (e) { console.warn(e.message); }
+    }
+    const abende = {};
+    for (const k of kalender) {
+        const abend = hamburgAbend(k, rollen.get(k.stueck));
+        if (abend) abende[`${k.werk}|${k.datum}`] = abend;
+    }
+    return { abende, seiten };
+}
+
 export const LESER = {
     'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
     'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
@@ -467,6 +579,7 @@ export const LESER = {
     'staatsoper-berlin': { lesen: staatsoperLesen, quelle: 'https://www.staatsoper-berlin.de/de/spielplan/' },
     'deutsche-oper-berlin': { lesen: deutscheLesen, quelle: 'https://deutscheoperberlin.de/de_DE/calendar' },
     'oper-frankfurt': { lesen: frankfurtLesen, quelle: 'https://oper-frankfurt.de/de/spielplan/' },
+    'hamburgische-staatsoper': { lesen: hamburgLesen, quelle: 'https://www.die-hamburgische-staatsoper.de/de/kalender/oper' },
 };
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
