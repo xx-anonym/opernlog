@@ -5,7 +5,7 @@ import { operas } from '../data/operas.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
-import { showToast, showError } from '../components/Toast.js';
+import { showToast, showError, runWithFeedback } from '../components/Toast.js';
 import { zeichneAbendbild } from '../components/Teilbild.js';
 import { alsPng, teilenMitBild, teilenLink } from '../teilen.js';
 import { abendbildDaten, abendText, abendDateiname, abendDirektlink } from '../abendTeilen.js';
@@ -45,12 +45,58 @@ export function VisitDetailPage(visitId) {
         // und Kommentare – nicht als Anhang unter alles andere.
         karte.insertBefore(andenkenBereich(visit), karte.querySelector('.review-card__actions'));
         teilenKnopf(karte, visit, opera);
+        bearbeitenKnoepfe(karte, visit);
         
         // Fix scroll position (prevent auto scroll down from previous page or DOM change)
         setTimeout(() => window.scrollTo(0, 0), 10);
     }, 0);
 
     return page;
+}
+
+const istEigener = (visit) => {
+    const ich = store.getCurrentUser();
+    return !!ich && (visit.userId === ich.id || visit.userId === 'user-me');
+};
+
+/**
+ * Bearbeiten und Löschen am eigenen Abend (seit 24.11.2026, Jonas: nicht nur
+ * im Tagebuch). Dieselben Wege wie dort: Bearbeiten öffnet das Formular
+ * (#/log?edit=…), Löschen fragt nach und führt danach ins Tagebuch, denn
+ * diese Seite gibt es dann nicht mehr.
+ */
+function bearbeitenKnoepfe(karte, visit) {
+    const zeile = karte.querySelector('.review-card__actions');
+    if (!zeile || !istEigener(visit)) return;
+
+    const bearbeiten = document.createElement('button');
+    bearbeiten.type = 'button';
+    bearbeiten.className = 'btn-icon abend-bearbeiten';
+    bearbeiten.title = 'Eintrag bearbeiten';
+    bearbeiten.innerHTML = icon('pencil', { label: 'Eintrag bearbeiten' });
+
+    const loeschen = document.createElement('button');
+    loeschen.type = 'button';
+    loeschen.className = 'btn-icon abend-loeschen';
+    loeschen.title = 'Eintrag löschen';
+    loeschen.innerHTML = icon('trash', { label: 'Eintrag löschen' });
+
+    zeile.append(bearbeiten, loeschen);
+
+    bearbeiten.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.location.hash = `#/log?edit=${encodeURIComponent(visit.id)}`;
+    });
+    loeschen.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (!confirm('Möchtest du diesen Eintrag wirklich löschen?')) return;
+        loeschen.disabled = true;
+        const ok = await runWithFeedback(() => store.deleteVisit(visit.id), {
+            failure: 'Eintrag konnte nicht gelöscht werden',
+        });
+        if (ok) window.location.hash = '#/diary';
+        else loeschen.disabled = false;
+    });
 }
 
 /**
@@ -64,8 +110,7 @@ export function VisitDetailPage(visitId) {
  */
 function teilenKnopf(karte, visit, opera) {
     const zeile = karte.querySelector('.review-card__actions');
-    const ich = store.getCurrentUser();
-    if (!zeile || !ich || (visit.userId !== ich.id && visit.userId !== 'user-me')) return;
+    if (!zeile || !istEigener(visit)) return;
 
     const house = operaHouses.find(h => h.id === (visit.houseId || visit.house_id));
     const knopf = document.createElement('button');

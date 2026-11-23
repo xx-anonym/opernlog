@@ -105,7 +105,7 @@ test('an einem fremden Abend gibt es weder "Bild" noch "Link"', { skip: fehltPla
     const { ctx, p, fehler } = await oeffne(`#/visit/${FREMDER_ABEND}`);
     try {
         await p.locator('.review-card__actions').waitFor({ timeout: 15000 });
-        assert.equal(await p.locator('.abend-teilen, .abend-link').count(), 0);
+        assert.equal(await p.locator('.abend-teilen, .abend-link, .abend-bearbeiten, .abend-loeschen').count(), 0);
         assert.deepEqual(fehler, []);
     } finally {
         await ctx.close();
@@ -212,4 +212,29 @@ test('das Bild verträgt lange Titel und Reviews: nichts läuft in den Fuß', { 
     } finally {
         await ctx.close();
     }
+});
+
+// Bearbeiten und Löschen gibt es seit 24.11.2026 auch hier, nicht nur im
+// Tagebuch (Jonas).
+test('am eigenen Abend: Bearbeiten öffnet das Formular, Löschen fragt und führt ins Tagebuch', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffne(`#/visit/${MEIN_ABEND}`);
+    try {
+        await p.locator('.review-card__actions .abend-bearbeiten').click();
+        await p.waitForFunction(id => location.hash === `#/log?edit=${id}`, MEIN_ABEND, { timeout: 5000 });
+        await p.waitForSelector('#logForm');
+
+        await p.evaluate(id => { location.hash = `#/visit/${id}`; }, MEIN_ABEND);
+        const loeschen = p.locator('.review-card__actions .abend-loeschen');
+        // Erst abgelehnt: nichts passiert.
+        p.once('dialog', d => d.dismiss());
+        await loeschen.click();
+        await p.waitForTimeout(300);
+        assert.equal(await p.evaluate(() => location.hash), `#/visit/${MEIN_ABEND}`);
+        // Dann bestätigt: weg, und zurück ins Tagebuch.
+        p.once('dialog', d => d.accept());
+        await loeschen.click();
+        await p.waitForFunction(() => location.hash === '#/diary', null, { timeout: 5000 });
+        assert.equal(await p.evaluate(id => import('/src/store/store.js').then(m => m.store.getAllVisits().some(v => v.id === id)), MEIN_ABEND), false);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
 });

@@ -1817,6 +1817,15 @@ h3 {
     margin-left: auto;
 }
 
+/* Bearbeiten und Löschen am eigenen Abend: nur Zeichen, durch eine feine
+   Linie von Bild und Link getrennt. */
+.abend-bearbeiten {
+    padding-left: 12px;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+}
+.abend-loeschen:hover { color: var(--red, #e05555); }
+
 .review-card__comments {
     margin-top: 12px;
     padding-top: 10px;
