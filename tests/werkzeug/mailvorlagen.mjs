@@ -14,10 +14,13 @@
 // liefen drei Kopien desselben Gerüsts irgendwann auseinander; deshalb steht
 // es nur hier, und je Mail nur, was sie sagt.
 //
-// Dazu eine Mail, die nicht Supabase verschickt, sondern die Edge Function
-// mail-senden: die bei einer Freundschaftsanfrage. Sie landet als Modul in
-// supabase/functions/mail-senden/vorlage.js; den Namen des Absenders setzt
-// die Funktion für %%NAME%% ein.
+// Dazu die Mails, die nicht Supabase verschickt, sondern die Edge Function
+// mail-senden: bei einer Freundschaftsanfrage, die Erinnerung an leere
+// Konten und der Saisonrückblick. Sie landen als Modul in
+// supabase/functions/mail-senden/vorlage.js; die Platzhalter (%%NAME%%,
+// beim Saisonrückblick auch die Zahlen) füllt felder.js dort. Daneben
+// entsteht katalog.js mit den Titeln der Werke und Häuser, die die Funktion
+// für den Saisonrückblick braucht.
 //
 // Supabase liest die Dateien nicht aus dem Repo. Nach jedem Lauf den Inhalt
 // der geänderten Datei im Dashboard einfügen (Authentication → Emails →
@@ -47,6 +50,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const MAIL_ORDNER = path.join(WURZEL, 'supabase/templates');
 export const FUNKTIONS_VORLAGE = path.join(WURZEL, 'supabase/functions/mail-senden/vorlage.js');
+export const FUNKTIONS_KATALOG = path.join(WURZEL, 'supabase/functions/mail-senden/katalog.js');
 
 const SEITE = 'https://opernlog.vercel.app';
 const SANS = `'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif`;
@@ -78,6 +82,54 @@ function hinweis(titel, text) {
               ${zwischentitel(titel)}
               <tr><td style="padding:6px 0 24px; font-family:${SANS}; font-size:15px; line-height:1.6; color:#c8cdd2;">${text}</td></tr>
             </table>`;
+}
+
+/** Eine Kachel mit großer Zahl in Gold und kleinem Wort darunter. */
+function kachel(zahl, wort, rand) {
+    return `
+                  <td width="33%" align="center" valign="top" style="width:33%; padding:18px 6px 16px;${rand ? ' border-left:1px solid #2c343c;' : ''}">
+                    <div style="font-family:${SERIF}; font-size:38px; line-height:1; font-weight:700; color:#dfc06a;">${zahl}</div>
+                    <div style="margin-top:8px; font-family:${SANS}; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#8a96a3;">${wort}</div>
+                  </td>`;
+}
+
+/**
+ * Der Saisonrückblick vor dem Knopf: drei Kacheln mit den Zahlen, darunter
+ * die Werke zum ersten Mal, dann der Abend der Saison und das Haus, in dem
+ * man am häufigsten war. Alles als Tabellen, damit es in Gmail und Outlook
+ * hält; die Platzhalter füllt die Edge Function (felder.js).
+ */
+function saisonZahlen() {
+    return `
+            <!-- Die Spielzeit in Zahlen -->
+            <table class="knopftabelle" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#14181c" style="margin:0 0 10px; background-color:#14181c; border:1px solid #2c343c; border-radius:12px; border-collapse:separate;">
+              <tr>${kachel('%%ABENDE%%', '%%ABENDE_WORT%%', false)}${kachel('%%HAEUSER%%', '%%HAEUSER_WORT%%', true)}${kachel('%%WERKE%%', '%%WERKE_WORT%%', true)}
+              </tr>
+            </table>
+            <p class="mehr" style="margin:0 0 30px; font-family:${SERIF}; font-size:14px; font-style:italic; line-height:1.5; text-align:center; color:#c9a84c;">%%ERSTMALS%%</p>
+
+            <!-- Der Abend der Saison -->
+            <table class="mehr" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;">
+              ${zwischentitel('Dein Abend der Saison')}
+              <tr><td style="padding:6px 0 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#14181c" style="background-color:#14181c; border-left:3px solid #c9a84c; border-radius:0 10px 10px 0;">
+                  <tr><td style="padding:16px 20px;">
+                    <div style="font-family:${SERIF}; font-size:22px; line-height:1.3; font-weight:700; color:#ffffff;">%%ABEND_WERK%%</div>
+                    <div style="margin-top:4px; font-family:${SANS}; font-size:14px; line-height:1.5; color:#8a96a3;">%%ABEND_ORT%%</div>
+                    <div style="margin-top:6px; font-family:${SANS}; font-size:18px; letter-spacing:2px; color:#dfc06a;">%%ABEND_STERNE%%</div>
+                  </td></tr>
+                </table>
+              </td></tr>
+            </table>
+
+            <!-- Das Haus der Saison -->
+            <table class="mehr" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 30px;">
+              ${zwischentitel('Am häufigsten im')}
+              <tr><td style="padding:6px 0 0; font-family:${SANS}; font-size:16px; line-height:1.5; color:#c8cdd2;">
+                <strong style="color:#ffffff;">%%HAUS%%</strong> · %%HAUS_ABENDE%%
+              </td></tr>
+            </table>
+`;
 }
 
 /**
@@ -269,6 +321,38 @@ export const FUNKTIONS_MAILS = [
             'Weitere Mails von OpernLog kannst du in der App unter Profil → Profil bearbeiten → E-Mails abschalten.',
         ].join('\n'),
     },
+    {
+        // Am 31. Juli, wenn der Saisonrückblick in der App erscheint
+        // (supabase/migrations/mail_saison_migration.sql). %%NAME%% ist der
+        // Name des Empfängers; die Zahlen füllt felder.js.
+        name: 'saison',
+        betreff: 'Deine Spielzeit %%SAISON%%, %%NAME%%',
+        vorschau: '%%ABENDE%% %%ABENDE_WORT%% in %%HAEUSER%% %%HAEUSER_WORT%% – dein Saisonrückblick ist da.',
+        ueberschrift: 'Deine Spielzeit %%SAISON%%',
+        text: 'Hallo <strong style="color:#ffffff;">%%NAME%%</strong>, der Vorhang ist gefallen. So sah deine Opernsaison aus – den ganzen Rückblick mit allen Abenden, Stimmen und Wegen findest du in der App.',
+        oben: saisonZahlen(),
+        knopf: 'Zum Saisonrückblick',
+        ziel: `${DOMAIN}/#/season`,
+        seite: DOMAIN,
+        mehr: '',
+        fuss: `Du bekommst diese Mail einmal im Jahr, wenn dein Saisonrückblick fertig ist. Mails von OpernLog kannst du in der App unter <a href="${DOMAIN}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a> abschalten.`,
+        klartext: [
+            'Hallo %%NAME%%,',
+            '',
+            'der Vorhang ist gefallen. So sah deine Opernsaison %%SAISON%% aus:',
+            '',
+            '  %%ABENDE%% %%ABENDE_WORT%% · %%HAEUSER%% %%HAEUSER_WORT%% · %%WERKE%% %%WERKE_WORT%%',
+            '  %%ERSTMALS%%',
+            '',
+            'Dein Abend der Saison: %%ABEND_WERK%% – %%ABEND_ORT%% %%ABEND_STERNE%%',
+            'Am häufigsten im: %%HAUS%% (%%HAUS_ABENDE%%)',
+            '',
+            `Zum Saisonrückblick: ${DOMAIN}/#/season`,
+            '',
+            'Du bekommst diese Mail einmal im Jahr, wenn dein Saisonrückblick fertig ist.',
+            'Mails von OpernLog kannst du in der App unter Profil → Profil bearbeiten → E-Mails abschalten.',
+        ].join('\n'),
+    },
 ];
 
 /** Das Modul mit den Funktions-Mails, so wie es unter supabase/functions/ liegt. */
@@ -281,15 +365,36 @@ export function vorlageModul() {
     return `// Erzeugt von tests/werkzeug/mailvorlagen.mjs – NICHT von Hand bearbeiten,
 // sondern dort ändern und neu erzeugen.
 //
-// %%NAME%% ersetzt index.ts durch den Namen des Absenders – im HTML maskiert.
+// Die Platzhalter (%%NAME%%, %%ABENDE%% …) füllt felder.js – im HTML maskiert.
 
 export const VORLAGEN = ${JSON.stringify(vorlagen, null, 4)};
 `;
 }
 
+/**
+ * Die Titel der Werke und Namen der Häuser für die Edge Function: die
+ * Datenbank kennt nur Kennungen. Werke und Häuser aus der Datenbank
+ * (vom Admin angelegt) liefert mail_saison_daten() mit Titel.
+ */
+export async function katalogModul() {
+    const { operas } = await import('../../src/data/operas.js');
+    const { operaHouses } = await import('../../src/data/operaHouses.js');
+    const sortiert = eintraege => Object.fromEntries(eintraege.sort((a, b) => a[0].localeCompare(b[0])));
+    const katalog = {
+        werke: sortiert(operas.map(o => [o.id, o.title])),
+        haeuser: sortiert(operaHouses.map(h => [h.id, h.name])),
+    };
+    return `// Erzeugt von tests/werkzeug/mailvorlagen.mjs aus src/data/operas.js und
+// src/data/operaHouses.js – NICHT von Hand bearbeiten, sondern neu erzeugen.
+// Für den Saisonrückblick (felder.js): die Datenbank kennt nur Kennungen.
+
+export const KATALOG = ${JSON.stringify(katalog, null, 1)};
+`;
+}
+
 /** Knopf mit Link, darunter der Link noch einmal zum Kopieren. */
 function knopfTeil(m, ziel) {
-    return `            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
+    return `${m.oben || ''}            <!-- Knopf: als Tabelle, damit er auch in Outlook ein Knopf bleibt -->
             <table class="knopftabelle" role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
               <tr>
                 <td align="center" bgcolor="#8b1a2b" style="border-radius:10px; background-color:#8b1a2b; background-image:linear-gradient(135deg, #8b1a2b, #5c111c);">
@@ -454,5 +559,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
         console.log(`${m.datei}  →  ${m.dashboard}  ·  Betreff: ${m.betreff}`);
     }
     fs.writeFileSync(FUNKTIONS_VORLAGE, vorlageModul());
+    fs.writeFileSync(FUNKTIONS_KATALOG, await katalogModul());
     console.log(`${path.relative(WURZEL, FUNKTIONS_VORLAGE)}  →  Edge Function mail-senden`);
 }
