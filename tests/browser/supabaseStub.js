@@ -399,9 +399,10 @@ window.supabase = { createClient: () => ({
     },
     verifyOtp: async (angaben) => {
       window.__codeEingeloest = [...(window.__codeEingeloest || []), angaben];
-      // Umzug (src/umzug.js): ein token_hash statt des getippten Codes.
+      // Umzug (src/umzug.js) und Knopf in der Mail (src/mailAnmeldung.js):
+      // ein token_hash statt des getippten Codes.
       if ('token_hash' in angaben) {
-        if (angaben.token_hash !== 'umzugcode1234') {
+        if (!['umzugcode1234', 'mailcode1234'].includes(angaben.token_hash)) {
           return { data: { user: null, session: null }, error: { message: 'Email link is invalid or has expired', code: 'otp_expired', status: 403 } };
         }
         window.__ohneSitzung = false;

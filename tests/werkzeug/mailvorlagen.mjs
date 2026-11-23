@@ -256,15 +256,20 @@ export const MAILS = [
     },
 ];
 
-const APP = 'https://opernlog.vercel.app';
-
 // Die eigene Domain. Sie leitet bis zum Umzug auf opernlog.vercel.app weiter
 // (307, das #/... bleibt dabei erhalten). Links, die lange in Postfächern
 // liegen, zeigen schon dorthin, damit sie den Umzug überleben (seit
 // 18.11.2026, zuerst in der Erinnerung). Bilder und Schriften bleiben auf
 // vercel.app: manche Mailprogramme laden Bilder hinter einer Weiterleitung
-// nicht.
+// nicht. Seit dem Umzug (18.11.2026) ist sie die Adresse der App; auch die
+// Freundschaftsanfrage zeigt seit 23.11.2026 dorthin. Ein Link unter der
+// alten Adresse öffnet am Android-Handy außerdem nicht die installierte App.
 const DOMAIN = 'https://opernlog.de';
+
+// Der Knopf der Funktions-Mails: %%LINK%% setzt felder.js ein – bei Anfrage
+// und Saisonrückblick mit Einmal-Code zum Anmelden (src/mailAnmeldung.js).
+// Sichtbar unter dem Knopf steht %%LINK_TEXT%%, dieselbe Stelle ohne Code.
+const KNOPF = { ziel: '%%LINK%%', zielText: '%%LINK_TEXT%%' };
 
 /**
  * Mails der Edge Function mail-senden. Keine Go-Template-Variablen: die
@@ -279,17 +284,18 @@ export const FUNKTIONS_MAILS = [
         ueberschrift: 'Neue Freundschaftsanfrage',
         text: '<strong style="color:#ffffff;">%%NAME%%</strong> möchte auf OpernLog mit dir befreundet sein. Als Freunde seht ihr eure Abende im Feed und die Fotos, die ihr für Freunde freigebt.',
         knopf: 'Anfrage ansehen',
-        ziel: `${APP}/#/`,
-        seite: APP,
+        ...KNOPF,
+        seite: DOMAIN,
         mehr: '',
-        fuss: `Du bekommst diese Mail, weil dir jemand auf OpernLog eine Freundschaftsanfrage geschickt hat. Abschalten kannst du solche Mails in der App unter <a href="${APP}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a>.`,
+        fuss: `Du bekommst diese Mail, weil dir jemand auf OpernLog eine Freundschaftsanfrage geschickt hat. Abschalten kannst du solche Mails in der App unter <a href="${DOMAIN}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a>. Der Knopf meldet dich direkt an – leite diese Mail deshalb nicht weiter.`,
         klartext: [
             '%%NAME%% möchte auf OpernLog mit dir befreundet sein.',
             '',
-            `Anfrage ansehen: ${APP}/#/`,
+            'Anfrage ansehen: %%LINK%%',
             '',
             'Du bekommst diese Mail, weil dir jemand auf OpernLog eine Freundschaftsanfrage geschickt hat.',
             'Abschalten kannst du solche Mails in der App unter Profil → Profil bearbeiten → E-Mails.',
+            'Der Knopf meldet dich direkt an – leite diese Mail deshalb nicht weiter.',
         ].join('\n'),
     },
     {
@@ -302,7 +308,7 @@ export const FUNKTIONS_MAILS = [
         ueberschrift: 'Der Vorhang wartet',
         text: 'Hallo <strong style="color:#ffffff;">%%NAME%%</strong>, du hast dich vor Kurzem bei OpernLog angemeldet – dein Tagebuch ist aber noch leer. Fang mit dem an, was du schon gesehen hast: ein Tippen je Werk genügt.',
         knopf: 'Zu OpernLog',
-        ziel: `${DOMAIN}/#/`,
+        ...KNOPF,
         seite: DOMAIN,
         mehr: liste('Für den Anfang', [
             'Werke markieren, die du schon auf der Bühne erlebt hast',
@@ -315,7 +321,7 @@ export const FUNKTIONS_MAILS = [
             '',
             'du hast dich vor Kurzem bei OpernLog angemeldet – dein Tagebuch ist aber noch leer. Fang mit dem an, was du schon gesehen hast: ein Tippen je Werk genügt.',
             '',
-            `Zu OpernLog: ${DOMAIN}/#/`,
+            'Zu OpernLog: %%LINK%%',
             '',
             'Diese Erinnerung bekommst du nur einmal.',
             'Weitere Mails von OpernLog kannst du in der App unter Profil → Profil bearbeiten → E-Mails abschalten.',
@@ -332,10 +338,10 @@ export const FUNKTIONS_MAILS = [
         text: 'Hallo <strong style="color:#ffffff;">%%NAME%%</strong>, der Vorhang ist gefallen. So sah deine Opernsaison aus – den ganzen Rückblick mit allen Abenden, Stimmen und Wegen findest du in der App.',
         oben: saisonZahlen(),
         knopf: 'Zum Saisonrückblick',
-        ziel: `${DOMAIN}/#/season`,
+        ...KNOPF,
         seite: DOMAIN,
         mehr: '',
-        fuss: `Du bekommst diese Mail einmal im Jahr, wenn dein Saisonrückblick fertig ist. Mails von OpernLog kannst du in der App unter <a href="${DOMAIN}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a> abschalten.`,
+        fuss: `Du bekommst diese Mail einmal im Jahr, wenn dein Saisonrückblick fertig ist. Mails von OpernLog kannst du in der App unter <a href="${DOMAIN}/#/profile" target="_blank" style="color:#8a96a3; text-decoration:underline;">Profil → Profil bearbeiten → E-Mails</a> abschalten. Der Knopf meldet dich direkt an – leite diese Mail deshalb nicht weiter.`,
         klartext: [
             'Hallo %%NAME%%,',
             '',
@@ -347,10 +353,11 @@ export const FUNKTIONS_MAILS = [
             'Dein Abend der Saison: %%ABEND_WERK%% – %%ABEND_ORT%% %%ABEND_STERNE%%',
             'Am häufigsten im: %%HAUS%% (%%HAUS_ABENDE%%)',
             '',
-            `Zum Saisonrückblick: ${DOMAIN}/#/season`,
+            'Zum Saisonrückblick: %%LINK%%',
             '',
             'Du bekommst diese Mail einmal im Jahr, wenn dein Saisonrückblick fertig ist.',
             'Mails von OpernLog kannst du in der App unter Profil → Profil bearbeiten → E-Mails abschalten.',
+            'Der Knopf meldet dich direkt an – leite diese Mail deshalb nicht weiter.',
         ].join('\n'),
     },
 ];
@@ -408,7 +415,7 @@ ${m.mehr}
               Geht der Knopf nicht? Dann öffne diesen Link:
             </p>
             <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
-              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${ziel}</a>
+              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${m.zielText ?? ziel}</a>
             </p>
 `;
 }

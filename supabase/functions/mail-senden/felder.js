@@ -41,6 +41,26 @@ export function datumLang(iso) {
     return `${Number(m[3])}. ${monate[Number(m[2]) - 1]} ${m[1]}`;
 }
 
+// Wohin der Knopf einer Mail führt, und welche Mails dabei anmelden: die zur
+// Freundschaftsanfrage und zum Saisonrückblick (seit 23.11.2026). Die
+// Erinnerung an leere Konten nicht – wer eine Woche nach der Registrierung
+// nichts eingetragen hat, soll nicht per Link in ein Konto kommen, das er
+// vielleicht gar nicht mehr will.
+export const ADRESSE_APP = 'https://opernlog.de';
+const STELLEN = { anfrage: '#/', erinnerung: '#/', saison: '#/season' };
+export const MIT_ANMELDUNG = new Set(['anfrage', 'saison']);
+
+/**
+ * Der Link hinter dem Knopf. Mit Einmal-Code führt er über #/mail, das den
+ * Code einlöst und dann zur Stelle springt (src/mailAnmeldung.js); ohne
+ * direkt dorthin. Der Code steht im #-Teil: der geht an keinen Server.
+ */
+export function knopfLink(art, code = null) {
+    const stelle = STELLEN[art] || '#/';
+    if (!code || !/^[A-Za-z0-9_-]{8,200}$/.test(code)) return `${ADRESSE_APP}/${stelle}`;
+    return `${ADRESSE_APP}/#/mail?${new URLSearchParams({ code, weiter: stelle })}`;
+}
+
 const werkTitel = (id, ersatz) => KATALOG.werke[id] || ersatz || 'Ein Opernabend';
 const hausName = (id, ersatz) => KATALOG.haeuser[id] || ersatz || '';
 
@@ -48,11 +68,18 @@ const hausName = (id, ersatz) => KATALOG.haeuser[id] || ersatz || '';
  * Die Werte für eine Mail.
  * @param {string} art      'anfrage', 'erinnerung' oder 'saison'
  * @param {object} daten    Antwort der Datenbankfunktion (mail_*_daten)
+ * @param {object} [o]
+ * @param {string|null} [o.code]  Einmal-Code für den Knopf (nur MIT_ANMELDUNG)
  * @returns {Record<string, string>}
  */
-export function felderFuer(art, daten) {
+export function felderFuer(art, daten, { code = null } = {}) {
     const name = String(daten?.name || (art === 'anfrage' ? 'Jemand' : 'Opernfan')).slice(0, 60);
-    if (art !== 'saison') return { NAME: name };
+    const link = {
+        LINK: knopfLink(art, MIT_ANMELDUNG.has(art) ? code : null),
+        // Zum Lesen unter dem Knopf: ohne den langen Code.
+        LINK_TEXT: knopfLink(art),
+    };
+    if (art !== 'saison') return { NAME: name, ...link };
 
     const abende = Number(daten.abende) || 0;
     const haeuser = Number(daten.haeuser) || 0;
@@ -63,6 +90,7 @@ export function felderFuer(art, daten) {
     const ort = [hausName(abend.haus, abend.haus_name), datumLang(abend.datum)].filter(Boolean).join(' · ');
     return {
         NAME: name,
+        ...link,
         SAISON: String(daten.saison || ''),
         ABENDE: String(abende),
         ABENDE_WORT: zahlwort(abende, 'Abend', 'Abende'),

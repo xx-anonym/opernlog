@@ -10,6 +10,17 @@
 // Bei der Erinnerung und beim Saisonrückblick ist absender der Empfänger
 // selbst. Die Platzhalter der Vorlagen füllt felder.js.
 //
+// Anfrage und Saisonrückblick melden beim Antippen des Knopfs gleich an
+// (seit 23.11.2026, src/mailAnmeldung.js): die Funktion legt dafür mit
+// generate_link einen Einmal-Code für die Adresse des Empfängers an, wie die
+// Funktion umzug, und setzt ihn in den Link. generate_link verschickt dabei
+// nichts. Der Code gilt einmal und so lange wie ein Anmeldecode. Klappt das
+// Anlegen nicht, geht die Mail trotzdem raus, nur ohne Anmeldung im Link.
+//
+// Nebenwirkung: ein neuer Code ersetzt einen noch offenen Anmeldecode
+// desselben Kontos. Wer genau in dem Moment einen Code aus der Anmeldemail
+// abtippt, muss ihn neu anfordern – selten genug.
+//
 // Aufrufen darf das nur die Datenbank (Auslöser mail_bei_anfrage, siehe
 // supabase/migrations/mail_anfrage_migration.sql). Sie weist sich mit
 // demselben Geheimnis aus wie bei push-senden.
@@ -44,7 +55,7 @@
 import { smtpSenden } from './smtp.js';
 import { nachrichtBauen } from './nachricht.js';
 import { VORLAGEN } from './vorlage.js';
-import { felderFuer, einsetzen } from './felder.js';
+import { felderFuer, einsetzen, MIT_ANMELDUNG } from './felder.js';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const DIENST = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -78,6 +89,27 @@ async function rest(pfad: string, optionen: RequestInit = {}) {
     return text ? JSON.parse(text) : null;
 }
 
+/**
+ * Ein Einmal-Code zum Anmelden für diese Adresse (der token_hash eines Magic
+ * Links, ohne Mail) – oder null, wenn das nicht klappt. Wie in umzug/index.ts.
+ */
+async function einmalCode(adresse: string): Promise<string | null> {
+    try {
+        const kopf: Record<string, string> = { apikey: DIENST, 'Content-Type': 'application/json' };
+        if (DIENST.startsWith('eyJ')) kopf.Authorization = `Bearer ${DIENST}`;
+        const antwort = await fetch(`${SUPABASE_URL}/auth/v1/admin/generate_link`, {
+            method: 'POST', headers: kopf, body: JSON.stringify({ type: 'magiclink', email: adresse }),
+        });
+        // Nur die Zahl ins Protokoll: die Antwort nennt die Adresse.
+        if (!antwort.ok) throw new Error(`generate_link: ${antwort.status}`);
+        const daten = await antwort.json();
+        const code = daten?.hashed_token ?? daten?.properties?.hashed_token;
+        return typeof code === 'string' && code ? code : null;
+    } catch (e) {
+        console.error('[mail-senden] kein Einmal-Code', (e as Error).message);
+        return null;
+    }
+}
 
 /** Eine Deno-TLS-Verbindung in der Form, die smtp.js erwartet. */
 function verbindung(tls: Deno.TlsConn) {
@@ -127,7 +159,8 @@ Deno.serve(async (req) => {
         if (!daten?.adresse) return json({ gesendet: false });
 
         const vorlage = VORLAGEN[art as keyof typeof VORLAGEN];
-        const felder = felderFuer(art, daten);
+        const code = MIT_ANMELDUNG.has(art) ? await einmalCode(daten.adresse) : null;
+        const felder = felderFuer(art, daten, { code });
         const nachricht = nachrichtBauen({
             von: ADRESSE,
             an: daten.adresse,

@@ -173,6 +173,15 @@ loggen, bewerten und teilen. Wie Letterboxd, nur für Oper.
   kennt die Edge Function aus `katalog.js`, die `tests/werkzeug/mailvorlagen.mjs`
   aus dem Katalog erzeugt – nach neuen Werken neu erzeugen und die Funktion
   neu ausliefern.
+- **Angemeldet per Mail-Knopf:** Der Knopf in der Mail zur
+  Freundschaftsanfrage und zum Saisonrückblick trägt einen Einmal-Code
+  (`generate_link`, wie beim Umzug) im #-Teil des Links
+  (`opernlog.de/#/mail?code=…&weiter=…`). Wer auf dem Gerät noch nicht
+  angemeldet ist, ist es danach; ein angemeldetes Gerät wechselt nie das
+  Konto. Der Code gilt einmal und so lange wie ein Anmeldecode, danach öffnet
+  der Knopf die App ohne Anmeldung. Ein Hinweis nennt das Konto, mit „Nicht
+  du? Abmelden“ (`src/mailAnmeldung.js`). Am iPhone öffnet der Link Safari,
+  nicht die App vom Home-Bildschirm – das lässt iOS nicht anders zu.
 - **Push-Mitteilungen** bei neuer Freundschaftsanfrage, angenommener
   Einladung, Like oder Kommentar auf die eigene Review und am 31. Juli zum
   Saisonrückblick. Eingeschaltet wird pro Gerät im Fenster „Profil

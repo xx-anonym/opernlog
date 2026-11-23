@@ -29,7 +29,12 @@ test('die Vorlage in der Funktion ist die, die das Werkzeug erzeugt', () => {
 test('die Anfrage-Mail: Name überall eingesetzt, Knopf in die App, keine Supabase-Variablen', () => {
     const v = VORLAGEN.anfrage;
     for (const teil of ['betreff', 'text', 'html']) assert.ok(v[teil].includes('%%NAME%%'), teil);
-    assert.match(v.html, /<a class="knopf" href="https:\/\/opernlog\.vercel\.app\/#\/"/);
+    // Der Knopf trägt den Link aus felder.js (mit Einmal-Code, seit
+    // 23.11.2026), sichtbar darunter nur die Adresse ohne Code.
+    assert.match(v.html, /<a class="knopf" href="%%LINK%%"/);
+    assert.match(v.html, />%%LINK_TEXT%%<\/a>/);
+    assert.match(v.text, /^Anfrage ansehen: %%LINK%%$/m);
+    assert.ok(!/opernlog\.vercel\.app\/#/.test(v.html), 'ein Link zeigt noch auf vercel.app');
     assert.ok(!v.html.includes('{{'), 'Go-Template-Klammern – die füllt hier niemand');
     // Wo man sie abschaltet, steht in jeder Mail.
     assert.match(v.html, /Profil bearbeiten → E-Mails/);
@@ -94,6 +99,12 @@ test('die Funktion: nur mit Geheimnis, nur Kennungen, SMTP auf Port 465', () => 
     assert.match(FUNKTION, /Deno\.env\.get\('MAIL_APP_PASSWORT'\)/);
     // Name, Titel und Zahlen kommen maskiert ins HTML (felder.js).
     assert.match(FUNKTION, /einsetzen\(vorlage\.html, felder, \{ html: true \}\)/);
+    // Der Einmal-Code für den Knopf: nur für die Mails, die anmelden, und
+    // ohne die Antwort von generate_link (sie nennt die Adresse) im Protokoll.
+    assert.match(FUNKTION, /const code = MIT_ANMELDUNG\.has\(art\) \? await einmalCode\(daten\.adresse\) : null;/);
+    assert.match(FUNKTION, /felderFuer\(art, daten, \{ code \}\)/);
+    assert.match(FUNKTION, /\/auth\/v1\/admin\/generate_link/);
+    assert.match(FUNKTION, /throw new Error\(`generate_link: \$\{antwort\.status\}`\)/);
 });
 
 // ── Erinnerung an leere Konten (seit 18.11.2026) ─────────────────────────
@@ -102,8 +113,8 @@ test('die Erinnerung: Name des Empfängers, Links auf opernlog.de, "nur einmal" 
     const v = VORLAGEN.erinnerung;
     for (const teil of ['betreff', 'text', 'html']) assert.ok(v[teil].includes('%%NAME%%'), teil);
     // Links auf die eigene Domain, damit sie den Umzug überleben.
-    assert.match(v.html, /<a class="knopf" href="https:\/\/opernlog\.de\/#\/"/);
-    assert.match(v.text, /^Zu OpernLog: https:\/\/opernlog\.de\/#\/$/m);
+    assert.match(v.html, /<a class="knopf" href="%%LINK%%"/);
+    assert.match(v.text, /^Zu OpernLog: %%LINK%%$/m);
     assert.ok(!/<a [^>]*href="https:\/\/opernlog\.vercel\.app/.test(v.html), 'ein Link zeigt noch auf vercel.app');
     assert.ok(!v.html.includes('{{'));
     for (const teil of [v.text, v.html]) {
@@ -181,8 +192,8 @@ test('Saisonrückblick: nur fällige Konten, je Spielzeit einmal, am 31. Juli un
 
 test('Saisonrückblick: die Vorlage führt in den Rückblick, die Titelliste ist aktuell', async () => {
     const v = VORLAGEN.saison;
-    assert.match(v.html, /href="https:\/\/opernlog\.de\/#\/season"/);
-    assert.match(v.text, /https:\/\/opernlog\.de\/#\/season/);
+    assert.match(v.html, /<a class="knopf" href="%%LINK%%"/);
+    assert.match(v.text, /^Zum Saisonrückblick: %%LINK%%$/m);
     assert.match(v.html, /Profil → Profil bearbeiten → E-Mails/);
     // Jeder Platzhalter der Vorlage bekommt einen Wert (felder.js).
     const { felderFuer } = await import('../../supabase/functions/mail-senden/felder.js');

@@ -18,13 +18,14 @@ import { ziehenZumAktualisieren } from './ziehenZumAktualisieren.js';
 import { store } from './store/store.js';
 import { isSupabaseConfigured } from './config.js';
 import { VERSION } from './version.js';
-import { ABGEMELDET } from './utils.js';
+import { ABGEMELDET, nachDemAbmelden } from './utils.js';
 import { showError, showToast } from './components/Toast.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
 import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden, acceptInvite } from './store/supabase.js';
 import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 import { umzugSchritt, umzugZiel, umzugEinloesen, istAlteAdresse, UMZUG_MITTEILUNGEN } from './umzug.js';
 import { umzugHinweisFenster } from './components/UmzugHinweis.js';
+import { mailLinkEinloesen, mailAnmeldungText } from './mailAnmeldung.js';
 import { istInstalliert } from './installHinweis.js';
 import { LandingPage, landingZeigen } from './components/Landing.js';
 
@@ -166,6 +167,7 @@ class App {
         await new Promise(r => setTimeout(r, 600));
         this.buildLayout();
         if (this._umzugHinweis) umzugHinweisFenster();
+        cloud.then(() => this.mailAnmeldungMelden());
 
         // Was beim letzten Mal ohne Netz geloggt wurde, geht jetzt hoch –
         // sobald der Abgleich durch ist und damit die Sitzung steht.
@@ -302,11 +304,45 @@ class App {
         }
     }
 
+    /**
+     * Nach dem Knopf in einer Mail: sagen, als wer man jetzt angemeldet ist –
+     * mit "Abmelden", falls die Mail nicht die eigene war. Oder, dass der
+     * Link abgelaufen ist, damit niemand rätselt, warum die Anmeldung kommt.
+     */
+    mailAnmeldungMelden() {
+        const ergebnis = this._mailAnmeldung;
+        this._mailAnmeldung = null;
+        if (ergebnis === 'angemeldet' && store.isCloud) {
+            showToast(mailAnmeldungText(store.getCurrentUser()?.name), 'info', {
+                aktion: {
+                    text: 'Nicht du? Abmelden',
+                    ausfuehren: async () => {
+                        await store.logout();
+                        nachDemAbmelden();
+                    },
+                },
+            });
+        } else if (ergebnis === 'abgelaufen' && !store.isCloud) {
+            showToast('Der Link aus der Mail ist abgelaufen – melde dich bitte kurz an.', 'error');
+        }
+    }
+
     async handleAuthHash() {
         // Umzug: die Anmeldung von opernlog.vercel.app mitgebracht
         // (src/umzug.js). Danach steht die Adresse auf der alten Stelle, und
         // der Start läuft normal weiter – mit Sitzung.
         await umzugEinloesen({
+            einloesen: async (code) => {
+                const { error } = await getSupabase().auth.verifyOtp({ token_hash: code, type: 'email' });
+                if (error) throw error;
+            },
+        });
+
+        // Knopf in einer Mail (src/mailAnmeldung.js): mit Einmal-Code, wenn
+        // auf dem Gerät noch niemand angemeldet ist. Der Hinweis dazu kommt,
+        // wenn die Oberfläche steht (mailAnmeldungMelden).
+        this._mailAnmeldung = await mailLinkEinloesen({
+            angemeldet: async () => !!(await getSession()),
             einloesen: async (code) => {
                 const { error } = await getSupabase().auth.verifyOtp({ token_hash: code, type: 'email' });
                 if (error) throw error;

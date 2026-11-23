@@ -123,6 +123,7 @@ const APP_SHELL = [
     './src/einladung.js',
     './src/einladenHinweis.js',
     './src/umzug.js',
+    './src/mailAnmeldung.js',
     './src/components/UmzugHinweis.js',
     './src/data/spielplanLauf.js',
     './src/ziehenZumAktualisieren.js',
