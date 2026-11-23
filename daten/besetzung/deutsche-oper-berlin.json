@@ -1,0 +1,4580 @@
+{
+ "haus": "deutsche-oper-berlin",
+ "stand": "2026-11-23",
+ "quelle": "https://deutscheoperberlin.de/de_DE/calendar",
+ "abende": {
+  "zauberflote|2026-11-24": {
+   "zeit": "19:30",
+   "dirigent": "Tomáš Netopil",
+   "regie": "Günter Krämer",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Sardaryan"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Kai Rüütel-Pajula"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Hong-Kyun Oh"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "zauberflote|2026-11-28": {
+   "zeit": "19:00",
+   "dirigent": "Tomáš Netopil",
+   "regie": "Günter Krämer",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Sardaryan"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Kai Rüütel-Pajula"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Hong-Kyun Oh"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "la-boheme|2026-12-11": {
+   "zeit": "19:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Francesca Dotto"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "la-boheme|2026-12-13": {
+   "zeit": "16:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Francesca Dotto"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "la-boheme|2026-12-15": {
+   "zeit": "19:30",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Francesca Dotto"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "la-boheme|2026-12-17": {
+   "zeit": "19:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Francesca Dotto"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "la-boheme|2026-12-20": {
+   "zeit": "16:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Francesca Dotto"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "zauberflote|2026-12-22": {
+   "zeit": "19:30",
+   "dirigent": "Tomáš Netopil",
+   "regie": "Günter Krämer",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Sardaryan"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Kai Rüütel-Pajula"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Myungwon Kim"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-23": {
+   "zeit": "19:00",
+   "dirigent": "Anna Handler",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Sandmännchen, Taumännchen",
+     "name": "Sophie Salvesani"
+    }
+   ]
+  },
+  "la-traviata|2026-12-26": {
+   "zeit": "16:00",
+   "dirigent": "Michele Spotti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Federica Lombardi"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Alexander Hoffmann"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-27": {
+   "zeit": "18:00",
+   "dirigent": "Anna Handler",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Sandmännchen, Taumännchen",
+     "name": "Sophie Salvesani"
+    }
+   ]
+  },
+  "la-traviata|2026-12-28": {
+   "zeit": "19:30",
+   "dirigent": "Michele Spotti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Federica Lombardi"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Alexander Hoffmann"
+    }
+   ]
+  },
+  "zauberflote|2026-12-30": {
+   "zeit": "19:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Günter Krämer",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Sardaryan"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Kai Rüütel-Pajula"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Myungwon Kim"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "la-traviata|2026-12-31": {
+   "zeit": "18:00",
+   "dirigent": "Michele Spotti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Federica Lombardi"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Heiner Boßmeyer"
+    }
+   ]
+  },
+  "la-traviata|2027-01-02": {
+   "zeit": "19:30",
+   "dirigent": "Michele Spotti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Federica Lombardi"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Alexander Hoffmann"
+    }
+   ]
+  },
+  "haensel-gretel|2027-01-03": {
+   "zeit": "16:00",
+   "dirigent": "Anna Handler",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Sandmännchen, Taumännchen",
+     "name": "Sophie Salvesani"
+    }
+   ]
+  },
+  "haensel-gretel|2027-01-09": {
+   "zeit": "19:00",
+   "dirigent": "Anna Handler",
+   "regie": "Andreas Homoki",
+   "besetzung": [
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Hänsel",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Sandmännchen, Taumännchen",
+     "name": "Sophie Salvesani"
+    }
+   ]
+  },
+  "nixon-in-china|2027-01-10": {
+   "zeit": "16:00",
+   "dirigent": "Daniel Carter",
+   "regie": "Franziska Kronfoth, Julia Lwowski",
+   "besetzung": [
+    {
+     "rolle": "Chou En-lai",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Richard Nixon",
+     "name": "Robin Adams"
+    },
+    {
+     "rolle": "Henry Kissinger",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Nancy T’ang, erste Sekretärin Maos",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Zweite Sekretärin Maos",
+     "name": "Deborah Saffery"
+    },
+    {
+     "rolle": "Dritte Sekretärin Maos",
+     "name": "Ezgi Kutlu"
+    },
+    {
+     "rolle": "Mao Tse-tung",
+     "name": "Matthias Klink"
+    },
+    {
+     "rolle": "Pat Nixon",
+     "name": "Heidi Stober"
+    },
+    {
+     "rolle": "Chiang Ch’ing, Maos Frau",
+     "name": "Hye-Young Moon"
+    },
+    {
+     "rolle": "Ching Hua (Erste Schauspielerin)",
+     "name": "Gina-Lisa Maiwald"
+    },
+    {
+     "rolle": "Ching Hua (Zweite Schauspielerin)",
+     "name": "Angela Braun"
+    },
+    {
+     "rolle": "Ching Hua / Hung (Schauspieler)",
+     "name": "Thorbjörn Björnsson"
+    },
+    {
+     "rolle": "Tänzer / Performer",
+     "name": "Jean Chaize"
+    },
+    {
+     "rolle": "Tänzerin / Performerin",
+     "name": "Brigitte Cuvelier"
+    }
+   ]
+  },
+  "nixon-in-china|2027-01-13": {
+   "zeit": "19:30",
+   "dirigent": "Daniel Carter",
+   "regie": "Franziska Kronfoth, Julia Lwowski",
+   "besetzung": [
+    {
+     "rolle": "Chou En-lai",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Richard Nixon",
+     "name": "Robin Adams"
+    },
+    {
+     "rolle": "Henry Kissinger",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Nancy T’ang, erste Sekretärin Maos",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Zweite Sekretärin Maos",
+     "name": "Deborah Saffery"
+    },
+    {
+     "rolle": "Dritte Sekretärin Maos",
+     "name": "Ezgi Kutlu"
+    },
+    {
+     "rolle": "Mao Tse-tung",
+     "name": "Matthias Klink"
+    },
+    {
+     "rolle": "Pat Nixon",
+     "name": "Heidi Stober"
+    },
+    {
+     "rolle": "Chiang Ch’ing, Maos Frau",
+     "name": "Hye-Young Moon"
+    },
+    {
+     "rolle": "Ching Hua (Erste Schauspielerin)",
+     "name": "Gina-Lisa Maiwald"
+    },
+    {
+     "rolle": "Ching Hua (Zweite Schauspielerin)",
+     "name": "Angela Braun"
+    },
+    {
+     "rolle": "Ching Hua / Hung (Schauspieler)",
+     "name": "Thorbjörn Björnsson"
+    },
+    {
+     "rolle": "Tänzer / Performer",
+     "name": "Jean Chaize"
+    },
+    {
+     "rolle": "Tänzerin / Performerin",
+     "name": "Brigitte Cuvelier"
+    }
+   ]
+  },
+  "zauberflote|2027-01-15": {
+   "zeit": "19:30",
+   "dirigent": "Giovanni Conti",
+   "regie": "Günter Krämer",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster Priester",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Zweiter Priester",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Sardaryan"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Stephanie Wake-Edwards"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Erster Geharnischter",
+     "name": "Myungwon Kim"
+    },
+    {
+     "rolle": "Zweiter Geharnischter",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "nixon-in-china|2027-01-23": {
+   "zeit": "19:30",
+   "dirigent": "Daniel Carter",
+   "regie": "Franziska Kronfoth, Julia Lwowski",
+   "besetzung": [
+    {
+     "rolle": "Chou En-lai",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Richard Nixon",
+     "name": "Robin Adams"
+    },
+    {
+     "rolle": "Henry Kissinger",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Nancy T’ang, erste Sekretärin Maos",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Zweite Sekretärin Maos",
+     "name": "Deborah Saffery"
+    },
+    {
+     "rolle": "Dritte Sekretärin Maos",
+     "name": "Ezgi Kutlu"
+    },
+    {
+     "rolle": "Mao Tse-tung",
+     "name": "Matthias Klink"
+    },
+    {
+     "rolle": "Pat Nixon",
+     "name": "Heidi Stober"
+    },
+    {
+     "rolle": "Chiang Ch’ing, Maos Frau",
+     "name": "Hye-Young Moon"
+    },
+    {
+     "rolle": "Ching Hua (Erste Schauspielerin)",
+     "name": "Gina-Lisa Maiwald"
+    },
+    {
+     "rolle": "Ching Hua (Zweite Schauspielerin)",
+     "name": "Angela Braun"
+    },
+    {
+     "rolle": "Ching Hua / Hung (Schauspieler)",
+     "name": "Thorbjörn Björnsson"
+    },
+    {
+     "rolle": "Tänzer / Performer",
+     "name": "Jean Chaize"
+    },
+    {
+     "rolle": "Tänzerin / Performerin",
+     "name": "Brigitte Cuvelier"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-01-28": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Florian Sempey"
+    },
+    {
+     "rolle": "Gräfin Almaviva",
+     "name": "Maria Bengtsson"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Adèle Charvet"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Sonia Ganassi"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    }
+   ]
+  },
+  "rigoletto|2027-01-29": {
+   "zeit": "19:00",
+   "dirigent": "Anna Handler",
+   "regie": "Jan Bosse",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Serena Sáenz"
+    },
+    {
+     "rolle": "Graf von Monterone",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Graf von Ceprano",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Gräfin von Ceprano",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Giovanna / Maddalena",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gerichtsdiener",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Hofdame",
+     "name": "Marlen Bieber"
+    }
+   ]
+  },
+  "nixon-in-china|2027-01-30": {
+   "zeit": "19:30",
+   "dirigent": "Daniel Carter",
+   "regie": "Franziska Kronfoth, Julia Lwowski",
+   "besetzung": [
+    {
+     "rolle": "Chou En-lai",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Richard Nixon",
+     "name": "Robin Adams"
+    },
+    {
+     "rolle": "Henry Kissinger",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Nancy T’ang, erste Sekretärin Maos",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Zweite Sekretärin Maos",
+     "name": "Deborah Saffery"
+    },
+    {
+     "rolle": "Dritte Sekretärin Maos",
+     "name": "Ezgi Kutlu"
+    },
+    {
+     "rolle": "Mao Tse-tung",
+     "name": "Matthias Klink"
+    },
+    {
+     "rolle": "Pat Nixon",
+     "name": "Heidi Stober"
+    },
+    {
+     "rolle": "Chiang Ch’ing, Maos Frau",
+     "name": "Hye-Young Moon"
+    },
+    {
+     "rolle": "Ching Hua (Erste Schauspielerin)",
+     "name": "Gina-Lisa Maiwald"
+    },
+    {
+     "rolle": "Ching Hua (Zweite Schauspielerin)",
+     "name": "Angela Braun"
+    },
+    {
+     "rolle": "Ching Hua / Hung (Schauspieler)",
+     "name": "Thorbjörn Björnsson"
+    },
+    {
+     "rolle": "Tänzer / Performer",
+     "name": "Jean Chaize"
+    },
+    {
+     "rolle": "Tänzerin / Performerin",
+     "name": "Brigitte Cuvelier"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-02-02": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Florian Sempey"
+    },
+    {
+     "rolle": "Gräfin Almaviva",
+     "name": "Maria Bengtsson"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Adèle Charvet"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Sonia Ganassi"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    }
+   ]
+  },
+  "rigoletto|2027-02-03": {
+   "zeit": "19:30",
+   "dirigent": "Anna Handler",
+   "regie": "Jan Bosse",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Serena Sáenz"
+    },
+    {
+     "rolle": "Graf von Monterone",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Graf von Ceprano",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Gräfin von Ceprano",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Giovanna / Maddalena",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gerichtsdiener",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Hofdame",
+     "name": "Marlen Bieber"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-02-04": {
+   "zeit": "18:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Florian Sempey"
+    },
+    {
+     "rolle": "Gräfin Almaviva",
+     "name": "Maria Bengtsson"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Adèle Charvet"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Sonia Ganassi"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    }
+   ]
+  },
+  "rigoletto|2027-02-05": {
+   "zeit": "19:30",
+   "dirigent": "Anna Handler",
+   "regie": "Jan Bosse",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Serena Sáenz"
+    },
+    {
+     "rolle": "Graf von Monterone",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Graf von Ceprano",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Gräfin von Ceprano",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Giovanna / Maddalena",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gerichtsdiener",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Hofdame",
+     "name": "Marlen Bieber"
+    }
+   ]
+  },
+  "nozze-di-figaro|2027-02-09": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Florian Sempey"
+    },
+    {
+     "rolle": "Gräfin Almaviva",
+     "name": "Maria Bengtsson"
+    },
+    {
+     "rolle": "Susanna",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Cherubino",
+     "name": "Adèle Charvet"
+    },
+    {
+     "rolle": "Marcellina",
+     "name": "Sonia Ganassi"
+    },
+    {
+     "rolle": "Don Basilio",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Don Curzio",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Padraic Rowan"
+    },
+    {
+     "rolle": "Antonio",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Barbarina",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zwei Mädchen",
+     "name": "N. N."
+    }
+   ]
+  },
+  "fliegender-hollaender|2027-02-13": {
+   "zeit": "19:00",
+   "dirigent": "Anna Handler",
+   "regie": "Milo Rau",
+   "besetzung": [
+    {
+     "rolle": "Daland",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Senta",
+     "name": "Aušrinė Stundytė"
+    },
+    {
+     "rolle": "Erik",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Mary",
+     "name": "Noa Frenkel"
+    },
+    {
+     "rolle": "Steuermann Dalands",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Der Holländer",
+     "name": "Tomasz Konieczny"
+    },
+    {
+     "rolle": "Erzähler*innen",
+     "name": "Sarah von Schwarze"
+    },
+    {
+     "rolle": "Erzähler*innen",
+     "name": "Shlomi Moto Wagner"
+    }
+   ]
+  },
+  "lohengrin|2027-02-14": {
+   "zeit": "16:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Kasper Holten",
+   "besetzung": [
+    {
+     "rolle": "Heinrich der Vogler",
+     "name": "Alexander Vinogradov"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Eric Cutler"
+    },
+    {
+     "rolle": "Elsa von Brabant",
+     "name": "Jennifer Davis"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Miina-Liisa Värelä"
+    },
+    {
+     "rolle": "Der Heerrufer des Königs",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster brabantischer Edler",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Zweiter brabantischer Edler",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter brabantischer Edler",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Vierter brabantischer Edler",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Erster Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweiter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Dritter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Vierter Edelknabe",
+     "name": "N. N."
+    }
+   ]
+  },
+  "rigoletto|2027-02-19": {
+   "zeit": "19:00",
+   "dirigent": "Anna Handler",
+   "regie": "Jan Bosse",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Graf von Monterone",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Graf von Ceprano",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Gräfin von Ceprano",
+     "name": "Sophie Salvesani"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Giovanna / Maddalena",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Gerichtsdiener",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Hofdame",
+     "name": "Marlen Bieber"
+    }
+   ]
+  },
+  "fliegender-hollaender|2027-02-20": {
+   "zeit": "19:30",
+   "dirigent": "Anna Handler",
+   "regie": "Milo Rau",
+   "besetzung": [
+    {
+     "rolle": "Daland",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Senta",
+     "name": "Aušrinė Stundytė"
+    },
+    {
+     "rolle": "Erik",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Mary",
+     "name": "Noa Frenkel"
+    },
+    {
+     "rolle": "Steuermann Dalands",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Der Holländer",
+     "name": "Tomasz Konieczny"
+    },
+    {
+     "rolle": "Erzähler*innen",
+     "name": "Sarah von Schwarze"
+    },
+    {
+     "rolle": "Erzähler*innen",
+     "name": "Shlomi Moto Wagner"
+    }
+   ]
+  },
+  "lohengrin|2027-02-21": {
+   "zeit": "16:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Kasper Holten",
+   "besetzung": [
+    {
+     "rolle": "Heinrich der Vogler",
+     "name": "Alexander Vinogradov"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Eric Cutler"
+    },
+    {
+     "rolle": "Elsa von Brabant",
+     "name": "Jennifer Davis"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Miina-Liisa Värelä"
+    },
+    {
+     "rolle": "Der Heerrufer des Königs",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster brabantischer Edler",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Zweiter brabantischer Edler",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter brabantischer Edler",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Vierter brabantischer Edler",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Erster Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweiter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Dritter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Vierter Edelknabe",
+     "name": "N. N."
+    }
+   ]
+  },
+  "lohengrin|2027-02-24": {
+   "zeit": "18:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Kasper Holten",
+   "besetzung": [
+    {
+     "rolle": "Heinrich der Vogler",
+     "name": "Alexander Vinogradov"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Eric Cutler"
+    },
+    {
+     "rolle": "Elsa von Brabant",
+     "name": "Jennifer Davis"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Miina-Liisa Värelä"
+    },
+    {
+     "rolle": "Der Heerrufer des Königs",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster brabantischer Edler",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Zweiter brabantischer Edler",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter brabantischer Edler",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Vierter brabantischer Edler",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Erster Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweiter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Dritter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Vierter Edelknabe",
+     "name": "N. N."
+    }
+   ]
+  },
+  "lohengrin|2027-02-27": {
+   "zeit": "17:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Kasper Holten",
+   "besetzung": [
+    {
+     "rolle": "Heinrich der Vogler",
+     "name": "Alexander Vinogradov"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Eric Cutler"
+    },
+    {
+     "rolle": "Elsa von Brabant",
+     "name": "Jennifer Davis"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Miina-Liisa Värelä"
+    },
+    {
+     "rolle": "Der Heerrufer des Königs",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster brabantischer Edler",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Zweiter brabantischer Edler",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter brabantischer Edler",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Vierter brabantischer Edler",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Erster Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweiter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Dritter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Vierter Edelknabe",
+     "name": "N. N."
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-02-28": {
+   "zeit": "17:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "FC Bergman (Stef Aerts, Thomas Verstraeten, Marie Vinck)",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Josh Lovell"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tassis Christoyannis"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Patrizia Ciofi"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-03-03": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "FC Bergman (Stef Aerts, Thomas Verstraeten, Marie Vinck)",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Josh Lovell"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tassis Christoyannis"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Patrizia Ciofi"
+    }
+   ]
+  },
+  "carmen|2027-03-04": {
+   "zeit": "19:30",
+   "dirigent": "Alejo Pérez",
+   "regie": "Ole Anders Tandberg",
+   "besetzung": [
+    {
+     "rolle": "Carmen",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Amina Edris"
+    },
+    {
+     "rolle": "Don José",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dancaïro",
+     "name": "Vincenzo Neri"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-03-05": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "FC Bergman (Stef Aerts, Thomas Verstraeten, Marie Vinck)",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Josh Lovell"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tassis Christoyannis"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Patrizia Ciofi"
+    }
+   ]
+  },
+  "carmen|2027-03-06": {
+   "zeit": "19:30",
+   "dirigent": "Alejo Pérez",
+   "regie": "Ole Anders Tandberg",
+   "besetzung": [
+    {
+     "rolle": "Carmen",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Amina Edris"
+    },
+    {
+     "rolle": "Don José",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dancaïro",
+     "name": "Vincenzo Neri"
+    }
+   ]
+  },
+  "lohengrin|2027-03-07": {
+   "zeit": "16:00",
+   "dirigent": "Susanna Mälkki",
+   "regie": "Kasper Holten",
+   "besetzung": [
+    {
+     "rolle": "Heinrich der Vogler",
+     "name": "Alexander Vinogradov"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Eric Cutler"
+    },
+    {
+     "rolle": "Elsa von Brabant",
+     "name": "Jennifer Davis"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Jordan Shanahan"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Miina-Liisa Värelä"
+    },
+    {
+     "rolle": "Der Heerrufer des Königs",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Erster brabantischer Edler",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Zweiter brabantischer Edler",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter brabantischer Edler",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Vierter brabantischer Edler",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Erster Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweiter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Dritter Edelknabe",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Vierter Edelknabe",
+     "name": "N. N."
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-03-08": {
+   "zeit": "16:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "FC Bergman (Stef Aerts, Thomas Verstraeten, Marie Vinck)",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Josh Lovell"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tassis Christoyannis"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Patrizia Ciofi"
+    }
+   ]
+  },
+  "carmen|2027-03-12": {
+   "zeit": "19:30",
+   "dirigent": "Alejo Pérez",
+   "regie": "Ole Anders Tandberg",
+   "besetzung": [
+    {
+     "rolle": "Carmen",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Frasquita",
+     "name": "Julieth Lozano"
+    },
+    {
+     "rolle": "Mercédès",
+     "name": "Karis Tucker"
+    },
+    {
+     "rolle": "Micaëla",
+     "name": "Amina Edris"
+    },
+    {
+     "rolle": "Don José",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Moralès",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Zuniga",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Escamillo",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Remendado",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dancaïro",
+     "name": "Vincenzo Neri"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-03-13": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "FC Bergman (Stef Aerts, Thomas Verstraeten, Marie Vinck)",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Josh Lovell"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tassis Christoyannis"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Patrizia Ciofi"
+    }
+   ]
+  },
+  "don-giovanni|2027-03-14": {
+   "zeit": "16:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Roland Schwab",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Iurii Samoilov"
+    },
+    {
+     "rolle": "Komtur",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Donna Elvira",
+     "name": "Olga Peretyatko"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Tommaso Barea"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Julieth Lozano"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-03-15": {
+   "zeit": "19:00",
+   "dirigent": "Riccardo Minasi",
+   "regie": "FC Bergman (Stef Aerts, Thomas Verstraeten, Marie Vinck)",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Josh Lovell"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Tassis Christoyannis"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Patrizia Ciofi"
+    }
+   ]
+  },
+  "don-giovanni|2027-03-21": {
+   "zeit": "16:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Roland Schwab",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Iurii Samoilov"
+    },
+    {
+     "rolle": "Komtur",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Donna Elvira",
+     "name": "Olga Peretyatko"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Tommaso Barea"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Julieth Lozano"
+    }
+   ]
+  },
+  "don-giovanni|2027-03-24": {
+   "zeit": "19:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Roland Schwab",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Iurii Samoilov"
+    },
+    {
+     "rolle": "Komtur",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Donna Elvira",
+     "name": "Olga Peretyatko"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Tommaso Barea"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Julieth Lozano"
+    }
+   ]
+  },
+  "don-giovanni|2027-03-28": {
+   "zeit": "16:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Roland Schwab",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Iurii Samoilov"
+    },
+    {
+     "rolle": "Komtur",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Donna Anna",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Don Ottavio",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Donna Elvira",
+     "name": "Olga Peretyatko"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Tommaso Barea"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Julieth Lozano"
+    }
+   ]
+  },
+  "tosca|2027-04-01": {
+   "zeit": "19:30",
+   "dirigent": "Paolo Carignani",
+   "regie": "Boleslaw Barlog",
+   "besetzung": [
+    {
+     "rolle": "Floria Tosca",
+     "name": "Elena Guseva"
+    },
+    {
+     "rolle": "Mario Cavaradossi",
+     "name": "Luciano Ganci"
+    },
+    {
+     "rolle": "Baron Scarpia",
+     "name": "Vladislav Sulimsky"
+    },
+    {
+     "rolle": "Cesare Angelotti",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Schließer",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "N. N."
+    }
+   ]
+  },
+  "tosca|2027-04-03": {
+   "zeit": "19:30",
+   "dirigent": "Paolo Carignani",
+   "regie": "Boleslaw Barlog",
+   "besetzung": [
+    {
+     "rolle": "Floria Tosca",
+     "name": "Elena Guseva"
+    },
+    {
+     "rolle": "Mario Cavaradossi",
+     "name": "Luciano Ganci"
+    },
+    {
+     "rolle": "Baron Scarpia",
+     "name": "Vladislav Sulimsky"
+    },
+    {
+     "rolle": "Cesare Angelotti",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Schließer",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "N. N."
+    }
+   ]
+  },
+  "tosca|2027-04-10": {
+   "zeit": "19:30",
+   "dirigent": "Paolo Carignani",
+   "regie": "Boleslaw Barlog",
+   "besetzung": [
+    {
+     "rolle": "Floria Tosca",
+     "name": "Elena Guseva"
+    },
+    {
+     "rolle": "Mario Cavaradossi",
+     "name": "Luciano Ganci"
+    },
+    {
+     "rolle": "Baron Scarpia",
+     "name": "Vladislav Sulimsky"
+    },
+    {
+     "rolle": "Cesare Angelotti",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Schließer",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "N. N."
+    }
+   ]
+  },
+  "otello|2027-04-16": {
+   "zeit": "18:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Kornél Mundruczó",
+   "besetzung": [
+    {
+     "rolle": "Otello",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Jago",
+     "name": "Luca Micheletti"
+    },
+    {
+     "rolle": "Cassio",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Rodrigo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Lodovico",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Montano",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Desdemona",
+     "name": "Ruzan Mantashyan"
+    },
+    {
+     "rolle": "Emilia",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "salome|2027-04-17": {
+   "zeit": "19:30",
+   "dirigent": "Marc Albrecht",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Herodes",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Martina Serafin"
+    },
+    {
+     "rolle": "Salome",
+     "name": "Elisabet Strid"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Ein Page",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Erster Jude",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Zweiter Jude",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter Jude",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Vierter Jude",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Fünfter Jude",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Erster Nazarener",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Zweiter Nazarener",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Erster Soldat",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Zweiter Soldat",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Ballett",
+     "name": "Opernballett der Deutschen Oper Berlin"
+    }
+   ]
+  },
+  "otello|2027-04-20": {
+   "zeit": "19:30",
+   "dirigent": "Stefano Montanari",
+   "regie": "Kornél Mundruczó",
+   "besetzung": [
+    {
+     "rolle": "Otello",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Jago",
+     "name": "Luca Micheletti"
+    },
+    {
+     "rolle": "Cassio",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Rodrigo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Lodovico",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Montano",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Desdemona",
+     "name": "Ruzan Mantashyan"
+    },
+    {
+     "rolle": "Emilia",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "nabucco|2027-04-24": {
+   "zeit": "19:00",
+   "dirigent": "Pietro Rizzo",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ann-Kathrin Niemczyk"
+    }
+   ]
+  },
+  "otello|2027-04-25": {
+   "zeit": "16:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Kornél Mundruczó",
+   "besetzung": [
+    {
+     "rolle": "Otello",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Jago",
+     "name": "Luca Micheletti"
+    },
+    {
+     "rolle": "Cassio",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Rodrigo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Lodovico",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Montano",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Desdemona",
+     "name": "Ruzan Mantashyan"
+    },
+    {
+     "rolle": "Emilia",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "salome|2027-04-27": {
+   "zeit": "19:00",
+   "dirigent": "Marc Albrecht",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Herodes",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Martina Serafin"
+    },
+    {
+     "rolle": "Salome",
+     "name": "Elisabet Strid"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Ein Page",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Erster Jude",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Zweiter Jude",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter Jude",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Vierter Jude",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Fünfter Jude",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Erster Nazarener",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Zweiter Nazarener",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Erster Soldat",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Zweiter Soldat",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Ballett",
+     "name": "Opernballett der Deutschen Oper Berlin"
+    }
+   ]
+  },
+  "otello|2027-04-28": {
+   "zeit": "19:30",
+   "dirigent": "Stefano Montanari",
+   "regie": "Kornél Mundruczó",
+   "besetzung": [
+    {
+     "rolle": "Otello",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Jago",
+     "name": "Luca Micheletti"
+    },
+    {
+     "rolle": "Cassio",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Rodrigo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Lodovico",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Montano",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Desdemona",
+     "name": "Ruzan Mantashyan"
+    },
+    {
+     "rolle": "Emilia",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "nabucco|2027-04-29": {
+   "zeit": "19:30",
+   "dirigent": "Pietro Rizzo",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ann-Kathrin Niemczyk"
+    }
+   ]
+  },
+  "turandot|2027-05-01": {
+   "zeit": "16:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Lorenzo Fioroni",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Erste Damenstimme",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweite Damenstimme",
+     "name": "N. N."
+    }
+   ]
+  },
+  "otello|2027-05-02": {
+   "zeit": "16:00",
+   "dirigent": "Stefano Montanari",
+   "regie": "Kornél Mundruczó",
+   "besetzung": [
+    {
+     "rolle": "Otello",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Jago",
+     "name": "Luca Micheletti"
+    },
+    {
+     "rolle": "Cassio",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Rodrigo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Lodovico",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Montano",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Desdemona",
+     "name": "Ruzan Mantashyan"
+    },
+    {
+     "rolle": "Emilia",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Christopher Humbert Jr."
+    }
+   ]
+  },
+  "salome|2027-05-04": {
+   "zeit": "19:00",
+   "dirigent": "Marc Albrecht",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Herodes",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Martina Serafin"
+    },
+    {
+     "rolle": "Salome",
+     "name": "Elisabet Strid"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Kieran Carrel"
+    },
+    {
+     "rolle": "Ein Page",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Erster Jude",
+     "name": "Michael J. Scott"
+    },
+    {
+     "rolle": "Zweiter Jude",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Dritter Jude",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Vierter Jude",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Fünfter Jude",
+     "name": "Volodymyr Morozov"
+    },
+    {
+     "rolle": "Erster Nazarener",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Zweiter Nazarener",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Erster Soldat",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Zweiter Soldat",
+     "name": "Tobias Kehrer"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Ballett",
+     "name": "Opernballett der Deutschen Oper Berlin"
+    }
+   ]
+  },
+  "nabucco|2027-05-05": {
+   "zeit": "19:00",
+   "dirigent": "Pietro Rizzo",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ann-Kathrin Niemczyk"
+    }
+   ]
+  },
+  "turandot|2027-05-06": {
+   "zeit": "16:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Lorenzo Fioroni",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Erste Damenstimme",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweite Damenstimme",
+     "name": "N. N."
+    }
+   ]
+  },
+  "nabucco|2027-05-08": {
+   "zeit": "19:00",
+   "dirigent": "Pietro Rizzo",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ann-Kathrin Niemczyk"
+    }
+   ]
+  },
+  "turandot|2027-05-09": {
+   "zeit": "16:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Lorenzo Fioroni",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Erste Damenstimme",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweite Damenstimme",
+     "name": "N. N."
+    }
+   ]
+  },
+  "turandot|2027-05-11": {
+   "zeit": "19:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Lorenzo Fioroni",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Erste Damenstimme",
+     "name": "N. N."
+    },
+    {
+     "rolle": "Zweite Damenstimme",
+     "name": "N. N."
+    }
+   ]
+  },
+  "nabucco|2027-05-14": {
+   "zeit": "19:30",
+   "dirigent": "N. N.",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Kristina Stanek"
+    },
+    {
+     "rolle": "Oberpriester des Baal",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Ann-Kathrin Niemczyk"
+    }
+   ]
+  },
+  "la-boheme|2027-05-18": {
+   "zeit": "19:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Corinne Winters"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "la-boheme|2027-05-20": {
+   "zeit": "19:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Corinne Winters"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "la-boheme|2027-05-22": {
+   "zeit": "19:00",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Corinne Winters"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "barbiere|2027-05-23": {
+   "zeit": "16:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Katharina Thalbach",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Carlo Lepore"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Fiorillo",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Offizier",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Notar",
+     "name": "N. N."
+    }
+   ]
+  },
+  "la-boheme|2027-05-26": {
+   "zeit": "19:30",
+   "dirigent": "Giampaolo Bisanti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrei Danilov"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Kyle Miller"
+    },
+    {
+     "rolle": "Benoît",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Mimì",
+     "name": "Corinne Winters"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Alcindoro",
+     "name": "Burkhard Ulrich"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Sergeant der Zollwache",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Zöllner",
+     "name": "Young Choi"
+    }
+   ]
+  },
+  "barbiere|2027-05-28": {
+   "zeit": "19:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Katharina Thalbach",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Carlo Lepore"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Fiorillo",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Offizier",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Notar",
+     "name": "N. N."
+    }
+   ]
+  },
+  "don-carlos|2027-05-29": {
+   "zeit": "18:00",
+   "dirigent": "Michele Spotti",
+   "besetzung": [
+    {
+     "rolle": "Filippo II.",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Don Carlo",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Rodrigo, Marquis von Posa",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Großinquisitor",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Elisabetta von Valois",
+     "name": "Adriana González"
+    },
+    {
+     "rolle": "Prinzessin Eboli",
+     "name": "Ève-Maud Hubeaux"
+    },
+    {
+     "rolle": "Tebaldo",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Graf von Lerma / Herold",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Stimme vom Himmel",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erster flandrischer Deputierter",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Zweiter flandrischer Deputierter",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Dritter flandrischer Deputierter",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Vierter flandrischer Deputierter",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Fünfter flandrischer Deputierter",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Sechster flandrischer Deputierter",
+     "name": "Padraic Rowan"
+    }
+   ]
+  },
+  "barbiere|2027-05-30": {
+   "zeit": "16:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Katharina Thalbach",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Carlo Lepore"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Fiorillo",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Offizier",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Notar",
+     "name": "N. N."
+    }
+   ]
+  },
+  "don-carlos|2027-06-03": {
+   "zeit": "19:00",
+   "dirigent": "Michele Spotti",
+   "besetzung": [
+    {
+     "rolle": "Filippo II.",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Don Carlo",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Rodrigo, Marquis von Posa",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Großinquisitor",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Elisabetta von Valois",
+     "name": "Adriana González"
+    },
+    {
+     "rolle": "Prinzessin Eboli",
+     "name": "Ève-Maud Hubeaux"
+    },
+    {
+     "rolle": "Tebaldo",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Graf von Lerma / Herold",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Stimme vom Himmel",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erster flandrischer Deputierter",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Zweiter flandrischer Deputierter",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Dritter flandrischer Deputierter",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Vierter flandrischer Deputierter",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Fünfter flandrischer Deputierter",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Sechster flandrischer Deputierter",
+     "name": "Padraic Rowan"
+    }
+   ]
+  },
+  "barbiere|2027-06-04": {
+   "zeit": "19:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Katharina Thalbach",
+   "besetzung": [
+    {
+     "rolle": "Graf Almaviva",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Bartolo",
+     "name": "Carlo Lepore"
+    },
+    {
+     "rolle": "Rosina",
+     "name": "Maria Warenberg"
+    },
+    {
+     "rolle": "Figaro",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Basilio",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Fiorillo",
+     "name": "Artur Garbas"
+    },
+    {
+     "rolle": "Berta",
+     "name": "Ann-Kathrin Niemczyk"
+    },
+    {
+     "rolle": "Offizier",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Notar",
+     "name": "N. N."
+    }
+   ]
+  },
+  "la-traviata|2027-06-05": {
+   "zeit": "19:30",
+   "dirigent": "Giovanni Conti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Simone Del Savio"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Heiner Boßmeyer"
+    }
+   ]
+  },
+  "don-carlos|2027-06-06": {
+   "zeit": "17:00",
+   "dirigent": "Michele Spotti",
+   "besetzung": [
+    {
+     "rolle": "Filippo II.",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Don Carlo",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Rodrigo, Marquis von Posa",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Großinquisitor",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Elisabetta von Valois",
+     "name": "Adriana González"
+    },
+    {
+     "rolle": "Prinzessin Eboli",
+     "name": "Ève-Maud Hubeaux"
+    },
+    {
+     "rolle": "Tebaldo",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Graf von Lerma / Herold",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Stimme vom Himmel",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erster flandrischer Deputierter",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Zweiter flandrischer Deputierter",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Dritter flandrischer Deputierter",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Vierter flandrischer Deputierter",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Fünfter flandrischer Deputierter",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Sechster flandrischer Deputierter",
+     "name": "Padraic Rowan"
+    }
+   ]
+  },
+  "la-traviata|2027-06-09": {
+   "zeit": "19:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Simone Del Savio"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Alexander Hoffmann"
+    }
+   ]
+  },
+  "la-traviata|2027-06-11": {
+   "zeit": "19:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Simone Del Savio"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Heiner Boßmeyer"
+    }
+   ]
+  },
+  "don-carlos|2027-06-13": {
+   "zeit": "17:00",
+   "dirigent": "Michele Spotti",
+   "besetzung": [
+    {
+     "rolle": "Filippo II.",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Don Carlo",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Rodrigo, Marquis von Posa",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Großinquisitor",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Elisabetta von Valois",
+     "name": "Adriana González"
+    },
+    {
+     "rolle": "Prinzessin Eboli",
+     "name": "Ève-Maud Hubeaux"
+    },
+    {
+     "rolle": "Tebaldo",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Graf von Lerma / Herold",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Stimme vom Himmel",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erster flandrischer Deputierter",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Zweiter flandrischer Deputierter",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Dritter flandrischer Deputierter",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Vierter flandrischer Deputierter",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Fünfter flandrischer Deputierter",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Sechster flandrischer Deputierter",
+     "name": "Padraic Rowan"
+    }
+   ]
+  },
+  "don-carlos|2027-06-17": {
+   "zeit": "18:00",
+   "dirigent": "Michele Spotti",
+   "besetzung": [
+    {
+     "rolle": "Filippo II.",
+     "name": "Tareq Nazmi"
+    },
+    {
+     "rolle": "Don Carlo",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Rodrigo, Marquis von Posa",
+     "name": "Nicola Alaimo"
+    },
+    {
+     "rolle": "Großinquisitor",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Elisabetta von Valois",
+     "name": "Adriana González"
+    },
+    {
+     "rolle": "Prinzessin Eboli",
+     "name": "Ève-Maud Hubeaux"
+    },
+    {
+     "rolle": "Tebaldo",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Graf von Lerma / Herold",
+     "name": "Thomas Cilluffo"
+    },
+    {
+     "rolle": "Stimme vom Himmel",
+     "name": "Lilit Davtyan"
+    },
+    {
+     "rolle": "Erster flandrischer Deputierter",
+     "name": "Vincenzo Neri"
+    },
+    {
+     "rolle": "Zweiter flandrischer Deputierter",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Dritter flandrischer Deputierter",
+     "name": "Tom Nicholson"
+    },
+    {
+     "rolle": "Vierter flandrischer Deputierter",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Fünfter flandrischer Deputierter",
+     "name": "Byung Gil Kim"
+    },
+    {
+     "rolle": "Sechster flandrischer Deputierter",
+     "name": "Padraic Rowan"
+    }
+   ]
+  },
+  "la-traviata|2027-06-20": {
+   "zeit": "16:00",
+   "dirigent": "Giovanni Conti",
+   "regie": "Götz Friedrich",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Martina Russomanno"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Attilio Glaser"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Simone Del Savio"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Marlen Bieber"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Lauryn Davis"
+    },
+    {
+     "rolle": "Gaston",
+     "name": "Omar Mancini"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Marquis D'Obigny",
+     "name": "Bongani Justice Kubheka"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Nicolai Elsberg"
+    },
+    {
+     "rolle": "Giuseppe",
+     "name": "Olymar Salinas"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Diener bei Flora",
+     "name": "Alexander Hoffmann"
+    }
+   ]
+  },
+  "tosca|2027-06-26": {
+   "zeit": "19:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Boleslaw Barlog",
+   "besetzung": [
+    {
+     "rolle": "Floria Tosca",
+     "name": "Elena Guseva"
+    },
+    {
+     "rolle": "Mario Cavaradossi",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Baron Scarpia",
+     "name": "Pavel Yankovsky"
+    },
+    {
+     "rolle": "Cesare Angelotti",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Schließer",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "N. N."
+    }
+   ]
+  },
+  "tosca|2027-06-30": {
+   "zeit": "19:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Boleslaw Barlog",
+   "besetzung": [
+    {
+     "rolle": "Floria Tosca",
+     "name": "Elena Guseva"
+    },
+    {
+     "rolle": "Mario Cavaradossi",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Baron Scarpia",
+     "name": "Pavel Yankovsky"
+    },
+    {
+     "rolle": "Cesare Angelotti",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Schließer",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "N. N."
+    }
+   ]
+  },
+  "tosca|2027-07-03": {
+   "zeit": "19:00",
+   "dirigent": "Paolo Carignani",
+   "regie": "Boleslaw Barlog",
+   "besetzung": [
+    {
+     "rolle": "Floria Tosca",
+     "name": "Elena Guseva"
+    },
+    {
+     "rolle": "Mario Cavaradossi",
+     "name": "Najmiddin Mavlyanov"
+    },
+    {
+     "rolle": "Baron Scarpia",
+     "name": "Pavel Yankovsky"
+    },
+    {
+     "rolle": "Cesare Angelotti",
+     "name": "Mark Kurmanbayev"
+    },
+    {
+     "rolle": "Der Mesner",
+     "name": "Michael Bachtadze"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Jörg Schörner"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Christopher Humbert Jr."
+    },
+    {
+     "rolle": "Ein Schließer",
+     "name": "Young Choi"
+    },
+    {
+     "rolle": "Ein Hirt",
+     "name": "N. N."
+    }
+   ]
+  }
+ }
+}

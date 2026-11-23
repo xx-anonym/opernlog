@@ -37,6 +37,13 @@
 // "Leitung & Technik", "Künstler" (die Rollen), "Kollektive" (Chor,
 // Orchester – bleiben weg).
 //
+// Deutsche Oper Berlin (seit 23.11.2026): Die Stückseite listet die
+// kommenden Termine als furtherevent_<id>_detail mit "Do 4.3.27, 19:30" und
+// je Termin Leitung (staff-furtherevent_<id>) und Besetzung
+// (ensemble-furtherevent_<id>) aus person-role/person-names. Für schon
+// gespielte Termine steht die Besetzung zwar noch da, das Datum aber nicht –
+// die bleiben weg.
+//
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
 //     "abende": { "eugen-onegin|2026-11-28": { "zeit": "19:00",
@@ -326,14 +333,73 @@ async function staatsoperLesen() {
     return { abende, seiten: seiten.length };
 }
 
+// ── Deutsche Oper Berlin ────────────────────────────────────────────────
+
+/** Die Einträge eines Leitungs- oder Besetzungsblocks: [{ rolle, namen }]. */
+function deutscheListe(html) {
+    return [...String(html ?? '').matchAll(/<span class="person-role">([\s\S]*?)<\/span>\s*<span class="person-names">([\s\S]*?)<\/span>/g)].map(([, rolle, namen]) => ({
+        rolle: reinerText(rolle),
+        namen: [...namen.matchAll(/<div class="person_wrapper">([\s\S]*?)<\/div>/g)].map(m => reinerText(m[1])).filter(Boolean),
+    })).filter(z => z.rolle && z.namen.length);
+}
+
+/** Alle kommenden Termine einer Stückseite der Deutschen Oper Berlin mit ihren Mitwirkenden. */
+export function deutscheAbende(html) {
+    const seite = String(html ?? '');
+    const block = (art, id) => {
+        const anfang = seite.indexOf(`id="${art}-furtherevent_${id}"`);
+        if (anfang === -1) return '';
+        // Bis zum nächsten Block eines Termins (Leitung oder Besetzung).
+        const rest = seite.slice(anfang + 20).search(/id="(?:staff|ensemble)-furtherevent_/);
+        const ende = rest === -1 ? -1 : anfang + 20 + rest;
+        return seite.slice(anfang, ende === -1 ? undefined : ende);
+    };
+    const abende = [];
+    for (const [, id, datum] of seite.matchAll(/id="furtherevent_(\d+)_detail"[\s\S]*?<span class="date">([^<]*)<\/span>/g)) {
+        const m = reinerText(datum).match(/(\d{1,2})\.(\d{1,2})\.(\d{2,4})(?:,\s*(\d{1,2}):(\d{2}))?/);
+        if (!m) continue;
+        const jahr = m[3].length === 2 ? `20${m[3]}` : m[3];
+        const team = deutscheListe(block('staff', id));
+        const wer = (muster) => team.filter(z => muster.test(z.rolle)).flatMap(z => z.namen);
+        const abend = {};
+        if (m[4]) abend.zeit = `${m[4].padStart(2, '0')}:${m[5]}`;
+        const dirigent = wer(/^musikalische leitung$|^dirigent/i);
+        const regie = wer(/^inszenierung$|^regie$/i);
+        const besetzung = deutscheListe(block('ensemble', id))
+            .filter(z => !GRUPPE.test(z.rolle))
+            // "Solisten des Tölzer Knabenchores" ist keine einzelne Person.
+            .flatMap(z => z.namen.filter(n => !/chor|orchester|kapelle/i.test(n)).map(name => ({ rolle: z.rolle, name })));
+        if (dirigent.length) abend.dirigent = dirigent.join(', ');
+        if (regie.length) abend.regie = regie.join(', ');
+        if (besetzung.length) abend.besetzung = besetzung;
+        if (abend.dirigent || abend.regie || abend.besetzung) {
+            abende.push({ datum: `${jahr}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`, abend });
+        }
+    }
+    return abende;
+}
+
+async function deutscheLesen() {
+    const seiten = [...new Map(spielplan.filter(e => e.haus === 'deutsche-oper-berlin' && e.url).map(e => [e.url, e.werk])).entries()];
+    const abende = {};
+    for (const [url, werk] of seiten) {
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        if (!r.ok) { console.warn(`${url}: HTTP ${r.status}`); continue; }
+        for (const { datum, abend } of deutscheAbende(await r.text())) abende[`${werk}|${datum}`] = abend;
+        await pause(1500);
+    }
+    return { abende, seiten: seiten.length };
+}
+
 export const LESER = {
     'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
     'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
     'komische-oper-berlin': { lesen: komischeLesen, quelle: 'https://www.komische-oper-berlin.de/spielplan/' },
     'staatsoper-berlin': { lesen: staatsoperLesen, quelle: 'https://www.staatsoper-berlin.de/de/spielplan/' },
+    'deutsche-oper-berlin': { lesen: deutscheLesen, quelle: 'https://deutscheoperberlin.de/de_DE/calendar' },
 };
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
     const trocken = process.argv.includes('--trocken');
     const gewaehlt = process.argv.slice(2).filter(a => !a.startsWith('--'));
     const heute = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date());

@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -158,5 +158,20 @@ test('Staatsoper Berlin: Termin mit Datum, Zeit, Leitung und Rollen; Bühnenbild
             { rolle: 'Donna Leonora di Vargas', name: 'Lise Davidsen' },
             { rolle: 'Il Marchese di Calatrava, Padre Guardiano', name: 'Roberto Tagliavini' },
         ] },
+    }]);
+});
+
+// Deutsche Oper Berlin: ein kommender Termin mit Datum, Leitung und Besetzung (gekürzt).
+const DEUTSCHE = `<span id="furtherevent_17916341_detail" class="further-event"><div class="date_price"> <span class="date">Do  4.3.27, 19:30 </span></div></span>
+<span id="staff-furtherevent_17916341" class="event-staff-span"><div class="ensemble"><div> <span class="person-role">Musikalische Leitung</span> <span class="person-names"><div class="person_wrapper"><a href="#" class="person-link">Alejo Pérez</a></div></span></div>
+<div> <span class="person-role">Regie</span> <span class="person-names"><div class="person_wrapper"><a href="#" class="person-link">Ole Anders Tandberg</a></div></span></div></div></span>
+<span id="ensemble-furtherevent_17916341" class="event-ensemble-span"><div class="ensemble"><div> <span class="person-role">Carmen</span> <span class="person-names"><div class="person_wrapper"><a href="#" class="person-link">Kristina Stanek</a></div></span></div>
+<div> <span class="person-role">Drei Knaben</span> <span class="person-names"><div class="person_wrapper"><a href="#" class="person-link">Solisten des Tölzer Knabenchores</a></div></span></div></div></span>
+<span id="staff-furtherevent_17916336" class="event-staff-span"><div> <span class="person-role">Musikalische Leitung</span> <span class="person-names"><div class="person_wrapper">Ohne Datum</div></span></div></span>`;
+
+test('Deutsche Oper: nur Termine mit Datum, Chorsolisten sind keine Person', () => {
+    assert.deepEqual(deutscheAbende(DEUTSCHE), [{
+        datum: '2027-03-04',
+        abend: { zeit: '19:30', dirigent: 'Alejo Pérez', regie: 'Ole Anders Tandberg', besetzung: [{ rolle: 'Carmen', name: 'Kristina Stanek' }] },
     }]);
 });
