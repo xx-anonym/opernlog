@@ -1,0 +1,2099 @@
+{
+ "haus": "staatstheater-mainz",
+ "stand": "2026-11-24",
+ "quelle": "https://www.staatstheater-mainz.com/premieren-26-27",
+ "abende": {
+  "lohengrin|2026-10-04": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "zauberflote|2026-10-07": {
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "falstaff|2026-10-11": {
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "zauberflote|2026-10-23": {
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "lohengrin|2026-10-24": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "zauberflote|2026-10-30": {
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "lohengrin|2026-11-01": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "falstaff|2026-11-03": {
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "lohengrin|2026-11-06": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Heiko Börner"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "zauberflote|2026-11-15": {
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "zauberflote|2026-11-20": {
+   "dirigent": "Samuel Hogarth",
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Mark Watson Williams"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "lohengrin|2026-11-21": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Heiko Börner"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "falstaff|2026-12-06": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Nannetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "falstaff|2026-12-18": {
+   "dirigent": "Samuel Hogarth",
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Benedict Nelson"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Fenton",
+     "name": "Mark Watson Williams"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Nannetta",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Meg Page",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "lohengrin|2026-12-20": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "zauberflote|2026-12-22": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "lohengrin|2026-12-27": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Erik Raskopf",
+   "besetzung": [
+    {
+     "rolle": "König Heinrich",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Lohengrin",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Friedrich von Telramund",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Heerrufer",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Ortrud",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Elsa",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Dohyun Lee"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Jeeho Anja Park"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Paula Maria Müller"
+    },
+    {
+     "rolle": "Vier Edeldamen",
+     "name": "Luisa Sagliano"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "David Jakob Schläger"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Luis Gehrmann"
+    },
+    {
+     "rolle": "Vier brabantische Edle",
+     "name": "Hyeongho Lee"
+    },
+    {
+     "rolle": "Gottfried",
+     "name": "Lennard Simon"
+    },
+    {
+     "rolle": "Mönch",
+     "name": "Christian Roth"
+    }
+   ]
+  },
+  "zauberflote|2026-12-29": {
+   "dirigent": "Andri Joël Harison",
+   "regie": "Dominik Wilgenbus",
+   "besetzung": [
+    {
+     "rolle": "Sarastro",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pamina",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Erste Dame",
+     "name": "Maren Schwier"
+    },
+    {
+     "rolle": "Zweite Dame",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Dritte Dame",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Liudmila Maytak"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "1. Geharnischter / 2. Priester",
+     "name": "Alexander Spemann"
+    },
+    {
+     "rolle": "2. Geharnischter / 1. Priester",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Nikolas Groth"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Erster Sklave",
+     "name": "Frederik Bak"
+    },
+    {
+     "rolle": "Zweiter Sklave",
+     "name": "Scott Ingham"
+    },
+    {
+     "rolle": "Dritter Sklave",
+     "name": "Patrick Hörner"
+    }
+   ]
+  },
+  "falstaff|2026-12-30": {
+   "dirigent": "Samuel Hogarth",
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Fenton",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Nannetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Meg Page",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "falstaff|2027-01-10": {
+   "dirigent": "Samuel Hogarth",
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Fenton",
+     "name": "Mark Watson Williams"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Nannetta",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Meg Page",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-01-23": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-01-25": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Florian Stern"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-02-10": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "falstaff|2027-02-14": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Fenton",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Nannetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Meg Page",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-02-19": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "nabucco|2027-02-21": {
+   "dirigent": "Sebastian Hernandez-Laverny",
+   "regie": "Marcos Darbyshire",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Vasyl Solodkyy"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Jeeho Anja Park"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-03-09": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Florian Stern"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "falstaff|2027-03-10": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Verena Stoiber",
+   "besetzung": [
+    {
+     "rolle": "Sir John Falstaff",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ford",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Fenton",
+     "name": "Mark Watson Williams"
+    },
+    {
+     "rolle": "Dr. Cajus",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Bardolfo",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Pistola",
+     "name": "Stephan Bootz"
+    },
+    {
+     "rolle": "Alice Ford",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Nannetta",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Mrs. Quickly",
+     "name": "Abongile Fumba"
+    },
+    {
+     "rolle": "Meg Page",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Live-Kamera",
+     "name": "Christophe Pangels"
+    }
+   ]
+  },
+  "nabucco|2027-03-14": {
+   "dirigent": "Sebastian Hernandez-Laverny",
+   "regie": "Marcos Darbyshire",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Brett Carter"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Vasyl Solodkyy"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Julija Vasiljeva"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Jeeho Anja Park"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-03-28": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Florian Stern"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-04-23": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Alexandra Uchlin"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "don-giovanni|2027-04-30": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Jan Eßinger",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Der Komtur",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Sylwia Salamońska-Bączyk"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Tim-Lukas Reuter"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-05-13": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Rahel Thiel",
+   "besetzung": [
+    {
+     "rolle": "Der Komponist",
+     "name": "Karina Repova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Alexandra Samouilidou"
+    },
+    {
+     "rolle": "Primadonna / Ariadne",
+     "name": "Nadja Stefanoff"
+    },
+    {
+     "rolle": "Der Tenor / Bacchus",
+     "name": "Corby Welch"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Georg Schießl"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Yoonki Baek"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "André Rabello"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Tim-Lukas Reuter"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Myungin Lee"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Daniel Semsichko"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Collin André Schöning"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Julietta Aleksanyan"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Dorin Rahardja"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Verena Tönjes"
+    },
+    {
+     "rolle": "Ein Lakai",
+     "name": "Doğuş Güney"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Felix Läpple"
+    },
+    {
+     "rolle": "Der alte Komponist",
+     "name": "NN"
+    }
+   ]
+  },
+  "don-giovanni|2027-05-14": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Jan Eßinger",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Der Komtur",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Sylwia Salamońska-Bączyk"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Tim-Lukas Reuter"
+    }
+   ]
+  },
+  "don-giovanni|2027-05-23": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Jan Eßinger",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Der Komtur",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Sylwia Salamońska-Bączyk"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Tim-Lukas Reuter"
+    }
+   ]
+  },
+  "don-giovanni|2027-06-05": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Jan Eßinger",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Der Komtur",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Sylwia Salamońska-Bączyk"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Tim-Lukas Reuter"
+    }
+   ]
+  },
+  "don-giovanni|2027-06-19": {
+   "dirigent": "Gabriel Venzago",
+   "regie": "Jan Eßinger",
+   "besetzung": [
+    {
+     "rolle": "Don Giovanni",
+     "name": "Gabriel Rollinson"
+    },
+    {
+     "rolle": "Der Komtur",
+     "name": "Jinsei Park"
+    },
+    {
+     "rolle": "Leporello",
+     "name": "Derrick Ballard"
+    },
+    {
+     "rolle": "Zerlina",
+     "name": "Sylwia Salamońska-Bączyk"
+    },
+    {
+     "rolle": "Masetto",
+     "name": "Tim-Lukas Reuter"
+    }
+   ]
+  }
+ }
+}

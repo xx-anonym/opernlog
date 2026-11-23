@@ -59,6 +59,13 @@
 // wechselnder Besetzung mit den Terminen je Name ("3.1.27 / 5.1.27"). Beides
 // zusammen ergibt Name und Rolle je Abend; Chor und Orchester bleiben weg.
 //
+// Staatstheater Mainz (seit 24.11.2026): keine Besetzung je Termin. Die
+// Stückseite nennt unter TERMINE die Daten und unter BESETZUNG die
+// Produktion; wer nur an einzelnen Abenden singt, trägt diese in Klammern
+// ("Corby Welch / Heiko Börner (6.11., 21.11.)"). Daraus ergibt sich die
+// Besetzung je Abend. Stehen Namen mit Schrägstrich ohne solche Angabe da,
+// ist offen, wer an welchem Abend singt – die Rolle bleibt dann weg.
+//
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
 //     "abende": { "eugen-onegin|2026-11-28": { "zeit": "19:00",
@@ -162,11 +169,17 @@ async function leipzigLesen() {
 
 // ── Semperoper ──────────────────────────────────────────────────────────
 
-const ENTITAETEN = { amp: '&', nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>', shy: '\u00ad', '#039': "'" };
+const ENTITAETEN = { amp: '&', nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>', shy: '\u00ad', '#039': "'", szlig: 'ß', ast: '*' };
+// Buchstaben mit Zeichen ("&uuml;", "&eacute;" – Mainz schreibt Namen so).
+const ZEICHEN = { uml: '\u0308', acute: '\u0301', grave: '\u0300', circ: '\u0302', tilde: '\u0303', cedil: '\u0327', ring: '\u030a', caron: '\u030c' };
+const mitZeichen = (n) => {
+    const m = n.match(/^([a-z])(uml|acute|grave|circ|tilde|cedil|ring|caron)$/i);
+    return m ? (m[1] + ZEICHEN[m[2].toLowerCase()]).normalize('NFC') : null;
+};
 const entschluesseln = (t) => String(t ?? '')
     .replace(/&(#\d+|#x[0-9a-f]+|\w+);/gi, (z, n) => n[0] === '#'
         ? (ENTITAETEN[n] ?? String.fromCodePoint(n[1].toLowerCase() === 'x' ? parseInt(n.slice(2), 16) : parseInt(n.slice(1), 10)))
-        : (ENTITAETEN[n.toLowerCase()] ?? z));
+        : (ENTITAETEN[n.toLowerCase()] ?? mitZeichen(n) ?? z));
 // Weiche Trennstriche (&shy;) gehören nicht zum Namen.
 const reinerText = (html) => entschluesseln(String(html ?? '').replace(/<[^>]+>/g, ' ')).replace(/\u00ad/g, '').replace(/\s+/g, ' ').trim();
 
@@ -572,6 +585,91 @@ async function hamburgLesen() {
     return { abende, seiten };
 }
 
+// ── Staatstheater Mainz ─────────────────────────────────────────────────
+
+/** "6.11., 21.11." → ISO-Daten; die Spielzeit beginnt im August des Jahres beginn. */
+const mainzKurzdaten = (text, beginn) => [...String(text).matchAll(/(\d{1,2})\.(\d{1,2})\.(?!\d)/g)]
+    .map(([, t, m]) => `${Number(m) >= 8 ? beginn : beginn + 1}-${m.padStart(2, '0')}-${t.padStart(2, '0')}`);
+
+/** "Corby Welch / Heiko Börner (6.11., 21.11.)" → [{ name, daten }]; daten null heißt ohne Angabe. */
+function mainzWahl(text, beginn) {
+    return String(text).split(/\s+\/\s+/).map(teil => {
+        const klammer = teil.match(/\(([^)]*)\)/);
+        const name = teil.replace(/\([^)]*\)/g, '').replace(/[*∗]/g, '').replace(/\s+/g, ' ').trim();
+        const daten = klammer ? mainzKurzdaten(klammer[1], beginn) : [];
+        return { name, daten: daten.length ? daten : null };
+    }).filter(w => w.name);
+}
+
+/** Wer an diesem Abend dran ist, oder null, wenn das offen bleibt. */
+function mainzFuer(wahl, datum) {
+    if (wahl.length === 1) return wahl[0].daten && !wahl[0].daten.includes(datum) ? null : wahl[0].name;
+    const genannt = wahl.filter(w => w.daten?.includes(datum));
+    if (genannt.length === 1) return genannt[0].name;
+    const sonst = wahl.filter(w => !w.daten);
+    return genannt.length === 0 && sonst.length === 1 ? sonst[0].name : null;
+}
+
+/**
+ * Die Abende einer Stückseite des Staatstheaters Mainz. beginn: das Jahr, in
+ * dem die Spielzeit beginnt; weitere: Daten aus dem Spielplan der App, die
+ * die Seite nicht mehr nennt (schon gespielt).
+ */
+export function mainzAbende(html, beginn, weitere = []) {
+    const seite = String(html ?? '');
+    const termine = reinerText(seite.split('TERMINE')[1]?.split('<p')[0] || '');
+    const daten = [...new Set([
+        ...[...termine.matchAll(/(\d{2})\.(\d{2})\.(\d{4})/g)].map(([, t, m, j]) => `${j}-${m}-${t}`),
+        ...weitere,
+    ])].sort();
+    const block = seite.split('BESETZUNG')[1]?.split('</p>')[0] || '';
+    const zeilen = block.split(/<br\s*\/?>/).map(z => {
+        const m = z.match(/<em>([^<]*?):?\s*<\/em>\s*:?([\s\S]*)/);
+        return m ? { rolle: reinerText(m[1]).replace(/:$/, ''), text: reinerText(m[2].replace(/<\/?em>/g, '')).replace(/^[,:\s]+|[,\s]+$/g, '') } : null;
+    }).filter(z => z && z.rolle && z.text);
+    const team = (muster) => zeilen.filter(z => muster.test(z.rolle));
+    const dirigat = team(/^musikalische leitung$|^dirigent/i);
+    const regie = team(/^inszenierung|^regie/i);
+    // Das Leitungsteam steht vor der ersten Leerzeile, die Rollen danach.
+    const rollenBlock = block.split(/<br>\s*<br\s*\/?>/).slice(1).join('<br />');
+    const rollen = zeilen.filter(z => rollenBlock.includes(z.rolle) && !GRUPPE.test(z.rolle) && !HH_GRUPPE.test(z.text));
+    return daten.map(datum => {
+        const abend = {};
+        const dirigent = dirigat.map(z => mainzFuer(mainzWahl(z.text, beginn), datum));
+        if (dirigent.length && dirigent.every(Boolean)) abend.dirigent = dirigent.join(', ');
+        if (regie.length) abend.regie = regie[0].text;
+        const besetzung = rollen.flatMap(z => {
+            // Mehrere Namen mit Komma: alle zusammen (Vier Edeldamen …).
+            if (!z.text.includes('/')) return z.text.split(/\s*,\s*/).map(n => n.replace(/[*∗]/g, '').trim()).filter(Boolean).map(name => ({ rolle: z.rolle, name }));
+            const name = mainzFuer(mainzWahl(z.text, beginn), datum);
+            return name ? [{ rolle: z.rolle, name }] : [];
+        });
+        if (besetzung.length) abend.besetzung = besetzung;
+        return abend.dirigent || abend.regie || abend.besetzung ? { datum, abend } : null;
+    }).filter(Boolean);
+}
+
+async function mainzLesen() {
+    const seiten = new Map();
+    for (const e of spielplan.filter(e => e.haus === 'staatstheater-mainz' && e.url)) {
+        const s = seiten.get(e.url) || { werk: e.werk, termine: [] };
+        s.termine.push(...(e.termine || []));
+        seiten.set(e.url, s);
+    }
+    const abende = {};
+    let abrufe = 0;
+    for (const [url, { werk, termine }] of seiten) {
+        if (abrufe) await pause(1500);
+        abrufe++;
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        if (!r.ok) { console.warn(`${url}: HTTP ${r.status}`); continue; }
+        const beginn = 2000 + Number(url.match(/-(\d{2})-\d{2}\//)?.[1] ?? NaN);
+        if (!Number.isFinite(beginn)) continue;
+        for (const { datum, abend } of mainzAbende(await r.text(), beginn, termine)) abende[`${werk}|${datum}`] = abend;
+    }
+    return { abende, seiten: abrufe };
+}
+
 export const LESER = {
     'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
     'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
@@ -579,6 +677,7 @@ export const LESER = {
     'staatsoper-berlin': { lesen: staatsoperLesen, quelle: 'https://www.staatsoper-berlin.de/de/spielplan/' },
     'deutsche-oper-berlin': { lesen: deutscheLesen, quelle: 'https://deutscheoperberlin.de/de_DE/calendar' },
     'oper-frankfurt': { lesen: frankfurtLesen, quelle: 'https://oper-frankfurt.de/de/spielplan/' },
+    'staatstheater-mainz': { lesen: mainzLesen, quelle: 'https://www.staatstheater-mainz.com/premieren-26-27' },
     'hamburgische-staatsoper': { lesen: hamburgLesen, quelle: 'https://www.die-hamburgische-staatsoper.de/de/kalender/oper' },
 };
 

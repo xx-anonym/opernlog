@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, frankfurtTermine, frankfurtAbend, hamburgKalender, hamburgRollen, hamburgAbend, LESER } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, frankfurtTermine, frankfurtAbend, hamburgKalender, hamburgRollen, hamburgAbend, mainzAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -222,4 +222,25 @@ test('Hamburgische Staatsoper: Namen aus dem Kalender, Rollen von der Stückseit
     });
     // Ohne Stückseite bleiben die Namen, nur ohne Rolle.
     assert.deepEqual(hamburgAbend(k).besetzung[0], { rolle: '', name: 'Yaritza Véliz' });
+});
+
+// Staatstheater Mainz: Besetzung je Produktion, Zweitbesetzung mit ihren
+// Abenden in Klammern (gekürzt nach der Lohengrin-Seite).
+const MAINZ = `TERMINE<br/> 04.10.2026 &rarr; Premiere, 21.11.2026, 20.12.2026 <br/><br/> <p>Theaterrestaurant</p> </div> <div class='column'> BESETZUNG<br/> <p><em>Musikalische Leitung:</em> <a href="x">Gabriel Venzago</a><br /> <em>Inszenierung und Kost&uuml;me:</em> <a href="x">Erik Raskopf</a><br /> <em>Choreinstudierung:</em> Sebastian Hernandez-Laverny<br /> <br><br /> <em>Lohengrin:</em> <a href="x">Corby Welch</a> / Heiko B&ouml;rner (6.11., 21.11.)<br /> <em>Ortrud</em>: Julija Vasiljeva<br /> <em>Fenena:</em> Verena T&ouml;njes / Karina Repova<br /> <em>Vier Edeldamen:</em> Dohyun Lee, Paula Maria M&uuml;ller&ast;<br /> <br><br /> Chor des Staatstheater Mainz</p> </div>`;
+
+test('Staatstheater Mainz: je Abend die passende Zweitbesetzung, offene Rollen weg, Umlaute aus Entitäten', () => {
+    const abende = mainzAbende(MAINZ, 2026, ['2026-11-06']);
+    assert.deepEqual(abende.map(a => a.datum), ['2026-10-04', '2026-11-06', '2026-11-21', '2026-12-20']);
+    const am = (d) => abende.find(a => a.datum === d).abend;
+    assert.equal(am('2026-10-04').dirigent, 'Gabriel Venzago');
+    assert.equal(am('2026-10-04').regie, 'Erik Raskopf');
+    assert.deepEqual(am('2026-10-04').besetzung, [
+        { rolle: 'Lohengrin', name: 'Corby Welch' },
+        { rolle: 'Ortrud', name: 'Julija Vasiljeva' },
+        { rolle: 'Vier Edeldamen', name: 'Dohyun Lee' },
+        { rolle: 'Vier Edeldamen', name: 'Paula Maria Müller' },
+    ]);
+    assert.equal(am('2026-11-06').besetzung[0].name, 'Heiko Börner', 'aus dem Spielplan der App, die Seite nennt den Abend nicht mehr');
+    assert.equal(am('2026-11-21').besetzung[0].name, 'Heiko Börner');
+    assert.equal(am('2026-12-20').besetzung[0].name, 'Corby Welch');
 });
