@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -139,4 +139,24 @@ test('Komische Oper: Termine der Stückseite, Besetzung je Termin, offene Rollen
     assert.deepEqual(rollen(1), ['Pinkerton: Mihails Culpajevs', 'Darsteller: Aya Yasuda', 'Darsteller: Jun Azuma']);
     assert.equal(abende[0].abend.dirigent, 'Yi-Chen Lin');
     assert.equal(abende[0].abend.regie, 'Andrea Breth');
+});
+
+// Staatsoper Berlin: ein Termin einer Stückseite (gekürzt).
+const STAATSOPER = `<div class="tabs__panel js-tabs-panel flow u-mt--double" id="153939"> <div> <time itemprop="startDate"> Freitag, 28. Mai 2027 <br/>19.00 Uhr </time></div>
+<div class="besetzung flow" id="besetzung-153939"> <h2>Besetzung</h2> <ul class="besetzung__liste u-mt"> <!-- Leitung &amp; Technik -->
+<li class="besetzung__item"> <span class="besetzung__rolle">Musikalische Leitung:</span> <div class="besetzung__beteiligte-liste"> <div class="besetzung__beteiligte-liste-item"><a href="#"><span>Philippe Jordan</span></a> </div> </div> </li>
+<li class="besetzung__item"> <span class="besetzung__rolle">Inszenierung:</span> <div class="besetzung__beteiligte-liste"> <div class="besetzung__beteiligte-liste-item"><a href="#"><span>Vasily Barkhatov</span></a> </div> </div> </li>
+<li class="besetzung__item"> <span class="besetzung__rolle">Bühne:</span> <div class="besetzung__beteiligte-liste"> <div class="besetzung__beteiligte-liste-item"><a href="#"><span>Christian Schmidt</span></a> </div> </div> </li>
+<!-- Künstler --> <li class="besetzung__item u-mt"> <span class="besetzung__rolle">Donna Leonora di Vargas:</span> <div class="besetzung__beteiligte-liste"> <div class="besetzung__beteiligte-liste-item"><a href="#"><span>Lise Davidsen</span></a> </div> </div> </li>
+<li class="besetzung__item"> <span class="besetzung__rolle">Il Marchese di Calatrava, Padre Guardiano:</span> <div class="besetzung__beteiligte-liste"> <div class="besetzung__beteiligte-liste-item"><a href="#"><span>Roberto Tagliavini</span></a> </div> </div> </li>
+<!-- Kollektive --> <li class="besetzung__item besetzung__item--single-column u-mt"> <ul class="besetzung__beteiligte-liste"> <li class="besetzung__beteiligte-liste-item"><a href="#"><span> Staatsopernchor</span></a>, </li> </ul> </li> </ul> </div></div>`;
+
+test('Staatsoper Berlin: Termin mit Datum, Zeit, Leitung und Rollen; Bühnenbild und Chor nicht', () => {
+    assert.deepEqual(staatsoperAbende(STAATSOPER), [{
+        datum: '2027-05-28',
+        abend: { zeit: '19:00', dirigent: 'Philippe Jordan', regie: 'Vasily Barkhatov', besetzung: [
+            { rolle: 'Donna Leonora di Vargas', name: 'Lise Davidsen' },
+            { rolle: 'Il Marchese di Calatrava, Padre Guardiano', name: 'Roberto Tagliavini' },
+        ] },
+    }]);
 });

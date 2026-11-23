@@ -1,0 +1,4751 @@
+{
+ "haus": "staatsoper-berlin",
+ "stand": "2026-11-23",
+ "quelle": "https://www.staatsoper-berlin.de/de/spielplan/",
+ "abende": {
+  "poppea|2026-11-24": {
+   "zeit": "19:00",
+   "dirigent": "Diego Fasolis",
+   "regie": "Eva-Maria Höckmayr",
+   "besetzung": [
+    {
+     "rolle": "Poppea",
+     "name": "Anna Prohaska"
+    },
+    {
+     "rolle": "Nerone",
+     "name": "Raffaele Pe"
+    },
+    {
+     "rolle": "Ottavia",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Ottone",
+     "name": "Carlo Vistoli"
+    },
+    {
+     "rolle": "Seneca",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Arnalta",
+     "name": "Mark Milhofer"
+    },
+    {
+     "rolle": "Drusilla",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Liberto, Lucano",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Erster Soldat, Konsul",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Zweiter Soldat",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Tribun",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Valletto, Amore",
+     "name": "Etīna Emīlija Saulīte"
+    },
+    {
+     "rolle": "Damigella, Fortuna",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Nutrice",
+     "name": "Marcel Beekman"
+    }
+   ]
+  },
+  "poppea|2026-11-26": {
+   "zeit": "19:00",
+   "dirigent": "Diego Fasolis",
+   "regie": "Eva-Maria Höckmayr",
+   "besetzung": [
+    {
+     "rolle": "Poppea",
+     "name": "Anna Prohaska"
+    },
+    {
+     "rolle": "Nerone",
+     "name": "Raffaele Pe"
+    },
+    {
+     "rolle": "Ottavia",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Ottone",
+     "name": "Carlo Vistoli"
+    },
+    {
+     "rolle": "Seneca",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Arnalta",
+     "name": "Mark Milhofer"
+    },
+    {
+     "rolle": "Drusilla",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Liberto, Lucano",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Erster Soldat, Konsul",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Zweiter Soldat",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Tribun",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Valletto, Amore",
+     "name": "Etīna Emīlija Saulīte"
+    },
+    {
+     "rolle": "Damigella, Fortuna",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Nutrice",
+     "name": "Marcel Beekman"
+    }
+   ]
+  },
+  "tosca|2026-11-28": {
+   "zeit": "19:30",
+   "dirigent": "Alexander Soddy",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Aleksandra Kurzak"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Benjamin Bernheim"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Davide Luciano"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "zauberflote|2026-11-29": {
+   "zeit": "18:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Etīna Emīlija Saulīte "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "zauberflote|2026-12-01": {
+   "zeit": "11:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Serafina Starke"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "tosca|2026-12-02": {
+   "zeit": "19:30",
+   "dirigent": "Alexander Soddy",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Aleksandra Kurzak"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Benjamin Bernheim"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Davide Luciano"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "zauberflote|2026-12-03": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-boheme|2026-12-04": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Riccardo Massi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Roman Trekel"
+    }
+   ]
+  },
+  "zauberflote|2026-12-05": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-boheme|2026-12-06": {
+   "zeit": "18:00",
+   "dirigent": "Ivan Repušić",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Riccardo Massi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Roman Trekel"
+    }
+   ]
+  },
+  "la-boheme|2026-12-10": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Riccardo Massi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Roman Trekel"
+    }
+   ]
+  },
+  "la-boheme|2026-12-12": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Riccardo Massi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Roman Trekel"
+    }
+   ]
+  },
+  "nabucco|2026-12-14": {
+   "zeit": "19:30",
+   "dirigent": "Simone Young",
+   "regie": "Emma Dante",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Amartuvshin Enkhbat"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Anna Netrebko"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Hohepriester des Baal",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "zauberflote|2026-12-15": {
+   "zeit": "19:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Etīna Emīlija Saulīte "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-boheme|2026-12-16": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Riccardo Massi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Roman Trekel"
+    }
+   ]
+  },
+  "nabucco|2026-12-17": {
+   "zeit": "19:30",
+   "dirigent": "Simone Young",
+   "regie": "Emma Dante",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Amartuvshin Enkhbat"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Anna Netrebko"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Hohepriester des Baal",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "la-boheme|2026-12-19": {
+   "zeit": "19:30",
+   "dirigent": "Ivan Repušić",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Elsa Dreisig"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Riccardo Massi"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Olaf Bär"
+    }
+   ]
+  },
+  "nabucco|2026-12-20": {
+   "zeit": "18:00",
+   "dirigent": "Simone Young",
+   "regie": "Emma Dante",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Ariunbaatar Ganbaatar"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Anna Netrebko"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Hohepriester des Baal",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "nabucco|2026-12-22": {
+   "zeit": "19:30",
+   "dirigent": "Simone Young",
+   "regie": "Emma Dante",
+   "besetzung": [
+    {
+     "rolle": "Nabucco",
+     "name": "Ariunbaatar Ganbaatar"
+    },
+    {
+     "rolle": "Abigaille",
+     "name": "Anna Netrebko"
+    },
+    {
+     "rolle": "Zaccaria",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Fenena",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Ismaele",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Anna",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Abdallo",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Hohepriester des Baal",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "la-boheme|2026-12-23": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Jongmin Park"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Olaf Bär"
+    }
+   ]
+  },
+  "la-boheme|2026-12-25": {
+   "zeit": "18:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Jongmin Park"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Olaf Bär"
+    }
+   ]
+  },
+  "zauberflote|2026-12-26": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-boheme|2026-12-27": {
+   "zeit": "18:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Jongmin Park"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Olaf Bär"
+    }
+   ]
+  },
+  "zauberflote|2026-12-29": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-boheme|2027-01-02": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Lindy Hume",
+   "besetzung": [
+    {
+     "rolle": "Mimì",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Rodolfo",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Musetta",
+     "name": "Clara Nadeshdin"
+    },
+    {
+     "rolle": "Marcello",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Schaunard",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Colline",
+     "name": "Jongmin Park"
+    },
+    {
+     "rolle": "Parpignol",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Benoit, Alcindoro",
+     "name": "Roman Trekel"
+    }
+   ]
+  },
+  "zauberflote|2027-01-03": {
+   "zeit": "18:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "zauberflote|2027-01-06": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Maria Kokareva"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Rebecka Wallroth "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-traviata|2027-01-07": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Liparit Avetisyan"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mihai Damian"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "tosca|2027-01-08": {
+   "zeit": "19:30",
+   "dirigent": "Eun Sun Kim",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Eleonora Buratto"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-traviata|2027-01-09": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Liparit Avetisyan"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mihai Damian"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "salome|2027-01-10": {
+   "zeit": "18:00",
+   "dirigent": "Axel Kober",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Elena Stikhina"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Wolfgang Koch"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Anja Kampe"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Johan Krogius"
+    },
+    {
+     "rolle": "Page der Herodias",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Juden",
+     "name": "Álvaro Diana "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Junho Hwang "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Karl-Michael Ebner "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Andrés Moreno García "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Friedrich Hamel "
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "David Oštrek "
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Oscar Wilde",
+     "name": "Christian Natter"
+    }
+   ]
+  },
+  "salome|2027-01-14": {
+   "zeit": "19:30",
+   "dirigent": "Axel Kober",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Elena Stikhina"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Wolfgang Koch"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Anja Kampe"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Johan Krogius"
+    },
+    {
+     "rolle": "Page der Herodias",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Juden",
+     "name": "Álvaro Diana "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Junho Hwang "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Karl-Michael Ebner "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Andrés Moreno García "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Friedrich Hamel "
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "David Oštrek "
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Oscar Wilde",
+     "name": "Christian Natter"
+    }
+   ]
+  },
+  "tosca|2027-01-15": {
+   "zeit": "19:30",
+   "dirigent": "Eun Sun Kim",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Eleonora Buratto"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-traviata|2027-01-16": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Liparit Avetisyan"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mihai Damian"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "salome|2027-01-17": {
+   "zeit": "18:00",
+   "dirigent": "Axel Kober",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Elena Stikhina"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Wolfgang Koch"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Anja Kampe"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Johan Krogius"
+    },
+    {
+     "rolle": "Page der Herodias",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Juden",
+     "name": "Álvaro Diana "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Junho Hwang "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Karl-Michael Ebner "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Andrés Moreno García "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Friedrich Hamel "
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "David Oštrek "
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Oscar Wilde",
+     "name": "Christian Natter"
+    }
+   ]
+  },
+  "tosca|2027-01-20": {
+   "zeit": "19:30",
+   "dirigent": "Eun Sun Kim",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Eleonora Buratto"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-traviata|2027-01-21": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Juliana Grigoryan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Liparit Avetisyan"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Mihai Damian"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Junho Hwang"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "salome|2027-01-23": {
+   "zeit": "19:30",
+   "dirigent": "Axel Kober",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Elena Stikhina"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Wolfgang Koch"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Anja Kampe"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Johan Krogius"
+    },
+    {
+     "rolle": "Page der Herodias",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Juden",
+     "name": "Álvaro Diana "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Junho Hwang "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Karl-Michael Ebner "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Andrés Moreno García "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Friedrich Hamel "
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "David Oštrek "
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Oscar Wilde",
+     "name": "Christian Natter"
+    }
+   ]
+  },
+  "tosca|2027-01-24": {
+   "zeit": "18:00",
+   "dirigent": "Eun Sun Kim",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Eleonora Buratto"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "salome|2027-01-26": {
+   "zeit": "19:30",
+   "dirigent": "Axel Kober",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Elena Stikhina"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Wolfgang Koch"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Anja Kampe"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Johan Krogius"
+    },
+    {
+     "rolle": "Page der Herodias",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Juden",
+     "name": "Álvaro Diana "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Junho Hwang "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Karl-Michael Ebner "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Andrés Moreno García "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Friedrich Hamel "
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "David Oštrek "
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Oscar Wilde",
+     "name": "Christian Natter"
+    }
+   ]
+  },
+  "salome|2027-01-29": {
+   "zeit": "19:30",
+   "dirigent": "Axel Kober",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Elena Stikhina"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Wolfgang Koch"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Anja Kampe"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Johan Krogius"
+    },
+    {
+     "rolle": "Page der Herodias",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Juden",
+     "name": "Álvaro Diana "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Junho Hwang "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Karl-Michael Ebner "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Andrés Moreno García "
+    },
+    {
+     "rolle": "Juden",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Friedrich Hamel "
+    },
+    {
+     "rolle": "Nazarener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "David Oštrek "
+    },
+    {
+     "rolle": "Soldaten",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Ein Cappadocier",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Ein Sklave",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Oscar Wilde",
+     "name": "Christian Natter"
+    }
+   ]
+  },
+  "tosca|2027-01-30": {
+   "zeit": "19:30",
+   "dirigent": "Eun Sun Kim",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Eleonora Buratto"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-traviata|2027-02-03": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Nina Minasyan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Granit Musliu"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Ludovic Tézier"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "tosca|2027-02-05": {
+   "zeit": "19:30",
+   "dirigent": "Eun Sun Kim",
+   "regie": "Alvis Hermanis",
+   "besetzung": [
+    {
+     "rolle": "Tosca",
+     "name": "Eleonora Buratto"
+    },
+    {
+     "rolle": "Cavaradossi",
+     "name": "Fabio Sartori"
+    },
+    {
+     "rolle": "Scarpia",
+     "name": "Alexey Markov"
+    },
+    {
+     "rolle": "Angelotti",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Mesner",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Spoletta",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sciarrone",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Kerkermeister",
+     "name": "Martin Iivarinen"
+    },
+    {
+     "rolle": "Hirt",
+     "name": "Solist:in des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "la-traviata|2027-02-10": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Nina Minasyan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Granit Musliu"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Ludovic Tézier"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Arttu Kataja"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "la-traviata|2027-02-13": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Nina Minasyan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Granit Musliu"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Alfredo Daza"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "la-traviata|2027-02-19": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Nina Minasyan"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Granit Musliu"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Alfredo Daza"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Jaka Mihelač"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "tristan|2027-02-20": {
+   "zeit": "16:00",
+   "dirigent": "Christian Thielemann",
+   "regie": "Harry Kupfer",
+   "besetzung": [
+    {
+     "rolle": "Tristan",
+     "name": "Klaus Florian Vogt"
+    },
+    {
+     "rolle": "Isolde",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Brangäne",
+     "name": "Irene Roberts"
+    },
+    {
+     "rolle": "Kurwenal",
+     "name": "Michael Nagy"
+    },
+    {
+     "rolle": "König Marke",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Melot",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Ein Steuermann",
+     "name": "N.N."
+    },
+    {
+     "rolle": "Stimme eines jungen Seemanns, Ein Hirt",
+     "name": "Siyabonga Maqungo"
+    }
+   ]
+  },
+  "tristan|2027-02-25": {
+   "zeit": "16:00",
+   "dirigent": "Christian Thielemann",
+   "regie": "Harry Kupfer",
+   "besetzung": [
+    {
+     "rolle": "Tristan",
+     "name": "Klaus Florian Vogt"
+    },
+    {
+     "rolle": "Isolde",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Brangäne",
+     "name": "Irene Roberts"
+    },
+    {
+     "rolle": "Kurwenal",
+     "name": "Michael Nagy"
+    },
+    {
+     "rolle": "König Marke",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Melot",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Ein Steuermann",
+     "name": "N.N."
+    },
+    {
+     "rolle": "Stimme eines jungen Seemanns, Ein Hirt",
+     "name": "Siyabonga Maqungo"
+    }
+   ]
+  },
+  "tristan|2027-02-28": {
+   "zeit": "16:00",
+   "dirigent": "Christian Thielemann",
+   "regie": "Harry Kupfer",
+   "besetzung": [
+    {
+     "rolle": "Tristan",
+     "name": "Klaus Florian Vogt"
+    },
+    {
+     "rolle": "Isolde",
+     "name": "Camilla Nylund"
+    },
+    {
+     "rolle": "Brangäne",
+     "name": "Irene Roberts"
+    },
+    {
+     "rolle": "Kurwenal",
+     "name": "Michael Nagy"
+    },
+    {
+     "rolle": "König Marke",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Melot",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Ein Steuermann",
+     "name": "N.N."
+    },
+    {
+     "rolle": "Stimme eines jungen Seemanns, Ein Hirt",
+     "name": "Siyabonga Maqungo"
+    }
+   ]
+  },
+  "hoffmanns-erzaehlungen|2027-03-03": {
+   "zeit": "19:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Hoffmann",
+     "name": "Pene Pati"
+    },
+    {
+     "rolle": "Olympia",
+     "name": "Kathryn Lewek"
+    },
+    {
+     "rolle": "Antonia",
+     "name": "Golda Schultz"
+    },
+    {
+     "rolle": "Giulietta",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Lindorf, Coppélius, Dr. Miracle, Dapertutto",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "La Muse, Nicklausse",
+     "name": "Patricia Nolz"
+    },
+    {
+     "rolle": "Cochenille, Frantz, Pitichinaccio, Andrès",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Luther",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Hermann",
+     "name": "David Oštrek"
+    },
+    {
+     "rolle": "Nathanaël",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Spalanzani",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Crespel",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Stimme aus dem Grab",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Schlémil",
+     "name": "Jaka Mihelač"
+    }
+   ]
+  },
+  "la-traviata|2027-03-04": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Piotr Buszewski"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Alfredo Daza"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "hoffmanns-erzaehlungen|2027-03-05": {
+   "zeit": "19:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Hoffmann",
+     "name": "Pene Pati"
+    },
+    {
+     "rolle": "Olympia",
+     "name": "Kathryn Lewek"
+    },
+    {
+     "rolle": "Antonia",
+     "name": "Golda Schultz"
+    },
+    {
+     "rolle": "Giulietta",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Lindorf, Coppélius, Dr. Miracle, Dapertutto",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "La Muse, Nicklausse",
+     "name": "Patricia Nolz"
+    },
+    {
+     "rolle": "Cochenille, Frantz, Pitichinaccio, Andrès",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Luther",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Hermann",
+     "name": "David Oštrek"
+    },
+    {
+     "rolle": "Nathanaël",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Spalanzani",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Crespel",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Stimme aus dem Grab",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Schlémil",
+     "name": "Jaka Mihelač"
+    }
+   ]
+  },
+  "la-traviata|2027-03-06": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Piotr Buszewski"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Alfredo Daza"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Martin Iivarinen"
+    }
+   ]
+  },
+  "hoffmanns-erzaehlungen|2027-03-08": {
+   "zeit": "18:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Hoffmann",
+     "name": "Pene Pati"
+    },
+    {
+     "rolle": "Olympia",
+     "name": "Kathryn Lewek"
+    },
+    {
+     "rolle": "Antonia",
+     "name": "Golda Schultz"
+    },
+    {
+     "rolle": "Giulietta",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Lindorf, Coppélius, Dr. Miracle, Dapertutto",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "La Muse, Nicklausse",
+     "name": "Patricia Nolz"
+    },
+    {
+     "rolle": "Cochenille, Frantz, Pitichinaccio, Andrès",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Luther",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Hermann",
+     "name": "David Oštrek"
+    },
+    {
+     "rolle": "Nathanaël",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Spalanzani",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Crespel",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Stimme aus dem Grab",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Schlémil",
+     "name": "Jaka Mihelač"
+    }
+   ]
+  },
+  "la-traviata|2027-03-13": {
+   "zeit": "19:30",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Dieter Dorn",
+   "besetzung": [
+    {
+     "rolle": "Violetta Valéry",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Alfredo Germont",
+     "name": "Piotr Buszewski"
+    },
+    {
+     "rolle": "Giorgio Germont",
+     "name": "Alfredo Daza"
+    },
+    {
+     "rolle": "Flora Bervoix",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Annina",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Gastone",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Baron Douphol",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Marquis d'Obigny",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Doktor Grenvil",
+     "name": "Friedrich Hamel"
+    }
+   ]
+  },
+  "hoffmanns-erzaehlungen|2027-03-14": {
+   "zeit": "18:00",
+   "dirigent": "Keri-Lynn Wilson",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Hoffmann",
+     "name": "Pene Pati"
+    },
+    {
+     "rolle": "Olympia",
+     "name": "Kathryn Lewek"
+    },
+    {
+     "rolle": "Antonia",
+     "name": "Golda Schultz"
+    },
+    {
+     "rolle": "Giulietta",
+     "name": "Sonja Herranen"
+    },
+    {
+     "rolle": "Lindorf, Coppélius, Dr. Miracle, Dapertutto",
+     "name": "Erwin Schrott"
+    },
+    {
+     "rolle": "La Muse, Nicklausse",
+     "name": "Patricia Nolz"
+    },
+    {
+     "rolle": "Cochenille, Frantz, Pitichinaccio, Andrès",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Luther",
+     "name": "Temur Bidzishvili"
+    },
+    {
+     "rolle": "Hermann",
+     "name": "David Oštrek"
+    },
+    {
+     "rolle": "Nathanaël",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Spalanzani",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Crespel",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Stimme aus dem Grab",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Schlémil",
+     "name": "Jaka Mihelač"
+    }
+   ]
+  },
+  "tannhaeuser|2027-03-20": {
+   "zeit": "16:00",
+   "dirigent": "Christian Thielemann",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Andreas Schager"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Andrè Schuen"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Landgraf Hermann",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Serafina Starke"
+    }
+   ]
+  },
+  "manon-lescaut|2027-03-21": {
+   "zeit": "18:00",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Asmik Grigorian"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Joshua Guerrero"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "tannhaeuser|2027-03-23": {
+   "zeit": "16:00",
+   "dirigent": "Christian Thielemann",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Andreas Schager"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Andrè Schuen"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Landgraf Hermann",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Serafina Starke"
+    }
+   ]
+  },
+  "manon-lescaut|2027-03-24": {
+   "zeit": "19:00",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Asmik Grigorian"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Joshua Guerrero"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "tannhaeuser|2027-03-26": {
+   "zeit": "16:00",
+   "dirigent": "Christian Thielemann",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Andreas Schager"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Andrè Schuen"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Landgraf Hermann",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Serafina Starke"
+    }
+   ]
+  },
+  "manon-lescaut|2027-03-27": {
+   "zeit": "19:00",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Asmik Grigorian"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Joshua Guerrero"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "manon-lescaut|2027-03-29": {
+   "zeit": "19:00",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Asmik Grigorian"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Joshua Guerrero"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "perlenfischer|2027-04-02": {
+   "zeit": "19:30",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Wim Wenders",
+   "besetzung": [
+    {
+     "rolle": "Leïla",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Nadir",
+     "name": "Amitai Pati"
+    },
+    {
+     "rolle": "Zurga",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Nourabad",
+     "name": "Nicolas Testé"
+    }
+   ]
+  },
+  "norma|2027-04-03": {
+   "zeit": "19:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Norma",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Pollione",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Adalgisa",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Oroveso",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Clotilde",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Flavio",
+     "name": "Chen Li"
+    }
+   ]
+  },
+  "perlenfischer|2027-04-04": {
+   "zeit": "18:00",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Wim Wenders",
+   "besetzung": [
+    {
+     "rolle": "Leïla",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Nadir",
+     "name": "Amitai Pati"
+    },
+    {
+     "rolle": "Zurga",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Nourabad",
+     "name": "Nicolas Testé"
+    }
+   ]
+  },
+  "perlenfischer|2027-04-07": {
+   "zeit": "19:30",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Wim Wenders",
+   "besetzung": [
+    {
+     "rolle": "Leïla",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Nadir",
+     "name": "Amitai Pati"
+    },
+    {
+     "rolle": "Zurga",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Nourabad",
+     "name": "Nicolas Testé"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-04-08": {
+   "zeit": "19:30",
+   "dirigent": "Tim Fluch",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Primadonna, Ariadne",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Tenor, Bacchus",
+     "name": "Jamez McCorkle"
+    },
+    {
+     "rolle": "Der Komponist",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Max Urlacher"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Patrick Vogel"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Lakai",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Manuel Günther"
+    },
+    {
+     "rolle": "Puppenspieler",
+     "name": "JARNOTH"
+    }
+   ]
+  },
+  "norma|2027-04-09": {
+   "zeit": "19:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Norma",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Pollione",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Adalgisa",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Oroveso",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Clotilde",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Flavio",
+     "name": "Chen Li"
+    }
+   ]
+  },
+  "perlenfischer|2027-04-10": {
+   "zeit": "19:30",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Wim Wenders",
+   "besetzung": [
+    {
+     "rolle": "Leïla",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Nadir",
+     "name": "Amitai Pati"
+    },
+    {
+     "rolle": "Zurga",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Nourabad",
+     "name": "Nicolas Testé"
+    }
+   ]
+  },
+  "norma|2027-04-11": {
+   "zeit": "18:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Norma",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Pollione",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Adalgisa",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Oroveso",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Clotilde",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Flavio",
+     "name": "Chen Li"
+    }
+   ]
+  },
+  "norma|2027-04-16": {
+   "zeit": "19:00",
+   "dirigent": "Giuseppe Mentuccia",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Norma",
+     "name": "Saioa Hernández"
+    },
+    {
+     "rolle": "Pollione",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Adalgisa",
+     "name": "Natalia Skrycka"
+    },
+    {
+     "rolle": "Oroveso",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Clotilde",
+     "name": "Adriane Queiroz"
+    },
+    {
+     "rolle": "Flavio",
+     "name": "Chen Li"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-04-17": {
+   "zeit": "19:30",
+   "dirigent": "Tim Fluch",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Primadonna, Ariadne",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Tenor, Bacchus",
+     "name": "Jamez McCorkle"
+    },
+    {
+     "rolle": "Der Komponist",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Max Urlacher"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Serafina Starke"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Patrick Vogel"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Lakai",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Manuel Günther"
+    },
+    {
+     "rolle": "Puppenspieler",
+     "name": "JARNOTH"
+    }
+   ]
+  },
+  "perlenfischer|2027-04-18": {
+   "zeit": "18:00",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Wim Wenders",
+   "besetzung": [
+    {
+     "rolle": "Leïla",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Nadir",
+     "name": "Amitai Pati"
+    },
+    {
+     "rolle": "Zurga",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Nourabad",
+     "name": "Nicolas Testé"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-04-22": {
+   "zeit": "19:30",
+   "dirigent": "Tim Fluch",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Primadonna, Ariadne",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Tenor, Bacchus",
+     "name": "Andreas Schager"
+    },
+    {
+     "rolle": "Der Komponist",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Max Urlacher"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Patrick Vogel"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Lakai",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Manuel Günther"
+    },
+    {
+     "rolle": "Puppenspieler",
+     "name": "JARNOTH"
+    }
+   ]
+  },
+  "perlenfischer|2027-04-23": {
+   "zeit": "19:30",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Wim Wenders",
+   "besetzung": [
+    {
+     "rolle": "Leïla",
+     "name": "Adela Zaharia"
+    },
+    {
+     "rolle": "Nadir",
+     "name": "Amitai Pati"
+    },
+    {
+     "rolle": "Zurga",
+     "name": "Gyula Orendt"
+    },
+    {
+     "rolle": "Nourabad",
+     "name": "Nicolas Testé"
+    }
+   ]
+  },
+  "rigoletto|2027-04-24": {
+   "zeit": "19:30",
+   "dirigent": "Giacomo Sagripanti",
+   "regie": "Bartlett Sher",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Bekhzod Davronov"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Marina Monzó"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Maddalena",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Giovanna",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Monterone",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Graf Ceprano, Ein Gerichtsdiener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Gräfin Ceprano, Ein Page",
+     "name": "Etīna Emīlija Saulīte"
+    }
+   ]
+  },
+  "ariadne-naxos|2027-04-25": {
+   "zeit": "18:00",
+   "dirigent": "Tim Fluch",
+   "regie": "Hans Neuenfels",
+   "besetzung": [
+    {
+     "rolle": "Primadonna, Ariadne",
+     "name": "Krassimira Stoyanova"
+    },
+    {
+     "rolle": "Zerbinetta",
+     "name": "Regina Koncz"
+    },
+    {
+     "rolle": "Tenor, Bacchus",
+     "name": "Andreas Schager"
+    },
+    {
+     "rolle": "Der Komponist",
+     "name": "Rebecka Wallroth"
+    },
+    {
+     "rolle": "Ein Musiklehrer",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "Der Haushofmeister",
+     "name": "Max Urlacher"
+    },
+    {
+     "rolle": "Harlekin",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Scaramuccio",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Truffaldin",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Brighella",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Najade",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Dryade",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Echo",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Ein Offizier",
+     "name": "Patrick Vogel"
+    },
+    {
+     "rolle": "Ein Perückenmacher",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Lakai",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Ein Tanzmeister",
+     "name": "Manuel Günther"
+    },
+    {
+     "rolle": "Puppenspieler",
+     "name": "JARNOTH"
+    }
+   ]
+  },
+  "rigoletto|2027-04-28": {
+   "zeit": "19:30",
+   "dirigent": "Giacomo Sagripanti",
+   "regie": "Bartlett Sher",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Bekhzod Davronov"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Marina Monzó"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Maddalena",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Giovanna",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Monterone",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Graf Ceprano, Ein Gerichtsdiener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Gräfin Ceprano, Ein Page",
+     "name": "Etīna Emīlija Saulīte"
+    }
+   ]
+  },
+  "rigoletto|2027-05-02": {
+   "zeit": "18:00",
+   "dirigent": "Giacomo Sagripanti",
+   "regie": "Bartlett Sher",
+   "besetzung": [
+    {
+     "rolle": "Herzog von Mantua",
+     "name": "Bekhzod Davronov"
+    },
+    {
+     "rolle": "Rigoletto",
+     "name": "George Petean"
+    },
+    {
+     "rolle": "Gilda",
+     "name": "Marina Monzó"
+    },
+    {
+     "rolle": "Sparafucile",
+     "name": "Taras Shtonda"
+    },
+    {
+     "rolle": "Maddalena",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Giovanna",
+     "name": "Jingjing Xu"
+    },
+    {
+     "rolle": "Monterone",
+     "name": "Hanseong Yun"
+    },
+    {
+     "rolle": "Marullo",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Borsa",
+     "name": "Álvaro Diana"
+    },
+    {
+     "rolle": "Graf Ceprano, Ein Gerichtsdiener",
+     "name": "Irakli Pkhaladze"
+    },
+    {
+     "rolle": "Gräfin Ceprano, Ein Page",
+     "name": "Etīna Emīlija Saulīte"
+    }
+   ]
+  },
+  "zauberflote|2027-05-15": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alina Wunderlin"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Natalia Skrycka "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "zauberflote|2027-05-17": {
+   "zeit": "18:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Siyabonga Maqungo"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alina Wunderlin"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Natalia Skrycka "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "forza-del-destino|2027-05-22": {
+   "zeit": "18:00",
+   "dirigent": "Philippe Jordan",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Donna Leonora di Vargas",
+     "name": "Lise Davidsen"
+    },
+    {
+     "rolle": "Don Alvaro",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Don Carlo di Vargas",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Il Marchese di Calatrava, Padre Guardiano",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Preziosilla, Curra",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Fra Melitone",
+     "name": "Ambrogio Maestri"
+    },
+    {
+     "rolle": "Mastro Trabuco",
+     "name": "Álvaro Diana"
+    }
+   ]
+  },
+  "forza-del-destino|2027-05-28": {
+   "zeit": "19:00",
+   "dirigent": "Philippe Jordan",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Donna Leonora di Vargas",
+     "name": "Lise Davidsen"
+    },
+    {
+     "rolle": "Don Alvaro",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Don Carlo di Vargas",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Il Marchese di Calatrava, Padre Guardiano",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Preziosilla, Curra",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Fra Melitone",
+     "name": "Ambrogio Maestri"
+    },
+    {
+     "rolle": "Mastro Trabuco",
+     "name": "Álvaro Diana"
+    }
+   ]
+  },
+  "zauberflote|2027-05-29": {
+   "zeit": "19:00",
+   "dirigent": "Tim Fluch",
+   "regie": "August Everding",
+   "besetzung": [
+    {
+     "rolle": "Pamina",
+     "name": "Evelin Novak"
+    },
+    {
+     "rolle": "Tamino",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Papageno",
+     "name": "Carles Pachon"
+    },
+    {
+     "rolle": "Sarastro",
+     "name": "René Pape"
+    },
+    {
+     "rolle": "Königin der Nacht",
+     "name": "Alina Wunderlin"
+    },
+    {
+     "rolle": "Papagena",
+     "name": "Defne Celik"
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Samuil "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Natalia Skrycka "
+    },
+    {
+     "rolle": "Drei Damen",
+     "name": "Anna Kissjudit"
+    },
+    {
+     "rolle": "Monostatos",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Sprecher",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Priester",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "2. Priester",
+     "name": "Roman Trekel"
+    },
+    {
+     "rolle": "1. Geharnischter",
+     "name": "Stephan Rügamer"
+    },
+    {
+     "rolle": "2. Geharnischter",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "3 Knaben",
+     "name": "Solisten des Kinderchors der Staatsoper"
+    }
+   ]
+  },
+  "forza-del-destino|2027-05-30": {
+   "zeit": "18:00",
+   "dirigent": "Philippe Jordan",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Donna Leonora di Vargas",
+     "name": "Lise Davidsen"
+    },
+    {
+     "rolle": "Don Alvaro",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Don Carlo di Vargas",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Il Marchese di Calatrava, Padre Guardiano",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Preziosilla, Curra",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Fra Melitone",
+     "name": "Ambrogio Maestri"
+    },
+    {
+     "rolle": "Mastro Trabuco",
+     "name": "Álvaro Diana"
+    }
+   ]
+  },
+  "forza-del-destino|2027-06-02": {
+   "zeit": "19:00",
+   "dirigent": "Philippe Jordan",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Donna Leonora di Vargas",
+     "name": "Lise Davidsen"
+    },
+    {
+     "rolle": "Don Alvaro",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Don Carlo di Vargas",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Il Marchese di Calatrava, Padre Guardiano",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Preziosilla, Curra",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Fra Melitone",
+     "name": "Ambrogio Maestri"
+    },
+    {
+     "rolle": "Mastro Trabuco",
+     "name": "Álvaro Diana"
+    }
+   ]
+  },
+  "forza-del-destino|2027-06-06": {
+   "zeit": "18:00",
+   "dirigent": "Philippe Jordan",
+   "regie": "Vasily Barkhatov",
+   "besetzung": [
+    {
+     "rolle": "Donna Leonora di Vargas",
+     "name": "Lise Davidsen"
+    },
+    {
+     "rolle": "Don Alvaro",
+     "name": "Freddie De Tommaso"
+    },
+    {
+     "rolle": "Don Carlo di Vargas",
+     "name": "Roman Burdenko"
+    },
+    {
+     "rolle": "Il Marchese di Calatrava, Padre Guardiano",
+     "name": "Roberto Tagliavini"
+    },
+    {
+     "rolle": "Preziosilla, Curra",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Fra Melitone",
+     "name": "Ambrogio Maestri"
+    },
+    {
+     "rolle": "Mastro Trabuco",
+     "name": "Álvaro Diana"
+    }
+   ]
+  },
+  "idomeneo|2027-06-17": {
+   "zeit": "19:00",
+   "dirigent": "Simon Rattle",
+   "regie": "David McVicar",
+   "besetzung": [
+    {
+     "rolle": "Idomeneo",
+     "name": "Reinoud Van Mechelen"
+    },
+    {
+     "rolle": "Idamante",
+     "name": "Magdalena Kožená"
+    },
+    {
+     "rolle": "Ilia",
+     "name": "Sabine Devieilhe"
+    },
+    {
+     "rolle": "Elettra",
+     "name": "Christiane Karg"
+    },
+    {
+     "rolle": "Arbace",
+     "name": "Linard Vrielink"
+    },
+    {
+     "rolle": "Oberpriester des Neptun",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Die Stimme",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Defne Celik "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Jingjing Xu "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Chen Li "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Temur Bidzishvili"
+    }
+   ]
+  },
+  "idomeneo|2027-06-19": {
+   "zeit": "19:00",
+   "dirigent": "Simon Rattle",
+   "regie": "David McVicar",
+   "besetzung": [
+    {
+     "rolle": "Idomeneo",
+     "name": "Reinoud Van Mechelen"
+    },
+    {
+     "rolle": "Idamante",
+     "name": "Magdalena Kožená"
+    },
+    {
+     "rolle": "Ilia",
+     "name": "Sabine Devieilhe"
+    },
+    {
+     "rolle": "Elettra",
+     "name": "Christiane Karg"
+    },
+    {
+     "rolle": "Arbace",
+     "name": "Linard Vrielink"
+    },
+    {
+     "rolle": "Oberpriester des Neptun",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Die Stimme",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Defne Celik "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Jingjing Xu "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Chen Li "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Temur Bidzishvili"
+    }
+   ]
+  },
+  "manon-lescaut|2027-06-26": {
+   "zeit": "19:30",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Anna Princeva"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "idomeneo|2027-06-27": {
+   "zeit": "18:00",
+   "dirigent": "Simon Rattle",
+   "regie": "David McVicar",
+   "besetzung": [
+    {
+     "rolle": "Idomeneo",
+     "name": "Reinoud Van Mechelen"
+    },
+    {
+     "rolle": "Idamante",
+     "name": "Magdalena Kožená"
+    },
+    {
+     "rolle": "Ilia",
+     "name": "Sabine Devieilhe"
+    },
+    {
+     "rolle": "Elettra",
+     "name": "Christiane Karg"
+    },
+    {
+     "rolle": "Arbace",
+     "name": "Linard Vrielink"
+    },
+    {
+     "rolle": "Oberpriester des Neptun",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Die Stimme",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Defne Celik "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Jingjing Xu "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Chen Li "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Temur Bidzishvili"
+    }
+   ]
+  },
+  "manon-lescaut|2027-06-29": {
+   "zeit": "19:30",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Anna Princeva"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "manon-lescaut|2027-07-01": {
+   "zeit": "19:30",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Anna Princeva"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "manon-lescaut|2027-07-03": {
+   "zeit": "19:30",
+   "dirigent": "Bertrand de Billy",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Manon Lescaut",
+     "name": "Anna Princeva"
+    },
+    {
+     "rolle": "Renato Des Grieux",
+     "name": "Michael Fabiano"
+    },
+    {
+     "rolle": "Lescaut",
+     "name": "Lauri Vasar"
+    },
+    {
+     "rolle": "Geronte de Ravoir",
+     "name": "Lucio Gallo"
+    },
+    {
+     "rolle": "Edmondo, Ein Lampenanzünder",
+     "name": "Andrés Moreno García"
+    },
+    {
+     "rolle": "Der Wirt",
+     "name": "Friedrich Hamel"
+    },
+    {
+     "rolle": "Ein Ballettmeister",
+     "name": "Chen Li"
+    },
+    {
+     "rolle": "Ein Musiker",
+     "name": "Rebecka Wallroth"
+    }
+   ]
+  },
+  "idomeneo|2027-07-04": {
+   "zeit": "18:00",
+   "dirigent": "Simon Rattle",
+   "regie": "David McVicar",
+   "besetzung": [
+    {
+     "rolle": "Idomeneo",
+     "name": "Reinoud Van Mechelen"
+    },
+    {
+     "rolle": "Idamante",
+     "name": "Magdalena Kožená"
+    },
+    {
+     "rolle": "Ilia",
+     "name": "Sabine Devieilhe"
+    },
+    {
+     "rolle": "Elettra",
+     "name": "Christiane Karg"
+    },
+    {
+     "rolle": "Arbace",
+     "name": "Linard Vrielink"
+    },
+    {
+     "rolle": "Oberpriester des Neptun",
+     "name": "Florian Hoffmann"
+    },
+    {
+     "rolle": "Die Stimme",
+     "name": "Manuel Winckhler"
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Defne Celik "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Jingjing Xu "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Chen Li "
+    },
+    {
+     "rolle": "Kreterinnen, Trojaner",
+     "name": "Temur Bidzishvili"
+    }
+   ]
+  }
+ }
+}

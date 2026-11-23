@@ -31,6 +31,12 @@
 // einen Namen, ist das so ein offener Fall – die Rolle bleibt dann weg.
 // Rollen, die immer mehrere Namen tragen (Darsteller), bleiben.
 //
+// Staatsoper Unter den Linden (seit 23.11.2026): Die Stückseite hat je
+// Termin ein Feld (tabs__panel) mit <time itemprop="startDate">"Freitag,
+// 28. Mai 2027 19.00 Uhr" und der Besetzung, gegliedert durch Kommentare:
+// "Leitung & Technik", "Künstler" (die Rollen), "Kollektive" (Chor,
+// Orchester – bleiben weg).
+//
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
 //     "abende": { "eugen-onegin|2026-11-28": { "zeit": "19:00",
@@ -267,10 +273,64 @@ async function komischeLesen() {
     return { abende, seiten: abrufe };
 }
 
+// ── Staatsoper Unter den Linden ─────────────────────────────────────────
+
+const MONATE_LANG = { januar: '01', februar: '02', 'märz': '03', april: '04', mai: '05', juni: '06', juli: '07', august: '08', september: '09', oktober: '10', november: '11', dezember: '12' };
+
+/** Die Einträge einer Besetzungsliste der Staatsoper: [{ rolle, namen }]. */
+function staatsoperListe(html) {
+    return String(html ?? '').split(/<li class="besetzung__item/).slice(1).map((item) => ({
+        rolle: reinerText(item.match(/class="besetzung__rolle">([\s\S]*?)<\/span>/)?.[1]).replace(/:\s*$/, ''),
+        namen: [...item.matchAll(/class="besetzung__beteiligte-liste-item">([\s\S]*?)<\/(?:div|li)>/g)].map(m => reinerText(m[1]).replace(/,\s*$/, '')).filter(Boolean),
+    })).filter(z => z.rolle && z.namen.length);
+}
+
+/** Alle Termine einer Stückseite der Staatsoper Berlin mit ihren Mitwirkenden. */
+export function staatsoperAbende(html) {
+    const abende = [];
+    for (const teil of String(html ?? '').split(/class="tabs__panel js-tabs-panel/).slice(1)) {
+        const zeit = reinerText(teil.match(/<time[^>]*itemprop="startDate"[^>]*>([\s\S]*?)<\/time>/)?.[1]);
+        const m = zeit.match(/(\d{1,2})\.\s*([a-zäöü]+)\s+(\d{4})(?:\s+(\d{1,2})[.:](\d{2}))?/i);
+        const monat = m && MONATE_LANG[m[2].toLowerCase()];
+        if (!m || !monat) continue;
+        const besetzung = teil.split(/id="besetzung-/)[1] || '';
+        const leitung = besetzung.split('<!-- Künstler -->')[0].split('<!-- Leitung &amp; Technik -->')[1] || '';
+        const kuenstler = (besetzung.split('<!-- Künstler -->')[1] || '').split('<!-- Kollektive -->')[0];
+        const team = staatsoperListe(leitung);
+        const wer = (muster) => team.filter(z => muster.test(z.rolle)).flatMap(z => z.namen);
+        const abend = {};
+        if (m[4]) abend.zeit = `${m[4].padStart(2, '0')}:${m[5]}`;
+        const dirigent = wer(/^musikalische leitung$|^dirigent/i);
+        const regie = wer(/^inszenierung$|^regie$/i);
+        const rollen = staatsoperListe(kuenstler).filter(z => !GRUPPE.test(z.rolle))
+            .flatMap(z => z.namen.map(name => ({ rolle: z.rolle, name })));
+        if (dirigent.length) abend.dirigent = dirigent.join(', ');
+        if (regie.length) abend.regie = regie.join(', ');
+        if (rollen.length) abend.besetzung = rollen;
+        if (abend.dirigent || abend.regie || abend.besetzung) {
+            abende.push({ datum: `${m[3]}-${monat}-${m[1].padStart(2, '0')}`, abend });
+        }
+    }
+    return abende;
+}
+
+async function staatsoperLesen() {
+    const seiten = [...new Map(spielplan.filter(e => e.haus === 'staatsoper-berlin' && e.url).map(e => [e.url, e.werk])).entries()];
+    const abende = {};
+    for (const [url, werk] of seiten) {
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        if (!r.ok) { console.warn(`${url}: HTTP ${r.status}`); continue; }
+        for (const { datum, abend } of staatsoperAbende(await r.text())) abende[`${werk}|${datum}`] = abend;
+        await pause(1500);
+    }
+    return { abende, seiten: seiten.length };
+}
+
 export const LESER = {
     'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
     'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
     'komische-oper-berlin': { lesen: komischeLesen, quelle: 'https://www.komische-oper-berlin.de/spielplan/' },
+    'staatsoper-berlin': { lesen: staatsoperLesen, quelle: 'https://www.staatsoper-berlin.de/de/spielplan/' },
 };
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
