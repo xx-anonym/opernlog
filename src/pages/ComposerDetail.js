@@ -10,8 +10,11 @@ import { composerByName } from '../data/composers.js';
 import { composers } from '../data/composers.js';
 import { store } from '../store/store.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground, escapeHTML, einblendVerzoegerung } from '../utils.js';
+import { escapeHTML, einblendVerzoegerung } from '../utils.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
+
+/** Ein Wikimedia-Vorschaubild in einer der festen Breiten, sonst wie es ist. */
+const vorschau = (bild, breite) => String(bild || '').replace(/\/\d+px-([^/]+)$/, `/${breite}px-$1`);
 
 /** Eine Bewertung als "4,2". */
 function note(n) {
@@ -64,7 +67,7 @@ export function ComposerDetailPage(composerId) {
     const markiert = new Set(werke.filter(o => !geloggt.has(o.id) && store.isSeenOpera(o.id)).map(o => o.id));
     const gesehen = geloggt.size + markiert.size;
 
-    // Ohne freies Porträt ein Monogramm statt eines leeren Verlaufs.
+    // Ohne freies Porträt die Initialen im Kreis statt eines leeren Verlaufs.
     //
     // Für Bernd Alois Zimmermann gibt es nachweislich keins: weder die
     // deutsche noch sechs weitere Wikipedias führen ein Artikelbild, Wikidata
@@ -76,35 +79,39 @@ export function ComposerDetailPage(composerId) {
     //
     // Der Verlauf allein sah aus wie ein Fehler. Die Initialen sagen: hier
     // fehlt nichts, hier ist keins.
+    //
+    // Aufbau seit 23.11.2026 wie die Personenseite (Jonas): Kopf als Karte
+    // mit rundem Bild und Plaketten, die Werke als Karten mit Plakat.
     const portraetHTML = komponist.bild
-        ? `<div class="composer-hero__portrait"
-                style="${coverBackground(komponist.bild, 'linear-gradient(135deg, #8b1a2b, #14181c)', 'rgba(0,0,0,0.15), rgba(20,24,28,0.6)')}"
-                role="img" aria-label="Porträt von ${escapeHTML(komponist.name)}"></div>`
-        : `<div class="composer-hero__portrait composer-hero__portrait--monogramm"
+        ? `<div class="person-hero__bild composer-hero__portrait">
+             <img class="person-bild__bild" src="${escapeHTML(vorschau(komponist.bild, 330))}"
+                  alt="Porträt von ${escapeHTML(komponist.name)}" decoding="async">
+           </div>`
+        : `<div class="person-hero__bild composer-hero__portrait composer-hero__portrait--monogramm"
                 role="img" aria-label="Kein freies Porträt von ${escapeHTML(komponist.name)} vorhanden">
-             <span aria-hidden="true">${escapeHTML(initialen(komponist.name))}</span>
+             <span class="person-hero__initialen" aria-hidden="true">${escapeHTML(initialen(komponist.name))}</span>
            </div>`;
+    const plakette = (inhalt) => `<span class="person-hero__plakette">${inhalt}</span>`;
+    const anteil = werke.length ? Math.round(gesehen / werke.length * 100) : 0;
 
     page.innerHTML = `
-      <div class="composer-hero">
-        ${zurueckLink('#/operas')}
-        <div class="composer-hero__row">
-          ${portraetHTML}
-          <div class="composer-hero__text">
-            <h1 class="composer-hero__name">${escapeHTML(komponist.name)}</h1>
-            <p class="composer-hero__kurz">${escapeHTML(komponist.kurz)}</p>
-            <div class="composer-hero__zahlen">
-              <span>${icon('music', { className: 'icon--meta' })}${werke.length} ${werke.length === 1 ? 'Werk' : 'Werke'} im Katalog</span>
-              ${abende.length ? `<span>${icon('calendar', { className: 'icon--meta' })}${abende.length} ${abende.length === 1 ? 'Abend' : 'Abende'} von dir</span>` : ''}
-              ${schnitt !== null ? `<span>${icon('star', { filled: true, className: 'icon--meta' })}${note(schnitt)} im Schnitt</span>` : ''}
-            </div>
+      ${zurueckLink('#/operas')}
+      <section class="person-hero composer-hero">
+        ${portraetHTML}
+        <div class="person-hero__text">
+          <h1 class="person-hero__name composer-hero__name">${escapeHTML(komponist.name)}</h1>
+          <p class="person-hero__beschreibung composer-hero__kurz">${escapeHTML(komponist.kurz)}</p>
+          <div class="person-hero__zahlen">
+            ${plakette(`<b>${werke.length}</b> ${werke.length === 1 ? 'Werk' : 'Werke'} im Katalog`)}
+            ${abende.length ? plakette(`<b>${abende.length}</b> ${abende.length === 1 ? 'Abend' : 'Abende'} mit dir`) : ''}
+            ${schnitt !== null ? plakette(`<b>${note(schnitt)}</b> ★ im Schnitt`) : ''}
           </div>
         </div>
-      </div>
+      </section>
 
       <div class="detail-body">
         <div class="detail-section">
-          <p class="detail-description">${escapeHTML(komponist.bio)}</p>
+          <p class="detail-description composer-bio">${escapeHTML(komponist.bio)}</p>
           <!-- Pflicht, keine Höflichkeit: der Text stammt aus der Wikipedia und
                steht unter CC BY-SA 4.0. Ohne Herkunft, Lizenz und Link dürfte
                er hier nicht stehen. -->
@@ -115,37 +122,38 @@ export function ComposerDetailPage(composerId) {
           </p>
         </div>
 
-        <div class="detail-section">
-          <h2 class="section__title">
-            ${icon('music')}Werke
-            <span class="section__count">${werke.length}</span>
-          </h2>
-          <ul class="composer-werke">
-            ${werke.map((o, i) => {
-                const eigene = abende.filter(v => v.operaId === o.id).length;
-                // Drei Zustände, absichtlich verschieden benannt: die Zahl der
-                // Abende, das Häkchen für "vor OpernLog gesehen" – ohne Datum,
-                // Haus und Bewertung – und nichts.
-                const zeichen = eigene
-                    ? `<span class="composer-werke__abende" title="${eigene} ${eigene === 1 ? 'Abend' : 'Abende'} geloggt">${eigene}×</span>`
-                    : markiert.has(o.id)
-                        ? `<span class="composer-werke__abende composer-werke__abende--markiert"
-                                 title="Als gesehen markiert, ohne geloggten Abend">${icon('checkCircle', { label: 'Schon gesehen' })}</span>`
-                        : '<span class="composer-werke__abende composer-werke__abende--leer"></span>';
-                return `
-              <li class="composer-werke__eintrag fade-in" style="animation-delay:${einblendVerzoegerung(i)}">
-                <a class="composer-werke__zeile" href="#/opera/${o.id}">
-                  <span class="composer-werke__jahr">${o.yearComposed || ''}</span>
-                  <span class="composer-werke__titel">${escapeHTML(o.title)}</span>
-                  ${zeichen}
-                </a>
-              </li>`;
-            }).join('')}
-          </ul>
-          ${gesehen
-            ? `<p class="composer-werke__fazit">${gesehen} von ${werke.length} ${werke.length === 1 ? 'Werk' : 'Werken'} gesehen</p>`
-            : ''}
-        </div>
+        <h2 class="person-abende__titel">Werke</h2>
+        ${gesehen ? `
+        <div class="composer-werke__fortschritt">
+          <p class="person-abende__unter composer-werke__fazit">${gesehen} von ${werke.length} ${werke.length === 1 ? 'Werk' : 'Werken'} gesehen</p>
+          <div class="composer-werke__balken" role="presentation"><span style="width:${anteil}%"></span></div>
+        </div>` : ''}
+        <ul class="composer-werke">
+          ${werke.map((o, i) => {
+              const eigene = abende.filter(v => v.operaId === o.id).length;
+              // Drei Zustände, absichtlich verschieden benannt: die Zahl der
+              // Abende, das Häkchen für "vor OpernLog gesehen" – ohne Datum,
+              // Haus und Bewertung – und nichts.
+              const zeichen = eigene
+                  ? `<span class="composer-werke__abende" title="${eigene} ${eigene === 1 ? 'Abend' : 'Abende'} geloggt">${eigene}× gesehen</span>`
+                  : markiert.has(o.id)
+                      ? `<span class="composer-werke__abende composer-werke__abende--markiert"
+                               title="Als gesehen markiert, ohne geloggten Abend">${icon('checkCircle', { label: 'Schon gesehen' })}gesehen</span>`
+                      : '';
+              const bild = vorschau(o.image, 250);
+              return `
+          <li class="composer-werke__eintrag fade-in${eigene || markiert.has(o.id) ? ' composer-werke__eintrag--gesehen' : ''}" style="animation-delay:${einblendVerzoegerung(i)}">
+            <a class="composer-werke__zeile" href="#/opera/${o.id}">
+              ${bild ? `<img class="composer-werke__plakat" src="${escapeHTML(bild)}" alt="" loading="lazy" decoding="async">` : '<span class="composer-werke__plakat composer-werke__plakat--leer" aria-hidden="true"></span>'}
+              <span class="composer-werke__text">
+                <span class="composer-werke__jahr">${o.yearComposed || ''}</span>
+                <span class="composer-werke__titel">${escapeHTML(o.title)}</span>
+              </span>
+              ${zeichen}
+            </a>
+          </li>`;
+          }).join('')}
+        </ul>
       </div>
     `;
 

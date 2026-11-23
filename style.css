@@ -7173,49 +7173,11 @@ html.story-offen body {
 
 /* --- Komponistenseite ------------------------------------------------ */
 
-.composer-hero {
-    padding: 24px 0 8px;
-    margin-bottom: 8px;
-}
-
-.composer-hero__row {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-}
-
-.composer-hero__portrait {
-    flex: 0 0 auto;
-    width: 116px;
-    height: 116px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    /* Porträts sind hochkant und zeigen oben das Gesicht – nicht mittig
-       beschneiden, sonst steht der Kopf halb außerhalb. */
-    background-position: center 22% !important;
-    box-shadow: var(--shadow-sm);
-}
-
-.composer-hero__name {
-    font-family: var(--font-display);
-    font-size: 30px;
-    line-height: 1.15;
-    margin: 0 0 4px;
-}
-
-.composer-hero__kurz {
-    margin: 0 0 12px;
-    color: var(--text-secondary);
-    font-size: 0.92rem;
-}
-
-.composer-hero__zahlen {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 16px;
-    font-size: 0.84rem;
-    color: var(--text-muted);
-}
+/* Seit 23.11.2026 im Kleid der Personenseite (.person-hero, .person-abende),
+ * hier nur, was die Komponistenseite anders braucht. */
+.page--composer-detail .back-link { display: inline-block; margin-bottom: 4px; }
+.composer-hero__portrait .person-bild__bild { object-position: 50% 22%; }
+.composer-bio { margin-top: 22px; }
 
 .composer-quelle {
     margin: 12px 0 0;
@@ -7429,111 +7391,102 @@ html.story-offen body {
     .person-abende__als { grid-column: 2; justify-self: start; }
 }
 
+.composer-werke__fortschritt { margin: 0 0 16px; }
+.composer-werke__fortschritt .composer-werke__fazit { margin-bottom: 8px; }
+.composer-werke__balken {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--bg-tertiary);
+    overflow: hidden;
+}
+.composer-werke__balken span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #8b1a2b, var(--gold));
+}
+
 .composer-werke {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
 }
-
-.composer-werke__eintrag {
-    border-bottom: 1px solid var(--border);
-}
-
 .composer-werke__zeile {
     display: grid;
-    grid-template-columns: 3.6em 1fr 2.6em;
-    align-items: baseline;
-    gap: 10px;
-    padding: 11px 4px;
+    grid-template-columns: 46px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 14px 10px 10px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
     color: var(--text);
     text-decoration: none;
-    transition: background var(--transition);
+    transition: border-color var(--transition), background var(--transition);
 }
-
 .composer-werke__zeile:hover {
-    background: var(--bg-tertiary);
-}
-
-.composer-werke__jahr {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-variant-numeric: tabular-nums;
-}
-
-.composer-werke__titel {
-    font-weight: 500;
-}
-
-/* a:hover färbt global golden und gewänne mit (0,1,1) gegen die Klasse des
-   Kastens – mitten in der Zeile würde sonst ein Wort golden. */
-.composer-werke__zeile:hover .composer-werke__titel {
+    border-color: rgba(201, 168, 76, 0.4);
     color: var(--text);
 }
-
-.composer-werke__abende {
-    text-align: right;
-    font-size: 0.84rem;
-    color: var(--gold);
+/* Was noch fehlt, tritt zurück – das Gesehene leuchtet. */
+.composer-werke__eintrag:not(.composer-werke__eintrag--gesehen) .composer-werke__plakat { filter: grayscale(0.7) brightness(0.75); }
+.composer-werke__plakat {
+    width: 46px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 7px;
+    filter: sepia(0.15);
+    background: var(--bg-tertiary);
+}
+.composer-werke__text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+.composer-werke__jahr {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--gold-light);
     font-variant-numeric: tabular-nums;
 }
-
-.composer-werke__fazit {
-    margin: 12px 0 0;
-    font-size: 0.84rem;
-    color: var(--text-secondary);
+.composer-werke__titel {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.2;
+    color: var(--text-primary);
 }
-
-@media (max-width: 420px) {
-    .composer-hero__portrait {
-        width: 88px;
-        height: 88px;
-    }
-
-    .composer-hero__name {
-        font-size: 24px;
-    }
+/* a:hover färbt global golden und gewänne gegen die Klasse – mitten in der
+   Karte würde sonst ein Wort golden. */
+.composer-werke__zeile:hover .composer-werke__titel { color: var(--text-primary); }
+.composer-werke__abende {
+    font-size: 12px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--gold-light);
+    border: 1px solid rgba(201, 168, 76, 0.28);
+    font-variant-numeric: tabular-nums;
 }
-
 /* Als gesehen markiert, aber ohne geloggten Abend – das Häkchen steht für
    Werke von vor OpernLog, zu denen es kein Datum und kein Haus gibt. Grün
    wie die Angabe "Gesehen · geloggt" auf der Werkseite. */
 .composer-werke__abende--markiert {
-    color: var(--green);
-}
-
-.composer-werke__abende--markiert .icon {
-    width: 0.95em;
-    height: 0.95em;
-    vertical-align: -0.14em;
-}
-
-/* Monogramm, wo es kein freies Porträt gibt. Der bloße Verlauf sah aus wie
-   ein Ladefehler; die Initialen sagen, dass hier nichts fehlt. */
-.composer-hero__portrait--monogramm {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #6b1525 0%, #3d0a15 55%, #14181c 100%);
+    gap: 4px;
+    color: var(--green);
+    background: rgba(0, 192, 48, 0.1);
+    border-color: rgba(0, 192, 48, 0.3);
 }
-
-.composer-hero__portrait--monogramm span {
-    font-family: var(--font-display);
-    font-size: 34px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    /* Die Initialen sitzen optisch zu weit rechts, weil der Buchstabenabstand
-       auch hinter dem letzten Zeichen steht. */
-    text-indent: 2px;
-    color: var(--gold);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-}
-
-@media (max-width: 420px) {
-    .composer-hero__portrait--monogramm span {
-        font-size: 26px;
-        letter-spacing: 1px;
-    }
+.composer-werke__abende--markiert .icon {
+    width: 1em;
+    height: 1em;
 }
 
 /* --- Feed: Kopf als Theaterzettel ------------------------------------ */
