@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { hausAbend, ladeHausBesetzung, HAEUSER_MIT_BESETZUNG } from '../../src/data/hausBesetzung.js';
-import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, LESER } from '../werkzeug/besetzung-lesen.mjs';
+import { leipzigAbend, werkVerzeichnis, zusammenfuehren, titelSchluessel, semperAbende, komischeTermine, komischeBesetzung, komischeAbende, staatsoperAbende, deutscheAbende, frankfurtTermine, frankfurtAbend, LESER } from '../werkzeug/besetzung-lesen.mjs';
 import { operas } from '../../src/data/operas.js';
 
 const person = (first_name, last_name) => ({ first_name, last_name });
@@ -55,7 +55,7 @@ test('der Abend in der Form eines Besuchs, für mitwirkendeVorschlag', () => {
 
 test('nur Häuser mit Datei werden gefragt; ohne Netz kommt null und beim nächsten Mal ein neuer Versuch', async () => {
     let n = 0;
-    assert.equal(await ladeHausBesetzung('oper-frankfurt', { abruf: async () => { n++; } }), null);
+    assert.equal(await ladeHausBesetzung('hamburgische-staatsoper', { abruf: async () => { n++; } }), null);
     assert.equal(n, 0);
     assert.equal(await ladeHausBesetzung('oper-leipzig', { abruf: async () => { n++; throw new Error('offline'); } }), null);
     const d = await ladeHausBesetzung('oper-leipzig', { abruf: async () => { n++; return { ok: true, json: async () => ({ abende: {} }) }; } });
@@ -174,4 +174,22 @@ test('Deutsche Oper: nur Termine mit Datum, Chorsolisten sind keine Person', () 
         datum: '2027-03-04',
         abend: { zeit: '19:30', dirigent: 'Alejo Pérez', regie: 'Ole Anders Tandberg', besetzung: [{ rolle: 'Carmen', name: 'Kristina Stanek' }] },
     }]);
+});
+
+// Oper Frankfurt: der Kalender der Stückseite und eine Terminseite (gekürzt).
+const FRANKFURT_TERMIN = `<h2 class="section-header season-text">Ihre Auswahl</h2> <dl class="dl-list dl-horizontal"> <dt>Samstag</dt> <dd>22. Mai 2027</dd> <dt>Beginn</dt> <dd>18.00 Uhr</dd> </dl> </div> </section>
+<section class="col-is-6 col-sm-12" id="castdata"> <div class="section-inner"> <h2>Besetzung</h2> <dl class="dl-list dl-horizontal"><dt>Musikalische Leitung</dt><dd>Pier&nbsp;Giorgio&nbsp;Morandi</dd><dt>Inszenierung</dt><dd>Lydia&nbsp;Steier</dd><dt>Kostüme</dt><dd>Siegfried&nbsp;Zoller</dd></dl>
+<dl class="dl-list dl-horizontal"><dt>Aida</dt><dd><a href="#">Nombulelo&nbsp;Yende</a></dd><dt>Ramfis</dt><dd><a href="#">Andreas&nbsp;Bauer&nbsp;Kanabas</a>&nbsp;/ <a href="#">Kihwan&nbsp;Sim</a></dd><dt>Eine Priesterin</dt><dd><a href="#">Alina&nbsp;Avagyan</a><span class="deg">&deg;</span></dd></dl>
+<p>Chor der Oper Frankfurt</p></div></section>`;
+
+test('Oper Frankfurt: Termine aus dem Kalender, je Termin Leitung und Rollen, offene Rollen weg', () => {
+    assert.deepEqual(frankfurtTermine('<a href="/de/spielplan/aida_3/?id_datum=4971#date">Sa<span>15.</span></a><a href="/de/spielplan/aida_3/?id_datum=4972#date">Sa</a><a href="?id_datum=4971">x</a>'), ['4971', '4972']);
+    assert.deepEqual(frankfurtAbend(FRANKFURT_TERMIN), {
+        datum: '2027-05-22',
+        abend: { zeit: '18:00', dirigent: 'Pier Giorgio Morandi', regie: 'Lydia Steier', besetzung: [
+            { rolle: 'Aida', name: 'Nombulelo Yende' },
+            { rolle: 'Eine Priesterin', name: 'Alina Avagyan' },
+        ] },
+    });
+    assert.equal(frankfurtAbend('<html>ohne Termin</html>'), null);
 });

@@ -91,7 +91,7 @@ test('ein anderer Termin bringt seine eigene Besetzung, ein Tag ohne Vorstellung
 });
 
 test('andere Häuser fragen gar nicht erst nach einer Datei', { skip: fehltPlaywright, timeout: 60000 }, async () => {
-    const { ctx, p, abrufe } = await formular('#/log?house=oper-frankfurt&opera=aida');
+    const { ctx, p, abrufe } = await formular('#/log?house=hamburgische-staatsoper&opera=tosca');
     try {
         await datumSetzen(p, '2026-10-10');
         await p.waitForTimeout(500);

@@ -44,6 +44,13 @@
 // gespielte Termine steht die Besetzung zwar noch da, das Datum aber nicht –
 // die bleiben weg.
 //
+// Oper Frankfurt (seit 23.11.2026): Die Stückseite hat einen Kalender mit
+// einem Link je Termin (?id_datum=…); erst die Seite des Termins zeigt unter
+// "Ihre Auswahl" Datum und Beginn und unter #castdata zwei Listen: Leitung
+// und Rollen. Steht eine Rolle noch nicht fest, stehen Namen mit
+// Schrägstrich ("Ramfis: Andreas Bauer Kanabas / Kihwan Sim") – die Rolle
+// bleibt dann weg. Chor und Orchester stehen außerhalb der Listen.
+//
 // Ausgabe: daten/besetzung/<haus>.json
 //   { "haus": "oper-leipzig", "stand": "2026-11-23", "quelle": "…",
 //     "abende": { "eugen-onegin|2026-11-28": { "zeit": "19:00",
@@ -391,12 +398,75 @@ async function deutscheLesen() {
     return { abende, seiten: seiten.length };
 }
 
+// ── Oper Frankfurt ──────────────────────────────────────────────────────
+
+/** Die Termin-Links im Kalender einer Stückseite: [id_datum, …]. */
+export function frankfurtTermine(html) {
+    return [...new Set([...String(html ?? '').matchAll(/href="[^"]*[?&]id_datum=(\d+)/g)].map(m => m[1]))];
+}
+
+/** dt/dd-Paare einer Liste: [{ rolle, text }]. */
+const dtDd = (html) => [...String(html ?? '').matchAll(/<dt>([\s\S]*?)<\/dt>\s*<dd>([\s\S]*?)<\/dd>/g)]
+    .map(([, dt, dd]) => ({ rolle: reinerText(dt), text: reinerText(dd.replace(/<span class="deg">[\s\S]*?<\/span>/g, '')) }));
+
+/** Der Termin einer Terminseite der Oper Frankfurt mit seinen Mitwirkenden – oder null. */
+export function frankfurtAbend(html) {
+    const seite = String(html ?? '');
+    const auswahl = seite.split('Ihre Auswahl')[1]?.split('id="castdata"')[0] || '';
+    const angaben = dtDd(auswahl);
+    const m = angaben.map(a => a.text).join(' ').match(/(\d{1,2})\.\s*([a-zäöü]+)\s+(\d{4})/i);
+    const monat = m && MONATE_LANG[m[2].toLowerCase()];
+    if (!m || !monat) return null;
+    const beginn = angaben.find(a => /^beginn$/i.test(a.rolle))?.text.match(/(\d{1,2})[.:](\d{2})/);
+    const listen = (seite.split('id="castdata"')[1]?.split('</section>')[0] || '').split(/<dl class="dl-list[^"]*">/).slice(1);
+    const team = dtDd(listen[0]);
+    const rollen = dtDd(listen.slice(1).join(''));
+    const wer = (muster) => team.filter(z => muster.test(z.rolle)).map(z => z.text).filter(Boolean);
+    const abend = {};
+    if (beginn) abend.zeit = `${beginn[1].padStart(2, '0')}:${beginn[2]}`;
+    const dirigent = wer(/^musikalische leitung$|^dirigent/i);
+    const regie = wer(/^inszenierung$|^regie$/i);
+    // Mit Schrägstrich: noch nicht entschieden, wer singt.
+    const besetzung = rollen.filter(z => z.text && !z.text.includes('/') && !GRUPPE.test(z.rolle))
+        .map(z => ({ rolle: z.rolle, name: z.text }));
+    if (dirigent.length && !dirigent.some(d => d.includes('/'))) abend.dirigent = dirigent.join(', ');
+    if (regie.length) abend.regie = regie.join(', ');
+    if (besetzung.length) abend.besetzung = besetzung;
+    if (!abend.dirigent && !abend.regie && !abend.besetzung) return null;
+    return { datum: `${m[3]}-${monat}-${m[1].padStart(2, '0')}`, abend };
+}
+
+async function frankfurtLesen() {
+    const seiten = [...new Map(spielplan.filter(e => e.haus === 'oper-frankfurt' && e.url).map(e => [e.url, e.werk])).entries()];
+    const abende = {};
+    let abrufe = 0;
+    const holen = async (url) => {
+        abrufe++;
+        const r = await fetch(url, { headers: { 'User-Agent': KENNUNG, Accept: 'text/html' } });
+        if (!r.ok) { console.warn(`${url}: HTTP ${r.status}`); return null; }
+        return r.text();
+    };
+    for (const [url, werk] of seiten) {
+        const stueck = await holen(url);
+        if (!stueck) continue;
+        for (const id of frankfurtTermine(stueck)) {
+            await pause(1000);
+            const termin = await holen(`${url.split('?')[0]}?id_datum=${id}`);
+            const a = termin && frankfurtAbend(termin);
+            if (a) abende[`${werk}|${a.datum}`] = a.abend;
+        }
+        await pause(1500);
+    }
+    return { abende, seiten: abrufe };
+}
+
 export const LESER = {
     'oper-leipzig': { lesen: leipzigLesen, quelle: 'https://www.oper-leipzig.de/de/programm' },
     'semperoper': { lesen: semperLesen, quelle: 'https://www.semperoper.de/spielplan.html' },
     'komische-oper-berlin': { lesen: komischeLesen, quelle: 'https://www.komische-oper-berlin.de/spielplan/' },
     'staatsoper-berlin': { lesen: staatsoperLesen, quelle: 'https://www.staatsoper-berlin.de/de/spielplan/' },
     'deutsche-oper-berlin': { lesen: deutscheLesen, quelle: 'https://deutscheoperberlin.de/de_DE/calendar' },
+    'oper-frankfurt': { lesen: frankfurtLesen, quelle: 'https://oper-frankfurt.de/de/spielplan/' },
 };
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

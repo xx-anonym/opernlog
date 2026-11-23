@@ -1,0 +1,4172 @@
+{
+ "haus": "oper-frankfurt",
+ "stand": "2026-11-23",
+ "quelle": "https://oper-frankfurt.de/de/spielplan/",
+ "abende": {
+  "turandot|2026-08-22": {
+   "zeit": "19:30",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Elza van den Heever"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2026-08-23": {
+   "zeit": "18:00",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Matteo Ivan Rašić"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sebastian Geyer"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2026-08-28": {
+   "zeit": "18:30",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Matteo Ivan Rašić"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sebastian Geyer"
+    }
+   ]
+  },
+  "turandot|2026-08-29": {
+   "zeit": "19:30",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Elza van den Heever"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2026-08-30": {
+   "zeit": "18:00",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Matteo Ivan Rašić"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sebastian Geyer"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2026-09-05": {
+   "zeit": "18:00",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sebastian Geyer"
+    }
+   ]
+  },
+  "turandot|2026-09-06": {
+   "zeit": "18:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Elza van den Heever"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2026-09-09": {
+   "zeit": "18:30",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Sebastian Geyer"
+    }
+   ]
+  },
+  "turandot|2026-09-12": {
+   "zeit": "19:30",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Elza van den Heever"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ping musikalisch",
+     "name": "Sam Park"
+    },
+    {
+     "rolle": "Ping szenisch",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "turandot|2026-09-25": {
+   "zeit": "19:30",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Olesya Golovneva"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Andrés Agudelo"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Kihwan Sim"
+    }
+   ]
+  },
+  "turandot|2026-10-03": {
+   "zeit": "18:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Turandot",
+     "name": "Olesya Golovneva"
+    },
+    {
+     "rolle": "Calaf",
+     "name": "Alfred Kim"
+    },
+    {
+     "rolle": "Liù",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ping",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Pang",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "Pong",
+     "name": "Andrés Agudelo"
+    },
+    {
+     "rolle": "Timur",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Altoum",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Ein Mandarin",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "haensel-gretel|2026-11-13": {
+   "zeit": "19:00",
+   "dirigent": "Alden Gatt",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "haensel-gretel|2026-11-20": {
+   "zeit": "19:00",
+   "dirigent": "Alden Gatt",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Juanita Lascarro"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "haensel-gretel|2026-11-22": {
+   "zeit": "15:30",
+   "dirigent": "Alden Gatt",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Juanita Lascarro"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-05": {
+   "zeit": "18:00",
+   "dirigent": "Alden Gatt",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Juanita Lascarro"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-06": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-10": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-13": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-17": {
+   "zeit": "19:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-19": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-20": {
+   "zeit": "15:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-21": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "haensel-gretel|2026-12-26": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Keith Warner",
+   "besetzung": [
+    {
+     "rolle": "Hänsel",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Gretel",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Peter, Besenbinder",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Gertrud, sein Weib",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Die Knusperhexe",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Sandmännchen",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Taumännchen",
+     "name": "Younji Yi"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-27": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2026-12-30": {
+   "zeit": "18:30",
+   "dirigent": "Alden Gatt",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Finn Sagal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Liviu Holender"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2026-12-31": {
+   "zeit": "18:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-01-02": {
+   "zeit": "18:00",
+   "dirigent": "Alden Gatt",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Finn Sagal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Liviu Holender"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-01-07": {
+   "zeit": "19:30",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-01-08": {
+   "zeit": "18:30",
+   "dirigent": "Alden Gatt",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Finn Sagal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Liviu Holender"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-01-09": {
+   "zeit": "19:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-01-10": {
+   "zeit": "15:30",
+   "dirigent": "Alden Gatt",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Finn Sagal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Liviu Holender"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-01-15": {
+   "zeit": "19:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-01-16": {
+   "zeit": "18:00",
+   "dirigent": "Alden Gatt",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Finn Sagal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Liviu Holender"
+    }
+   ]
+  },
+  "tannhaeuser|2027-01-17": {
+   "zeit": "17:00",
+   "dirigent": "Jonathan Darlington",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Christina Nilsson"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Domen Križaj"
+    },
+    {
+     "rolle": "Hermann, Landgraf von Thüringen",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Erik van Heyningen"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Dietrich Volle"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Daniela Zib"
+    }
+   ]
+  },
+  "cosi-fan-tutte|2027-01-21": {
+   "zeit": "18:30",
+   "regie": "Mariame Clément",
+   "besetzung": [
+    {
+     "rolle": "Fiordiligi",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Dorabella",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Guglielmo",
+     "name": "Finn Sagal"
+    },
+    {
+     "rolle": "Ferrando",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Despina",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Don Alfonso",
+     "name": "Liviu Holender"
+    }
+   ]
+  },
+  "tannhaeuser|2027-01-22": {
+   "zeit": "17:00",
+   "dirigent": "Jonathan Darlington",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Christina Nilsson"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Domen Križaj"
+    },
+    {
+     "rolle": "Hermann, Landgraf von Thüringen",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Erik van Heyningen"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Dietrich Volle"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Daniela Zib"
+    }
+   ]
+  },
+  "salome|2027-01-23": {
+   "zeit": "19:30",
+   "dirigent": "Lothar Koenigs",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Inna Kločko"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Simon Neal"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Gerard Schneider"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Andrew Bidlack"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "2. Nazarener / Cappadozier",
+     "name": "Jonas Müller"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-01-24": {
+   "zeit": "18:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "salome|2027-01-29": {
+   "zeit": "19:30",
+   "dirigent": "Lothar Koenigs",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Inna Kločko"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Simon Neal"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Gerard Schneider"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Andrew Bidlack"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "2. Nazarener / Cappadozier",
+     "name": "Jonas Müller"
+    }
+   ]
+  },
+  "un-ballo-in-maschera|2027-01-30": {
+   "zeit": "19:00",
+   "dirigent": "Simone Di Felice",
+   "regie": "Andrea Breth",
+   "besetzung": [
+    {
+     "rolle": "Riccardo",
+     "name": "Matteo Lippi"
+    },
+    {
+     "rolle": "Amelia",
+     "name": "Guanqun Yu"
+    },
+    {
+     "rolle": "Renato",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Ulrica",
+     "name": "Emanuela Pascu"
+    },
+    {
+     "rolle": "Oscar",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Silvano",
+     "name": "Taehan Kim"
+    },
+    {
+     "rolle": "Samuel",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Tom",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "Ein Richter",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Amelias Diener",
+     "name": "Jihun Hong"
+    }
+   ]
+  },
+  "tannhaeuser|2027-01-31": {
+   "zeit": "15:30",
+   "dirigent": "Jonathan Darlington",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Christina Nilsson"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Domen Križaj"
+    },
+    {
+     "rolle": "Hermann, Landgraf von Thüringen",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Erik van Heyningen"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Dietrich Volle"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Daniela Zib"
+    }
+   ]
+  },
+  "salome|2027-02-05": {
+   "zeit": "19:30",
+   "dirigent": "Lothar Koenigs",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Inna Kločko"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Simon Neal"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Gerard Schneider"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Andrew Bidlack"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "2. Nazarener / Cappadozier",
+     "name": "Jonas Müller"
+    }
+   ]
+  },
+  "tannhaeuser|2027-02-06": {
+   "zeit": "17:00",
+   "dirigent": "Jonathan Darlington",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Christina Nilsson"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Domen Križaj"
+    },
+    {
+     "rolle": "Hermann, Landgraf von Thüringen",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Erik van Heyningen"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Dietrich Volle"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Daniela Zib"
+    }
+   ]
+  },
+  "salome|2027-02-07": {
+   "zeit": "18:00",
+   "dirigent": "Lothar Koenigs",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Inna Kločko"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Simon Neal"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Gerard Schneider"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Andrew Bidlack"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "2. Nazarener / Cappadozier",
+     "name": "Jonas Müller"
+    }
+   ]
+  },
+  "tannhaeuser|2027-02-10": {
+   "zeit": "17:00",
+   "dirigent": "Jonathan Darlington",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Christina Nilsson"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Domen Križaj"
+    },
+    {
+     "rolle": "Hermann, Landgraf von Thüringen",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Erik van Heyningen"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Dietrich Volle"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Daniela Zib"
+    }
+   ]
+  },
+  "tannhaeuser|2027-02-13": {
+   "zeit": "17:00",
+   "dirigent": "Jonathan Darlington",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Tannhäuser",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Elisabeth",
+     "name": "Christina Nilsson"
+    },
+    {
+     "rolle": "Venus",
+     "name": "Marina Prudenskaya"
+    },
+    {
+     "rolle": "Wolfram von Eschenbach",
+     "name": "Domen Križaj"
+    },
+    {
+     "rolle": "Hermann, Landgraf von Thüringen",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Walther von der Vogelweide",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Biterolf",
+     "name": "Erik van Heyningen"
+    },
+    {
+     "rolle": "Heinrich der Schreiber",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Reinmar von Zweter",
+     "name": "Dietrich Volle"
+    },
+    {
+     "rolle": "Ein junger Hirt",
+     "name": "Daniela Zib"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-02-14": {
+   "zeit": "18:00",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-02-18": {
+   "zeit": "19:30",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "salome|2027-02-19": {
+   "zeit": "19:30",
+   "dirigent": "Lothar Koenigs",
+   "regie": "Barrie Kosky",
+   "besetzung": [
+    {
+     "rolle": "Salome",
+     "name": "Inna Kločko"
+    },
+    {
+     "rolle": "Jochanaan",
+     "name": "Simon Neal"
+    },
+    {
+     "rolle": "Herodes",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Herodias",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Narraboth",
+     "name": "Gerard Schneider"
+    },
+    {
+     "rolle": "Ein Page der Herodias",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "1. Jude",
+     "name": "Sven Hjörleifsson"
+    },
+    {
+     "rolle": "2. Jude",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "3. Jude",
+     "name": "Andrew Bidlack"
+    },
+    {
+     "rolle": "4. Jude",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "5. Jude",
+     "name": "Inho Jeong"
+    },
+    {
+     "rolle": "1. Nazarener",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "2. Nazarener / Cappadozier",
+     "name": "Jonas Müller"
+    }
+   ]
+  },
+  "alcina|2027-02-20": {
+   "zeit": "18:00",
+   "dirigent": "Julia Jones",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Alcina",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Ruggiero",
+     "name": "Elmar Hauser"
+    },
+    {
+     "rolle": "Bradamante",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Morgana",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Oberto",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Oronte",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Melisso",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-02-21": {
+   "zeit": "18:00",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-02-26": {
+   "zeit": "19:30",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "alcina|2027-02-27": {
+   "zeit": "19:00",
+   "dirigent": "Julia Jones",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Alcina",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Ruggiero",
+     "name": "Elmar Hauser"
+    },
+    {
+     "rolle": "Bradamante",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Morgana",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Oberto",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Oronte",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Melisso",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-02-28": {
+   "zeit": "18:00",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "alcina|2027-03-05": {
+   "zeit": "18:00",
+   "dirigent": "Julia Jones",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Alcina",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Ruggiero",
+     "name": "Elmar Hauser"
+    },
+    {
+     "rolle": "Bradamante",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Morgana",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Oberto",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Oronte",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Melisso",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-03-06": {
+   "zeit": "18:00",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "alcina|2027-03-07": {
+   "zeit": "18:00",
+   "dirigent": "Julia Jones",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Alcina",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Ruggiero",
+     "name": "Elmar Hauser"
+    },
+    {
+     "rolle": "Bradamante",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Morgana",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Oberto",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Oronte",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Melisso",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-03-11": {
+   "zeit": "19:30",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "liebe-drei-orangen|2027-03-13": {
+   "zeit": "18:00",
+   "dirigent": "Patrick Hahn",
+   "regie": "Damiano Michieletto",
+   "besetzung": [
+    {
+     "rolle": "König Treff",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Prinz",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Prinzessin Clarisse",
+     "name": "Cláudia Ribas"
+    },
+    {
+     "rolle": "Leander",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Truffaldino",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Pantalon",
+     "name": "Sebastian Geyer"
+    },
+    {
+     "rolle": "Tschelio",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fata Morgana",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ninetta",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Nicoletta",
+     "name": "Kelsey Lauritano"
+    },
+    {
+     "rolle": "Linetta",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Köchin",
+     "name": "Alfred Reiter"
+    },
+    {
+     "rolle": "Farfarello",
+     "name": "Aleksander Myrling"
+    },
+    {
+     "rolle": "Smeraldina",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Zeremonienmeister",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Herold",
+     "name": "Aleksander Myrling"
+    }
+   ]
+  },
+  "alcina|2027-03-21": {
+   "zeit": "18:00",
+   "dirigent": "Julia Jones",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Alcina",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Ruggiero",
+     "name": "Elmar Hauser"
+    },
+    {
+     "rolle": "Bradamante",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Morgana",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Oberto",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Oronte",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Melisso",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "ring-walkuere|2027-03-26": {
+   "zeit": "17:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Siegmund",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Hunding",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Sieglinde",
+     "name": "Magdalena Hinterdobler"
+    },
+    {
+     "rolle": "Brünnhilde",
+     "name": "Aile Asszonyi"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Gerhilde",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ortlinde",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Waltraute",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Schwertleite",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Helmwige",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Siegrune",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Grimgerde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Rossweisse",
+     "name": "Judita Nagyová"
+    }
+   ]
+  },
+  "alcina|2027-03-27": {
+   "zeit": "18:00",
+   "dirigent": "Julia Jones",
+   "regie": "Johannes Erath",
+   "besetzung": [
+    {
+     "rolle": "Alcina",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Ruggiero",
+     "name": "Elmar Hauser"
+    },
+    {
+     "rolle": "Bradamante",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Morgana",
+     "name": "Younji Yi"
+    },
+    {
+     "rolle": "Oberto",
+     "name": "Karolina Bengtsson"
+    },
+    {
+     "rolle": "Oronte",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Melisso",
+     "name": "Erik van Heyningen"
+    }
+   ]
+  },
+  "ring-walkuere|2027-03-29": {
+   "zeit": "17:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Siegmund",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Hunding",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Sieglinde",
+     "name": "Magdalena Hinterdobler"
+    },
+    {
+     "rolle": "Brünnhilde",
+     "name": "Aile Asszonyi"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Gerhilde",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ortlinde",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Waltraute",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Schwertleite",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Helmwige",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Siegrune",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Grimgerde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Rossweisse",
+     "name": "Judita Nagyová"
+    }
+   ]
+  },
+  "ring-walkuere|2027-04-03": {
+   "zeit": "17:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Siegmund",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Hunding",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Sieglinde",
+     "name": "Magdalena Hinterdobler"
+    },
+    {
+     "rolle": "Brünnhilde",
+     "name": "Aile Asszonyi"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Gerhilde",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ortlinde",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Waltraute",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Schwertleite",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Helmwige",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Siegrune",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Grimgerde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Rossweisse",
+     "name": "Judita Nagyová"
+    }
+   ]
+  },
+  "ring-rheingold|2027-04-04": {
+   "zeit": "19:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Donner",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Froh",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Loge",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Alberich",
+     "name": "Simon Bailey"
+    },
+    {
+     "rolle": "Mime",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Fasolt",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fafner",
+     "name": "Anthony Robin Schneider"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Freia",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Erda",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Woglinde",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Wellgunde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Flosshilde",
+     "name": "Katharina Magiera"
+    }
+   ]
+  },
+  "ring-rheingold|2027-04-10": {
+   "zeit": "19:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Donner",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Froh",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Loge",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Alberich",
+     "name": "Simon Bailey"
+    },
+    {
+     "rolle": "Mime",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Fasolt",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fafner",
+     "name": "Anthony Robin Schneider"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Freia",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Erda",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Woglinde",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Wellgunde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Flosshilde",
+     "name": "Katharina Magiera"
+    }
+   ]
+  },
+  "ring-walkuere|2027-04-18": {
+   "zeit": "15:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Siegmund",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Hunding",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Sieglinde",
+     "name": "Magdalena Hinterdobler"
+    },
+    {
+     "rolle": "Brünnhilde",
+     "name": "Aile Asszonyi"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Gerhilde",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ortlinde",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Waltraute",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Schwertleite",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Helmwige",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Siegrune",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Grimgerde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Rossweisse",
+     "name": "Judita Nagyová"
+    }
+   ]
+  },
+  "ring-rheingold|2027-04-24": {
+   "zeit": "19:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Donner",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Froh",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Loge",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Alberich",
+     "name": "Simon Bailey"
+    },
+    {
+     "rolle": "Mime",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Fasolt",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fafner",
+     "name": "Anthony Robin Schneider"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Freia",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Erda",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Woglinde",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Wellgunde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Flosshilde",
+     "name": "Katharina Magiera"
+    }
+   ]
+  },
+  "the-greek-passion|2027-04-25": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "the-greek-passion|2027-04-29": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "ring-rheingold|2027-04-30": {
+   "zeit": "19:30",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Donner",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Froh",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Loge",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Alberich",
+     "name": "Simon Bailey"
+    },
+    {
+     "rolle": "Mime",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Fasolt",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fafner",
+     "name": "Anthony Robin Schneider"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Freia",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Erda",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Woglinde",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Wellgunde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Flosshilde",
+     "name": "Katharina Magiera"
+    }
+   ]
+  },
+  "the-greek-passion|2027-05-02": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "ring-walkuere|2027-05-06": {
+   "zeit": "17:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Siegmund",
+     "name": "Marco Jentzsch"
+    },
+    {
+     "rolle": "Hunding",
+     "name": "Andreas Bauer Kanabas"
+    },
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Sieglinde",
+     "name": "Magdalena Hinterdobler"
+    },
+    {
+     "rolle": "Brünnhilde",
+     "name": "Aile Asszonyi"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Gerhilde",
+     "name": "Julia Stuart"
+    },
+    {
+     "rolle": "Ortlinde",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Waltraute",
+     "name": "Cecelia Hall"
+    },
+    {
+     "rolle": "Schwertleite",
+     "name": "Katharina Magiera"
+    },
+    {
+     "rolle": "Helmwige",
+     "name": "Monika Buczkowska-Ward"
+    },
+    {
+     "rolle": "Siegrune",
+     "name": "Ruby Dibble"
+    },
+    {
+     "rolle": "Grimgerde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Rossweisse",
+     "name": "Judita Nagyová"
+    }
+   ]
+  },
+  "the-greek-passion|2027-05-08": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "ring-rheingold|2027-05-09": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Vera Nemirova",
+   "besetzung": [
+    {
+     "rolle": "Wotan",
+     "name": "Nicholas Brownlee"
+    },
+    {
+     "rolle": "Donner",
+     "name": "Mikołaj Trąbka"
+    },
+    {
+     "rolle": "Froh",
+     "name": "Theo Lebow"
+    },
+    {
+     "rolle": "Loge",
+     "name": "Thomas Blondelle"
+    },
+    {
+     "rolle": "Alberich",
+     "name": "Simon Bailey"
+    },
+    {
+     "rolle": "Mime",
+     "name": "Michael McCown"
+    },
+    {
+     "rolle": "Fasolt",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Fafner",
+     "name": "Anthony Robin Schneider"
+    },
+    {
+     "rolle": "Fricka",
+     "name": "Claudia Mahnke"
+    },
+    {
+     "rolle": "Freia",
+     "name": "Elizabeth Reiter"
+    },
+    {
+     "rolle": "Erda",
+     "name": "Zanda Švēde"
+    },
+    {
+     "rolle": "Woglinde",
+     "name": "Anna Nekhames"
+    },
+    {
+     "rolle": "Wellgunde",
+     "name": "Karolina Makuła"
+    },
+    {
+     "rolle": "Flosshilde",
+     "name": "Katharina Magiera"
+    }
+   ]
+  },
+  "the-greek-passion|2027-05-14": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "aida|2027-05-15": {
+   "zeit": "19:00",
+   "dirigent": "Pier Giorgio Morandi",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Aida",
+     "name": "Nombulelo Yende"
+    },
+    {
+     "rolle": "Radamès",
+     "name": "Young Woo Kim"
+    },
+    {
+     "rolle": "Amneris",
+     "name": "Sofija Petrović"
+    },
+    {
+     "rolle": "Amonasro",
+     "name": "Iain MacNeil"
+    },
+    {
+     "rolle": "Der König von Ägypten",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Eine Priesterin",
+     "name": "Alina Avagyan"
+    }
+   ]
+  },
+  "the-greek-passion|2027-05-17": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "aida|2027-05-22": {
+   "zeit": "18:00",
+   "dirigent": "Pier Giorgio Morandi",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Aida",
+     "name": "Nombulelo Yende"
+    },
+    {
+     "rolle": "Radamès",
+     "name": "Young Woo Kim"
+    },
+    {
+     "rolle": "Amneris",
+     "name": "Sofija Petrović"
+    },
+    {
+     "rolle": "Amonasro",
+     "name": "Iain MacNeil"
+    },
+    {
+     "rolle": "Der König von Ägypten",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Eine Priesterin",
+     "name": "Alina Avagyan"
+    }
+   ]
+  },
+  "the-greek-passion|2027-05-23": {
+   "zeit": "18:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "aida|2027-05-27": {
+   "zeit": "18:00",
+   "dirigent": "Pier Giorgio Morandi",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Aida",
+     "name": "Nombulelo Yende"
+    },
+    {
+     "rolle": "Radamès",
+     "name": "Young Woo Kim"
+    },
+    {
+     "rolle": "Amneris",
+     "name": "Sofija Petrović"
+    },
+    {
+     "rolle": "Amonasro",
+     "name": "Iain MacNeil"
+    },
+    {
+     "rolle": "Der König von Ägypten",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Eine Priesterin",
+     "name": "Alina Avagyan"
+    }
+   ]
+  },
+  "the-greek-passion|2027-05-29": {
+   "zeit": "19:00",
+   "dirigent": "Thomas Guggeis",
+   "regie": "Matthew Wild",
+   "besetzung": [
+    {
+     "rolle": "Manolios",
+     "name": "AJ Glueckert"
+    },
+    {
+     "rolle": "Katerina",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Yannakos",
+     "name": "Michael Porter"
+    },
+    {
+     "rolle": "Lenio",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Priester Grigoris",
+     "name": "Kihwan Sim"
+    },
+    {
+     "rolle": "Andonis",
+     "name": "Jihun Hong"
+    },
+    {
+     "rolle": "Michelis",
+     "name": "Andrew Kim"
+    },
+    {
+     "rolle": "Kostandis",
+     "name": "Jarrett Porter"
+    },
+    {
+     "rolle": "Panais",
+     "name": "Peter Marsh"
+    },
+    {
+     "rolle": "Priester Fotis",
+     "name": "Pete Thanapat"
+    },
+    {
+     "rolle": "Ein alter Mann",
+     "name": "Alfred Reiter"
+    }
+   ]
+  },
+  "dialogues-carmelites|2027-06-13": {
+   "zeit": "18:00",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Marquis de la Force / Monsieur Javelinot, Arzt / 2. Kommissar / Offizier / Gefängniswärter",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Blanche de la Force",
+     "name": "Alyona Rostovskaya"
+    },
+    {
+     "rolle": "Chevalier de la Force / Beichtvater des Karmel",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Madame de Croissy",
+     "name": "Judita Nagyová"
+    },
+    {
+     "rolle": "Madame Lidoine",
+     "name": "Irina Simmes"
+    },
+    {
+     "rolle": "Mère Marie de l’incarnation",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Sœur Constance de St. Denis",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Thierry, Diener / 1. Kommissar",
+     "name": "Michael McCown"
+    }
+   ]
+  },
+  "aida|2027-06-14": {
+   "zeit": "19:00",
+   "dirigent": "Pier Giorgio Morandi",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Aida",
+     "name": "Nombulelo Yende"
+    },
+    {
+     "rolle": "Radamès",
+     "name": "Young Woo Kim"
+    },
+    {
+     "rolle": "Amneris",
+     "name": "Sofija Petrović"
+    },
+    {
+     "rolle": "Amonasro",
+     "name": "Iain MacNeil"
+    },
+    {
+     "rolle": "Der König von Ägypten",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Eine Priesterin",
+     "name": "Alina Avagyan"
+    }
+   ]
+  },
+  "dialogues-carmelites|2027-06-17": {
+   "zeit": "19:00",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Marquis de la Force / Monsieur Javelinot, Arzt / 2. Kommissar / Offizier / Gefängniswärter",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Blanche de la Force",
+     "name": "Alyona Rostovskaya"
+    },
+    {
+     "rolle": "Chevalier de la Force / Beichtvater des Karmel",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Madame de Croissy",
+     "name": "Judita Nagyová"
+    },
+    {
+     "rolle": "Madame Lidoine",
+     "name": "Irina Simmes"
+    },
+    {
+     "rolle": "Mère Marie de l’incarnation",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Sœur Constance de St. Denis",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Thierry, Diener / 1. Kommissar",
+     "name": "Michael McCown"
+    }
+   ]
+  },
+  "aida|2027-06-20": {
+   "zeit": "18:00",
+   "dirigent": "Pier Giorgio Morandi",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Aida",
+     "name": "Nombulelo Yende"
+    },
+    {
+     "rolle": "Radamès",
+     "name": "Young Woo Kim"
+    },
+    {
+     "rolle": "Amneris",
+     "name": "Sofija Petrović"
+    },
+    {
+     "rolle": "Amonasro",
+     "name": "Iain MacNeil"
+    },
+    {
+     "rolle": "Der König von Ägypten",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Eine Priesterin",
+     "name": "Alina Avagyan"
+    }
+   ]
+  },
+  "dialogues-carmelites|2027-06-23": {
+   "zeit": "19:00",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Marquis de la Force / Monsieur Javelinot, Arzt / 2. Kommissar / Offizier / Gefängniswärter",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Blanche de la Force",
+     "name": "Alyona Rostovskaya"
+    },
+    {
+     "rolle": "Chevalier de la Force / Beichtvater des Karmel",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Madame de Croissy",
+     "name": "Judita Nagyová"
+    },
+    {
+     "rolle": "Madame Lidoine",
+     "name": "Irina Simmes"
+    },
+    {
+     "rolle": "Mère Marie de l’incarnation",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Sœur Constance de St. Denis",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Thierry, Diener / 1. Kommissar",
+     "name": "Michael McCown"
+    }
+   ]
+  },
+  "aida|2027-06-25": {
+   "zeit": "19:00",
+   "dirigent": "Pier Giorgio Morandi",
+   "regie": "Lydia Steier",
+   "besetzung": [
+    {
+     "rolle": "Aida",
+     "name": "Nombulelo Yende"
+    },
+    {
+     "rolle": "Radamès",
+     "name": "Young Woo Kim"
+    },
+    {
+     "rolle": "Amneris",
+     "name": "Sofija Petrović"
+    },
+    {
+     "rolle": "Amonasro",
+     "name": "Iain MacNeil"
+    },
+    {
+     "rolle": "Der König von Ägypten",
+     "name": "Thomas Faulkner"
+    },
+    {
+     "rolle": "Ein Bote",
+     "name": "Kudaibergen Abildin"
+    },
+    {
+     "rolle": "Eine Priesterin",
+     "name": "Alina Avagyan"
+    }
+   ]
+  },
+  "dialogues-carmelites|2027-06-26": {
+   "zeit": "19:00",
+   "dirigent": "Giedrė Šlekytė",
+   "regie": "Claus Guth",
+   "besetzung": [
+    {
+     "rolle": "Marquis de la Force / Monsieur Javelinot, Arzt / 2. Kommissar / Offizier / Gefängniswärter",
+     "name": "Liviu Holender"
+    },
+    {
+     "rolle": "Blanche de la Force",
+     "name": "Alyona Rostovskaya"
+    },
+    {
+     "rolle": "Chevalier de la Force / Beichtvater des Karmel",
+     "name": "Magnus Dietrich"
+    },
+    {
+     "rolle": "Madame de Croissy",
+     "name": "Judita Nagyová"
+    },
+    {
+     "rolle": "Madame Lidoine",
+     "name": "Irina Simmes"
+    },
+    {
+     "rolle": "Mère Marie de l’incarnation",
+     "name": "Bianca Andrew"
+    },
+    {
+     "rolle": "Sœur Constance de St. Denis",
+     "name": "Bianca Tognocchi"
+    },
+    {
+     "rolle": "Thierry, Diener / 1. Kommissar",
+     "name": "Michael McCown"
+    }
+   ]
+  }
+ }
+}

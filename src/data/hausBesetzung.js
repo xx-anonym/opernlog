@@ -1,7 +1,8 @@
 // Dirigat, Regie und Besetzung, wie das Haus sie für einen Abend angibt
 // (Beta, seit 23.11.2026). Gelesen von tests/werkzeug/besetzung-lesen.mjs
 // nach daten/besetzung/<haus>.json – Oper Leipzig, Semperoper, Komische Oper,
-// Staatsoper und Deutsche Oper Berlin, die das je Vorstellung veröffentlichen.
+// Staatsoper, Deutsche Oper Berlin und Oper Frankfurt, die das je
+// Vorstellung veröffentlichen.
 //
 // "Besuch loggen" lädt die Datei erst, wenn Haus, Werk und Datum gewählt
 // sind, und schlägt daraus vor wie aus den Einträgen anderer Besucher
@@ -9,7 +10,7 @@
 
 import { besetzungsZeile } from './besetzung.js';
 
-export const HAEUSER_MIT_BESETZUNG = ['oper-leipzig', 'semperoper', 'komische-oper-berlin', 'staatsoper-berlin', 'deutsche-oper-berlin'];
+export const HAEUSER_MIT_BESETZUNG = ['oper-leipzig', 'semperoper', 'komische-oper-berlin', 'staatsoper-berlin', 'deutsche-oper-berlin', 'oper-frankfurt'];
 export const BESETZUNG_ORDNER = 'daten/besetzung';
 
 const geladen = new Map();
