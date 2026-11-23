@@ -57,7 +57,7 @@ test('ein Name in der Karte führt auf die Personenseite mit allen eigenen Abend
         await p.waitForSelector('.person-abende');
         assert.equal(await p.evaluate(() => location.hash), '#/person/ben%20bliss');
         // Die häufigere Schreibweise gibt den Namen; beide Abende stehen da.
-        assert.equal((await p.textContent('.composer-hero__name')).trim(), 'Ben Bliss');
+        assert.equal((await p.textContent('.person-hero__name')).trim(), 'Ben Bliss');
         const zeilen = await p.locator('.person-abende__zeile').evaluateAll(z => z.map(e => e.innerText.replace(/\s+/g, ' ').trim()));
         assert.equal(zeilen.length, 2);
         assert.match(zeilen[0], /Tosca.*Cavaradossi/);
@@ -76,7 +76,7 @@ test('Dirigent und Regie sind ebenfalls Personen – "am Pult", "Regie"', { skip
     try {
         await p.locator('.review-card', { hasText: 'Tosca' }).locator('a.person-link', { hasText: 'Domingo Hindoyan' }).click();
         await p.waitForSelector('.person-abende');
-        assert.match(await p.textContent('.composer-hero__zahlen'), /2 Abende am Pult/);
+        assert.match(await p.textContent('.person-hero__zahlen'), /2 Abende am Pult/);
         assert.deepEqual(await p.locator('.person-abende__als').allTextContents(), ['am Pult', 'am Pult']);
         // Eine Zeile führt auf den Besuch.
         await p.locator('.person-abende__zeile').first().click();

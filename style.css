@@ -7237,71 +7237,191 @@ html.story-offen body {
     border-bottom-color: var(--gold);
 }
 
-/* Personenseite (src/pages/PersonDetail.js): die eigenen Abende mit einer
- * Person, gebaut wie die Werkliste der Komponistenseite – Datum, Werk und
- * Haus, rechts was sie an dem Abend war. */
+/* Personenseite (src/pages/PersonDetail.js), seit 23.11.2026: oben eine
+ * Karte wie eine Bühne – rundes Bild mit Goldrand (sonst Initialen), Name,
+ * Kurzbeschreibung von Wikipedia, Plaketten –, darunter die eigenen Abende
+ * als Karten mit Plakat, Datum, Werk, Haus, Sternen und der Funktion. */
+.page--person-detail .back-link { display: inline-block; margin-bottom: 4px; }
+
+.person-hero {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 26px;
+    align-items: center;
+    margin: 12px 0 8px;
+    padding: 28px;
+    border-radius: 20px;
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    background:
+        radial-gradient(ellipse 80% 120% at 0% 0%, rgba(139, 26, 43, 0.35), transparent 60%),
+        linear-gradient(160deg, var(--bg-secondary), var(--bg-primary));
+}
+.person-hero::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+}
+.person-hero__bild {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--bg-primary), 0 0 0 5px var(--gold), 0 14px 40px rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 35% 30%, #3a1a22, #1a0d12);
+    flex-shrink: 0;
+}
+.person-hero__initialen {
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+}
+.person-hero__name {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 6vw, 46px);
+    line-height: 1.05;
+    margin: 0 0 6px;
+    color: var(--text-primary);
+}
+.person-hero__beschreibung {
+    margin: 0 0 14px;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+.person-hero__beschreibung::first-letter { text-transform: uppercase; }
+.person-hero__zahlen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.person-hero__plakette {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--gold-light);
+    border: 1px solid rgba(201, 168, 76, 0.28);
+}
+.person-hero__plakette b { color: var(--text-primary); }
+.person-hero__quelle {
+    grid-column: 1 / -1;
+    margin: -8px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.person-hero__quelle a { color: inherit; }
+
+.person-abende__titel {
+    font-family: var(--font-display);
+    font-size: 24px;
+    margin: 30px 0 4px;
+}
+.person-abende__unter {
+    margin: 0 0 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
 .person-abende {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 12px;
 }
-
-.person-abende__eintrag {
-    border-bottom: 1px solid var(--border);
-}
-
 .person-abende__zeile {
     display: grid;
-    grid-template-columns: 6.6em 1fr auto;
-    align-items: baseline;
-    gap: 10px;
-    padding: 11px 4px;
+    grid-template-columns: 64px 56px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 16px 12px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
     color: var(--text);
     text-decoration: none;
-    transition: background var(--transition);
+    transition: border-color var(--transition), background var(--transition);
 }
-
 .person-abende__zeile:hover {
-    background: var(--bg-tertiary);
+    border-color: rgba(201, 168, 76, 0.4);
     color: var(--text);
 }
-
-.person-abende__datum {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-variant-numeric: tabular-nums;
+.person-abende__plakat {
+    width: 64px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 8px;
+    filter: sepia(0.15);
+    background: var(--bg-tertiary);
 }
-
+.person-abende__datum {
+    text-align: center;
+    line-height: 1.15;
+}
+.person-abende__datum b {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: var(--gold-light);
+}
+.person-abende__datum span {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
 .person-abende__text {
     display: grid;
+    gap: 3px;
     min-width: 0;
 }
-
 .person-abende__werk {
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: var(--text-primary);
 }
-
-.person-abende__haus,
-.person-abende__als {
-    font-size: 0.82rem;
+.person-abende__haus {
+    font-size: 14px;
     color: var(--text-muted);
 }
-
+.person-abende__sterne {
+    color: var(--gold-light);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
 .person-abende__als {
-    text-align: right;
-    color: var(--gold);
+    justify-self: end;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(139, 26, 43, 0.25);
+    color: #f0b7c0;
+    border: 1px solid rgba(139, 26, 43, 0.5);
+    text-align: center;
 }
 
-@media (max-width: 420px) {
-    .person-abende__zeile {
-        grid-template-columns: 5.6em 1fr;
+@media (max-width: 600px) {
+    .person-hero {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        padding: 26px 18px;
     }
-
-    .person-abende__als {
-        grid-column: 2;
-        text-align: left;
-    }
+    .person-hero__zahlen { justify-content: center; }
+    .person-hero__quelle { text-align: center; margin-top: -10px; }
+    .person-abende__zeile { grid-template-columns: 52px 1fr; gap: 6px 14px; }
+    .person-abende__plakat { display: none; }
+    .person-abende__datum { grid-row: span 2; }
+    .person-abende__als { grid-column: 2; justify-self: start; }
 }
 
 .composer-werke {
@@ -9093,34 +9213,14 @@ body.mit-landing.mit-installhinweis { padding-top: 0; }
 }
 @keyframes landing-auf { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-/* Das runde Bild unter den Abenden einer Person (components/PersonBild.js). */
-.person-bild {
-    margin: 28px auto 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
+/* Das runde Bild im Kopf der Personenseite (components/PersonBild.js). */
+.person-bild__link { display: block; border-radius: 50%; }
 .person-bild__bild {
-    width: 140px;
-    height: 140px;
+    width: 132px;
+    height: 132px;
     border-radius: 50%;
     object-fit: cover;
     /* Porträts haben das Gesicht oben; mittig geschnitten fehlte die Stirn. */
     object-position: 50% 20%;
-    border: 2px solid var(--border);
-    background: var(--card-bg);
     display: block;
-}
-
-.person-bild__unterschrift {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    text-align: center;
-    max-width: 280px;
-}
-
-.person-bild__unterschrift a {
-    color: inherit;
 }

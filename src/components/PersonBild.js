@@ -1,4 +1,4 @@
-// Das runde Bild unter den Abenden einer Person (src/pages/PersonDetail.js).
+// Das runde Bild im Kopf der Personenseite (src/pages/PersonDetail.js).
 //
 // Nachgeschlagen wird erst bei der deutschen, dann bei der englischen
 // Wikipedia (src/data/personBild.js). Das Ergebnis merkt sich das Gerät
@@ -62,45 +62,55 @@ export async function personBildSuchen(name, als) {
 }
 
 /**
- * Hängt das Bild an `ziel`, sobald es da ist.
- * @param {HTMLElement} ziel
+ * Setzt Bild, Kurzbeschreibung und Nachweis in den Kopf der Personenseite
+ * (.person-hero), sobald sie da sind. Ohne Treffer bleiben die Initialen.
+ * @param {HTMLElement} kopf
  * @param {string} name  Anzeigename der Person
  * @param {string[]} als
  */
-export function personBildEinsetzen(ziel, name, als) {
+export function personBildImKopf(kopf, name, als) {
     personBildSuchen(name, als).then((treffer) => {
-        if (!treffer || !ziel.isConnected) return;
-        const figur = document.createElement('figure');
-        figur.className = 'person-bild fade-in';
+        if (!treffer || !kopf.isConnected) return;
+        const platz = kopf.querySelector('.person-hero__bild');
+        const initialen = [...platz.childNodes];
 
         const link = Object.assign(document.createElement('a'), {
             href: treffer.seite, target: '_blank', rel: 'noopener noreferrer', className: 'person-bild__link',
         });
         const img = Object.assign(document.createElement('img'), {
-            src: treffer.bild, alt: name, width: 140, height: 140, loading: 'lazy', decoding: 'async',
-            className: 'person-bild__bild',
+            src: treffer.bild, alt: name, width: 132, height: 132, decoding: 'async',
+            className: 'person-bild__bild fade-in',
         });
-        // Ein Bild, das nicht lädt, nimmt die ganze Figur mit.
-        img.addEventListener('error', () => figur.remove());
+        // Ein Bild, das nicht lädt: zurück zu den Initialen, ohne Nachweis.
+        img.addEventListener('error', () => {
+            platz.replaceChildren(...initialen);
+            quelle.hidden = true;
+            beschreibung.hidden = true;
+        });
         link.append(img);
+        platz.replaceChildren(link);
 
-        const unterschrift = document.createElement('figcaption');
-        unterschrift.className = 'person-bild__unterschrift';
+        const beschreibung = kopf.querySelector('.person-hero__beschreibung');
+        if (treffer.beschreibung) {
+            beschreibung.textContent = treffer.beschreibung;
+            beschreibung.hidden = false;
+        }
+
+        const quelle = kopf.querySelector('.person-hero__quelle');
         const artikel = Object.assign(document.createElement('a'), {
             href: treffer.seite, target: '_blank', rel: 'noopener noreferrer', textContent: 'Wikipedia',
         });
-        unterschrift.append(artikel);
-        figur.append(link, unterschrift);
-        ziel.append(figur);
+        quelle.replaceChildren(artikel);
+        quelle.hidden = false;
 
         // Der Bildnachweis, wo die Lizenz ihn verlangt – wie im Kopf der Werkseiten.
         nachweisFuer(treffer.bild).then((n) => {
-            if (!n?.pflicht || !figur.isConnected) return;
+            if (!n?.pflicht || !quelle.isConnected) return;
             const nachweis = Object.assign(document.createElement('a'), {
                 href: n.seite || commonsSeite(treffer.bild), target: '_blank', rel: 'noopener noreferrer',
                 className: 'person-bild__nachweis', textContent: nachweisZeile(n),
             });
-            unterschrift.append(document.createTextNode(' · '), nachweis);
+            quelle.prepend(nachweis, document.createTextNode(' · '));
         });
     });
 }

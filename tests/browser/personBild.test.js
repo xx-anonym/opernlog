@@ -1,4 +1,4 @@
-// Das runde Bild unter den Abenden einer Person (src/components/PersonBild.js).
+// Das runde Bild im Kopf der Personenseite (src/components/PersonBild.js).
 //
 // Wikipedia und Commons sind nachgestellt, das Bild ist ein Pixel. Geprüft
 // wird: ein passender Artikel ergibt das Bild mit Link und Bildnachweis;
@@ -74,20 +74,22 @@ async function oeffne(hash, { gemerkt = null, gedrosselt = null } = {}) {
     return { ctx, p, fehler, anfragen };
 }
 
-test('ein Dirigent mit passendem Artikel: rundes Bild unter den Abenden, mit Link und Bildnachweis', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+test('ein Dirigent mit passendem Artikel: rundes Bild im Kopf statt der Initialen, mit Beschreibung, Link und Bildnachweis', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const { ctx, p, fehler, anfragen } = await oeffne('#/person/christian%20thielemann');
     try {
         const bild = p.locator('.person-bild__bild');
         await bild.waitFor();
-        // Unter den Abenden, nicht im Kopf.
-        assert.equal(await p.locator('.detail-body .person-abende + .person-bild').count(), 1);
+        // Im Kopf, an der Stelle der Initialen (seit 23.11.2026, vorher unter den Abenden).
+        assert.equal(await p.locator('.person-hero .person-hero__bild .person-bild__bild').count(), 1);
+        assert.equal(await p.locator('.person-hero__initialen').count(), 0);
         assert.equal(await bild.getAttribute('src'), BILD, 'ohne utm-Parameter, auf upload.wikimedia.org');
         assert.equal(await bild.getAttribute('alt'), 'Christian Thielemann');
-        assert.equal(await bild.getAttribute('loading'), 'lazy');
         assert.equal(await bild.evaluate(e => getComputedStyle(e).borderRadius), '50%');
         assert.equal(await p.locator('.person-bild__link').getAttribute('href'), 'https://de.wikipedia.org/wiki/Christian_Thielemann');
         await p.locator('.person-bild__nachweis').waitFor();
         assert.equal(await p.locator('.person-bild__nachweis').innerText(), 'Bild: Matthias Creutziger · CC BY-SA 4.0');
+        assert.match(await p.locator('.person-hero__quelle').innerText(), /Bild: Matthias Creutziger · CC BY-SA 4\.0 · Wikipedia/);
+        assert.equal(await p.locator('.person-hero__beschreibung').isVisible(), true);
         // Nachgeschlagen wird der Anzeigename, gefunden in der deutschen Wikipedia.
         assert.deepEqual(anfragen, ['de.wikipedia.org Christian Thielemann']);
         assert.deepEqual(fehler, []);
@@ -102,7 +104,9 @@ test('ein Namensvetter mit anderem Beruf ergibt kein Bild, auch nicht über die 
         // Gemerkt wird erst nach beiden Antworten – darauf warten statt auf eine feste Zeit.
         await p.waitForFunction(() => Object.keys(localStorage).some(k => k.startsWith('opernlog:personBild:')));
         assert.deepEqual(anfragen, ['de.wikipedia.org Thomas Müller', 'en.wikipedia.org Thomas Müller']);
-        assert.equal(await p.locator('.person-bild').count(), 0);
+        assert.equal(await p.locator('.person-bild__bild').count(), 0);
+        // Statt des Bildes die Initialen.
+        assert.equal((await p.locator('.person-hero__initialen').innerText()).trim(), 'TM');
         // Gemerkt wird auch "kein Bild".
         const gemerkt = await p.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('opernlog:personBild:')));
         assert.equal(gemerkt.length, 1);
