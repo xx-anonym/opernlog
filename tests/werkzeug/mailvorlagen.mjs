@@ -268,8 +268,11 @@ const DOMAIN = 'https://opernlog.de';
 
 // Der Knopf der Funktions-Mails: %%LINK%% setzt felder.js ein – bei Anfrage
 // und Saisonrückblick mit Einmal-Code zum Anmelden (src/mailAnmeldung.js).
-// Sichtbar unter dem Knopf steht %%LINK_TEXT%%, dieselbe Stelle ohne Code.
-const KNOPF = { ziel: '%%LINK%%', zielText: '%%LINK_TEXT%%' };
+// Der Link darunter ("Geht der Knopf nicht?") zeigt genau denselben, mit
+// Code: wer ihn abtippt, soll ebenso angemeldet werden, und ein sichtbarer
+// Text, der anders lautet als das Ziel, sieht für Mailprogramme nach Phishing
+// aus (Jonas, 23.11.2026, nach der ersten Testmail).
+const KNOPF = { ziel: '%%LINK%%' };
 
 /**
  * Mails der Edge Function mail-senden. Keine Go-Template-Variablen: die
@@ -415,7 +418,7 @@ ${m.mehr}
               Geht der Knopf nicht? Dann öffne diesen Link:
             </p>
             <p class="mehr" style="margin:0 0 32px; font-size:12px; line-height:1.5; word-break:break-all;">
-              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${m.zielText ?? ziel}</a>
+              <a href="${ziel}" target="_blank" style="color:#c9a84c; text-decoration:underline;">${ziel}</a>
             </p>
 `;
 }

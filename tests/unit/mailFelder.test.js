@@ -27,7 +27,7 @@ test('Sterne und Datum', () => {
 });
 
 test('Freundschaftsanfrage und Erinnerung: der Name, mit Ersatz, und der Link', () => {
-    const ohneCode = { LINK: 'https://opernlog.de/#/', LINK_TEXT: 'https://opernlog.de/#/' };
+    const ohneCode = { LINK: 'https://opernlog.de/#/' };
     assert.deepEqual(felderFuer('anfrage', { name: 'Ben' }), { NAME: 'Ben', ...ohneCode });
     assert.deepEqual(felderFuer('anfrage', {}), { NAME: 'Jemand', ...ohneCode });
     assert.deepEqual(felderFuer('erinnerung', { name: null }), { NAME: 'Opernfan', ...ohneCode });
@@ -45,8 +45,6 @@ test('Knopf mit Einmal-Code: nur bei Anfrage und Saisonrückblick, Code im #-Tei
 
     const anfrage = felderFuer('anfrage', { name: 'Ben' }, { code: 'abcDEF123_-xyz' });
     assert.equal(anfrage.LINK, 'https://opernlog.de/#/mail?code=abcDEF123_-xyz&weiter=%23%2F');
-    // Sichtbar unter dem Knopf steht der Code nie.
-    assert.equal(anfrage.LINK_TEXT, 'https://opernlog.de/#/');
     // Die Erinnerung meldet nicht an, auch wenn ein Code mitkäme.
     assert.equal(felderFuer('erinnerung', {}, { code: 'abcDEF123_-xyz' }).LINK, 'https://opernlog.de/#/');
     // Im HTML ist das & maskiert, wie es in ein href gehört.
@@ -61,7 +59,7 @@ test('Saisonrückblick: Zahlen, Einzahl, Titel aus dem Katalog oder aus der Date
         haus: { haus: 'staatsoper-berlin', abende: 5 },
     });
     assert.deepEqual(f, {
-        NAME: 'Jonas', LINK: 'https://opernlog.de/#/season', LINK_TEXT: 'https://opernlog.de/#/season', SAISON: '2025/26',
+        NAME: 'Jonas', LINK: 'https://opernlog.de/#/season', SAISON: '2025/26',
         ABENDE: '14', ABENDE_WORT: 'Abende', HAEUSER: '6', HAEUSER_WORT: 'Häuser', WERKE: '11', WERKE_WORT: 'Werke',
         ERSTMALS: 'Davon 4 zum ersten Mal gesehen.',
         ABEND_WERK: 'Tosca', ABEND_ORT: 'Semperoper · 16. Mai 2026', ABEND_STERNE: '★★★★½',
