@@ -171,3 +171,13 @@ test('Stadtseiten: jede Stadt mit Haus hat eine, Häuser verlinken dorthin', asy
     assert.ok(lies('stadt/index.html').includes('/stadt/wien/'));
     assert.ok(stadtId('München') === 'muenchen' && stadtId('Zürich') === 'zuerich');
 });
+
+test('Hausseiten: "Spielplan & Programm" mit Spielzeit, die Stadt nur, wenn sie fehlt', async () => {
+    const { spielzeit } = await import('../werkzeug/seiten-erzeugen.mjs');
+    assert.equal(spielzeit('2026-11-14'), '2026/27');
+    assert.equal(spielzeit('2027-03-01'), '2026/27');
+    assert.equal(spielzeit('2027-08-15'), '2027/28');
+    assert.equal(spielzeit('2099-09-01'), '2099/00');
+    assert.match(lies('haus/oper-frankfurt/index.html'), /<title>Oper Frankfurt: Spielplan &amp; Programm \d{4}\/\d{2} \| OpernLog<\/title>/);
+    assert.match(lies('haus/mecklenburgisches-staatstheater/index.html'), /<title>Mecklenburgisches Staatstheater Schwerin: Spielplan/);
+});

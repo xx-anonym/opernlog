@@ -75,8 +75,8 @@ test('ohne Netz wird beim nächsten Öffnen noch einmal gefragt', async () => {
 
 test('Seite mit Text: Titel und Beschreibung wie gesucht wird (Handlung kurz, Arien, Dauer), alle Abschnitte da, maskiert', () => {
     const html = werkSeite(TOSCA, { termine: [termin('2027-01-01')], haeuser: new Map([[HAUS.id, HAUS]]), stand: '2026-11-01', text: TEXTE.get('tosca') });
-    assert.match(html, /<title>Tosca – Handlung kurz zusammengefasst, Arien, Termine \| OpernLog<\/title>/);
-    assert.match(html, /<meta name="description" content="Tosca von Giacomo Puccini kurz erklärt: Handlung in 3 Akten, bekannte Stellen wie „Recondita armonia“, Dauer ca\. 2 Std\. ohne Pausen – und aktuelle Termine an 1 Opernhaus\.">/);
+    assert.match(html, /<title>Tosca: Handlung &amp; Inhalt kurz, Arien, Dauer \| OpernLog<\/title>/);
+    assert.match(html, /<meta name="description" content="Tosca von Giacomo Puccini kurz erklärt: Inhalt und Handlung in 3 Akten, bekannte Stellen wie „Recondita armonia“, Dauer ca\. 2 Std\. ohne Pausen – und aktuelle Termine an 1 Opernhaus\.">/);
     for (const teil of ['class="steckbrief"', 'class="anriss"', '<h2>Die Handlung</h2>', '<h2>Bekannte Stellen</h2>', '<h2>Gut zu wissen</h2>']) assert.ok(html.includes(teil), teil);
     assert.match(html, /<li>ca\. 2 Std\. ohne Pausen<\/li><li>3 Akte<\/li><li>Italienisch<\/li><li>Uraufführung 1900, Rom<\/li>/);
     assert.match(html, /<dt>Uraufführung<\/dt><dd>14\. Januar 1900, Teatro Costanzi, Rom<\/dd>/);

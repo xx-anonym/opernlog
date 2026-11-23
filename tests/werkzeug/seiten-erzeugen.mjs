@@ -53,6 +53,13 @@ function datumText(iso) {
     return `${WOCHENTAG[tag]}, ${String(t).padStart(2, '0')}.${String(m).padStart(2, '0')}.${j}`;
 }
 
+/** "2026/27" – die Spielzeit, in die ein Tag fällt (sie beginnt im August). */
+export function spielzeit(iso) {
+    const [j, m] = String(iso).split('-').map(Number);
+    const beginn = m >= 8 ? j : j - 1;
+    return `${beginn}/${String((beginn + 1) % 100).padStart(2, '0')}`;
+}
+
 /** "14. November 2026" */
 const standText = (iso) => { const [j, m, t] = iso.split('-').map(Number); return `${t}. ${MONAT[m - 1]} ${j}`; };
 
@@ -366,7 +373,7 @@ ${fragen.map(f => `        <details><summary>${maske(f.frage)}</summary><p>${mas
     const zitat = text?.stellen.find(s => s.zitat !== false);
     const akteText = werk.acts ? ` in ${werk.acts === 1 ? 'einem Akt' : `${werk.acts} Akten`}` : '';
     const beschreibung = text
-        ? `${werk.title}${von} kurz erklärt: Handlung${akteText}${zitat ? `, bekannte Stellen wie ${stelleZitat(zitat.titel)}` : ''}${text.dauer ? `, Dauer ${text.dauer} ohne Pausen` : ''}${meine.length ? ` – und aktuelle Termine an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'}` : ''}.`
+        ? `${werk.title}${von} kurz erklärt: Inhalt und Handlung${akteText}${zitat ? `, bekannte Stellen wie ${stelleZitat(zitat.titel)}` : ''}${text.dauer ? `, Dauer ${text.dauer} ohne Pausen` : ''}${meine.length ? ` – und aktuelle Termine an ${orte.length} ${orte.length === 1 ? 'Opernhaus' : 'Opernhäusern'}` : ''}.`
         : meine.length
             ? `${werk.title}${von}: ${terminSatz} – Spielplan und Karten.`
             : `${werk.title}${von}: Werk, Hintergrund und wo es gespielt wird – im Operntagebuch OpernLog.`;
@@ -379,7 +386,9 @@ ${fragen.map(f => `        <details><summary>${maske(f.frage)}</summary><p>${mas
         : (werk.composer ? `<p class="unterzeile">von ${maske(werk.composer)}</p>` : '');
     return seite({
         titel: text
-            ? `${werk.title} – Handlung kurz zusammengefasst, Arien, Termine | OpernLog`
+            // "Inhalt" und "Dauer": so wird gesucht (Search Console, 23.11.2026:
+            // "tosca inhalt", "wie lange dauert die oper tosca").
+            ? `${werk.title}: Handlung & Inhalt kurz, Arien, Dauer | OpernLog`
             : `${werk.title}${werk.composer ? ` (${composerKurz(werk.composer)})` : ''} – Termine und Spielplan | OpernLog`,
         beschreibung: beschreibung.slice(0, 300),
         url: adresse('werk', werk.id),
@@ -451,9 +460,13 @@ ${meine.map(t => terminZeile(t, { werk: werke.get(t.werk), haus }, 'werk')).join
         : `
       <p class="klein">Gerade kennt OpernLog keine Termine dieses Hauses.</p>`;
     return seite({
-        titel: `${haus.name} (${haus.city}) – Spielplan Oper | OpernLog`,
+        // "Programm" und die Spielzeit: so wird gesucht (Search Console,
+        // 23.11.2026: "opernhaus frankfurt programm", "oper freiburg spielplan
+        // 2026"). Die Stadt nur, wenn sie nicht schon im Namen steht – "Oper
+        // Frankfurt" braucht kein "Frankfurt am Main", "Wiener Staatsoper" kein "Wien".
+        titel: `${haus.name}${haus.name.includes(String(haus.city).split(/[\s(]/)[0]) ? '' : ` ${haus.city}`}: Spielplan & Programm ${spielzeit(stand)} | OpernLog`,
         beschreibung: (meine.length
-            ? `${haus.name} in ${haus.city}: ${meine.length} ${meine.length === 1 ? 'Opernabend' : 'Opernabende'} mit ${zahl} ${zahl === 1 ? 'Werk' : 'Werken'} im Spielplan – Termine und Karten.`
+            ? `Spielplan und Programm ${spielzeit(stand)}: ${haus.name} in ${haus.city} mit ${meine.length} ${meine.length === 1 ? 'Opernabend' : 'Opernabenden'} und ${zahl} ${zahl === 1 ? 'Werk' : 'Werken'} – alle Termine mit Links zu den Karten.`
             : `${haus.name} in ${haus.city}: Haus, Geschichte und Spielplan – im Operntagebuch OpernLog.`).slice(0, 300),
         url: adresse('haus', haus.id),
         bild: haus.imageUrl,
