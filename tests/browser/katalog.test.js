@@ -32,10 +32,17 @@ after(async () => {
 
 /** Öffnet eine Katalogseite, wahlweise als Admin. */
 async function oeffne(seite, { admin = false, insertFehler = null } = {}) {
-    const ctx = await browser.newContext({ viewport: RECHNER });
+    // Ohne Service Worker: beim ersten Besuch holt er die ganze App-Hülle in
+    // den Cache, und in CI lud die Werkseite währenddessen zweimal nicht
+    // binnen 30 Sekunden (24.11.2026). Hier prüft niemand den Worker.
+    const ctx = await browser.newContext({ viewport: RECHNER, serviceWorkers: 'block' });
     const p = await ctx.newPage();
     const fehler = [];
     p.on('pageerror', e => fehler.push(e.message));
+    // Für die Fehlermeldung, falls eine Seite nicht kommt.
+    p.__konsole = [];
+    p.on('console', m => { if (m.type() === 'error') p.__konsole.push(m.text().slice(0, 300)); });
+    p.on('requestfailed', r => p.__konsole.push(`${r.url()} ${r.failure()?.errorText}`));
 
     await ersetzeSupabase(p);
     // Schon vor dem Laden: die Startseite fragt istAdmin() gleich zu Beginn
@@ -189,14 +196,16 @@ test('Handlung, Stellen und Wissenswertes kommen mit dem Werk in die Datenbank u
         // ersten Aufruf nachgeladen, und unter Last (CI, 24.11.2026) reichten
         // 10 Sekunden für beides zusammen nicht immer. Fehlt der Text danach
         // noch, ist es kein Ladeproblem – dann mit dem Zustand der Seite.
-        await p.waitForSelector('.page--opera-detail .detail-hero', { timeout: 30000 });
-        await p.waitForSelector('details.werk-text', { timeout: 5000 }).catch(async (e) => {
+        const mitZustand = async (e) => {
             const zustand = await p.evaluate(async () => {
                 const w = (await import('/src/data/operas.js')).operas.find(o => o.id === 'der-kaiser-von-atlantis');
-                return { hash: location.hash, werk: !!w, werkText: !!w?.werkText, reviews: !!document.querySelector('#reviewsHeading') };
+                return { hash: location.hash, werk: !!w, werkText: !!w?.werkText, seiten: [...document.querySelectorAll('.page')].map(x => x.className),
+                    reviews: !!document.querySelector('#reviewsHeading'), meldungen: [...document.querySelectorAll('.toast')].map(t => t.innerText) };
             });
-            throw new Error(`${e.message}\nZustand: ${JSON.stringify(zustand)}`);
-        });
+            throw new Error(`${e.message}\nZustand: ${JSON.stringify(zustand)}\nKonsole: ${JSON.stringify(p.__konsole)}`);
+        };
+        await p.waitForSelector('.page--opera-detail .detail-hero', { timeout: 30000 }).catch(mitZustand);
+        await p.waitForSelector('details.werk-text', { timeout: 5000 }).catch(mitZustand);
         await p.click('.werk-text summary');
         assert.match(await p.textContent('.werk-text'), /Der Tod legt die Arbeit nieder\./);
         assert.match(await p.textContent('.werk-text__stellen'), /„Lied des Todes“/);
