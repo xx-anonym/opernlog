@@ -758,6 +758,48 @@
             </ul>
         </div>
     </div>
+    <!-- Zu alter Browser (iOS 12 über die Google-App, 24.11.2026): die App
+         nutzt Schreibweisen, die Safari erst ab iOS 15 kennt (private Methoden
+         in vendor/supabase-js.js, ??=, ?.). Dort blieb der Vorhang für immer
+         zu. Dieses Skript ist bewusst altes JavaScript, damit es auch dort
+         läuft: es prüft die Schreibweisen und zeigt sonst einen Hinweis und
+         den Weg zur passenden Seite unter /oper/, /haus/, /komponist/. -->
+    <script>
+        (function () {
+            var neu = true;
+            try {
+                new Function('class A { #x() { return 1; } y = 2; m() { return this.#x(); } } var a = null; a ??= {}; return a?.b ?? new A().m();')();
+            } catch (e) { neu = false; }
+            window.__browserZuAlt = !neu;
+            if (neu) return;
+            var teile = (location.hash || '').replace(/^#\//, '').split('/');
+            var ordner = { opera: 'oper', house: 'haus', composer: 'komponist' }[teile[0]];
+            var ziel = ordner && teile[1] ? '/' + ordner + '/' + encodeURIComponent(decodeURIComponent(teile[1].split('?')[0])) + '/' : '';
+            function zeigen() {
+                var splash = document.getElementById('splash');
+                if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+                document.documentElement.style.background = '#14181c';
+                // In den Vorab-Text hinein, über die Links – #app ordnet
+                // seine Kinder sonst nebeneinander an.
+                var vorab = document.querySelector('#app .vorab');
+                if (!vorab) return;
+                var hinweis = document.createElement('div');
+                hinweis.id = 'zuAlt';
+                hinweis.innerHTML = '<h2>Dein Browser ist zu alt für die App</h2>'
+                    + '<p>OpernLog braucht einen aktuellen Browser, etwa Safari ab iOS 15. Bitte aktualisiere dein Gerät oder öffne opernlog.de in einem anderen Browser.</p>'
+                    + (ziel ? '<p><a href="' + ziel + '">Diese Seite ohne App ansehen</a> – mit Handlung, Terminen und Besetzung.</p>' : '')
+                    + '<p>Ohne App lesbar sind auch alle Übersichten:</p>';
+                // Die Überschrift "Dein Operntagebuch" und der Satz darunter weichen dem Hinweis.
+                var alt = vorab.querySelector('h2');
+                if (alt) alt.parentNode.removeChild(alt);
+                var satz = vorab.querySelector('p');
+                if (satz) satz.parentNode.removeChild(satz);
+                vorab.insertBefore(hinweis, vorab.firstChild);
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', zeigen);
+            else zeigen();
+        })();
+    </script>
     <script type="module" src="src/main.js"></script>
     <script>
         // Register Service Worker
