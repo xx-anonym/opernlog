@@ -51,17 +51,19 @@ export function bildAdresse(adresse) {
 }
 
 /**
- * Aus der Antwort der Abfrage das Bild, wenn es eins gibt und es passt.
+ * Aus der Antwort der Abfrage der Artikel, wenn er zur Person passt – mit
+ * Bild, wenn es ein freies gibt, sonst bild: null. Auch ohne Bild steht die
+ * Kurzbeschreibung im Kopf der Personenseite (Jonas, 24.11.2026).
  * @param {object} antwort  JSON von wikipediaAbfrage()
  * @param {string[]} als
  * @param {string} sprache
- * @returns {{titel: string, beschreibung: string, bild: string, seite: string}|null}
+ * @returns {{titel: string, beschreibung: string, bild: string|null, seite: string}|null}
  */
 export function bildAusAntwort(antwort, als = [], sprache = 'de') {
     const seite = antwort?.query?.pages?.[0];
     if (!seite || seite.missing || seite.invalid || seite.pageprops?.disambiguation !== undefined) return null;
+    if (!passendeBeschreibung(seite.description, als)) return null;
     const bild = bildAdresse(seite.thumbnail?.source);
-    if (!bild || !passendeBeschreibung(seite.description, als)) return null;
     return {
         titel: seite.title,
         beschreibung: seite.description,

@@ -65,10 +65,14 @@ test('aus der Antwort das Bild, wenn es passt', () => {
         seite: 'https://de.wikipedia.org/wiki/Christian_Thielemann',
     });
     assert.equal(bildAusAntwort(seite({ title: 'Bar Kosky' }), ['Dirigat'], 'en').seite, 'https://en.wikipedia.org/wiki/Bar_Kosky');
-    // Kein Artikel, Begriffsklärung, kein Bild, falsche Person: nichts.
+    // Kein freies Bild: der Artikel trotzdem, für die Kurzbeschreibung (seit 24.11.2026).
+    assert.deepEqual(bildAusAntwort(seite({ thumbnail: undefined }), ['Dirigat']), {
+        titel: 'Christian Thielemann', beschreibung: 'deutscher Dirigent', bild: null,
+        seite: 'https://de.wikipedia.org/wiki/Christian_Thielemann',
+    });
+    // Kein Artikel, Begriffsklärung, falsche Person: nichts.
     assert.equal(bildAusAntwort({ query: { pages: [{ title: 'Niemand', missing: true }] } }, ['Dirigat']), null);
     assert.equal(bildAusAntwort(seite({ pageprops: { disambiguation: '' } }), ['Dirigat']), null);
-    assert.equal(bildAusAntwort(seite({ thumbnail: undefined }), ['Dirigat']), null);
     assert.equal(bildAusAntwort(seite({ description: 'deutscher Fußballspieler' }), ['Dirigat']), null);
     assert.equal(bildAusAntwort(null, ['Dirigat']), null);
     assert.equal(bildAusAntwort({}, ['Dirigat']), null);

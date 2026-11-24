@@ -43,6 +43,10 @@ const ARTIKEL = {
     // Nicht im eigenen Tagebuch – nur über die Review eines anderen gefunden.
     'Vasily Barkhatov': { title: 'Vasily Barkhatov', description: 'russischer Opernregisseur', pageimage: 'Barkhatov.jpg',
         thumbnail: { source: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Barkhatov.jpg/400px-Barkhatov.jpg' } },
+    // Artikel da, aber ohne freies Bild – deutsch wie englisch.
+    'Ulrike Kasparek': { title: 'Ulrike Kasparek', description: 'deutsche Opernsängerin (Sopran)' },
+    // Ohne Bild in der deutschen, mit Bild in der englischen Wikipedia.
+    'Bartlett Sher': { title: 'Bartlett Sher', description: 'US-amerikanischer Regisseur' },
     'Lionel Messi': { title: 'Lionel Messi', description: 'argentinischer Fußballspieler', pageimage: 'Messi.jpg',
         thumbnail: { source: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Messi.jpg/400px-Messi.jpg' } },
 };
@@ -138,7 +142,7 @@ test('antwortet eine Wikipedia nicht, merkt sich das Gerät nicht "kein Bild"', 
 test('ein gemerktes Ergebnis fragt Wikipedia nicht noch einmal', { skip: fehltPlaywright, timeout: 60000 }, async () => {
     const treffer = { titel: 'Christian Thielemann', beschreibung: 'deutscher Dirigent', bild: BILD, seite: 'https://de.wikipedia.org/wiki/Christian_Thielemann' };
     const { ctx, p, fehler, anfragen } = await oeffne('#/person/Christian%20Thielemann', {
-        gemerkt: ['opernlog:personBild:christian thielemann|Dirigat', JSON.stringify({ zeit: Date.now(), bild: treffer })],
+        gemerkt: ['opernlog:personBild:2:christian thielemann|Dirigat', JSON.stringify({ zeit: Date.now(), bild: treffer })],
     });
     try {
         await p.locator('.person-bild__bild').waitFor();
@@ -168,6 +172,46 @@ test('ohne eigene Abende bleibt ein Namensvetter ohne Opernberuf draußen', { sk
         await p.waitForFunction(() => Object.keys(localStorage).some(k => k.startsWith('opernlog:personBild:')));
         assert.equal(await p.locator('.person-bild__bild').count(), 0);
         assert.equal((await p.locator('.person-hero__initialen').innerText()).trim(), 'LM');
+        assert.deepEqual(fehler, []);
+    } finally {
+        await ctx.close();
+    }
+});
+
+// Seit 24.11.2026 (Jonas): ein passender Artikel ohne freies Bild gibt
+// trotzdem die Kurzbeschreibung und den Link, im Kreis bleiben die Initialen.
+test('ein Artikel ohne freies Bild: Einzeiler und Wikipedia-Link, im Kreis die Initialen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler, anfragen } = await oeffne('#/person/Ulrike%20Kasparek');
+    try {
+        await p.locator('.person-hero__beschreibung:not([hidden])').waitFor();
+        assert.equal(await p.locator('.person-hero__beschreibung').textContent(), 'deutsche Opernsängerin (Sopran)');
+        assert.equal(await p.locator('.person-hero__quelle a').getAttribute('href'), 'https://de.wikipedia.org/wiki/Ulrike_Kasparek');
+        assert.equal(await p.locator('.person-bild__bild').count(), 0);
+        assert.equal((await p.locator('.person-hero__initialen').innerText()).trim(), 'UK');
+        // Die englische wurde noch nach einem Bild gefragt.
+        assert.deepEqual(anfragen, ['de.wikipedia.org Ulrike Kasparek', 'en.wikipedia.org Ulrike Kasparek']);
+        assert.deepEqual(fehler, []);
+    } finally {
+        await ctx.close();
+    }
+});
+
+test('ohne Bild in der deutschen, mit Bild in der englischen: Bild von dort, Beschreibung und Link von der deutschen', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const enBild = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sher.jpg/400px-Sher.jpg';
+    const { ctx, p, fehler } = await oeffne('#/person/Bartlett%20Sher');
+    // Die englische Antwort für diesen Namen hat ein Bild.
+    await p.route('https://en.wikipedia.org/w/api.php**', r => r.fulfill({
+        status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ query: { pages: [{ ns: 0, title: 'Bartlett Sher', description: 'American theatre director', thumbnail: { source: enBild } }] } }),
+    }));
+    try {
+        await p.evaluate(() => { localStorage.clear(); location.hash = '#/'; });
+        await p.waitForTimeout(200);
+        await p.evaluate(() => { location.hash = '#/person/Bartlett%20Sher'; });
+        await p.locator('.person-bild__bild').waitFor();
+        assert.equal(await p.locator('.person-bild__bild').getAttribute('src'), enBild);
+        assert.equal(await p.locator('.person-hero__beschreibung').textContent(), 'US-amerikanischer Regisseur');
+        assert.equal(await p.locator('.person-bild__link').getAttribute('href'), 'https://de.wikipedia.org/wiki/Bartlett_Sher');
         assert.deepEqual(fehler, []);
     } finally {
         await ctx.close();
