@@ -13,6 +13,13 @@
 // Nachweis, kommende Termine (mit Strukturdaten für Google), Verweise
 // untereinander und ein Knopf in die App (#/opera/<id> usw.).
 //
+// Seit 24.11.2026 tragen die Termine, wo das Haus sie veröffentlicht, auch
+// Dirigat, Regie und Besetzung (daten/besetzung/<haus>.json, wöchentlich von
+// besetzung-lesen.mjs) – aufklappbar unter dem Termin und als performer in
+// den Strukturdaten. Wer dort singt oder dirigiert, bekommt eine eigene Seite
+// unter /person/<name>/ mit seinen kommenden Abenden: gesucht wird oft nach
+// "Wer singt …" oder nach dem Namen selbst (Jonas: neue Nutzer über Google).
+//
 // Die Termine stammen aus src/data/spielplan.js. "Kommend" heißt ab dem
 // Stand des Spielplans; was danach vorbei ist, blendet ein kleines Skript
 // auf der Seite aus. Neu erzeugt wird mit jedem Spielplan-Lauf
@@ -36,7 +43,7 @@ import { idVorschlag } from '../../src/data/katalogRegeln.js';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const SEITE = 'https://opernlog.de';
-export const ORDNER = { werk: 'oper', haus: 'haus', komponist: 'komponist', stadt: 'stadt' };
+export const ORDNER = { werk: 'oper', haus: 'haus', komponist: 'komponist', stadt: 'stadt', person: 'person' };
 
 // ── Kleinigkeiten ─────────────────────────────────────────────────────────
 
@@ -83,7 +90,7 @@ const ortText = (haus) => [haus.city, haus.state && !['Österreich', 'Schweiz'].
     .filter(Boolean).join(', ');
 
 export const adresse = (art, id) => `${SEITE}/${ORDNER[art]}/${encodeURIComponent(id)}/`;
-const appAdresse = { werk: id => `/#/opera/${id}`, haus: id => `/#/house/${id}`, komponist: id => `/#/composer/${id}`, stadt: () => '/#/houses' };
+const appAdresse = { werk: id => `/#/opera/${id}`, haus: id => `/#/house/${id}`, komponist: id => `/#/composer/${id}`, stadt: () => '/#/houses', person: name => `/#/person/${encodeURIComponent(name)}` };
 
 /** "muenchen" aus "München" – die Adresse der Stadtseite. */
 export const stadtId = (stadt) => idVorschlag(stadt);
@@ -104,7 +111,7 @@ function bildTeil(url, alt) {
 // ── Gerüst ────────────────────────────────────────────────────────────────
 
 // Die Brotkrumen im Treffer: "OpernLog › Opern › Tosca" statt der Adresse.
-const BEREICH = { werk: 'Opern', haus: 'Häuser', komponist: 'Komponisten', stadt: 'Städte' };
+const BEREICH = { werk: 'Opern', haus: 'Häuser', komponist: 'Komponisten', stadt: 'Städte', person: 'Mitwirkende' };
 function brotkrumen(art, name = null, url = null) {
     const stufen = [
         { name: 'OpernLog', url: `${SEITE}/` },
@@ -150,7 +157,7 @@ function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app, krumen
     <a class="marke" href="/">OpernLog</a>
     <a class="knopf knopf--kopf" href="${maske(app)}">In OpernLog öffnen</a>
   </header>
-  <nav class="bereiche"><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/stadt/">Städte</a><a href="/komponist/">Komponisten</a></nav>
+  <nav class="bereiche"><a href="/oper/">Opern</a><a href="/haus/">Häuser</a><a href="/stadt/">Städte</a><a href="/komponist/">Komponisten</a><a href="/person/">Mitwirkende</a></nav>
   <main>
 ${inhalt}
     <p class="weiter"><a class="knopf" href="${maske(app)}">In OpernLog öffnen</a></p>
@@ -189,16 +196,51 @@ ${inhalt}
 // Vorher stand die ganze Liste offen – bei Tosca 86 Zeilen, vor allem anderen.
 export const TERMINE_VORN = 5;
 
-/** Kommende Termine je Werk und je Haus, sortiert. [{werk, haus, datum, zeit, url}] */
-export function termineAb(stand, liste = spielplan) {
+/**
+ * Kommende Termine je Werk und je Haus, sortiert. [{werk, haus, datum, zeit, url, besetzung}]
+ * besetzung: Map Haus → abende aus daten/besetzung/<haus>.json; der Abend
+ * daraus hängt am Termin (oder null).
+ */
+export function termineAb(stand, liste = spielplan, besetzung = new Map()) {
     const alle = [];
     for (const e of liste) {
         for (const datum of e.termine || []) {
-            if (datum >= stand) alle.push({ werk: e.werk, haus: e.haus, datum, zeit: e.zeiten?.[datum] || null, url: e.url });
+            if (datum >= stand) {
+                const abend = besetzung.get(e.haus)?.[`${e.werk}|${datum}`] || null;
+                alle.push({ werk: e.werk, haus: e.haus, datum, zeit: e.zeiten?.[datum] || null, url: e.url, besetzung: abend });
+            }
         }
     }
     return alle.sort((a, b) => a.datum.localeCompare(b.datum) || a.haus.localeCompare(b.haus));
 }
+
+/** Die Dateien aus daten/besetzung: Map Haus → { "werk|datum": abend }. */
+export function besetzungLesen(wurzel = WURZEL) {
+    const ordner = path.join(wurzel, 'daten/besetzung');
+    const m = new Map();
+    if (!fs.existsSync(ordner)) return m;
+    for (const datei of fs.readdirSync(ordner).filter(d => d.endsWith('.json'))) {
+        try {
+            const d = JSON.parse(fs.readFileSync(path.join(ordner, datei), 'utf8'));
+            if (d?.haus && d.abende) m.set(d.haus, d.abende);
+        } catch { /* eine kaputte Datei kostet nur ihre Besetzung */ }
+    }
+    return m;
+}
+
+/** Wer an einem Abend mitwirkt: [{ name, als }] – als ist "Dirigat", "Regie" oder die Rolle. */
+export function mitwirkende(abend) {
+    if (!abend) return [];
+    const teile = (text) => String(text || '').split(/,\s*/).map(n => n.trim()).filter(Boolean);
+    return [
+        ...teile(abend.dirigent).map(name => ({ name, als: 'Dirigat' })),
+        ...teile(abend.regie).map(name => ({ name, als: 'Regie' })),
+        ...(abend.besetzung || []).filter(b => b?.name).map(b => ({ name: String(b.name), als: String(b.rolle || '') })),
+    ];
+}
+
+/** Die Adresse der Personenseite: "olena-tokar" aus "Olena Tokar". */
+export const personId = (name) => idVorschlag(name);
 
 /** "19:30" oder "19:30-22:00" → { beginn, ende } */
 export function uhrzeiten(zeit) {
@@ -224,11 +266,17 @@ function ereignis(t, werk, haus) {
             address: { '@type': 'PostalAddress', addressLocality: haus.city, addressCountry: land(haus).code },
         },
         organizer: { '@type': 'Organization', name: haus.name, url: t.url },
-        // Die Besetzung kennt der Spielplan nicht; es spielt das Ensemble
-        // des Hauses. Google fragt danach ("Missing field 'performer'",
-        // Search Console, 19.11.2026). Preise, Vorverkauf und Endzeit fehlen
-        // weiter – lieber keine Angabe als eine erfundene.
-        performer: { '@type': 'PerformingGroup', name: haus.name },
+        // Das Ensemble des Hauses, und wo das Haus die Besetzung nennt, auch
+        // die Einzelnen (seit 24.11.2026). Google fragt danach ("Missing
+        // field 'performer'", Search Console, 19.11.2026). Preise, Vorverkauf
+        // und Endzeit fehlen weiter – lieber keine Angabe als eine erfundene.
+        performer: (() => {
+            const gruppe = { '@type': 'PerformingGroup', name: haus.name };
+            const leute = mitwirkende(t.besetzung).filter(m => m.als !== 'Regie');
+            return leute.length
+                ? [gruppe, ...leute.map(m => ({ '@type': 'Person', name: m.name, url: adresse('person', personId(m.name)) }))]
+                : gruppe;
+        })(),
         ...(werk.image ? { image: werk.image } : {}),
         description: `${werk.title}${werk.composer ? ` von ${werk.composer}` : ''} am ${haus.name}, ${haus.city}.`,
         url: t.url,
@@ -243,7 +291,24 @@ function terminZeile(t, { werk, haus }, zeigen) {
             ? `<a href="${adresse('werk', werk.id)}">${maske(werk.title)}</a> <span class="ort">${maske(haus.name)}</span>`
             : `<a href="${adresse('werk', werk.id)}">${maske(werk.title)}</a>${werk.composer ? ` <span class="ort">${maske(werk.composer)}</span>` : ''}`;
     const { beginn } = uhrzeiten(t.zeit);
-    return `          <li data-datum="${t.datum}"><time datetime="${t.datum}${beginn ? `T${beginn.padStart(5, '0')}` : ''}">${datumText(t.datum)}${t.zeit ? ` · ${maske(t.zeit.replace('-', '–'))}` : ''}</time> ${was} <a class="karten" href="${maske(t.url)}" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>`;
+    return `          <li data-datum="${t.datum}"><time datetime="${t.datum}${beginn ? `T${beginn.padStart(5, '0')}` : ''}">${datumText(t.datum)}${t.zeit ? ` · ${maske(t.zeit.replace('-', '–'))}` : ''}</time> ${was} <a class="karten" href="${maske(t.url)}" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a>${besetzungTeil(t.besetzung)}</li>`;
+}
+
+const personLink = (name) => `<a href="${adresse('person', personId(name))}">${maske(name)}</a>`;
+
+/** Dirigat, Regie und Besetzung eines Termins, eingeklappt unter der Zeile. */
+function besetzungTeil(abend) {
+    const leute = mitwirkende(abend);
+    if (!leute.length) return '';
+    const leitung = leute.filter(m => m.als === 'Dirigat' || m.als === 'Regie');
+    const rollen = new Map();
+    for (const m of leute.filter(m => m.als !== 'Dirigat' && m.als !== 'Regie')) rollen.set(m.als, [...(rollen.get(m.als) || []), m.name]);
+    const zeilen = [
+        ...['Dirigat', 'Regie'].map(als => [als === 'Dirigat' ? 'Musikalische Leitung' : 'Regie', leitung.filter(m => m.als === als).map(m => m.name)]),
+        ...rollen,
+    ].filter(([, namen]) => namen.length);
+    return `
+            <details class="besetzung"><summary>Besetzung</summary><dl>${zeilen.map(([was, namen]) => `<dt>${maske(was || 'Mit')}</dt><dd>${namen.map(personLink).join(', ')}</dd>`).join('')}</dl><p class="klein">Laut Spielplan des Hauses, Änderungen vorbehalten.</p></details>`;
 }
 
 // ── Die Seiten ────────────────────────────────────────────────────────────
@@ -565,6 +630,74 @@ ${werke.map(w => `          <li><a href="${adresse('werk', w.id)}">${maske(w.tit
     });
 }
 
+/**
+ * Alle Mitwirkenden mit kommenden Abenden: Map id → { name, abende: [{ t, als }] }.
+ * Derselbe Name ist dieselbe Person; zwei Namen mit derselben Adresse (selten)
+ * teilen sich keine Seite – der zweite bekommt "-2".
+ */
+export function personenAus(termine) {
+    const nachName = new Map();
+    for (const t of termine) {
+        for (const m of mitwirkende(t.besetzung)) {
+            const p = nachName.get(m.name) || { name: m.name, abende: [] };
+            const schon = p.abende.find(a => a.t === t);
+            if (schon) { if (!schon.als.includes(m.als)) schon.als.push(m.als); } else p.abende.push({ t, als: [m.als] });
+            nachName.set(m.name, p);
+        }
+    }
+    const personen = new Map();
+    for (const p of [...nachName.values()].sort((a, b) => a.name.localeCompare(b.name, 'de'))) {
+        let id = personId(p.name);
+        if (!id) continue;
+        if (personen.has(id)) { let n = 2; while (personen.has(`${id}-${n}`)) n++; id = `${id}-${n}`; }
+        personen.set(id, { ...p, id });
+    }
+    return personen;
+}
+
+const alsText = (als) => {
+    const rollen = als.filter(a => a && a !== 'Dirigat' && a !== 'Regie');
+    return [rollen.length ? `als ${rollen.join(' und ')}` : '', als.includes('Dirigat') ? 'Dirigat' : '', als.includes('Regie') ? 'Regie' : '']
+        .filter(Boolean).join(' · ');
+};
+
+export function personSeite(p, { werke, haeuser, stand }) {
+    const abende = p.abende.filter(a => werke.has(a.t.werk) && haeuser.has(a.t.haus));
+    const werkTitel = [...new Set(abende.map(a => werke.get(a.t.werk).title))];
+    const hausNamen = [...new Set(abende.map(a => haeuser.get(a.t.haus).name))];
+    const rollen = [...new Set(abende.flatMap(a => a.als).filter(a => a && a !== 'Dirigat' && a !== 'Regie'))];
+    const funktion = abende.some(a => a.als.includes('Dirigat')) ? 'am Pult' : abende.some(a => a.als.includes('Regie')) && !rollen.length ? 'Regie' : '';
+    const liste = (xs) => xs.join(', ').replace(/, ([^,]*)$/, ' und $1');
+    const url = adresse('person', p.id);
+    return seite({
+        titel: `${p.name}: Termine ${spielzeit(stand)} – ${werkTitel.slice(0, 2).join(', ')} | OpernLog`,
+        beschreibung: `${p.name} ${rollen.length ? `als ${liste(rollen.slice(0, 3))}` : funktion}: ${abende.length} ${abende.length === 1 ? 'Abend' : 'Abende'} in ${liste(werkTitel.slice(0, 3))} – ${liste(hausNamen.slice(0, 3))}. Alle Termine laut den Spielplänen der Häuser, mit Links zu den Karten.`.replace(/\s+/g, ' ').slice(0, 300),
+        url,
+        app: appAdresse.person(p.name),
+        krumen: brotkrumen('person', p.name, url),
+        daten: [
+            { '@context': 'https://schema.org', '@type': 'Person', name: p.name, url },
+            ...abende.map(a => ereignis(a.t, werke.get(a.t.werk), haeuser.get(a.t.haus))),
+        ],
+        inhalt: `
+    <article>
+      <h1>${maske(p.name)}</h1>
+      <p class="unterzeile">${rollen.length ? `${maske(liste(rollen))}` : maske(funktion === 'am Pult' ? 'Dirigat' : funktion)} – kommende Abende laut den Spielplänen der Häuser</p>
+      <section data-termine>
+        <h2>Termine</h2>
+        <ul class="termine">
+${abende.map(a => {
+    const w = werke.get(a.t.werk), h = haeuser.get(a.t.haus);
+    const { beginn } = uhrzeiten(a.t.zeit);
+    return `          <li data-datum="${a.t.datum}"><time datetime="${a.t.datum}${beginn ? `T${beginn.padStart(5, '0')}` : ''}">${datumText(a.t.datum)}${a.t.zeit ? ` · ${maske(a.t.zeit.replace('-', '–'))}` : ''}</time> <a href="${adresse('werk', w.id)}">${maske(w.title)}</a> <span class="ort">${maske(alsText(a.als))}</span><br><a href="${adresse('haus', h.id)}">${maske(h.name)}</a> <span class="ort">${maske(h.city)}</span> <a class="karten" href="${maske(a.t.url)}" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>`;
+}).join('\n')}
+        </ul>
+      </section>
+      <p class="klein">Angaben der Häuser, Umbesetzungen vorbehalten. Wer ${maske(p.name)} schon erlebt hat, kann den Abend in OpernLog festhalten und bewerten.</p>
+    </article>`,
+    });
+}
+
 function uebersicht({ titel, h1, text, art, eintraege, beschreibung }) {
     return seite({
         titel, beschreibung,
@@ -587,8 +720,8 @@ const nachName = (a, b) => a.name.localeCompare(b.name, 'de');
 /**
  * Alle Seiten: Map von Pfad (relativ zur Wurzel) auf HTML, dazu die Sitemap.
  */
-export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponisten = composers, plan = spielplan, stand = SPIELPLAN_STAND, texte = werkTexteLesen() } = {}) {
-    const termine = termineAb(stand, plan);
+export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponisten = composers, plan = spielplan, stand = SPIELPLAN_STAND, texte = werkTexteLesen(), besetzung = besetzungLesen() } = {}) {
+    const termine = termineAb(stand, plan, besetzung);
     const werkMap = new Map(werke.map(w => [w.id, w]));
     const hausMap = new Map(haeuser.map(h => [h.id, h]));
     const werkeVon = new Map();
@@ -605,6 +738,9 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
         seiten.set(`${ORDNER.stadt}/${stadtId(stadt)}/index.html`, stadtSeite(stadt, { haeuser: [...liste].sort(nachName), termine, werke: werkMap, stand }));
     }
     for (const k of komponistenMitWerken) seiten.set(`${ORDNER.komponist}/${k.id}/index.html`, komponistSeite(k, { werkeVon, termine }));
+    const personen = [...personenAus(termine).values()]
+        .filter(p => p.abende.some(a => werkMap.has(a.t.werk) && hausMap.has(a.t.haus)));
+    for (const p of personen) seiten.set(`${ORDNER.person}/${p.id}/index.html`, personSeite(p, { werke: werkMap, haeuser: hausMap, stand }));
 
     seiten.set(`${ORDNER.werk}/index.html`, uebersicht({
         titel: 'Opern von A bis Z – Termine und Spielpläne | OpernLog',
@@ -641,6 +777,15 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
         beschreibung: `${komponistenMitWerken.length} Komponisten und ihre Opern, mit aktuellen Terminen in Deutschland, Österreich und der Schweiz.`,
         art: 'komponist',
         eintraege: komponistenMitWerken.map(k => ({ id: k.id, name: k.name })).sort(nachName),
+    }));
+
+    seiten.set(`${ORDNER.person}/index.html`, uebersicht({
+        titel: 'Sängerinnen, Sänger, Dirigenten – wer wo singt | OpernLog',
+        h1: 'Mitwirkende',
+        text: `${personen.length} Sängerinnen, Sänger, Dirigentinnen, Dirigenten und Regieteams mit ihren kommenden Abenden – nach den Besetzungen, die die Häuser veröffentlichen.`,
+        beschreibung: `Wer singt wo? ${personen.length} Mitwirkende mit ihren kommenden Opernabenden, nach den Besetzungen der Häuser in Deutschland.`,
+        art: 'person',
+        eintraege: personen.map(p => ({ id: p.id, name: p.name, zusatz: `${p.abende.length} ${p.abende.length === 1 ? 'Abend' : 'Abende'}` })),
     }));
 
     const adressen = [`${SEITE}/`, ...[...seiten.keys()].map(p => `${SEITE}/${p.replace(/index\.html$/, '')}`)];

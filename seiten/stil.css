@@ -53,7 +53,9 @@ a { color: var(--gold-hell); }
 
 .bereiche {
     display: flex;
-    gap: 18px;
+    flex-wrap: wrap;
+    /* Fünf Bereiche passen auf dem Handy nicht in eine Zeile. */
+    gap: 6px 16px;
     justify-content: center;
     padding: 10px 16px;
     font-size: 15px;
@@ -211,3 +213,14 @@ h2 {
 .fragen summary::before { content: '▸ '; color: var(--gold-hell); }
 .fragen details[open] summary::before { content: '▾ '; }
 .fragen p { margin: 0 0 14px; }
+
+/* Besetzung eines Termins (daten/besetzung, seit 24.11.2026), eingeklappt. */
+.besetzung { margin-top: 6px; }
+.besetzung summary { cursor: pointer; display: inline-block; font-size: 14px; color: var(--gold-hell); list-style: none; }
+.besetzung summary::-webkit-details-marker { display: none; }
+.besetzung summary::before { content: '▸ '; }
+.besetzung[open] summary::before { content: '▾ '; }
+.besetzung dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0 4px; font-size: 15px; }
+.besetzung dt { color: var(--leise); }
+.besetzung dd { margin: 0; }
+.besetzung .klein { margin: 4px 0 0; }

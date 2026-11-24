@@ -121,7 +121,7 @@ test('der Knopf in die App steht in der mitlaufenden Leiste oben, auf jeder Seit
     for (const p of ALLE) {
         const html = lies(p);
         const kopf = html.match(/<header class="kopf">([\s\S]*?)<\/header>/)?.[1] || '';
-        assert.match(kopf, /<a class="knopf knopf--kopf" href="\/(#\/(opera|house|composer)\/[^"]+|#\/houses)?">In OpernLog öffnen<\/a>/, p);
+        assert.match(kopf, /<a class="knopf knopf--kopf" href="\/(#\/(opera|house|composer|person)\/[^"]+|#\/houses)?">In OpernLog öffnen<\/a>/, p);
     }
     assert.match(lies('oper/tosca/index.html'), /class="knopf knopf--kopf" href="\/#\/opera\/tosca"/);
 });
@@ -132,10 +132,43 @@ test('jeder Termin nennt das Haus als Ensemble (performer), aber keine erfundene
     const ereignisse = roh.flat().filter(d => d['@type'] === 'Event');
     assert.ok(ereignisse.length > 0);
     for (const e of ereignisse) {
-        assert.equal(e.performer['@type'], 'PerformingGroup');
-        assert.equal(e.performer.name, e.location.name);
+        // Mit bekannter Besetzung (seit 24.11.2026) eine Liste: das Ensemble zuerst, dann die Einzelnen.
+        const [gruppe, ...leute] = [e.performer].flat();
+        assert.equal(gruppe['@type'], 'PerformingGroup');
+        assert.equal(gruppe.name, e.location.name);
+        for (const p of leute) {
+            assert.equal(p['@type'], 'Person');
+            assert.match(p.url, /^https:\/\/opernlog\.de\/person\/[a-z0-9-]+\/$/);
+        }
         assert.equal(e.offers.price, undefined);
     }
+});
+
+test('Besetzung je Termin: Dirigat, Regie, Rollen, verlinkt auf Personenseiten', async () => {
+    const { termineAb, mitwirkende, personenAus, personSeite } = await import('../werkzeug/seiten-erzeugen.mjs');
+    const plan = [{ werk: 'la-traviata', haus: 'hamburgische-staatsoper', url: 'https://example.org/traviata', termine: ['2027-01-03', '2027-01-14'] }];
+    const abend = { zeit: '17:00', dirigent: 'Sesto Quatrini', regie: 'Johannes Erath',
+        besetzung: [{ rolle: 'Violetta Valery', name: 'Yaritza Véliz' }, { rolle: 'Flora Bervoix', name: 'Ida Aldrian' }] };
+    const besetzung = new Map([['hamburgische-staatsoper', { 'la-traviata|2027-01-03': abend }]]);
+    const termine = termineAb('2026-12-01', plan, besetzung);
+    assert.equal(termine[0].besetzung, abend);
+    assert.equal(termine[1].besetzung, null, 'ein Termin ohne Angabe des Hauses bleibt ohne');
+    assert.deepEqual(mitwirkende(abend).map(m => m.als), ['Dirigat', 'Regie', 'Violetta Valery', 'Flora Bervoix']);
+    const personen = personenAus(termine);
+    assert.deepEqual([...personen.keys()], ['ida-aldrian', 'johannes-erath', 'sesto-quatrini', 'yaritza-veliz']);
+    const werke = new Map(operas.map(w => [w.id, w]));
+    const haeuser = new Map(operaHouses.map(h => [h.id, h]));
+    const html = personSeite(personen.get('yaritza-veliz'), { werke, haeuser, stand: '2026-12-01' });
+    assert.match(html, /<h1>Yaritza Véliz<\/h1>/);
+    assert.match(html, /als Violetta Valery/);
+    assert.match(html, /href="\/#\/person\/Yaritza%20V%C3%A9liz"/);
+});
+
+test('die Werkseite zeigt die Besetzung der Häuser, die sie nennen, und die Personenseiten gibt es', () => {
+    const html = lies('oper/la-traviata/index.html');
+    const links = [...html.matchAll(/<details class="besetzung">[\s\S]*?<\/details>/g)].flatMap(m => [...m[0].matchAll(/href="https:\/\/opernlog\.de\/(person\/[^"]+)"/g)].map(x => x[1]));
+    assert.ok(links.length > 0, 'keine Besetzung auf der Traviata-Seite');
+    for (const l of links) assert.ok(ALLE.includes(`${l}index.html`), l);
 });
 
 test('Brotkrumen: OpernLog › Bereich › Seite, mit gültigen Adressen', () => {

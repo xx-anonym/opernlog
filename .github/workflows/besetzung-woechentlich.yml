@@ -8,9 +8,11 @@ name: Besetzung wöchentlich lesen
 #
 # Anders als die übrigen Läufe meldet dieser nicht nur, er schreibt die Datei
 # selbst ins Repo (Jonas, 23.11.2026): Umbesetzungen und neue Termine sollen
-# ohne Handgriff ankommen. Er rührt nichts anderes an. Vorher prüft er die
-# Datei mit tests/unit/hausBesetzung.test.js; scheitert das, bleibt alles,
-# wie es war, und der Lauf wird rot.
+# ohne Handgriff ankommen. Seit 24.11.2026 erzeugt er danach auch die Seiten
+# für Suchmaschinen neu (seiten-erzeugen.mjs), denn die zeigen die Besetzung
+# je Termin und je Person (/person/). Sonst rührt er nichts an. Vorher prüft
+# er Datei und Seiten (hausBesetzung.test.js, checks/seiten.test.js);
+# scheitert das, bleibt alles, wie es war, und der Lauf wird rot.
 #
 # Ein Commit über den GITHUB_TOKEN stößt keine weiteren Läufe an; Vercel
 # veröffentlicht ihn trotzdem.
@@ -53,17 +55,23 @@ jobs:
       - name: Datei prüfen
         run: node --test tests/unit/hausBesetzung.test.js
 
+      - name: Seiten neu erzeugen
+        run: node tests/werkzeug/seiten-erzeugen.mjs
+
+      - name: Seiten prüfen
+        run: node --test tests/checks/seiten.test.js
+
       - name: Ins Repo schreiben
         run: |
           # status statt diff: auch eine neue Datei (ein neues Haus) zählt.
-          if [ -z "$(git status --porcelain -- daten/besetzung)" ]; then
+          if [ -z "$(git status --porcelain -- daten/besetzung oper haus komponist stadt person sitemap.xml)" ]; then
             echo "Keine Änderung."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
-          git add daten/besetzung
-          git commit -m "Besetzung aus den Spielplänen aktualisiert" -m "Wöchentlicher Lauf von tests/werkzeug/besetzung-lesen.mjs."
+          git add daten/besetzung oper haus komponist stadt person sitemap.xml
+          git commit -m "Besetzung aus den Spielplänen aktualisiert" -m "Wöchentlicher Lauf von tests/werkzeug/besetzung-lesen.mjs und seiten-erzeugen.mjs."
           # Ist main inzwischen weiter, die eigene Änderung oben draufsetzen.
           git pull --rebase origin main
           git push origin HEAD:main
