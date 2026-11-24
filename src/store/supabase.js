@@ -420,7 +420,17 @@ export async function updateProfile(updates) {
     if (!session) throw new SupabaseError('Profil speichern', { message: 'Nicht eingeloggt' });
     const sb = getSupabase();
     const result = await sb.from('profiles').update(updates).eq('id', session.user.id).select();
-    return unwrapWritten(result, 'Profil speichern');
+    try {
+        return unwrapWritten(result, 'Profil speichern');
+    } catch (e) {
+        // Der Name ist eindeutig (profiles_username_key). "Das gibt es
+        // bereits" sagte nicht, was – ein Name, den jemand anderes trägt
+        // (Jonas, 24.11.2026, mit seinem zweiten Konto).
+        if (e.code === '23505' && updates.username) {
+            e.userMessage = `Den Namen „${updates.username}“ hat schon jemand – bitte wähle einen anderen.`;
+        }
+        throw e;
+    }
 }
 
 export async function isProfileComplete(userId) {

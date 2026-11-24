@@ -191,6 +191,13 @@ test('Handlung, Stellen und Wissenswertes kommen mit dem Werk in die Datenbank u
         });
 
         // Die Werkseite zeigt ihn, obwohl es keine Datei dazu gibt.
+        //
+        // Erst warten, bis das Formular seinen Eintrag im Verlauf zurückgenommen
+        // hat (zurueckGeste.js, history.go(-1)): kam der Sprung zur Werkseite
+        // davor, holte dieses Zurück die Werkliste wieder – in CI zweimal am
+        // 24.11.2026, erkannt am Zustand "hash: #/operas" in der Meldung.
+        // Derselbe Fall wie im Test "ein neuer Komponist …" weiter unten.
+        await p.waitForFunction(() => !document.querySelector('#kfForm') && !history.state?.opernlogFenster);
         await p.evaluate(() => { window.location.hash = '#/opera/der-kaiser-von-atlantis'; });
         // Erst die Werkseite selbst, mit der üblichen Geduld: sie wird beim
         // ersten Aufruf nachgeladen, und unter Last (CI, 24.11.2026) reichten

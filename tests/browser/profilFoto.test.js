@@ -90,3 +90,20 @@ test('eine Adresse von einem fremden Host bleibt ohne Bild', { skip: fehltPlaywr
         assert.equal(await p.locator('.profile-hero__avatar img').count(), 0);
     } finally { await ctx.close(); }
 });
+
+// Ein Name, den schon jemand trägt: die Meldung sagt das, statt "Das gibt es
+// bereits" (Jonas, 24.11.2026).
+test('ein vergebener Name: Meldung nennt den Namen, gespeichert wird nichts', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffneProfil('');
+    try {
+        await p.evaluate(() => { window.__namenVergeben = ['Jonas']; });
+        await p.click('#editProfileBtn');
+        await p.fill('#editName', 'Jonas');
+        await p.click('#saveProfileBtn');
+        const meldung = p.locator('.toast', { hasText: 'schon jemand' });
+        await meldung.waitFor({ timeout: 10000 });
+        assert.match(await meldung.innerText(), /Den Namen „Jonas“ hat schon jemand/);
+        assert.equal(await p.evaluate(() => window.__profilUpdate.some(u => u.username === 'Jonas')), false);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});

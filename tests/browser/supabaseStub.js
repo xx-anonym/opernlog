@@ -280,6 +280,10 @@ function builder(table) {
         return Promise.resolve({ data: null, error: null }).then(res, rej);
       }
       if (table === 'profiles' && op === 'upsert') window.__profilUpsert.push(nutzlast);
+      // Namen, die schon jemand trägt: wie profiles_username_key in der Datenbank.
+      if (table === 'profiles' && op === 'update' && nutzlast?.username && (window.__namenVergeben || []).includes(nutzlast.username)) {
+        return Promise.resolve({ data: null, error: { message: 'duplicate key value violates unique constraint "profiles_username_key"', code: '23505' } }).then(res, rej);
+      }
       if (table === 'profiles' && op === 'update') window.__profilUpdate.push(nutzlast);
       if (table === 'profiles' && op === 'upsert' && window.__profilSchreibfehler) {
         return Promise.resolve({ data: null, error: { message: window.__profilSchreibfehler, code: '42501' } }).then(res, rej);
