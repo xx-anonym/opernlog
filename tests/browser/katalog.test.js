@@ -185,7 +185,18 @@ test('Handlung, Stellen und Wissenswertes kommen mit dem Werk in die Datenbank u
 
         // Die Werkseite zeigt ihn, obwohl es keine Datei dazu gibt.
         await p.evaluate(() => { window.location.hash = '#/opera/der-kaiser-von-atlantis'; });
-        await p.waitForSelector('details.werk-text', { timeout: 10000 });
+        // Erst die Werkseite selbst, mit der üblichen Geduld: sie wird beim
+        // ersten Aufruf nachgeladen, und unter Last (CI, 24.11.2026) reichten
+        // 10 Sekunden für beides zusammen nicht immer. Fehlt der Text danach
+        // noch, ist es kein Ladeproblem – dann mit dem Zustand der Seite.
+        await p.waitForSelector('.page--opera-detail .detail-hero', { timeout: 30000 });
+        await p.waitForSelector('details.werk-text', { timeout: 5000 }).catch(async (e) => {
+            const zustand = await p.evaluate(async () => {
+                const w = (await import('/src/data/operas.js')).operas.find(o => o.id === 'der-kaiser-von-atlantis');
+                return { hash: location.hash, werk: !!w, werkText: !!w?.werkText, reviews: !!document.querySelector('#reviewsHeading') };
+            });
+            throw new Error(`${e.message}\nZustand: ${JSON.stringify(zustand)}`);
+        });
         await p.click('.werk-text summary');
         assert.match(await p.textContent('.werk-text'), /Der Tod legt die Arbeit nieder\./);
         assert.match(await p.textContent('.werk-text__stellen'), /„Lied des Todes“/);
