@@ -148,3 +148,30 @@ test('Namen mit Sonderzeichen kommen nicht als HTML an', { skip: fehltPlaywright
         assert.match(await p.locator('.besetzung__kurz').textContent(), /^<img/);
     } finally { await ctx.close(); }
 });
+
+test('aufgeklappt, einen Namen angetippt, zurück: die Besetzung bleibt offen', { skip: fehltPlaywright }, async () => {
+    // Jonas, 25.11.2026: nach "Zurück" war sie wieder zugeklappt.
+    const { ctx, p, fehler } = await oeffne('#/profile');
+    try {
+        await karte(p, 'Rigoletto').locator('.besetzung__summary').click();
+        await karte(p, 'Rigoletto').locator('.besetzung-liste__name a', { hasText: 'Elena Villalón' }).click();
+        await p.waitForFunction(() => location.hash.startsWith('#/person/'));
+        await p.waitForTimeout(300);
+        await p.goBack();
+        await p.waitForFunction(() => location.hash === '#/profile');
+        await p.waitForSelector('.review-card details.besetzung');
+        await p.waitForTimeout(300);
+        assert.equal(await karte(p, 'Rigoletto').locator('details.besetzung').evaluate(d => d.open), true);
+        assert.equal(await karte(p, 'Rigoletto').locator('.besetzung-liste__name', { hasText: 'Rebecka Wallroth' }).isVisible(), true);
+
+        // Wieder zugeklappt bleibt sie auch zu.
+        await karte(p, 'Rigoletto').locator('.besetzung__summary').click();
+        await p.evaluate(() => { location.hash = '#/diary'; });
+        await p.waitForTimeout(300);
+        await p.goBack();
+        await p.waitForFunction(() => location.hash === '#/profile');
+        await p.waitForSelector('.review-card details.besetzung');
+        assert.equal(await karte(p, 'Rigoletto').locator('details.besetzung').evaluate(d => d.open), false);
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});

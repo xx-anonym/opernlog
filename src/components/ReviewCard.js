@@ -12,6 +12,13 @@ import * as sb from '../store/supabase.js';
 import { isSupabaseConfigured } from '../config.js';
 import { tippen } from '../haptik.js';
 
+// Welche Besetzungen gerade aufgeklappt sind, je Besuch – für die Dauer der
+// Sitzung, nur im Speicher. Beim Zurückkommen (ein Name führt auf die
+// Personenseite, "Zurück" zurück) baut die App die Seite neu; vorher war die
+// Besetzung dann wieder zu (Jonas, 25.11.2026). Gesetzt wird beim Zeichnen,
+// also bevor die Scrollposition zurückkommt – die Stelle stimmt.
+const offeneBesetzungen = new Set();
+
 export function ReviewCard(visit, options = {}) {
   const { showHouse = true, showOpera = true, compact = false, standalone = false } = options;
 
@@ -77,7 +84,7 @@ export function ReviewCard(visit, options = {}) {
     return `
         <div class="credit">
           <span class="credit__label">Besetzung</span>
-          <details class="besetzung"${standalone ? ' open' : ''}>
+          <details class="besetzung"${standalone || offeneBesetzungen.has(visit.id) ? ' open' : ''}>
             <summary class="besetzung__summary">
               <span class="besetzung__kurz">${escapeHTML(besetzung.kurz)}</span>
               <span class="besetzung__offen">${besetzung.zeilen.length} Mitwirkende</span>
@@ -165,6 +172,13 @@ export function ReviewCard(visit, options = {}) {
       <button class="btn btn--sm btn--accent submit-comment">Senden</button>
     </div>
   `;
+
+  // Aufgeklappte Besetzung merken (offeneBesetzungen oben).
+  card.querySelector('details.besetzung')?.addEventListener('toggle', (e) => {
+    if (standalone) return;
+    if (e.target.open) offeneBesetzungen.add(visit.id);
+    else offeneBesetzungen.delete(visit.id);
+  });
 
   // Rating
   const ratingContainer = card.querySelector('.review-card__rating');
