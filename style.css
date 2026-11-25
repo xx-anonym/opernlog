@@ -9463,6 +9463,22 @@ body.mit-landing.mit-installhinweis { padding-top: 0; }
     color: var(--gold);
 }
 
+/* Der Titel als Weg zum Werk: dezent unterstrichen, damit man es sieht. */
+.entdecken__werk {
+    text-decoration: underline;
+    text-decoration-color: rgb(201 168 76 / 0.45);
+    text-underline-offset: 4px;
+}
+
+.entdecken__werk:hover {
+    text-decoration-color: var(--gold);
+}
+
+.entdecken__aufnahme {
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
 .entdecken__schliessen {
     position: absolute;
     top: 10px;

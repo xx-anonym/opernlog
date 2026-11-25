@@ -94,9 +94,26 @@ test('blockiert der Browser den Tab, steht der Link da', { skip: fehltPlaywright
         await p.keyboard.press('Control+e');
         await p.waitForFunction(() => !document.querySelector('.entdecken__knopf').disabled);
         await p.getByRole('button', { name: 'Vorhang auf' }).click();
-        const link = p.locator('.entdecken__zeile a');
+        const link = p.locator('.entdecken__zeile .entdecken__aufnahme');
         assert.ok(LINKS.map(l => l.url).includes(await link.getAttribute('href')));
         assert.equal(await link.getAttribute('target'), '_blank');
+        assert.deepEqual(fehler, []);
+    } finally { await ctx.close(); }
+});
+
+test('der Titel unter dem Knopf führt auf die Seite der Oper', { skip: fehltPlaywright, timeout: 60000 }, async () => {
+    const { ctx, p, fehler } = await oeffnen();
+    try {
+        await p.keyboard.press('Control+e');
+        await p.waitForFunction(() => !document.querySelector('.entdecken__knopf').disabled);
+        await p.getByRole('button', { name: 'Vorhang auf' }).click();
+        const geoeffnet = await p.evaluate(() => window.__geoeffnet[0]);
+        const a = LINKS.find(l => l.url === geoeffnet);
+        await p.locator('.entdecken__zeile .entdecken__werk').click();
+        await p.waitForFunction(w => location.hash === `#/opera/${w}`, a.werk_id);
+        assert.equal(await dialogOffen(p), false);
+        // Die Aufnahme lief im neuen Tab, nicht noch einmal hier.
+        assert.equal(await p.evaluate(() => window.__geoeffnet.length), 1);
         assert.deepEqual(fehler, []);
     } finally { await ctx.close(); }
 });
