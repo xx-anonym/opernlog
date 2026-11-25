@@ -1756,6 +1756,17 @@ export async function getStellenLinksCloud(werkId) {
     return Object.fromEntries(zeilen.map(z => [z.stelle, z.url]));
 }
 
+/**
+ * Alle Aufnahmen aller Werke, für den geheimen Entdecken-Modus
+ * (src/entdecken.js): [{ werk_id, stelle, url }]. Lesen darf jeder, auch
+ * ohne Anmeldung (Richtlinie "Stellen-Links sind öffentlich lesbar").
+ */
+export async function getAlleStellenLinksCloud() {
+    const sb = getSupabase();
+    if (!sb) return [];
+    return unwrap(await sb.from('stellen_links').select('werk_id, stelle, url'), 'Aufnahmen laden') || [];
+}
+
 export async function setStellenLinkCloud(werkId, stelle, url) {
     const session = await getSession();
     if (!session) throw new Error('Dafür musst du angemeldet sein.');

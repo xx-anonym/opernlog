@@ -12,6 +12,7 @@ import { willkommenFenster } from './components/Willkommen.js';
 import { willkommenFaellig } from './willkommen.js';
 import { offeneEinladung, einladungVergessen, endgueltigGescheitert } from './einladung.js';
 import { zurueckGesteEinrichten } from './zurueckGeste.js';
+import { entdeckenEinrichten } from './entdecken.js';
 import { haptikEinrichten } from './haptik.js';
 import { zurueckEinrichten } from './components/ZurueckLink.js';
 import { ziehenZumAktualisieren } from './ziehenZumAktualisieren.js';
@@ -83,6 +84,8 @@ class App {
         this.zeigeVersion();
         // "Zurück" schließt ein offenes Fenster, statt die Seite zu verlassen.
         zurueckGesteEinrichten();
+        // Geheim: Strg/Cmd+E öffnet "Entdecken" (src/entdecken.js).
+        entdeckenEinrichten();
         haptikEinrichten();
         zurueckEinrichten();
         window.addEventListener(ABGEMELDET, () => this.nachAbmeldung());
