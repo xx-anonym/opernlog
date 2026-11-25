@@ -179,6 +179,9 @@ class App {
         // Wait 600ms for curtains to be mostly open before showing content
         await new Promise(r => setTimeout(r, 600));
         this.buildLayout();
+        // Die erste Ansicht hat den vorgeladenen Feed genommen – oder war
+        // nicht die Startseite. Danach fragt jede Startseite frisch.
+        feedVorrat.startVorbei();
         if (this._umzugHinweis) umzugHinweisFenster();
         cloud.then(() => this.mailAnmeldungMelden());
 

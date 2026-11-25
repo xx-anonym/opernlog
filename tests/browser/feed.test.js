@@ -48,7 +48,10 @@ async function oeffneFeed({ folgt = [], besuche = [], eigene = [] } = {}) {
 
     await ersetzeSupabase(p);
     await p.goto(`${server.url}/index.html`);
-    await p.waitForFunction(() => !!window.__visits, null, { timeout: 15000 });
+    // Erst wenn die App steht: der Start fragt den Feed schon an, bevor der
+    // Vorhang aufgeht (src/feedVorrat.js). Daten, die der Test danach
+    // einsetzt, sieht erst die nächste Startseite – die unten.
+    await p.waitForSelector('.main-content', { timeout: 15000 });
 
     await p.evaluate(({ f, b }) => {
         window.__follows = f;

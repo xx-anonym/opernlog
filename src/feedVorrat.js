@@ -11,8 +11,9 @@
 //   1. Vorladen: main.js stößt die Anfrage an, sobald beim Start die Sitzung
 //      feststeht, neben dem übrigen Abgleich, und der Vorhang wartet darauf
 //      (höchstens so lange wie auf den Abgleich, GEDULD in main.js). Die
-//      erste Startseite nimmt genau diese Antwort; jede spätere fragt frisch,
-//      damit "Ziehen zum Aktualisieren" wirklich aktualisiert.
+//      erste Ansicht nimmt genau diese Antwort, wenn sie die Startseite ist;
+//      danach verfällt sie (startVorbei), und jede spätere Startseite fragt
+//      frisch, damit "Ziehen zum Aktualisieren" wirklich aktualisiert.
 //   2. Gezeigt wird beim Start nur, was frisch ist. Der gemerkte Feed (im
 //      localStorage, je Konto) erscheint nur, wenn die Anfrage scheitert –
 //      ohne Netz –, und dann mit dem Stand dazu. Ist sie nur langsam, dreht
@@ -70,6 +71,15 @@ export function holen(lader, nutzerId, { speicher = globalThis.localStorage } = 
         return { sofort, frisch };
     }
     return { sofort, frisch: laden(lader, nutzerId, speicher) };
+}
+
+/**
+ * Nach der ersten Ansicht: die Antwort vom Start gehört nur ihr. War die
+ * erste Ansicht nicht die Startseite (man war schon weitergetippt), soll eine
+ * spätere Startseite nicht mit einer Antwort von vor Minuten kommen.
+ */
+export function startVorbei() {
+    vorgeladen = null;
 }
 
 /** Der zuletzt geladene Feed dieses Kontos mit Zeitpunkt, oder null. */
