@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { istEntdeckenTaste, zufallsAufnahme, aufnahmeTitel } from '../../src/entdecken.js';
+import { istEntdeckenTaste, zufallsAufnahme, aufnahmeTitel, zeileHTML } from '../../src/entdecken.js';
 
 test('Strg+E und Cmd+E – sonst nichts', () => {
     assert.equal(istEntdeckenTaste({ key: 'e', ctrlKey: true }), true);
@@ -37,4 +37,15 @@ test('zufällige Aufnahme: aus der Liste, nicht zweimal dieselbe, nur https', ()
 test('Titel: Stelle und Werk', () => {
     assert.equal(aufnahmeTitel({ werk_id: 'tosca', stelle: 'Vissi d’arte' }), 'Vissi d’arte · Tosca');
     assert.equal(aufnahmeTitel({ werk_id: 'gibt-es-nicht', stelle: 'Arie' }), 'Arie');
+});
+
+test('die Zeile: Titel als Link zum Werk, bei blockiertem Tab auch die Aufnahme', () => {
+    const a = { werk_id: 'rake-progress', stelle: 'Here I stand', url: 'https://www.youtube.com/watch?v=vDBN56pYtHw' };
+    const werke = [{ id: 'rake-progress', title: 'The Rake’s Progress' }];
+    assert.equal(zeileHTML(a, { werke }),
+        '<a class="entdecken__werk" href="#/opera/rake-progress">Here I stand · The Rake’s Progress</a>');
+    assert.match(zeileHTML(a, { werke, blockiert: true }),
+        /<a class="entdecken__aufnahme" href="https:\/\/www\.youtube\.com\/watch\?v=vDBN56pYtHw" target="_blank" rel="noopener">Aufnahme öffnen<\/a>$/);
+    // Unbekanntes Werk: kein Link ins Leere, und alles maskiert.
+    assert.equal(zeileHTML({ werk_id: 'x', stelle: '<b>', url: 'https://a.b' }, { werke }), '&lt;b&gt;');
 });

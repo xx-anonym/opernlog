@@ -41,6 +41,23 @@ export function aufnahmeTitel(a, werke = operas) {
     return werk ? `${a.stelle} · ${werk}` : a.stelle;
 }
 
+/**
+ * Die Zeile unter dem Knopf: der Titel führt auf die Seite des Werks (Jonas,
+ * 25.11.2026: "wenn ich auf … klicke, soll sich die Seite der Oper öffnen").
+ * Hat der Browser den neuen Tab blockiert, steht die Aufnahme daneben.
+ */
+export function zeileHTML(a, { blockiert = false, werke = operas } = {}) {
+    const titel = escapeHTML(aufnahmeTitel(a, werke));
+    const bekannt = werke.some(o => o.id === a.werk_id);
+    const werk = bekannt
+        ? `<a class="entdecken__werk" href="#/opera/${encodeURIComponent(a.werk_id)}">${titel}</a>`
+        : titel;
+    const aufnahme = blockiert
+        ? ` <a class="entdecken__aufnahme" href="${escapeHTML(a.url)}" target="_blank" rel="noopener">Aufnahme öffnen</a>`
+        : '';
+    return werk + aufnahme;
+}
+
 let dialog = null;
 let liste = null;
 let letzte = null;
@@ -80,13 +97,17 @@ function bauen() {
         // neuen Tab wird stattdessen hier gekappt.
         const tab = window.open(a.url, '_blank');
         if (tab) tab.opener = null;
-        zeile.innerHTML = tab === null
-            ? `<a href="${escapeHTML(a.url)}" target="_blank" rel="noopener">${escapeHTML(aufnahmeTitel(a))}</a>`
-            : escapeHTML(aufnahmeTitel(a));
+        zeile.innerHTML = zeileHTML(a, { blockiert: tab === null });
         // Der Auftritt: Funken und ein Lichtblitz, neu bei jedem Klick.
         dialog.classList.remove('entdecken--zuendet');
         void dialog.offsetWidth;
         dialog.classList.add('entdecken--zuendet');
+    });
+
+    // Der Titel führt auf die Seite des Werks: Fenster zu, dann folgt die
+    // App dem Link (#/opera/…) im selben Tab.
+    zeile.addEventListener('click', (e) => {
+        if (e.target.closest('.entdecken__werk')) dialog.close();
     });
 
     // Klick daneben schließt, wo closedby fehlt (Safari).
