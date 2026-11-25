@@ -9266,3 +9266,307 @@ body.mit-landing.mit-installhinweis { padding-top: 0; }
     object-position: 50% 20%;
     display: block;
 }
+
+/* ── Entdecken (geheim, Strg/Cmd+E; src/entdecken.js) ─────────────────── */
+/* Ein Knopf im Scheinwerferlicht: Gold, Strahlen, Funken. Bewegung nur für
+ * die, die sie nicht abgeschaltet haben. */
+
+.entdecken {
+    /* Der Reset der App (margin: 0) nähme dem Fenster sonst die Mitte. */
+    margin: auto;
+    width: min(92vw, 520px);
+    max-height: 92dvh;
+    padding: 0;
+    border: 0;
+    border-radius: 28px;
+    color: #f4ead0;
+    background:
+        radial-gradient(ellipse 70% 55% at 50% 38%, rgb(201 168 76 / 0.22), transparent 70%),
+        radial-gradient(ellipse 120% 90% at 50% 110%, rgb(139 26 43 / 0.55), transparent 65%),
+        #0d0f12;
+    box-shadow: 0 30px 90px rgb(0 0 0 / 0.65), inset 0 0 0 1px rgb(201 168 76 / 0.25);
+    overflow: hidden;
+
+    opacity: 0;
+    transition-property: opacity, transform, display, overlay;
+    transition-duration: 0.45s;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-behavior: allow-discrete;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .entdecken {
+        transform: scale(0.85) translateY(24px);
+    }
+}
+
+.entdecken[open] {
+    opacity: 1;
+
+    @starting-style {
+        opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        transform: none;
+
+        @starting-style {
+            transform: scale(0.85) translateY(24px);
+        }
+    }
+}
+
+.entdecken:modal {
+    overscroll-behavior: contain;
+}
+
+.entdecken::backdrop {
+    overflow: hidden;
+    overscroll-behavior: contain;
+    background: rgb(5 3 4 / 0);
+    backdrop-filter: blur(0);
+    transition-property: background-color, backdrop-filter, display, overlay;
+    transition-duration: 0.45s;
+    transition-behavior: allow-discrete;
+}
+
+.entdecken[open]::backdrop {
+    background: rgb(5 3 4 / 0.82);
+    backdrop-filter: blur(6px);
+
+    @starting-style {
+        background: rgb(5 3 4 / 0);
+        backdrop-filter: blur(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .entdecken,
+    .entdecken::backdrop {
+        transition-duration: 0.12s;
+    }
+}
+
+.entdecken__buehne {
+    display: grid;
+    justify-items: center;
+    gap: 22px;
+    padding: 44px 24px 36px;
+    text-align: center;
+}
+
+.entdecken__titel {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.entdecken__knopfrahmen {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(72vw, 300px);
+    aspect-ratio: 1;
+}
+
+/* Lichtstrahlen hinter dem Knopf */
+.entdecken__strahlen {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg, rgb(223 192 106 / 0.32) 0deg 6deg, transparent 6deg 22deg);
+    mask: radial-gradient(circle, transparent 34%, #000 42%, #000 58%, transparent 71%);
+    opacity: 0.8;
+}
+
+/* Funken: sechs Punkte im Kreis */
+.entdecken__funken {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.entdecken__funken i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px;
+    border-radius: 50%;
+    background: #fff4cf;
+    box-shadow: 0 0 10px 3px rgb(255 214 120 / 0.85);
+    --winkel: 0deg;
+    transform: rotate(var(--winkel)) translateY(calc(-1 * min(31vw, 128px)));
+    opacity: 0.85;
+}
+
+.entdecken__funken i:nth-child(2) { --winkel: 60deg; }
+.entdecken__funken i:nth-child(3) { --winkel: 120deg; }
+.entdecken__funken i:nth-child(4) { --winkel: 180deg; }
+.entdecken__funken i:nth-child(5) { --winkel: 240deg; }
+.entdecken__funken i:nth-child(6) { --winkel: 300deg; }
+
+.entdecken__knopf {
+    position: relative;
+    width: 62%;
+    aspect-ratio: 1;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #3a0a12;
+    background:
+        radial-gradient(circle at 35% 28%, #fff7d6 0%, #f3d98a 22%, #d4ad4f 52%, #9c7424 82%, #6e4f14 100%);
+    box-shadow:
+        inset 0 -10px 24px rgb(80 50 0 / 0.55),
+        inset 0 8px 18px rgb(255 250 220 / 0.7),
+        0 0 0 3px rgb(201 168 76 / 0.5),
+        0 0 40px 8px rgb(223 192 106 / 0.45),
+        0 18px 40px rgb(0 0 0 / 0.6);
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.entdecken__knopf:disabled {
+    cursor: progress;
+    filter: grayscale(0.6) brightness(0.7);
+}
+
+.entdecken__knopf:not(:disabled):hover {
+    filter: brightness(1.08);
+}
+
+.entdecken__knopf:focus-visible {
+    outline: 3px solid #fff4cf;
+    outline-offset: 6px;
+}
+
+.entdecken__knopftext {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 6vw, 27px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 0 rgb(255 245 210 / 0.6);
+}
+
+.entdecken__zeile {
+    min-height: 1.5em;
+    margin: 0;
+    font-size: 15px;
+    color: #d9cfb4;
+}
+
+.entdecken__zeile a {
+    color: var(--gold);
+}
+
+.entdecken__schliessen {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+}
+
+.entdecken__schliessen button {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    color: #d9cfb4;
+    background: rgb(255 255 255 / 0.06);
+    cursor: pointer;
+}
+
+.entdecken__schliessen button:hover {
+    background: rgb(255 255 255 / 0.12);
+}
+
+/* Der Lichtblitz beim Zünden */
+.entdecken::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 45%, rgb(255 244 207 / 0.9), transparent 60%);
+    opacity: 0;
+}
+
+.entdecken--zuendet::after {
+    animation: entdecken-blitz 0.7s ease-out;
+}
+
+@keyframes entdecken-blitz {
+    0% { opacity: 0.85; }
+    100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .entdecken[open] .entdecken__strahlen {
+        animation: entdecken-drehen 18s linear infinite;
+    }
+
+    .entdecken[open] .entdecken__knopf:not(:disabled) {
+        animation: entdecken-atmen 2.6s ease-in-out infinite;
+    }
+
+    .entdecken[open] .entdecken__funken {
+        animation: entdecken-drehen 9s linear infinite reverse;
+    }
+
+    .entdecken[open] .entdecken__funken i {
+        animation: entdecken-funkeln 1.8s ease-in-out infinite;
+    }
+
+    .entdecken__funken i:nth-child(2n) { animation-delay: -0.6s !important; }
+    .entdecken__funken i:nth-child(3n) { animation-delay: -1.2s !important; }
+
+    .entdecken__knopf:not(:disabled):hover {
+        transform: scale(1.05);
+    }
+
+    .entdecken__knopf:not(:disabled):active {
+        transform: scale(0.95);
+    }
+
+    .entdecken--zuendet .entdecken__funken i {
+        animation: entdecken-sprung 0.8s cubic-bezier(0.1, 0.8, 0.2, 1);
+    }
+}
+
+@keyframes entdecken-drehen {
+    to { rotate: 360deg; }
+}
+
+@keyframes entdecken-atmen {
+    0%, 100% {
+        box-shadow:
+            inset 0 -10px 24px rgb(80 50 0 / 0.55),
+            inset 0 8px 18px rgb(255 250 220 / 0.7),
+            0 0 0 3px rgb(201 168 76 / 0.5),
+            0 0 40px 8px rgb(223 192 106 / 0.45),
+            0 18px 40px rgb(0 0 0 / 0.6);
+    }
+    50% {
+        box-shadow:
+            inset 0 -10px 24px rgb(80 50 0 / 0.55),
+            inset 0 8px 18px rgb(255 250 220 / 0.7),
+            0 0 0 6px rgb(201 168 76 / 0.35),
+            0 0 70px 18px rgb(223 192 106 / 0.6),
+            0 18px 40px rgb(0 0 0 / 0.6);
+    }
+}
+
+@keyframes entdecken-funkeln {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+}
+
+@keyframes entdecken-sprung {
+    0% { transform: rotate(var(--winkel)) translateY(calc(-1 * min(18vw, 70px))) scale(1.6); opacity: 1; }
+    100% { transform: rotate(var(--winkel)) translateY(calc(-1 * min(40vw, 165px))) scale(0.4); opacity: 0; }
+}
