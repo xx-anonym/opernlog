@@ -1,5 +1,6 @@
 // Star Rating Component
 import { tippen } from '../haptik.js';
+import { kommazahl } from '../utils.js';
 
 // Ein halber Stern: der leere Umriss, darüber die linke Hälfte gefüllt.
 // Vorher war es ein ganzer Stern mit weniger Deckkraft – von einem vollen
@@ -47,17 +48,17 @@ export function StarRating(rating, interactive = false, onChange = null, size = 
                     const rect = star.getBoundingClientRect();
                     const isLeftHalf = (e.clientX - rect.left) < rect.width / 2;
                     const previewRating = isLeftHalf ? i - 0.5 : i;
-                    if (label) label.textContent = previewRating.toFixed(1);
+                    if (label) label.textContent = kommazahl(previewRating);
                 });
                 star.addEventListener('mousemove', (e) => {
                     const rect = star.getBoundingClientRect();
                     const isLeftHalf = (e.clientX - rect.left) < rect.width / 2;
                     const previewRating = isLeftHalf ? i - 0.5 : i;
-                    if (label) label.textContent = previewRating.toFixed(1);
+                    if (label) label.textContent = kommazahl(previewRating);
                 });
                 star.addEventListener('mouseleave', () => {
                     star.style.transform = 'scale(1)';
-                    if (label) label.textContent = currentRating > 0 ? currentRating.toFixed(1) : '';
+                    if (label) label.textContent = currentRating > 0 ? kommazahl(currentRating) : '';
                 });
             }
 
@@ -68,10 +69,10 @@ export function StarRating(rating, interactive = false, onChange = null, size = 
         const label = document.createElement('span');
         label.className = 'star-rating__number';
         if (interactive) {
-            label.textContent = currentRating > 0 ? currentRating.toFixed(1) : '';
+            label.textContent = currentRating > 0 ? kommazahl(currentRating) : '';
             label.style.minWidth = '2.5em';
         } else if (rating !== null && rating !== undefined) {
-            label.textContent = typeof rating === 'number' ? rating.toFixed(1) : '';
+            label.textContent = typeof rating === 'number' ? kommazahl(rating) : '';
         }
         container.appendChild(label);
 

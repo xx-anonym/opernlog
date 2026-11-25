@@ -66,8 +66,8 @@ test('Startseite: Abende von heute vor einem und vor drei Jahren, der jüngste z
             sterne: e.querySelector('.star-rating__number')?.textContent,
         })));
         assert.deepEqual(karten, [
-            { href: `#/visit/${VOR_EINEM}`, kicker: 'Heute vor einem Jahr', werk: 'Tosca', ort: 'Semperoper · Dresden', sterne: '4.5' },
-            { href: `#/visit/${VOR_DREI}`, kicker: 'Heute vor 3 Jahren', werk: 'Aida', ort: 'Oper Leipzig', sterne: '3.0' },
+            { href: `#/visit/${VOR_EINEM}`, kicker: 'Heute vor einem Jahr', werk: 'Tosca', ort: 'Semperoper · Dresden', sterne: '4,5' },
+            { href: `#/visit/${VOR_DREI}`, kicker: 'Heute vor 3 Jahren', werk: 'Aida', ort: 'Oper Leipzig', sterne: '3,0' },
         ]);
         // Der Anfang des Reviews, an einer Wortgrenze gekürzt.
         const review = await p.textContent('.jahrestag .jahrestag__review');

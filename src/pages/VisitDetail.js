@@ -100,7 +100,7 @@ function bearbeitenKnoepfe(karte, visit) {
 }
 
 /**
- * Teilen am eigenen Abend (seit 18.11.2026), zweimal: "Bild" – im Stil des
+ * Teilen am eigenen Abend (seit 18.11.2026), zweimal: "Teilen" – ein Bild im Stil des
  * Theaterzettels, mit Text und Link – und "Link" allein, der direkt auf den
  * Abend führt und in Messengern eine Vorschau zeigt (src/abendTeilen.js,
  * api/abend.mjs). "Link" gibt es nur für Abende in der Datenbank. Nur am eigenen –
@@ -116,7 +116,11 @@ function teilenKnopf(karte, visit, opera) {
     const knopf = document.createElement('button');
     knopf.type = 'button';
     knopf.className = 'btn-icon abend-teilen';
-    knopf.innerHTML = `${icon('share')}<span>Bild</span>`;
+    // "Teilen" statt "Bild" (seit 25.11.2026): das Bild ist das eigentliche
+    // Teilen; "Bild" allein las sich wie ein Knopf zum Ansehen eines Fotos.
+    knopf.innerHTML = `${icon('share')}<span>Teilen</span>`;
+    knopf.title = 'Als Bild teilen';
+    knopf.setAttribute('aria-label', 'Abend als Bild teilen');
     zeile.appendChild(knopf);
 
     const direkt = abendDirektlink(visit);
@@ -125,6 +129,8 @@ function teilenKnopf(karte, visit, opera) {
         link.type = 'button';
         link.className = 'btn-icon abend-link';
         link.innerHTML = `${icon('link')}<span>Link</span>`;
+        link.title = 'Link zum Abend teilen';
+        link.setAttribute('aria-label', 'Link zum Abend teilen');
         zeile.appendChild(link);
         link.addEventListener('click', async (e) => {
             e.stopPropagation();

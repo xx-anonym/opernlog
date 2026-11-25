@@ -22,12 +22,15 @@ import { visitCredits } from '../utils.js';
  * Verstanden werden "Name (Rolle)" – die Form, die das Formular vorgibt – und
  * "Rolle: Name". Alles andere gilt ganz als Name. Eine Klammer mitten im
  * Text bleibt beim Namen; nur eine am Zeilenende ist die Rolle. form sagt,
- * wie die Zeile geschrieben war ('klammer', 'doppelpunkt', 'name') – die
- * Karte zeigt sie so, wie sie eingetragen wurde.
+ * wie die Zeile geschrieben war ('klammer', 'doppelpunkt', 'name').
+ *
+ * Ein Semikolon trennt wie ein Zeilenumbruch: "Tosca: Anna Netrebko;
+ * Cavaradossi: Yusif Eyvazov" in einer Zeile wäre sonst eine Person namens
+ * "Anna Netrebko; Cavaradossi: Yusif Eyvazov". In keinem Namen kommt eins vor.
  */
 export function besetzungLesen(castList) {
     return String(castList ?? '')
-        .split('\n')
+        .split(/[\n;]/)
         .map(z => z.replace(/\s+/g, ' ').trim())
         .filter(Boolean)
         .map((zeile) => {

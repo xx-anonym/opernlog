@@ -1,5 +1,5 @@
 // Profile Page – Hybrid (local + cloud)
-import { escapeHTML, nachDemAbmelden, supportMailLink } from '../utils.js';
+import { escapeHTML, nachDemAbmelden, supportMailLink, kommazahl } from '../utils.js';
 import { icon } from '../components/Icon.js';
 import { runWithFeedback, showToast } from '../components/Toast.js';
 import { store } from '../store/store.js';
@@ -276,7 +276,7 @@ async function renderCloudProfile(page, userId) {
           <span class="stat-card__label">Besuche</span>
         </div>
         <div class="stat-card">
-          <span class="stat-card__number">${stats.averageRating ? stats.averageRating.toFixed(1) : '0'}</span>
+          <span class="stat-card__number">${stats.averageRating ? kommazahl(stats.averageRating) : '0'}</span>
           <span class="stat-card__label">Ø Bewertung</span>
         </div>
         <div class="stat-card">
@@ -615,7 +615,7 @@ function renderLocalProfile(page, userId, isMe) {
            er sich ergibt. Nur im eigenen Profil – im fremden zeigte der Link
            auf das eigene Tagebuch und damit auf fremde Zahlen. -->
       <a href="#/diary" class="stat-card stat-card--klickbar" title="Zum Tagebuch">
-        <span class="stat-card__number">${stats?.avgRating || '0'}</span>
+        <span class="stat-card__number">${kommazahl(stats?.avgRating) || '0'}</span>
         <span class="stat-card__label">Ø Bewertung</span>
         <span class="stat-card__hint">${icon('calendar')}</span>
       </a>

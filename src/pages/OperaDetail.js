@@ -107,6 +107,18 @@ function zurAnmeldung(grund) {
   return true;
 }
 
+/**
+ * "Auf die Wunschliste" / "Auf der Wunschliste". Auf schmalen Handys steht
+ * der Knopf halb breit neben "Schon gesehen" (.detail-actions) und bräche um;
+ * dort fällt "Auf die"/"Auf der" weg (.nur-breit). Ob das Werk drauf ist,
+ * zeigen ohnehin der gefüllte Stern und das Gold.
+ */
+function wunschlisteBeschriftung(drauf) {
+  return drauf
+    ? `${icon('star', { filled: true })} <span><span class="nur-breit">Auf der </span>Wunschliste</span>`
+    : `${icon('star')} <span><span class="nur-breit">Auf die </span>Wunschliste</span>`;
+}
+
 // Werke, deren "Aktuelle Termine" gerade aufgeklappt sind. Die Seite wird
 // neu gebaut, sobald die App aus dem Hintergrund zurückkommt; ohne das
 // klappte die Liste dabei jedes Mal wieder zu.
@@ -152,9 +164,7 @@ export function OperaDetailPage(operaId) {
         <div class="detail-actions">
           <a href="#/log?opera=${opera.id}" class="btn btn--primary">+ Besuch mit diesem Werk loggen</a>
           <button id="wishlistToggle" data-haptik class="btn ${store.isOnWishlist(opera.id) ? 'btn--wishlist-active' : 'btn--outline'}">
-            ${store.isOnWishlist(opera.id)
-              ? icon('star', { filled: true }) + ' Auf der Wunschliste'
-              : icon('star') + ' Auf die Wunschliste'}
+            ${wunschlisteBeschriftung(store.isOnWishlist(opera.id))}
           </button>
           ${store.hasLoggedOpera(opera.id) ? `
             <span class="btn btn--seen-static"
@@ -296,9 +306,7 @@ export function OperaDetailPage(operaId) {
       // Beschriftung nur ändern, wenn es wirklich geklappt hat
       if (!ok) return;
       wishlistBtn.className = wasOn ? 'btn btn--outline' : 'btn btn--wishlist-active';
-      wishlistBtn.innerHTML = wasOn
-        ? icon('star') + ' Auf die Wunschliste'
-        : icon('star', { filled: true }) + ' Auf der Wunschliste';
+      wishlistBtn.innerHTML = wunschlisteBeschriftung(!wasOn);
     });
   }
 

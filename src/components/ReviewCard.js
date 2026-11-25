@@ -41,13 +41,23 @@ export function ReviewCard(visit, options = {}) {
   // erzeugen keine Zeile, ein Besuch ganz ohne Angaben keinen Block.
   const credits = visitCredits(visit);
   // Jeder Name führt auf die Personenseite: alle eigenen Abende mit dieser
-  // Person (src/pages/PersonDetail.js). Die Zeile bleibt, wie sie
-  // eingetragen wurde – "Tosca: Anna Netrebko" wird nicht umgestellt.
+  // Person (src/pages/PersonDetail.js).
+  //
+  // Seit 25.11.2026 als kleine Liste, Rolle links und Name rechts – egal ob
+  // "Anna Netrebko (Tosca)" oder "Tosca: Anna Netrebko" eingetragen wurde.
+  // Vorher stand jede Zeile so da, wie sie getippt war, und die beiden
+  // Schreibweisen wechselten sich in derselben Besetzung ab.
   const personLink = name => `<a class="person-link" href="${personAdresse(name)}">${escapeHTML(name)}</a>`;
-  const besetzungHTML = castList => besetzungLesen(castList).map(p =>
-    p.form === 'klammer' ? `${personLink(p.name)} (${escapeHTML(p.rolle)})`
-      : p.form === 'doppelpunkt' ? `${escapeHTML(p.rolle)}: ${personLink(p.name)}`
-        : personLink(p.name)).join('\n');
+  const besetzungHTML = (castList) => {
+    const personen = besetzungLesen(castList);
+    if (!personen.length) return '';
+    const mitRollen = personen.some(p => p.rolle);
+    // Ohne Leerraum zwischen den Elementen: .credit__value bricht an
+    // Zeilenumbrüchen um (white-space: pre-line).
+    return `<span class="besetzung-liste${mitRollen ? '' : ' besetzung-liste--ohne-rollen'}">${personen.map(p =>
+      (mitRollen ? `<span class="besetzung-liste__rolle">${escapeHTML(p.rolle)}</span>` : '')
+      + `<span class="besetzung-liste__name">${personLink(p.name)}</span>`).join('')}</span>`;
+  };
   const creditRow = (label, html) => html ? `
         <div class="credit">
           <span class="credit__label">${label}</span>

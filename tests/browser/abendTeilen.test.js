@@ -79,7 +79,7 @@ test('am eigenen Abend: "Bild" schickt ein Bild 1080 × 1920 und den Direktlink'
     try {
         const knopf = p.locator('.review-card__actions .abend-teilen');
         await knopf.waitFor({ timeout: 15000 });
-        assert.equal((await knopf.innerText()).trim(), 'Bild');
+        assert.equal((await knopf.innerText()).trim(), 'Teilen');
         await knopf.click();
         await p.waitForFunction(() => window.__geteilt.length === 1, null, { timeout: 15000 });
         const [g] = await p.evaluate(() => window.__geteilt);

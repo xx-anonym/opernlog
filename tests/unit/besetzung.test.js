@@ -16,6 +16,13 @@ test('"Name (Rolle)", "Rolle: Name" und ein Name allein', () => {
     ]);
 });
 
+test('ein Semikolon trennt wie ein Zeilenumbruch', () => {
+    assert.deepEqual(besetzungLesen('Tosca: Anna Netrebko; Cavaradossi: Yusif Eyvazov'), [
+        { name: 'Anna Netrebko', rolle: 'Tosca', form: 'doppelpunkt' },
+        { name: 'Yusif Eyvazov', rolle: 'Cavaradossi', form: 'doppelpunkt' },
+    ]);
+});
+
 test('nur eine Klammer am Zeilenende ist die Rolle', () => {
     assert.deepEqual(besetzungLesen('Chor (Extrachor) der Oper'), [{ name: 'Chor (Extrachor) der Oper', rolle: '', form: 'name' }]);
     assert.deepEqual(besetzungLesen(''), []);

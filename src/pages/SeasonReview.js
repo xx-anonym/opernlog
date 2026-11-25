@@ -35,6 +35,15 @@ import { stimmenWalze } from '../components/StimmenWalze.js';
 // und zwei Fassungen desselben Formats laufen erfahrungsgemäß auseinander.
 const datum = datumKurz;
 
+/**
+ * "12. Okt. 2025 bis 29. März 2026" – oder "am 29. März 2026", wenn alle
+ * Abende der Spielzeit auf einen Tag fielen. Vorher stand dort "29. März
+ * 2026 bis 29. März 2026".
+ */
+export function zeitraum(erster, letzter) {
+    return erster === letzter ? `am ${datum(erster)}` : `${datum(erster)} bis ${datum(letzter)}`;
+}
+
 function zahl(n) {
     return new Intl.NumberFormat('de-DE').format(n);
 }
@@ -87,7 +96,7 @@ export function SeasonReviewPage(param) {
       <span class="season__kicker">${ausweichend ? 'Dein letzter Rückblick' : 'Saisonrückblick'}</span>
       <h1 class="season__title">${review.label}</h1>
       <p class="season__lead">
-        ${datum(review.firstVisit.date)} bis ${datum(review.lastVisit.date)}
+        ${zeitraum(review.firstVisit.date, review.lastVisit.date)}
       </p>
       <button type="button" class="btn btn--accent season__story" id="storyBtn">
         ${icon('play')}Als Story ansehen
@@ -258,7 +267,7 @@ function storyFolien(r, kacheln, vergleich, { teilen: teilenKlick, vonVorn }) {
             html: `
           <span class="story__kicker">Saisonrückblick</span>
           <span class="story__titel">${r.label}</span>
-          <span class="story__notiz">${datum(r.firstVisit.date)} bis ${datum(r.lastVisit.date)}</span>`,
+          <span class="story__notiz">${zeitraum(r.firstVisit.date, r.lastVisit.date)}</span>`,
         },
         ...kacheln.map(k => ({ html: folie({ ...k, stil: stilVon(k) }), nachbau: k.nachbau })),
     ];

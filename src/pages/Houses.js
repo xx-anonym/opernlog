@@ -1,7 +1,7 @@
 // Opera Houses Browse Page
 import { operaHouses } from '../data/operaHouses.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground, einblendVerzoegerung, passtZurSuche } from '../utils.js';
+import { coverBackground, einblendVerzoegerung, passtZurSuche, kommazahl } from '../utils.js';
 import { store } from '../store/store.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -181,7 +181,7 @@ export function HousesPage() {
             <span>${icon('calendar', { className: 'icon--meta' })}Seit ${house.founded}</span>
           </div>
           <div class="house-card__footer">
-            ${avgRating ? `<span class="house-card__rating">★ ${avgRating.toFixed(1)}</span>` : '<span class="house-card__rating house-card__rating--none">Noch keine Bewertung</span>'}
+            ${avgRating ? `<span class="house-card__rating">★ ${kommazahl(avgRating)}</span>` : '<span class="house-card__rating house-card__rating--none">Noch keine Bewertung</span>'}
             <span class="house-card__visits">${visitCount} ${visitCount === 1 ? 'Besuch' : 'Besuche'}</span>
           </div>
         </div>

@@ -2,6 +2,7 @@
 // Shows how many ratings exist for each star level (½ to 5 in 0.5 steps)
 
 import { HALBER_STERN } from './StarRating.js';
+import { kommazahl } from '../utils.js';
 
 export function RatingsHistogram(ratings, options = {}) {
     const {
@@ -43,7 +44,7 @@ export function RatingsHistogram(ratings, options = {}) {
         ${showAverage ? `
         <span class="ratings-histogram__avg">
             <span class="ratings-histogram__avg-stars">${renderStars(avg)}</span>
-            <span class="ratings-histogram__avg-number">${avg.toFixed(1)}</span>
+            <span class="ratings-histogram__avg-number">${kommazahl(avg)}</span>
             ${showCount ? `<span class="ratings-histogram__count">(${ratings.length})</span>` : ''}
         </span>
         ` : ''}

@@ -88,7 +88,8 @@ test('die Zeile bleibt, wie sie eingetragen wurde, und der Name ist trotzdem ein
     const { ctx, p } = await oeffne('#/profile');
     try {
         const wert = p.locator('.review-card', { hasText: 'Tosca' }).locator('.credit', { hasText: 'Besetzung' }).locator('.credit__value');
-        assert.equal((await wert.innerText()).trim(), 'Tosca: Anna Netrebko\nben bliss (Cavaradossi)');
+        // Als Liste, Rolle links, Name rechts – gleich, wie es eingetragen war.
+        assert.deepEqual(await wert.locator('.besetzung-liste__rolle').allTextContents(), ['Tosca', 'Cavaradossi']);
         assert.deepEqual(await wert.locator('a.person-link').allTextContents(), ['Anna Netrebko', 'ben bliss']);
     } finally { await ctx.close(); }
 });
