@@ -33,6 +33,7 @@ import { heuteIso, terminMitWochentag, zeitText, abendeInDerNaehe, tagePlus } fr
 import { spielplan } from '../data/spielplan.js';
 import { isSupabaseConfigured } from '../config.js';
 import * as sb from '../store/supabase.js';
+import * as feedVorrat from '../feedVorrat.js';
 import { tippen } from '../haptik.js';
 import { StarRating } from '../components/StarRating.js';
 import { abendeAmJahrestag, jahrestagText, reviewAuszug } from '../data/jahrestag.js';
@@ -347,37 +348,37 @@ function feedAbschnitt({ leerNach = null } = {}) {
   // so springt nichts, was schon dasteht.
   if (leerNach) el.hidden = true;
 
-  (async () => {
-    // Hier standen früher die eigenen Besuche, wenn keine Cloud da war –
-    // unter der Überschrift "Dein Feed" fiel das nicht weiter auf. Unter
-    // "Von deinen Freunden" wäre es schlicht gelogen, und das eigene Tagebuch
-    // hat ohnehin einen eigenen Reiter. Also: Freunde oder nichts.
-    const angemeldet = store.isCloud && isSupabaseConfigured();
-    let feed = [];
-    let gescheitert = false;
-    let folgt = 0;
+  // Hier standen früher die eigenen Besuche, wenn keine Cloud da war –
+  // unter der Überschrift "Dein Feed" fiel das nicht weiter auf. Unter
+  // "Von deinen Freunden" wäre es schlicht gelogen, und das eigene Tagebuch
+  // hat ohnehin einen eigenen Reiter. Also: Freunde oder nichts.
+  const angemeldet = !!store.isCloud && isSupabaseConfigured();
+  // Ohne Netz ist man oft nur lokal angemeldet (store.isOfflineWithLocalUser):
+  // dann gibt es höchstens den gemerkten Feed (src/feedVorrat.js).
+  const nutzerId = angemeldet ? store.isCloud.user?.id
+    : store.isOfflineWithLocalUser ? store.data.currentUser?.id : null;
+  let gezeigt = null;
 
-    if (angemeldet) {
-      try {
-        feed = (await sb.getFeedCloud()).map(v => sb.mapCloudVisit(v));
-        // Ein leerer Feed hat zwei Ursachen, und sie verlangen verschiedene
-        // Sätze: niemandem folgen, oder Gefolgten ohne Abende. Nur im
-        // Leerfall gefragt – sonst wäre es eine Abfrage für nichts.
-        if (!feed.length) folgt = await sb.getFollowingCount();
-      } catch (e) {
-        console.error('[Feed laden]', e);
-        showError('Der Feed konnte nicht geladen werden.');
-        gescheitert = true;
-      }
-    }
-
+  const zeigen = ({ feed = [], gescheitert = false, folgt = 0, stand = null }) => {
+    gezeigt = feed;
     el.innerHTML = `<h2 class="section__title">${icon('feed')}Von deinen Freunden</h2>`;
     if (leerNach) {
-      if (!feed.length && el.isConnected) leerNach(el);
+      if (!feed.length && el.isConnected && !el.dataset.verschoben) {
+        el.dataset.verschoben = '1';
+        leerNach(el);
+      }
       el.hidden = false;
     }
 
     if (feed.length) {
+      // Der gemerkte Feed, weil der frische nicht kam: mit Stand, damit
+      // niemand ihn für aktuell hält.
+      if (stand) {
+        const hinweis = document.createElement('p');
+        hinweis.className = 'feed-stand';
+        hinweis.innerHTML = `${icon('globe', { className: 'icon--meta' })}${escapeHTML(stand)} – gerade nicht aktualisierbar`;
+        el.appendChild(hinweis);
+      }
       abendListe(el, feed, { mitFotos: true });
       return;
     }
@@ -405,7 +406,43 @@ function feedAbschnitt({ leerNach = null } = {}) {
            <a href="#/auth" class="btn btn--primary">Anmelden</a>`;
     el.appendChild(leer);
 
-    if (angemeldet && !gescheitert) await gemeinschaft(el);
+    if (angemeldet && !gescheitert) gemeinschaft(el);
+  };
+
+  (async () => {
+    if (!angemeldet) {
+      // Ohne Sitzung: nur lokal angemeldet (ohne Netz) zeigt den gemerkten
+      // Feed, wer gar kein Konto hat, die Einladung zur Anmeldung.
+      const vorrat = nutzerId ? feedVorrat.gemerkt(nutzerId) : null;
+      if (vorrat?.feed.length) zeigen({ feed: vorrat.feed.map(v => sb.mapCloudVisit(v)), stand: feedVorrat.standText(vorrat.zeit) });
+      else zeigen({ gescheitert: !!nutzerId });
+      return;
+    }
+
+    // Beim Start die Antwort, auf die schon der Vorhang gewartet hat; beim
+    // Neuzeichnen derselben Sitzung steht der eben geladene Feed sofort da.
+    const { sofort, frisch } = feedVorrat.holen(() => sb.getFeedCloud(), nutzerId);
+    if (sofort?.length) zeigen({ feed: sofort.map(v => sb.mapCloudVisit(v)) });
+
+    try {
+      const feed = (await frisch).map(v => sb.mapCloudVisit(v));
+      // Ein leerer Feed hat zwei Ursachen, und sie verlangen verschiedene
+      // Sätze: niemandem folgen, oder Gefolgten ohne Abende. Nur im
+      // Leerfall gefragt – sonst wäre es eine Abfrage für nichts.
+      const folgt = feed.length ? 0 : await sb.getFollowingCount();
+      if (gezeigt === null || feedVorrat.anders(gezeigt, feed) || !feed.length) zeigen({ feed, folgt });
+    } catch (e) {
+      console.error('[Feed laden]', e);
+      // Was eben schon frisch dastand, bleibt einfach stehen.
+      if (gezeigt?.length) return;
+      const vorrat = feedVorrat.gemerkt(nutzerId);
+      if (vorrat?.feed.length) {
+        zeigen({ feed: vorrat.feed.map(v => sb.mapCloudVisit(v)), stand: feedVorrat.standText(vorrat.zeit) });
+        return;
+      }
+      showError('Der Feed konnte nicht geladen werden.');
+      zeigen({ gescheitert: true });
+    }
   })();
 
   return el;

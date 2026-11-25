@@ -74,7 +74,7 @@ window.__passkeyFehler = null;  // gesetzt: signInWithPasskey/registerPasskey li
 window.__passkeyListeFehler = null;
 window.__passkeyAnmeldungen = 0;
 window.__passkeyGeloescht = [];
-window.__lesefehler = {};       // { tabelle: meldung } – jedes Lesen dieser Tabelle scheitert
+window.__lesefehler = window.__lesefehlerVorgabe || {}; // { tabelle: meldung } – jedes Lesen dieser Tabelle scheitert
 // Für den Abgleich: jede Antwort um so viele ms verzögern, und mitzählen,
 // wie viele Abfragen gleichzeitig unterwegs waren – und wie oft admins.
 window.__verzoegerung = 0;

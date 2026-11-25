@@ -21,11 +21,12 @@ import { VERSION } from './version.js';
 import { ABGEMELDET, nachDemAbmelden } from './utils.js';
 import { showError, showToast } from './components/Toast.js';
 import { ladeKatalogZusatz } from './data/katalogZusatz.js';
-import { getSession, getSupabase, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden, acceptInvite } from './store/supabase.js';
+import { getSession, getSupabase, getFeedCloud, waitForInitialSession, isProfileComplete, getKatalogZusatzCloud, fehlerMelden, acceptInvite } from './store/supabase.js';
 import { fehlerprotokollEinrichten } from './fehlerprotokoll.js';
 import { umzugSchritt, umzugZiel, umzugEinloesen, istAlteAdresse, UMZUG_MITTEILUNGEN } from './umzug.js';
 import { umzugHinweisFenster } from './components/UmzugHinweis.js';
 import { mailLinkEinloesen, mailAnmeldungText } from './mailAnmeldung.js';
+import * as feedVorrat from './feedVorrat.js';
 import { istInstalliert } from './installHinweis.js';
 import { LandingPage, landingZeigen } from './components/Landing.js';
 
@@ -138,8 +139,18 @@ class App {
         // gezeichnet wurde. Ohne Netz laufen dabei mehrere Abfragen samt
         // Wiederholungen ins Leere; der Vorhang ging nach vier Sekunden auf
         // und dahinter war noch nichts. Das war der graue Bildschirm.
+        //
+        // Auf der Startseite wartet der Vorhang außerdem auf den Feed der
+        // Freunde (src/feedVorrat.js), in derselben Frist: er soll frisch
+        // dastehen, wenn der Vorhang aufgeht, statt dass sich dahinter erst
+        // der Spinner dreht. initCloudOrCarryOn() stößt die Anfrage an,
+        // sobald die Sitzung feststeht; ohne Sitzung oder auf einer anderen
+        // Seite gibt es nichts abzuwarten.
         const GEDULD = 3000;
         let cloudFertig = false;
+        let feedMelden;
+        const feedBereit = new Promise(r => { feedMelden = r; });
+        this._feedMelden = feedMelden;
 
         const cloud = this.initCloudOrCarryOn()
             .then(() => { cloudFertig = true; })
@@ -147,9 +158,11 @@ class App {
                 cloudFertig = true;
                 console.error('[App] Start ohne Cloud – weiter mit lokalen Daten', e);
                 store.syncError = e;
-            });
+            })
+            // Hat der Start keinen Feed angestoßen, ist auch keiner abzuwarten.
+            .finally(() => feedMelden(false));
 
-        await Promise.race([cloud, new Promise(r => setTimeout(r, GEDULD))]);
+        await Promise.race([Promise.all([cloud, feedBereit]), new Promise(r => setTimeout(r, GEDULD))]);
 
         clearTimeout(splashTimeout);
 
@@ -218,6 +231,11 @@ class App {
             if (await this.vielleichtUmziehen(initialSession)) {
                 this._startAbgeschlossen = true;
                 return;
+            }
+
+            // Der Feed der Startseite, neben dem Abgleich unten (siehe init).
+            if (initialSession && ['', 'home'].includes(this.currentPath())) {
+                this._feedMelden?.(feedVorrat.vorladen(() => getFeedCloud(), initialSession.user.id));
             }
 
             // Auch dann abgleichen, wenn oben nichts kam. Dieser erste Blick
