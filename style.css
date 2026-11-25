@@ -7673,6 +7673,16 @@ html.story-offen body {
 
 /* --- Feed: leerer Freundes-Feed und Rückfallebene -------------------- */
 
+/* Über dem gemerkten Feed, wenn der frische nicht kam (src/feedVorrat.js). */
+.feed-stand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: -4px 0 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
 .feed-leer {
     padding: 26px;
     border: 1px solid var(--border);

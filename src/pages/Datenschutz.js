@@ -17,7 +17,7 @@ import { SUPPORT_ADRESSE } from '../config.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
 export const KONTAKT = SUPPORT_ADRESSE;
-export const STAND = '18. November 2026';
+export const STAND = '25. November 2026';
 
 export function DatenschutzPage() {
     const page = document.createElement('div');
@@ -79,7 +79,8 @@ export function DatenschutzPage() {
 
       <h2>Auf deinem Gerät</h2>
       <p>Die App legt deine Anmeldung und eine Kopie deiner Daten im Speicher des Browsers ab, damit sie
-      schnell startet und auch ohne Netz funktioniert. Das bleibt auf deinem Gerät.</p>
+      schnell startet und auch ohne Netz funktioniert, dazu die zuletzt geladenen Abende deiner Freunde
+      für die Startseite. Das bleibt auf deinem Gerät und verschwindet beim Abmelden.</p>
 
       <h2>Dienste, die dabei mitarbeiten</h2>
       <ul>

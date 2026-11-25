@@ -6,6 +6,7 @@ import { isSupabaseConfigured } from '../config.js';
 import * as sb from './supabase.js';
 import { pushBeimAbmelden } from '../push.js';
 import { heuteIso } from '../utils.js';
+import { vergessen as feedVergessen } from '../feedVorrat.js';
 
 const STORAGE_KEY = 'opernlog_data';
 const STORE_VERSION = 3;
@@ -1256,6 +1257,8 @@ class Store {
         this._profile = null;
         this._cloudMode = false;
         this.abgeglichen = false;
+        // Der gemerkte Feed der Startseite gehört zum Konto (src/feedVorrat.js).
+        feedVergessen();
         this.syncError = null;
         // Ob Vorschläge offen sind, gilt für das abgemeldete Konto. Bis
         // 17.11.2026 räumte das ein Neuladen der Seite weg.
