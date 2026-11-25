@@ -80,7 +80,7 @@ test('eine lange Besetzung ist eingeklappt und zeigt die Kurzfassung', { skip: f
         assert.equal(await k.locator('details.besetzung').evaluate(d => d.open), false);
         assert.equal(await k.locator('.besetzung__kurz').textContent(),
             'Ben Bliss, Simon Keenlyside und 4 weitere');
-        assert.equal(await k.getByText('Rebecka Wallroth (Giovanna)').isVisible(), false,
+        assert.equal(await k.locator('.besetzung-liste__name', { hasText: 'Rebecka Wallroth' }).isVisible(), false,
             'die ganze Liste steht trotz Einklappen da');
         // Dirigent und Regie bleiben offen.
         assert.equal(await k.getByText('Domingo Hindoyan').isVisible(), true);
@@ -98,7 +98,7 @@ test('ein Klick klappt auf, statt zur Seite des Besuchs zu springen', { skip: fe
 
         assert.equal(await p.evaluate(() => location.hash), '#/profile',
             'der Klick auf den Aufklapper hat die Seite gewechselt');
-        assert.equal(await k.getByText('Rebecka Wallroth (Giovanna)').isVisible(), true);
+        assert.equal(await k.locator('.besetzung-liste__name', { hasText: 'Rebecka Wallroth' }).isVisible(), true);
         assert.equal(await k.locator('.besetzung__offen').textContent(), '6 Mitwirkende');
         assert.equal(await k.locator('.besetzung__kurz').isVisible(), false,
             'aufgeklappt steht die Kurzfassung doppelt über der Liste');
@@ -106,7 +106,7 @@ test('ein Klick klappt auf, statt zur Seite des Besuchs zu springen', { skip: fe
         // Und wieder zu.
         await k.locator('.besetzung__summary').click();
         await p.waitForTimeout(200);
-        assert.equal(await k.getByText('Rebecka Wallroth (Giovanna)').isVisible(), false);
+        assert.equal(await k.locator('.besetzung-liste__name', { hasText: 'Rebecka Wallroth' }).isVisible(), false);
     } finally { await ctx.close(); }
 });
 
@@ -125,7 +125,9 @@ test('zwei Zeilen Besetzung bleiben offen', { skip: fehltPlaywright }, async () 
     try {
         const k = karte(p, 'Tosca');
         assert.equal(await k.locator('details.besetzung').count(), 0);
-        assert.equal(await k.getByText('Yusif Eyvazov (Cavaradossi)').isVisible(), true);
+        assert.equal(await k.locator('.besetzung-liste__name', { hasText: 'Yusif Eyvazov' }).isVisible(), true);
+        // Rolle links, Name rechts (seit 25.11.2026).
+        assert.deepEqual(await k.locator('.besetzung-liste__rolle').allTextContents(), ['Tosca', 'Cavaradossi']);
     } finally { await ctx.close(); }
 });
 
@@ -134,7 +136,7 @@ test('auf der Seite des Besuchs ist die Besetzung aufgeklappt', { skip: fehltPla
     const { ctx, p } = await oeffne('#/visit/lang');
     try {
         assert.equal(await p.locator('details.besetzung').evaluate(d => d.open), true);
-        assert.equal(await p.getByText('Rebecka Wallroth (Giovanna)').isVisible(), true);
+        assert.equal(await p.locator('.besetzung-liste__name', { hasText: 'Rebecka Wallroth' }).isVisible(), true);
     } finally { await ctx.close(); }
 });
 

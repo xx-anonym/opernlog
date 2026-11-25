@@ -174,6 +174,16 @@ export function nachDemAbmelden(umgebung = globalThis) {
     umgebung.dispatchEvent(new Event(ABGEMELDET));
 }
 
+/**
+ * Eine Zahl mit deutschem Dezimalkomma: 4.5 → "4,5". Für Bewertungen und
+ * Schnitte überall in der App (bis 25.11.2026 stand mal "4,3", mal "4.5").
+ * Nimmt auch Zeichenketten ("4.5" aus der Datenbank); Unbrauchbares wird "".
+ */
+export function kommazahl(n, stellen = 1) {
+    const z = typeof n === 'number' ? n : parseFloat(n);
+    return Number.isFinite(z) ? z.toFixed(stellen).replace('.', ',') : '';
+}
+
 export function escapeHTML(str) {
     if (str == null) return '';
     return String(str)
@@ -498,7 +508,8 @@ export const BESETZUNG_EINKLAPPEN_AB = 3;
  * @returns {{zeilen: string[], kurz: string, einklappen: boolean}}
  */
 export function besetzungKurz(castList) {
-    const zeilen = String(castList ?? '').split('\n').map(z => z.trim()).filter(Boolean);
+    // Wie besetzungLesen (data/besetzung.js): Zeilenumbruch oder Semikolon.
+    const zeilen = String(castList ?? '').split(/[\n;]/).map(z => z.trim()).filter(Boolean);
     // Nur eine Rolle am Zeilenende fällt weg. Steht die Klammer mittendrin,
     // gehört sie vermutlich zum Namen.
     const name = z => z.replace(/\s*\([^()]*\)$/, '') || z;

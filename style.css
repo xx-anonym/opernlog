@@ -4399,6 +4399,35 @@ body {
     margin-top: 4px;
 }
 
+/* Auf dem Handy (seit 25.11.2026): der Hauptknopf über die ganze Breite, die
+ * übrigen gleich breit zu zweit darunter. Vorher brach jeder Knopf in eine
+ * eigene Zeile und war so breit wie sein Text – eine Treppe aus Knöpfen. Bleibt
+ * einer allein, nimmt er die ganze Zeile. */
+@media (max-width: 600px) {
+    .detail-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .detail-actions > .btn--primary,
+    .detail-actions > .btn--primary ~ :last-child:nth-child(even) {
+        grid-column: 1 / -1;
+    }
+
+    .detail-actions > .btn {
+        padding-left: 12px;
+        padding-right: 12px;
+        text-align: center;
+    }
+}
+
+/* Nur bei genug Breite: "Auf die" vor "Wunschliste" auf der Werkseite. */
+@media (max-width: 420px) {
+    .nur-breit {
+        display: none;
+    }
+}
+
 /* Wishlist active button */
 /* Gold, wie der Stern. Vorher stand hier die Akzentfarbe – dunkelrote
    Schrift auf dunklem Grund, kaum zu lesen. */
@@ -5391,6 +5420,32 @@ body {
 /* Die Besetzung wird zeilenweise eingegeben – die Umbrüche bleiben stehen. */
 .credit__value {
     white-space: pre-line;
+}
+
+/* Die Besetzung als Liste: Rolle links, gedämpft, Name rechts. Die Rollen-
+ * spalte ist höchstens so breit wie nötig und nie mehr als knapp die Hälfte. */
+.besetzung-liste {
+    display: grid;
+    grid-template-columns: fit-content(45%) 1fr;
+    column-gap: 12px;
+    row-gap: 3px;
+    white-space: normal;
+    align-items: baseline;
+}
+
+.besetzung-liste--ohne-rollen {
+    grid-template-columns: 1fr;
+}
+
+.besetzung-liste__rolle {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+}
+
+.besetzung-liste__name {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 /* Eingeklappte Besetzung in der Karte. Zu sieht man eine Zeile mit den ersten

@@ -2,7 +2,7 @@
 import { operas } from '../data/operas.js';
 import { kurzname } from '../data/composers.js';
 import { icon } from '../components/Icon.js';
-import { coverBackground, einblendVerzoegerung, passtZurSuche } from '../utils.js';
+import { coverBackground, einblendVerzoegerung, passtZurSuche, kommazahl } from '../utils.js';
 import { store } from '../store/store.js';
 import { BlindSpots } from '../components/BlindSpots.js';
 import { isSupabaseConfigured } from '../config.js';
@@ -192,7 +192,7 @@ export function OperasPage() {
             <span class="opera-card__lang">${opera.language}</span>
           </div>
           <div class="opera-card__footer">
-            ${avgRating ? `<span class="opera-card__rating">★ ${avgRating.toFixed(1)}</span>` : ''}
+            ${avgRating ? `<span class="opera-card__rating">★ ${kommazahl(avgRating)}</span>` : ''}
             ${visitCount > 0 ? `<span class="opera-card__visits">${visitCount}×</span>` : ''}
           </div>
         </div>

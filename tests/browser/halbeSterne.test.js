@@ -48,7 +48,7 @@ test('Eingabe: linke Hälfte des vierten Sterns – ein halber Stern, halb gefü
         assert.ok(h.anteil >= 45 && h.anteil <= 55, `Anteil ${h.anteil} %`);
         assert.deepEqual([h.oben, h.links], [0, 0]);
         assert.equal(h.farbe, 'rgb(201, 168, 76)');
-        assert.equal(await p.textContent('#ratingWidget .star-rating__number'), '3.5');
+        assert.equal(await p.textContent('#ratingWidget .star-rating__number'), '3,5');
     } finally { await ctx.close(); }
 });
 

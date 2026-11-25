@@ -7,7 +7,7 @@ import * as sb from '../store/supabase.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { operas } from '../data/operas.js';
 import { renderAvatarHTML } from '../data/profileIcons.js';
-import { escapeHTML, copyToClipboard, sterneText } from '../utils.js';
+import { escapeHTML, copyToClipboard, sterneText, kommazahl } from '../utils.js';
 import { leerHTML } from '../components/Leer.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 import { ziehenZumAktualisieren } from '../ziehenZumAktualisieren.js';
@@ -250,7 +250,7 @@ export function CommunityPage() {
                             <div class="feed-card__body">
                                 <h3>${escapeHTML(opera?.title || item.opera_id)}</h3>
                                 <p class="text-muted">${escapeHTML(house?.name || item.house_id)}, ${escapeHTML(house?.city || '')}</p>
-                                <div class="feed-card__rating">${sterneText(item.rating)} ${item.rating ? parseFloat(item.rating).toFixed(1) : '–'}</div>
+                                <div class="feed-card__rating">${sterneText(item.rating)} ${item.rating ? kommazahl(item.rating) : '–'}</div>
                                 ${item.review ? `<p class="feed-card__review">${escapeHTML(item.review)}</p>` : ''}
                             </div>
                         `;
