@@ -125,7 +125,7 @@ function brotkrumen(art, name = null, url = null) {
     };
 }
 
-function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app, krumen = null }) {
+function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app, krumen = null, kanonisch = url }) {
     if (krumen) daten = [krumen, ...daten];
     const ld = daten.length
         ? `\n  <script type="application/ld+json">${JSON.stringify(daten.length === 1 ? daten[0] : daten).replace(/</g, '\\u003c')}</script>`
@@ -137,13 +137,13 @@ function seite({ titel, beschreibung, url, bild, inhalt, daten = [], app, krumen
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${maske(titel)}</title>
   <meta name="description" content="${maske(beschreibung)}">
-  <link rel="canonical" href="${maske(url)}">
+  <link rel="canonical" href="${maske(kanonisch)}">
   <meta name="theme-color" content="#8b1a2b">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OpernLog">
   <meta property="og:locale" content="de_DE">
-  <meta property="og:url" content="${maske(url)}">
+  <meta property="og:url" content="${maske(kanonisch)}">
   <meta property="og:title" content="${maske(titel)}">
   <meta property="og:description" content="${maske(beschreibung)}">
   <meta property="og:image" content="${maske(bild || `${SEITE}/icons/vorschau.png`)}">
@@ -563,6 +563,15 @@ ${meine.map(t => terminZeile(t, { werk: werke.get(t.werk), haus }, 'werk')).join
  * Wien Dezember" –, und eine Hausseite trifft das nicht, wenn eine Stadt
  * mehrere Häuser hat.
  */
+/**
+ * Die Seite einer Stadt. Hat die Stadt nur ein Haus, steht dort fast dasselbe
+ * wie auf der Seite des Hauses; Google nahm deshalb manche nicht auf
+ * ("Gecrawlt – zurzeit nicht indexiert", 27.11.2026). Dann nennt die
+ * Stadtseite die Hausseite als Hauptadresse (canonical) und fehlt in der
+ * Sitemap – erreichbar bleibt sie, und Rang und Klicks sammeln sich beim Haus.
+ */
+export const stadtMitEinemHaus = (haeuser) => haeuser.length === 1;
+
 export function stadtSeite(stadt, { haeuser, termine, werke, stand }) {
     const ids = new Set(haeuser.map(h => h.id));
     const hausMap = new Map(haeuser.map(h => [h.id, h]));
@@ -582,6 +591,7 @@ export function stadtSeite(stadt, { haeuser, termine, werke, stand }) {
             ? `Opernspielplan ${stadt}: ${meine.length} ${meine.length === 1 ? 'Abend' : 'Abende'} mit ${werkZahl} ${werkZahl === 1 ? 'Werk' : 'Werken'} – ${hausText}. Alle Termine nach Monaten, mit Links zu den Karten.`
             : `Oper in ${stadt}: ${hausText} – Häuser und Spielplan im Operntagebuch OpernLog.`).slice(0, 300),
         url: adresse('stadt', stadtId(stadt)),
+        kanonisch: stadtMitEinemHaus(haeuser) ? adresse('haus', haeuser[0].id) : adresse('stadt', stadtId(stadt)),
         bild: haeuser.find(h => h.imageUrl)?.imageUrl,
         app: appAdresse.stadt(),
         krumen: brotkrumen('stadt', stadt, adresse('stadt', stadtId(stadt))),
@@ -771,7 +781,7 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
     for (const w of werke) seiten.set(`${ORDNER.werk}/${w.id}/index.html`, werkSeite(w, { termine, haeuser: hausMap, stand, text: eigenerWerkText(w) || texte.get(w.id) || null }));
     const staedte = new Map();
     for (const h of haeuser) if (h.city) staedte.set(h.city, [...(staedte.get(h.city) || []), h]);
-    for (const h of haeuser) seiten.set(`${ORDNER.haus}/${h.id}/index.html`, hausSeite(h, { termine, werke: werkMap, stand, mitStadt: staedte.has(h.city) }));
+    for (const h of haeuser) seiten.set(`${ORDNER.haus}/${h.id}/index.html`, hausSeite(h, { termine, werke: werkMap, stand, mitStadt: (staedte.get(h.city) || []).length > 1 }));
     for (const [stadt, liste] of staedte) {
         seiten.set(`${ORDNER.stadt}/${stadtId(stadt)}/index.html`, stadtSeite(stadt, { haeuser: [...liste].sort(nachName), termine, werke: werkMap, stand }));
     }
@@ -826,7 +836,9 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
         eintraege: personen.map(p => ({ id: p.id, name: p.name, zusatz: `${p.abende.length} ${p.abende.length === 1 ? 'Abend' : 'Abende'}` })),
     }));
 
-    const adressen = [`${SEITE}/`, ...[...seiten.keys()].map(p => `${SEITE}/${p.replace(/index\.html$/, '')}`)];
+    // In die Sitemap nur Seiten, die ihre eigene Hauptadresse sind.
+    const anderswo = new Set([...staedte].filter(([, liste]) => stadtMitEinemHaus(liste)).map(([stadt]) => `${ORDNER.stadt}/${stadtId(stadt)}/index.html`));
+    const adressen = [`${SEITE}/`, ...[...seiten.keys()].filter(p => !anderswo.has(p)).map(p => `${SEITE}/${p.replace(/index\.html$/, '')}`)];
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${adressen.map(a => `  <url>\n    <loc>${maske(a)}</loc>\n    <lastmod>${stand}</lastmod>\n  </url>`).join('\n')}

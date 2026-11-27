@@ -31,6 +31,10 @@ function seiten() {
 }
 const ALLE = seiten();
 const lies = (p) => fs.readFileSync(path.join(WURZEL, p), 'utf8');
+// Stadtseiten mit nur einem Haus nennen die Hausseite als Hauptadresse
+// (seit 27.11.2026) und stehen nicht in der Sitemap.
+const KANONISCH = new Map(ALLE.map(p => [p, lies(p).match(/<link rel="canonical" href="([^"]+)">/)?.[1]]));
+const EIGENE = ALLE.filter(p => KANONISCH.get(p) === `https://opernlog.de/${p.replace(/index\.html$/, '')}`);
 
 test('jedes Werk und jedes Haus im Repo hat eine Seite', () => {
     for (const w of operas) assert.ok(ALLE.includes(`oper/${w.id}/index.html`), w.id);
@@ -40,7 +44,7 @@ test('jedes Werk und jedes Haus im Repo hat eine Seite', () => {
 test('die Sitemap nennt genau die Startseite und alle Seiten', () => {
     const sitemap = lies('sitemap.xml');
     const adressen = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
-    const erwartet = ['https://opernlog.de/', ...ALLE.map(p => `https://opernlog.de/${p.replace(/index\.html$/, '')}`)].sort();
+    const erwartet = ['https://opernlog.de/', ...EIGENE.map(p => `https://opernlog.de/${p.replace(/index\.html$/, '')}`)].sort();
     assert.deepEqual(adressen, erwartet);
     assert.ok(adressen.length < 50000, 'eine Sitemap fasst höchstens 50 000 Adressen');
 });
@@ -49,7 +53,9 @@ test('jede Seite: eigene Hauptadresse, Titel, Beschreibung, Überschrift, gülti
     for (const p of ALLE) {
         const html = lies(p);
         const url = `https://opernlog.de/${p.replace(/index\.html$/, '')}`;
-        assert.ok(html.includes(`<link rel="canonical" href="${url}">`), `${p}: canonical`);
+        // Eigene Hauptadresse – außer bei Städten mit einem Haus: dort die Hausseite.
+        const ziel = KANONISCH.get(p);
+        assert.ok(ziel === url || (p.startsWith('stadt/') && /^https:\/\/opernlog\.de\/haus\/[a-z0-9-]+\/$/.test(ziel) && ALLE.includes(ziel.replace('https://opernlog.de/', '') + 'index.html')), `${p}: canonical ${ziel}`);
         const titel = html.match(/<title>([^<]+)<\/title>/)?.[1] || '';
         assert.ok(titel.length >= 10 && titel.endsWith('| OpernLog'), `${p}: Titel ${titel}`);
         const beschreibung = html.match(/<meta name="description" content="([^"]+)">/)?.[1] || '';
@@ -195,8 +201,14 @@ test('Stadtseiten: jede Stadt mit Haus hat eine, Häuser verlinken dorthin', asy
     for (const h of operaHouses) {
         const p = `stadt/${stadtId(h.city)}/index.html`;
         assert.ok(ALLE.includes(p), `${h.city}: ${p} fehlt`);
-        assert.ok(lies(`haus/${h.id}/index.html`).includes(`/stadt/${stadtId(h.city)}/`), `${h.id}: kein Link zur Stadt`);
+        const mehrere = operaHouses.filter(x => x.city === h.city).length > 1;
+        // Nur Städte mit mehreren Häusern haben eine eigene Stadtseite, auf die es sich zu verweisen lohnt.
+        if (mehrere) assert.ok(lies(`haus/${h.id}/index.html`).includes(`/stadt/${stadtId(h.city)}/`), `${h.id}: kein Link zur Stadt`);
     }
+    const braunschweig = lies('stadt/braunschweig/index.html');
+    assert.match(braunschweig, /<link rel="canonical" href="https:\/\/opernlog\.de\/haus\/staatstheater-braunschweig\/">/);
+    assert.ok(!lies('sitemap.xml').includes('/stadt/braunschweig/'));
+    assert.ok(lies('sitemap.xml').includes('/stadt/wien/'));
     const wien = lies('stadt/wien/index.html');
     assert.match(wien, /<title>Oper in Wien: Spielplan und Termine \| OpernLog<\/title>/);
     assert.match(wien, /<h1>Oper in Wien<\/h1>/);
