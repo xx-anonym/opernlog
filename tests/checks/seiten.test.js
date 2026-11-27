@@ -214,3 +214,28 @@ test('Hausseiten: "Spielplan & Programm" mit Spielzeit, die Stadt nur, wenn sie 
     assert.match(lies('haus/oper-frankfurt/index.html'), /<title>Oper Frankfurt: Spielplan &amp; Programm \d{4}\/\d{2} \| OpernLog<\/title>/);
     assert.match(lies('haus/mecklenburgisches-staatstheater/index.html'), /<title>Mecklenburgisches Staatstheater Schwerin: Spielplan/);
 });
+
+// Seit 27.11.2026: eine Personenseite bleibt, wenn ihr letzter Abend vorbei
+// ist – mit den vergangenen Abenden aus den Besetzungsdateien. Sonst hinterließe
+// jede Woche Dutzende "nicht gefunden" bei Google.
+test('Personenseiten: vergangene Abende bleiben, die Seite verschwindet nicht', async () => {
+    const { besetzungsAbende, personenAus, personSeite } = await import('../werkzeug/seiten-erzeugen.mjs');
+    const besetzung = new Map([['hamburgische-staatsoper', {
+        'la-traviata|2026-10-03': { dirigent: 'Sesto Quatrini', besetzung: [{ rolle: 'Violetta Valery', name: 'Yaritza Véliz' }] },
+        'la-traviata|2027-01-14': { besetzung: [{ rolle: 'Flora Bervoix', name: 'Kady Evanyshyn' }] },
+    }]]);
+    const plan = [{ werk: 'la-traviata', haus: 'hamburgische-staatsoper', url: 'https://example.org/traviata', termine: ['2027-01-14'] }];
+    const abende = besetzungsAbende(besetzung, plan);
+    assert.deepEqual(abende.map(t => t.datum), ['2026-10-03', '2027-01-14']);
+    assert.equal(abende[0].url, 'https://example.org/traviata');
+    const personen = personenAus(abende);
+    const werke = new Map(operas.map(w => [w.id, w]));
+    const haeuser = new Map(operaHouses.map(h => [h.id, h]));
+    const vorbei = personSeite(personen.get('yaritza-veliz'), { werke, haeuser, stand: '2026-11-14', heute: '2026-11-27' });
+    assert.match(vorbei, /<h2>Vergangene Abende<\/h2>/);
+    assert.doesNotMatch(vorbei, /<section data-termine>/, 'ohne kommende Abende kein Terminteil');
+    assert.doesNotMatch(vorbei, /"@type":"Event"/, 'vergangene Abende sind keine Veranstaltungen mehr');
+    const kommt = personSeite(personen.get('kady-evanyshyn'), { werke, haeuser, stand: '2026-11-14', heute: '2026-11-27' });
+    assert.match(kommt, /<h2>Termine<\/h2>/);
+    assert.match(kommt, /data-datum="2027-01-14"/);
+});

@@ -631,7 +631,28 @@ ${werke.map(w => `          <li><a href="${adresse('werk', w.id)}">${maske(w.tit
 }
 
 /**
- * Alle Mitwirkenden mit kommenden Abenden: Map id → { name, abende: [{ t, als }] }.
+ * Alle Abende aus den Besetzungsdateien, vergangene wie kommende, als Termine
+ * wie die aus termineAb(): { werk, haus, datum, zeit, url, besetzung }. Die
+ * Dateien heben bis 400 Tage zurück auf (besetzung-lesen.mjs) – so bleibt eine
+ * Personenseite stehen, wenn ihr letzter Abend vorbei ist, statt zu
+ * verschwinden und Google ein "nicht gefunden" zu hinterlassen (27.11.2026).
+ */
+export function besetzungsAbende(besetzung, plan = spielplan) {
+    const eintrag = new Map(plan.map(e => [`${e.werk}|${e.haus}`, e]));
+    const alle = [];
+    for (const [haus, abende] of besetzung) {
+        for (const [schluessel, abend] of Object.entries(abende || {})) {
+            const [werk, datum] = schluessel.split('|');
+            if (!werk || !/^\d{4}-\d{2}-\d{2}$/.test(datum || '')) continue;
+            const e = eintrag.get(`${werk}|${haus}`);
+            alle.push({ werk, haus, datum, zeit: e?.zeiten?.[datum] || abend?.zeit || null, url: e?.url || adresse('haus', haus), besetzung: abend });
+        }
+    }
+    return alle.sort((a, b) => a.datum.localeCompare(b.datum) || a.haus.localeCompare(b.haus));
+}
+
+/**
+ * Alle Mitwirkenden: Map id → { name, abende: [{ t, als }] }.
  * Derselbe Name ist dieselbe Person; zwei Namen mit derselben Adresse (selten)
  * teilen sich keine Seite – der zweite bekommt "-2".
  */
@@ -655,15 +676,30 @@ export function personenAus(termine) {
     return personen;
 }
 
+/** Ein Abend auf der Personenseite; kommende mit data-datum (das Skript blendet sie aus, wenn vorbei) und Kartenlink. */
+function personZeile(a, werke, haeuser, kommend) {
+    const w = werke.get(a.t.werk), h = haeuser.get(a.t.haus);
+    const { beginn } = uhrzeiten(a.t.zeit);
+    return `          <li${kommend ? ` data-datum="${a.t.datum}"` : ''}><time datetime="${a.t.datum}${beginn ? `T${beginn.padStart(5, '0')}` : ''}">${datumText(a.t.datum)}${kommend && a.t.zeit ? ` · ${maske(a.t.zeit.replace('-', '–'))}` : ''}</time> <a href="${adresse('werk', w.id)}">${maske(w.title)}</a> <span class="ort">${maske(alsText(a.als))}</span><br><a href="${adresse('haus', h.id)}">${maske(h.name)}</a> <span class="ort">${maske(h.city)}</span>${kommend ? ` <a class="karten" href="${maske(a.t.url)}" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a>` : ''}</li>`;
+}
+
 const alsText = (als) => {
     const rollen = als.filter(a => a && a !== 'Dirigat' && a !== 'Regie');
     return [rollen.length ? `als ${rollen.join(' und ')}` : '', als.includes('Dirigat') ? 'Dirigat' : '', als.includes('Regie') ? 'Regie' : '']
         .filter(Boolean).join(' · ');
 };
 
-export function personSeite(p, { werke, haeuser, stand }) {
+export function personSeite(p, { werke, haeuser, stand, heute = stand }) {
     const abende = p.abende.filter(a => werke.has(a.t.werk) && haeuser.has(a.t.haus));
-    const werkTitel = [...new Set(abende.map(a => werke.get(a.t.werk).title))];
+    // Getrennt am Tag des Laufs, nicht am Stand des Spielplans: was seither
+    // gespielt wurde, gehört schon zu den vergangenen Abenden.
+    const kommend = abende.filter(a => a.t.datum >= heute);
+    const vergangen = abende.filter(a => a.t.datum < heute).reverse();
+    // Die häufigsten Werke zuerst: der Titel bleibt so über die Wochen gleich,
+    // statt mit jedem vergangenen Abend ein anderes Werk vorn zu tragen.
+    const zaehl = new Map();
+    for (const a of abende) zaehl.set(a.t.werk, (zaehl.get(a.t.werk) || 0) + 1);
+    const werkTitel = [...zaehl].sort((x, y) => y[1] - x[1] || werke.get(x[0]).title.localeCompare(werke.get(y[0]).title, 'de')).map(([id]) => werke.get(id).title);
     const hausNamen = [...new Set(abende.map(a => haeuser.get(a.t.haus).name))];
     const rollen = [...new Set(abende.flatMap(a => a.als).filter(a => a && a !== 'Dirigat' && a !== 'Regie'))];
     const funktion = abende.some(a => a.als.includes('Dirigat')) ? 'am Pult' : abende.some(a => a.als.includes('Regie')) && !rollen.length ? 'Regie' : '';
@@ -677,22 +713,24 @@ export function personSeite(p, { werke, haeuser, stand }) {
         krumen: brotkrumen('person', p.name, url),
         daten: [
             { '@context': 'https://schema.org', '@type': 'Person', name: p.name, url },
-            ...abende.map(a => ereignis(a.t, werke.get(a.t.werk), haeuser.get(a.t.haus))),
+            ...kommend.map(a => ereignis(a.t, werke.get(a.t.werk), haeuser.get(a.t.haus))),
         ],
         inhalt: `
     <article>
       <h1>${maske(p.name)}</h1>
-      <p class="unterzeile">${rollen.length ? `${maske(liste(rollen))}` : maske(funktion === 'am Pult' ? 'Dirigat' : funktion)} – kommende Abende laut den Spielplänen der Häuser</p>
-      <section data-termine>
+      <p class="unterzeile">${rollen.length ? `${maske(liste(rollen))}` : maske(funktion === 'am Pult' ? 'Dirigat' : funktion)} – Abende laut den Spielplänen der Häuser</p>
+      ${kommend.length ? `<section data-termine>
         <h2>Termine</h2>
         <ul class="termine">
-${abende.map(a => {
-    const w = werke.get(a.t.werk), h = haeuser.get(a.t.haus);
-    const { beginn } = uhrzeiten(a.t.zeit);
-    return `          <li data-datum="${a.t.datum}"><time datetime="${a.t.datum}${beginn ? `T${beginn.padStart(5, '0')}` : ''}">${datumText(a.t.datum)}${a.t.zeit ? ` · ${maske(a.t.zeit.replace('-', '–'))}` : ''}</time> <a href="${adresse('werk', w.id)}">${maske(w.title)}</a> <span class="ort">${maske(alsText(a.als))}</span><br><a href="${adresse('haus', h.id)}">${maske(h.name)}</a> <span class="ort">${maske(h.city)}</span> <a class="karten" href="${maske(a.t.url)}" rel="nofollow noopener" target="_blank">Karten &amp; Infos</a></li>`;
-}).join('\n')}
+${kommend.map(a => personZeile(a, werke, haeuser, true)).join('\n')}
         </ul>
-      </section>
+      </section>` : ''}
+      ${vergangen.length ? `<section>
+        <h2>Vergangene Abende</h2>
+        <ul class="termine">
+${vergangen.map(a => personZeile(a, werke, haeuser, false)).join('\n')}
+        </ul>
+      </section>` : ''}
       <p class="klein">Angaben der Häuser, Umbesetzungen vorbehalten. Wer ${maske(p.name)} schon erlebt hat, kann den Abend in OpernLog festhalten und bewerten.</p>
     </article>`,
     });
@@ -720,7 +758,7 @@ const nachName = (a, b) => a.name.localeCompare(b.name, 'de');
 /**
  * Alle Seiten: Map von Pfad (relativ zur Wurzel) auf HTML, dazu die Sitemap.
  */
-export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponisten = composers, plan = spielplan, stand = SPIELPLAN_STAND, texte = werkTexteLesen(), besetzung = besetzungLesen() } = {}) {
+export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponisten = composers, plan = spielplan, stand = SPIELPLAN_STAND, texte = werkTexteLesen(), besetzung = besetzungLesen(), heute = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date()) } = {}) {
     const termine = termineAb(stand, plan, besetzung);
     const werkMap = new Map(werke.map(w => [w.id, w]));
     const hausMap = new Map(haeuser.map(h => [h.id, h]));
@@ -738,9 +776,9 @@ export function seitenErzeugen({ werke = operas, haeuser = operaHouses, komponis
         seiten.set(`${ORDNER.stadt}/${stadtId(stadt)}/index.html`, stadtSeite(stadt, { haeuser: [...liste].sort(nachName), termine, werke: werkMap, stand }));
     }
     for (const k of komponistenMitWerken) seiten.set(`${ORDNER.komponist}/${k.id}/index.html`, komponistSeite(k, { werkeVon, termine }));
-    const personen = [...personenAus(termine).values()]
+    const personen = [...personenAus(besetzungsAbende(besetzung, plan)).values()]
         .filter(p => p.abende.some(a => werkMap.has(a.t.werk) && hausMap.has(a.t.haus)));
-    for (const p of personen) seiten.set(`${ORDNER.person}/${p.id}/index.html`, personSeite(p, { werke: werkMap, haeuser: hausMap, stand }));
+    for (const p of personen) seiten.set(`${ORDNER.person}/${p.id}/index.html`, personSeite(p, { werke: werkMap, haeuser: hausMap, stand, heute: heute > stand ? heute : stand }));
 
     seiten.set(`${ORDNER.werk}/index.html`, uebersicht({
         titel: 'Opern von A bis Z – Termine und Spielpläne | OpernLog',
