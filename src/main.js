@@ -55,6 +55,14 @@ const SEITEN_GELADEN = {};
 // sie zeigt Abgemeldeten selbst, worum es geht.
 const GESCHUETZT = ['log', 'diary', 'profile', 'lists', 'wishlist', 'community', 'visit', 'season', 'sammlungen'];
 
+// Deutsche Wege, wie sie die öffentlichen Seiten tragen (/oper/tosca/): wer
+// sie als #/oper/tosca in die App tippt, landet auf der richtigen Seite statt
+// auf der Startseite (Jonas, 27.11.2026).
+const WEG_ALIAS = { oper: 'opera', opern: 'operas', haus: 'house', haeuser: 'houses', 'häuser': 'houses', komponist: 'composer', stadt: 'houses', tagebuch: 'diary', profil: 'profile' };
+// Wege, die nur kurz im Hash stehen, bis die App sie einlöst (Mail-Knopf,
+// Umzug) – sie sind keine unbekannte Seite.
+const UEBERGANG = ['mail', 'umzug'];
+
 const seiteLaden = (name) => import(`./pages/${name}.js`).then(m => Object.assign(SEITEN_GELADEN, m));
 const seitenFehlen = (path) => (SEITEN_MODULE[path] || []).filter(n => !(`${n}Page` in SEITEN_GELADEN));
 
@@ -585,6 +593,20 @@ class App {
         return box;
     }
 
+    /** Die Seite für einen unbekannten Weg in der App, wie 404.html. */
+    nichtGefunden() {
+        const box = document.createElement('div');
+        box.className = 'page empty-state nicht-gefunden';
+        box.innerHTML = `
+            <p class="nicht-gefunden__zahl">404</p>
+            <h1 class="nicht-gefunden__titel">Der Vorhang bleibt zu</h1>
+            <p class="nicht-gefunden__witz">Diese Seite hat ihren Auftritt verpasst. Wie bei Lohengrin gilt: Nie sollst du nach ihr fragen.</p>
+            <a class="btn btn--primary" href="#/">Zur Startseite</a>
+            <p class="nicht-gefunden__wege"><a href="#/operas">Opern</a> · <a href="#/houses">Häuser</a> · <a href="#/diary">Tagebuch</a></p>
+        `;
+        return box;
+    }
+
     /** Führt dieser Weg ohne Sitzung zur Anmeldung statt zur Seite? (siehe Auth-Wächter in route) */
     zurAnmeldung(path) {
         return isSupabaseConfigured() && !store.isCloud && GESCHUETZT.includes(path) && !store.isOfflineWithLocalUser;
@@ -596,6 +618,19 @@ class App {
         // während eine Seite noch lädt (SEITEN_MODULE), unter dem Finger zu.
         if (!nachLaden) document.querySelector('.nav-links')?.classList.remove('nav-links--open');
         if (!nachLaden) document.body.classList.remove('mit-landing');
+
+        // Deutsche Kurzform (#/oper/tosca): auf den Weg der App umschreiben,
+        // ohne neuen Eintrag im Verlauf; hashchange ruft route() dann erneut.
+        const alias = /^#\/([^/?]+)(.*)$/.exec(window.location.hash || '');
+        if (alias && Object.hasOwn(WEG_ALIAS, decodeURIComponent(alias[1]).toLowerCase())) {
+            let weg = WEG_ALIAS[decodeURIComponent(alias[1]).toLowerCase()];
+            const rest = alias[2].replace(/^\/$/, '');
+            // Ohne Kennung (#/oper/): die Übersicht statt "nicht gefunden".
+            if (!rest || rest.startsWith('?')) weg = { opera: 'operas', house: 'houses', composer: 'operas' }[weg] || weg;
+            const ziel = `#/${weg}${rest}`;
+            history.replaceState(history.state, '', ziel);
+            return this.route();
+        }
 
         // e.g. #/log?edit=123
         const hash = window.location.hash || '#/';
@@ -802,7 +837,10 @@ class App {
                 page = SEITEN_GELADEN.InvitePage(param || null);
                 break;
             default:
-                page = HomePage();
+                // Ein Weg, den es nicht gibt: sagen statt still die
+                // Startseite zu zeigen (27.11.2026, wie 404.html für die
+                // Adressen ohne #).
+                page = UEBERGANG.includes(path) || !hash.startsWith('#/') ? HomePage() : this.nichtGefunden();
         }
 
         this.content.appendChild(page);
