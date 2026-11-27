@@ -89,7 +89,7 @@ function antwortLeser(verbindung) {
  * @param {string} o.nachricht Kopfzeilen und Inhalt
  * @param {string} [o.name]    wie sich der Absender beim EHLO nennt
  */
-export async function smtpSenden(verbindung, { benutzer, passwort, von, an, nachricht, name = 'opernlog.vercel.app' }) {
+export async function smtpSenden(verbindung, { benutzer, passwort, von, an, nachricht, name = 'opernlog.de' }) {
     if (!adresseGueltig(von)) throw new Error('Ungültige Absenderadresse');
     if (!adresseGueltig(an)) throw new Error('Ungültige Empfängeradresse');
 

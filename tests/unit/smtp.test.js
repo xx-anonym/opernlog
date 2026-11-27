@@ -73,7 +73,7 @@ test('der ganze Ablauf, Befehl für Befehl', async () => {
     const s = server();
     await smtpSenden(s.verbindung, { ...GRUND, nachricht: 'Subject: x\r\n\r\nHallo' });
     assert.deepEqual(s.befehle.map(b => b.befehl), ['EHLO', 'AUTH', 'MAIL', 'RCPT', 'DATA', 'NACHRICHT', 'QUIT']);
-    assert.equal(s.befehle[0].text, 'EHLO opernlog.vercel.app');
+    assert.equal(s.befehle[0].text, 'EHLO opernlog.de');
     assert.equal(s.befehle[2].text, 'MAIL FROM:<opernlog.app@gmail.com>');
     assert.equal(s.befehle[3].text, 'RCPT TO:<fan@example.org>');
     assert.ok(s.geschlossen, 'Verbindung nicht geschlossen');

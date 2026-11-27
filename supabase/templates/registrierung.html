@@ -24,13 +24,13 @@
     font-family: 'Playfair Display';
     font-style: normal;
     font-weight: 400 900;
-    src: url('https://opernlog.vercel.app/fonts/playfair-display-normal-latin.woff2') format('woff2');
+    src: url('https://opernlog.de/fonts/playfair-display-normal-latin.woff2') format('woff2');
   }
   @font-face {
     font-family: 'DM Sans';
     font-style: normal;
     font-weight: 300 800;
-    src: url('https://opernlog.vercel.app/fonts/dm-sans-normal-latin.woff2') format('woff2');
+    src: url('https://opernlog.de/fonts/dm-sans-normal-latin.woff2') format('woff2');
   }
 </style>
 <style>
@@ -104,9 +104,11 @@
 </head>
 <body style="margin:0; padding:0; background-color:#0e1114;">
 
-<!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. -->
+<!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. Ohne die
+     unsichtbaren Füllzeichen dahinter (bis 27.11.2026): versteckter Text aus
+     Leerzeichen-Ketten ist ein bekanntes Spam-Zeichen. -->
 <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#0e1114; opacity:0;">
-  {{ .Token }} ist dein Code. Eintippen, dann hebt sich der Vorhang für dein Operntagebuch.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
+  {{ .Token }} ist dein Code. Eintippen, dann hebt sich der Vorhang für dein Operntagebuch.
 </div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0e1114" style="background-color:#0e1114;">
@@ -118,7 +120,7 @@
         <!-- Kopf: der Vorhang -->
         <tr>
           <td class="vorhang" align="center" bgcolor="#5c111c" style="background-color:#5c111c; background-image:repeating-linear-gradient(90deg, #5c111c 0px, #7a1626 14px, #8b1a2b 22px, #6a1422 32px, #5c111c 44px); padding:36px 24px 30px;">
-            <img class="logo" src="https://opernlog.vercel.app/icons/icon-any-192.png" width="72" height="72" alt="" style="display:block; width:72px; height:72px; border:0; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.45);">
+            <img class="logo" src="https://opernlog.de/icons/icon-any-192.png" width="72" height="72" alt="" style="display:block; width:72px; height:72px; border:0; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.45);">
             <div class="marke" style="margin-top:14px; font-family:'Playfair Display', Georgia, 'Times New Roman', serif; font-size:30px; font-weight:700; letter-spacing:1px; color:#dfc06a;">OpernLog</div>
             <div class="motto" style="margin-top:4px; font-family:'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; letter-spacing:0.5px; color:#e8d6d9;">Dein persönliches Operntagebuch</div>
           </td>

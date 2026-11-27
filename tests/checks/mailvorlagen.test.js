@@ -19,7 +19,7 @@ import { MAILS, mailHtml } from '../werkzeug/mailvorlagen.mjs';
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ORDNER = path.join(WURZEL, 'supabase/templates');
-const SEITE = 'https://opernlog.vercel.app/';
+const SEITE = 'https://opernlog.de/';
 
 const vorlagen = fs.readdirSync(ORDNER).filter(d => d.endsWith('.html'));
 const lies = (datei) => fs.readFileSync(path.join(ORDNER, datei), 'utf8');

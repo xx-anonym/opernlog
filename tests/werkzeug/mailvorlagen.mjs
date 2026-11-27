@@ -52,7 +52,12 @@ export const MAIL_ORDNER = path.join(WURZEL, 'supabase/templates');
 export const FUNKTIONS_VORLAGE = path.join(WURZEL, 'supabase/functions/mail-senden/vorlage.js');
 export const FUNKTIONS_KATALOG = path.join(WURZEL, 'supabase/functions/mail-senden/katalog.js');
 
-const SEITE = 'https://opernlog.vercel.app';
+// Bild und Schriften von der Absender-Domain (seit 27.11.2026, vorher
+// opernlog.vercel.app): Absender opernlog.de, Bilder von einer anderen
+// Domain – das werten strenge Filter wie web.de als Spam-Zeichen, und dort
+// landeten die Codes im Spam. opernlog.de liefert seit dem Umzug direkt aus,
+// ohne Weiterleitung.
+const SEITE = 'https://opernlog.de';
 const SANS = `'DM Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif`;
 const SERIF = `'Playfair Display', Georgia, 'Times New Roman', serif`;
 
@@ -500,9 +505,11 @@ export function mailHtml(m) {
 </head>
 <body style="margin:0; padding:0; background-color:#0e1114;">
 
-<!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. -->
+<!-- Vorschauzeile in der Postfachliste, im Text selbst unsichtbar. Ohne die
+     unsichtbaren Füllzeichen dahinter (bis 27.11.2026): versteckter Text aus
+     Leerzeichen-Ketten ist ein bekanntes Spam-Zeichen. -->
 <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#0e1114; opacity:0;">
-  ${m.vorschau}&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
+  ${m.vorschau}
 </div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0e1114" style="background-color:#0e1114;">
