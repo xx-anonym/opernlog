@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+  Die Seite für Adressen, die es nicht gibt. Vercel liefert sie von selbst
+  aus, mit Status 404 (Jonas, 27.11.2026: statt der englischen
+  Standardseite). Schlicht wie die Seiten unter /oper/, im selben Stil
+  (seiten/stil.css), mit Wegen zurück. Alle Pfade absolut: die Seite steht
+  unter jeder falschen Adresse, auch unter /oper/gibtsnicht/.
+-->
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seite nicht gefunden | OpernLog</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#8b1a2b">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="/icons/icon-any-192.png" sizes="192x192" type="image/png">
+  <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/schriften.css">
+  <link rel="stylesheet" href="/seiten/stil.css">
+  <style>
+    .nicht-da { text-align: center; padding-top: 8vh; }
+    .nicht-da .zahl { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(88px, 22vw, 150px); line-height: 1; color: var(--gold-hell); margin: 0; letter-spacing: 4px; }
+    .nicht-da h1 { margin: 10px 0 6px; }
+    .nicht-da .witz { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 19px; color: var(--leise); margin: 0 auto 28px; max-width: 30rem; }
+    .nicht-da .wege { list-style: none; padding: 0; margin: 24px auto 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .nicht-da .wege a { display: inline-block; padding: 8px 16px; border: 1px solid var(--linie); border-radius: 999px; text-decoration: none; background: var(--karte); }
+    .nicht-da .wege a:hover { border-color: var(--gold); }
+    .nicht-da .vorschlag { margin: 18px 0 0; }
+    .nicht-da .vorschlag:empty { display: none; }
+  </style>
+</head>
+<body>
+  <header class="kopf">
+    <a class="marke" href="/">OpernLog</a>
+    <a class="knopf knopf--kopf" href="/">In OpernLog öffnen</a>
+  </header>
+  <main>
+    <article class="nicht-da">
+      <p class="zahl">404</p>
+      <h1>Der Vorhang bleibt zu</h1>
+      <p class="witz">Diese Seite hat ihren Auftritt verpasst. Wie bei Lohengrin gilt: Nie sollst du nach ihr fragen.</p>
+      <p><a class="knopf" href="/">Zur Startseite</a></p>
+      <p class="vorschlag" id="vorschlag"></p>
+      <ul class="wege">
+        <li><a href="/oper/">Opern</a></li>
+        <li><a href="/haus/">Häuser</a></li>
+        <li><a href="/stadt/">Städte</a></li>
+        <li><a href="/komponist/">Komponisten</a></li>
+        <li><a href="/person/">Mitwirkende</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="fuss">
+    <a href="/">opernlog.de</a> · <a href="/#/datenschutz">Datenschutz</a>
+  </footer>
+  <script>
+    // Kam man aus einem Bereich (/oper/…, /haus/…), führt ein Link zu
+    // dessen Übersicht – dort steht, was es wirklich gibt.
+    (function () {
+      var bereiche = { oper: 'Alle Opern von A bis Z', haus: 'Alle Opernhäuser', stadt: 'Alle Städte', komponist: 'Alle Komponisten', person: 'Alle Mitwirkenden' };
+      var teil = location.pathname.split('/')[1];
+      if (!Object.prototype.hasOwnProperty.call(bereiche, teil)) return;
+      var a = document.createElement('a');
+      a.href = '/' + teil + '/';
+      a.textContent = bereiche[teil] + ' ansehen';
+      document.getElementById('vorschlag').appendChild(a);
+    })();
+  </script>
+</body>
+</html>
