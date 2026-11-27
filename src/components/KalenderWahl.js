@@ -18,6 +18,7 @@ import { operas } from '../data/operas.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { heuteIso, terminMitWochentag, zeitText } from '../data/spielplanAbfrage.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { ladeHausBesetzung, bekannterAbend } from '../data/hausBesetzung.js';
 import { tippen } from '../haptik.js';
 
 /** Hängt das Fenster an und gibt es zurück – oder null, wenn es nichts zu wählen gibt. */
@@ -27,6 +28,8 @@ export function kalenderWahl(werkId, hausId, { daten = spielplan, heute = heuteI
     const haus = operaHouses.find(h => h.id === hausId);
     const termine = (eintrag?.termine || []).filter(t => t >= heute);
     if (!eintrag || !werk || !haus || !termine.length) return null;
+    // Die Besetzung für die Kalenderdatei, solange man noch wählt.
+    ladeHausBesetzung(hausId);
 
     const modal = document.createElement('div');
     modal.className = 'modal modal--active kalender-wahl';
@@ -57,7 +60,7 @@ export function kalenderWahl(werkId, hausId, { daten = spielplan, heute = heuteI
     modal.querySelectorAll('.kalender-wahl__tag').forEach(knopf => {
         knopf.addEventListener('click', () => {
             const datum = knopf.dataset.datum;
-            const text = kalenderEintrag({ werk, haus, datum, zeit: eintrag.zeiten?.[datum], url: eintrag.url });
+            const text = kalenderEintrag({ werk, haus, datum, zeit: eintrag.zeiten?.[datum], url: eintrag.url, besetzung: bekannterAbend(hausId, werkId, datum) });
             herunterladen(text, kalenderDateiname(werk, haus, datum));
             schliessen();
             showToast('Kalendereintrag erstellt');

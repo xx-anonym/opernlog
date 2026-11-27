@@ -11,7 +11,8 @@ name: Besetzung wöchentlich lesen
 # ohne Handgriff ankommen. Seit 24.11.2026 erzeugt er danach auch die Seiten
 # für Suchmaschinen neu (seiten-erzeugen.mjs), denn die zeigen die Besetzung
 # je Termin und je Person (/person/), und das Wochenbild für Instagram und
-# Mastodon (wochenbild.mjs, opernlog.de/woche/). Sonst rührt er nichts an. Vorher prüft
+# Mastodon (wochenbild.mjs, opernlog.de/woche/), und die Kalenderdateien
+# (kalender/, mit Besetzung). Sonst rührt er nichts an. Vorher prüft
 # er Datei und Seiten (hausBesetzung.test.js, checks/seiten.test.js);
 # scheitert das, bleibt alles, wie es war, und der Lauf wird rot.
 #
@@ -62,6 +63,13 @@ jobs:
       - name: Seiten prüfen
         run: node --test tests/checks/seiten.test.js
 
+      # Die Kalenderdateien tragen seit 27.11.2026 die Besetzung.
+      - name: Kalenderdateien neu erzeugen
+        run: node tests/werkzeug/kalender-dateien.mjs
+
+      - name: Kalenderdateien prüfen
+        run: node --test tests/checks/kalenderDateien.test.js
+
       # Für das Wochenbild: ein Browser, der die Seite als PNG abfotografiert.
       - name: Playwright einrichten
         working-directory: tests/browser
@@ -77,13 +85,13 @@ jobs:
       - name: Ins Repo schreiben
         run: |
           # status statt diff: auch eine neue Datei (ein neues Haus) zählt.
-          if [ -z "$(git status --porcelain -- daten/besetzung oper haus komponist stadt person sitemap.xml woche)" ]; then
+          if [ -z "$(git status --porcelain -- daten/besetzung oper haus komponist stadt person sitemap.xml woche kalender)" ]; then
             echo "Keine Änderung."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
-          git add daten/besetzung oper haus komponist stadt person sitemap.xml woche
+          git add daten/besetzung oper haus komponist stadt person sitemap.xml woche kalender
           git commit -m "Besetzung aus den Spielplänen aktualisiert" -m "Wöchentlicher Lauf von tests/werkzeug/besetzung-lesen.mjs und seiten-erzeugen.mjs."
           # Ist main inzwischen weiter, die eigene Änderung oben draufsetzen.
           git pull --rebase origin main

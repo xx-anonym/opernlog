@@ -18,6 +18,7 @@ import { isSupabaseConfigured } from '../config.js';
 import { abendeImHaus, terminMitWochentag, zeitText, heuteIso } from '../data/spielplanAbfrage.js';
 import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { ladeHausBesetzung, bekannterAbend } from '../data/hausBesetzung.js';
 import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
@@ -40,6 +41,8 @@ function demnaechstHier(bereich, house) {
   // Nur Werke, die der Katalog gerade kennt – die aus der Datenbank kommen
   // erst mit ihr; sonst stimmte die Zahl oben nicht mit den Zeilen überein.
   const abende = abendeImHaus(house.id, { heute }).filter(a => operas.some(o => o.id === a.werk));
+  // Die Besetzung für die Kalenderdateien (nur Häuser, die sie nennen).
+  if (abende.length) ladeHausBesetzung(house.id);
   const titel = `<h2 class="section__title">${icon('calendar')}Demnächst hier</h2>`;
   if (!abende.length) {
     bereich.innerHTML = `${titel}
@@ -114,7 +117,7 @@ function demnaechstHier(bereich, house) {
     const werk = operas.find(o => o.id === knopf.dataset.werk);
     if (!abend || !werk) return;
     kalenderHerunterladen(
-      kalenderEintrag({ werk, haus: house, datum: abend.datum, zeit: abend.zeit, url: abend.url }),
+      kalenderEintrag({ werk, haus: house, datum: abend.datum, zeit: abend.zeit, url: abend.url, besetzung: bekannterAbend(house.id, werk.id, abend.datum) }),
       kalenderDateiname(werk, house, abend.datum));
     showToast('Kalendereintrag erstellt');
   });

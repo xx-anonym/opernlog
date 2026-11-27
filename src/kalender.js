@@ -2,7 +2,8 @@
 //
 // Die Datei entsteht im Browser, ohne Server: Werk, Haus mit Ort und
 // Koordinaten (auch so, dass Apple Kalender eine Karte zeigt), Beginn, Ende
-// und der Link auf die Seite des Hauses. Ohne
+// und der Link auf die Seite des Hauses. Nennt das Haus die Besetzung
+// (daten/besetzung, seit 27.11.2026), steht sie in der Beschreibung. Ohne
 // bekannte Uhrzeit wird es ein ganztägiger Eintrag; ohne bekanntes Ende
 // ein dreistündiger, und die Beschreibung sagt das.
 
@@ -135,9 +136,11 @@ function zeitzone(tzid) {
  * @param {string} o.datum   "2026-12-05"
  * @param {string} [o.zeit]  "19:30" oder "19:30-22:30"
  * @param {string} [o.url]   Seite des Hauses zu diesem Werk
+ * @param {object} [o.besetzung]  der Abend aus daten/besetzung/<haus>.json:
+ *                                { dirigent, regie, besetzung: [{ rolle, name }] }
  * @returns {string} Inhalt der .ics-Datei, Zeilenenden CRLF
  */
-export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', jetzt = new Date() }) {
+export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', besetzung = null, jetzt = new Date() }) {
     const tzid = zoneFuer(haus);
     const hinweise = [];
     let zeitZeilen;
@@ -162,6 +165,7 @@ export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', jetz
 
     const beschreibung = [
         werk.composer ? `${werk.composer}: ${werk.title}` : werk.title,
+        ...besetzungZeilen(besetzung),
         url ? `Termine und Karten: ${url}` : '',
         ...hinweise,
         'Aus OpernLog – maßgeblich ist die Seite des Hauses.',
@@ -188,6 +192,26 @@ export function kalenderEintrag({ werk, haus, datum, zeit = null, url = '', jetz
         'END:VCALENDAR',
     ];
     return zeilen.map(falten).join('\r\n') + '\r\n';
+}
+
+/**
+ * Dirigat, Regie und Rollen eines Abends als Zeilen der Beschreibung – leer,
+ * wenn das Haus nichts nennt. Eine Rolle mit mehreren Namen steht einmal.
+ */
+export function besetzungZeilen(abend) {
+    if (!abend) return [];
+    const rollen = new Map();
+    for (const b of Array.isArray(abend.besetzung) ? abend.besetzung : []) {
+        if (!b?.name) continue;
+        const rolle = String(b.rolle || '').trim() || 'Mit';
+        rollen.set(rolle, [...(rollen.get(rolle) || []), String(b.name)]);
+    }
+    const zeilen = [
+        abend.dirigent ? `Musikalische Leitung: ${abend.dirigent}` : '',
+        abend.regie ? `Regie: ${abend.regie}` : '',
+        ...[...rollen].map(([rolle, namen]) => `${rolle}: ${namen.join(', ')}`),
+    ].filter(Boolean);
+    return zeilen.length ? [...zeilen, 'Besetzung laut Haus, Änderungen vorbehalten.'] : [];
 }
 
 /** "tosca-semperoper-2026-12-05.ics" */

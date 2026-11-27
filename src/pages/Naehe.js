@@ -18,6 +18,7 @@ import { spielplanQuelle } from '../components/SpielplanBlock.js';
 import { HouseMap } from '../components/HouseMap.js';
 import { operaHouses } from '../data/operaHouses.js';
 import { kalenderEintrag, kalenderDateiname, kalenderHerunterladen } from '../kalender.js';
+import { ladeHausBesetzung, bekannterAbend } from '../data/hausBesetzung.js';
 import { vormerkZeichen, vormerkZeichenUmschalten } from '../components/KalenderWahl.js';
 import { zurueckLink } from '../components/ZurueckLink.js';
 
@@ -176,6 +177,8 @@ export function NaehePage() {
         // angetipptes Haus schränkt die Liste darunter ein.
         const jeHaus = new Map();
         abende.forEach(a => jeHaus.set(a.haus.id, (jeHaus.get(a.haus.id) || 0) + 1));
+        // Die Besetzung für die Kalenderdateien (nur Häuser, die sie nennen).
+        jeHaus.forEach((_, hausId) => ladeHausBesetzung(hausId));
         if (wahl.haus && !jeHaus.has(wahl.haus)) wahl.haus = null;
         karteZeichnen(jeHaus);
         if (wahl.haus) abende = abende.filter(a => a.haus.id === wahl.haus);
@@ -265,7 +268,7 @@ export function NaehePage() {
         const werk = operas.find(o => o.id === werkId);
         if (!abend || !werk) return;
         kalenderHerunterladen(
-            kalenderEintrag({ werk, haus: abend.haus, datum, zeit: abend.zeit, url: abend.url }),
+            kalenderEintrag({ werk, haus: abend.haus, datum, zeit: abend.zeit, url: abend.url, besetzung: bekannterAbend(abend.haus.id, werk.id, datum) }),
             kalenderDateiname(werk, abend.haus, datum));
         showToast('Kalendereintrag erstellt');
     });

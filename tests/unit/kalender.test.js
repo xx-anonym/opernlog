@@ -139,3 +139,30 @@ test('steht die Stadt schon im Hausnamen, fällt sie im Ort weg – in LOCATION 
     assert.equal(ort(WIEN).location, 'Wiener Staatsoper, Wien, Österreich');
     assert.equal(ort(SEMPER).location, 'Semperoper, Dresden, Deutschland');
 });
+
+// Seit 27.11.2026: nennt das Haus die Besetzung (daten/besetzung), steht sie
+// in der Beschreibung – Dirigat, Regie, je Rolle die Namen.
+test('mit Besetzung des Hauses: Dirigat, Regie und Rollen in der Beschreibung', async () => {
+    const { besetzungZeilen } = await import('../../src/kalender.js');
+    const abend = { dirigent: 'Yura Yang', regie: 'Vasily Barkhatov', besetzung: [
+        { rolle: 'Tatjana', name: 'Olena Tokar' },
+        { rolle: 'Vier Edeldamen', name: 'A' }, { rolle: 'Vier Edeldamen', name: 'B' },
+        { rolle: '', name: 'Ohne Rolle' },
+    ] };
+    assert.deepEqual(besetzungZeilen(abend), [
+        'Musikalische Leitung: Yura Yang', 'Regie: Vasily Barkhatov', 'Tatjana: Olena Tokar',
+        'Vier Edeldamen: A, B', 'Mit: Ohne Rolle', 'Besetzung laut Haus, Änderungen vorbehalten.',
+    ]);
+    assert.deepEqual(besetzungZeilen(null), []);
+    assert.deepEqual(besetzungZeilen({}), []);
+
+    const { kalenderEintrag } = await import('../../src/kalender.js');
+    const text = kalenderEintrag({
+        werk: { id: 'eugen-onegin', title: 'Eugen Onegin', composer: 'Pjotr Iljitsch Tschaikowsky' },
+        haus: { id: 'oper-leipzig', name: 'Oper Leipzig', city: 'Leipzig', state: 'Sachsen' },
+        datum: '2026-12-26', zeit: '17:00', besetzung: abend, jetzt: new Date('2026-11-27T00:00:00Z'),
+    });
+    const beschreibung = text.replace(/\r\n /g, '').match(/^DESCRIPTION:(.*)$/m)[1];
+    assert.match(beschreibung, /Tschaikowsky: Eugen Onegin\\nMusikalische Leitung: Yura Yang\\nRegie: Vasily Barkhatov\\nTatjana: Olena Tokar/);
+    assert.match(beschreibung, /Besetzung laut Haus\\, Änderungen vorbehalten\./);
+});

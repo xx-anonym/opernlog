@@ -9,6 +9,10 @@
 // jeder Abend, den "In den Kalender" anbietet, als eigene Datei im Repo
 // (src/kalender.js, kalenderHerunterladen).
 //
+// Nennt ein Haus die Besetzung (daten/besetzung/<haus>.json), steht sie in
+// der Datei (seit 27.11.2026); der wöchentliche Besetzungslauf erzeugt die
+// Dateien deshalb ebenfalls neu.
+//
 // spielplan-uebernehmen.mjs ruft das selbst auf. Von Hand nötig ist es nur,
 // wenn sich src/kalender.js ändert; tests/checks/kalenderDateien.test.js
 // merkt, wenn die Dateien nicht mehr zum Spielplan passen.
@@ -25,6 +29,20 @@ import { zusatzWerkeFuer, zusatzHaeuserFuer } from './datenbank-werke.mjs';
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const KALENDER_ORDNER = path.join(WURZEL, 'kalender');
 
+/** Die Besetzungsdateien: Map Haus → { "werk|datum": abend }. */
+export function besetzungen(wurzel = WURZEL) {
+    const ordner = path.join(wurzel, 'daten/besetzung');
+    const m = new Map();
+    if (!fs.existsSync(ordner)) return m;
+    for (const datei of fs.readdirSync(ordner).filter(d => d.endsWith('.json'))) {
+        try {
+            const d = JSON.parse(fs.readFileSync(path.join(ordner, datei), 'utf8'));
+            if (d?.haus && d.abende) m.set(d.haus, d.abende);
+        } catch { /* eine kaputte Datei kostet nur ihre Besetzung */ }
+    }
+    return m;
+}
+
 /**
  * Dateiname → Inhalt, für jeden Termin, den "In den Kalender" anbieten kann.
  * Werke und Häuser, die nur in der Datenbank stehen (zusatz,
@@ -32,7 +50,7 @@ export const KALENDER_ORDNER = path.join(WURZEL, 'kalender');
  * sie fehlten deren Dateien. Der Zeitstempel ist der Stand
  * des Spielplans, damit dieselben Daten dieselben Dateien ergeben.
  */
-export function kalenderDateien(zeilen, stand, zusatz = [], zusatzHaeuser = []) {
+export function kalenderDateien(zeilen, stand, zusatz = [], zusatzHaeuser = [], besetzung = besetzungen()) {
     const jetzt = new Date(`${stand}T00:00:00Z`);
     const werke = [...operas, ...zusatz];
     const haeuser = [...operaHouses, ...zusatzHaeuser];
@@ -43,7 +61,7 @@ export function kalenderDateien(zeilen, stand, zusatz = [], zusatzHaeuser = []) 
         if (!werk || !haus) continue;
         for (const datum of e.termine) {
             dateien.set(kalenderDateiname(werk, haus, datum),
-                kalenderEintrag({ werk, haus, datum, zeit: e.zeiten?.[datum], url: e.url, jetzt }));
+                kalenderEintrag({ werk, haus, datum, zeit: e.zeiten?.[datum], url: e.url, besetzung: besetzung.get(haus.id)?.[`${werk.id}|${datum}`] || null, jetzt }));
         }
     }
     return dateien;

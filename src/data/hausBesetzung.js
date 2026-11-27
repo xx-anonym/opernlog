@@ -15,6 +15,9 @@ export const HAEUSER_MIT_BESETZUNG = ['oper-leipzig', 'semperoper', 'komische-op
 export const BESETZUNG_ORDNER = 'daten/besetzung';
 
 const geladen = new Map();
+// Was schon da ist, ohne Warten – für die Kalenderdatei, die beim Antippen
+// sofort entstehen muss (src/kalender.js, seit 27.11.2026).
+const fertig = new Map();
 
 /** Die Datei eines Hauses, oder null (kein solches Haus, kein Netz, kaputt). */
 export function ladeHausBesetzung(hausId, { abruf = (...a) => fetch(...a) } = {}) {
@@ -25,7 +28,9 @@ export function ladeHausBesetzung(hausId, { abruf = (...a) => fetch(...a) } = {}
                 const r = await abruf(`./${BESETZUNG_ORDNER}/${encodeURIComponent(hausId)}.json`);
                 if (!r.ok) return null;
                 const d = await r.json();
-                return d && typeof d.abende === 'object' ? d : null;
+                const ok = d && typeof d.abende === 'object' ? d : null;
+                if (ok) fertig.set(hausId, ok);
+                return ok;
             } catch {
                 geladen.delete(hausId);   // ohne Netz: beim nächsten Mal noch einmal
                 return null;
@@ -33,6 +38,15 @@ export function ladeHausBesetzung(hausId, { abruf = (...a) => fetch(...a) } = {}
         })());
     }
     return geladen.get(hausId);
+}
+
+/**
+ * Was das Haus für diesen Abend angibt, wie in der Datei ({ dirigent, regie,
+ * besetzung: [{ rolle, name }] }) – nur wenn die Datei schon geladen ist,
+ * sonst null. Vorher ladeHausBesetzung() anstoßen, etwa beim Zeichnen der Seite.
+ */
+export function bekannterAbend(hausId, werkId, datum) {
+    return fertig.get(hausId)?.abende?.[`${werkId}|${datum}`] || null;
 }
 
 /**
